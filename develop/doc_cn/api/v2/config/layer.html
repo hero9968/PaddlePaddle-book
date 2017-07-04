@@ -3566,6 +3566,38 @@ size of input and label are equal. The formula is as follows,</p>
 </dd></dl>
 
 </div>
+<div class="section" id="multibox-loss">
+<h3>multibox_loss<a class="headerlink" href="#multibox-loss" title="永久链接至标题">¶</a></h3>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">multibox_loss</code></dt>
+<dd><p>Compute the location loss and the confidence loss for ssd.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The Layer Name.</li>
+<li><strong>input_loc</strong> (<em>paddle.v2.config_base.Layer | List of paddle.v2.config_base.Layer</em>) &#8211; The input predict locations.</li>
+<li><strong>input_conf</strong> (<em>paddle.v2.config_base.Layer | List of paddle.v2.config_base.Layer</em>) &#8211; The input priorbox confidence.</li>
+<li><strong>priorbox</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input priorbox location and the variance.</li>
+<li><strong>label</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input label.</li>
+<li><strong>num_classes</strong> (<em>int</em>) &#8211; The number of the classification.</li>
+<li><strong>overlap_threshold</strong> (<em>float</em>) &#8211; The threshold of the overlap.</li>
+<li><strong>neg_pos_ratio</strong> (<em>float</em>) &#8211; The ratio of the negative bbox to the positive bbox.</li>
+<li><strong>neg_overlap</strong> (<em>float</em>) &#8211; The negative bbox overlap threshold.</li>
+<li><strong>background_id</strong> (<em>int</em>) &#8211; The background class index.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first last">paddle.v2.config_base.Layer</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
 </div>
 <div class="section" id="check-layer">
 <h2>Check Layer<a class="headerlink" href="#check-layer" title="永久链接至标题">¶</a></h2>
@@ -3677,6 +3709,42 @@ a_i * z_i  &amp;\quad \mathrm{otherwise}\end{split}\]</div>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">paddle.v2.config_base.Layer</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="detection-output-layer">
+<h2>Detection output Layer<a class="headerlink" href="#detection-output-layer" title="永久链接至标题">¶</a></h2>
+<div class="section" id="detection-output">
+<h3>detection_output<a class="headerlink" href="#detection-output" title="永久链接至标题">¶</a></h3>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">detection_output</code></dt>
+<dd><p>Apply the NMS to the output of network and compute the predict bounding
+box location.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The Layer Name.</li>
+<li><strong>input_loc</strong> (<em>paddle.v2.config_base.Layer | List of paddle.v2.config_base.Layer.</em>) &#8211; The input predict locations.</li>
+<li><strong>input_conf</strong> (<em>paddle.v2.config_base.Layer | List of paddle.v2.config_base.Layer.</em>) &#8211; The input priorbox confidence.</li>
+<li><strong>priorbox</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input priorbox location and the variance.</li>
+<li><strong>num_classes</strong> (<em>int</em>) &#8211; The number of the classification.</li>
+<li><strong>nms_threshold</strong> (<em>float</em>) &#8211; The Non-maximum suppression threshold.</li>
+<li><strong>nms_top_k</strong> (<em>int</em>) &#8211; The bbox number kept of the NMS&#8217;s output</li>
+<li><strong>keep_top_k</strong> (<em>int</em>) &#8211; The bbox number kept of the layer&#8217;s output</li>
+<li><strong>confidence_threshold</strong> (<em>float</em>) &#8211; The classification confidence threshold</li>
+<li><strong>background_id</strong> (<em>int</em>) &#8211; The background class index.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first last">paddle.v2.config_base.Layer</p>
 </td>
 </tr>
 </tbody>
