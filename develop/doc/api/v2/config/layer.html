@@ -740,6 +740,13 @@ The details please refer to
 </dl>
 <p>So groups should be larger than 1, and the num of channels should be able
 to devided by groups.</p>
+<div class="math">
+\[y_{si+j} = \max_k x_{gsi + sk + j}
+g = groups
+s = input.size / num_channels
+0 \le i &lt; num_channels / groups
+0 \le j &lt; s
+0 \le k &lt; groups\]</div>
 <dl class="docutils">
 <dt>Please refer to Paper:</dt>
 <dd><ul class="first last simple">
