@@ -207,7 +207,7 @@ Fully connected layer takes a dense input vector with dimension <span class="mat
 <p>Suppose our loss function is <span class="math">\(c(y)\)</span>, then</p>
 <div class="math">
 \[\frac{\partial c(y)}{\partial x} = \frac{\partial c(y)}{\partial y} \frac{\partial y}{\partial x}\]</div>
-<p>Suppose <span class="math">\(z = f(W^T x + b)\)</span>, then</p>
+<p>Suppose <span class="math">\(z = W^T x + b\)</span>, then</p>
 <div class="math">
 \[\frac{\partial y}{\partial z} = \frac{\partial f(z)}{\partial z}\]</div>
 <p>This derivative can be automatically computed by our base layer class.</p>

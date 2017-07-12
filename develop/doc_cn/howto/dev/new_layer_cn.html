@@ -207,7 +207,7 @@
 <p>假设损失函数是 <span class="math">\(c(y)\)</span> ，那么</p>
 <div class="math">
 \[\frac{\partial c(y)}{\partial x} = \frac{\partial c(y)}{\partial y} \frac{\partial y}{\partial x}\]</div>
-<p>假设 <span class="math">\(z = f(W^T x + b)\)</span> ，那么</p>
+<p>假设 <span class="math">\(z = W^T x + b\)</span> ，那么</p>
 <div class="math">
 \[\frac{\partial y}{\partial z} = \frac{\partial f(z)}{\partial z}\]</div>
 <p>PaddlePaddle的base layer类可以自动计算上面的导数。</p>
