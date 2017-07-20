@@ -476,20 +476,20 @@ for more details about LSTM. The link goes as follows:
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>LayerOutput</em>) &#8211; input layer name.</li>
-<li><strong>memory_boot</strong> (<em>LayerOutput | None</em>) &#8211; the initialization state of the LSTM cell.</li>
+<li><strong>out_memory</strong> (<em>LayerOutput | None</em>) &#8211; output of previous time step</li>
 <li><strong>name</strong> (<em>basestring</em>) &#8211; lstmemory unit name.</li>
 <li><strong>size</strong> (<em>int</em>) &#8211; lstmemory unit size.</li>
 <li><strong>param_attr</strong> (<em>ParameterAttribute</em>) &#8211; Parameter config, None if use default.</li>
 <li><strong>act</strong> (<em>BaseActivation</em>) &#8211; lstm final activiation type</li>
 <li><strong>gate_act</strong> (<em>BaseActivation</em>) &#8211; lstm gate activiation type</li>
 <li><strong>state_act</strong> (<em>BaseActivation</em>) &#8211; lstm state activiation type.</li>
-<li><strong>mixed_bias_attr</strong> (<em>ParameterAttribute|False</em>) &#8211; bias parameter attribute of mixed layer.
+<li><strong>input_proj_bias_attr</strong> (<em>ParameterAttribute|False|None</em>) &#8211; bias attribute for input-to-hidden projection.
 False means no bias, None means default bias.</li>
+<li><strong>input_proj_layer_attr</strong> (<em>ExtraLayerAttribute</em>) &#8211; extra layer attribute for input to hidden
+projection of the LSTM unit, such as dropout, error clipping.</li>
 <li><strong>lstm_bias_attr</strong> (<em>ParameterAttribute|False</em>) &#8211; bias parameter attribute of lstm layer.
 False means no bias, None means default bias.</li>
-<li><strong>mixed_layer_attr</strong> (<em>ExtraLayerAttribute</em>) &#8211; mixed layer&#8217;s extra attribute.</li>
 <li><strong>lstm_layer_attr</strong> (<em>ExtraLayerAttribute</em>) &#8211; lstm layer&#8217;s extra attribute.</li>
-<li><strong>get_output_layer_attr</strong> (<em>ExtraLayerAttribute</em>) &#8211; get output layer&#8217;s extra attribute.</li>
 </ul>
 </td>
 </tr>
@@ -539,19 +539,19 @@ full_matrix_projection must be included before lstmemory_unit is called.</p>
 <li><strong>input</strong> (<em>LayerOutput</em>) &#8211; input layer name.</li>
 <li><strong>size</strong> (<em>int</em>) &#8211; lstmemory group size.</li>
 <li><strong>name</strong> (<em>basestring</em>) &#8211; name of the lstmemory group.</li>
-<li><strong>memory_boot</strong> (<em>LayerOutput | None</em>) &#8211; the initialization state of LSTM cell.</li>
+<li><strong>out_memory</strong> (<em>LayerOutput | None</em>) &#8211; output of previous time step</li>
 <li><strong>reverse</strong> (<em>bool</em>) &#8211; is lstm reversed</li>
 <li><strong>param_attr</strong> (<em>ParameterAttribute</em>) &#8211; Parameter config, None if use default.</li>
 <li><strong>act</strong> (<em>BaseActivation</em>) &#8211; lstm final activiation type</li>
 <li><strong>gate_act</strong> (<em>BaseActivation</em>) &#8211; lstm gate activiation type</li>
 <li><strong>state_act</strong> (<em>BaseActivation</em>) &#8211; lstm state activiation type.</li>
-<li><strong>mixed_bias_attr</strong> (<em>ParameterAttribute|False</em>) &#8211; bias parameter attribute of mixed layer.
-False means no bias, None means default bias.</li>
 <li><strong>lstm_bias_attr</strong> (<em>ParameterAttribute|False</em>) &#8211; bias parameter attribute of lstm layer.
 False means no bias, None means default bias.</li>
-<li><strong>mixed_layer_attr</strong> (<em>ExtraLayerAttribute</em>) &#8211; mixed layer&#8217;s extra attribute.</li>
+<li><strong>input_proj_bias_attr</strong> (<em>ParameterAttribute|False|None</em>) &#8211; bias attribute for input-to-hidden projection.
+False means no bias, None means default bias.</li>
+<li><strong>input_proj_layer_attr</strong> (<em>ExtraLayerAttribute</em>) &#8211; extra layer attribute for input to hidden
+projection of the LSTM unit, such as dropout, error clipping.</li>
 <li><strong>lstm_layer_attr</strong> (<em>ExtraLayerAttribute</em>) &#8211; lstm layer&#8217;s extra attribute.</li>
-<li><strong>get_output_layer_attr</strong> (<em>ExtraLayerAttribute</em>) &#8211; get output layer&#8217;s extra attribute.</li>
 </ul>
 </td>
 </tr>
