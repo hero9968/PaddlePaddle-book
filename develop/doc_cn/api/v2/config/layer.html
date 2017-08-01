@@ -1745,6 +1745,43 @@ It select dimesions [offset, offset+layer_size) from input:</p>
 </dd></dl>
 
 </div>
+<div class="section" id="slice-projection">
+<h3>slice_projection<a class="headerlink" href="#slice-projection" title="永久链接至标题">¶</a></h3>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">slice_projection</code></dt>
+<dd><p>slice_projection can slice the input value into multiple parts,
+and then select some of them to merge into a new output.</p>
+<div class="math">
+\[output = [input.slices()]\]</div>
+<p>The example usage is:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">proj</span> <span class="o">=</span> <span class="n">slice_projection</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">layer</span><span class="p">,</span> <span class="n">slices</span><span class="o">=</span><span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">)])</span>
+</pre></div>
+</div>
+<p>Note that slice_projection should not have any parameter.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
+<li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Input Layer.</li>
+<li><strong>slices</strong> (<em>pair of int</em>) &#8211; An array of slice parameters.
+Each slice contains the start and end offsets based
+on the input.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">A SliceProjection object</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">SliceProjection</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
 <div class="section" id="table-projection">
 <h3>table_projection<a class="headerlink" href="#table-projection" title="永久链接至标题">¶</a></h3>
 <dl class="class">
