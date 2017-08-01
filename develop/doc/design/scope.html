@@ -215,8 +215,8 @@
 </ol>
 <div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Scope</span> <span class="p">{</span>
  <span class="k">public</span><span class="o">:</span>
-  <span class="n">Variable</span><span class="o">*</span> <span class="n">CreateVariable</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">name</span><span class="p">);</span>
-  <span class="k">const</span> <span class="n">Variable</span><span class="o">*</span> <span class="nf">GetVariable</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">name</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+  <span class="n">Variable</span><span class="o">*</span> <span class="n">NewVar</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">name</span><span class="p">);</span>
+  <span class="k">const</span> <span class="n">Variable</span><span class="o">*</span> <span class="nf">FindVar</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">name</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
 
  <span class="k">private</span><span class="o">:</span>
     <span class="n">std</span><span class="o">::</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="n">Variable</span><span class="o">&gt;&gt;</span> <span class="n">vars_</span><span class="p">;</span>
@@ -235,12 +235,12 @@
  <span class="k">public</span><span class="o">:</span>
   <span class="n">Scope</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">Scope</span><span class="o">&gt;&amp;</span> <span class="n">scope</span><span class="p">)</span><span class="o">:</span> <span class="n">parent_</span><span class="p">(</span><span class="n">scope</span><span class="p">)</span> <span class="p">{}</span>
 
-  <span class="n">Variable</span><span class="o">*</span> <span class="n">GetVariable</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">name</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+  <span class="n">Variable</span><span class="o">*</span> <span class="n">FindVar</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">name</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
     <span class="k">auto</span> <span class="n">it</span> <span class="o">=</span> <span class="n">vars_</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">name</span><span class="p">);</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">it</span> <span class="o">!=</span> <span class="n">vars_</span><span class="p">.</span><span class="n">end</span><span class="p">())</span> <span class="p">{</span>
       <span class="k">return</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">second</span><span class="p">.</span><span class="n">get</span><span class="p">();</span>
     <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">parent_</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="n">parent_</span><span class="o">-&gt;</span><span class="n">GetVariable</span><span class="p">(</span><span class="n">name</span><span class="p">);</span>
+      <span class="k">return</span> <span class="n">parent_</span><span class="o">-&gt;</span><span class="n">FindVar</span><span class="p">(</span><span class="n">name</span><span class="p">);</span>
     <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
       <span class="k">return</span> <span class="k">nullptr</span><span class="p">;</span>
     <span class="p">}</span>
@@ -271,10 +271,10 @@
   <span class="k">static</span> <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">Scope</span><span class="o">&gt;</span> <span class="n">Create</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">Scope</span><span class="o">&gt;&amp;</span> <span class="n">parent</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">);</span>
 
   <span class="c1">// return nullptr if not found.</span>
-  <span class="n">Variable</span><span class="o">*</span> <span class="nf">GetVariable</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">name</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+  <span class="n">Variable</span><span class="o">*</span> <span class="nf">FindVar</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">name</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
 
   <span class="c1">// return if already contains same name variable.</span>
-  <span class="n">Variable</span><span class="o">*</span> <span class="nf">CreateVariable</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">name</span><span class="p">);</span>
+  <span class="n">Variable</span><span class="o">*</span> <span class="nf">NewVar</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">name</span><span class="p">);</span>
 
  <span class="k">private</span><span class="o">:</span>
   <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">Scope</span><span class="o">&gt;</span> <span class="n">parent_</span><span class="p">;</span>
@@ -284,11 +284,11 @@
 </div>
 <div class="section" id="only-scope-can-create-a-variable">
 <span id="only-scope-can-create-a-variable"></span><h2>Only scope can create a variable<a class="headerlink" href="#only-scope-can-create-a-variable" title="Permalink to this headline">¶</a></h2>
-<p>To ensure <code class="docutils literal"><span class="pre">only</span> <span class="pre">scope</span> <span class="pre">can</span> <span class="pre">create</span> <span class="pre">a</span> <span class="pre">variable</span></code>, we should mark <code class="docutils literal"><span class="pre">Variable</span></code>&#8216;s constructor as a private member function, and Scope is a friend class of Variable. And then only <code class="docutils literal"><span class="pre">CreateVariable</span></code> can construct <code class="docutils literal"><span class="pre">Variable</span></code>.</p>
+<p>To ensure <code class="docutils literal"><span class="pre">only</span> <span class="pre">scope</span> <span class="pre">can</span> <span class="pre">create</span> <span class="pre">a</span> <span class="pre">variable</span></code>, we should mark <code class="docutils literal"><span class="pre">Variable</span></code>&#8216;s constructor as a private member function, and Scope is a friend class of Variable. And then only <code class="docutils literal"><span class="pre">NewVar</span></code> can construct <code class="docutils literal"><span class="pre">Variable</span></code>.</p>
 </div>
 <div class="section" id="when-scope-destroyed-all-variables-inside-this-scope-should-be-destroyed-together">
 <span id="when-scope-destroyed-all-variables-inside-this-scope-should-be-destroyed-together"></span><h2>When scope destroyed, all variables inside this scope should be destroyed together<a class="headerlink" href="#when-scope-destroyed-all-variables-inside-this-scope-should-be-destroyed-together" title="Permalink to this headline">¶</a></h2>
-<p>The scope hold unique pointers for all variables. User can <code class="docutils literal"><span class="pre">GetVariable</span></code> from scope, but he should not hold this pointer as a member variable. Because when scope is destroyed, all variables inside this scope will be destroyed together.</p>
+<p>The scope hold unique pointers for all variables. User can <code class="docutils literal"><span class="pre">FindVar</span></code> from scope, but he should not hold this pointer as a member variable. Because when scope is destroyed, all variables inside this scope will be destroyed together.</p>
 </div>
 <div class="section" id="sharing-a-parent-scope">
 <span id="sharing-a-parent-scope"></span><h2>Sharing a parent scope<a class="headerlink" href="#sharing-a-parent-scope" title="Permalink to this headline">¶</a></h2>
@@ -297,7 +297,7 @@
 </div>
 <div class="section" id="orthogonal-interface">
 <span id="orthogonal-interface"></span><h2>Orthogonal interface<a class="headerlink" href="#orthogonal-interface" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal"><span class="pre">GetVariable</span></code> will return <code class="docutils literal"><span class="pre">nullptr</span></code> when <code class="docutils literal"><span class="pre">name</span></code> is not found. It can be used as <code class="docutils literal"><span class="pre">Contains</span></code> method. <code class="docutils literal"><span class="pre">CreateVariable</span></code> will return a <code class="docutils literal"><span class="pre">Error</span></code> when there is a name conflict locally. Combine <code class="docutils literal"><span class="pre">GetVariable</span></code> and <code class="docutils literal"><span class="pre">CreateVariable</span></code>, we can implement <code class="docutils literal"><span class="pre">CreateOrGetVariable</span></code> easily.</p>
+<p><code class="docutils literal"><span class="pre">FindVar</span></code> will return <code class="docutils literal"><span class="pre">nullptr</span></code> when <code class="docutils literal"><span class="pre">name</span></code> is not found. It can be used as <code class="docutils literal"><span class="pre">Contains</span></code> method. <code class="docutils literal"><span class="pre">NewVar</span></code> will return a <code class="docutils literal"><span class="pre">Error</span></code> when there is a name conflict locally. Combine <code class="docutils literal"><span class="pre">FindVar</span></code> and <code class="docutils literal"><span class="pre">NewVar</span></code>, we can implement <code class="docutils literal"><span class="pre">NewVar</span></code> easily.</p>
 </div>
 </div>
 
