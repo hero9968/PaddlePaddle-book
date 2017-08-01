@@ -817,10 +817,10 @@ Trailing new line (&#8216;\n&#8217;) of each line will be removed.</p>
 
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.reader.creator.</code><code class="descname">recordio</code><span class="sig-paren">(</span><em>paths</em>, <em>buf_size=100</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.v2.reader.creator.</code><code class="descname">cloud_reader</code><span class="sig-paren">(</span><em>paths</em>, <em>etcd_endpoints</em>, <em>timeout_sec=5</em>, <em>buf_size=64</em><span class="sig-paren">)</span></dt>
 <dd><dl class="docutils">
-<dt>Creates a data reader that outputs record one one by one</dt>
-<dd>from given local or cloud recordio path.</dd>
+<dt>Create a data reader that yield a record one by one from</dt>
+<dd>the paths:</dd>
 </dl>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -828,7 +828,9 @@ Trailing new line (&#8216;\n&#8217;) of each line will be removed.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Path:</th><td class="field-body">path of recordio files.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">data reader of recordio files.</td>
+<tr class="field-even field"><th class="field-name">Etcd_endpoints:</th><td class="field-body">the endpoints for etcd cluster</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">data reader of recordio files.</td>
 </tr>
 </tbody>
 </table>
