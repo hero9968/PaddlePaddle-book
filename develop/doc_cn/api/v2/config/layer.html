@@ -970,6 +970,52 @@ factors which dimensions equal to the channel&#8217;s number.</p>
 </dd></dl>
 
 </div>
+<div class="section" id="row-l2-norm">
+<h3>row_l2_norm<a class="headerlink" href="#row-l2-norm" title="永久链接至标题">¶</a></h3>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">row_l2_norm</code></dt>
+<dd><blockquote>
+<div><p>A layer for L2-normalization in each row.</p>
+<div class="math">
+\[out[i] =\]</div>
+</div></blockquote>
+<p>rac{in[i]}{sqrt{sum_{k=1}^N in[k]^{2}}}</p>
+<blockquote>
+<div><p>where the size of <span class="math">\(in\)</span> is (batchSize x dataDim) ,
+and the size of <span class="math">\(out\)</span> is a (batchSize x dataDim) .</p>
+<p>The example usage is:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">row_l2_norm</span> <span class="o">=</span> <span class="n">row_l2_norm</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">layer</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param input:</th><td class="field-body">Input layer.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">type input:</th><td class="field-body">paddle.v2.config_base.Layer</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">param name:</th><td class="field-body">Layer name.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">type name:</th><td class="field-body">basestring</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">param layer_attr:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">extra layer attributes.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">type layer_attr:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">paddle.v2.attr.ExtraAttribute</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">return:</th><td class="field-body">paddle.v2.config_base.Layer object.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">rtype:</th><td class="field-body">paddle.v2.config_base.Layer</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</dd></dl>
+
+</div>
 </div>
 <div class="section" id="recurrent-layers">
 <h2>Recurrent Layers<a class="headerlink" href="#recurrent-layers" title="永久链接至标题">¶</a></h2>
