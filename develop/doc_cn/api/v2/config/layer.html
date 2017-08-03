@@ -2664,6 +2664,50 @@ processed in one batch.</p>
 </dd></dl>
 
 </div>
+<div class="section" id="clip">
+<h3>clip<a class="headerlink" href="#clip" title="永久链接至标题">¶</a></h3>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">clip</code></dt>
+<dd><blockquote>
+<div><p>A layer for clipping the input value by the threshold.</p>
+<div class="math">
+\[out[i] = \min\left(\max\left(in[i],p_{1}\]</div>
+</div></blockquote>
+<p>ight),p_{2}
+ight)</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">clip</span> <span class="o">=</span> <span class="n">clip</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="nb">input</span><span class="p">,</span> <span class="nb">min</span><span class="o">=-</span><span class="mi">10</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param name:</th><td class="field-body">The Layer Name.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">type name:</th><td class="field-body">basestring</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">param input:</th><td class="field-body">The input layer.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">type input:</th><td class="field-body">paddle.v2.config_base.Layer.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">param min:</th><td class="field-body">The lower threshold for clipping.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">type min:</th><td class="field-body">double</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">param max:</th><td class="field-body">The upper threshold for clipping.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">type max:</th><td class="field-body">double</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">return:</th><td class="field-body">paddle.v2.config_base.Layer</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</dd></dl>
+
+</div>
 <div class="section" id="slope-intercept">
 <h3>slope_intercept<a class="headerlink" href="#slope-intercept" title="永久链接至标题">¶</a></h3>
 <dl class="class">
