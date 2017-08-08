@@ -2149,6 +2149,42 @@ default Bias.</li>
 </dd></dl>
 
 </div>
+<div class="section" id="sub-nested-seq">
+<h3>sub_nested_seq<a class="headerlink" href="#sub-nested-seq" title="永久链接至标题">¶</a></h3>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">sub_nested_seq</code></dt>
+<dd><p>The sub_nested_seq accepts two inputs: the first one is a nested
+sequence; the second one is a set of selceted indices in the nested sequence.</p>
+<p>Then sub_nest_seq trims the first nested sequence input according
+to the selected indices to form a new output. This layer is useful in
+beam training.</p>
+<p>The example usage is:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">sub_nest_seq</span> <span class="o">=</span> <span class="n">sub_nested_seq</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="p">[</span><span class="n">data</span><span class="p">,</span> <span class="n">selected_indices</span><span class="p">])</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
+<li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; A nested sequence.</li>
+<li><strong>selected_indices</strong> &#8211; a set of sequence indices in the nested sequence.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; name of this layer.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">paddle.v2.config_base.Layer object.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">paddle.v2.config_base.Layer</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
 </div>
 <div class="section" id="reshaping-layers">
 <h2>Reshaping Layers<a class="headerlink" href="#reshaping-layers" title="永久链接至标题">¶</a></h2>
