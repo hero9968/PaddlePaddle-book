@@ -2144,6 +2144,39 @@ default Bias.</li>
 </dd></dl>
 
 </div>
+<div class="section" id="kmax-sequence-score">
+<h3>kmax_sequence_score<a class="headerlink" href="#kmax-sequence-score" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">kmax_sequence_score</code></dt>
+<dd><p>This layer accepts one input which are scores over a sequence or a nested
+sequence, and returns indices of beam_size sequences with highest scores.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">kmax_indices</span> <span class="o">=</span> <span class="n">kmax_sequence_score</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="nb">input</span><span class="p">,</span> <span class="n">beam_size</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The Layer Name.</li>
+<li><strong>input</strong> (<em>paddle.v2.config_base.Layer.</em>) &#8211; The input layer. It stores scores over a sequence or a nested
+sequence and its size must be 1.</li>
+<li><strong>beam_size</strong> (<em>double</em>) &#8211; squence indices with top beam_size scores are returned.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">paddle.v2.config_base.Layer object.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">paddle.v2.config_base.Layer</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
 <div class="section" id="sub-nested-seq">
 <h3>sub_nested_seq<a class="headerlink" href="#sub-nested-seq" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
@@ -2731,7 +2764,9 @@ ight)</p>
 </tr>
 <tr class="field-even field"><th class="field-name">type max:</th><td class="field-body">double</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">return:</th><td class="field-body">paddle.v2.config_base.Layer</td>
+<tr class="field-odd field"><th class="field-name">return:</th><td class="field-body">paddle.v2.config_base.Layer object.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">rtype:</th><td class="field-body">paddle.v2.config_base.Layer</td>
 </tr>
 </tbody>
 </table>
