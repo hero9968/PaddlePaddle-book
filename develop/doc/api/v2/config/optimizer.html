@@ -190,6 +190,8 @@
 <h1>Optimizer<a class="headerlink" href="#optimizer" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="momentum">
 <h2>Momentum<a class="headerlink" href="#momentum" title="Permalink to this headline">¶</a></h2>
+<p>Optimizers(update equation) for SGD method.</p>
+<p>TODO(yuyang18): Complete comments.</p>
 <dl class="class">
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.optimizer.</code><code class="descname">Momentum</code><span class="sig-paren">(</span><em>momentum=None</em>, <em>sparse=False</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
@@ -215,6 +217,8 @@ be learned. The i is the i-th observation in (trainning) data.</p>
 </div>
 <div class="section" id="adam">
 <h2>Adam<a class="headerlink" href="#adam" title="Permalink to this headline">¶</a></h2>
+<p>Optimizers(update equation) for SGD method.</p>
+<p>TODO(yuyang18): Complete comments.</p>
 <dl class="class">
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.optimizer.</code><code class="descname">Adam</code><span class="sig-paren">(</span><em>beta1=0.9</em>, <em>beta2=0.999</em>, <em>epsilon=1e-08</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
@@ -243,6 +247,8 @@ divided by zero.</li>
 </div>
 <div class="section" id="adamax">
 <h2>Adamax<a class="headerlink" href="#adamax" title="Permalink to this headline">¶</a></h2>
+<p>Optimizers(update equation) for SGD method.</p>
+<p>TODO(yuyang18): Complete comments.</p>
 <dl class="class">
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.optimizer.</code><code class="descname">Adamax</code><span class="sig-paren">(</span><em>beta1=0.9</em>, <em>beta2=0.999</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
@@ -269,6 +275,8 @@ w_t &amp; = w_{t-1} - (\eta/(1-\beta_1^t))*m_t/u_t\end{split}\]</div>
 </div>
 <div class="section" id="adagrad">
 <h2>AdaGrad<a class="headerlink" href="#adagrad" title="Permalink to this headline">¶</a></h2>
+<p>Optimizers(update equation) for SGD method.</p>
+<p>TODO(yuyang18): Complete comments.</p>
 <dl class="class">
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.optimizer.</code><code class="descname">AdaGrad</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
@@ -283,6 +291,8 @@ w &amp; = w - \eta diag(G)^{-\frac{1}{2}} \circ g\end{split}\]</div>
 </div>
 <div class="section" id="decayedadagrad">
 <h2>DecayedAdaGrad<a class="headerlink" href="#decayedadagrad" title="Permalink to this headline">¶</a></h2>
+<p>Optimizers(update equation) for SGD method.</p>
+<p>TODO(yuyang18): Complete comments.</p>
 <dl class="class">
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.optimizer.</code><code class="descname">DecayedAdaGrad</code><span class="sig-paren">(</span><em>rho=0.95</em>, <em>epsilon=1e-06</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
@@ -308,6 +318,8 @@ learning\_rate &amp;= 1/sqrt( ( E(g_t^2) + \epsilon )\end{split}\]</div>
 </div>
 <div class="section" id="adadelta">
 <h2>AdaDelta<a class="headerlink" href="#adadelta" title="Permalink to this headline">¶</a></h2>
+<p>Optimizers(update equation) for SGD method.</p>
+<p>TODO(yuyang18): Complete comments.</p>
 <dl class="class">
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.optimizer.</code><code class="descname">AdaDelta</code><span class="sig-paren">(</span><em>rho=0.95</em>, <em>epsilon=1e-06</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
@@ -335,6 +347,8 @@ E(dx_t^2) &amp;= \rho * E(dx_{t-1}^2) + (1-\rho) * (-g*learning\_rate)^2\end{spl
 </div>
 <div class="section" id="rmsprop">
 <h2>RMSProp<a class="headerlink" href="#rmsprop" title="Permalink to this headline">¶</a></h2>
+<p>Optimizers(update equation) for SGD method.</p>
+<p>TODO(yuyang18): Complete comments.</p>
 <dl class="class">
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.optimizer.</code><code class="descname">RMSProp</code><span class="sig-paren">(</span><em>rho=0.95</em>, <em>epsilon=1e-06</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
