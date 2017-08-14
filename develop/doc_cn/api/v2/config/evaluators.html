@@ -422,7 +422,7 @@ F1-score of this label.</li>
 <dd><p>Positive-negative pair rate Evaluator which adapts to rank task like
 learning to rank. This evaluator must contain at least three layers.</p>
 <p>The simple usage:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="nb">eval</span> <span class="o">=</span> <span class="n">evaluator</span><span class="o">.</span><span class="n">pnpair</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="nb">eval</span> <span class="o">=</span> <span class="n">evaluator</span><span class="o">.</span><span class="n">pnpair</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span>
 </pre></div>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
@@ -430,12 +430,12 @@ learning to rank. This evaluator must contain at least three layers.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first last simple">
-<li><strong>name</strong> (<em>None|basestring</em>) &#8211; Evaluator name.</li>
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Input Layer name. The output prediction of network.</li>
 <li><strong>label</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Label layer name.</li>
-<li><strong>info</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Label layer name. (TODO, explaination)</li>
+<li><strong>info</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Info layer name. (TODO, explaination)</li>
 <li><strong>weight</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Weight Layer name. It should be a matrix with size
 [sample_num, 1]. (TODO, explaination)</li>
+<li><strong>name</strong> (<em>None|basestring</em>) &#8211; Evaluator name.</li>
 </ul>
 </td>
 </tr>
