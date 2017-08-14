@@ -253,11 +253,11 @@ PaddlePaddle发布新版本的时候都会发布对应版本的生产镜像以�
 <p>很多开发者会使用远程的安装有GPU的服务器工作，用户可以使用ssh登录到这台服务器上并执行 :code:<a href="#id2"><span class="problematic" id="id3">`</span></a>docker exec`进入开发镜像并开始工作，
 也可以在开发镜像中启动一个SSHD服务，方便开发者直接登录到镜像中进行开发:</p>
 <p>以交互容器方式运行开发镜像：</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>docker run -it --rm paddlepaddle/paddle:0.10.0-dev /bin/bash
+<div class="highlight-bash"><div class="highlight"><pre><span></span>docker run -it --rm -v <span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>:/paddle  paddlepaddle/paddle:0.10.0-dev /bin/bash
 </pre></div>
 </div>
 <p>或者，可以以后台进程方式运行容器：</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>docker run -d -p <span class="m">2202</span>:22 -p <span class="m">8888</span>:8888 paddledev/paddle:0.10.0-dev
+<div class="highlight-bash"><div class="highlight"><pre><span></span>docker run -d -p <span class="m">2202</span>:22 -p <span class="m">8888</span>:8888 -v <span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>:/paddle paddlepaddle/paddle:0.10.0-dev /usr/sbin/sshd -D
 </pre></div>
 </div>
 <p>然后用密码 <code class="code docutils literal"><span class="pre">root</span></code> SSH进入容器：</p>
