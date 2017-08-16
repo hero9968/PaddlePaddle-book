@@ -451,12 +451,18 @@ to train/test a neural network.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first last simple">
-<li><strong>update_equation</strong> (<em>paddle.v2.optimizer.Optimizer</em>) &#8211; The optimizer object.</li>
 <li><strong>cost</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Target cost that neural network should be optimized.</li>
 <li><strong>parameters</strong> (<em>paddle.v2.parameters.Parameters</em>) &#8211; The parameters dictionary.</li>
+<li><strong>update_equation</strong> (<em>paddle.v2.optimizer.Optimizer</em>) &#8211; The optimizer object.</li>
 <li><strong>extra_layers</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Some layers in the neural network graph are not
 in the path of cost layer.</li>
-<li><strong>pserver_spec</strong> &#8211; pserver location, eg: localhost:3000</li>
+<li><strong>is_local</strong> (<em>bool</em>) &#8211; Whether trainning locally</li>
+<li><strong>pserver_spec</strong> (<em>string</em>) &#8211; comma string for pserver location,
+eg:127.10.0.10:3000,127.10.0.11:3000,
+and this parameter is only used for fault
+tolerant mode cluster training.</li>
+<li><strong>use_etcd</strong> &#8211; Whether using etcd pserver.</li>
+<li><strong>use_etcd</strong> &#8211; bool</li>
 </ul>
 </td>
 </tr>
