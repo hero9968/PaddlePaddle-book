@@ -252,7 +252,7 @@ For CUDA 8.0, GCC versions later than 5.3 are not supported!</p>
 <p>As a simple example, consider the following:</p>
 <ol>
 <li><p class="first"><strong>BLAS Dependencies(optional)</strong></p>
-<p>CMake will search BLAS libraries from system. If not found, OpenBLAS will be downloaded, built and installed automatically.
+<p>CMake will search BLAS libraries from the system. If not found, OpenBLAS will be downloaded, built and installed automatically.
 To utilize preinstalled BLAS， you can simply specify MKL, OpenBLAS or ATLAS via <code class="docutils literal"><span class="pre">MKL_ROOT</span></code>, <code class="docutils literal"><span class="pre">OPENBLAS_ROOT</span></code> or <code class="docutils literal"><span class="pre">ATLAS_ROOT</span></code>.</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># specify MKL</span>
 cmake .. -DMKL_ROOT<span class="o">=</span>&lt;mkl_path&gt;
@@ -313,9 +313,9 @@ curl -sSL https://cmake.org/files/v3.4/cmake-3.4.1.tar.gz <span class="p">|</spa
 <li><p class="first"><strong>GPU Dependencies (optional)</strong></p>
 <p>To build GPU version, you will need the following installed:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>  <span class="mf">1.</span> <span class="n">a</span> <span class="n">CUDA</span><span class="o">-</span><span class="n">capable</span> <span class="n">GPU</span>
-  <span class="mf">2.</span> <span class="n">A</span> <span class="n">supported</span> <span class="n">version</span> <span class="n">of</span> <span class="n">Linux</span> <span class="k">with</span> <span class="n">a</span> <span class="n">gcc</span> <span class="n">compiler</span> <span class="ow">and</span> <span class="n">toolchain</span>
+  <span class="mf">2.</span> <span class="n">A</span> <span class="n">supported</span> <span class="n">version</span> <span class="n">of</span> <span class="n">Linux</span> <span class="k">with</span> <span class="n">a</span> <span class="n">GCC</span> <span class="n">compiler</span> <span class="ow">and</span> <span class="n">toolchain</span>
   <span class="mf">3.</span> <span class="n">NVIDIA</span> <span class="n">CUDA</span> <span class="n">Toolkit</span> <span class="p">(</span><span class="n">available</span> <span class="n">at</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">developer</span><span class="o">.</span><span class="n">nvidia</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">cuda</span><span class="o">-</span><span class="n">downloads</span><span class="p">)</span>
-  <span class="mf">4.</span> <span class="n">NVIDIA</span> <span class="n">cuDNN</span> <span class="n">Library</span> <span class="p">(</span><span class="n">availabel</span> <span class="n">at</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">developer</span><span class="o">.</span><span class="n">nvidia</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">cudnn</span><span class="p">)</span>
+  <span class="mf">4.</span> <span class="n">NVIDIA</span> <span class="n">cuDNN</span> <span class="n">Library</span> <span class="p">(</span><span class="n">available</span> <span class="n">at</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">developer</span><span class="o">.</span><span class="n">nvidia</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">cudnn</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The CUDA development environment relies on tight integration with the host development environment,
@@ -371,9 +371,9 @@ sudo pip install <span class="s1">&#39;protobuf&gt;=3.0.0&#39;</span>
 <li><p class="first"><strong>GPU Dependencies (optional)</strong></p>
 <p>To build GPU version, you will need the following installed:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>  <span class="mf">1.</span> <span class="n">a</span> <span class="n">CUDA</span><span class="o">-</span><span class="n">capable</span> <span class="n">GPU</span>
-  <span class="mf">2.</span> <span class="n">A</span> <span class="n">supported</span> <span class="n">version</span> <span class="n">of</span> <span class="n">Linux</span> <span class="k">with</span> <span class="n">a</span> <span class="n">gcc</span> <span class="n">compiler</span> <span class="ow">and</span> <span class="n">toolchain</span>
+  <span class="mf">2.</span> <span class="n">A</span> <span class="n">supported</span> <span class="n">version</span> <span class="n">of</span> <span class="n">Linux</span> <span class="k">with</span> <span class="n">a</span> <span class="n">GCC</span> <span class="n">compiler</span> <span class="ow">and</span> <span class="n">toolchain</span>
   <span class="mf">3.</span> <span class="n">NVIDIA</span> <span class="n">CUDA</span> <span class="n">Toolkit</span> <span class="p">(</span><span class="n">available</span> <span class="n">at</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">developer</span><span class="o">.</span><span class="n">nvidia</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">cuda</span><span class="o">-</span><span class="n">downloads</span><span class="p">)</span>
-  <span class="mf">4.</span> <span class="n">NVIDIA</span> <span class="n">cuDNN</span> <span class="n">Library</span> <span class="p">(</span><span class="n">availabel</span> <span class="n">at</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">developer</span><span class="o">.</span><span class="n">nvidia</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">cudnn</span><span class="p">)</span>
+  <span class="mf">4.</span> <span class="n">NVIDIA</span> <span class="n">cuDNN</span> <span class="n">Library</span> <span class="p">(</span><span class="n">available</span> <span class="n">at</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">developer</span><span class="o">.</span><span class="n">nvidia</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">cudnn</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The CUDA development environment relies on tight integration with the host development environment,
