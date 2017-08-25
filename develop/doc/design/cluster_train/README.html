@@ -227,9 +227,9 @@
 <p><img src="src/paddle-task-states.png"/></p>
 <ol class="simple">
 <li>When a new pass of training starts, all tasks will be placed in the todo queue.</li>
-<li>The master server will dispatch few tasks to each trainer at a time, puts them in the pending queue and waits for completion.</li>
-<li>The trainer will work on its tasks and tell the master server once a task is completed. The master server will dispatch a new task to that trainer.</li>
-<li>If a task timeout. the master server will move it back to the todo queue. The timeout count will increase by one. If the timeout count is above a threshold, the task is likely to cause a trainer to crash, so it will be discarded.</li>
+<li>Upon trainer requests for new task, the master server will dispatch a task from todo queue to it, put the task in the pending queue and wait for completion.</li>
+<li>The trainer will work on its task and tell the master server once the task is completed and ask for new task. The master server will dispatch a new task to that trainer.</li>
+<li>If a task fails for any reason in trainer, or takes longer than a specific period of time,  the master server will move the task back to the todo queue. The timeout count for that task will increase by one. If the timeout count is above a threshold, the task is likely to cause a trainer to crash, then it will be discarded.</li>
 <li>The master server will move completed task to the done queue. When the todo queue is empty, the master server will start a new pass by moving all tasks in the done queue to todo queue and reset the timeout counter of all tasks to zero.</li>
 </ol>
 </div>
@@ -238,8 +238,9 @@
 <span id="trainer-process"></span><h3>Trainer Process<a class="headerlink" href="#trainer-process" title="Permalink to this headline">¶</a></h3>
 <p>The trainer process will:</p>
 <ul class="simple">
-<li>Receive tasks from the master.</li>
-<li>Work on the tasks: calculate and upload gradient to parameter servers, and update local model by downloading new parameters from parameter servers.</li>
+<li>Request tasks from the master.</li>
+<li>Work on the tasks</li>
+<li>Upload gradient to parameter servers, and update local model by downloading new parameters from parameter servers.</li>
 </ul>
 </div>
 <div class="section" id="parameter-server-process">
@@ -293,8 +294,8 @@
 <ol class="simple">
 <li>Grabs a unique <em>master</em> lock in etcd, which prevents concurrent master instantiations.</li>
 <li>Recovers the task queues from etcd if they already exist, otherwise, the master will create them.</li>
-<li>Watches the trainer prefix keys <code class="docutils literal"><span class="pre">/trainer/</span></code> on etcd to find the live trainers.</li>
-<li>Starts dispatching the tasks to the trainers, and updates task queue using an etcd transaction to ensure lock is held during the update.</li>
+<li>Write its ip address to <em>/master/addr</em> so that trainers can discover it.</li>
+<li>Listens to trainers&#8217; request of task, dispatch one upon request, and updates task queue using an etcd transaction to ensure lock is held during the update.</li>
 </ol>
 <p>When the master server process is dead for any reason, Kubernetes will restart it. It will be online again with all states recovered from etcd in few minutes.</p>
 </div>
@@ -302,12 +303,11 @@
 <span id="id2"></span><h3>Trainer Process<a class="headerlink" href="#trainer-process" title="Permalink to this headline">¶</a></h3>
 <p>When the trainer is started by the Kubernetes, it executes the following steps at startup:</p>
 <ol class="simple">
-<li>Watches the available parameter server prefix keys <code class="docutils literal"><span class="pre">/ps/</span></code> on etcd and waits until the count of parameter servers reaches the desired count.</li>
-<li>Generates a unique ID, and sets key <code class="docutils literal"><span class="pre">/trainer/&lt;unique</span> <span class="pre">ID&gt;</span></code> with its contact address as value. The key will be deleted when the lease expires, so the master will be aware of the trainer being online and offline.</li>
-<li>Waits for tasks from the master to start training.</li>
+<li>Watches the available parameter server prefix keys <code class="docutils literal"><span class="pre">/ps/</span></code> on etcd and waits until the count of parameter servers reaches the desired count <em>/ps_desired</em>.</li>
+<li>Finds and watches <em>/master/addr</em> to get master&#8217;s address.</li>
+<li>Requests for tasks from the master to start training.</li>
 </ol>
-<p>If trainer&#8217;s etcd lease expires, it will try set key <code class="docutils literal"><span class="pre">/trainer/&lt;unique</span> <span class="pre">ID&gt;</span></code> again so that the master server can discover the trainer again.</p>
-<p>When a trainer fails, Kuberentes would try to restart it. The recovered trainer would fetch tasks from the TODO queue and go on training.</p>
+<p>When a trainer fails, Kuberentes would try to restart it. The recovered trainer would fetch tasks from master and go on training.</p>
 </div>
 <div class="section" id="parameter-server-process">
 <span id="id3"></span><h3>Parameter Server Process<a class="headerlink" href="#parameter-server-process" title="Permalink to this headline">¶</a></h3>
