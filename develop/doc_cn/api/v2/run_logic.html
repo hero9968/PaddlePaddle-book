@@ -197,9 +197,31 @@
 <dl class="class">
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.parameters.</code><code class="descname">Parameters</code></dt>
-<dd><p>Parameters is a dictionary contains Paddle&#8217;s parameter. The key of
-Parameters is the name of parameter. The value of Parameters is a plain
-<code class="code docutils literal"><span class="pre">numpy.ndarry</span></code> .</p>
+<dd><p><cite>Parameters</cite> manages all the learnable parameters in a neural network.
+It stores parameters&#8217; information in an OrderedDict. The key is
+the name of a parameter, and value is a parameter&#8217;s configuration(in
+protobuf format), such as initialization mean and std, its size, whether it
+is a static parameter, and so on.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first last simple">
+<li><strong>__param_conf__</strong> (<em>OrderedDict</em>) &#8211; store the configurations of learnable parameters in
+the network in an OrderedDict. Parameter is added one by one into the
+dict by following their created order in the network: parameters of
+the previous layers in a network are careted first. You can visit the
+parameters from bottom to top by iterating over this dict.</li>
+<li><strong>__gradient_machines__</strong> (<em>list</em>) &#8211; all of the parameters in a neural network are
+appended to a PaddlePaddle gradient machine, which is used internally to
+copy parameter values between C++ and Python end.</li>
+<li><strong>__tmp_params__</strong> (<em>dict</em>) &#8211; a dict to store dummy parameters if no
+__gradient_machines__ is appended to <cite>Parameters</cite>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 <p>Basically usage is</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 <span class="o">...</span>
@@ -348,7 +370,7 @@ Trainer.train.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><strong>gradient_machine</strong> (<em>api.GradientMachine</em>) &#8211; Paddle C++ GradientMachine object.</td>
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><strong>gradient_machine</strong> (<em>api.GradientMachine</em>) &#8211; PaddlePaddle C++ GradientMachine object.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"></td>
 </tr>
