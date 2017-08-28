@@ -1,0 +1,523 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>如何写新的Operator &mdash; PaddlePaddle  文档</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+  
+        <link rel="index" title="索引"
+              href="../../genindex.html"/>
+        <link rel="search" title="搜索" href="../../search.html"/>
+    <link rel="top" title="PaddlePaddle  文档" href="../../index.html"/> 
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/css/perfect-scrollbar.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/override.css" type="text/css" />
+  <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?b9a314ab40d04d805655aab1deee08ba";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
+
+  
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  
+  <header class="site-header">
+    <div class="site-logo">
+      <a href="/"><img src="../../_static/images/PP_w.png"></a>
+    </div>
+    <div class="site-nav-links">
+      <div class="site-menu">
+        <a class="fork-on-github" href="https://github.com/PaddlePaddle/Paddle" target="_blank"><i class="fa fa-github"></i>Fork me on Github</a>
+        <div class="language-switcher dropdown">
+          <a type="button" data-toggle="dropdown">
+            <span>English</span>
+            <i class="fa fa-angle-up"></i>
+            <i class="fa fa-angle-down"></i>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="/doc_cn">中文</a></li>
+            <li><a href="/doc">English</a></li>
+          </ul>
+        </div>
+        <ul class="site-page-links">
+          <li><a href="/">Home</a></li>
+        </ul>
+      </div>
+      <div class="doc-module">
+        
+        <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getstarted/index_cn.html">新手入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index_cn.html">进阶指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index_cn.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index_cn.html">FAQ</a></li>
+</ul>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>        
+      </div>
+    </div>
+  </header>
+  
+  <div class="main-content-wrap">
+
+    
+    <nav class="doc-menu-vertical" role="navigation">
+        
+          
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getstarted/index_cn.html">新手入门</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getstarted/build_and_install/index_cn.html">安装与编译</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../getstarted/build_and_install/docker_install_cn.html">PaddlePaddle的Docker容器使用方式</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../getstarted/build_and_install/ubuntu_install_cn.html">Ubuntu部署PaddlePaddle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../getstarted/build_and_install/cmake/build_from_source_cn.html">PaddlePaddle的编译选项</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../getstarted/concepts/use_concepts_cn.html">基本使用概念</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../index_cn.html">进阶指南</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../usage/cmd_parameter/index_cn.html">设置命令行参数</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../usage/cmd_parameter/use_case_cn.html">使用案例</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../usage/cmd_parameter/arguments_cn.html">参数概述</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../usage/cmd_parameter/detail_introduction_cn.html">细节描述</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/cluster/cluster_train_cn.html">运行分布式训练</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/k8s/k8s_basis_cn.html">Kubernetes 简介</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/k8s/k8s_cn.html">Kubernetes单机训练</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/k8s/k8s_distributed_cn.html">Kubernetes分布式训练</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build_cn.html">编译PaddlePaddle和运行单元测试</a></li>
+<li class="toctree-l2"><a class="reference internal" href="write_docs_cn.html">如何贡献/修改文档</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contribute_to_paddle_cn.html">如何贡献代码</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deep_model/rnn/index_cn.html">RNN相关模型</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../deep_model/rnn/rnn_config_cn.html">RNN配置</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deep_model/rnn/recurrent_group_cn.html">Recurrent Group教程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deep_model/rnn/hierarchical_layer_cn.html">支持双层序列作为输入的Layer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deep_model/rnn/hrnn_rnn_api_compare_cn.html">单双层RNN API对比介绍</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../optimization/gpu_profiling_cn.html">GPU性能分析与调优</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index_cn.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/v2/model_configs.html">模型配置</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/activation.html">Activation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/layer.html">Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/evaluators.html">Evaluators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/optimizer.html">Optimizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/pooling.html">Pooling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/networks.html">Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/attr.html">Parameter Attribute</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/v2/data.html">数据访问</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/v2/run_logic.html">训练与应用</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index_cn.html">FAQ</a></li>
+</ul>
+
+        
+    </nav>
+    
+    <section class="doc-content-wrap">
+
+      
+
+ 
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+      
+    <li>如何写新的Operator</li>
+  </ul>
+</div>
+      
+      <div class="wy-nav-content" id="doc-content">
+        <div class="rst-content">
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="operator">
+<span id="operator"></span><h1>如何写新的Operator<a class="headerlink" href="#operator" title="永久链接至标题">¶</a></h1>
+<ul class="simple">
+<li><a class="reference external" href="#概念简介">概念简介</a></li>
+<li><a class="reference external" href="#实现C++类">实现C++类</a><ul>
+<li><a class="reference external" href="#定义ProtoMaker类">定义ProtoMaker类</a></li>
+<li><a class="reference external" href="#定义Operator类">定义Operator类</a></li>
+<li><a class="reference external" href="#定义OpKernel类">定义OpKernel类</a></li>
+<li><a class="reference external" href="#注册类">注册类</a></li>
+<li><a class="reference external" href="#编译">编译</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#绑定Python">绑定Python</a></li>
+<li><a class="reference external" href="#实现单元测试">实现单元测试</a><ul>
+<li><a class="reference external" href="#前向Operator单测">前向Operator单测</a></li>
+<li><a class="reference external" href="#反向Operator单测">反向Operator单测</a></li>
+</ul>
+</li>
+</ul>
+<div class="section" id="">
+<span id="id1"></span><h2>概念简介<a class="headerlink" href="#" title="永久链接至标题">¶</a></h2>
+<p>简单介绍需要用到基类，详细介绍请参考设计文档。</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">framework::OperatorBase</span></code>: Operator(简写，Op)基类。</li>
+<li><code class="docutils literal"><span class="pre">framework::OpKernel</span></code>: Op计算函数的基类，称作Kernel。</li>
+<li><code class="docutils literal"><span class="pre">framework::OperatorWithKernel</span></code>：继承自OperatorBase，Op有计算函数，称作有Kernel。</li>
+<li><code class="docutils literal"><span class="pre">class</span> <span class="pre">OpProtoAndCheckerMaker</span></code>：描述该Op的输入、输出、属性、注释,主要用于Python API接口生成</li>
+</ul>
+<p>依据是否包含kernel，将Op分为两种：包含Kernel的Op和不包含kernel的Op，前者Op的定义继承自<code class="docutils literal"><span class="pre">OperatorBase</span></code>，后者继承自<code class="docutils literal"><span class="pre">OperatorWithKernel</span></code>。本教程主要介绍带Kernel的Op如何写，简单总结如下：</p>
+<p>Forward Op需要包含：</p>
+<ul class="simple">
+<li>OpProtoMake定义</li>
+<li>Op定义</li>
+<li>Kernel实现</li>
+</ul>
+<p>与之对应的Backward Op包含：</p>
+<ul class="simple">
+<li>Op定义</li>
+<li>Kernel实现</li>
+</ul>
+<p>下面以矩阵乘操作，即<a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/operators/mul_op.cc">MulOp</a>为例来介绍如何写带Kernel的Operator。</p>
+</div>
+<div class="section" id="c">
+<span id="c"></span><h2>实现C++类<a class="headerlink" href="#c" title="永久链接至标题">¶</a></h2>
+<div class="section" id="protomaker">
+<span id="protomaker"></span><h3>1. 定义ProtoMaker类<a class="headerlink" href="#protomaker" title="永久链接至标题">¶</a></h3>
+<p>矩阵乘的公式：$Out = X * Y$, 可见该计算由两个输入，一个输出组成。首先定义<code class="docutils literal"><span class="pre">ProtoMaker</span></code>来描述该Op的输入、输出及注释：</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MulOpMaker</span> <span class="p">:</span> <span class="n">public</span> <span class="n">framework</span><span class="p">::</span><span class="n">OpProtoAndCheckerMaker</span> <span class="p">{</span>
+ <span class="n">public</span><span class="p">:</span>
+  <span class="n">MulOpMaker</span><span class="p">(</span><span class="n">framework</span><span class="p">::</span><span class="n">OpProto</span> <span class="o">*</span><span class="n">proto</span><span class="p">,</span> <span class="n">framework</span><span class="p">::</span><span class="n">OpAttrChecker</span> <span class="o">*</span><span class="n">op_checker</span><span class="p">)</span>
+      <span class="p">:</span> <span class="n">OpProtoAndCheckerMaker</span><span class="p">(</span><span class="n">proto</span><span class="p">,</span> <span class="n">op_checker</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">AddInput</span><span class="p">(</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;The first input of mul op&quot;</span><span class="p">);</span>
+    <span class="n">AddInput</span><span class="p">(</span><span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="s2">&quot;The second input of mul op&quot;</span><span class="p">);</span>
+    <span class="n">AddOutput</span><span class="p">(</span><span class="s2">&quot;Out&quot;</span><span class="p">,</span> <span class="s2">&quot;The output of mul op&quot;</span><span class="p">);</span>
+    <span class="n">AddComment</span><span class="p">(</span><span class="sa">R</span><span class="s2">&quot;DOC(</span>
+<span class="n">Two</span> <span class="n">Element</span> <span class="n">Mul</span> <span class="n">Operator</span><span class="o">.</span>
+<span class="n">The</span> <span class="n">equation</span> <span class="ow">is</span><span class="p">:</span> <span class="n">Out</span> <span class="o">=</span> <span class="n">X</span> <span class="o">*</span> <span class="n">Y</span>
+<span class="p">)</span><span class="n">DOC</span><span class="s2">&quot;);</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p><a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/operators/mul_op.cc#L43"><code class="docutils literal"><span class="pre">MulOpMaker</span></code></a>继承自<code class="docutils literal"><span class="pre">framework::OpProtoAndCheckerMaker</span></code>，构造函数包括2个：</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">framework::OpProto</span></code> ： 前者存储Op的输入输出和参数属性，将用于Python API接口的生成。</li>
+<li><code class="docutils literal"><span class="pre">framework::OpAttrChecker</span></code> ：后者用于检查参数属性的合法性。</li>
+</ul>
+<p>构造函数里通过<code class="docutils literal"><span class="pre">AddInput</span></code>添加输入参数，通过<code class="docutils literal"><span class="pre">AddOutput</span></code>添加输出参数，通过<code class="docutils literal"><span class="pre">AddComment</span></code>添加该Op的注释，这些函数会将对应内容添加到<code class="docutils literal"><span class="pre">OpProto</span></code>中。</p>
+<p>在<code class="docutils literal"><span class="pre">MulOp</span></code>中添加两个输入<code class="docutils literal"><span class="pre">X</span></code>和<code class="docutils literal"><span class="pre">Y</span></code>，添加了一个输出<code class="docutils literal"><span class="pre">Out</span></code>，并解释了各自含义，该命名尽可能的规范。</p>
+<p>再举个<a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/operators/scale_op.cc#L37"><code class="docutils literal"><span class="pre">ScaleOp</span></code></a>的例子：</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">template</span> <span class="o">&lt;</span><span class="n">typename</span> <span class="n">AttrType</span><span class="o">&gt;</span>
+<span class="k">class</span> <span class="nc">ScaleOpMaker</span> <span class="p">:</span> <span class="n">public</span> <span class="n">framework</span><span class="p">::</span><span class="n">OpProtoAndCheckerMaker</span> <span class="p">{</span>
+ <span class="n">public</span><span class="p">:</span>
+  <span class="n">ScaleOpMaker</span><span class="p">(</span><span class="n">framework</span><span class="p">::</span><span class="n">OpProto</span> <span class="o">*</span><span class="n">proto</span><span class="p">,</span> <span class="n">framework</span><span class="p">::</span><span class="n">OpAttrChecker</span> <span class="o">*</span><span class="n">op_checker</span><span class="p">)</span>
+      <span class="p">:</span> <span class="n">OpProtoAndCheckerMaker</span><span class="p">(</span><span class="n">proto</span><span class="p">,</span> <span class="n">op_checker</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">AddInput</span><span class="p">(</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;The input tensor of scale operator.&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">NotInGradient</span><span class="p">();</span>
+    <span class="n">AddOutput</span><span class="p">(</span><span class="s2">&quot;Out&quot;</span><span class="p">,</span> <span class="s2">&quot;The output tensor of scale operator.&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">NotInGradient</span><span class="p">();</span>
+    <span class="n">AddComment</span><span class="p">(</span><span class="sa">R</span><span class="s2">&quot;DOC(Scale operator</span>
+<span class="n">The</span> <span class="n">equation</span> <span class="ow">is</span><span class="p">:</span> <span class="n">Out</span> <span class="o">=</span> <span class="n">scale</span><span class="o">*</span><span class="n">X</span>
+<span class="p">)</span><span class="n">DOC</span><span class="s2">&quot;);</span>
+    <span class="n">AddAttr</span><span class="o">&lt;</span><span class="n">AttrType</span><span class="o">&gt;</span><span class="p">(</span><span class="s2">&quot;scale&quot;</span><span class="p">,</span> <span class="s2">&quot;scale of scale operator.&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">SetDefault</span><span class="p">(</span><span class="mf">1.0</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>在这个例子里，两处不同：</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">AddInput(&quot;X&quot;,&quot;...&quot;).NotInGradient()</span></code> : 表示<code class="docutils literal"><span class="pre">X</span></code>这个输入不参与<code class="docutils literal"><span class="pre">ScaleOp</span></code>对应的梯度Op计算之中。</li>
+<li><code class="docutils literal"><span class="pre">AddAttr&lt;AttrType&gt;(&quot;scale&quot;,</span> <span class="pre">&quot;...&quot;).SetDefault(1.0);</span></code> : 增加<code class="docutils literal"><span class="pre">scale</span></code>系数，作为参数属性，并且设置默认值为1.0。</li>
+</ul>
+</div>
+<div class="section" id="operator">
+<span id="id2"></span><h3>2. 定义Operator类<a class="headerlink" href="#operator" title="永久链接至标题">¶</a></h3>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MulOp</span> <span class="o">:</span> <span class="k">public</span> <span class="n">framework</span><span class="o">::</span><span class="n">OperatorWithKernel</span> <span class="p">{</span>
+ <span class="k">public</span><span class="o">:</span>
+  <span class="k">using</span> <span class="n">framework</span><span class="o">::</span><span class="n">OperatorWithKernel</span><span class="o">::</span><span class="n">OperatorWithKernel</span><span class="p">;</span>
+
+ <span class="k">protected</span><span class="o">:</span>
+  <span class="kt">void</span> <span class="n">InferShape</span><span class="p">(</span><span class="k">const</span> <span class="n">framework</span><span class="o">::</span><span class="n">InferShapeContext</span> <span class="o">&amp;</span><span class="n">ctx</span><span class="p">)</span> <span class="k">const</span> <span class="k">override</span> <span class="p">{</span>
+    <span class="k">auto</span> <span class="n">dim0</span> <span class="o">=</span> <span class="n">ctx</span><span class="p">.</span><span class="n">Input</span><span class="o">&lt;</span><span class="n">Tensor</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;X&quot;</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">dims</span><span class="p">();</span>
+    <span class="k">auto</span> <span class="n">dim1</span> <span class="o">=</span> <span class="n">ctx</span><span class="p">.</span><span class="n">Input</span><span class="o">&lt;</span><span class="n">Tensor</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;Y&quot;</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">dims</span><span class="p">();</span>
+    <span class="n">PADDLE_ENFORCE_EQ</span><span class="p">(</span><span class="n">dim0</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="mi">2</span><span class="p">,</span>
+                      <span class="s">&quot;input X(%s) should be a tensor with 2 dims, a matrix&quot;</span><span class="p">,</span>
+                      <span class="n">ctx</span><span class="p">.</span><span class="n">op_</span><span class="p">.</span><span class="n">Input</span><span class="p">(</span><span class="s">&quot;X&quot;</span><span class="p">));</span>
+    <span class="n">PADDLE_ENFORCE_EQ</span><span class="p">(</span><span class="n">dim1</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="mi">2</span><span class="p">,</span>
+                      <span class="s">&quot;input Y(%s) should be a tensor with 2 dims, a matrix&quot;</span><span class="p">,</span>
+                      <span class="n">ctx</span><span class="p">.</span><span class="n">op_</span><span class="p">.</span><span class="n">Input</span><span class="p">(</span><span class="s">&quot;Y&quot;</span><span class="p">));</span>
+    <span class="n">PADDLE_ENFORCE_EQ</span><span class="p">(</span>
+        <span class="n">dim0</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dim1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="s">&quot;First matrix&#39;s width must be equal with second matrix&#39;s height.&quot;</span><span class="p">);</span>
+    <span class="n">ctx</span><span class="p">.</span><span class="n">Output</span><span class="o">&lt;</span><span class="n">Tensor</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;Out&quot;</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">Resize</span><span class="p">({</span><span class="n">dim0</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dim1</span><span class="p">[</span><span class="mi">1</span><span class="p">]});</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p><a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/operators/mul_op.cc#L22"><code class="docutils literal"><span class="pre">MulOp</span></code></a>继承自<code class="docutils literal"><span class="pre">OperatorWithKernel</span></code>。<code class="docutils literal"><span class="pre">public</span></code>成员：</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">framework</span><span class="o">::</span><span class="n">OperatorWithKernel</span><span class="o">::</span><span class="n">OperatorWithKernel</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>这句表示使用基类<code class="docutils literal"><span class="pre">OperatorWithKernel</span></code>的构造函数，也可写成：</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">MulOp</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">type</span><span class="p">,</span> <span class="k">const</span> <span class="n">framework</span><span class="o">::</span><span class="n">VariableNameMap</span> <span class="o">&amp;</span><span class="n">inputs</span><span class="p">,</span>
+      <span class="k">const</span> <span class="n">framework</span><span class="o">::</span><span class="n">VariableNameMap</span> <span class="o">&amp;</span><span class="n">outputs</span><span class="p">,</span>
+      <span class="k">const</span> <span class="n">framework</span><span class="o">::</span><span class="n">AttributeMap</span> <span class="o">&amp;</span><span class="n">attrs</span><span class="p">)</span>
+  <span class="o">:</span> <span class="n">OperatorWithKernel</span><span class="p">(</span><span class="n">type</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">attrs</span><span class="p">)</span> <span class="p">{}</span>
+</pre></div>
+</div>
+<p>还需要重写<code class="docutils literal"><span class="pre">InferShape</span></code>接口。<code class="docutils literal"><span class="pre">InferShape</span></code>为const函数，不能修改Op的成员变量，参数为<code class="docutils literal"><span class="pre">const</span> <span class="pre">framework::InferShapeContext</span> <span class="pre">&amp;ctx</span></code>，通过该参数可获取到输入输出以及属性。它的功能是：
+- 1). 做检查， 尽早报错：检查输入数据维度、类型等是否合法
+- 2). 设置输出Tensor的形状</p>
+<p>通常<code class="docutils literal"><span class="pre">OpProtoMaker</span></code>和<code class="docutils literal"><span class="pre">Op</span></code>类的定义写在<code class="docutils literal"><span class="pre">.cc</span></code>文件中，和要讲到的注册函数一起放在<code class="docutils literal"><span class="pre">.cc</span></code>中</p>
+</div>
+<div class="section" id="opkernel">
+<span id="opkernel"></span><h3>3. 定义OpKernel类<a class="headerlink" href="#opkernel" title="永久链接至标题">¶</a></h3>
+<div class="highlight-C++"><div class="highlight"><pre><span></span><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">Place</span><span class="p">,</span> <span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+<span class="k">class</span> <span class="nc">MulKernel</span> <span class="o">:</span> <span class="k">public</span> <span class="n">framework</span><span class="o">::</span><span class="n">OpKernel</span> <span class="p">{</span>
+ <span class="k">public</span><span class="o">:</span>
+  <span class="kt">void</span> <span class="n">Compute</span><span class="p">(</span><span class="k">const</span> <span class="n">framework</span><span class="o">::</span><span class="n">ExecutionContext</span><span class="o">&amp;</span> <span class="n">context</span><span class="p">)</span> <span class="k">const</span> <span class="k">override</span> <span class="p">{</span>
+    <span class="k">auto</span><span class="o">*</span> <span class="n">X</span> <span class="o">=</span> <span class="n">context</span><span class="p">.</span><span class="n">Input</span><span class="o">&lt;</span><span class="n">Tensor</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;X&quot;</span><span class="p">);</span>
+    <span class="k">auto</span><span class="o">*</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">context</span><span class="p">.</span><span class="n">Input</span><span class="o">&lt;</span><span class="n">Tensor</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;Y&quot;</span><span class="p">);</span>
+    <span class="k">auto</span><span class="o">*</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">context</span><span class="p">.</span><span class="n">Output</span><span class="o">&lt;</span><span class="n">Tensor</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;Out&quot;</span><span class="p">);</span>
+    <span class="n">Z</span><span class="o">-&gt;</span><span class="n">mutable_data</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">context</span><span class="p">.</span><span class="n">GetPlace</span><span class="p">());</span>
+    <span class="k">auto</span><span class="o">*</span> <span class="n">device_context</span> <span class="o">=</span>
+        <span class="k">const_cast</span><span class="o">&lt;</span><span class="n">platform</span><span class="o">::</span><span class="n">DeviceContext</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">context</span><span class="p">.</span><span class="n">device_context_</span><span class="p">);</span>
+    <span class="n">math</span><span class="o">::</span><span class="n">matmul</span><span class="o">&lt;</span><span class="n">Place</span><span class="p">,</span> <span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="o">*</span><span class="n">X</span><span class="p">,</span> <span class="nb">false</span><span class="p">,</span> <span class="o">*</span><span class="n">Y</span><span class="p">,</span> <span class="nb">false</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">device_context</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">MulKernel</span></code>继承自<code class="docutils literal"><span class="pre">framework::OpKernel</span></code>，带有模板参数:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">typename</span> <span class="pre">Place</span></code>: 表示设备类型，不同设备(CPU、GPU)共享同一个Kernel时，需加该模板参数，不共享则不加，一个不共享的例子是<a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/operators/cross_entropy_op.h#L43"><code class="docutils literal"><span class="pre">OnehotCrossEntropyOpKernel</span></code></a>。</li>
+<li><code class="docutils literal"><span class="pre">typename</span> <span class="pre">T</span></code> : 表示数据类型，如<code class="docutils literal"><span class="pre">float</span></code>, <code class="docutils literal"><span class="pre">double</span></code>等。</li>
+</ul>
+<p><code class="docutils literal"><span class="pre">MulKernel</span></code>需要重写<code class="docutils literal"><span class="pre">Compute</span></code>接口，该接口参数为<code class="docutils literal"><span class="pre">const</span> <span class="pre">framework::ExecutionContext&amp;</span> <span class="pre">context</span></code>, <code class="docutils literal"><span class="pre">ExecutionContext</span></code>相比<code class="docutils literal"><span class="pre">InferShapeContext</span></code>增加了设备类型，同样可获取到输入输出和属性参数，<code class="docutils literal"><span class="pre">Compute</span></code>函数里写具体实现时。</p>
+<p>注意，不同设备(CPU、GPU)共享一个Op定义，是否则共享同一个<code class="docutils literal"><span class="pre">OpKernel</span></code>，取决于<code class="docutils literal"><span class="pre">Compute</span></code>调用的函数是否支持不同设备。<code class="docutils literal"><span class="pre">MulOp</span></code>的CPU、GPU实现共享同一个<code class="docutils literal"><span class="pre">Kernel</span></code>，<code class="docutils literal"><span class="pre">OpKernel</span></code>不共享的例子可以参考<a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/operators/cross_entropy_op.h#L43"><code class="docutils literal"><span class="pre">OnehotCrossEntropyOpKernel</span></code></a>。</p>
+<p>到此前向Op实现完成，需要在<code class="docutils literal"><span class="pre">.cc</span></code>文件中注册该op和kernel。反向Op类的定义和Kernel定义与前向Op类似，这里不再重复。但注意，反向Op没有<code class="docutils literal"><span class="pre">ProtoMaker</span></code>。</p>
+</div>
+<div class="section" id="">
+<span id="id3"></span><h3>4. 注册类<a class="headerlink" href="#" title="永久链接至标题">¶</a></h3>
+<p>在<code class="docutils literal"><span class="pre">.cc</span></code>文件中注册前向、反向Op类，注册CPU Kernel。</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="k">namespace</span> <span class="n">ops</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">::</span><span class="n">operators</span><span class="p">;</span>
+<span class="n">REGISTER_OP</span><span class="p">(</span><span class="n">mul</span><span class="p">,</span> <span class="n">ops</span><span class="o">::</span><span class="n">MulOp</span><span class="p">,</span> <span class="n">ops</span><span class="o">::</span><span class="n">MulOpMaker</span><span class="p">,</span> <span class="n">mul_grad</span><span class="p">,</span> <span class="n">ops</span><span class="o">::</span><span class="n">MulOpGrad</span><span class="p">);</span>
+<span class="n">REGISTER_OP_CPU_KERNEL</span><span class="p">(</span><span class="n">mul</span><span class="p">,</span> <span class="n">ops</span><span class="o">::</span><span class="n">MulKernel</span><span class="o">&lt;</span><span class="n">paddle</span><span class="o">::</span><span class="n">platform</span><span class="o">::</span><span class="n">CPUPlace</span><span class="p">,</span> <span class="kt">float</span><span class="o">&gt;</span><span class="p">);</span>
+<span class="n">REGISTER_OP_CPU_KERNEL</span><span class="p">(</span><span class="n">mul_grad</span><span class="p">,</span>
+              <span class="n">ops</span><span class="o">::</span><span class="n">MulGradKernel</span><span class="o">&lt;</span><span class="n">paddle</span><span class="o">::</span><span class="n">platform</span><span class="o">::</span><span class="n">CPUPlace</span><span class="p">,</span> <span class="kt">float</span><span class="o">&gt;</span><span class="p">);</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">REGISTER_OP</span></code> ： 注册<code class="docutils literal"><span class="pre">ops::MulOp</span></code>类，类型名为<code class="docutils literal"><span class="pre">mul</span></code>，该类的<code class="docutils literal"><span class="pre">ProtoMaker</span></code>为<code class="docutils literal"><span class="pre">ops::MulOpMaker</span></code>，注册<code class="docutils literal"><span class="pre">ops::MulOpGrad</span></code>，类型名为<code class="docutils literal"><span class="pre">mul_grad</span></code>，</li>
+<li><code class="docutils literal"><span class="pre">REGISTER_OP_WITHOUT_GRADIENT</span></code> ： 用于注册没有反向的Op。</li>
+<li><code class="docutils literal"><span class="pre">REGISTER_OP_CPU_KERNEL</span></code> ：注册<code class="docutils literal"><span class="pre">ops::MulKernel</span></code>类，并特化模板参数为<code class="docutils literal"><span class="pre">paddle::platform::CPUPlace</span></code>和<code class="docutils literal"><span class="pre">float</span></code>类型，同理，注册<code class="docutils literal"><span class="pre">ops::MulKernel</span></code>类。</li>
+</ul>
+<p>在 <code class="docutils literal"><span class="pre">.cu</span></code>文件中注册GPU Kernel。</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="k">namespace</span> <span class="n">ops</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">::</span><span class="n">operators</span><span class="p">;</span>
+<span class="n">REGISTER_OP_GPU_KERNEL</span><span class="p">(</span><span class="n">mul</span><span class="p">,</span> <span class="n">ops</span><span class="o">::</span><span class="n">MulKernel</span><span class="o">&lt;</span><span class="n">paddle</span><span class="o">::</span><span class="n">platform</span><span class="o">::</span><span class="n">GPUPlace</span><span class="p">,</span> <span class="kt">float</span><span class="o">&gt;</span><span class="p">);</span>
+<span class="n">REGISTER_OP_GPU_KERNEL</span><span class="p">(</span><span class="n">mul_grad</span><span class="p">,</span>
+                       <span class="n">ops</span><span class="o">::</span><span class="n">MulGradKernel</span><span class="o">&lt;</span><span class="n">paddle</span><span class="o">::</span><span class="n">platform</span><span class="o">::</span><span class="n">GPUPlace</span><span class="p">,</span> <span class="kt">float</span><span class="o">&gt;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="">
+<span id="id4"></span><h3>5. 编译<a class="headerlink" href="#" title="永久链接至标题">¶</a></h3>
+<p>在<a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/operators/CMakeLists.txt">paddle/operators/CMakeLists.txt</a>文件中添加编译。</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">op_library</span><span class="p">(</span><span class="n">mul_op</span> <span class="n">SRCS</span> <span class="n">mul_op</span><span class="o">.</span><span class="n">cc</span> <span class="n">mul_op</span><span class="o">.</span><span class="n">cu</span> <span class="n">DEPS</span> <span class="n">math_function</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>下面命令可以编译：</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">mul_op</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="python">
+<span id="python"></span><h2>绑定Python<a class="headerlink" href="#python" title="永久链接至标题">¶</a></h2>
+<ul>
+<li><p class="first">绑定Python</p>
+<p>在 <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/pybind/pybind.cc"><code class="docutils literal"><span class="pre">paddle/pybind/pybind.cc</span></code></a>文件中添加该类：</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">USE_OP</span><span class="p">(</span><span class="n">mul</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>如果只实现了CPU版本，则使用<code class="docutils literal"><span class="pre">USE_CPU_ONLY_OP</span></code>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">USE_CPU_ONLY_OP</span><span class="p">(</span><span class="n">gather</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>使用<code class="docutils literal"><span class="pre">USE_OP</span></code>告知编译器需要链接该Op的目标文件，具体解释参考<a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/framework/op_registry.h#L81">代码注释</a>。</p>
+</li>
+</ul>
+<ul>
+<li><p class="first">生成库</p>
+<p>在 <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/pybind/CMakeLists.txt"><code class="docutils literal"><span class="pre">paddle/pybind/CMakeLists.txt</span></code></a>文件添加类到<code class="docutils literal"><span class="pre">DEPS</span></code>中，使得该Op可以链接到生成的lib库中。</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">if</span><span class="p">(</span><span class="n">WITH_PYTHON</span><span class="p">)</span>
+  <span class="n">cc_library</span><span class="p">(</span><span class="n">paddle_pybind</span> <span class="n">SHARED</span>
+  <span class="n">SRCS</span> <span class="n">pybind</span><span class="o">.</span><span class="n">cc</span>
+  <span class="n">DEPS</span> <span class="n">pybind</span> <span class="n">python</span> <span class="n">backward</span>
+  <span class="n">mul_op</span>
+  <span class="n">minus_op</span><span class="p">)</span>
+<span class="n">endif</span><span class="p">(</span><span class="n">WITH_PYTHON</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="">
+<span id="id5"></span><h2>实现单元测试<a class="headerlink" href="#" title="永久链接至标题">¶</a></h2>
+<p>单测包括对比前向Op不同设备(CPU、GPU)的实现、对比反向OP不同设备(CPU、GPU)的实现、反向Op的梯度测试。下面介绍介绍<a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/python/paddle/v2/framework/tests/test_mul_op.py"><code class="docutils literal"><span class="pre">MulOp</span></code>的单测</a>。</p>
+<div class="section" id="operator">
+<span id="id6"></span><h3>前向Operator单测<a class="headerlink" href="#operator" title="永久链接至标题">¶</a></h3>
+<p>前向Op单测继承自<code class="docutils literal"><span class="pre">unittest.TestCase</span></code>，并定义元类<code class="docutils literal"><span class="pre">__metaclass__</span> <span class="pre">=</span> <span class="pre">OpTestMeta</span></code>，具体单测流程在<code class="docutils literal"><span class="pre">OpTestMeta</span></code>里完成。需在<code class="docutils literal"><span class="pre">setUp</span></code>函数定义输入输出和属性参数，以及Python对比的输出值。</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">unittest</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">gradient_checker</span> <span class="k">import</span> <span class="n">GradientChecker</span><span class="p">,</span> <span class="n">create_op</span>
+<span class="kn">from</span> <span class="nn">op_test_util</span> <span class="k">import</span> <span class="n">OpTestMeta</span>
+
+<span class="k">class</span> <span class="nc">TestMulOp</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="n">__metaclass__</span> <span class="o">=</span> <span class="n">OpTestMeta</span>
+
+    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="s2">&quot;mul&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;X&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">32</span><span class="p">,</span> <span class="mi">84</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">),</span>
+            <span class="s1">&#39;Y&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">84</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outputs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Out&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;Y&#39;</span><span class="p">])}</span>
+</pre></div>
+</div>
+<p>首先需要<code class="docutils literal"><span class="pre">import</span></code>必要的包,下面详细解释其他值：</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">self.type</span> <span class="pre">=</span> <span class="pre">&quot;mul&quot;</span></code> : 定义类型，和注册的类型一致。</li>
+<li><code class="docutils literal"><span class="pre">self.inputs</span></code> : 定义输入，类型为Numpy.array，并初始化。</li>
+<li><code class="docutils literal"><span class="pre">self.outputs</span></code> : 定义输出，并得到Python结算结果。</li>
+</ul>
+</div>
+<div class="section" id="operator">
+<span id="id7"></span><h3>反向Operator单测<a class="headerlink" href="#operator" title="永久链接至标题">¶</a></h3>
+<p>反向Op单测继承自<code class="docutils literal"><span class="pre">GradientChecker</span></code>，而<code class="docutils literal"><span class="pre">GradientChecker</span></code>集成自<code class="docutils literal"><span class="pre">unittest.TestCase</span></code>，所以反向单测函数需要<code class="docutils literal"><span class="pre">test_</span></code>开头。</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MulGradOpTest</span><span class="p">(</span><span class="n">GradientChecker</span><span class="p">):</span>
+   <span class="k">def</span> <span class="nf">test_mul</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+       <span class="n">op</span> <span class="o">=</span> <span class="n">create_op</span><span class="p">(</span><span class="s2">&quot;mul&quot;</span><span class="p">)</span>
+       <span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span>
+           <span class="s1">&#39;X&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">32</span><span class="p">,</span> <span class="mi">84</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">),</span>
+           <span class="s1">&#39;Y&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">84</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+       <span class="p">}</span>
+       <span class="bp">self</span><span class="o">.</span><span class="n">compare_grad</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="n">inputs</span><span class="p">)</span>      
+       <span class="c1"># mul op will enlarge the relative error</span>
+       <span class="bp">self</span><span class="o">.</span><span class="n">check_grad</span><span class="p">(</span>
+           <span class="n">op</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="nb">set</span><span class="p">([</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">]),</span> <span class="s2">&quot;Out&quot;</span><span class="p">,</span> <span class="n">max_relative_error</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>调用<code class="docutils literal"><span class="pre">create_op(&quot;mul&quot;)</span></code>创建反向Op对应的前向Op。</li>
+<li>定义输入<code class="docutils literal"><span class="pre">inputs</span></code>。</li>
+<li>调用<code class="docutils literal"><span class="pre">compare_grad</span></code>函数对比CPU、GPU计算结果。</li>
+<li>调用<code class="docutils literal"><span class="pre">check_grad</span></code>检查梯度稳定性。</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, PaddlePaddle developers.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: ".txt",
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../_static/translations.js"></script>
+      <script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+       
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+  
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/js/perfect-scrollbar.jquery.min.js"></script>
+  <script src="../../_static/js/paddle_doc_init.js"></script> 
+
+</body>
+</html>
