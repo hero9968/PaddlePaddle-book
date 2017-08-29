@@ -3333,38 +3333,119 @@ Input should be a vector of positive numbers, without normalization.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="huber-cost">
-<h3>huber_cost<a class="headerlink" href="#huber-cost" title="永久链接至标题">¶</a></h3>
+<div class="section" id="huber-regression-cost">
+<h3>huber_regression_cost<a class="headerlink" href="#huber-regression-cost" title="永久链接至标题">¶</a></h3>
 <dl class="class">
 <dt>
-<em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">huber_cost</code></dt>
-<dd><p>A loss layer for huber loss.</p>
-<p>The example usage is:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">cost</span> <span class="o">=</span> <span class="n">huber_cost</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="nb">input</span><span class="p">,</span>
-                  <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
+<em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">huber_regression_cost</code></dt>
+<dd><blockquote>
+<div>In statistics, the Huber loss is a loss function used in robust regression,
+that is less sensitive to outliers in data than the squared error loss.
+Given a prediction f(x), a label y and <span class="math">\(\delta\)</span>, the loss function
+is defined as:</div></blockquote>
+<p>ight )^2, left | y-f(x)
+ight <a href="#id2"><span class="problematic" id="id3">|</span></a>leq delta</p>
+<blockquote>
+<div>loss = delta left | y-f(x)</div></blockquote>
+<p>ight <a href="#id4"><span class="problematic" id="id5">|</span></a>-0.5delta ^2, otherwise</p>
+<blockquote>
+<div><p>The example usage is:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">cost</span> <span class="o">=</span> <span class="n">huber_regression_cost</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="nb">input</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
 </pre></div>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>input</strong> (<em>paddle.v2.config_base.Layer.</em>) &#8211; The first input layer.</li>
-<li><strong>label</strong> &#8211; The input label.</li>
-<li><strong>name</strong> (<em>None|basestring.</em>) &#8211; The name of this layers. It is not necessary.</li>
-<li><strong>coeff</strong> (<em>float.</em>) &#8211; The coefficient affects the gradient in the backward.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; Extra Layer Attribute.</li>
-</ul>
-</td>
+<tr class="field-odd field"><th class="field-name">param input:</th><td class="field-body">The first input layer.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">paddle.v2.config_base.Layer object.</p>
-</td>
+<tr class="field-even field"><th class="field-name">type input:</th><td class="field-body">paddle.v2.config_base.Layer.</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">paddle.v2.config_base.Layer.</p>
-</td>
+<tr class="field-odd field"><th class="field-name">param label:</th><td class="field-body">The input label.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">type input:</th><td class="field-body">paddle.v2.config_base.Layer.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">param name:</th><td class="field-body">The name of this layers. It is not necessary.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">type name:</th><td class="field-body">None|basestring.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">param delta:</th><td class="field-body">The difference between the observed and predicted values.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">type delta:</th><td class="field-body">float.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">param coeff:</th><td class="field-body">The coefficient affects the gradient in the backward.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">type coeff:</th><td class="field-body">float.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">param layer_attr:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">Extra Layer Attribute.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">type layer_attr:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">paddle.v2.attr.ExtraAttribute</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">return:</th><td class="field-body">paddle.v2.config_base.Layer object.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">rtype:</th><td class="field-body">paddle.v2.config_base.Layer.</td>
 </tr>
 </tbody>
 </table>
+</div></blockquote>
+</dd></dl>
+
+</div>
+<div class="section" id="huber-classification-cost">
+<h3>huber_classification_cost<a class="headerlink" href="#huber-classification-cost" title="永久链接至标题">¶</a></h3>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">huber_classification_cost</code></dt>
+<dd><blockquote>
+<div>For classification purposes, a variant of the Huber loss called modified Huber
+is sometimes used. Given a prediction f(x) (a real-valued classifier score) and
+a true binary class label :math:<a href="#id6"><span class="problematic" id="id7">`</span></a>yin left {-1, 1</div></blockquote>
+<dl class="docutils">
+<dt>ight }`, the modified Huber</dt>
+<dd>loss is defined as:</dd>
+<dt>ight )^2, yf(x)geq 1</dt>
+<dd><blockquote class="first">
+<div>loss = -4yf(x),  ext{otherwise}</div></blockquote>
+<p>The example usage is:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">cost</span> <span class="o">=</span> <span class="n">huber_classification_cost</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="nb">input</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param input:</th><td class="field-body">The first input layer.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">type input:</th><td class="field-body">paddle.v2.config_base.Layer.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">param label:</th><td class="field-body">The input label.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">type input:</th><td class="field-body">paddle.v2.config_base.Layer.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">param name:</th><td class="field-body">The name of this layers. It is not necessary.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">type name:</th><td class="field-body">None|basestring.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">param coeff:</th><td class="field-body">The coefficient affects the gradient in the backward.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">type coeff:</th><td class="field-body">float.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">param layer_attr:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">Extra Layer Attribute.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">type layer_attr:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">paddle.v2.attr.ExtraAttribute</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">return:</th><td class="field-body">paddle.v2.config_base.Layer object.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">rtype:</th><td class="field-body">paddle.v2.config_base.Layer.</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -4024,7 +4105,7 @@ a_i * z_i  &amp;\quad \mathrm{otherwise}\end{split}\]</div>
 <dd><p>The gated unit layer implements a simple gating mechanism over the input.
 The input <span class="math">\(X\)</span> is first projected into a new space <span class="math">\(X'\)</span>, and
 it is also used to produce a gate weight <span class="math">\(\sigma\)</span>. Element-wise
-prodict between <a href="#id6"><span class="problematic" id="id7">:match:`X&#8217;`</span></a> and <span class="math">\(\sigma\)</span> is finally returned.</p>
+prodict between <a href="#id12"><span class="problematic" id="id13">:match:`X&#8217;`</span></a> and <span class="math">\(\sigma\)</span> is finally returned.</p>
 <dl class="docutils">
 <dt>Reference:</dt>
 <dd>Language Modeling with Gated Convolutional Networks
