@@ -193,7 +193,7 @@
 <li><a class="reference external" href="#定义ProtoMaker类">定义ProtoMaker类</a></li>
 <li><a class="reference external" href="#定义Operator类">定义Operator类</a></li>
 <li><a class="reference external" href="#定义OpKernel类">定义OpKernel类</a></li>
-<li><a class="reference external" href="#注册类">注册类</a></li>
+<li><a class="reference external" href="#注册Operator">注册Operator</a></li>
 <li><a class="reference external" href="#编译">编译</a></li>
 </ul>
 </li>
@@ -201,6 +201,7 @@
 <li><a class="reference external" href="#实现单元测试">实现单元测试</a><ul>
 <li><a class="reference external" href="#前向Operator单测">前向Operator单测</a></li>
 <li><a class="reference external" href="#反向Operator单测">反向Operator单测</a></li>
+<li><a class="reference external" href="#编译和执行">编译和执行</a></li>
 </ul>
 </li>
 </ul>
@@ -213,18 +214,11 @@
 <li><code class="docutils literal"><span class="pre">framework::OperatorWithKernel</span></code>：继承自OperatorBase，Op有计算函数，称作有Kernel。</li>
 <li><code class="docutils literal"><span class="pre">class</span> <span class="pre">OpProtoAndCheckerMaker</span></code>：描述该Op的输入、输出、属性、注释,主要用于Python API接口生成</li>
 </ul>
-<p>依据是否包含kernel，将Op分为两种：包含Kernel的Op和不包含kernel的Op，前者Op的定义继承自<code class="docutils literal"><span class="pre">OperatorBase</span></code>，后者继承自<code class="docutils literal"><span class="pre">OperatorWithKernel</span></code>。本教程主要介绍带Kernel的Op如何写，简单总结如下：</p>
-<p>Forward Op需要包含：</p>
-<ul class="simple">
-<li>OpProtoMake定义</li>
-<li>Op定义</li>
-<li>Kernel实现</li>
-</ul>
-<p>与之对应的Backward Op包含：</p>
-<ul class="simple">
-<li>Op定义</li>
-<li>Kernel实现</li>
-</ul>
+<p>依据是否包含kernel，将Op分为两种：包含Kernel的Op和不包含kernel的Op，前者Op的定义继承自<code class="docutils literal"><span class="pre">OperatorBase</span></code>，后者继承自<code class="docutils literal"><span class="pre">OperatorWithKernel</span></code>。本教程主要介绍带Kernel的Op如何写，简单总结Op需要包含的内容如下：</p>
+<p>内容            | 定义位置&#8212;&#8212;&#8212;&#8212;&#8211;  | :&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;-OpProtoMake定义  | <code class="docutils literal"><span class="pre">.cc</span></code>文件，Backward Op不需要定义OpProtoMake
+Op定义           | <code class="docutils literal"><span class="pre">.cc</span></code>文件
+Kernel实现       | CPU、GPU共享Kernel在<code class="docutils literal"><span class="pre">.h</span></code>文件，否则，CPU可以在<code class="docutils literal"><span class="pre">.cc</span></code>文件，GPU可在<code class="docutils literal"><span class="pre">.cu</span></code>文件。
+注册Op           | Op注册在<code class="docutils literal"><span class="pre">.cc</span></code>文件；Kernel注册CPU在<code class="docutils literal"><span class="pre">.cc</span></code>文件，GPU在<code class="docutils literal"><span class="pre">.cu</span></code>文件</p>
 <p>下面以矩阵乘操作，即<a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/operators/mul_op.cc">MulOp</a>为例来介绍如何写带Kernel的Operator。</p>
 </div>
 <div class="section" id="c">
@@ -311,9 +305,11 @@
   <span class="o">:</span> <span class="n">OperatorWithKernel</span><span class="p">(</span><span class="n">type</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">attrs</span><span class="p">)</span> <span class="p">{}</span>
 </pre></div>
 </div>
-<p>还需要重写<code class="docutils literal"><span class="pre">InferShape</span></code>接口。<code class="docutils literal"><span class="pre">InferShape</span></code>为const函数，不能修改Op的成员变量，参数为<code class="docutils literal"><span class="pre">const</span> <span class="pre">framework::InferShapeContext</span> <span class="pre">&amp;ctx</span></code>，通过该参数可获取到输入输出以及属性。它的功能是：
-- 1). 做检查， 尽早报错：检查输入数据维度、类型等是否合法
-- 2). 设置输出Tensor的形状</p>
+<p>还需要重写<code class="docutils literal"><span class="pre">InferShape</span></code>接口。<code class="docutils literal"><span class="pre">InferShape</span></code>为const函数，不能修改Op的成员变量，参数为<code class="docutils literal"><span class="pre">const</span> <span class="pre">framework::InferShapeContext</span> <span class="pre">&amp;ctx</span></code>，通过该参数可获取到输入输出以及属性。它的功能是：</p>
+<ul class="simple">
+<li>1). 做检查， 尽早报错：检查输入数据维度、类型等是否合法。</li>
+<li>2). 设置输出Tensor的形状。</li>
+</ul>
 <p>通常<code class="docutils literal"><span class="pre">OpProtoMaker</span></code>和<code class="docutils literal"><span class="pre">Op</span></code>类的定义写在<code class="docutils literal"><span class="pre">.cc</span></code>文件中，和要讲到的注册函数一起放在<code class="docutils literal"><span class="pre">.cc</span></code>中</p>
 </div>
 <div class="section" id="opkernel">
@@ -342,8 +338,8 @@
 <p>注意，不同设备(CPU、GPU)共享一个Op定义，是否则共享同一个<code class="docutils literal"><span class="pre">OpKernel</span></code>，取决于<code class="docutils literal"><span class="pre">Compute</span></code>调用的函数是否支持不同设备。<code class="docutils literal"><span class="pre">MulOp</span></code>的CPU、GPU实现共享同一个<code class="docutils literal"><span class="pre">Kernel</span></code>，<code class="docutils literal"><span class="pre">OpKernel</span></code>不共享的例子可以参考<a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/operators/cross_entropy_op.h#L43"><code class="docutils literal"><span class="pre">OnehotCrossEntropyOpKernel</span></code></a>。</p>
 <p>到此前向Op实现完成，需要在<code class="docutils literal"><span class="pre">.cc</span></code>文件中注册该op和kernel。反向Op类的定义和Kernel定义与前向Op类似，这里不再重复。但注意，反向Op没有<code class="docutils literal"><span class="pre">ProtoMaker</span></code>。</p>
 </div>
-<div class="section" id="">
-<span id="id3"></span><h3>4. 注册类<a class="headerlink" href="#" title="永久链接至标题">¶</a></h3>
+<div class="section" id="operator">
+<span id="id3"></span><h3>4. 注册Operator<a class="headerlink" href="#operator" title="永久链接至标题">¶</a></h3>
 <p>在<code class="docutils literal"><span class="pre">.cc</span></code>文件中注册前向、反向Op类，注册CPU Kernel。</p>
 <div class="highlight-c++"><div class="highlight"><pre><span></span><span class="k">namespace</span> <span class="n">ops</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">::</span><span class="n">operators</span><span class="p">;</span>
 <span class="n">REGISTER_OP</span><span class="p">(</span><span class="n">mul</span><span class="p">,</span> <span class="n">ops</span><span class="o">::</span><span class="n">MulOp</span><span class="p">,</span> <span class="n">ops</span><span class="o">::</span><span class="n">MulOpMaker</span><span class="p">,</span> <span class="n">mul_grad</span><span class="p">,</span> <span class="n">ops</span><span class="o">::</span><span class="n">MulOpGrad</span><span class="p">);</span>
@@ -457,8 +453,29 @@
 <li>调用<code class="docutils literal"><span class="pre">create_op(&quot;mul&quot;)</span></code>创建反向Op对应的前向Op。</li>
 <li>定义输入<code class="docutils literal"><span class="pre">inputs</span></code>。</li>
 <li>调用<code class="docutils literal"><span class="pre">compare_grad</span></code>函数对比CPU、GPU计算结果。</li>
-<li>调用<code class="docutils literal"><span class="pre">check_grad</span></code>检查梯度稳定性。</li>
+<li>调用<code class="docutils literal"><span class="pre">check_grad</span></code>检查梯度稳定性，这里采用数值法检测梯度正确性。<ul>
+<li>第一个参数<code class="docutils literal"><span class="pre">op</span></code> : 前向op。</li>
+<li>第二个参数<code class="docutils literal"><span class="pre">inputs</span></code> : 输入词典，词典的Key和<code class="docutils literal"><span class="pre">ProtoMaker</span></code>定义保持一致。</li>
+<li>第三个参数<code class="docutils literal"><span class="pre">set([&quot;X&quot;,</span> <span class="pre">&quot;Y&quot;])</span></code> : 指定对输入变量<code class="docutils literal"><span class="pre">X</span></code>、<code class="docutils literal"><span class="pre">Y</span></code>做梯度检测。</li>
+<li>第四个参数<code class="docutils literal"><span class="pre">&quot;Out&quot;</span></code> : 指定前向网络最终的输出目标变量<code class="docutils literal"><span class="pre">Out</span></code></li>
 </ul>
+</li>
+</ul>
+</div>
+<div class="section" id="">
+<span id="id8"></span><h3>编译和执行<a class="headerlink" href="#" title="永久链接至标题">¶</a></h3>
+<p>单测完成之后，在<a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/python/paddle/v2/framework/tests/CMakeLists.txt"><code class="docutils literal"><span class="pre">python/paddle/v2/framework/tests/CMakeLists.txt</span></code></a>里添加编译：</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">py_test</span><span class="p">(</span><span class="n">test_mul_op</span> <span class="n">SRCS</span> <span class="n">test_mul_op</span><span class="o">.</span><span class="n">py</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>编译时需要打开<code class="docutils literal"><span class="pre">WITH_TESTING</span></code>, 即 <code class="docutils literal"><span class="pre">cmake</span> <span class="pre">paddle_dir</span> <span class="pre">-DWITH_TESTING=ON</span></code>，编译成功之后执行单测命令为：</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">test</span> <span class="n">ARGS</span><span class="o">=</span><span class="s2">&quot;-R test_mul_op -V&quot;</span>
+</pre></div>
+</div>
+<p>或者:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ctest</span> <span class="o">-</span><span class="n">R</span> <span class="n">test_mul_op</span>
+</pre></div>
+</div>
 </div>
 </div>
 </div>
