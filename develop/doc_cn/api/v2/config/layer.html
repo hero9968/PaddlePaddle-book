@@ -3758,14 +3758,6 @@ Classification (CTC) loss. Besides, another <a class="reference external" href="
 the official one, is maintained to enable more compiling options. During the
 building process, PaddlePaddle will clone the source codes, build and
 install it to <code class="code docutils literal"><span class="pre">third_party/install/warpctc</span></code> directory.</p>
-<p>To use warp_ctc layer, you need to specify the path of <code class="code docutils literal"><span class="pre">libwarpctc.so</span></code>,
-using following methods:</p>
-<p>1. Set it in <code class="code docutils literal"><span class="pre">paddle.init</span></code> (python api) or <code class="code docutils literal"><span class="pre">paddle_init</span></code> (c api),
-such as <code class="code docutils literal"><span class="pre">paddle.init(use_gpu=True,</span>
-<span class="pre">warpctc_dir=your_paddle_source_dir/third_party/install/warpctc/lib)</span></code>.</p>
-<p>2. Set environment variable LD_LIBRARY_PATH on Linux or DYLD_LIBRARY_PATH
-on Mac OS. For instance, <code class="code docutils literal"><span class="pre">export</span>
-<span class="pre">LD_LIBRARY_PATH=your_paddle_source_dir/third_party/install/warpctc/lib:$LD_LIBRARY_PATH</span></code>.</p>
 <p>More details of CTC can be found by referring to <a class="reference external" href="http://machinelearning.wustl.edu/mlpapers/paper_files/icml2006_GravesFGS06.pdf">Connectionist Temporal
 Classification: Labelling Unsegmented Sequence Data with Recurrent
 Neural Networks</a>.</p>
