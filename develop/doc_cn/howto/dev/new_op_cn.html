@@ -384,6 +384,10 @@ Kernel实现       | CPU、GPU共享Kernel在<code class="docutils literal"><spa
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">USE_CPU_ONLY_OP</span><span class="p">(</span><span class="n">gather</span><span class="p">);</span>
 </pre></div>
 </div>
+<p>如果OP不带Kernel，则使用<code class="docutils literal"><span class="pre">USE_NO_KENREL_OP</span></code>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">USE_NO_KENREL_OP</span><span class="p">(</span><span class="n">recurrent</span><span class="p">);</span>
+</pre></div>
+</div>
 <p>使用<code class="docutils literal"><span class="pre">USE_OP</span></code>告知编译器需要链接该Op的目标文件，具体解释参考<a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/framework/op_registry.h#L81">代码注释</a>。</p>
 </li>
 </ul>
