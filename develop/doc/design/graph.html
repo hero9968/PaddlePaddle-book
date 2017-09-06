@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Design Doc: Computations as Graphs &mdash; PaddlePaddle  documentation</title>
+  <title>Design Doc: Computations as a Graph &mdash; PaddlePaddle  documentation</title>
   
 
   
@@ -168,7 +168,7 @@
 <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
       
-    <li>Design Doc: Computations as Graphs</li>
+    <li>Design Doc: Computations as a Graph</li>
   </ul>
 </div>
       
@@ -177,8 +177,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="design-doc-computations-as-graphs">
-<span id="design-doc-computations-as-graphs"></span><h1>Design Doc: Computations as Graphs<a class="headerlink" href="#design-doc-computations-as-graphs" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="design-doc-computations-as-a-graph">
+<span id="design-doc-computations-as-a-graph"></span><h1>Design Doc: Computations as a Graph<a class="headerlink" href="#design-doc-computations-as-a-graph" title="Permalink to this headline">¶</a></h1>
 <p>A primary goal of the refactorization of PaddlePaddle is a more flexible representation of deep learning computation, in particular, a graph of operators and variables, instead of sequences of layers as before.</p>
 <p>This document explains that the construction of a graph as three steps:</p>
 <ul class="simple">
@@ -186,6 +186,8 @@
 <li>construct the backward part</li>
 <li>construct the optimization part</li>
 </ul>
+<div class="section" id="the-construction-of-a-graph">
+<span id="the-construction-of-a-graph"></span><h2>The Construction of a Graph<a class="headerlink" href="#the-construction-of-a-graph" title="Permalink to this headline">¶</a></h2>
 <p>Let us take the problem of image classification as a simple example.  The application program that trains the model looks like:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">)</span>
 <span class="n">l</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">)</span>
@@ -196,14 +198,15 @@
 </pre></div>
 </div>
 <div class="section" id="forward-part">
-<span id="forward-part"></span><h2>Forward Part<a class="headerlink" href="#forward-part" title="Permalink to this headline">¶</a></h2>
+<span id="forward-part"></span><h3>Forward Part<a class="headerlink" href="#forward-part" title="Permalink to this headline">¶</a></h3>
 <p>The first four lines of above program build the forward part of the graph.</p>
 <p><img alt="" src="../_images/graph_construction_example_forward_only.png" /></p>
-<p>In particular, the first line <code class="docutils literal"><span class="pre">x</span> <span class="pre">=</span> <span class="pre">layer.data(&quot;images&quot;)</span></code> creates variable x and a Feed operator that copies a column from the minibatch to x.  <code class="docutils literal"><span class="pre">y</span> <span class="pre">=</span> <span class="pre">layer.fc(x)</span></code> creates not only the FC operator and output variable y, but also two parameters, W and b.</p>
+<p>In particular, the first line <code class="docutils literal"><span class="pre">x</span> <span class="pre">=</span> <span class="pre">layer.data(&quot;images&quot;)</span></code> creates variable x and a Feed operator that copies a column from the minibatch to x.  <code class="docutils literal"><span class="pre">y</span> <span class="pre">=</span> <span class="pre">layer.fc(x)</span></code> creates not only the FC operator and output variable y, but also two parameters, W and b, and the initialization operators.</p>
+<p>Initialization operators are kind of &#8220;run-once&#8221; operators &#8211; the <code class="docutils literal"><span class="pre">Run</span></code> method increments a class data member counter so to run at most once.  By doing so, a parameter wouldn&#8217;t be initialized repeatedly, say, in every minibatch.</p>
 <p>In this example, all operators are created as <code class="docutils literal"><span class="pre">OpDesc</span></code> protobuf messages, and all variables are <code class="docutils literal"><span class="pre">VarDesc</span></code>.  These protobuf messages are saved in a <code class="docutils literal"><span class="pre">BlockDesc</span></code> protobuf message.</p>
 </div>
 <div class="section" id="backward-part">
-<span id="backward-part"></span><h2>Backward Part<a class="headerlink" href="#backward-part" title="Permalink to this headline">¶</a></h2>
+<span id="backward-part"></span><h3>Backward Part<a class="headerlink" href="#backward-part" title="Permalink to this headline">¶</a></h3>
 <p>The fifth line <code class="docutils literal"><span class="pre">optimize(cost)</span></code> calls two functions, <code class="docutils literal"><span class="pre">ConstructBackwardGraph</span></code> and <code class="docutils literal"><span class="pre">ConstructOptimizationGraph</span></code>.</p>
 <p><code class="docutils literal"><span class="pre">ConstructBackwardGraph</span></code> traverses the forward graph in the <code class="docutils literal"><span class="pre">BlockDesc</span></code> protobuf message and builds the backward part.</p>
 <p><img alt="" src="../_images/graph_construction_example_forward_backward.png" /></p>
@@ -216,9 +219,22 @@
 </ol>
 </div>
 <div class="section" id="optimization-part">
-<span id="optimization-part"></span><h2>Optimization Part<a class="headerlink" href="#optimization-part" title="Permalink to this headline">¶</a></h2>
+<span id="optimization-part"></span><h3>Optimization Part<a class="headerlink" href="#optimization-part" title="Permalink to this headline">¶</a></h3>
 <p>For each parameter, like W and b created by <code class="docutils literal"><span class="pre">layer.fc</span></code>, marked as double circles in above graphs, <code class="docutils literal"><span class="pre">ConstructOptimizationGraph</span></code> creates an optimization operator to apply its gradient.  Here results in the complete graph:</p>
 <p><img alt="" src="../_images/graph_construction_example_all.png" /></p>
+</div>
+</div>
+<div class="section" id="block-and-graph">
+<span id="block-and-graph"></span><h2>Block and Graph<a class="headerlink" href="#block-and-graph" title="Permalink to this headline">¶</a></h2>
+<p>The word block and graph are interchangable in the desgin of PaddlePaddle.  A [Block[(https://github.com/PaddlePaddle/Paddle/pull/3708) is a metaphore of the code and local variables in a pair of curly braces in programming languages, where operators are like statements or instructions.  A graph of operators and variables is a representation of the block.</p>
+<p>A Block keeps operators in an array <code class="docutils literal"><span class="pre">BlockDesc::ops</span></code></p>
+<div class="highlight-protobuf"><div class="highlight"><pre><span></span><span class="kd">message</span> <span class="nc">BlockDesc</span> <span class="p">{</span>
+  <span class="k">repeated</span> <span class="n">OpDesc</span> <span class="na">ops</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="k">repeated</span> <span class="n">VarDesc</span> <span class="na">vars</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>in the order that there appear in user programs, like the Python program at the beginning of this article.  We can imagine that in <code class="docutils literal"><span class="pre">ops</span></code>,  we have some forward operators, followed by some gradient operators, and then some optimization operators.</p>
 </div>
 </div>
 
