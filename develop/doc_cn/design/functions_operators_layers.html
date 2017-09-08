@@ -252,12 +252,11 @@
 </pre></div>
 </div>
 <p>We&#8217;d like to have Python bindings to operators in package <code class="docutils literal"><span class="pre">paddle.operator</span></code>, and Python compositions of operators in package <code class="docutils literal"><span class="pre">paddle.layer</span></code>.  So we have the following concepts in above illustrative example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>| C++ functions/functors | mul          | add          |             |          |
+<p>| C++ functions/functors | mul          | add          |             |          |
+|&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;|&#8212;&#8212;&#8212;&#8212;&#8211;|&#8212;&#8212;&#8212;&#8212;&#8211;|&#8212;&#8212;&#8212;&#8212;-|&#8212;&#8212;&#8212;-|
 | C++ operator class     | mulOp        | addOp        | FCOp        |          |
 | Python binding         | operator.mul | operator.add | operator.fc |          |
-| Python function        |              |              |             | layer.fc |
-</pre></div>
-</div>
+| Python function        |              |              |             | layer.fc |</p>
 <p>This is how we differentiate layer and operators in PaddlePaddle:</p>
 <ul class="simple">
 <li>those defined in C++ and have a lightweighted Python wrapper in module <code class="docutils literal"><span class="pre">operators</span></code> are operators; whereas</li>
