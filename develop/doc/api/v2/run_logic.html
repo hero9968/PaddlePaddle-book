@@ -558,8 +558,10 @@ index that reader returns.</li>
 
 <dl class="class">
 <dt>
-<em class="property">class </em><code class="descclassname">paddle.v2.event.</code><code class="descname">EndPass</code><span class="sig-paren">(</span><em>pass_id</em>, <em>evaluator</em><span class="sig-paren">)</span></dt>
-<dd><p>Event On One Pass Training Complete.</p>
+<em class="property">class </em><code class="descclassname">paddle.v2.event.</code><code class="descname">EndPass</code><span class="sig-paren">(</span><em>pass_id</em>, <em>evaluator</em>, <em>gm</em><span class="sig-paren">)</span></dt>
+<dd><p>Event On One Pass Training Complete.
+To get the output of a specific layer, add &#8220;event.gm.getLayerOutputs(&#8216;predict_layer&#8217;)&#8221;
+in your event_handler call back</p>
 </dd></dl>
 
 <dl class="class">
@@ -570,8 +572,10 @@ index that reader returns.</li>
 
 <dl class="class">
 <dt>
-<em class="property">class </em><code class="descclassname">paddle.v2.event.</code><code class="descname">EndIteration</code><span class="sig-paren">(</span><em>pass_id</em>, <em>batch_id</em>, <em>cost</em>, <em>evaluator</em><span class="sig-paren">)</span></dt>
-<dd><p>Event On One Batch Training Complete.</p>
+<em class="property">class </em><code class="descclassname">paddle.v2.event.</code><code class="descname">EndIteration</code><span class="sig-paren">(</span><em>pass_id</em>, <em>batch_id</em>, <em>cost</em>, <em>evaluator</em>, <em>gm</em><span class="sig-paren">)</span></dt>
+<dd><p>Event On One Batch Training Complete.
+To get the output of a specific layer, add &#8220;event.gm.getLayerOutputs(&#8216;predict_layer&#8217;)&#8221;
+in your event_handler call back</p>
 </dd></dl>
 
 </div>
