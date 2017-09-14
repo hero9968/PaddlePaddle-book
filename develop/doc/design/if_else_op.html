@@ -177,23 +177,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <p>IfOp should have only one branch. An IfOp operator takes a <code class="docutils literal"><span class="pre">cond</span></code> variable whose value must be a vector of N boolean elements. Its return value has M (M&lt;=N) instances, each corresponds to a true element in <code class="docutils literal"><span class="pre">cond</span></code>.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">paddle</span> <span class="kn">as</span> <span class="nn">pd</span>
-
-<span class="n">x</span> <span class="o">=</span> <span class="n">var</span><span class="p">()</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">var</span><span class="p">()</span>
-<span class="n">cond</span> <span class="o">=</span> <span class="n">var</span><span class="p">()</span>
-
-<span class="n">b</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">create_ifop</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="n">x</span><span class="p">],</span> <span class="n">output_num</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="k">with</span> <span class="n">b</span><span class="o">.</span><span class="n">true_block</span><span class="p">():</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">inputs</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">z</span> <span class="o">=</span> <span class="n">operator</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-    <span class="n">b</span><span class="o">.</span><span class="n">set_output</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">operator</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">z</span><span class="p">))</span>
-
-<span class="n">out</span> <span class="o">=</span> <span class="n">b</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>If we want the output still has N instances, we can use IfElseOp with a default value, whose minibatch size must be N:</p>
+  <p>IfOp should have only one branch. An IfOp operator takes a <code class="docutils literal"><span class="pre">cond</span></code> variable whose value must be a vector of N boolean elements. Its return value has N instances. If cond[i] == True, input instance input[i] will go through true_block() and generate output[i]; otherwise it will produce output from false_bloack().</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">paddle</span> <span class="kn">as</span> <span class="nn">pd</span>
 
 <span class="n">x</span> <span class="o">=</span> <span class="n">var</span><span class="p">()</span>
@@ -214,7 +198,7 @@
 <span class="n">out</span> <span class="o">=</span> <span class="n">b</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>If only true_block is set in an IfElseOp, we can have a default value for false as:</p>
+<p>If only true_block is set in an IfElseOp, a special case is that we can have a default value for false as:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">paddle</span> <span class="kn">as</span> <span class="nn">pd</span>
 
 <span class="n">x</span> <span class="o">=</span> <span class="n">var</span><span class="p">()</span>
