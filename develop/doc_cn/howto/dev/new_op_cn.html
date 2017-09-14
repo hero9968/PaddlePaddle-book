@@ -220,7 +220,7 @@ OpProtoMake定义  | <code class="docutils literal"><span class="pre">.cc</span>
 Op定义           | <code class="docutils literal"><span class="pre">.cc</span></code>文件
 Kernel实现       | CPU、GPU共享Kernel实现在<code class="docutils literal"><span class="pre">.h</span></code>文件中，否则，CPU 实现在<code class="docutils literal"><span class="pre">.cc</span></code>文件中，GPU 实现在<code class="docutils literal"><span class="pre">.cu</span></code>文件中。
 注册Op           | Op注册实现在<code class="docutils literal"><span class="pre">.cc</span></code>文件；Kernel注册CPU实现在<code class="docutils literal"><span class="pre">.cc</span></code>文件中，GPU实现在<code class="docutils literal"><span class="pre">.cu</span></code>文件中</p>
-<p>实现新的op都添加至目录<a class="reference external" href="https://github.com/PaddlePaddle/Paddle/tree/develop/paddle/operators">paddle/operators</a>下，文件命名以<code class="docutils literal"><span class="pre">*_op.h</span></code>（如有） 、 <code class="docutils literal"><span class="pre">*_op.cc</span></code> 、<code class="docutils literal"><span class="pre">*_op.cu</span></code>（如有）结尾。</p>
+<p>实现新的op都添加至目录<a class="reference external" href="https://github.com/PaddlePaddle/Paddle/tree/develop/paddle/operators">paddle/operators</a>下，文件命名以<code class="docutils literal"><span class="pre">*_op.h</span></code>（如有） 、 <code class="docutils literal"><span class="pre">*_op.cc</span></code> 、<code class="docutils literal"><span class="pre">*_op.cu</span></code>（如有）结尾。<strong>系统会根据文件名自动构建op和其对应的Python扩展。</strong></p>
 <p>下面以矩阵乘操作，即<a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/operators/mul_op.cc">MulOp</a>为例来介绍如何写带Kernel的Operator。</p>
 </div>
 <div class="section" id="c">
@@ -389,45 +389,15 @@ Kernel实现       | CPU、GPU共享Kernel实现在<code class="docutils literal
 </div>
 <div class="section" id="">
 <span id="id4"></span><h3>5. 编译<a class="headerlink" href="#" title="永久链接至标题">¶</a></h3>
-<ul>
-<li><p class="first">简单<strong>无特殊依赖</strong>的OP无需修改CMakeList.txt文件。<a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/operators/CMakeLists.txt">paddle/operators/CMakeLists.txt</a> 会自动将 <code class="docutils literal"><span class="pre">paddle/operators</span></code> 目录下新增的 <code class="docutils literal"><span class="pre">*_op.cc</span></code> 文件加入编译。</p>
-</li>
-<li><p class="first">较为复杂、<strong>有额外依赖</strong> 的operator仍需要修改<a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/operators/CMakeLists.txt">paddle/operators/CMakeLists.txt</a>。如，<code class="docutils literal"><span class="pre">mul_op</span></code> 依赖 <code class="docutils literal"><span class="pre">math_function</span></code>，需要在<code class="docutils literal"><span class="pre">CMakeLists.txt</span></code>中添加如下内容：</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">op_library</span><span class="p">(</span><span class="n">mul_op</span> <span class="n">SRCS</span> <span class="n">mul_op</span><span class="o">.</span><span class="n">cc</span> <span class="n">mul_op</span><span class="o">.</span><span class="n">cu</span> <span class="n">DEPS</span> <span class="n">math_function</span><span class="p">)</span>       <span class="o">+</span>
-</pre></div>
-</div>
-</li>
-<li><p class="first">运行下面命令可以进行编译：</p>
+<p>运行下面命令可以进行编译：</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">mul_op</span>
 </pre></div>
 </div>
-</li>
-</ul>
 </div>
 </div>
 <div class="section" id="python">
 <span id="python"></span><h2>绑定Python<a class="headerlink" href="#python" title="永久链接至标题">¶</a></h2>
-<ul>
-<li><p class="first">绑定Python</p>
-<p>在 <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/pybind/pybind.cc"><code class="docutils literal"><span class="pre">paddle/pybind/pybind.cc</span></code></a> 使用<code class="docutils literal"><span class="pre">USE_OP</span></code>告知编译器需要链接的Op，具体解释参考<a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/framework/op_registry.h#L81">代码注释</a>。</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">USE_OP</span><span class="p">(</span><span class="n">mul</span><span class="p">);</span>
-</pre></div>
-</div>
-<p>如果只实现了CPU版本，则使用<code class="docutils literal"><span class="pre">USE_CPU_ONLY_OP</span></code>:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">USE_CPU_ONLY_OP</span><span class="p">(</span><span class="n">gather</span><span class="p">);</span>
-</pre></div>
-</div>
-<p>如果OP不带Kernel，则使用<code class="docutils literal"><span class="pre">USE_NO_KENREL_OP</span></code>:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">USE_NO_KENREL_OP</span><span class="p">(</span><span class="n">recurrent</span><span class="p">);</span>
-</pre></div>
-</div>
-</li>
-</ul>
-<ul>
-<li><p class="first">生成库</p>
-<p><code class="docutils literal"><span class="pre">paddle/operators</span></code> 目录下新增的 <code class="docutils literal"><span class="pre">*_op.cc</span></code> 文件会被自动添加链接到生成的lib库中。</p>
-</li>
-</ul>
+<p>系统会对新增的op自动绑定Python，并链接到生成的lib库中。</p>
 </div>
 <div class="section" id="">
 <span id="id5"></span><h2>实现单元测试<a class="headerlink" href="#" title="永久链接至标题">¶</a></h2>
@@ -526,6 +496,15 @@ Kernel实现       | CPU、GPU共享Kernel实现在<code class="docutils literal
 </pre></div>
 </div>
 </div>
+</div>
+<div class="section" id="">
+<span id="id9"></span><h2>注意事项<a class="headerlink" href="#" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li>为每个Op创建单独的<code class="docutils literal"><span class="pre">*_op.h</span></code>（如有）、<code class="docutils literal"><span class="pre">*_op.cc</span></code>和<code class="docutils literal"><span class="pre">*_op.cu</span></code>（如有）。不允许一个文件中包含多个Op，这将会导致编译出错。</li>
+<li>注册Op时的类型名，需要和该Op的名字一样。即不允许在<code class="docutils literal"><span class="pre">A_op.cc</span></code>里面，注册<code class="docutils literal"><span class="pre">REGISTER_OP(B,</span> <span class="pre">...)</span></code>等，这将会导致单元测试出错。</li>
+<li>如果Op没有实现GPU Kernel，请不要创建空的<code class="docutils literal"><span class="pre">*_op.cu</span></code>，这将会导致单元测试出错。</li>
+<li>如果多个Op依赖一些共用的函数，可以创建非<code class="docutils literal"><span class="pre">*_op.*</span></code>格式的文件来存放，如<code class="docutils literal"><span class="pre">gather.h</span></code>文件。</li>
+</ul>
 </div>
 </div>
 
