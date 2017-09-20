@@ -192,7 +192,7 @@
 <li>PaddlePaddle represent the computation, training and inference of DL models, by computation graphs.</li>
 <li>Please dig into <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/doc/design/graph.md">computation graphs</a> for a solid example.</li>
 <li>Users write Python programs to describe the graphs and run it (locally or remotely).</li>
-<li>A graph is composed of <em>variabels</em> and <em>operators</em>.</li>
+<li>A graph is composed of <em>variables</em> and <em>operators</em>.</li>
 <li>The description of graphs must be able to be serialized/deserialized, so it<ol>
 <li>could to be sent to the cloud for distributed execution, and</li>
 <li>be sent to clients for mobile or enterprise deployment.</li>
@@ -346,7 +346,7 @@
 </ul>
 </li>
 <li>Hand-writing <code class="docutils literal"><span class="pre">GPUKernel</span></code> and <code class="docutils literal"><span class="pre">CPU</span></code> code<ul>
-<li>Do not write <code class="docutils literal"><span class="pre">.h</span></code>. CPU Kernel should be in <code class="docutils literal"><span class="pre">.cc</span></code>. CPU kernel should be in <code class="docutils literal"><span class="pre">.cu</span></code>. (<code class="docutils literal"><span class="pre">GCC</span></code> cannot compile GPU code.)</li>
+<li>Do not write <code class="docutils literal"><span class="pre">.h</span></code>. CPU Kernel should be in <code class="docutils literal"><span class="pre">.cc</span></code>. GPU kernel should be in <code class="docutils literal"><span class="pre">.cu</span></code>. (<code class="docutils literal"><span class="pre">GCC</span></code> cannot compile GPU code.)</li>
 </ul>
 </li>
 </ul>

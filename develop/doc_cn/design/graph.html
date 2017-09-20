@@ -233,7 +233,7 @@
 </div>
 <div class="section" id="block-and-graph">
 <span id="block-and-graph"></span><h2>Block and Graph<a class="headerlink" href="#block-and-graph" title="永久链接至标题">¶</a></h2>
-<p>The word block and graph are interchangable in the desgin of PaddlePaddle.  A [Block[(https://github.com/PaddlePaddle/Paddle/pull/3708) is a metaphore of the code and local variables in a pair of curly braces in programming languages, where operators are like statements or instructions.  A graph of operators and variables is a representation of the block.</p>
+<p>The word block and graph are interchangable in the desgin of PaddlePaddle.  A <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/pull/3708">Block</a> is a metaphore of the code and local variables in a pair of curly braces in programming languages, where operators are like statements or instructions.  A graph of operators and variables is a representation of the block.</p>
 <p>A Block keeps operators in an array <code class="docutils literal"><span class="pre">BlockDesc::ops</span></code></p>
 <div class="highlight-protobuf"><div class="highlight"><pre><span></span><span class="kd">message</span> <span class="nc">BlockDesc</span> <span class="p">{</span>
   <span class="k">repeated</span> <span class="n">OpDesc</span> <span class="na">ops</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
@@ -241,7 +241,7 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>in the order that there appear in user programs, like the Python program at the beginning of this article.  We can imagine that in <code class="docutils literal"><span class="pre">ops</span></code>,  we have some forward operators, followed by some gradient operators, and then some optimization operators.</p>
+<p>in the order that they appear in user programs, like the Python program at the beginning of this article.  We can imagine that in <code class="docutils literal"><span class="pre">ops</span></code>,  we have some forward operators, followed by some gradient operators, and then some optimization operators.</p>
 </div>
 </div>
 

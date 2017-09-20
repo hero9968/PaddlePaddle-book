@@ -183,10 +183,10 @@
 <p>The Interaction between Python and C++ can be simplified as two steps:</p>
 <ol class="simple">
 <li>C++ tells Python how many Ops there are, and what parameter do users need to offer to initialize a new Op. Python then builds API for each Op at compile time.</li>
-<li>Users invoke APIs built by Python and provide necessary parameters. These parameters will be sent to C++ fo finish Op construction task.</li>
+<li>Users invoke APIs built by Python and provide necessary parameters. These parameters will be sent to C++ for finishing the Op construction task.</li>
 </ol>
-<div class="section" id="message-form-c-to-python">
-<span id="message-form-c-to-python"></span><h2>Message form C++ to Python<a class="headerlink" href="#message-form-c-to-python" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="message-from-c-to-python">
+<span id="message-from-c-to-python"></span><h2>Message from C++ to Python<a class="headerlink" href="#message-from-c-to-python" title="Permalink to this headline">¶</a></h2>
 <p>We define a Protobuf message class <code class="docutils literal"><span class="pre">OpProto</span></code> to hold message needed in the first step. What should an <code class="docutils literal"><span class="pre">OpProto</span></code> contain? This question is equivalent to “What message do we need to offer, to build a Python API which is legal and user oriented and can use to describe a whole Op.”</p>
 <p>Following message are necessary:</p>
 <ol class="simple">

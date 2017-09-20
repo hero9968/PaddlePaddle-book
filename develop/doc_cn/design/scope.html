@@ -200,7 +200,7 @@
 <p>Scope is an association of a name to variable. All variables belong to <code class="docutils literal"><span class="pre">Scope</span></code>. You need to specify a scope to run a Net, i.e., <code class="docutils literal"><span class="pre">net.Run(&amp;scope)</span></code>. One net can run in different scopes and update different variable in the scope.</p>
 <ol>
 <li><p class="first">Scope only contains a map of a name to variable.</p>
-<p>All parameters, data, states in a Net should be variables and stored inside a scope. Each op should get inputs and outputs to do computation from a scope, such as data buffer, state(momentum) etc.</p>
+<p>All parameters, data, states in a Net should be variables and stored inside a scope. Each op should get inputs and outputs to do computation from a scope, such as data buffer, state (momentum) etc.</p>
 </li>
 <li><p class="first">Variable can only be created by Scope and a variable can only be got from Scope. User cannot create or get a variable outside a scope. This is a constraints of our framework, and will keep our framework simple and clear.</p>
 </li>
@@ -215,7 +215,7 @@
 <p>Variable can not belong to many scopes. If you want to use variables from parent scope, you can use <code class="docutils literal"><span class="pre">parent</span> <span class="pre">scope</span></code>.</p>
 </li>
 <li><p class="first">Scope should destruct all Variables inside it when itself is destructed. User can never store <code class="docutils literal"><span class="pre">Variable</span></code> pointer somewhere else.</p>
-<p>Because Variable can only be got from Scope. When destroying Scope, we also need to destroy all the Variables in it. If user store <code class="docutils literal"><span class="pre">Variable</span></code> pointer to private data member or some global variable, the pointer will be a invalid pointer when associated <code class="docutils literal"><span class="pre">Scope</span></code> is destroyed.</p>
+<p>Because Variable can only be got from Scope. When destroying Scope, we also need to destroy all the Variables in it. If user store <code class="docutils literal"><span class="pre">Variable</span></code> pointer to private data member or some global variable, the pointer will be an invalid pointer when associated <code class="docutils literal"><span class="pre">Scope</span></code> is destroyed.</p>
 </li>
 </ol>
 <div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Scope</span> <span class="p">{</span>
@@ -233,7 +233,7 @@
 <span id="parent-scope-and-local-scope"></span><h2>Parent scope and local scope<a class="headerlink" href="#parent-scope-and-local-scope" title="永久链接至标题">¶</a></h2>
 <p>Just like <a class="reference external" href="https://en.wikipedia.org/wiki/Scope_(computer_science)">scope</a> in programming languages, <code class="docutils literal"><span class="pre">Scope</span></code> in the neural network can also be a local scope. There are two attributes about local scope.</p>
 <ol class="simple">
-<li>We can create local variables in a local scope. When that local scope are destroyed, all local variables should also be destroyed.</li>
+<li>We can create local variables in a local scope. When that local scope is destroyed, all local variables should also be destroyed.</li>
 <li>Variables in a parent scope can be retrieved from local scopes of that parent scope, i.e., when user get a variable from a scope, it will try to search this variable in current scope. If there is no such variable in the local scope, <code class="docutils literal"><span class="pre">scope</span></code> will keep searching from its parent, until the variable is found or there is no parent.</li>
 </ol>
 <div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Scope</span> <span class="p">{</span>
@@ -302,7 +302,7 @@
 </div>
 <div class="section" id="orthogonal-interface">
 <span id="orthogonal-interface"></span><h2>Orthogonal interface<a class="headerlink" href="#orthogonal-interface" title="永久链接至标题">¶</a></h2>
-<p><code class="docutils literal"><span class="pre">FindVar</span></code> will return <code class="docutils literal"><span class="pre">nullptr</span></code> when <code class="docutils literal"><span class="pre">name</span></code> is not found. It can be used as <code class="docutils literal"><span class="pre">Contains</span></code> method. <code class="docutils literal"><span class="pre">NewVar</span></code> will return a <code class="docutils literal"><span class="pre">Error</span></code> when there is a name conflict locally. Combine <code class="docutils literal"><span class="pre">FindVar</span></code> and <code class="docutils literal"><span class="pre">NewVar</span></code>, we can implement <code class="docutils literal"><span class="pre">NewVar</span></code> easily.</p>
+<p><code class="docutils literal"><span class="pre">FindVar</span></code> will return <code class="docutils literal"><span class="pre">nullptr</span></code> when <code class="docutils literal"><span class="pre">name</span></code> is not found. It can be used as <code class="docutils literal"><span class="pre">Contains</span></code> method. <code class="docutils literal"><span class="pre">NewVar</span></code> will return an <code class="docutils literal"><span class="pre">Error</span></code> when there is a name conflict locally. Combine <code class="docutils literal"><span class="pre">FindVar</span></code> and <code class="docutils literal"><span class="pre">NewVar</span></code>, we can implement <code class="docutils literal"><span class="pre">NewVar</span></code> easily.</p>
 </div>
 </div>
 

@@ -189,7 +189,7 @@
 <div class="section" id="ingredients">
 <span id="ingredients"></span><h2>Ingredients<a class="headerlink" href="#ingredients" title="永久链接至标题">¶</a></h2>
 <p>As our design principle is starting from the essence: how could we
-allow users to express and solve their problems at neural networks.
+allow users to express and solve their problems as neural networks.
 Some essential concepts that our API have to provide include:</p>
 <ol class="simple">
 <li>A <em>topology</em> is an expression of <em>layers</em>.</li>
@@ -392,7 +392,7 @@ access a Kubernetes cluster, s/he should be able to call</p>
                   <span class="n">num_parameter_servers</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The pseudo code if <code class="docutils literal"><span class="pre">paddle.dist_train</span></code> is as follows:</p>
+<p>The pseudo code of <code class="docutils literal"><span class="pre">paddle.dist_train</span></code> is as follows:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">dist_train</span><span class="p">(</span><span class="n">topology</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">trainer</span><span class="p">,</span> <span class="n">reader</span><span class="p">,</span> <span class="o">...</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUBERNETES_SERVICE_HOST&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
         <span class="n">image_name</span> <span class="o">=</span> <span class="n">k8s_user</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">k8s_job</span>
