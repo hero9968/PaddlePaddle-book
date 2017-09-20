@@ -230,14 +230,15 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<em>basestring</em>) &#8211; The Layer Name.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer|list|tuple</em>) &#8211; The input layer. Could be a list/tuple of input layer.</li>
 <li><strong>size</strong> (<em>int</em>) &#8211; The layer dimension.</li>
 <li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation Type. Default is tanh.</li>
 <li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The Parameter Attribute|list.</li>
-<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute|None|Any</em>) &#8211; The Bias Attribute. If no bias, then pass False or
-something not type of paddle.v2.attr.ParameterAttribute. None will get a
-default Bias.</li>
+<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute|None|Bool|Any</em>) &#8211; The Bias Attribute. If the parameter is set to
+False or something not type of paddle.v2.attr.ParameterAttribute,
+no bias is defined. If the parameter is set to
+True, the bias is initialized to zero.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttributeNone</em>) &#8211; Extra Layer config.</li>
 </ul>
 </td>
@@ -271,7 +272,7 @@ specified, selective_fc acts exactly like fc.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<em>basestring</em>) &#8211; The Layer Name.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer|list|tuple</em>) &#8211; The input layer.</li>
 <li><strong>select</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The select layer. The output of select layer should be a
 sparse binary matrix, and treat as the mask of selective fc.
@@ -279,9 +280,10 @@ If is None, acts exactly like fc.</li>
 <li><strong>size</strong> (<em>int</em>) &#8211; The layer dimension.</li>
 <li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation Type. Default is tanh.</li>
 <li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The Parameter Attribute.</li>
-<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute|None|Any</em>) &#8211; The Bias Attribute. If no bias, then pass False or
-something not type of paddle.v2.attr.ParameterAttribute. None will get a
-default Bias.</li>
+<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute|None|Bool|Any</em>) &#8211; The Bias Attribute. If the parameter is set to
+False or something not type of paddle.v2.attr.ParameterAttribute,
+no bias is defined. If the parameter is set to
+True, the bias is initialized to zero.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttributeNone</em>) &#8211; Extra Layer config.</li>
 </ul>
 </td>
@@ -431,7 +433,7 @@ the right size (which is the end of array) to the left.</li>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<em>basestring</em>) &#8211; layer name</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>a</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Input layer a.</li>
 <li><strong>b</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; input layer b.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; layer&#8217;s extra attribute.</li>
@@ -485,7 +487,7 @@ rest channels will be processed by rest group of filters.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<em>basestring</em>) &#8211; Layer name.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Layer Input.</li>
 <li><strong>filter_size</strong> (<em>int|tuple|list</em>) &#8211; The x dimension of a filter kernel. Or input a tuple for
 two image dimension.</li>
@@ -504,8 +506,10 @@ image dimension</li>
 <li><strong>dilation</strong> (<em>int|tuple|list</em>) &#8211; The x dimension of the dilation. Or input a tuple for two
 image dimension</li>
 <li><strong>dilation_y</strong> (<em>int</em>) &#8211; The y dimension of the dilation.</li>
-<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute|False</em>) &#8211; Convolution bias attribute. None means default bias.
-False means no bias.</li>
+<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute|None|Bool|Any</em>) &#8211; The Bias Attribute. If the parameter is set to
+False or something not type of paddle.v2.attr.ParameterAttribute,
+no bias is defined. If the parameter is set to
+True, the bias is initialized to zero.</li>
 <li><strong>num_channels</strong> (<em>int</em>) &#8211; number of input channels. If None will be set
 automatically from previous output.</li>
 <li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; Convolution param attribute. None means default attribute</li>
@@ -576,15 +580,15 @@ parameter attribute is set by this parameter.</li>
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">row_conv</code></dt>
 <dd><p>The row convolution is called lookahead convolution. It is firstly
-introduced in paper of <a class="reference external" href="https://arxiv.org/pdf/1512.02595v1.pdf">Deep Speech 2: End-toEnd Speech Recognition
+introduced in paper of <a class="reference external" href="https://arxiv.org/pdf/1512.02595v1.pdf">Deep Speech 2: End-to-End Speech Recognition
 in English and Mandarin</a> .</p>
 <p>The bidirectional RNN that learns representation for a sequence by
 performing a forward and a backward pass through the entire sequence.
 However, unlike unidirectional RNNs, bidirectional RNNs are challenging
 to deploy in an online and low-latency setting. The lookahead convolution
 incorporates information from future subsequences in a computationally
-efficient manner to improve unidirectional recurrent neural networks.</p>
-<p>The connection of row convolution is different form the 1D sequence
+efficient manner to improve unidirectional RNNs.</p>
+<p>The connection of row convolution is different from the 1D sequence
 convolution. Assumed that, the future context-length is k, that is to say,
 it can get the output at timestep t by using the the input feature from t-th
 timestep to (t+k+1)-th timestep. Assumed that the hidden dim of input
@@ -610,7 +614,7 @@ number plus one equals context_len.</p>
 plus one.</li>
 <li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation Type. Default is linear activation.</li>
 <li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The Parameter Attribute. If None, the parameter will be
-initialized smartly. It&#8217;s better set it by yourself.</li>
+initialized smartly. It&#8217;s better to set it by yourself.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttributeNone</em>) &#8211; Extra Layer config.</li>
 </ul>
 </td>
@@ -713,7 +717,7 @@ The details please refer to
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<em>basestring</em>) &#8211; layer name.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; layer&#8217;s input.</li>
 <li><strong>num_channels</strong> (<em>int</em>) &#8211; number of input channel.</li>
 <li><strong>pool_type</strong> &#8211; Pooling type. MaxPooling or AveragePooling. Default is MaxPooling.</li>
@@ -778,7 +782,7 @@ s = input.size / num_channels
 <li><strong>num_channels</strong> (<em>int|None</em>) &#8211; The channel number of input layer. If None will be set
 automatically from previous output.</li>
 <li><strong>groups</strong> (<em>int</em>) &#8211; The group number of input layer.</li>
-<li><strong>name</strong> (<em>None|basestring.</em>) &#8211; The name of this layer, which can not specify.</li>
+<li><strong>name</strong> (<em>None|basestring.</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; Extra Layer attribute.</li>
 </ul>
 </td>
@@ -814,7 +818,7 @@ The details please refer to
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<em>None|basestring</em>) &#8211; layer name.</li>
+<li><strong>name</strong> (<em>None|basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; layer&#8217;s input.</li>
 <li><strong>size</strong> (<em>int</em>) &#8211; Normalize in number of <span class="math">\(size\)</span> feature maps.</li>
 <li><strong>scale</strong> (<em>float</em>) &#8211; The hyper-parameter.</li>
@@ -862,7 +866,7 @@ y_i &amp;\gets \gamma \hat{x_i} + \beta \qquad &amp;//\ scale\ and\ shift\end{sp
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<em>basestring</em>) &#8211; layer name.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; batch normalization input. Better be linear activation.
 Because there is an activation inside batch_normalization.</li>
 <li><strong>batch_norm_type</strong> (<em>None|string</em><em>, </em><em>None</em><em> or </em><em>&quot;batch_norm&quot;</em><em> or </em><em>&quot;cudnn_batch_norm&quot;</em>) &#8211; We have batch_norm and cudnn_batch_norm. batch_norm
@@ -879,7 +883,7 @@ normalization will normalize input near zero.</li>
 <li><strong>num_channels</strong> (<em>int</em>) &#8211; num of image channels or previous layer&#8217;s number of
 filters. None will automatically get from layer&#8217;s
 input.</li>
-<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; <span class="math">\(\beta\)</span>, better be zero when initialize. So the
+<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute|None|Bool|Any</em>) &#8211; <span class="math">\(\beta\)</span>, better be zero when initialize. So the
 initial_std=0, initial_mean=1 is best practice.</li>
 <li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; <span class="math">\(\gamma\)</span>, better be one when initialize. So the
 initial_std=0, initial_mean=1 is best practice.</li>
@@ -930,7 +934,7 @@ and <span class="math">\(out\)</span> is a (batchSize x dataDim) output vector.<
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Input layer.</li>
-<li><strong>name</strong> (<em>basestring</em>) &#8211; Layer name.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; extra layer attributes.</li>
 </ul>
 </td>
@@ -960,7 +964,7 @@ factors which dimensions equal to the channel&#8217;s number.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<em>basestring</em>) &#8211; The Layer Name.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input layer.</li>
 <li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The Parameter Attribute|list.</li>
 </ul>
@@ -1000,7 +1004,7 @@ and the size of <span class="math">\(out\)</span> is a (batchSize x dataDim) .</
 </tr>
 <tr class="field-even field"><th class="field-name">type input:</th><td class="field-body">paddle.v2.config_base.Layer</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">param name:</th><td class="field-body">Layer name.</td>
+<tr class="field-odd field"><th class="field-name">param name:</th><td class="field-body">The name of this layer. It is optional.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">type name:</th><td class="field-body">basestring</td>
 </tr>
@@ -1045,9 +1049,12 @@ out_{i} = act(in_{i} + out_{i+1} * W) \ \ \text{for} \ start &lt;= i &lt; end\en
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Input Layer</li>
 <li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; activation.</li>
-<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; bias attribute.</li>
+<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute|None|Bool|Any</em>) &#8211; The Bias Attribute. If the parameter is set to
+False or something not type of paddle.v2.attr.ParameterAttribute,
+no bias is defined. If the parameter is set to
+True, the bias is initialized to zero.</li>
 <li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; parameter attribute.</li>
-<li><strong>name</strong> (<em>basestring</em>) &#8211; name of the layer</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; Layer Attribute.</li>
 </ul>
 </td>
@@ -1095,8 +1102,10 @@ more details about LSTM.</p>
 <li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; activation type, paddle.v2.activation.Tanh by default. <span class="math">\(h_t\)</span></li>
 <li><strong>gate_act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; gate activation type, paddle.v2.activation.Sigmoid by default.</li>
 <li><strong>state_act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; state activation type, paddle.v2.activation.Tanh by default.</li>
-<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute|None|False</em>) &#8211; Bias attribute. None means default bias. False means no
-bias.</li>
+<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute|None|Bool|Any</em>) &#8211; The Bias Attribute. If the parameter is set to
+False or something not type of paddle.v2.attr.ParameterAttribute,
+no bias is defined. If the parameter is set to
+True, the bias is initialized to zero.</li>
 <li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute|None|False</em>) &#8211; Parameter Attribute.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttributeNone</em>) &#8211; Extra Layer attribute</li>
 </ul>
@@ -1163,8 +1172,10 @@ affects the <span class="math">\({\tilde{h_t}}\)</span>.</li>
 <li><strong>gate_act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; gate activation type, paddle.v2.activation.Sigmoid by default.
 This activation affects the <span class="math">\(z_t\)</span> and <span class="math">\(r_t\)</span>. It is the
 <span class="math">\(\sigma\)</span> in the above formula.</li>
-<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute|None|False</em>) &#8211; Bias attribute. None means default bias. False means no
-bias.</li>
+<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute|None|Bool|Any</em>) &#8211; The Bias Attribute. If the parameter is set to
+False or something not type of paddle.v2.attr.ParameterAttribute,
+no bias is defined. If the parameter is set to
+True, the bias is initialized to zero.</li>
 <li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute|None|False</em>) &#8211; Parameter Attribute.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttributeNone</em>) &#8211; Extra Layer attribute</li>
 </ul>
@@ -1336,7 +1347,7 @@ output is <span class="math">\(o_t\)</span>, whose name is &#8216;state&#8217; a
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<em>basestring</em>) &#8211; Layer&#8217;s name.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>size</strong> (<em>int</em>) &#8211; Layer&#8217;s size. NOTE: lstm layer&#8217;s size, should be equal to
 <code class="code docutils literal"><span class="pre">input.size/4</span></code>, and should be equal to
 <code class="code docutils literal"><span class="pre">state.size</span></code>.</li>
@@ -1347,7 +1358,10 @@ output is <span class="math">\(o_t\)</span>, whose name is &#8216;state&#8217; a
 be sigmoid only.</li>
 <li><strong>state_act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; State Activation Type. Default is sigmoid, and should
 be sigmoid only.</li>
-<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; Bias Attribute.</li>
+<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute|None|Bool|Any</em>) &#8211; The Bias Attribute. If the parameter is set to
+False or something not type of paddle.v2.attr.ParameterAttribute,
+no bias is defined. If the parameter is set to
+True, the bias is initialized to zero.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; layer&#8217;s extra attribute.</li>
 </ul>
 </td>
@@ -1377,9 +1391,12 @@ be sigmoid only.</li>
 <li><strong>output_mem</strong> &#8211; </li>
 <li><strong>size</strong> &#8211; </li>
 <li><strong>act</strong> &#8211; </li>
-<li><strong>name</strong> &#8211; </li>
+<li><strong>name</strong> &#8211; The name of this layer. It is optional.</li>
 <li><strong>gate_act</strong> &#8211; </li>
-<li><strong>bias_attr</strong> &#8211; </li>
+<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute|None|Bool|Any</em>) &#8211; The Bias Attribute. If the parameter is set to
+False or something not type of paddle.v2.attr.ParameterAttribute,
+no bias is defined. If the parameter is set to
+True, the bias is initialized to zero.</li>
 <li><strong>param_attr</strong> &#8211; the parameter_attribute for transforming the output_mem
 from previous step.</li>
 <li><strong>layer_attr</strong> &#8211; </li>
@@ -1493,7 +1510,7 @@ the output from input.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<em>basestring</em>) &#8211; Layer&#8217;s name.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; get output layer&#8217;s input. And this layer should contains
 multiple outputs.</li>
 <li><strong>arg_name</strong> (<em>basestring</em>) &#8211; Output name from input.</li>
@@ -1549,9 +1566,10 @@ Each inputs is a projection or operator.</p>
 <li><strong>input</strong> &#8211; inputs layer. It is an optional parameter. If set,
 then this function will just return layer&#8217;s name.</li>
 <li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation Type.</li>
-<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em><em> or </em><em>None</em><em> or </em><em>bool</em>) &#8211; The Bias Attribute. If no bias, then pass False or
-something not type of paddle.v2.attr.ParameterAttribute. None will get a
-default Bias.</li>
+<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute|None|Bool|Any</em>) &#8211; The Bias Attribute. If the parameter is set to
+False or something not type of paddle.v2.attr.ParameterAttribute,
+no bias is defined. If the parameter is set to
+True, the bias is initialized to zero.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer config. Default is None.</li>
 </ul>
 </td>
@@ -1578,7 +1596,7 @@ default Bias.</li>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<em>basestring</em>) &#8211; Name of this embedding layer.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input layer for this embedding. NOTE: must be Index Data.</li>
 <li><strong>size</strong> (<em>int</em>) &#8211; The embedding dimension.</li>
 <li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute|None</em>) &#8211; The embedding parameter attribute. See paddle.v2.attr.ParameterAttribute
@@ -1974,12 +1992,15 @@ of stride is -1.</p>
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>agg_level</strong> (<em>AggregateLevel</em>) &#8211; AggregateLevel.TO_NO_SEQUENCE or
 AggregateLevel.TO_SEQUENCE</li>
-<li><strong>name</strong> (<em>basestring</em>) &#8211; layer name.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; input layer name.</li>
 <li><strong>pooling_type</strong> (<em>BasePoolingType|None</em>) &#8211; Type of pooling, MaxPooling(default), AvgPooling,
 SumPooling, SquareRootNPooling.</li>
 <li><strong>stride</strong> (<em>Int</em>) &#8211; The step size between successive pooling regions.</li>
-<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute|None|False</em>) &#8211; Bias parameter attribute. False if no bias.</li>
+<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute|None|Bool|Any</em>) &#8211; The Bias Attribute. If the parameter is set to
+False or something not type of paddle.v2.attr.ParameterAttribute,
+no bias is defined. If the parameter is set to
+True, the bias is initialized to zero.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttributeNone</em>) &#8211; The Extra Attributes for layer, such as dropout.</li>
 </ul>
 </td>
@@ -2015,7 +2036,7 @@ of stride is -1.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>agg_level</strong> &#8211; Aggregated level</li>
-<li><strong>name</strong> (<em>basestring</em>) &#8211; Layer name.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Input layer name.</li>
 <li><strong>stride</strong> (<em>Int</em>) &#8211; The step size between successive pooling regions.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; extra layer attributes.</li>
@@ -2053,7 +2074,7 @@ of stride is -1.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>agg_level</strong> &#8211; aggregation level</li>
-<li><strong>name</strong> (<em>basestring</em>) &#8211; Layer name.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Input layer name.</li>
 <li><strong>stride</strong> (<em>Int</em>) &#8211; The step size between successive pooling regions.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; extra layer attributes.</li>
@@ -2087,7 +2108,7 @@ Inputs can be list of paddle.v2.config_base.Layer or list of projection.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<em>basestring</em>) &#8211; Layer name.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>input</strong> (<em>list|tuple|collections.Sequence</em>) &#8211; input layers or projections</li>
 <li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; Extra Layer Attribute.</li>
@@ -2131,14 +2152,15 @@ processed in one batch.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<em>basestring</em>) &#8211; Layer name.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>a</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; input sequence layer</li>
 <li><strong>b</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; input sequence layer</li>
 <li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; Extra Layer Attribute.</li>
-<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em><em> or </em><em>None</em><em> or </em><em>bool</em>) &#8211; The Bias Attribute. If no bias, then pass False or
-something not type of paddle.v2.attr.ParameterAttribute. None will get a
-default Bias.</li>
+<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute|None|Bool|Any</em>) &#8211; The Bias Attribute. If the parameter is set to
+False or something not type of paddle.v2.attr.ParameterAttribute,
+no bias is defined. If the parameter is set to
+True, the bias is initialized to zero.</li>
 </ul>
 </td>
 </tr>
@@ -2183,7 +2205,7 @@ will be sliced for multiple times.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<em>basestring</em>) &#8211; name of this layer.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; input for this layer, it should be a sequence.</li>
 <li><strong>starts</strong> (<em>paddle.v2.config_base.Layer|None</em>) &#8211; start indices to slice the input sequence.</li>
 <li><strong>ends</strong> (<em>paddle.v2.config_base.Layer|None</em>) &#8211; end indices to slice the input sequence.</li>
@@ -2225,7 +2247,7 @@ beam training.</p>
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; A nested sequence.</li>
 <li><strong>selected_indices</strong> &#8211; a set of sequence indices in the nested sequence.</li>
-<li><strong>name</strong> (<em>basestring</em>) &#8211; name of this layer.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 </ul>
 </td>
 </tr>
@@ -2285,7 +2307,7 @@ convolution neural network, and before recurrent neural network.</p>
 <li><strong>stride_y</strong> (<em>int</em>) &#8211; The stride size in vertical direction.</li>
 <li><strong>padding_x</strong> (<em>int</em>) &#8211; The padding size in horizontal direction.</li>
 <li><strong>padding_y</strong> (<em>int</em>) &#8211; The padding size in vertical direction.</li>
-<li><strong>name</strong> (<em>None|basestring.</em>) &#8211; The name of this layer, which can not specify.</li>
+<li><strong>name</strong> (<em>None|basestring.</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttributeNone</em>) &#8211; Extra Layer config.</li>
 </ul>
 </td>
@@ -2339,9 +2361,11 @@ sequence is one) to sequence data.&#8221;</p>
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Input layer</li>
 <li><strong>expand_as</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Expand as this layer&#8217;s sequence info.</li>
-<li><strong>name</strong> (<em>basestring</em>) &#8211; Layer name.</li>
-<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute|None|False</em>) &#8211; Bias attribute. None means default bias. False means no
-bias.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
+<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute|None|Bool|Any</em>) &#8211; The Bias Attribute. If the parameter is set to
+False or something not type of paddle.v2.attr.ParameterAttribute,
+no bias is defined. If the parameter is set to
+True, the bias is initialized to zero.</li>
 <li><strong>expand_level</strong> (<em>ExpandLevel</em>) &#8211; whether input layer is timestep(default) or sequence.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; extra layer attributes.</li>
 </ul>
@@ -2385,7 +2409,7 @@ bias.</li>
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Input layer</li>
 <li><strong>num_repeats</strong> (<em>int</em>) &#8211; Repeat the input so many times</li>
-<li><strong>name</strong> (<em>basestring</em>) &#8211; Layer name.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>as_row_vector</strong> (<em>bool</em>) &#8211; True for treating input as row vector and repeating
 in the column direction.  This is equivalent to apply
 concat() with num_repeats same input.
@@ -2430,7 +2454,7 @@ usually used when the input sample is some image or feature map.</p>
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Input layer.</li>
 <li><strong>height</strong> (<em>int</em>) &#8211; The height of the sample matrix</li>
-<li><strong>name</strong> (<em>basestring</em>) &#8211; Layer name.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; extra layer attributes.</li>
 </ul>
 </td>
@@ -2466,12 +2490,13 @@ output sequence has T*M/N instances, the dimension of each instance is N.</p>
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Input layer.</li>
 <li><strong>reshape_size</strong> (<em>int</em>) &#8211; the size of reshaped sequence.</li>
-<li><strong>name</strong> (<em>basestring</em>) &#8211; Layer name.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; extra layer attributes.</li>
-<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em><em> or </em><em>None</em><em> or </em><em>bool</em>) &#8211; The Bias Attribute. If no bias, then pass False or
-something not type of paddle.v2.attr.ParameterAttribute. None will get a
-default Bias.</li>
+<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute|None|Bool|Any</em>) &#8211; The Bias Attribute. If the parameter is set to
+False or something not type of paddle.v2.attr.ParameterAttribute,
+no bias is defined. If the parameter is set to
+True, the bias is initialized to zero.</li>
 </ul>
 </td>
 </tr>
@@ -2520,12 +2545,14 @@ Please refer to dropout for details.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<em>basestring</em>) &#8211; Layer name.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer|list|tuple</em>) &#8211; Input layers. It could be a paddle.v2.config_base.Layer or list/tuple of
 paddle.v2.config_base.Layer.</li>
 <li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation Type, default is tanh.</li>
-<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute|bool</em>) &#8211; Bias attribute. If False, means no bias. None is default
-bias.</li>
+<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute|None|Bool|Any</em>) &#8211; The Bias Attribute. If the parameter is set to
+False or something not type of paddle.v2.attr.ParameterAttribute,
+no bias is defined. If the parameter is set to
+True, the bias is initialized to zero.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; Extra Layer attribute.</li>
 </ul>
 </td>
@@ -2588,7 +2615,7 @@ processed in one batch.</p>
 <li><strong>weights</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The weight layer.</li>
 <li><strong>vectors</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The vector layer.</li>
 <li><strong>size</strong> (<em>int</em>) &#8211; the dimension of this layer.</li>
-<li><strong>name</strong> (<em>basestring</em>) &#8211; The Layer Name.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttributeNone</em>) &#8211; Extra Layer config.</li>
 </ul>
 </td>
@@ -2627,7 +2654,7 @@ which is used in NEURAL TURING MACHINE.</p>
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>list|tuple</em>) &#8211; Input layer.</li>
 <li><strong>weight</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Weight layer.</li>
-<li><strong>name</strong> (<em>basestring</em>) &#8211; Layer name.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; extra layer attributes.</li>
 </ul>
 </td>
@@ -2700,7 +2727,7 @@ and <span class="math">\(y\)</span> is a output vector.</p>
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Input layer.</li>
 <li><strong>weight</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Weight layer.</li>
-<li><strong>name</strong> (<em>basestring</em>) &#8211; Layer name.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; extra layer attributes.</li>
 </ul>
 </td>
@@ -2739,7 +2766,7 @@ processed in one batch.</p>
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Input layer.</li>
 <li><strong>weight</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Weight layer.</li>
-<li><strong>name</strong> (<em>basestring</em>) &#8211; Layer name.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; extra layer attributes.</li>
 </ul>
 </td>
@@ -2775,7 +2802,7 @@ ight)</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param name:</th><td class="field-body">The Layer Name.</td>
+<tr class="field-odd field"><th class="field-name">param name:</th><td class="field-body">The name of this layer. It is optional.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">type name:</th><td class="field-body">basestring</td>
 </tr>
@@ -2820,7 +2847,7 @@ element-wise. There is no activation and weight.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input layer.</li>
-<li><strong>name</strong> (<em>basestring</em>) &#8211; The Layer Name.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>slope</strong> (<em>float.</em>) &#8211; the scale factor.</li>
 <li><strong>intercept</strong> (<em>float.</em>) &#8211; the offset.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttributeNone</em>) &#8211; Extra Layer config.</li>
@@ -2867,15 +2894,16 @@ For example, each sample:</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<em>basestring</em>) &#8211; layer name</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>a</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Input layer a.</li>
 <li><strong>b</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; input layer b.</li>
 <li><strong>size</strong> (<em>int.</em>) &#8211; the layer dimension.</li>
 <li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation Type. Default is tanh.</li>
 <li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The Parameter Attribute.</li>
-<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute|None|Any</em>) &#8211; The Bias Attribute. If no bias, then pass False or
-something not type of paddle.v2.attr.ParameterAttribute. None will get a
-default Bias.</li>
+<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute|None|Bool|Any</em>) &#8211; The Bias Attribute. If the parameter is set to
+False or something not type of paddle.v2.attr.ParameterAttribute,
+no bias is defined. If the parameter is set to
+True, the bias is initialized to zero.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttributeNone</em>) &#8211; Extra Layer config.</li>
 </ul>
 </td>
@@ -2914,7 +2942,7 @@ processed in one batch.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<em>basestring</em>) &#8211; layer name</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>a</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; input layer a</li>
 <li><strong>b</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; input layer b</li>
 <li><strong>scale</strong> (<em>float</em>) &#8211; scale for cosine value. default is 5.</li>
@@ -2953,7 +2981,7 @@ processed in one batch.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Input layer.</li>
-<li><strong>name</strong> (<em>basestring</em>) &#8211; Layer name.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; extra layer attributes.</li>
 </ul>
 </td>
@@ -2989,10 +3017,13 @@ bias are trainable.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<em>basestring</em>) &#8211; The Layer Name.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer.</em>) &#8211; The input layer.</li>
 <li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The parameter attribute of scaling.</li>
-<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The parameter attribute of shifting.</li>
+<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute|None|Bool|Any</em>) &#8211; The Bias Attribute. If the parameter is set to
+False or something not type of paddle.v2.attr.ParameterAttribute,
+no bias is defined. If the parameter is set to
+True, the bias is initialized to zero.</li>
 </ul>
 </td>
 </tr>
@@ -3027,7 +3058,7 @@ The result is stored in output.ids.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Input layer name.</li>
-<li><strong>name</strong> (<em>basestring</em>) &#8211; Layer name.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; extra layer attributes.</li>
 </ul>
 </td>
@@ -3060,7 +3091,7 @@ Sampling one id for one sample.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input layer.</li>
-<li><strong>name</strong> (<em>basestring</em>) &#8211; The Layer Name.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttributeNone</em>) &#8211; Extra Layer config.</li>
 </ul>
 </td>
@@ -3104,7 +3135,7 @@ For each index i from 0 to batchSize -1, the output is the i-th row of the
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>list of paddle.v2.config_base.Layer</em>) &#8211; Input layers.</li>
-<li><strong>name</strong> (<em>basestring</em>) &#8211; Layer name.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; extra layer attributes.</li>
 </ul>
 </td>
@@ -3174,7 +3205,7 @@ in width dimension.</p>
 <li><strong>pad_h</strong> (<em>list|None</em>) &#8211; padding size in height dimension.</li>
 <li><strong>pad_w</strong> (<em>list|None</em>) &#8211; padding size in width dimension.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; Extra Layer Attribute.</li>
-<li><strong>name</strong> (<em>basestring</em>) &#8211; layer name.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 </ul>
 </td>
 </tr>
@@ -3210,7 +3241,7 @@ in width dimension.</p>
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer.</em>) &#8211; The first input layer.</li>
 <li><strong>label</strong> &#8211; The input label.</li>
-<li><strong>name</strong> (<em>None|basestring.</em>) &#8211; The name of this layers. It is not necessary.</li>
+<li><strong>name</strong> (<em>None|basestring.</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>coeff</strong> (<em>float.</em>) &#8211; The cost is multiplied with coeff.
 The coefficient affects the gradient in the backward.</li>
 <li><strong>weight</strong> (<em>LayerOutout</em>) &#8211; The cost of each sample is multiplied with each weight.
@@ -3250,7 +3281,7 @@ Input should be a vector of positive numbers, without normalization.</p>
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer.</em>) &#8211; The first input layer.</li>
 <li><strong>label</strong> &#8211; The input label.</li>
-<li><strong>name</strong> (<em>None|basestring.</em>) &#8211; The name of this layers. It is not necessary.</li>
+<li><strong>name</strong> (<em>None|basestring.</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>coeff</strong> (<em>float.</em>) &#8211; The coefficient affects the gradient in the backward.</li>
 <li><strong>softmax_selfnorm_alpha</strong> (<em>float.</em>) &#8211; The scale factor affects the cost.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; Extra Layer Attribute.</li>
@@ -3286,7 +3317,7 @@ Input should be a vector of positive numbers, without normalization.</p>
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The first input layer.</li>
 <li><strong>label</strong> &#8211; The input label.</li>
-<li><strong>name</strong> (<em>None|basestring</em>) &#8211; The name of this layers. It is not necessary.</li>
+<li><strong>name</strong> (<em>None|basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>coeff</strong> (<em>float</em>) &#8211; The coefficient affects the gradient in the backward.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; Extra Layer Attribute.</li>
 </ul>
@@ -3335,7 +3366,7 @@ ight <a href="#id2"><span class="problematic" id="id3">|</span></a>leq delta</p>
 </tr>
 <tr class="field-even field"><th class="field-name">type input:</th><td class="field-body">paddle.v2.config_base.Layer.</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">param name:</th><td class="field-body">The name of this layers. It is not necessary.</td>
+<tr class="field-odd field"><th class="field-name">param name:</th><td class="field-body">The name of this layer. It is optional.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">type name:</th><td class="field-body">None|basestring.</td>
 </tr>
@@ -3394,7 +3425,7 @@ a true binary class label :math:<a href="#id6"><span class="problematic" id="id7
 </tr>
 <tr class="field-even field"><th class="field-name">type input:</th><td class="field-body">paddle.v2.config_base.Layer.</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">param name:</th><td class="field-body">The name of this layers. It is not necessary.</td>
+<tr class="field-odd field"><th class="field-name">param name:</th><td class="field-body">The name of this layer. It is optional.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">type name:</th><td class="field-body">None|basestring.</td>
 </tr>
@@ -3440,7 +3471,7 @@ a true binary class label :math:<a href="#id6"><span class="problematic" id="id7
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Samples of the same query should be loaded as sequence.</li>
 <li><strong>score</strong> &#8211; The 2nd input. Score of each sample.</li>
 <li><strong>NDCG_num</strong> (<em>int</em>) &#8211; The size of NDCG (Normalized Discounted Cumulative Gain),
-e.g., 5 for NDCG&#64;5. It must be less than for equal to the
+e.g., 5 for NDCG&#64;5. It must be less than or equal to the
 minimum size of lists.</li>
 <li><strong>max_sort_size</strong> (<em>int</em>) &#8211; The size of partial sorting in calculating gradient.
 If max_sort_size = -1, then for each list, the
@@ -3449,7 +3480,7 @@ In other cases, max_sort_size must be greater than or
 equal to NDCG_num. And if max_sort_size is greater
 than the size of a list, the algorithm will sort the
 entire list of get gradient.</li>
-<li><strong>name</strong> (<em>None|basestring</em>) &#8211; The name of this layers. It is not necessary.</li>
+<li><strong>name</strong> (<em>None|basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; Extra Layer Attribute.</li>
 </ul>
 </td>
@@ -3478,7 +3509,7 @@ entire list of get gradient.</li>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<em>basestring</em>) &#8211; layer name.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Network prediction.</li>
 <li><strong>label</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Data label.</li>
 <li><strong>weight</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The weight affects the cost, namely the scale of cost.
@@ -3537,7 +3568,7 @@ Their dimension is one.</li>
 <li><strong>label</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Label is 1 or 0, means positive order and reverse order.</li>
 <li><strong>weight</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The weight affects the cost, namely the scale of cost.
 It is an optional argument.</li>
-<li><strong>name</strong> (<em>None|basestring</em>) &#8211; The name of this layers. It is not necessary.</li>
+<li><strong>name</strong> (<em>None|basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>coeff</strong> (<em>float</em>) &#8211; The coefficient affects the gradient in the backward.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; Extra Layer Attribute.</li>
 </ul>
@@ -3570,7 +3601,7 @@ It is an optional argument.</li>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer.</em>) &#8211; The first input layer.</li>
-<li><strong>name</strong> (<em>None|basestring.</em>) &#8211; The name of this layers. It is not necessary.</li>
+<li><strong>name</strong> (<em>None|basestring.</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; Extra Layer Attribute.</li>
 </ul>
 </td>
@@ -3610,7 +3641,7 @@ field model.</p>
 <li><strong>weight</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The third layer is &#8220;weight&#8221; of each sample, which is an
 optional argument.</li>
 <li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; Parameter attribute. None means default attribute</li>
-<li><strong>name</strong> (<em>None|basestring</em>) &#8211; The name of this layers. It is not necessary.</li>
+<li><strong>name</strong> (<em>None|basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>coeff</strong> (<em>float</em>) &#8211; The coefficient affects the gradient in the backward.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttributeNone</em>) &#8211; Extra Layer config.</li>
 </ul>
@@ -3651,7 +3682,7 @@ decoding or 0 for correct decoding.</p>
 <li><strong>size</strong> (<em>int</em>) &#8211; size of this layer.</li>
 <li><strong>label</strong> (<em>paddle.v2.config_base.Layer</em><em> or </em><em>None</em>) &#8211; None or ground-truth label.</li>
 <li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; Parameter attribute. None means default attribute</li>
-<li><strong>name</strong> (<em>None|basestring</em>) &#8211; The name of this layers. It is not necessary.</li>
+<li><strong>name</strong> (<em>None|basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttributeNone</em>) &#8211; Extra Layer config.</li>
 </ul>
 </td>
@@ -3701,7 +3732,7 @@ should also be num_classes + 1.</p>
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input layer.</li>
 <li><strong>label</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The data layer of label with variable length.</li>
 <li><strong>size</strong> (<em>int</em>) &#8211; category numbers + 1.</li>
-<li><strong>name</strong> (<em>basestring|None</em>) &#8211; The name of this layer</li>
+<li><strong>name</strong> (<em>basestring|None</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>norm_by_times</strong> (<em>bool</em>) &#8211; Whether to normalization by times. False by default.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttributeNone</em>) &#8211; Extra Layer config.</li>
 </ul>
@@ -3761,7 +3792,7 @@ should be consistent as that used in your labels.</li>
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input layer.</li>
 <li><strong>label</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The data layer of label with variable length.</li>
 <li><strong>size</strong> (<em>int</em>) &#8211; category numbers + 1.</li>
-<li><strong>name</strong> (<em>basestring|None</em>) &#8211; The name of this layer, which can not specify.</li>
+<li><strong>name</strong> (<em>basestring|None</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>blank</strong> (<em>int</em>) &#8211; the &#8216;blank&#8217; label used in ctc</li>
 <li><strong>norm_by_times</strong> (<em>bool</em>) &#8211; Whether to normalization by times. False by default.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttributeNone</em>) &#8211; Extra Layer config.</li>
@@ -3798,8 +3829,8 @@ A fast and simple algorithm for training neural probabilistic language models.</
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<em>basestring</em>) &#8211; layer name</li>
-<li><strong>input</strong> (<em>paddle.v2.config_base.Layer|list|tuple|collections.Sequence</em>) &#8211; input layers. It could be a paddle.v2.config_base.Layer of list/tuple of paddle.v2.config_base.Layer.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
+<li><strong>input</strong> (<em>paddle.v2.config_base.Layer|list|tuple|collections.Sequence</em>) &#8211; The input layers. It could be a paddle.v2.config_base.Layer of list/tuple of paddle.v2.config_base.Layer.</li>
 <li><strong>label</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; label layer</li>
 <li><strong>weight</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; weight layer, can be None(default)</li>
 <li><strong>num_classes</strong> (<em>int</em>) &#8211; number of classes.</li>
@@ -3809,7 +3840,10 @@ A fast and simple algorithm for training neural probabilistic language models.</
 <li><strong>neg_distribution</strong> (<em>list|tuple|collections.Sequence|None</em>) &#8211; The distribution for generating the random negative labels.
 A uniform distribution will be used if not provided.
 If not None, its length must be equal to num_classes.</li>
-<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute|None|False</em>) &#8211; Bias parameter attribute. True if no bias.</li>
+<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute|None|Bool|Any</em>) &#8211; The Bias Attribute. If the parameter is set to
+False or something not type of paddle.v2.attr.ParameterAttribute,
+no bias is defined. If the parameter is set to
+True, the bias is initialized to zero.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; Extra Layer Attribute.</li>
 </ul>
 </td>
@@ -3848,9 +3882,11 @@ Hierarchical Probabilistic Neural Network Language Model.&#8221;</p>
 paddle.v2.config_base.Layer.</li>
 <li><strong>label</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Label layer.</li>
 <li><strong>num_classes</strong> (<em>int|None</em>) &#8211; number of classes.</li>
-<li><strong>name</strong> (<em>basestring</em>) &#8211; layer name</li>
-<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute|False</em>) &#8211; Bias attribute. None means default bias.
-False means no bias.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
+<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute|None|Bool|Any</em>) &#8211; The Bias Attribute. If the parameter is set to
+False or something not type of paddle.v2.attr.ParameterAttribute,
+no bias is defined. If the parameter is set to
+True, the bias is initialized to zero.</li>
 <li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute|None</em>) &#8211; Parameter Attribute. None means default parameter.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; Extra Layer Attribute.</li>
 </ul>
@@ -3892,7 +3928,7 @@ size of input and label are equal. The formula is as follows,</p>
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input layer.</li>
 <li><strong>label</strong> &#8211; The input label.</li>
-<li><strong>name</strong> (<em>None|basestring</em>) &#8211; The name of this layers. It is not necessary.</li>
+<li><strong>name</strong> (<em>None|basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>coeff</strong> (<em>float</em>) &#8211; The coefficient affects the gradient in the backward.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; Extra Layer Attribute.</li>
 </ul>
@@ -3920,7 +3956,7 @@ size of input and label are equal. The formula is as follows,</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<em>basestring</em>) &#8211; The Layer Name.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>input_loc</strong> (<em>paddle.v2.config_base.Layer | List of paddle.v2.config_base.Layer</em>) &#8211; The input predict locations.</li>
 <li><strong>input_conf</strong> (<em>paddle.v2.config_base.Layer | List of paddle.v2.config_base.Layer</em>) &#8211; The input priorbox confidence.</li>
 <li><strong>priorbox</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input priorbox location and the variance.</li>
@@ -3962,7 +3998,7 @@ It is used by recurrent layer group.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<em>basestring</em>) &#8211; Layer name.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Input layer name.</li>
 <li><strong>eos_id</strong> (<em>int</em>) &#8211; end id of sequence</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; extra layer attributes.</li>
@@ -3988,19 +4024,25 @@ It is used by recurrent layer group.</p>
 <dl class="class">
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">dropout</code></dt>
-<dd><p>&#64;TODO(yuyang18): Add comments.</p>
+<dd><p>The example usage is:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">dropout</span> <span class="o">=</span> <span class="n">dropout</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="nb">input</span><span class="p">,</span> <span class="n">dropout_rate</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+</pre></div>
+</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> &#8211; </li>
-<li><strong>input</strong> &#8211; </li>
-<li><strong>dropout_rate</strong> &#8211; </li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
+<li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input layer.</li>
+<li><strong>dropout_rate</strong> (<em>float</em>) &#8211; The probability of dropout.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first last"></p>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">paddle.v2.config_base.Layer object.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">paddle.v2.config_base.Layer</p>
 </td>
 </tr>
 </tbody>
@@ -4034,7 +4076,7 @@ a_i * z_i  &amp;\quad \mathrm{otherwise}\end{split}\]</div>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<em>basestring</em>) &#8211; Name of this layer.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input layer.</li>
 <li><strong>partial_sum</strong> (<em>int</em>) &#8211; <p>this parameter makes a group of inputs share a same weight.</p>
 <ul>
@@ -4067,7 +4109,7 @@ a_i * z_i  &amp;\quad \mathrm{otherwise}\end{split}\]</div>
 <dd><p>The gated unit layer implements a simple gating mechanism over the input.
 The input <span class="math">\(X\)</span> is first projected into a new space <span class="math">\(X'\)</span>, and
 it is also used to produce a gate weight <span class="math">\(\sigma\)</span>. Element-wise
-prodict between <a href="#id12"><span class="problematic" id="id13">:match:`X&#8217;`</span></a> and <span class="math">\(\sigma\)</span> is finally returned.</p>
+product between <a href="#id11"><span class="problematic" id="id12">:match:`X&#8217;`</span></a> and <span class="math">\(\sigma\)</span> is finally returned.</p>
 <dl class="docutils">
 <dt>Reference:</dt>
 <dd>Language Modeling with Gated Convolutional Networks
@@ -4084,7 +4126,7 @@ prodict between <a href="#id12"><span class="problematic" id="id13">:match:`X&#8
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; input for this layer.</li>
 <li><strong>size</strong> (<em>int</em>) &#8211; output size of the gated unit.</li>
 <li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; activation type of the projected input.</li>
-<li><strong>name</strong> (<em>basestring</em>) &#8211; name of this layer.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>gate_attr</strong> (<em>paddle.v2.attr.ExtraAttributeNone</em>) &#8211; Attributes to tune the gate output, for example, error
 clipping threshold, dropout and so on. See paddle.v2.attr.ExtraAttribute for
 more details.</li>
@@ -4131,7 +4173,7 @@ no valid bounding box.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<em>basestring</em>) &#8211; The Layer Name.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>input_loc</strong> (<em>paddle.v2.config_base.Layer | List of paddle.v2.config_base.Layer.</em>) &#8211; The input predict locations.</li>
 <li><strong>input_conf</strong> (<em>paddle.v2.config_base.Layer | List of paddle.v2.config_base.Layer.</em>) &#8211; The input priorbox confidence.</li>
 <li><strong>priorbox</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input priorbox location and the variance.</li>
