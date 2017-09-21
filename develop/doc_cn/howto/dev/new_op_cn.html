@@ -233,9 +233,9 @@ Kernel实现       | CPU、GPU共享Kernel实现在<code class="docutils literal
  <span class="k">public</span><span class="o">:</span>
   <span class="n">MulOpMaker</span><span class="p">(</span><span class="n">framework</span><span class="o">::</span><span class="n">OpProto</span> <span class="o">*</span><span class="n">proto</span><span class="p">,</span> <span class="n">framework</span><span class="o">::</span><span class="n">OpAttrChecker</span> <span class="o">*</span><span class="n">op_checker</span><span class="p">)</span>
       <span class="o">:</span> <span class="n">OpProtoAndCheckerMaker</span><span class="p">(</span><span class="n">proto</span><span class="p">,</span> <span class="n">op_checker</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">AddInput</span><span class="p">(</span><span class="s">&quot;X&quot;</span><span class="p">,</span> <span class="s">&quot;The first input of mul op&quot;</span><span class="p">);</span>
-    <span class="n">AddInput</span><span class="p">(</span><span class="s">&quot;Y&quot;</span><span class="p">,</span> <span class="s">&quot;The second input of mul op&quot;</span><span class="p">);</span>
-    <span class="n">AddOutput</span><span class="p">(</span><span class="s">&quot;Out&quot;</span><span class="p">,</span> <span class="s">&quot;The output of mul op&quot;</span><span class="p">);</span>
+    <span class="n">AddInput</span><span class="p">(</span><span class="s">&quot;X&quot;</span><span class="p">,</span> <span class="s">&quot;(Tensor), 2D tensor of size (M x K)&quot;</span><span class="p">);</span>
+    <span class="n">AddInput</span><span class="p">(</span><span class="s">&quot;Y&quot;</span><span class="p">,</span> <span class="s">&quot;(Tensor), 2D tensor of size (K x N)&quot;</span><span class="p">);</span>
+    <span class="n">AddOutput</span><span class="p">(</span><span class="s">&quot;Out&quot;</span><span class="p">,</span> <span class="s">&quot;(Tensor), 2D tensor of size (M x N)&quot;</span><span class="p">);</span>
     <span class="n">AddComment</span><span class="p">(</span><span class="sa">R</span><span class="s">&quot;</span><span class="dl">DOC(</span><span class="s"></span>
 <span class="s">Two Element Mul Operator.</span>
 <span class="s">The equation is: Out = X * Y</span>
@@ -250,7 +250,7 @@ Kernel实现       | CPU、GPU共享Kernel实现在<code class="docutils literal
 <li><code class="docutils literal"><span class="pre">framework::OpAttrChecker</span></code> ：后者用于检查参数属性的合法性。</li>
 </ul>
 <p>构造函数里通过<code class="docutils literal"><span class="pre">AddInput</span></code>添加输入参数，通过<code class="docutils literal"><span class="pre">AddOutput</span></code>添加输出参数，通过<code class="docutils literal"><span class="pre">AddComment</span></code>添加Op的注释。这些函数会将对应内容添加到<code class="docutils literal"><span class="pre">OpProto</span></code>中。</p>
-<p>上面的代码在<code class="docutils literal"><span class="pre">MulOp</span></code>中添加两个输入<code class="docutils literal"><span class="pre">X</span></code>和<code class="docutils literal"><span class="pre">Y</span></code>，添加了一个输出<code class="docutils literal"><span class="pre">Out</span></code>，并解释了各自含义，命名请遵守命名规范。</p>
+<p>上面的代码在<code class="docutils literal"><span class="pre">MulOp</span></code>中添加两个输入<code class="docutils literal"><span class="pre">X</span></code>和<code class="docutils literal"><span class="pre">Y</span></code>，添加了一个输出<code class="docutils literal"><span class="pre">Out</span></code>，并解释了各自含义，命名请遵守<a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/operators/name_convention.md">命名规范</a>。</p>
 <p>再以<a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/operators/scale_op.cc#L37"><code class="docutils literal"><span class="pre">ScaleOp</span></code></a>为例：</p>
 <div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">AttrType</span><span class="o">&gt;</span>
 <span class="k">class</span> <span class="nc">ScaleOpMaker</span> <span class="o">:</span> <span class="k">public</span> <span class="n">framework</span><span class="o">::</span><span class="n">OpProtoAndCheckerMaker</span> <span class="p">{</span>
