@@ -1,0 +1,451 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>How to write a new operator &mdash; PaddlePaddle  documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="PaddlePaddle  documentation" href="../../index.html"/> 
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/css/perfect-scrollbar.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/override.css" type="text/css" />
+  <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?b9a314ab40d04d805655aab1deee08ba";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
+
+  
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  
+  <header class="site-header">
+    <div class="site-logo">
+      <a href="/"><img src="../../_static/images/PP_w.png"></a>
+    </div>
+    <div class="site-nav-links">
+      <div class="site-menu">
+        <a class="fork-on-github" href="https://github.com/PaddlePaddle/Paddle" target="_blank"><i class="fa fa-github"></i>Fork me on Github</a>
+        <div class="language-switcher dropdown">
+          <a type="button" data-toggle="dropdown">
+            <span>English</span>
+            <i class="fa fa-angle-up"></i>
+            <i class="fa fa-angle-down"></i>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="/doc_cn">中文</a></li>
+            <li><a href="/doc">English</a></li>
+          </ul>
+        </div>
+        <ul class="site-page-links">
+          <li><a href="/">Home</a></li>
+        </ul>
+      </div>
+      <div class="doc-module">
+        
+        <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getstarted/index_en.html">GET STARTED</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index_en.html">HOW TO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index_en.html">API</a></li>
+</ul>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>        
+      </div>
+    </div>
+  </header>
+  
+  <div class="main-content-wrap">
+
+    
+    <nav class="doc-menu-vertical" role="navigation">
+        
+          
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getstarted/index_en.html">GET STARTED</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getstarted/build_and_install/index_en.html">Install and Build</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../getstarted/build_and_install/docker_install_en.html">PaddlePaddle in Docker Containers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../getstarted/build_and_install/build_from_source_en.html">Installing from Sources</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../index_en.html">HOW TO</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../usage/cmd_parameter/index_en.html">Set Command-line Parameters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../usage/cmd_parameter/use_case_en.html">Use Case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../usage/cmd_parameter/arguments_en.html">Argument Outline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../usage/cmd_parameter/detail_introduction_en.html">Detail Description</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/cluster/cluster_train_en.html">Run Distributed Training</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/k8s/k8s_en.html">Paddle On Kubernetes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/k8s/k8s_aws_en.html">Distributed PaddlePaddle Training on AWS with Kubernetes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build_en.html">Build PaddlePaddle from Source Code and Run Unit Test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="new_layer_en.html">Write New Layers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contribute_to_paddle_en.html">Contribute Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deep_model/rnn/index_en.html">RNN Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../deep_model/rnn/rnn_config_en.html">RNN Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../optimization/gpu_profiling_en.html">Tune GPU Performance</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index_en.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/v2/model_configs.html">Model Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/activation.html">Activation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/layer.html">Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/evaluators.html">Evaluators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/optimizer.html">Optimizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/pooling.html">Pooling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/networks.html">Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/attr.html">Parameter Attribute</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/v2/data.html">Data Reader Interface and DataSets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/v2/run_logic.html">Training and Inference</a></li>
+</ul>
+</li>
+</ul>
+
+        
+    </nav>
+    
+    <section class="doc-content-wrap">
+
+      
+
+ 
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+      
+    <li>How to write a new operator</li>
+  </ul>
+</div>
+      
+      <div class="wy-nav-content" id="doc-content">
+        <div class="rst-content">
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="how-to-write-a-new-operator">
+<span id="how-to-write-a-new-operator"></span><h1>How to write a new operator<a class="headerlink" href="#how-to-write-a-new-operator" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference external" href="#Background">Background</a></li>
+<li><a class="reference external" href="#Implementing_C++_Types">Implementing C++ Types</a><ul>
+<li><a class="reference external" href="#Defining_ProtoMaker">Defining ProtoMaker</a></li>
+<li><a class="reference external" href="#Defining_Operator">Defining Operator</a></li>
+<li><a class="reference external" href="#Registering_Operator">Registering Operator</a></li>
+<li><a class="reference external" href="#Compilation">Compilation</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#Python_Binding">Python Binding</a></li>
+<li><a class="reference external" href="#Unit_Tests">Unit Tests</a></li>
+</ul>
+<div class="section" id="background">
+<span id="background"></span><h2>Background<a class="headerlink" href="#background" title="Permalink to this headline">¶</a></h2>
+<p>Here are the base types needed. For details, please refer to the design docs.</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">framework::OperatorBase</span></code>: Operator (Op)base class.</li>
+<li><code class="docutils literal"><span class="pre">framework::OpKernel</span></code>: Base class for Op computation.</li>
+<li><code class="docutils literal"><span class="pre">framework::OperatorWithKernel</span></code>: Inherited from OperatorBase, describing an operator with computation.</li>
+<li><code class="docutils literal"><span class="pre">class</span> <span class="pre">OpProtoAndCheckerMaker</span></code>: Describes an Operator&#8217;s input, output, attributes and description, mainly used to interface with Python API.</li>
+</ul>
+<p>An operator can be differentiated by whether in has kernel methods. An operator with kernel inherits from <code class="docutils literal"><span class="pre">OperatorWithKernel</span></code> while the ones without inherit from <code class="docutils literal"><span class="pre">OperatorBase</span></code>. This tutorial focuses on implementing operators with kernels. In short, an operator includes the following information:</p>
+<p>Information           | Where is it defined
+&#8212;&#8212;&#8212;&#8212;&#8211;  | :&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;-
+OpProtoMake definition  | <code class="docutils literal"><span class="pre">.cc</span></code>files, Backward Op does not need an OpProtoMake interface.
+Op definition           | <code class="docutils literal"><span class="pre">.cc</span></code> files
+Kernel implementation       | The kernel methods shared between CPU and GPU are defined in <code class="docutils literal"><span class="pre">.h</span></code> files. CPU-specific kernels live in <code class="docutils literal"><span class="pre">.cc</span></code> files, while GPU-specific kernels are implemented in <code class="docutils literal"><span class="pre">.cu</span></code>files.
+Registering the Op           | Ops are registered in <code class="docutils literal"><span class="pre">.cc</span></code> files; For Kernel registration, <code class="docutils literal"><span class="pre">.cc</span></code> files contain the CPU implementation, while <code class="docutils literal"><span class="pre">.cu</span></code> files contain the GPU implementation.</p>
+<p>New Operator implementations are added to the list <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/tree/develop/paddle/operators">paddle/operators</a>, with file names in the format <code class="docutils literal"><span class="pre">*_op.h</span></code> (if applicable), <code class="docutils literal"><span class="pre">*_op.cc</span></code>, <code class="docutils literal"><span class="pre">*_op.cu</span></code> (if applicable).** The system will use the naming scheme to automatically build operators and their corresponding Python extensions. **</p>
+<p>Let&#8217;s take matrix multiplication operator, <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/operators/mul_op.cc">MulOp</a>, as an example to introduce the writing of an Operator with Kernel.</p>
+</div>
+<div class="section" id="implementing-c-types">
+<span id="implementing-c-types"></span><h2>Implementing C++ Types<a class="headerlink" href="#implementing-c-types" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="defining-class-protomaker">
+<span id="defining-class-protomaker"></span><h3>1. Defining Class ProtoMaker<a class="headerlink" href="#defining-class-protomaker" title="Permalink to this headline">¶</a></h3>
+<p>Matrix Multiplication can be written as $Out = X * Y$, meaning that the operation consists of two inputs and pne output.</p>
+<p>First, define <code class="docutils literal"><span class="pre">ProtoMaker</span></code> to describe the Operator&#8217;s input, output, and additional comments:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MulOpMaker</span> <span class="o">:</span> <span class="k">public</span> <span class="n">framework</span><span class="o">::</span><span class="n">OpProtoAndCheckerMaker</span> <span class="p">{</span>
+ <span class="k">public</span><span class="o">:</span>
+  <span class="n">MulOpMaker</span><span class="p">(</span><span class="n">framework</span><span class="o">::</span><span class="n">OpProto</span> <span class="o">*</span><span class="n">proto</span><span class="p">,</span> <span class="n">framework</span><span class="o">::</span><span class="n">OpAttrChecker</span> <span class="o">*</span><span class="n">op_checker</span><span class="p">)</span>
+      <span class="o">:</span> <span class="n">OpProtoAndCheckerMaker</span><span class="p">(</span><span class="n">proto</span><span class="p">,</span> <span class="n">op_checker</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">AddInput</span><span class="p">(</span><span class="s">&quot;X&quot;</span><span class="p">,</span> <span class="s">&quot;(Tensor), 2D tensor of size (M x K)&quot;</span><span class="p">);</span>
+    <span class="n">AddInput</span><span class="p">(</span><span class="s">&quot;Y&quot;</span><span class="p">,</span> <span class="s">&quot;(Tensor), 2D tensor of size (K x N)&quot;</span><span class="p">);</span>
+    <span class="n">AddOutput</span><span class="p">(</span><span class="s">&quot;Out&quot;</span><span class="p">,</span> <span class="s">&quot;(Tensor), 2D tensor of size (M x N)&quot;</span><span class="p">);</span>
+    <span class="n">AddComment</span><span class="p">(</span><span class="sa">R</span><span class="s">&quot;</span><span class="dl">DOC(</span><span class="s"></span>
+<span class="s">Two Element Mul Operator.</span>
+<span class="s">The equation is: Out = X * Y</span>
+<span class="dl">)DOC</span><span class="s">&quot;</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p><a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/operators/mul_op.cc#L43"><code class="docutils literal"><span class="pre">MulOpMaker</span></code></a>is inherited from<code class="docutils literal"><span class="pre">framework::OpProtoAndCheckerMaker</span></code>, consisting of 2 variables in the constructor：</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">framework::OpProto</span></code> stores Operator input and variable attribute, used for generating Python API interfaces.</li>
+<li><code class="docutils literal"><span class="pre">framework::OpAttrChecker</span></code> is used to validate variable attributes.</li>
+</ul>
+<p>The constructor utilizes <code class="docutils literal"><span class="pre">AddInput</span></code>, <code class="docutils literal"><span class="pre">AddOutput</span></code>, and <code class="docutils literal"><span class="pre">AddComment</span></code>, so that the corresponding information will be added to <code class="docutils literal"><span class="pre">OpProto</span></code>.</p>
+<p>The code above adds two inputs <code class="docutils literal"><span class="pre">X</span></code> and <code class="docutils literal"><span class="pre">Y</span></code> to <code class="docutils literal"><span class="pre">MulOp</span></code>, an output <code class="docutils literal"><span class="pre">Out</span></code>, and their corresponding descriptions, in accordance to Paddle&#8217;s <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/operators/name_convention.md">naming convention</a>.</p>
+<p>An additional example <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/operators/scale_op.cc#L37"><code class="docutils literal"><span class="pre">ScaleOp</span></code></a> is implemented as follows:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">AttrType</span><span class="o">&gt;</span>
+<span class="k">class</span> <span class="nc">ScaleOpMaker</span> <span class="o">:</span> <span class="k">public</span> <span class="n">framework</span><span class="o">::</span><span class="n">OpProtoAndCheckerMaker</span> <span class="p">{</span>
+ <span class="k">public</span><span class="o">:</span>
+  <span class="n">ScaleOpMaker</span><span class="p">(</span><span class="n">framework</span><span class="o">::</span><span class="n">OpProto</span> <span class="o">*</span><span class="n">proto</span><span class="p">,</span> <span class="n">framework</span><span class="o">::</span><span class="n">OpAttrChecker</span> <span class="o">*</span><span class="n">op_checker</span><span class="p">)</span>
+      <span class="o">:</span> <span class="n">OpProtoAndCheckerMaker</span><span class="p">(</span><span class="n">proto</span><span class="p">,</span> <span class="n">op_checker</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">AddInput</span><span class="p">(</span><span class="s">&quot;X&quot;</span><span class="p">,</span> <span class="s">&quot;The input tensor of scale operator.&quot;</span><span class="p">).</span><span class="n">NotInGradient</span><span class="p">();</span>
+    <span class="n">AddOutput</span><span class="p">(</span><span class="s">&quot;Out&quot;</span><span class="p">,</span> <span class="s">&quot;The output tensor of scale operator.&quot;</span><span class="p">).</span><span class="n">NotInGradient</span><span class="p">();</span>
+    <span class="n">AddComment</span><span class="p">(</span><span class="sa">R</span><span class="s">&quot;</span><span class="dl">DOC(</span><span class="s">Scale operator</span>
+<span class="s">The equation is: Out = scale*X</span>
+<span class="dl">)DOC</span><span class="s">&quot;</span><span class="p">);</span>
+    <span class="n">AddAttr</span><span class="o">&lt;</span><span class="n">AttrType</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;scale&quot;</span><span class="p">,</span> <span class="s">&quot;scale of scale operator.&quot;</span><span class="p">).</span><span class="n">SetDefault</span><span class="p">(</span><span class="mf">1.0</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>There are two changes in this example:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">AddInput(&quot;X&quot;,&quot;...&quot;).NotInGradient()</span></code> expresses that input <code class="docutils literal"><span class="pre">X</span></code> is not involved in <code class="docutils literal"><span class="pre">ScaleOp</span></code>&#8216;s corresponding computation. If an input to an operator is not participating in back-propagation, please explicitly set <code class="docutils literal"><span class="pre">.NotInGradient()</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">AddAttr&lt;AttrType&gt;(&quot;scale&quot;,</span> <span class="pre">&quot;...&quot;).SetDefault(1.0);</span></code>  adds <code class="docutils literal"><span class="pre">scale</span></code>constant as an attribute, and sets the default value to 1.0.</li>
+</ul>
+</div>
+<div class="section" id="defining-operator">
+<span id="defining-operator"></span><h3>2. Defining Operator<a class="headerlink" href="#defining-operator" title="Permalink to this headline">¶</a></h3>
+<p>The following code defines the interface for MulOp:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MulOp</span> <span class="o">:</span> <span class="k">public</span> <span class="n">framework</span><span class="o">::</span><span class="n">OperatorWithKernel</span> <span class="p">{</span>
+ <span class="k">public</span><span class="o">:</span>
+  <span class="k">using</span> <span class="n">framework</span><span class="o">::</span><span class="n">OperatorWithKernel</span><span class="o">::</span><span class="n">OperatorWithKernel</span><span class="p">;</span>
+
+ <span class="k">protected</span><span class="o">:</span>
+  <span class="kt">void</span> <span class="n">InferShape</span><span class="p">(</span><span class="k">const</span> <span class="n">framework</span><span class="o">::</span><span class="n">InferShapeContext</span> <span class="o">&amp;</span><span class="n">ctx</span><span class="p">)</span> <span class="k">const</span> <span class="k">override</span> <span class="p">{</span>
+    <span class="k">auto</span> <span class="n">dim0</span> <span class="o">=</span> <span class="n">ctx</span><span class="p">.</span><span class="n">Input</span><span class="o">&lt;</span><span class="n">Tensor</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;X&quot;</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">dims</span><span class="p">();</span>
+    <span class="k">auto</span> <span class="n">dim1</span> <span class="o">=</span> <span class="n">ctx</span><span class="p">.</span><span class="n">Input</span><span class="o">&lt;</span><span class="n">Tensor</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;Y&quot;</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">dims</span><span class="p">();</span>
+    <span class="n">PADDLE_ENFORCE_EQ</span><span class="p">(</span><span class="n">dim0</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="mi">2</span><span class="p">,</span>
+                      <span class="s">&quot;input X(%s) should be a tensor with 2 dims, a matrix&quot;</span><span class="p">,</span>
+                      <span class="n">ctx</span><span class="p">.</span><span class="n">op_</span><span class="p">.</span><span class="n">Input</span><span class="p">(</span><span class="s">&quot;X&quot;</span><span class="p">));</span>
+    <span class="n">PADDLE_ENFORCE_EQ</span><span class="p">(</span><span class="n">dim1</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="mi">2</span><span class="p">,</span>
+                      <span class="s">&quot;input Y(%s) should be a tensor with 2 dims, a matrix&quot;</span><span class="p">,</span>
+                      <span class="n">ctx</span><span class="p">.</span><span class="n">op_</span><span class="p">.</span><span class="n">Input</span><span class="p">(</span><span class="s">&quot;Y&quot;</span><span class="p">));</span>
+    <span class="n">PADDLE_ENFORCE_EQ</span><span class="p">(</span>
+        <span class="n">dim0</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dim1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="s">&quot;First matrix&#39;s width must be equal with second matrix&#39;s height.&quot;</span><span class="p">);</span>
+    <span class="n">ctx</span><span class="p">.</span><span class="n">Output</span><span class="o">&lt;</span><span class="n">Tensor</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;Out&quot;</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">Resize</span><span class="p">({</span><span class="n">dim0</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dim1</span><span class="p">[</span><span class="mi">1</span><span class="p">]});</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p><a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/operators/mul_op.cc#L22"><code class="docutils literal"><span class="pre">MulOp</span></code></a> is inherited from <code class="docutils literal"><span class="pre">OperatorWithKernel</span></code>. Its <code class="docutils literal"><span class="pre">public</span></code> member</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">framework</span><span class="o">::</span><span class="n">OperatorWithKernel</span><span class="o">::</span><span class="n">OperatorWithKernel</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>expresses an operator constructor using base class <code class="docutils literal"><span class="pre">OperatorWithKernel</span></code>, alternatively written as</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="n">MulOp</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">type</span><span class="p">,</span> <span class="k">const</span> <span class="n">framework</span><span class="o">::</span><span class="n">VariableNameMap</span> <span class="o">&amp;</span><span class="n">inputs</span><span class="p">,</span>
+      <span class="k">const</span> <span class="n">framework</span><span class="o">::</span><span class="n">VariableNameMap</span> <span class="o">&amp;</span><span class="n">outputs</span><span class="p">,</span>
+      <span class="k">const</span> <span class="n">framework</span><span class="o">::</span><span class="n">AttributeMap</span> <span class="o">&amp;</span><span class="n">attrs</span><span class="p">)</span>
+  <span class="o">:</span> <span class="n">OperatorWithKernel</span><span class="p">(</span><span class="n">type</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">attrs</span><span class="p">)</span> <span class="p">{}</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">InferShape</span></code> interface needs to be re-written.<code class="docutils literal"><span class="pre">InferShape</span></code> is a constant method and cannot modify Op&#8217;s member variables, its constant member <code class="docutils literal"><span class="pre">const</span> <span class="pre">framework::InferShapeContext</span> <span class="pre">&amp;ctx</span></code> can be used to extract input, output, and attributes. It functions to</p>
+<ul class="simple">
+<li>1). validate and error out early: it checks input data dimensions and types.</li>
+<li>2). configures the tensor shape in the output.</li>
+</ul>
+<p>Usually <code class="docutils literal"><span class="pre">OpProtoMaker</span></code> and <code class="docutils literal"><span class="pre">Op</span></code>&#8216;s type definitions are written in <code class="docutils literal"><span class="pre">.cc</span></code> files, which also include the registration methods introduced later.</p>
+</div>
+<div class="section" id="defining-opkernel">
+<span id="defining-opkernel"></span><h3>3. Defining OpKernel<a class="headerlink" href="#defining-opkernel" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">MulKernel</span></code> inherits <code class="docutils literal"><span class="pre">framework::OpKernel</span></code>, which includes the following templates:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">typename</span> <span class="pre">Place</span></code> denotes device type. When different devices, namely the CPU and the GPU, share the same kernel, this template needs to be added. If they don&#8217;t share kernels, this must not be added. An example of a non-sharing kernel is <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/operators/cross_entropy_op.h#L43"><code class="docutils literal"><span class="pre">OnehotCrossEntropyOpKernel</span></code></a>.</li>
+<li><code class="docutils literal"><span class="pre">typename</span> <span class="pre">T</span></code> denotes data type, such as <code class="docutils literal"><span class="pre">float</span></code> or <code class="docutils literal"><span class="pre">double</span></code>.</li>
+</ul>
+<p><code class="docutils literal"><span class="pre">MulKernel</span></code> types need to rewrite the interface for <code class="docutils literal"><span class="pre">Compute</span></code>.</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">Compute</span></code> takes one input variable <code class="docutils literal"><span class="pre">const</span> <span class="pre">framework::ExecutionContext&amp;</span> <span class="pre">context</span></code>.</li>
+<li>Compared with <code class="docutils literal"><span class="pre">InferShapeContext</span></code>, <code class="docutils literal"><span class="pre">ExecutionContext</span></code> includes device types, and can similarly extract input, output, and attribute variables.</li>
+<li><code class="docutils literal"><span class="pre">Compute</span></code> implements the computation logics of an <code class="docutils literal"><span class="pre">OpKernel</span></code>.</li>
+</ul>
+<p><code class="docutils literal"><span class="pre">MulKernel</span></code>&#8216;s implementation of <code class="docutils literal"><span class="pre">Compute</span></code> is as follows:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">Place</span><span class="p">,</span> <span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+<span class="k">class</span> <span class="nc">MulKernel</span> <span class="o">:</span> <span class="k">public</span> <span class="n">framework</span><span class="o">::</span><span class="n">OpKernel</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+<span class="kt">void</span> <span class="n">Compute</span><span class="p">(</span><span class="k">const</span> <span class="n">framework</span><span class="o">::</span><span class="n">ExecutionContext</span><span class="o">&amp;</span> <span class="n">context</span><span class="p">)</span> <span class="k">const</span> <span class="k">override</span> <span class="p">{</span>
+  <span class="k">auto</span><span class="o">*</span> <span class="n">X</span> <span class="o">=</span> <span class="n">context</span><span class="p">.</span><span class="n">Input</span><span class="o">&lt;</span><span class="n">Tensor</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;X&quot;</span><span class="p">);</span>
+  <span class="k">auto</span><span class="o">*</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">context</span><span class="p">.</span><span class="n">Input</span><span class="o">&lt;</span><span class="n">Tensor</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;Y&quot;</span><span class="p">);</span>
+  <span class="k">auto</span><span class="o">*</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">context</span><span class="p">.</span><span class="n">Output</span><span class="o">&lt;</span><span class="n">Tensor</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;Out&quot;</span><span class="p">);</span>
+  <span class="n">Z</span><span class="o">-&gt;</span><span class="n">mutable_data</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">context</span><span class="p">.</span><span class="n">GetPlace</span><span class="p">());</span>
+  <span class="k">auto</span><span class="o">*</span> <span class="n">device_context</span> <span class="o">=</span>
+      <span class="k">const_cast</span><span class="o">&lt;</span><span class="n">platform</span><span class="o">::</span><span class="n">DeviceContext</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">context</span><span class="p">.</span><span class="n">device_context_</span><span class="p">);</span>
+  <span class="n">math</span><span class="o">::</span><span class="n">matmul</span><span class="o">&lt;</span><span class="n">Place</span><span class="p">,</span> <span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="o">*</span><span class="n">X</span><span class="p">,</span> <span class="nb">false</span><span class="p">,</span> <span class="o">*</span><span class="n">Y</span><span class="p">,</span> <span class="nb">false</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">device_context</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>Note that <strong>different devices (CPU, GPU)share an Op definition; whether or not they share the same <code class="docutils literal"><span class="pre">OpKernel</span></code> depends on whether <code class="docutils literal"><span class="pre">Compute</span></code> calls functions that support both devices.</strong></p>
+<p><code class="docutils literal"><span class="pre">MulOp</span></code>&#8216;s CPU and GPU share the same <code class="docutils literal"><span class="pre">Kernel</span></code>. A non-sharing  <code class="docutils literal"><span class="pre">OpKernel</span></code> example can be seen in <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/operators/cross_entropy_op.h#L43"><code class="docutils literal"><span class="pre">OnehotCrossEntropyOpKernel</span></code></a>.</p>
+<p>To ease the writing of <code class="docutils literal"><span class="pre">OpKernel</span></code> compute, and for reusing code cross-device, <code class="docutils literal"><span class="pre">Eigen</span> <span class="pre">unsupported</span> <span class="pre">Tensor</span></code> module is used to implement <code class="docutils literal"><span class="pre">Compute</span></code> interface. To learn about how the Eigen library is used in PaddlePaddle, please see <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/doc/howto/dev/use_eigen_cn.md">usage document</a>.</p>
+<p>This concludes the forward implementation of an operator. Next its operation and kernel need to be registered in a <code class="docutils literal"><span class="pre">.cc</span></code> file.</p>
+<p>The definition of its corresponding backward operator, if applicable, is similar to that of an forward operator. <strong>Note that a backward operator does not include a <code class="docutils literal"><span class="pre">ProtoMaker</span></code></strong>.</p>
+</div>
+<div class="section" id="registering-operator">
+<span id="registering-operator"></span><h3>4. Registering Operator<a class="headerlink" href="#registering-operator" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first">In <code class="docutils literal"><span class="pre">.cc</span></code> files, register forward and backward operator classes and the CPU kernel.</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="k">namespace</span> <span class="n">ops</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">::</span><span class="n">operators</span><span class="p">;</span>
+<span class="n">REGISTER_OP</span><span class="p">(</span><span class="n">mul</span><span class="p">,</span> <span class="n">ops</span><span class="o">::</span><span class="n">MulOp</span><span class="p">,</span> <span class="n">ops</span><span class="o">::</span><span class="n">MulOpMaker</span><span class="p">,</span> <span class="n">mul_grad</span><span class="p">,</span> <span class="n">ops</span><span class="o">::</span><span class="n">MulOpGrad</span><span class="p">);</span>
+<span class="n">REGISTER_OP_CPU_KERNEL</span><span class="p">(</span><span class="n">mul</span><span class="p">,</span> <span class="n">ops</span><span class="o">::</span><span class="n">MulKernel</span><span class="o">&lt;</span><span class="n">paddle</span><span class="o">::</span><span class="n">platform</span><span class="o">::</span><span class="n">CPUPlace</span><span class="p">,</span> <span class="kt">float</span><span class="o">&gt;</span><span class="p">);</span>
+<span class="n">REGISTER_OP_CPU_KERNEL</span><span class="p">(</span><span class="n">mul_grad</span><span class="p">,</span>
+              <span class="n">ops</span><span class="o">::</span><span class="n">MulGradKernel</span><span class="o">&lt;</span><span class="n">paddle</span><span class="o">::</span><span class="n">platform</span><span class="o">::</span><span class="n">CPUPlace</span><span class="p">,</span> <span class="kt">float</span><span class="o">&gt;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>In that code block,</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">REGISTER_OP</span></code> registers the <code class="docutils literal"><span class="pre">ops::MulOp</span></code> class, type named <code class="docutils literal"><span class="pre">mul</span></code>, its type <code class="docutils literal"><span class="pre">ProtoMaker</span></code> is <code class="docutils literal"><span class="pre">ops::MulOpMaker</span></code>, registering <code class="docutils literal"><span class="pre">ops::MulOpGrad</span></code> as <code class="docutils literal"><span class="pre">mul_grad</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">REGISTER_OP_WITHOUT_GRADIENT</span></code> registers an operator without gradient.</li>
+<li><code class="docutils literal"><span class="pre">REGISTER_OP_CPU_KERNEL</span></code> registers <code class="docutils literal"><span class="pre">ops::MulKernel</span></code> class and specialized template types <code class="docutils literal"><span class="pre">paddle::platform::CPUPlace</span></code> and <code class="docutils literal"><span class="pre">float</span></code>, which also registers <code class="docutils literal"><span class="pre">ops::MulKernel</span></code>.</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p class="first">Registering GPU Kernel in <code class="docutils literal"><span class="pre">.cu</span></code> files</p>
+<ul class="simple">
+<li>Note that if GPU Kernel is implemented using the <code class="docutils literal"><span class="pre">Eigen</span> <span class="pre">unsupported</span></code> module, then on top of <code class="docutils literal"><span class="pre">.cu</span></code>, a macro definition <code class="docutils literal"><span class="pre">#define</span> <span class="pre">EIGEN_USE_GPU</span></code> is needed, such as</li>
+</ul>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="c1">// if use Eigen unsupported module before include head files</span>
+<span class="cp">#define EIGEN_USE_GPU</span>
+
+<span class="k">namespace</span> <span class="n">ops</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">::</span><span class="n">operators</span><span class="p">;</span>
+<span class="n">REGISTER_OP_GPU_KERNEL</span><span class="p">(</span><span class="n">mul</span><span class="p">,</span> <span class="n">ops</span><span class="o">::</span><span class="n">MulKernel</span><span class="o">&lt;</span><span class="n">paddle</span><span class="o">::</span><span class="n">platform</span><span class="o">::</span><span class="n">GPUPlace</span><span class="p">,</span> <span class="kt">float</span><span class="o">&gt;</span><span class="p">);</span>
+<span class="n">REGISTER_OP_GPU_KERNEL</span><span class="p">(</span><span class="n">mul_grad</span><span class="p">,</span>
+                       <span class="n">ops</span><span class="o">::</span><span class="n">MulGradKernel</span><span class="o">&lt;</span><span class="n">paddle</span><span class="o">::</span><span class="n">platform</span><span class="o">::</span><span class="n">GPUPlace</span><span class="p">,</span> <span class="kt">float</span><span class="o">&gt;</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="compilation">
+<span id="compilation"></span><h3>5. Compilation<a class="headerlink" href="#compilation" title="Permalink to this headline">¶</a></h3>
+<p>Run the following commands to compile.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">mul_op</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="python-binding">
+<span id="python-binding"></span><h2>Python Binding<a class="headerlink" href="#python-binding" title="Permalink to this headline">¶</a></h2>
+<p>The system will automatically bind to Python and link it to a generated library.</p>
+</div>
+<div class="section" id="unit-tests">
+<span id="unit-tests"></span><h2>Unit Tests<a class="headerlink" href="#unit-tests" title="Permalink to this headline">¶</a></h2>
+<p>Unit tests include comparing a forward operator&#8217;s implementations on different devices, comparing a backward operator&#8217;s implementation on different devices, and a scaling test for the backward operator. Here, we introduce the <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/python/paddle/v2/framework/tests/test_mul_op.py">unit tests for <code class="docutils literal"><span class="pre">MulOp</span></code></a>.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, PaddlePaddle developers.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: ".txt",
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+       
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+  
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/js/perfect-scrollbar.jquery.min.js"></script>
+  <script src="../../_static/js/paddle_doc_init.js"></script> 
+
+</body>
+</html>
