@@ -180,16 +180,22 @@
   <div class="section" id="how-to-write-a-new-operator">
 <span id="how-to-write-a-new-operator"></span><h1>How to write a new operator<a class="headerlink" href="#how-to-write-a-new-operator" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
-<li><a class="reference external" href="#Background">Background</a></li>
-<li><a class="reference external" href="#Implementing_C++_Types">Implementing C++ Types</a><ul>
-<li><a class="reference external" href="#Defining_ProtoMaker">Defining ProtoMaker</a></li>
-<li><a class="reference external" href="#Defining_Operator">Defining Operator</a></li>
-<li><a class="reference external" href="#Registering_Operator">Registering Operator</a></li>
-<li><a class="reference external" href="#Compilation">Compilation</a></li>
+<li><a class="reference external" href="#background">Background</a></li>
+<li><a class="reference external" href="#implementing-c++-types">Implementing C++ Types</a><ul>
+<li><a class="reference external" href="#defining-protoMaker">Defining ProtoMaker</a></li>
+<li><a class="reference external" href="#defining-operator">Defining Operator</a></li>
+<li><a class="reference external" href="#registering-operator">Registering Operator</a></li>
+<li><a class="reference external" href="#compilation">Compilation</a></li>
 </ul>
 </li>
-<li><a class="reference external" href="#Python_Binding">Python Binding</a></li>
-<li><a class="reference external" href="#Unit_Tests">Unit Tests</a></li>
+<li><a class="reference external" href="#python-binding">Python Binding</a></li>
+<li><a class="reference external" href="#unit-tests">Unit Tests</a><ul>
+<li><a class="reference external" href="#testing-forward-operators">Testing Forward Operators</a></li>
+<li><a class="reference external" href="#testing-backward-operators">Testing Backward Operators</a></li>
+<li><a class="reference external" href="#compiling-and-running">Compiling and Running</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#remarks">Remarks</a></li>
 </ul>
 <div class="section" id="background">
 <span id="background"></span><h2>Background<a class="headerlink" href="#background" title="Permalink to this headline">¶</a></h2>
@@ -388,7 +394,118 @@ Registering the Op           | Ops are registered in <code class="docutils liter
 </div>
 <div class="section" id="unit-tests">
 <span id="unit-tests"></span><h2>Unit Tests<a class="headerlink" href="#unit-tests" title="Permalink to this headline">¶</a></h2>
-<p>Unit tests include comparing a forward operator&#8217;s implementations on different devices, comparing a backward operator&#8217;s implementation on different devices, and a scaling test for the backward operator. Here, we introduce the <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/python/paddle/v2/framework/tests/test_mul_op.py">unit tests for <code class="docutils literal"><span class="pre">MulOp</span></code></a>.</p>
+<p>Unit tests for an operator include</p>
+<ol class="simple">
+<li>comparing a forward operator&#8217;s implementations on different devices,</li>
+<li>comparing a backward operator&#8217;s implementation on different devices, and</li>
+<li>a scaling test for the backward operator.</li>
+</ol>
+<p>Here, we introduce the <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/python/paddle/v2/framework/tests/test_mul_op.py">unit tests for <code class="docutils literal"><span class="pre">MulOp</span></code></a>.</p>
+<div class="section" id="testing-forward-operators">
+<span id="testing-forward-operators"></span><h3>Testing Forward Operators<a class="headerlink" href="#testing-forward-operators" title="Permalink to this headline">¶</a></h3>
+<p>A forward operator unit test inherits <code class="docutils literal"><span class="pre">unittest.TestCase</span></code> and defines metaclass <code class="docutils literal"><span class="pre">__metaclass__</span> <span class="pre">=</span> <span class="pre">OpTestMeta</span></code>. More concrete tests are performed in <code class="docutils literal"><span class="pre">OpTestMeta</span></code>. Testing a forward operator requires the following:</p>
+<ol class="simple">
+<li>Defining input, output and relevant attributes in <code class="docutils literal"><span class="pre">setUp</span></code> method.</li>
+<li>Generating random input data.</li>
+<li>Implementing the same computation logic in a Python script:</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">unittest</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">gradient_checker</span> <span class="kn">import</span> <span class="n">GradientChecker</span><span class="p">,</span> <span class="n">create_op</span>
+<span class="kn">from</span> <span class="nn">op_test_util</span> <span class="kn">import</span> <span class="n">OpTestMeta</span>
+
+<span class="k">class</span> <span class="nc">TestMulOp</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="vm">__metaclass__</span> <span class="o">=</span> <span class="n">OpTestMeta</span>
+
+    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="s2">&quot;mul&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;X&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">32</span><span class="p">,</span> <span class="mi">84</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">),</span>
+            <span class="s1">&#39;Y&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">84</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outputs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Out&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;Y&#39;</span><span class="p">])}</span>
+</pre></div>
+</div>
+<p>Get its output, and compare it with the forward operator&#8217;s own output.</p>
+<p>The code above first loads required packages. In addition, we have</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">self.type</span> <span class="pre">=</span> <span class="pre">&quot;mul&quot;</span></code> defines the type that is identical to what the operator&#8217;s registered type.</li>
+<li><code class="docutils literal"><span class="pre">self.inputs</span></code> defines input, with type <code class="docutils literal"><span class="pre">numpy.array</span></code> and initializes it.</li>
+<li><code class="docutils literal"><span class="pre">self.outputs</span></code> defines output and completes the same operator computation in the Python script, and returns its result from the Python script.</li>
+</ul>
+</div>
+<div class="section" id="testing-backward-operators">
+<span id="testing-backward-operators"></span><h3>Testing Backward Operators<a class="headerlink" href="#testing-backward-operators" title="Permalink to this headline">¶</a></h3>
+<p>A backward operator unit test inherits <code class="docutils literal"><span class="pre">GradientChecker</span></code>, which inherits <code class="docutils literal"><span class="pre">unittest.TestCase</span></code>. As a result, <strong>a backward operator unit test needs to be have the prefix <code class="docutils literal"><span class="pre">test_</span></code></strong>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TestMulGradOp</span><span class="p">(</span><span class="n">GradientChecker</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">op</span> <span class="o">=</span> <span class="n">create_op</span><span class="p">(</span><span class="s2">&quot;mul&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;X&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">32</span><span class="p">,</span> <span class="mi">84</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">),</span>
+            <span class="s1">&#39;Y&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">84</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+        <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">test_cpu_gpu_compare</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compare_grad</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">op</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_normal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># mul op will enlarge the relative error</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_grad</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">op</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">],</span> <span class="s2">&quot;Out&quot;</span><span class="p">,</span> <span class="n">max_relative_error</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_ignore_x</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_grad</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">op</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;Y&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;Out&quot;</span><span class="p">,</span>
+            <span class="n">max_relative_error</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+            <span class="n">no_grad_set</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;X&quot;</span><span class="p">})</span>
+
+    <span class="k">def</span> <span class="nf">test_ignore_y</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_grad</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">op</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;Out&quot;</span><span class="p">,</span>
+            <span class="n">max_relative_error</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+            <span class="n">no_grad_set</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Y&quot;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Some key points in the code above include:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">create_op(&quot;mul&quot;)</span></code> creates the backward operator&#8217;s corresponding forward operator.</li>
+<li><code class="docutils literal"><span class="pre">compare_grad</span></code> compares results between utilizing the CPU and the GPU.</li>
+<li><code class="docutils literal"><span class="pre">test_normal</span></code> calls <code class="docutils literal"><span class="pre">check_grad</span></code> to validate scaling tests&#8217; correctness and stability through numeric methods.<ul>
+<li>The first variable <code class="docutils literal"><span class="pre">self.op</span></code> denotes the forward operator.</li>
+<li>The second variable <code class="docutils literal"><span class="pre">self.inputs</span></code> denotes the input dictionary, which has its key value identical to its <code class="docutils literal"><span class="pre">ProtoMaker</span></code> definitions.</li>
+<li>The third variable <code class="docutils literal"><span class="pre">[&quot;X&quot;,</span> <span class="pre">&quot;Y&quot;]</span></code> appoints <code class="docutils literal"><span class="pre">X</span></code> and <code class="docutils literal"><span class="pre">Y</span></code> to be scale tested.</li>
+<li>The fourth variable <code class="docutils literal"><span class="pre">&quot;Out&quot;</span></code> points to the network&#8217;s final output target <code class="docutils literal"><span class="pre">Out</span></code>.</li>
+</ul>
+</li>
+<li><code class="docutils literal"><span class="pre">test_ignore_x</span></code> and <code class="docutils literal"><span class="pre">test_ignore_y</span></code>branches test the cases where there is only one scaling input.</li>
+</ul>
+</div>
+<div class="section" id="compiling-and-running">
+<span id="compiling-and-running"></span><h3>Compiling and Running<a class="headerlink" href="#compiling-and-running" title="Permalink to this headline">¶</a></h3>
+<p>Any new unit testing file of the format <code class="docutils literal"><span class="pre">test_*.py</span></code>  added to the director <code class="docutils literal"><span class="pre">python/paddle/v2/framework/tests</span></code> is automatically added to the project to compile.</p>
+<p>Note that <strong>unlike the compile test for Ops, running unit tests requires compiling the entire project</strong> and requires compiling with flag <code class="docutils literal"><span class="pre">WITH_TESTING</span></code> on i.e. <code class="docutils literal"><span class="pre">cmake</span> <span class="pre">paddle_dir</span> <span class="pre">-DWITH_TESTING=ON</span></code>.</p>
+<p>After successfully compiling the project, run the following command to run unit tests:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>make <span class="nb">test</span> <span class="nv">ARGS</span><span class="o">=</span><span class="s2">&quot;-R test_mul_op -V&quot;</span>
+</pre></div>
+</div>
+<p>Or,</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>ctest -R test_mul_op
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="remarks">
+<span id="remarks"></span><h2>Remarks<a class="headerlink" href="#remarks" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Every <code class="docutils literal"><span class="pre">*_op.h</span></code> (if applicable), <code class="docutils literal"><span class="pre">*_op.cc</span></code>, and <code class="docutils literal"><span class="pre">*_op.cu</span></code> (if applicable) must be created for a unique Op. Compiling will fail if multiple operators are included per file.</li>
+<li>The type with which an operator is registered needs to be identical to the Op&#8217;s name. Registering <code class="docutils literal"><span class="pre">REGISTER_OP(B,</span> <span class="pre">...)</span></code> in <code class="docutils literal"><span class="pre">A_op.cc</span></code> will cause unit testing failures.</li>
+<li>If the operator does not implement a GPU kernel, please refrain from creating an empty <code class="docutils literal"><span class="pre">*_op.cu</span></code> file, or else unit tests will fail.</li>
+<li>If multiple operators rely on some shared methods, a file NOT named <code class="docutils literal"><span class="pre">*_op.*</span></code> can be created to store them, such as <code class="docutils literal"><span class="pre">gather.h</span></code>.</li>
+</ul>
 </div>
 </div>
 
