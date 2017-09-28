@@ -179,72 +179,73 @@
             
   <div class="section" id="design-doc-refactorization-overview">
 <span id="design-doc-refactorization-overview"></span><h1>Design Doc: Refactorization Overview<a class="headerlink" href="#design-doc-refactorization-overview" title="Permalink to this headline">¶</a></h1>
-<p>The goal of refactorizaiton include:</p>
+<p>The goals of refactoring include:</p>
 <ol class="simple">
-<li>Make it easy for external contributors to write new elementory computaiton operations.</li>
-<li>Make the codebase clean and readable.</li>
-<li>Introduce a new design of computation representation &#8211; a computation graph of operators and variables.</li>
-<li>The graph representation helps implementing auto-scalable and auto fault recoverable distributed computing.</li>
+<li>Making it easy for external contributors to write new elementary computation operations.</li>
+<li>Making the codebase clean and readable.</li>
+<li>Designing a new computation representation &#8211; a computation graph of operators and variables.</li>
+<li>Implementing auto-scalability and auto fault recoverable distributed computing with the help of computation graphs.</li>
 </ol>
 <div class="section" id="computation-graphs">
 <span id="computation-graphs"></span><h2>Computation Graphs<a class="headerlink" href="#computation-graphs" title="Permalink to this headline">¶</a></h2>
 <ol class="simple">
-<li>PaddlePaddle represent the computation, training and inference of DL models, by computation graphs.</li>
-<li>Please dig into <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/doc/design/graph.md">computation graphs</a> for a solid example.</li>
-<li>Users write Python programs to describe the graphs and run it (locally or remotely).</li>
+<li>PaddlePaddle represents the computation, training and inference of Deep Learning models, by computation graphs.</li>
+<li>Please refer to <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/doc/design/graph.md">computation graphs</a> for a concrete example.</li>
+<li>Users write Python programs to describe the graphs and run them (locally or remotely).</li>
 <li>A graph is composed of <em>variables</em> and <em>operators</em>.</li>
-<li>The description of graphs must be able to be serialized/deserialized, so it<ol>
-<li>could to be sent to the cloud for distributed execution, and</li>
-<li>be sent to clients for mobile or enterprise deployment.</li>
+<li>The description of graphs must be capable of being serialized/deserialized, so that<ol>
+<li>It can to be sent to the cloud for distributed execution, and</li>
+<li>It can be sent to clients for mobile or enterprise deployment.</li>
 </ol>
 </li>
-<li>The Python program do<ol>
-<li><em>compilation</em>: runs a Python program to generate a protobuf message representation of the graph and send it to<ol>
+<li>The Python program does the following steps<ol>
+<li><em>compilation</em>: run a Python program to generate a protobuf message representation of the graph and send it to<ol>
 <li>the C++ library <code class="docutils literal"><span class="pre">libpaddle.so</span></code> for local execution,</li>
 <li>the master process of a distributed training job for training, or</li>
 <li>the server process of a Kubernetes serving job for distributed serving.</li>
 </ol>
 </li>
-<li><em>execution</em>: according to the protobuf message, constructs instances of class <code class="docutils literal"><span class="pre">Variable</span></code> and <code class="docutils literal"><span class="pre">OperatorBase</span></code>, and run them.</li>
+<li><em>execution</em>: execute the graph by constructing instances of class <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/framework/variable.h#L24"><code class="docutils literal"><span class="pre">Variable</span></code></a> and <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/framework/operator.h#L70"><code class="docutils literal"><span class="pre">OperatorBase</span></code></a>, according to the protobuf message.</li>
 </ol>
 </li>
 </ol>
 </div>
-<div class="section" id="description-and-realization">
-<span id="description-and-realization"></span><h2>Description and Realization<a class="headerlink" href="#description-and-realization" title="Permalink to this headline">¶</a></h2>
-<p>At compile time, the Python program generates protobuf message representation of the graph, or the description of the graph.</p>
-<p>At runtime, the C++ program realizes the graph and run it.</p>
+<div class="section" id="description-and-realization-of-computation-graph">
+<span id="description-and-realization-of-computation-graph"></span><h2>Description and Realization of Computation Graph<a class="headerlink" href="#description-and-realization-of-computation-graph" title="Permalink to this headline">¶</a></h2>
+<p>At compile time, the Python program generates a protobuf message representation of the graph, or the description of the graph.</p>
+<p>At runtime, the C++ program realizes the graph and runs it.</p>
 <p>| | Representation (protobuf messages) | Realization (C++ class objects) |
 |&#8212;|&#8212;|&#8212;|
 |Data|<a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/framework/framework.proto#L107">VarDesc</a>|<a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/framework/variable.h#L24">Variable</a>|
 |Operation|<a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/framework/framework.proto#L35">OpDesc</a>|<a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/framework/operator.h#L64">Operator</a>|
 |Block|BlockDesc|Block|</p>
-<p>The word <em>graph</em> is exchangable with <em>block</em> in this document.  A graph represent computation steps and local variables as a C++/Java program block, or a pair of { and }.</p>
+<p>The word <em>graph</em> is interchangeable with <em>block</em> in this document.  A graph represents computation steps and local variables similar to a C++/Java program block, or a pair of parentheses(<code class="docutils literal"><span class="pre">{</span></code> and <code class="docutils literal"><span class="pre">}</span></code>).</p>
 </div>
 <div class="section" id="compilation-and-execution">
 <span id="compilation-and-execution"></span><h2>Compilation and Execution<a class="headerlink" href="#compilation-and-execution" title="Permalink to this headline">¶</a></h2>
 <ol class="simple">
-<li>Run an applicaton Python program to describe the graph.  In particular,<ol>
-<li>create VarDesc to represent local/intermediate variables,</li>
-<li>create operators and set attributes,</li>
-<li>validate attribute values,</li>
-<li>inference the type and the shape of variables,</li>
-<li>plan for memory-reuse for variables,</li>
-<li>generate backward and optimization part of the Graph.</li>
-<li>possiblly split the graph for distributed training.</li>
+<li>Run an application Python program to describe the graph.  In particular, the Python application program does the following:<ol>
+<li>Create <code class="docutils literal"><span class="pre">VarDesc</span></code> to represent local/intermediate variables,</li>
+<li>Create operators and set attributes,</li>
+<li>Validate attribute values,</li>
+<li>Infer the type and the shape of variables,</li>
+<li>Plan memory-reuse for variables,</li>
+<li>Generate the backward graph</li>
+<li>Optimize the computation graph.</li>
+<li>Potentially, split the graph for distributed training.</li>
 </ol>
 </li>
-<li>The invocation of <code class="docutils literal"><span class="pre">train</span></code> or <code class="docutils literal"><span class="pre">infer</span></code> in the application Python program:<ol>
-<li>create a new Scope instance in the <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/doc/design/scope.md">scope hierarchy</a> for each run of a block,<ol>
+<li>The invocation of <code class="docutils literal"><span class="pre">train</span></code> or <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/python/paddle/v2/inference.py#L108"><code class="docutils literal"><span class="pre">infer</span></code></a> methods in the application Python program does the following:<ol>
+<li>Create a new Scope instance in the <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/doc/design/scope.md">scope hierarchy</a> for each run of a block,<ol>
 <li>realize local variables defined in the BlockDesc message in the new scope,</li>
 <li>a scope is similar to the stack frame in programming languages,</li>
 </ol>
 </li>
-<li>create an instance of class <code class="docutils literal"><span class="pre">Block</span></code>, in which,<ol>
+<li>Create an instance of class <code class="docutils literal"><span class="pre">Block</span></code>, in which,<ol>
 <li>realize operators in the BlockDesc message,</li>
 </ol>
 </li>
-<li>run the Block by calling<ol>
+<li>Run the Block by calling<ol>
 <li><code class="docutils literal"><span class="pre">Block::Eval(vector&lt;Variable&gt;*</span> <span class="pre">targets)</span></code> for forward and backward computations, or</li>
 <li><code class="docutils literal"><span class="pre">Block::Eval(vector&lt;Operator&gt;*</span> <span class="pre">targets)</span></code> for optimization.</li>
 </ol>
@@ -258,17 +259,17 @@
 <div class="highlight-text"><div class="highlight"><pre><span></span>Compile Time -&gt; IR -&gt; Runtime
 </pre></div>
 </div>
-<div class="section" id="benefit">
-<span id="benefit"></span><h3>Benefit<a class="headerlink" href="#benefit" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="benefits-of-ir">
+<span id="benefits-of-ir"></span><h3>Benefits of IR<a class="headerlink" href="#benefits-of-ir" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Optimization</p>
 <div class="highlight-text"><div class="highlight"><pre><span></span>Compile Time -&gt; IR -&gt; Optimized IR -&gt; Runtime
 </pre></div>
 </div>
 </li>
-<li><p class="first">Send automatically partitioned IR to different nodes.</p>
+<li><p class="first">Automatically send partitioned IR to different nodes.</p>
 <ul>
-<li><p class="first">Automatic data parallel</p>
+<li><p class="first">Automatic Data Parallelism</p>
 <div class="highlight-text"><div class="highlight"><pre><span></span>Compile Time
 |-&gt; Single GPU IR
     |-&gt; [trainer-IR-0, trainer-IR-1, pserver-IR]
@@ -278,7 +279,7 @@
 </pre></div>
 </div>
 </li>
-<li><p class="first">Automatic model parallel (planned for future)</p>
+<li><p class="first">Automatic Model Parallelism (planned for future)</p>
 </li>
 </ul>
 </li>
@@ -296,10 +297,10 @@
 <span id="operator"></span><h1>Operator<a class="headerlink" href="#operator" title="Permalink to this headline">¶</a></h1>
 <p><img alt="class_diagram" src="http://api.paddlepaddle.org/graphviz?dot=https://gist.githubusercontent.com/reyoung/53df507f6749762675dff3e7ce53372f/raw/dd598e8f1976f5759f58af5e5ef94738a6b2e661/op.dot" /></p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">Operator</span></code> is the fundamental building block as the user interface.<ul>
-<li>Operator stores input/output variable name, and attributes.</li>
-<li>The <code class="docutils literal"><span class="pre">InferShape</span></code> interface is used to infer output variable shapes by its input shapes.</li>
-<li>Use <code class="docutils literal"><span class="pre">Run</span></code> to compute <code class="docutils literal"><span class="pre">input</span> <span class="pre">variables</span></code> to <code class="docutils literal"><span class="pre">output</span> <span class="pre">variables</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">Operator</span></code> is the fundamental building block of the user interface.<ul>
+<li>Operator stores input/output variable names, and attributes.</li>
+<li>The <code class="docutils literal"><span class="pre">InferShape</span></code> interface is used to infer the shape of the output variable shapes based on the shapes of the input variables.</li>
+<li>Use <code class="docutils literal"><span class="pre">Run</span></code> to compute the <code class="docutils literal"><span class="pre">output</span></code> variables from the <code class="docutils literal"><span class="pre">input</span></code> variables.</li>
 </ul>
 </li>
 </ul>
@@ -322,11 +323,11 @@
 <span id="why-separate-kernel-and-operator"></span><h1>Why separate Kernel and Operator<a class="headerlink" href="#why-separate-kernel-and-operator" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
 <li>Separate GPU and CPU code.<ul>
-<li>Make Paddle can run without GPU.</li>
+<li>Make Paddle capable of running without GPU.</li>
 </ul>
 </li>
-<li>Make one operator (which is user interface) can contain many implementations.<ul>
-<li>Same mul op, different FP16, FP32 Kernel. different MKL, eigen kernel.</li>
+<li>Make one operator (which is a user interface) and create many implementations.<ul>
+<li>For example, same multiplication op can have different implementations kernels such as FP16 kernel, FP32 kernel, MKL, eigen kernel.</li>
 </ul>
 </li>
 </ul>
@@ -337,30 +338,30 @@
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">Eigen::Tensor</span></code> contains basic math and element-wise functions.<ul>
 <li>Note that <code class="docutils literal"><span class="pre">Eigen::Tensor</span></code> has broadcast implementation.</li>
-<li>Limit number of <code class="docutils literal"><span class="pre">tensor.device(dev)</span> <span class="pre">=</span></code> in your code.</li>
+<li>Limit the number of <code class="docutils literal"><span class="pre">tensor.device(dev)</span> <span class="pre">=</span></code> in your code.</li>
 </ul>
 </li>
 <li><code class="docutils literal"><span class="pre">thrust::tranform</span></code> and <code class="docutils literal"><span class="pre">std::transform</span></code>.<ul>
-<li><code class="docutils literal"><span class="pre">thrust</span></code> has the same API as C++ standard library. Using <code class="docutils literal"><span class="pre">transform</span></code> can quickly implement a customized elementwise kernel.</li>
-<li><code class="docutils literal"><span class="pre">thrust</span></code> has more complex API, like <code class="docutils literal"><span class="pre">scan</span></code>, <code class="docutils literal"><span class="pre">reduce</span></code>, <code class="docutils literal"><span class="pre">reduce_by_key</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">thrust</span></code> has the same API as C++ standard library. Using <code class="docutils literal"><span class="pre">transform</span></code>, one can quickly implement customized elementwise kernels.</li>
+<li><code class="docutils literal"><span class="pre">thrust</span></code> also has more complex APIs, like <code class="docutils literal"><span class="pre">scan</span></code>, <code class="docutils literal"><span class="pre">reduce</span></code>, <code class="docutils literal"><span class="pre">reduce_by_key</span></code>.</li>
 </ul>
 </li>
 <li>Hand-writing <code class="docutils literal"><span class="pre">GPUKernel</span></code> and <code class="docutils literal"><span class="pre">CPU</span></code> code<ul>
-<li>Do not write <code class="docutils literal"><span class="pre">.h</span></code>. CPU Kernel should be in <code class="docutils literal"><span class="pre">.cc</span></code>. GPU kernel should be in <code class="docutils literal"><span class="pre">.cu</span></code>. (<code class="docutils literal"><span class="pre">GCC</span></code> cannot compile GPU code.)</li>
+<li>Do not write in header (<code class="docutils literal"><span class="pre">.h</span></code>) files. CPU Kernel should be in cpp source (<code class="docutils literal"><span class="pre">.cc</span></code>) and GPU kernels should be in cuda (<code class="docutils literal"><span class="pre">.cu</span></code>) files. (GCC cannot compile GPU code.)</li>
 </ul>
 </li>
 </ul>
 </div>
 <hr class="docutils" />
-<div class="section" id="operator-register">
-<span id="operator-register"></span><h1>Operator Register<a class="headerlink" href="#operator-register" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="why-register-is-necessary">
-<span id="why-register-is-necessary"></span><h2>Why register is necessary?<a class="headerlink" href="#why-register-is-necessary" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="operator-registration">
+<span id="operator-registration"></span><h1>Operator Registration<a class="headerlink" href="#operator-registration" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="why-registration-is-necessary">
+<span id="why-registration-is-necessary"></span><h2>Why registration is necessary?<a class="headerlink" href="#why-registration-is-necessary" title="Permalink to this headline">¶</a></h2>
 <p>We need a method to build mappings between Op type names and Op classes.</p>
 </div>
-<div class="section" id="how-to-do-the-register">
-<span id="how-to-do-the-register"></span><h2>How to do the register?<a class="headerlink" href="#how-to-do-the-register" title="Permalink to this headline">¶</a></h2>
-<p>Maintain a map, whose key is the type name and value is corresponding Op constructor.</p>
+<div class="section" id="how-is-registration-implemented">
+<span id="how-is-registration-implemented"></span><h2>How is registration implemented?<a class="headerlink" href="#how-is-registration-implemented" title="Permalink to this headline">¶</a></h2>
+<p>Maintaining a map, whose key is the type name and the value is the corresponding Op constructor.</p>
 </div>
 </div>
 <hr class="docutils" />
@@ -393,22 +394,22 @@
 </div>
 </div>
 <div class="section" id="use-macros">
-<span id="use-macros"></span><h2><code class="docutils literal"><span class="pre">USE</span></code> Macros<a class="headerlink" href="#use-macros" title="Permalink to this headline">¶</a></h2>
-<p>make sure the registration process is executed and linked.</p>
+<span id="use-macros"></span><h2>USE Macros<a class="headerlink" href="#use-macros" title="Permalink to this headline">¶</a></h2>
+<p>Make sure the registration process is executed and linked.</p>
 </div>
 </div>
 <hr class="docutils" />
-<div class="section" id="register-process">
-<span id="register-process"></span><h1>Register Process<a class="headerlink" href="#register-process" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="registration-process">
+<span id="registration-process"></span><h1>Registration Process<a class="headerlink" href="#registration-process" title="Permalink to this headline">¶</a></h1>
 <ol class="simple">
-<li>Write Op class, as well as its gradient Op class if there is.</li>
-<li>Write Op maker class. In the constructor, describe its inputs, outputs, and attributes.</li>
-<li>Invoke macro <code class="docutils literal"><span class="pre">REGISTER_OP</span></code>. The macro will<ol>
-<li>call maker class to complete <code class="docutils literal"><span class="pre">proto</span></code> and <code class="docutils literal"><span class="pre">checker</span></code></li>
-<li>with the completed <code class="docutils literal"><span class="pre">proto</span></code> and <code class="docutils literal"><span class="pre">checker</span></code>, build a new key-value pair in the <code class="docutils literal"><span class="pre">OpInfoMap</span></code></li>
+<li>Write an Op class and its gradient Op class, if required.</li>
+<li>Write an Op maker class. In the constructor of this class, describe the inputs, outputs and attributes of the operator.</li>
+<li>Invoke the macro <code class="docutils literal"><span class="pre">REGISTER_OP</span></code>. This macro will<ol>
+<li>Call maker class to complete the <code class="docutils literal"><span class="pre">proto</span></code> and the <code class="docutils literal"><span class="pre">checker</span></code></li>
+<li>Using the completed <code class="docutils literal"><span class="pre">proto</span></code> and <code class="docutils literal"><span class="pre">checker</span></code>, it will add a new key-value pair to the <code class="docutils literal"><span class="pre">OpInfoMap</span></code></li>
 </ol>
 </li>
-<li>Invoke <code class="docutils literal"><span class="pre">USE</span></code> macro in where the Op is used to make sure it is linked.</li>
+<li>Invoke the <code class="docutils literal"><span class="pre">USE</span></code> macro in which the Op is used, to make sure that it is linked.</li>
 </ol>
 </div>
 <hr class="docutils" />
@@ -417,7 +418,7 @@
 <div class="section" id="create-backward-operator">
 <span id="create-backward-operator"></span><h2>Create Backward Operator<a class="headerlink" href="#create-backward-operator" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>Mapping from forwarding Op to backward Op
+<li>Mapping from forward Op to backward Op
 <img alt="backward" src="https://gist.githubusercontent.com/dzhwinter/a6fbd4623ee76c459f7f94591fd1abf0/raw/61026ab6e518e66bde66a889bc42557a1fccff33/backward.png" /></li>
 </ul>
 </div>
@@ -428,12 +429,12 @@
 <div class="section" id="build-backward-network">
 <span id="build-backward-network"></span><h2>Build Backward Network<a class="headerlink" href="#build-backward-network" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><strong>Input</strong> graph of forwarding operators</li>
-<li><strong>Output</strong> graph of backward operators</li>
-<li><strong>corner case in construction</strong><ul>
-<li>shared variable =&gt; insert <code class="docutils literal"><span class="pre">Add</span></code> operator</li>
-<li>no gradient =&gt; insert <code class="docutils literal"><span class="pre">fill_zero_grad</span></code> operator</li>
-<li>recursive netOp =&gt; call <code class="docutils literal"><span class="pre">Backward</span></code> recursively</li>
+<li><strong>Input</strong>: graph of forwarding operators</li>
+<li><strong>Output</strong>: graph of backward operators</li>
+<li><strong>Corner cases in construction</strong><ul>
+<li>Shared Variables =&gt; insert an <code class="docutils literal"><span class="pre">Add</span></code> operator to combine gradients</li>
+<li>No Gradient =&gt; insert a <code class="docutils literal"><span class="pre">fill_zero_grad</span></code> operator</li>
+<li>Recursive NetOp =&gt; call <code class="docutils literal"><span class="pre">Backward</span></code> recursively</li>
 <li>RNN Op =&gt; recursively call <code class="docutils literal"><span class="pre">Backward</span></code> on stepnet</li>
 </ul>
 </li>
@@ -446,17 +447,17 @@
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">Tensor</span></code> is an n-dimension array with type.<ul>
 <li>Only dims and data pointers are stored in <code class="docutils literal"><span class="pre">Tensor</span></code>.</li>
-<li>All operators on <code class="docutils literal"><span class="pre">Tensor</span></code> is written in <code class="docutils literal"><span class="pre">Operator</span></code> or global functions.</li>
-<li>variable length Tensor design <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/framework/lod_tensor.md">LoDTensor</a></li>
+<li>All operations on <code class="docutils literal"><span class="pre">Tensor</span></code> are written in <code class="docutils literal"><span class="pre">Operator</span></code> or global functions.</li>
+<li>Variable length Tensor design <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/framework/lod_tensor.md">LoDTensor</a></li>
 </ul>
 </li>
-<li><code class="docutils literal"><span class="pre">Variable</span></code> is the inputs and outputs of an operator. Not just <code class="docutils literal"><span class="pre">Tensor</span></code>.<ul>
-<li>step_scopes in RNN is a variable and not a tensor.</li>
+<li><code class="docutils literal"><span class="pre">Variable</span></code> instances are the inputs and the outputs of an operator. Not just <code class="docutils literal"><span class="pre">Tensor</span></code>.<ul>
+<li><code class="docutils literal"><span class="pre">step_scopes</span></code> in RNN is a variable and not a tensor.</li>
 </ul>
 </li>
-<li><code class="docutils literal"><span class="pre">Scope</span></code> is where variables store at.<ul>
-<li>map&lt;string/*var name */, Variable&gt;</li>
-<li><code class="docutils literal"><span class="pre">Scope</span></code> has a hierarchical structure. The local scope can get variable from its parent scope.</li>
+<li><code class="docutils literal"><span class="pre">Scope</span></code> is where variables are stores.<ul>
+<li>map&lt;string <code class="docutils literal"><span class="pre">variable_name</span></code>, Variable&gt;</li>
+<li><code class="docutils literal"><span class="pre">Scope</span></code> has a hierarchical structure. The local scope can get variables from its parent scope.</li>
 </ul>
 </li>
 </ul>
@@ -467,11 +468,11 @@
 <div class="section" id="the-difference-with-original-rnnop">
 <span id="the-difference-with-original-rnnop"></span><h2>the difference with original RNNOp<a class="headerlink" href="#the-difference-with-original-rnnop" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>as an operator is more intuitive than <code class="docutils literal"><span class="pre">RNNOp</span></code>,</li>
-<li>offers new interface <code class="docutils literal"><span class="pre">Eval(targets)</span></code> to deduce the minimal block to <code class="docutils literal"><span class="pre">Run</span></code>,</li>
-<li>fits the compile-time/ runtime separation design.<ul>
-<li>during the compilation, <code class="docutils literal"><span class="pre">SymbolTable</span></code> stores <code class="docutils literal"><span class="pre">VarDesc</span></code>s and <code class="docutils literal"><span class="pre">OpDesc</span></code>s and serialize to a <code class="docutils literal"><span class="pre">BlockDesc</span></code></li>
-<li>when graph executes, a Block with <code class="docutils literal"><span class="pre">BlockDesc</span></code> passed in creates <code class="docutils literal"><span class="pre">Op</span></code> and <code class="docutils literal"><span class="pre">Var</span></code> then <code class="docutils literal"><span class="pre">Run</span></code></li>
+<li>As an operator is more intuitive than <code class="docutils literal"><span class="pre">RNNOp</span></code>,</li>
+<li>Offers a new interface <code class="docutils literal"><span class="pre">Eval(targets)</span></code> to deduce the minimal block to <code class="docutils literal"><span class="pre">Run</span></code>,</li>
+<li>Fits the compile-time/ runtime separation design paradigm.<ul>
+<li>During the compilation, <code class="docutils literal"><span class="pre">SymbolTable</span></code> stores <code class="docutils literal"><span class="pre">VarDesc</span></code>s and <code class="docutils literal"><span class="pre">OpDesc</span></code>s and serialize to a <code class="docutils literal"><span class="pre">BlockDesc</span></code></li>
+<li>When graph executes, a Block with <code class="docutils literal"><span class="pre">BlockDesc</span></code> is passed. It then creates <code class="docutils literal"><span class="pre">Op</span></code> and <code class="docutils literal"><span class="pre">Var</span></code> instances and then invokes <code class="docutils literal"><span class="pre">Run</span></code>.</li>
 </ul>
 </li>
 </ul>
@@ -481,32 +482,32 @@
 <div class="section" id="milestone">
 <span id="milestone"></span><h1>Milestone<a class="headerlink" href="#milestone" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
-<li>take Paddle/books as the main line, the requirement of the models motivates framework refactoring,</li>
-<li>model migration<ul>
-<li>framework development gives <strong>priority support</strong> to model migration, for example,<ul>
+<li>Take Paddle/books as the main line, the requirement of the models motivates framework refactoring,</li>
+<li>Model migration<ul>
+<li>Framework development gives <strong>priority support</strong> to model migration, for example,<ul>
 <li>the MNIST demo needs a Python interface,</li>
 <li>the RNN models require the framework to support <code class="docutils literal"><span class="pre">LoDTensor</span></code>.</li>
 </ul>
 </li>
-<li>determine some timelines,</li>
-<li>heavily-relied Ops need to be migrated first,</li>
-<li>different models can be migrated parallelly.</li>
+<li>Determine some timelines,</li>
+<li>Frequently used Ops need to be migrated first,</li>
+<li>Different models can be migrated in parallel.</li>
 </ul>
 </li>
-<li>improve the framework at the same time</li>
-<li>accept imperfection, concentrated on solving the specific problem at the right price.</li>
+<li>Improve the framework at the same time</li>
+<li>Accept imperfection, concentrate on solving the specific problem at the right price.</li>
 </ul>
 </div>
 <hr class="docutils" />
 <div class="section" id="control-the-migration-quality">
 <span id="control-the-migration-quality"></span><h1>Control the migration quality<a class="headerlink" href="#control-the-migration-quality" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
-<li>compare the performance of migrated models with old ones.</li>
-<li>follow google C style</li>
-<li>build the automatic workflow of generating Python/C++ documentations<ul>
-<li>the documentation of layers and ops should be written inside the code</li>
-<li>take the documentation quality into account when doing PR</li>
-<li>preview the documentations, read and improve them from users&#8217; perspective</li>
+<li>Compare the performance of migrated models with old ones.</li>
+<li>Follow the google C++ style</li>
+<li>Build the automatic workflow of generating Python/C++ documentations.<ul>
+<li>The documentation of layers and ops should be written inside the code.</li>
+<li>Take the documentation quality into account when submitting pull requests.</li>
+<li>Preview the documentations, read and improve them from a user&#8217;s perspective.</li>
 </ul>
 </li>
 </ul>
