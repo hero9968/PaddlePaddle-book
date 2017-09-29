@@ -193,7 +193,7 @@
 <li>Please refer to <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/doc/design/graph.md">computation graphs</a> for a concrete example.</li>
 <li>Users write Python programs to describe the graphs and run them (locally or remotely).</li>
 <li>A graph is composed of <em>variables</em> and <em>operators</em>.</li>
-<li>The description of graphs must be capable of being serialized/deserialized, so that<ol>
+<li>The description of graphs must be capable of being serialized/deserialized, so that:<ol>
 <li>It can to be sent to the cloud for distributed execution, and</li>
 <li>It can be sent to clients for mobile or enterprise deployment.</li>
 </ol>
@@ -341,8 +341,8 @@
 <li>Limit the number of <code class="docutils literal"><span class="pre">tensor.device(dev)</span> <span class="pre">=</span></code> in your code.</li>
 </ul>
 </li>
-<li><code class="docutils literal"><span class="pre">thrust::tranform</span></code> and <code class="docutils literal"><span class="pre">std::transform</span></code>.<ul>
-<li><code class="docutils literal"><span class="pre">thrust</span></code> has the same API as C++ standard library. Using <code class="docutils literal"><span class="pre">transform</span></code>, one can quickly implement customized elementwise kernels.</li>
+<li><code class="docutils literal"><span class="pre">thrust::transform</span></code> and <code class="docutils literal"><span class="pre">std::transform</span></code>.<ul>
+<li><code class="docutils literal"><span class="pre">thrust</span></code> has the same API as C++ standard library. Using <code class="docutils literal"><span class="pre">transform</span></code>, one can quickly implement customized element-wise kernels.</li>
 <li><code class="docutils literal"><span class="pre">thrust</span></code> also has more complex APIs, like <code class="docutils literal"><span class="pre">scan</span></code>, <code class="docutils literal"><span class="pre">reduce</span></code>, <code class="docutils literal"><span class="pre">reduce_by_key</span></code>.</li>
 </ul>
 </li>
@@ -355,8 +355,8 @@
 <hr class="docutils" />
 <div class="section" id="operator-registration">
 <span id="operator-registration"></span><h1>Operator Registration<a class="headerlink" href="#operator-registration" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="why-registration-is-necessary">
-<span id="why-registration-is-necessary"></span><h2>Why registration is necessary?<a class="headerlink" href="#why-registration-is-necessary" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="why-is-registration-necessary">
+<span id="why-is-registration-necessary"></span><h2>Why is registration necessary?<a class="headerlink" href="#why-is-registration-necessary" title="Permalink to this headline">¶</a></h2>
 <p>We need a method to build mappings between Op type names and Op classes.</p>
 </div>
 <div class="section" id="how-is-registration-implemented">
@@ -384,7 +384,7 @@
 <span id="related-concepts"></span><h1>Related Concepts<a class="headerlink" href="#related-concepts" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="op-maker">
 <span id="op-maker"></span><h2>Op_Maker<a class="headerlink" href="#op-maker" title="Permalink to this headline">¶</a></h2>
-<p>It&#8217;s constructor takes <code class="docutils literal"><span class="pre">proto</span></code> and <code class="docutils literal"><span class="pre">checker</span></code>. They are compeleted during Op_Maker&#8217;s construction. (<a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/operators/scale_op.cc#L37">ScaleOpMaker</a>)</p>
+<p>It&#8217;s constructor takes <code class="docutils literal"><span class="pre">proto</span></code> and <code class="docutils literal"><span class="pre">checker</span></code>. They are completed during Op_Maker&#8217;s construction. (<a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/operators/scale_op.cc#L37">ScaleOpMaker</a>)</p>
 </div>
 <div class="section" id="register-macros">
 <span id="register-macros"></span><h2>Register Macros<a class="headerlink" href="#register-macros" title="Permalink to this headline">¶</a></h2>
@@ -429,7 +429,7 @@
 <div class="section" id="build-backward-network">
 <span id="build-backward-network"></span><h2>Build Backward Network<a class="headerlink" href="#build-backward-network" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><strong>Input</strong>: graph of forwarding operators</li>
+<li><strong>Input</strong>: graph of forward operators</li>
 <li><strong>Output</strong>: graph of backward operators</li>
 <li><strong>Corner cases in construction</strong><ul>
 <li>Shared Variables =&gt; insert an <code class="docutils literal"><span class="pre">Add</span></code> operator to combine gradients</li>
@@ -465,8 +465,8 @@
 <hr class="docutils" />
 <div class="section" id="block-in-design">
 <span id="block-in-design"></span><h1>Block (in design)<a class="headerlink" href="#block-in-design" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="the-difference-with-original-rnnop">
-<span id="the-difference-with-original-rnnop"></span><h2>the difference with original RNNOp<a class="headerlink" href="#the-difference-with-original-rnnop" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="the-difference-between-original-rnnop-and-block">
+<span id="the-difference-between-original-rnnop-and-block"></span><h2>the difference between original RNNOp and Block<a class="headerlink" href="#the-difference-between-original-rnnop-and-block" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>As an operator is more intuitive than <code class="docutils literal"><span class="pre">RNNOp</span></code>,</li>
 <li>Offers a new interface <code class="docutils literal"><span class="pre">Eval(targets)</span></code> to deduce the minimal block to <code class="docutils literal"><span class="pre">Run</span></code>,</li>
