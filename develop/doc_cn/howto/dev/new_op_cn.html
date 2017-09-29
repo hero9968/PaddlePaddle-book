@@ -452,43 +452,29 @@ Kernel实现       | CPU、GPU共享Kernel实现在<code class="docutils literal
             <span class="s1">&#39;Y&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">84</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
         <span class="p">}</span>
 
-    <span class="k">def</span> <span class="nf">test_cpu_gpu_compare</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">compare_grad</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">op</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">test_normal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">test_check_grad_normal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># mul op will enlarge the relative error</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">check_grad</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">op</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">],</span> <span class="s2">&quot;Out&quot;</span><span class="p">,</span> <span class="n">max_relative_error</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_grad</span><span class="p">([</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;Y&#39;</span><span class="p">],</span> <span class="s1">&#39;Out&#39;</span><span class="p">,</span> <span class="n">max_relative_error</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">test_ignore_x</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">test_check_grad_ingore_x</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_grad</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">op</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;Y&quot;</span><span class="p">],</span>
-            <span class="s2">&quot;Out&quot;</span><span class="p">,</span>
-            <span class="n">max_relative_error</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
-            <span class="n">no_grad_set</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;X&quot;</span><span class="p">})</span>
+            <span class="p">[</span><span class="s1">&#39;Y&#39;</span><span class="p">],</span> <span class="s1">&#39;Out&#39;</span><span class="p">,</span> <span class="n">max_relative_error</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">no_grad_set</span><span class="o">=</span><span class="nb">set</span><span class="p">(</span><span class="s2">&quot;X&quot;</span><span class="p">))</span>
 
-    <span class="k">def</span> <span class="nf">test_ignore_y</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">test_check_grad_ingore_y</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_grad</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">op</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">],</span>
-            <span class="s2">&quot;Out&quot;</span><span class="p">,</span>
-            <span class="n">max_relative_error</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
-            <span class="n">no_grad_set</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Y&quot;</span><span class="p">})</span>
+            <span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">],</span> <span class="s1">&#39;Out&#39;</span><span class="p">,</span> <span class="n">max_relative_error</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">no_grad_set</span><span class="o">=</span><span class="nb">set</span><span class="p">(</span><span class="s1">&#39;Y&#39;</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>下面解释代码中一些关键的地方:</p>
 <ul class="simple">
 <li>调用<code class="docutils literal"><span class="pre">create_op(&quot;mul&quot;)</span></code>创建反向Op对应的前向Op。</li>
-<li>调用<code class="docutils literal"><span class="pre">compare_grad</span></code>函数对比CPU、GPU计算结果。</li>
-<li><code class="docutils literal"><span class="pre">test_normal</span></code>中调用<code class="docutils literal"><span class="pre">check_grad</span></code>使用数值法检测梯度正确性和稳定性。<ul>
-<li>第一个参数<code class="docutils literal"><span class="pre">self.op</span></code> : 前向Op。</li>
-<li>第二个参数<code class="docutils literal"><span class="pre">self.inputs</span></code> : 输入词典，词典的Key和<code class="docutils literal"><span class="pre">ProtoMaker</span></code>定义保持一致。</li>
-<li>第三个参数<code class="docutils literal"><span class="pre">[&quot;X&quot;,</span> <span class="pre">&quot;Y&quot;]</span></code> : 指定对输入变量<code class="docutils literal"><span class="pre">X</span></code>、<code class="docutils literal"><span class="pre">Y</span></code>做梯度检测。</li>
-<li>第四个参数<code class="docutils literal"><span class="pre">&quot;Out&quot;</span></code> : 指定前向网络最终的输出目标变量<code class="docutils literal"><span class="pre">Out</span></code></li>
+<li><code class="docutils literal"><span class="pre">test_check_grad_normal</span></code>中调用<code class="docutils literal"><span class="pre">check_grad</span></code>使用数值法检测梯度正确性和稳定性。<ul>
+<li>第一个参数<code class="docutils literal"><span class="pre">[&quot;X&quot;,</span> <span class="pre">&quot;Y&quot;]</span></code> : 指定对输入变量<code class="docutils literal"><span class="pre">X</span></code>、<code class="docutils literal"><span class="pre">Y</span></code>做梯度检测。</li>
+<li>第二个参数<code class="docutils literal"><span class="pre">&quot;Out&quot;</span></code> : 指定前向网络最终的输出目标变量<code class="docutils literal"><span class="pre">Out</span></code>。</li>
+<li>第三个参数<code class="docutils literal"><span class="pre">max_relative_error</span></code>：指定检测梯度时能容忍的最大错误值。</li>
 </ul>
 </li>
-<li><code class="docutils literal"><span class="pre">test_ignore_x</span></code>和<code class="docutils literal"><span class="pre">test_ignore_y</span></code>分支用来测试只需要计算一个输入梯度的情况。</li>
+<li><code class="docutils literal"><span class="pre">test_check_grad_ingore_x</span></code>和<code class="docutils literal"><span class="pre">test_check_grad_ingore_y</span></code>分支用来测试只需要计算一个输入梯度的情况。</li>
 </ul>
 </div>
 <div class="section" id="">

@@ -445,43 +445,29 @@ Registering the Op           | Ops are registered in <code class="docutils liter
             <span class="s1">&#39;Y&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">84</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
         <span class="p">}</span>
 
-    <span class="k">def</span> <span class="nf">test_cpu_gpu_compare</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">compare_grad</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">op</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">test_normal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">test_check_grad_normal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># mul op will enlarge the relative error</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">check_grad</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">op</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">],</span> <span class="s2">&quot;Out&quot;</span><span class="p">,</span> <span class="n">max_relative_error</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_grad</span><span class="p">([</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;Y&#39;</span><span class="p">],</span> <span class="s1">&#39;Out&#39;</span><span class="p">,</span> <span class="n">max_relative_error</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">test_ignore_x</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">test_check_grad_ingore_x</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_grad</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">op</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;Y&quot;</span><span class="p">],</span>
-            <span class="s2">&quot;Out&quot;</span><span class="p">,</span>
-            <span class="n">max_relative_error</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
-            <span class="n">no_grad_set</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;X&quot;</span><span class="p">})</span>
+            <span class="p">[</span><span class="s1">&#39;Y&#39;</span><span class="p">],</span> <span class="s1">&#39;Out&#39;</span><span class="p">,</span> <span class="n">max_relative_error</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">no_grad_set</span><span class="o">=</span><span class="nb">set</span><span class="p">(</span><span class="s2">&quot;X&quot;</span><span class="p">))</span>
 
-    <span class="k">def</span> <span class="nf">test_ignore_y</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">test_check_grad_ingore_y</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_grad</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">op</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">],</span>
-            <span class="s2">&quot;Out&quot;</span><span class="p">,</span>
-            <span class="n">max_relative_error</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
-            <span class="n">no_grad_set</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Y&quot;</span><span class="p">})</span>
+            <span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">],</span> <span class="s1">&#39;Out&#39;</span><span class="p">,</span> <span class="n">max_relative_error</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">no_grad_set</span><span class="o">=</span><span class="nb">set</span><span class="p">(</span><span class="s1">&#39;Y&#39;</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>Some key points in the code above include:</p>
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">create_op(&quot;mul&quot;)</span></code> creates the backward operator&#8217;s corresponding forward operator.</li>
-<li><code class="docutils literal"><span class="pre">compare_grad</span></code> compares results between utilizing the CPU and the GPU.</li>
 <li><code class="docutils literal"><span class="pre">test_normal</span></code> calls <code class="docutils literal"><span class="pre">check_grad</span></code> to validate scaling tests&#8217; correctness and stability through numeric methods.<ul>
-<li>The first variable <code class="docutils literal"><span class="pre">self.op</span></code> denotes the forward operator.</li>
-<li>The second variable <code class="docutils literal"><span class="pre">self.inputs</span></code> denotes the input dictionary, which has its key value identical to its <code class="docutils literal"><span class="pre">ProtoMaker</span></code> definitions.</li>
-<li>The third variable <code class="docutils literal"><span class="pre">[&quot;X&quot;,</span> <span class="pre">&quot;Y&quot;]</span></code> appoints <code class="docutils literal"><span class="pre">X</span></code> and <code class="docutils literal"><span class="pre">Y</span></code> to be scale tested.</li>
-<li>The fourth variable <code class="docutils literal"><span class="pre">&quot;Out&quot;</span></code> points to the network&#8217;s final output target <code class="docutils literal"><span class="pre">Out</span></code>.</li>
+<li>The first variable <code class="docutils literal"><span class="pre">[&quot;X&quot;,</span> <span class="pre">&quot;Y&quot;]</span></code> appoints <code class="docutils literal"><span class="pre">X</span></code> and <code class="docutils literal"><span class="pre">Y</span></code> to be scale tested.</li>
+<li>The second variable <code class="docutils literal"><span class="pre">&quot;Out&quot;</span></code> points to the network&#8217;s final output target <code class="docutils literal"><span class="pre">Out</span></code>.</li>
+<li>The third variable <code class="docutils literal"><span class="pre">max_relative_error</span></code> points to the maximum relative tolerance error during scaling tests.</li>
 </ul>
 </li>
-<li><code class="docutils literal"><span class="pre">test_ignore_x</span></code> and <code class="docutils literal"><span class="pre">test_ignore_y</span></code>branches test the cases where there is only one scaling input.</li>
+<li><code class="docutils literal"><span class="pre">test_check_grad_ingore_x</span></code> and <code class="docutils literal"><span class="pre">test_check_grad_ingore_y</span></code>branches test the cases where there is only one scaling input.</li>
 </ul>
 </div>
 <div class="section" id="compiling-and-running">
