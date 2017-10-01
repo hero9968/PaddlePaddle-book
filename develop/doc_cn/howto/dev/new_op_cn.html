@@ -373,7 +373,7 @@ Kernel实现       | CPU、GPU共享Kernel实现在<code class="docutils literal
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">REGISTER_OP</span></code> ： 注册<code class="docutils literal"><span class="pre">ops::MulOp</span></code>类，类型名为<code class="docutils literal"><span class="pre">mul</span></code>，该类的<code class="docutils literal"><span class="pre">ProtoMaker</span></code>为<code class="docutils literal"><span class="pre">ops::MulOpMaker</span></code>，注册<code class="docutils literal"><span class="pre">ops::MulOpGrad</span></code>，类型名为<code class="docutils literal"><span class="pre">mul_grad</span></code>。</li>
 <li><code class="docutils literal"><span class="pre">REGISTER_OP_WITHOUT_GRADIENT</span></code> ： 用于注册没有反向的Op。</li>
-<li><code class="docutils literal"><span class="pre">REGISTER_OP_CPU_KERNEL</span></code> ：注册<code class="docutils literal"><span class="pre">ops::MulKernel</span></code>类，并特化模板参数为<code class="docutils literal"><span class="pre">paddle::platform::CPUPlace</span></code>和<code class="docutils literal"><span class="pre">float</span></code>类型，同理，注册<code class="docutils literal"><span class="pre">ops::MulKernel</span></code>类。</li>
+<li><code class="docutils literal"><span class="pre">REGISTER_OP_CPU_KERNEL</span></code> ：注册<code class="docutils literal"><span class="pre">ops::MulKernel</span></code>类，并特化模板参数为<code class="docutils literal"><span class="pre">paddle::platform::CPUPlace</span></code>和<code class="docutils literal"><span class="pre">float</span></code>类型，同理，注册<code class="docutils literal"><span class="pre">ops::MulGradKernel</span></code>类。</li>
 </ul>
 </li>
 </ul>
