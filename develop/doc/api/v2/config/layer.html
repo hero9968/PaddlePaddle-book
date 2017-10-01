@@ -2821,6 +2821,36 @@ ight)</p>
 </dd></dl>
 
 </div>
+<div class="section" id="resize">
+<h3>resize<a class="headerlink" href="#resize" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">resize</code></dt>
+<dd><p>The resize layer resizes the input matrix with a shape of [Height, Width]
+into the output matrix with a shape of [Height x Width / size, size],
+where size is the parameter of this layer indicating the output dimension.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>input</strong> (<em>paddle.v2.config_base.Layer.</em>) &#8211; The input to this layer.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
+<li><strong>size</strong> (<em>int</em>) &#8211; The resized output dimesion of this layer.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A paddle.v2.config_base.Layer object.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">paddle.v2.config_base.Layer</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
 <div class="section" id="slope-intercept">
 <h3>slope_intercept<a class="headerlink" href="#slope-intercept" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
