@@ -220,18 +220,36 @@
 <span id="proposed-solution"></span><h2>Proposed Solution<a class="headerlink" href="#proposed-solution" title="永久链接至标题">¶</a></h2>
 <p>The mapping relationship between an operator and its gradient operators is a function. The interface of that function is:</p>
 <div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="c1">// (OpDesc) --&gt; vector&lt;OpDesc&gt;</span>
-<span class="k">using</span> <span class="n">GradOpDescMaker</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">function</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">OpDesc</span><span class="o">&gt;</span><span class="p">(</span><span class="k">const</span> <span class="n">OpDesc</span><span class="o">&amp;</span><span class="p">)</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">function</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">OpDescBind</span><span class="o">&gt;</span><span class="p">(</span><span class="k">const</span> <span class="n">OpDescBind</span><span class="o">&amp;</span><span class="p">)</span><span class="o">&gt;</span><span class="p">;</span>
 </pre></div>
 </div>
-<p>The function take a <code class="docutils literal"><span class="pre">OpDesc</span></code> of the forward operator and return one or many gradient operator descriptions.</p>
+<p>The function takes an <code class="docutils literal"><span class="pre">OpDescBind</span></code> of the forward operator and returns one or many gradient operator descriptions. <code class="docutils literal"><span class="pre">OpDescBind</span></code> is a C++ wrapper for protobuf message <code class="docutils literal"><span class="pre">OpDesc</span></code> to manipulate <code class="docutils literal"><span class="pre">OpDesc</span></code> fast.</p>
 <p>The <code class="docutils literal"><span class="pre">GradOpDescMaker</span></code> will be registered in <code class="docutils literal"><span class="pre">OpInfo</span></code>, to replace <code class="docutils literal"><span class="pre">grad_op_type_</span></code> field. The <code class="docutils literal"><span class="pre">OpInfo</span></code> should be</p>
 <div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="k">struct</span> <span class="n">OpInfo</span> <span class="p">{</span>
-  <span class="n">GradOpDescMaker</span> <span class="n">grad_op_maker_</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">function</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="n">OpDescBind</span><span class="o">&gt;&gt;</span><span class="p">(</span><span class="k">const</span> <span class="n">OpDescBind</span><span class="o">&amp;</span><span class="p">)</span><span class="o">&gt;</span>  <span class="n">grad_op_maker_</span><span class="p">;</span>
   <span class="p">...</span>
 <span class="p">};</span>
 </pre></div>
 </div>
 <p>The <code class="docutils literal"><span class="pre">grad_op_maker_</span></code> is <code class="docutils literal"><span class="pre">nullptr</span></code> if the operator does not have associated gradient operators.</p>
+<p>We propose a base class called <code class="docutils literal"><span class="pre">GradOpDescMakerBase</span></code> to let operator developers generate <code class="docutils literal"><span class="pre">Gradient</span> <span class="pre">Operators</span></code> easily. The public interface of that class is</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">GradOpDescMakerBase</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+  <span class="n">GradOpDescMakerBase</span><span class="p">(</span><span class="k">const</span> <span class="n">OpDescBind</span><span class="o">&amp;</span> <span class="p">);</span>
+  <span class="k">virtual</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="n">OpDescBind</span><span class="o">&gt;&gt;</span> <span class="k">operator</span><span class="p">()()</span><span class="k">const</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>We can convert <code class="docutils literal"><span class="pre">GradOpDescMakerBase</span></code> to <code class="docutils literal"><span class="pre">std::function&lt;std::vector&lt;std::unique_ptr&lt;OpDescBind&gt;&gt;(const</span> <span class="pre">OpDescBind&amp;)&gt;</span></code> by</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">GradOpMaker</span> <span class="o">=</span> <span class="p">...;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">function</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">OpDescBind</span><span class="o">&gt;</span><span class="p">(</span><span class="k">const</span> <span class="n">OpDescBind</span><span class="o">&amp;</span><span class="p">)</span><span class="o">&gt;</span> <span class="n">func</span><span class="p">;</span>
+<span class="n">func</span> <span class="o">=</span> <span class="p">[]</span> <span class="p">(</span><span class="k">const</span> <span class="n">OpDescBind</span><span class="o">&amp;</span> <span class="n">fwd_op</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">GradOpMaker</span> <span class="n">maker</span><span class="p">(</span><span class="n">fwd_op</span><span class="p">);</span>
+  <span class="k">return</span> <span class="nf">maker</span><span class="p">();</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>We can write many helper functions since the <code class="docutils literal"><span class="pre">GradOpDescMakerBase</span></code> is a class now. The basic helper functions get the variables of <code class="docutils literal"><span class="pre">Input</span></code>, <code class="docutils literal"><span class="pre">Output</span></code>, <code class="docutils literal"><span class="pre">InputGradient</span></code> and <code class="docutils literal"><span class="pre">OutputGradient</span></code> in the forwarding operator.</p>
 <p>We should chagne register macros at the same time. In the current solution, there is no difference between forwarding operators and backward operators. So <code class="docutils literal"><span class="pre">REGISTER_OP</span></code> just register one operator. If the <code class="docutils literal"><span class="pre">REGISTER_OPERATOR</span></code> contains <code class="docutils literal"><span class="pre">OpProtoAndCheckerMaker</span></code> and <code class="docutils literal"><span class="pre">GradOpDescMaker</span></code>, we just list them in the same macro. It can be done by a macro contains <code class="docutils literal"><span class="pre">__VA_ARGS__</span></code>.</p>
 <p>The user interface should be</p>
 <div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="n">vector</span><span class="o">&lt;</span><span class="n">OpDesc</span><span class="o">&gt;</span> <span class="n">MinusOpGradMaker</span><span class="p">(</span><span class="n">OpDesc</span><span class="p">)</span> <span class="p">{...}</span>
