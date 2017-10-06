@@ -205,8 +205,8 @@
 <span id="core-concepts"></span><h2>Core Concepts<a class="headerlink" href="#core-concepts" title="永久链接至标题">¶</a></h2>
 <div class="section" id="program">
 <span id="program"></span><h3>Program<a class="headerlink" href="#program" title="永久链接至标题">¶</a></h3>
-<p>A <code class="docutils literal"><span class="pre">ProgramDesc</span></code> describes a <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/doc/design/program.md">DL program</a>, which is composed of an array of <code class="docutils literal"><span class="pre">BlockDesc</span></code>s.  A <code class="docutils literal"><span class="pre">BlockDesc</span></code> refers to its parent block by its index in the array.  For example, operators in the step block of an RNN operator needs to be able to access variables in its ancessor blocks.</p>
-<p>Whenever we create a block, we need set its parent block to the current block, so the Python class <code class="docutils literal"><span class="pre">Program</span></code> needs to maintain a data member <code class="docutils literal"><span class="pre">current_block</span></code>.</p>
+<p>A <code class="docutils literal"><span class="pre">ProgramDesc</span></code> describes a <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/doc/design/program.md">DL program</a>, which is composed of an array of <code class="docutils literal"><span class="pre">BlockDesc</span></code>s.  The <code class="docutils literal"><span class="pre">BlockDesc</span></code>s in a <code class="docutils literal"><span class="pre">ProgramDesc</span></code> can have a tree-like hierarchical structure. However, the <code class="docutils literal"><span class="pre">ProgramDesc</span></code> onlys stores a flattened array of <code class="docutils literal"><span class="pre">BlockDesc</span></code>s. A <code class="docutils literal"><span class="pre">BlockDesc</span></code> refers to its parent block by its index in the array.  For example, operators in the step block of an RNN operator need to be able to access variables in its ancestor blocks.</p>
+<p>Whenever we create a block, we need to set its parent block to the current block, hence the Python class <code class="docutils literal"><span class="pre">Program</span></code> needs to maintain a data member <code class="docutils literal"><span class="pre">current_block</span></code>.</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Program</span><span class="p">(</span><span class="n">objects</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">proto</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">NewProgram</span><span class="p">()</span> <span class="c1"># a C++ ProgramDesc pointer.</span>
@@ -266,12 +266,12 @@
        <span class="bp">self</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">prepend</span><span class="p">(</span><span class="n">Operator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">...</span><span class="p">))</span>
 </pre></div>
 </div>
-<p><code class="docutils literal"><span class="pre">create_parameter</span></code> is necessary because parameters are global variables, those defined in the global block, but can be created in some sub-blocks, e.g., an FC layer in the step block of an RNN operator.</p>
-<p><code class="docutils literal"><span class="pre">prepand_operator</span></code> is necessary because the constructor of <code class="docutils literal"><span class="pre">Parameter</span></code> needs to create the initialize (or load) operator of the parameter, and would like to put it in the <em>preamble</em> of the global block.</p>
+<p><code class="docutils literal"><span class="pre">create_parameter</span></code> is necessary because parameters are global variables, defined in the global block, but can be created in some sub-blocks. For example, an FC layer in the step block of an RNN operator.</p>
+<p><code class="docutils literal"><span class="pre">prepend_operator</span></code> is necessary because the constructor of <code class="docutils literal"><span class="pre">Parameter</span></code> needs to create the initialize (or load) operator of the parameter, and would like to put it in the <em>preamble</em> of the global block.</p>
 </div>
 <div class="section" id="operator">
 <span id="operator"></span><h3>Operator<a class="headerlink" href="#operator" title="永久链接至标题">¶</a></h3>
-<p>The <code class="docutils literal"><span class="pre">Operator</span></code> class fills in the <code class="docutils literal"><span class="pre">OpDesc</span></code> message and calls the C++ function <code class="docutils literal"><span class="pre">InferShape</span></code> to infer output shape from input shape.</p>
+<p>The <code class="docutils literal"><span class="pre">Operator</span></code> class fills in the <code class="docutils literal"><span class="pre">OpDesc</span></code> message and calls the C++ function <code class="docutils literal"><span class="pre">InferShape</span></code> to infer the output shapes from the input shapes.</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Operator</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">block</span><span class="p">,</span>  <span class="c1"># Block</span>
@@ -287,7 +287,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">proto</span><span class="o">.</span><span class="n">type</span><span class="p">()</span>
 </pre></div>
 </div>
-<p><code class="docutils literal"><span class="pre">Operator</span></code> creates the <code class="docutils literal"><span class="pre">OpDesc</span></code> message in C++ space, so could it call the <code class="docutils literal"><span class="pre">InferShape</span></code> function, which is in C++.</p>
+<p><code class="docutils literal"><span class="pre">Operator</span></code> creates the <code class="docutils literal"><span class="pre">OpDesc</span></code> message in C++ space, so that it can call the <code class="docutils literal"><span class="pre">InferShape</span></code> function, which is in C++.</p>
 </div>
 <div class="section" id="variable">
 <span id="variable"></span><h3>Variable<a class="headerlink" href="#variable" title="永久链接至标题">¶</a></h3>
@@ -308,7 +308,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">writer</span> <span class="o">=</span> <span class="bp">None</span>
 </pre></div>
 </div>
-<p>Please be aware of <code class="docutils literal"><span class="pre">self.writer</span></code>, that tracks operator who creates the variable.  It possible that there are more than one operators who write a variable, but in Python space, each writes to a variable is represented by a Variable class.  This is guaranteed by the fact that <strong><code class="docutils literal"><span class="pre">core.NewVarDesc</span></code> must NOT create a new <code class="docutils literal"><span class="pre">VarDesc</span></code> message if its name already exists in the specified block</strong>.</p>
+<p>Please be aware of <code class="docutils literal"><span class="pre">self.writer</span></code>, that tracks operator who creates the variable.  It possible that there are more than one operators who write a variable, but in Python space, each write to a variable is represented by a Variable class.  This is guaranteed by the fact that <strong><code class="docutils literal"><span class="pre">core.NewVarDesc</span></code> must NOT create a new <code class="docutils literal"><span class="pre">VarDesc</span></code> message if its name already exists in the specified block</strong>.</p>
 </div>
 <div class="section" id="parameter">
 <span id="parameter"></span><h3>Parameter<a class="headerlink" href="#parameter" title="永久链接至标题">¶</a></h3>
@@ -333,7 +333,7 @@
                                <span class="n">initialize_op_attrs</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>When users create a parameter, s/he can call</p>
+<p>When users create a parameter, they can call</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">program</span><span class="o">.</span><span class="n">create_parameter</span><span class="p">(</span>
   <span class="o">...</span><span class="p">,</span>
   <span class="n">init_attr</span><span class="o">=</span><span class="p">{</span>
