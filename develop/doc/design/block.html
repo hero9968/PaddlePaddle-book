@@ -230,68 +230,71 @@
 <div class="section" id="blocks-with-if-else-and-ifelseop">
 <span id="blocks-with-if-else-and-ifelseop"></span><h3>Blocks with <code class="docutils literal"><span class="pre">if-else</span></code> and <code class="docutils literal"><span class="pre">IfElseOp</span></code><a class="headerlink" href="#blocks-with-if-else-and-ifelseop" title="Permalink to this headline">¶</a></h3>
 <p>The following C++ programs shows how blocks are used with the <code class="docutils literal"><span class="pre">if-else</span></code> structure:</p>
-<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
-<span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span>
-<span class="kt">int</span> <span class="n">out</span><span class="p">;</span>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="k">namespace</span> <span class="n">pd</span> <span class="o">=</span> <span class="n">paddle</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">z</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
 <span class="kt">bool</span> <span class="n">cond</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">o1</span><span class="p">,</span> <span class="n">o2</span><span class="p">;</span>
 <span class="k">if</span> <span class="p">(</span><span class="n">cond</span><span class="p">)</span> <span class="p">{</span>
   <span class="kt">int</span> <span class="n">z</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">;</span>
-  <span class="n">out</span> <span class="o">=</span> <span class="n">softmax</span><span class="p">(</span><span class="n">z</span><span class="p">);</span>
+  <span class="n">o1</span> <span class="o">=</span> <span class="n">z</span><span class="p">;</span>
+  <span class="n">o2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">::</span><span class="n">layer</span><span class="o">::</span><span class="n">softmax</span><span class="p">(</span><span class="n">z</span><span class="p">);</span>
 <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-  <span class="kt">int</span> <span class="n">z</span> <span class="o">=</span> <span class="n">fc</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
-  <span class="n">out</span> <span class="o">=</span> <span class="n">z</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">d</span> <span class="o">=</span> <span class="n">pd</span><span class="o">::</span><span class="n">layer</span><span class="o">::</span><span class="n">fc</span><span class="p">(</span><span class="n">z</span><span class="p">);</span>
+  <span class="n">o1</span> <span class="o">=</span> <span class="n">d</span><span class="p">;</span>
+  <span class="n">o2</span> <span class="o">=</span> <span class="n">d</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
 </div>
 <p>An equivalent PaddlePaddle program from the design doc of the <a class="reference internal" href="if_else_op.html"><span class="doc">IfElseOp operator</span></a> is as follows:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">paddle</span> <span class="kn">as</span> <span class="nn">pd</span>
 
-<span class="n">x</span> <span class="o">=</span> <span class="n">var</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">var</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
-<span class="n">cond</span> <span class="o">=</span> <span class="n">var</span><span class="p">(</span><span class="n">false</span><span class="p">)</span>
-<span class="n">ie</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">create_ifelseop</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="n">x</span><span class="p">],</span> <span class="n">output_num</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">minibatch</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">])</span> <span class="c1"># shape=[None, 1]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">var</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># shape=[1], value=1</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">minibatch</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">])</span> <span class="c1"># shape=[None, 1]</span>
+<span class="n">cond</span> <span class="o">=</span> <span class="n">larger_than</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span> <span class="c1"># [false, true, true]</span>
+
+<span class="n">ie</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">ifelse</span><span class="p">()</span>
 <span class="k">with</span> <span class="n">ie</span><span class="o">.</span><span class="n">true_block</span><span class="p">():</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">inputs</span><span class="p">(</span><span class="n">true</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="n">z</span> <span class="o">=</span> <span class="n">operator</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-    <span class="n">ie</span><span class="o">.</span><span class="n">set_output</span><span class="p">(</span><span class="n">true</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">operator</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">z</span><span class="p">))</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">add_scalar</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="n">ie</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">d</span><span class="p">))</span>
 <span class="k">with</span> <span class="n">ie</span><span class="o">.</span><span class="n">false_block</span><span class="p">():</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">inputs</span><span class="p">(</span><span class="n">false</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="n">z</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="n">ie</span><span class="o">.</span><span class="n">set_output</span><span class="p">(</span><span class="n">true</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">operator</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">z</span><span class="p">))</span>
-<span class="n">out</span> <span class="o">=</span> <span class="n">b</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+    <span class="n">ie</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">d</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">o1</span><span class="p">,</span> <span class="n">o2</span> <span class="o">=</span> <span class="n">ie</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>In both examples, the left branch computes <code class="docutils literal"><span class="pre">softmax(x+y)</span></code> and the right branch computes <code class="docutils literal"><span class="pre">fc(x)</span></code>.</p>
+<p>In both examples, the left branch computes <code class="docutils literal"><span class="pre">x+y</span></code> and <code class="docutils literal"><span class="pre">softmax(x+y)</span></code>, the right branch computes <code class="docutils literal"><span class="pre">x+1</span></code> and <code class="docutils literal"><span class="pre">fc(x)</span></code>.</p>
 <p>A difference is that variables in the C++ program contain scalar values, whereas those in the PaddlePaddle programs are mini-batches of instances.  The <code class="docutils literal"><span class="pre">ie.input(true,</span> <span class="pre">0)</span></code> invocation returns instances in the 0-th input, <code class="docutils literal"><span class="pre">x</span></code>, that corresponds to true values in <code class="docutils literal"><span class="pre">cond</span></code> as the local variable <code class="docutils literal"><span class="pre">x</span></code>, where <code class="docutils literal"><span class="pre">ie.input(false,</span> <span class="pre">0)</span></code> returns instances corresponding to false values.</p>
 </div>
 <div class="section" id="blocks-with-for-and-rnnop">
 <span id="blocks-with-for-and-rnnop"></span><h3>Blocks with <code class="docutils literal"><span class="pre">for</span></code> and <code class="docutils literal"><span class="pre">RNNOp</span></code><a class="headerlink" href="#blocks-with-for-and-rnnop" title="Permalink to this headline">¶</a></h3>
 <p>The following RNN model from the <a class="reference external" href="design/rnn.md">RNN design doc</a></p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">sequence</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">])</span>
-<span class="n">m</span> <span class="o">=</span> <span class="n">var</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">W</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">()</span>
-<span class="n">U</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">()</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">sequence</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">])</span> <span class="c1"># shape=[None, 1]</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">var</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># shape=[1]</span>
+<span class="n">W</span> <span class="o">=</span> <span class="n">var</span><span class="p">(</span><span class="mf">0.314</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="n">true</span><span class="p">)</span> <span class="c1"># shape=[1]</span>
+<span class="n">U</span> <span class="o">=</span> <span class="n">var</span><span class="p">(</span><span class="mf">0.375</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="n">true</span><span class="p">)</span> <span class="c1"># shape=[1]</span>
 
-<span class="n">rnn</span> <span class="o">=</span> <span class="n">create_rnn</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="nb">input</span><span class="p">])</span>
-<span class="k">with</span> <span class="n">rnn</span><span class="o">.</span><span class="n">stepnet</span><span class="p">()</span> <span class="k">as</span> <span class="n">net</span><span class="p">:</span>
-  <span class="n">x</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">set_inputs</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-  <span class="n">h</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">add_memory</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="n">m</span><span class="p">)</span>
-  <span class="n">fc_out</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
-  <span class="n">hidden_out</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">h</span><span class="o">.</span><span class="n">pre</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
-  <span class="nb">sum</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">add_two</span><span class="p">(</span><span class="n">fc_out</span><span class="p">,</span> <span class="n">hidden_out</span><span class="p">)</span>
-  <span class="n">act</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="nb">sum</span><span class="p">)</span>
-  <span class="n">h</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">act</span><span class="p">)</span>                       <span class="c1"># update memory with act</span>
-  <span class="n">net</span><span class="o">.</span><span class="n">set_outputs</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">act</span><span class="p">,</span> <span class="n">hidden_out</span><span class="p">)</span> <span class="c1"># two outputs</span>
-
+<span class="n">rnn</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">rnn</span><span class="p">()</span>
+<span class="k">with</span> <span class="n">rnn</span><span class="o">.</span><span class="n">step</span><span class="p">():</span>
+  <span class="n">h</span> <span class="o">=</span> <span class="n">rnn</span><span class="o">.</span><span class="n">memory</span><span class="p">(</span><span class="n">init</span> <span class="o">=</span> <span class="n">m</span><span class="p">)</span>
+  <span class="n">hh</span> <span class="o">=</span> <span class="n">rnn</span><span class="o">.</span><span class="n">previous_memory</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+  <span class="n">a</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+  <span class="n">b</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">hh</span><span class="p">)</span>  
+  <span class="n">s</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+  <span class="n">act</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+  <span class="n">rnn</span><span class="o">.</span><span class="n">update_memory</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">act</span><span class="p">)</span>
+  <span class="n">rnn</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
 <span class="n">o1</span><span class="p">,</span> <span class="n">o2</span> <span class="o">=</span> <span class="n">rnn</span><span class="p">()</span>
-<span class="k">print</span> <span class="n">o1</span><span class="p">,</span> <span class="n">o2</span>
 </pre></div>
 </div>
 <p>has its equivalent C++ program as follows</p>
 <div class="highlight-c++"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="o">*</span> <span class="n">x</span> <span class="o">=</span> <span class="p">{</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">};</span>
-<span class="kt">int</span> <span class="n">m</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-<span class="kt">int</span> <span class="n">W</span> <span class="o">=</span> <span class="n">some_value</span><span class="p">();</span>
-<span class="kt">int</span> <span class="n">U</span> <span class="o">=</span> <span class="n">some_other_value</span><span class="p">();</span>
+<span class="kt">int</span><span class="o">*</span> <span class="n">m</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+<span class="kt">int</span><span class="o">*</span> <span class="n">W</span> <span class="o">=</span> <span class="p">{</span><span class="mf">0.314</span><span class="p">};</span>
+<span class="kt">int</span><span class="o">*</span> <span class="n">U</span> <span class="o">=</span> <span class="p">{</span><span class="mf">0.375</span><span class="p">};</span>
 
 <span class="kt">int</span> <span class="n">mem</span><span class="p">[</span><span class="k">sizeof</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span><span class="p">];</span>
 <span class="kt">int</span> <span class="n">o1</span><span class="p">[</span><span class="k">sizeof</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span><span class="p">];</span>
@@ -299,17 +302,14 @@
 <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">/</span><span class="k">sizeof</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
   <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span>
   <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="n">mem</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span><span class="p">;</span>
-  <span class="kt">int</span> <span class="n">fc_out</span> <span class="o">=</span> <span class="n">W</span> <span class="o">*</span> <span class="n">x</span><span class="p">;</span>
-  <span class="kt">int</span> <span class="n">hidden_out</span> <span class="o">=</span> <span class="n">Y</span> <span class="o">*</span> <span class="n">mem</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span>
-  <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="n">fc_out</span> <span class="o">+</span> <span class="n">hidden_out</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="n">W</span> <span class="o">*</span> <span class="n">x</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">b</span> <span class="o">=</span> <span class="n">Y</span> <span class="o">*</span> <span class="n">mem</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span>
+  <span class="kt">int</span> <span class="n">s</span> <span class="o">=</span> <span class="n">fc_out</span> <span class="o">+</span> <span class="n">hidden_out</span><span class="p">;</span>
   <span class="kt">int</span> <span class="n">act</span> <span class="o">=</span> <span class="n">sigmoid</span><span class="p">(</span><span class="n">sum</span><span class="p">);</span>
   <span class="n">mem</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">act</span><span class="p">;</span>
   <span class="n">o1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">act</span><span class="p">;</span>
   <span class="n">o2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">hidden_out</span><span class="p">;</span>
 <span class="p">}</span>
-
-<span class="n">print_array</span><span class="p">(</span><span class="n">o1</span><span class="p">);</span>
-<span class="n">print_array</span><span class="p">(</span><span class="n">o2</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -368,11 +368,11 @@ Child block&#8217;s name scopes should inherit the parent&#8217;s so that OpDesc
 <span class="n">b</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;fc.w&quot;</span><span class="p">,</span> <span class="s2">&quot;fc.b&quot;</span><span class="p">])</span>
 
 <span class="n">rnn</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">create_rnn</span><span class="p">()</span>
-<span class="k">with</span> <span class="n">rnn</span><span class="o">.</span><span class="n">stepnet</span><span class="p">()</span> <span class="k">as</span> <span class="n">net</span><span class="p">:</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">set_inputs</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">rnn</span><span class="o">.</span><span class="n">stepnet</span><span class="p">()</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">as_step_input</span><span class="p">()</span>
     <span class="c1"># reuse fc&#39;s parameter</span>
     <span class="n">fc_without_b</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_variable</span><span class="p">(</span><span class="s2">&quot;fc.w&quot;</span><span class="p">)</span>
-    <span class="n">net</span><span class="o">.</span><span class="n">set_outputs</span><span class="p">(</span><span class="n">fc_without_b</span><span class="p">)</span>
+    <span class="n">rnn</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">fc_without_b</span><span class="p">)</span>
 
 <span class="n">out</span> <span class="o">=</span> <span class="n">rnn</span><span class="p">()</span>
 </pre></div>
