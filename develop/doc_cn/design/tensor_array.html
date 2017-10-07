@@ -193,49 +193,230 @@
             
   <div class="section" id="design-for-tensorarray">
 <span id="design-for-tensorarray"></span><h1>Design for TensorArray<a class="headerlink" href="#design-for-tensorarray" title="永久链接至标题">¶</a></h1>
+<p>This design doc presents the necessity of a new C++ class <code class="docutils literal"><span class="pre">TensorArray</span></code>.
+In addition to the very simple C++ implementation</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TensorArray</span> <span class="p">{</span>
+ <span class="k">public</span><span class="o">:</span>
+  <span class="k">explicit</span> <span class="n">TensorArray</span><span class="p">(</span><span class="k">const</span> <span class="n">LoDTensor</span><span class="o">&amp;</span><span class="p">);</span>
+  <span class="k">explicit</span> <span class="nf">TensorArray</span><span class="p">(</span><span class="kt">size_t</span> <span class="n">size</span><span class="p">);</span>
+
+ <span class="k">private</span><span class="o">:</span>
+  <span class="n">vector</span><span class="o">&lt;</span><span class="n">LoDTensor</span><span class="o">&gt;</span> <span class="n">values_</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>We also need to expose it to PaddlePaddle&#8217;s Python API,
+because users would want to use it with our very flexible operators <code class="docutils literal"><span class="pre">WhileLoop</span></code>.
+An example for a RNN based on dynamic operators is</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="nb">input</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="n">num_steps</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+
+<span class="n">TensorArray</span> <span class="n">states</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">num_steps</span><span class="p">)</span>
+<span class="n">TensorArray</span> <span class="n">step_inputs</span><span class="p">(</span><span class="n">unstack_from</span><span class="o">=</span><span class="nb">input</span><span class="p">)</span>
+<span class="n">TensorArray</span> <span class="n">step_outputs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">num_steps</span><span class="p">)</span>
+
+<span class="n">W</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="n">U</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="n">default_state</span> <span class="o">=</span> <span class="n">some_op</span><span class="p">()</span>
+
+<span class="n">step</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">wloop</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">create_whileloop</span><span class="p">(</span><span class="n">loop_vars</span><span class="o">=</span><span class="p">[</span><span class="n">step</span><span class="p">])</span>
+<span class="k">with</span> <span class="n">wloop</span><span class="o">.</span><span class="n">frame</span><span class="p">():</span>
+    <span class="n">wloop</span><span class="o">.</span><span class="n">break_if</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="n">num_steps</span><span class="p">)</span>
+    <span class="n">pre_state</span> <span class="o">=</span> <span class="n">states</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">step</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">default_state</span><span class="p">)</span>
+    <span class="n">step_input</span> <span class="o">=</span> <span class="n">step_inputs</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">step</span><span class="p">)</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">pre_state</span><span class="p">)</span> <span class="o">+</span> <span class="n">pd</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">step_input</span><span class="p">))</span>
+    <span class="n">states</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
+    <span class="n">step_outputs</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span> <span class="c1"># output state</span>
+    <span class="n">step</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">state</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">output</span> <span class="o">=</span> <span class="n">step_outputs</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="section" id="background">
+<span id="background"></span><h2>Background<a class="headerlink" href="#background" title="永久链接至标题">¶</a></h2>
+<p>Steps are one of the core concepts of RNN. In each time step of RNN, there should be several input segments, states, and output segments; all these components act like arrays, for example, call <code class="docutils literal"><span class="pre">states[step_id]</span></code> will get the state in <code class="docutils literal"><span class="pre">step_id</span></code>th time step.</p>
+<p>An RNN can be implemented with the following pseudocode</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">Array</span> <span class="n">states</span><span class="p">;</span>
+<span class="n">Array</span> <span class="n">input_segments</span><span class="p">;</span>
+<span class="n">Array</span> <span class="n">output_segments</span><span class="p">;</span>
+<span class="n">Parameter</span> <span class="n">W</span><span class="p">,</span> <span class="n">U</span><span class="p">;</span>
+
+<span class="n">step</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">seq_len</span> <span class="o">=</span> <span class="mi">12</span>
+<span class="n">while_loop</span> <span class="p">{</span>
+   <span class="k">if</span> <span class="p">(</span><span class="n">step</span> <span class="o">==</span> <span class="n">seq_len</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+    <span class="n">states</span><span class="p">[</span><span class="n">step</span><span class="p">]</span> <span class="o">=</span> <span class="n">sigmoid</span><span class="p">(</span><span class="n">W</span> <span class="o">*</span> <span class="n">states</span><span class="p">[</span><span class="n">step</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">U</span> <span class="o">*</span> <span class="n">input_segments</span><span class="p">[</span><span class="n">step</span><span class="p">]);</span>
+    <span class="n">output_segments</span><span class="p">[</span><span class="n">step</span><span class="p">]</span> <span class="o">=</span> <span class="n">states</span><span class="p">[</span><span class="n">step</span><span class="p">]</span> <span class="c1">// take state as output</span>
+   <span class="n">step</span><span class="o">++</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>According to the <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/issues/4561">RNN roadmap</a>, there are several different RNNs that PaddlePaddle will eventually support.</p>
+<p>Currently, the basic RNN implementation supported by PaddlePaddle is the <code class="docutils literal"><span class="pre">recurrent_op</span></code> which takes tensors as input and splits them into <code class="docutils literal"><span class="pre">input_segments</span></code>.</p>
+<p>Since a tensor cannot store variable-length sequences directly, PaddlePaddle implements the tensor with level of details (<code class="docutils literal"><span class="pre">LoDTensor</span></code> for short).
+Segmenting the <code class="docutils literal"><span class="pre">LoDTensor</span></code> is much more complicated than splitting a tensor, that makes it necessary to refactor the <code class="docutils literal"><span class="pre">recurrent_op</span></code> with <code class="docutils literal"><span class="pre">LoDTensor</span></code> segmenting support.</p>
+<p>As the next step in RNN support, <code class="docutils literal"><span class="pre">dynamic_recurrent_op</span></code> should be introduced to handle inputs with variable-length sequences.</p>
+<p>The implementation is similar to <code class="docutils literal"><span class="pre">recurrent_op</span></code>.
+The key difference is the way <strong>the original input <code class="docutils literal"><span class="pre">LoDTensors</span></code> and outupts are split to get the <code class="docutils literal"><span class="pre">input_segments</span></code> and the <code class="docutils literal"><span class="pre">output_segments</span></code>.</strong></p>
+<p>Though it can&#8217;t be built over <code class="docutils literal"><span class="pre">recurrent_op</span></code> or <code class="docutils literal"><span class="pre">dynamic_recurrent_op</span></code> directly,
+the logic behind splitting a tensor or a LoD tensor into <code class="docutils literal"><span class="pre">input_segments</span></code> remains the same.</p>
+</div>
+<div class="section" id="why-tensorarray">
+<span id="why-tensorarray"></span><h2>Why <code class="docutils literal"><span class="pre">TensorArray</span></code><a class="headerlink" href="#why-tensorarray" title="永久链接至标题">¶</a></h2>
+<p>The logic behind splitting the inputs to segments, states and outputs is similar and can be shared in a seperate module.</p>
+<p>The array of <code class="docutils literal"><span class="pre">states</span></code>, <code class="docutils literal"><span class="pre">input_segments</span></code> and <code class="docutils literal"><span class="pre">output_segments</span></code> would be exposed to users when writing a dynamic RNN model similar to the above pseudo codes.</p>
+<p>So there should be an array-like container, which can store the segments of a tensor or LoD tensor.</p>
+<p><strong>This container can store an array of tensors and provides several methods to split a tensor or a LoD tensor</strong> .
+This is where the notion of <code class="docutils literal"><span class="pre">TensorArray</span></code> comes from.</p>
+</div>
+<div class="section" id="introduce-tensorarray-to-uniform-all-the-three-rnns">
+<span id="introduce-tensorarray-to-uniform-all-the-three-rnns"></span><h2>Introduce TensorArray to uniform all the three RNNs<a class="headerlink" href="#introduce-tensorarray-to-uniform-all-the-three-rnns" title="永久链接至标题">¶</a></h2>
 <p>TensorArray as a new concept is borrowed from TensorFlow,
 it is meant to be used with dynamic iteration primitives such as <code class="docutils literal"><span class="pre">while_loop</span></code> and <code class="docutils literal"><span class="pre">map_fn</span></code>.</p>
 <p>This concept can be used to support our new design of dynamic operations, and help to refactor some existing variant-sentence-related layers,
-such as <code class="docutils literal"><span class="pre">RecurrentGradientMachine</span></code>.</p>
+such as <code class="docutils literal"><span class="pre">recurrent_op</span></code>, <code class="docutils literal"><span class="pre">RecurrentGradientMachine</span></code>.</p>
 <p>In <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/pull/4401">our design for dynamic RNN</a>,
 <code class="docutils literal"><span class="pre">TensorArray</span></code> is used to segment inputs and store states in all time steps.
 By providing some methods similar to a C++ array,
-the definition of some state-based dynamic models such as RNN could be more natural and highly flexible.</p>
-<div class="section" id="dynamic-related-methods">
-<span id="dynamic-related-methods"></span><h2>Dynamic-Related Methods<a class="headerlink" href="#dynamic-related-methods" title="永久链接至标题">¶</a></h2>
-<p>Some basic methods should be proposed as follows:</p>
-<div class="section" id="stack">
-<span id="stack"></span><h3>stack()<a class="headerlink" href="#stack" title="永久链接至标题">¶</a></h3>
-<p>Pack the values in a <code class="docutils literal"><span class="pre">TensorArray</span></code> into a tensor with rank one higher than each tensor in <code class="docutils literal"><span class="pre">values</span></code>.</p>
+the definition of some state-based dynamic models such as RNN can be more natural and highly flexible.</p>
 </div>
-<div class="section" id="unstack-axis-0">
-<span id="unstack-axis-0"></span><h3>unstack(axis=0)<a class="headerlink" href="#unstack-axis-0" title="永久链接至标题">¶</a></h3>
-<p>Unpacks the given dimension of a rank-<code class="docutils literal"><span class="pre">R</span></code> tensor into rank-<code class="docutils literal"><span class="pre">(R-1)</span></code> tensors.</p>
+<div class="section" id="dynamic-operations-on-tensorarray">
+<span id="dynamic-operations-on-tensorarray"></span><h2>Dynamic-operations on TensorArray<a class="headerlink" href="#dynamic-operations-on-tensorarray" title="永久链接至标题">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">TensorArray</span></code> will be used directly when defining dynamic models, so some operators listed below should be implemented</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># several helper operators for TensorArray</span>
+<span class="k">def</span> <span class="nf">tensor_array_stack</span><span class="p">(</span><span class="n">ta</span><span class="p">,</span> <span class="n">tensor</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    get a tensor array `ta`, return a packed `tensor`.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">pass</span>
+
+<span class="k">def</span> <span class="nf">tensor_array_unstack</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">ta</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    get a `tensor`, unstack it and get a tensor array `ta`.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">pass</span>
+
+<span class="k">def</span> <span class="nf">tensor_array_write</span><span class="p">(</span><span class="n">ta</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">tensor</span><span class="p">,</span> <span class="n">data_shared</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    get a `tensor` and a scalar tensor `index`, write `tensor` into index-th</span>
+<span class="sd">    value of the tensor array `ta`.</span>
+<span class="sd">    `data_shared` is an attribute that specifies whether to copy or reference the tensors.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">pass</span>
+
+<span class="k">def</span> <span class="nf">tensor_array_read</span><span class="p">(</span><span class="n">ta</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">tensor</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    get a tensor array `ta`, a scalar tensor `index`, read the index-th value of</span>
+<span class="sd">    `ta` and return as the `tensor`.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">pass</span>
+
+<span class="k">def</span> <span class="nf">tensor_array_size</span><span class="p">(</span><span class="n">ta</span><span class="p">,</span> <span class="n">tensor</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    get a tensor array `ta`, return the size of `ta` and return as the scalar `tensor`.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">pass</span>
+</pre></div>
 </div>
-<div class="section" id="concat">
-<span id="concat"></span><h3>concat()<a class="headerlink" href="#concat" title="永久链接至标题">¶</a></h3>
-<p>Return the values in the <code class="docutils literal"><span class="pre">TensorArray</span></code> as a concatenated Tensor.</p>
-</div>
-<div class="section" id="write-index-value-data-shared-true">
-<span id="write-index-value-data-shared-true"></span><h3>write(index, value, data_shared=true)<a class="headerlink" href="#write-index-value-data-shared-true" title="永久链接至标题">¶</a></h3>
-<p>Write value into index of the TensorArray.</p>
-</div>
-<div class="section" id="read-index">
-<span id="read-index"></span><h3>read(index)<a class="headerlink" href="#read-index" title="永久链接至标题">¶</a></h3>
-<p>Read the value at location <code class="docutils literal"><span class="pre">index</span></code> in the <code class="docutils literal"><span class="pre">TensorArray</span></code>.</p>
-</div>
-<div class="section" id="size">
-<span id="size"></span><h3>size()<a class="headerlink" href="#size" title="永久链接至标题">¶</a></h3>
-<p>Return the number of values.</p>
+<p>It is trivial for users to use so many low-level operators, so some helper methods should be proposed in python wrapper to make <code class="docutils literal"><span class="pre">TensorArray</span></code> easier to use,
+for example</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TensorArray</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">desc</span> <span class="o">=</span> <span class="n">TensorArrayDesc</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">stack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Pack the values in a `TensorArray` into a tensor with rank one higher</span>
+<span class="sd">        than each tensor in `values`.</span>
+<span class="sd">        `stack` can be used to split tensor into time steps for RNN or whileloop.</span>
+
+<span class="sd">        @name: str</span>
+<span class="sd">            the name of the variable to output.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">tensor</span> <span class="o">=</span> <span class="n">NewVar</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">tensor_array_stack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">tensor</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tensor</span>
+
+    <span class="k">def</span> <span class="nf">unstack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Unpacks the given dimension of a rank-`R` tensor into rank-`(R-1)` tensors.</span>
+<span class="sd">        `unstack` can be used to concatenate all the time steps for RNN or whileloop.</span>
+
+<span class="sd">        @input: str</span>
+<span class="sd">            the name of input tensor</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">tensor_array_unstack</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">data_shared</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Write value into index of the TensorArray.</span>
+<span class="sd">        If `data_shared` is set to True, than the index-th value in TensorArray will</span>
+<span class="sd">        be shared with the tensor passed in.</span>
+
+<span class="sd">        @index: str</span>
+<span class="sd">            name of a scalar tensor</span>
+<span class="sd">        @value: str</span>
+<span class="sd">            name of a tensor</span>
+<span class="sd">        @data_shared: bool</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">tensor_array_write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">data_shared</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">output</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Read the value at location `index` in the `TensorArray`.</span>
+
+<span class="sd">        @index: str</span>
+<span class="sd">            name of a scalar tensor</span>
+<span class="sd">        @output:</span>
+<span class="sd">            name of a output variable</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">tensor_array_read</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Return the number of values.</span>
+
+<span class="sd">        @output: str</span>
+<span class="sd">            name of a scalar tensor</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">tensor_array_size</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
+</pre></div>
 </div>
 </div>
 <div class="section" id="lodtensor-related-supports">
 <span id="lodtensor-related-supports"></span><h2>LoDTensor-related Supports<a class="headerlink" href="#lodtensor-related-supports" title="永久链接至标题">¶</a></h2>
-<p>The <code class="docutils literal"><span class="pre">RecurrentGradientMachine</span></code> in Paddle serves as a flexible RNN layer; it takes variant length sequences as input,
-because each step of RNN could only take a tensor-represented batch of data as input,
+<p>The <code class="docutils literal"><span class="pre">RecurrentGradientMachine</span></code> in Paddle serves as a flexible RNN layer; it takes varience-length sequences as input, and output sequences too.</p>
+<p>Since each step of RNN can only take a tensor-represented batch of data as input,
 some preprocess should be taken on the inputs such as sorting the sentences by their length in descending order and cut each word and pack to new batches.</p>
-<p>Such cut-like operations can be embedded into <code class="docutils literal"><span class="pre">TensorArray</span></code> as general methods called <code class="docutils literal"><span class="pre">unpack</span></code> and <code class="docutils literal"><span class="pre">pack</span></code>.</p>
-<p>With these two methods, a variant-sentence-RNN can be implemented like</p>
+<p>Such cut-like operations can be embedded into <code class="docutils literal"><span class="pre">TensorArray</span></code> as general methods called <code class="docutils literal"><span class="pre">unpack</span></code> and <code class="docutils literal"><span class="pre">pack</span></code>,
+these two operations are similar to <code class="docutils literal"><span class="pre">stack</span></code> and <code class="docutils literal"><span class="pre">unstack</span></code> except that they operate on variable-length sequences formated as a LoD tensor rather than a tensor.</p>
+<p>Some definitions are like</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">unpack</span><span class="p">(</span><span class="n">level</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Split LodTensor in some `level` and generate batches, if set `sort_by_length`,</span>
+<span class="sd">    will sort by length.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        - a new `TensorArray`, whose values are LodTensors and represents batches</span>
+<span class="sd">          of data.</span>
+<span class="sd">        - an int32 Tensor, which stores the map from the new batch&#39;s indices to</span>
+<span class="sd">          original LoDTensor</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">pass</span>
+
+<span class="k">def</span> <span class="nf">pack</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="n">indices_map</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Recover the original LoD-arranged LoDTensor with the values in a `TensorArray`</span>
+<span class="sd">    and `level` and `indices_map`.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>With these two methods, a varience-length sentence supported RNN can be implemented like</p>
 <div class="highlight-c++"><div class="highlight"><pre><span></span><span class="c1">// input is the varient-length data</span>
 <span class="n">LodTensor</span> <span class="nf">sentence_input</span><span class="p">(</span><span class="n">xxx</span><span class="p">);</span>
 <span class="n">TensorArray</span> <span class="n">ta</span><span class="p">;</span>
@@ -259,20 +440,6 @@ some preprocess should be taken on the inputs such as sorting the sentences by t
 </div>
 <p>the code above shows that by embedding the LoDTensor-related preprocess operations into <code class="docutils literal"><span class="pre">TensorArray</span></code>,
 the implementation of a RNN that supports varient-length sentences is far more concise than <code class="docutils literal"><span class="pre">RecurrentGradientMachine</span></code> because the latter mixes all the codes together, hard to read and extend.</p>
-<p>some details are as follows.</p>
-<div class="section" id="unpack-level-sort-by-length">
-<span id="unpack-level-sort-by-length"></span><h3>unpack(level, sort_by_length)<a class="headerlink" href="#unpack-level-sort-by-length" title="永久链接至标题">¶</a></h3>
-<p>Split LodTensor in some <code class="docutils literal"><span class="pre">level</span></code> and generate batches, if set <code class="docutils literal"><span class="pre">sort_by_length</span></code>, will sort by length.</p>
-<p>Returns:</p>
-<ul class="simple">
-<li>a new <code class="docutils literal"><span class="pre">TensorArray</span></code>, whose values are LodTensors and represents batches of data.</li>
-<li>an int32 Tensor, which stores the map from the new batch&#8217;s indices to original LoDTensor</li>
-</ul>
-</div>
-<div class="section" id="pack-level-indices-map">
-<span id="pack-level-indices-map"></span><h3>pack(level, indices_map)<a class="headerlink" href="#pack-level-indices-map" title="永久链接至标题">¶</a></h3>
-<p>Recover the original LoD-arranged LoDTensor with the values in a <code class="docutils literal"><span class="pre">TensorArray</span></code> and <code class="docutils literal"><span class="pre">level</span></code> and <code class="docutils literal"><span class="pre">indices_map</span></code>.</p>
-</div>
 </div>
 </div>
 
