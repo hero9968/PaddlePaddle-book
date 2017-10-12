@@ -207,16 +207,23 @@
 </div>
 <div class="section" id="definition-of-vardesc">
 <span id="definition-of-vardesc"></span><h1>Definition of VarDesc<a class="headerlink" href="#definition-of-vardesc" title="永久链接至标题">¶</a></h1>
-<p>A VarDesc should have a name and value, in PaddlePaddle, the value will always be a tensor. Since we use LoDTensor most of the time. We add a LoDTesnorDesc to represent it.</p>
+<p>A VarDesc should have a name, and value. The are two kinds of variable type in compile time, they are <code class="docutils literal"><span class="pre">LoDTensor</span></code> and <code class="docutils literal"><span class="pre">SelectedRows</span></code>.</p>
 <div class="highlight-proto"><div class="highlight"><pre><span></span><span class="kd">message</span> <span class="nc">VarDesc</span> <span class="p">{</span>
   <span class="k">required</span> <span class="kt">string</span> <span class="na">name</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-  <span class="k">optional</span> <span class="n">LoDTensorDesc</span> <span class="na">lod_tensor</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+  <span class="kd">enum</span> <span class="n">VarType</span> <span class="p">{</span>
+    <span class="na">LOD_TENSOR</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="na">SELECTED_ROWS</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">required</span> <span class="n">VarType</span> <span class="na">type</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+  <span class="k">optional</span> <span class="n">LoDTensorDesc</span> <span class="na">lod_desc</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+  <span class="k">optional</span> <span class="n">TensorDesc</span> <span class="na">selected_rows_desc</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+  <span class="k">optional</span> <span class="kt">bool</span> <span class="na">persistable</span> <span class="o">=</span> <span class="mi">5</span> <span class="p">[</span> <span class="k">default</span> <span class="o">=</span> <span class="kc">false</span> <span class="p">];</span>
 <span class="p">}</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="definition-of-lodtensordesc">
-<span id="definition-of-lodtensordesc"></span><h1>Definition of LodTensorDesc<a class="headerlink" href="#definition-of-lodtensordesc" title="永久链接至标题">¶</a></h1>
+<div class="section" id="definition-of-tensordesc">
+<span id="definition-of-tensordesc"></span><h1>Definition of TensorDesc<a class="headerlink" href="#definition-of-tensordesc" title="永久链接至标题">¶</a></h1>
 <div class="highlight-proto"><div class="highlight"><pre><span></span><span class="kd">enum</span> <span class="n">DataType</span> <span class="p">{</span>
   <span class="na">BOOL</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
   <span class="na">INT16</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
@@ -227,92 +234,27 @@
   <span class="na">FP64</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span>
 <span class="p">}</span>
 
-<span class="kd">message</span> <span class="nc">LoDTensorDesc</span> <span class="p">{</span>
+<span class="kd">message</span> <span class="nc">TensorDesc</span> <span class="p">{</span>
   <span class="k">required</span> <span class="n">DataType</span> <span class="na">data_type</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-  <span class="k">repeated</span> <span class="kt">int32</span> <span class="na">dims</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">// [UNK, 640, 480] is saved as [-1, 640, 480]</span>
-  <span class="k">optional</span> <span class="kt">int32</span> <span class="na">lod_level</span> <span class="o">=</span> <span class="mi">3</span> <span class="p">[</span><span class="k">default</span><span class="o">=</span><span class="mi">0</span><span class="p">];</span>
+  <span class="k">repeated</span> <span class="kt">int64</span> <span class="na">dims</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">// [UNK, 640, 480] is saved as [-1, 640, 480]</span>
 <span class="p">}</span>
 </pre></div>
 </div>
+<p>A TensorDesc describes <code class="docutils literal"><span class="pre">SelectedRows</span></code> and <code class="docutils literal"><span class="pre">LoDTensor</span></code>. For details of <code class="docutils literal"><span class="pre">SelectedRows</span></code>, please reference <a class="reference external" href="./selected_rows.md"><code class="docutils literal"><span class="pre">SelectedRows</span></code></a>.</p>
+</div>
+<div class="section" id="definition-of-lodtensordesc">
+<span id="definition-of-lodtensordesc"></span><h1>Definition of LodTensorDesc<a class="headerlink" href="#definition-of-lodtensordesc" title="永久链接至标题">¶</a></h1>
+<div class="highlight-proto"><div class="highlight"><pre><span></span><span class="kd">message</span> <span class="nc">LoDTensorDesc</span> <span class="p">{</span>
+  <span class="k">required</span> <span class="n">TensorDesc</span> <span class="na">tensor</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="k">optional</span> <span class="n">int</span> <span class="na">lod_level</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>A LoDTensorDesc contains a tensor and a lod_level.</p>
 </div>
 <div class="section" id="definition-of-variable-in-python">
 <span id="definition-of-variable-in-python"></span><h1>Definition of Variable in Python<a class="headerlink" href="#definition-of-variable-in-python" title="永久链接至标题">¶</a></h1>
-<p>In Python API, layer will take Variable as Input, and return Variable as Output. There should be a class <code class="docutils literal"><span class="pre">Variable</span></code> in python to help create and manage Variable.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">image</span> <span class="o">=</span> <span class="n">Variable</span><span class="p">(</span><span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">640</span><span class="p">,</span> <span class="mi">480</span><span class="p">])</span>
-<span class="c1"># fc1 and fc2 are both Variable</span>
-<span class="n">fc1</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">image</span><span class="p">,</span> <span class="n">output_size</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<span class="n">fc2</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">fc1</span><span class="p">,</span> <span class="n">output_size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="section" id="what-should-class-variable-have">
-<span id="what-should-class-variable-have"></span><h2>what should class <code class="docutils literal"><span class="pre">Variable</span></code> Have<a class="headerlink" href="#what-should-class-variable-have" title="永久链接至标题">¶</a></h2>
-<ol class="simple">
-<li><code class="docutils literal"><span class="pre">name</span></code>.a name of string type is used to mark the value of the Variable.</li>
-<li><code class="docutils literal"><span class="pre">initializer</span></code>. Since our Tensor does not have value. we will always use some Operator to fullfill it when run. So we should have a initialize method to help add the init operator.</li>
-<li><code class="docutils literal"><span class="pre">operator</span></code>. Variable should record which operator produce itself. The reaon is:</li>
-</ol>
-<ul class="simple">
-<li>we use pd.eval(targets=[var1, var2]) to run the related ops to get the value of var1 and var2. var.op is used to trace the dependency of the current variable.</li>
-</ul>
-<p>In PaddlePaddle, we use Block to describe Computation Graph, so in the code we will use Block but not Graph.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">VarDesc</span>
-<span class="kn">import</span> <span class="nn">LoDTensorDesc</span>
-<span class="kn">import</span> <span class="nn">framework</span>
-
-<span class="k">def</span> <span class="nf">AddInitialOperator</span><span class="p">(</span><span class="n">variable</span><span class="p">,</span> <span class="n">initializer</span><span class="p">):</span>
-    <span class="c1"># add an initialize Operator to block to init this Variable</span>
-
-<span class="k">class</span> <span class="nc">Variable</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-   <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">dims</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">initializer</span><span class="p">):</span>
-      <span class="bp">self</span><span class="o">.</span><span class="n">_block</span> <span class="o">=</span> <span class="n">get_default_block</span><span class="p">()</span>
-      <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
-      <span class="bp">self</span><span class="o">.</span><span class="n">op</span> <span class="o">=</span> <span class="bp">None</span>
-
-      <span class="n">tensor_desc</span> <span class="o">=</span> <span class="n">LoDTensorDesc</span><span class="p">(</span><span class="n">data_type</span><span class="o">=</span><span class="nb">type</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="n">dims</span><span class="p">)</span>
-      <span class="n">_var_desc</span> <span class="o">=</span> <span class="n">VarDesc</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">lod_tensor</span><span class="o">=</span><span class="n">tensor_desc</span><span class="p">)</span>
-      <span class="bp">self</span><span class="o">.</span><span class="n">_var</span> <span class="o">=</span> <span class="n">framework</span><span class="o">.</span><span class="n">CreateVar</span><span class="p">(</span><span class="n">_var_desc</span><span class="p">)</span>
-      <span class="bp">self</span><span class="o">.</span><span class="n">_block</span><span class="o">.</span><span class="n">add_var</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-
-      <span class="c1"># add initial op according to initializer</span>
-      <span class="k">if</span> <span class="n">initializer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-          <span class="n">AddInitialOperator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">initializer</span><span class="p">)</span>
-
-   <span class="k">def</span> <span class="nf">dims</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-      <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_var</span><span class="o">.</span><span class="n">dims</span><span class="p">()</span>
-
-   <span class="k">def</span> <span class="nf">data_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-       <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_var</span><span class="o">.</span><span class="n">data_type</span><span class="p">()</span>
-
-   <span class="k">def</span> <span class="nf">to_proto</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-       <span class="k">pass</span>
-</pre></div>
-</div>
-<p>Then we can use this Variable to create a fc layer in Python.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">paddle</span> <span class="kn">as</span> <span class="nn">pd</span>
-
-<span class="k">def</span> <span class="nf">flatten_size</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">num_flatten_dims</span><span class="p">):</span>
-  <span class="n">prod</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># of last num_flatten_dims</span>
-  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">num_flatten_dims</span><span class="p">):</span>
-    <span class="n">prod</span> <span class="o">=</span> <span class="n">prod</span> <span class="o">*</span> <span class="n">X</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="o">-</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-  <span class="k">return</span> <span class="n">prod</span>
-
-<span class="k">def</span> <span class="nf">layer</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">output_size</span><span class="p">,</span> <span class="n">num_flatten_dims</span><span class="p">):</span>
-  <span class="n">W</span> <span class="o">=</span> <span class="n">Variable</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">random_uniform</span><span class="p">(),</span> <span class="nb">type</span><span class="o">=</span><span class="n">FP32</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="n">flatten_size</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">num_flatten_dims</span><span class="p">),</span> <span class="n">output_size</span><span class="p">])</span>
-  <span class="n">b</span> <span class="o">=</span> <span class="n">Variable</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">random_uniform</span><span class="p">(),</span> <span class="nb">type</span><span class="o">=</span><span class="n">FP32</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="n">output_size</span><span class="p">])</span>
-  <span class="n">out</span> <span class="o">=</span> <span class="n">Variable</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="n">FP32</span><span class="p">)</span>
-  <span class="n">y</span> <span class="o">=</span> <span class="n">operator</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="n">out</span><span class="p">)</span> <span class="c1"># fc will put fc op input into out</span>
-  <span class="n">pd</span><span class="o">.</span><span class="n">InferShape</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-  <span class="k">return</span> <span class="n">out</span>
-
-<span class="n">x</span> <span class="o">=</span> <span class="n">Variable</span><span class="p">(</span><span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">640</span><span class="p">,</span> <span class="mi">480</span><span class="p">])</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">output_size</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-<span class="n">z</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">output_size</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
-
-<span class="n">paddle</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">targets</span><span class="o">=</span><span class="p">[</span><span class="n">z</span><span class="p">],</span> <span class="o">...</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
+<p>For Variable in Python, please reference <a class="reference external" href="./python_api.md"><code class="docutils literal"><span class="pre">Python</span> <span class="pre">API</span></code></a>.</p>
 </div>
 
 
