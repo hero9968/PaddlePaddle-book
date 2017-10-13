@@ -195,13 +195,16 @@
 <span id="design-doc-gradient-operators-registration"></span><h1>Design Doc: Gradient Operators Registration<a class="headerlink" href="#design-doc-gradient-operators-registration" title="永久链接至标题">¶</a></h1>
 <div class="section" id="the-problem-posed">
 <span id="the-problem-posed"></span><h2>The Problem Posed<a class="headerlink" href="#the-problem-posed" title="永久链接至标题">¶</a></h2>
-<p>In our current operator registration mechanism, for each operator, the programmer should register a <em>gradient operator creator</em> function, which takes a C++ operator instance, and returns the corresponding gradient instance.</p>
-<p>However, as we decided to separate the <em>compilation</em> and <em>execution</em> of DL models, we need to reshape the creator to take a protobuf <code class="docutils literal"><span class="pre">OpDesc</span></code> message, and returns a corresponding message.</p>
-<p>More than that, the new registration mechanism need to support the fact that an operators&#8217; gradient computation might be a composition of operators.</p>
+<p>Currently, for each C++ operator class definition, there registers a <em>gradient operator creator</em> function, which takes a C++ operator instance and returns the corresponding gradient operator instance.</p>
+<p>However, we noticed two problems with the current deisgn:</p>
+<ol class="simple">
+<li>As we decided to separate the <em>compilation</em> and <em>execution</em> phases, we need to change the creator to take an <code class="docutils literal"><span class="pre">OpDesc</span></code> protobuf message in a <code class="docutils literal"><span class="pre">ProgramDesc</span></code> and inserts corresponding <code class="docutils literal"><span class="pre">OpDesc</span></code> messages into the <code class="docutils literal"><span class="pre">ProgramDesc</span></code> message.</li>
+<li>Some operator&#8217;s gradient computation requires more than one gradient operators.  For example, the gradient of <em>minus</em> consists of two operators &#8211; an identity operaotr and a scale operator.  So we need to make the registration mechanism to support the mapping from an operator to a set of operators for gradient computation.</li>
+</ol>
 </div>
-<div class="section" id="current-implementation">
-<span id="current-implementation"></span><h2>Current Implementation<a class="headerlink" href="#current-implementation" title="永久链接至标题">¶</a></h2>
-<p>OpInfos store in a association map which key is the operator type. The <code class="docutils literal"><span class="pre">grad_op_type</span></code> indicate associated gradient operator type. Operator can create gradient operator by <code class="docutils literal"><span class="pre">OpInfo::creator_</span></code> of gradient. The pseudo code is</p>
+<div class="section" id="the-current-implementation">
+<span id="the-current-implementation"></span><h2>The Current Implementation<a class="headerlink" href="#the-current-implementation" title="永久链接至标题">¶</a></h2>
+<p>The C++ class <code class="docutils literal"><span class="pre">OpInfos</span></code> store in a association map which key is the operator type. The <code class="docutils literal"><span class="pre">grad_op_type</span></code> indicate associated gradient operator type. Operator can create gradient operator by <code class="docutils literal"><span class="pre">OpInfo::creator_</span></code> of gradient. The pseudo code is</p>
 <div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="k">struct</span> <span class="n">OpInfo</span> <span class="p">{</span>
   <span class="n">std</span><span class="o">::</span><span class="n">function</span><span class="o">&lt;</span><span class="n">OperatorBase</span><span class="o">*</span><span class="p">(...)</span><span class="o">&gt;</span> <span class="n">creator_</span><span class="p">;</span>
   <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">grad_op_type_</span><span class="p">;</span>
