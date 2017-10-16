@@ -340,37 +340,91 @@
 <p><code class="docutils literal"><span class="pre">optimize_op_attrs</span></code> is not in the <code class="docutils literal"><span class="pre">VarDesc</span></code> message, but kept in the Python instance, as it will be used in the Python space when creating the optimize operator&#8217;s <code class="docutils literal"><span class="pre">OpDesc</span></code>, and will be in the <code class="docutils literal"><span class="pre">OpDesc</span></code> message.</p>
 </div>
 </div>
-<div class="section" id="layer-functions">
-<span id="layer-functions"></span><h2>Layer Functions<a class="headerlink" href="#layer-functions" title="Permalink to this headline">¶</a></h2>
-<p>A layer is a Python function that creates some operators and variables.  Layers simplify the work of application programmers.</p>
-<div class="section" id="data-layer">
-<span id="data-layer"></span><h3>Data Layer<a class="headerlink" href="#data-layer" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">data_layer</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">column_name</span><span class="p">):</span>
-    <span class="n">block</span> <span class="o">=</span> <span class="n">the_current_program</span><span class="o">.</span><span class="n">glolal_block</span><span class="p">()</span>
-    <span class="n">var</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">create_global_var</span><span class="p">(</span>
-            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
-            <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="bp">None</span><span class="p">]</span> <span class="o">+</span> <span class="nb">type</span><span class="o">.</span><span class="n">dims</span><span class="p">(),</span>
-            <span class="n">dtype</span><span class="o">=</span><span class="nb">type</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
-    <span class="n">block</span><span class="o">.</span><span class="n">prepend_operator</span><span class="p">(</span><span class="n">block</span><span class="p">,</span>
-                           <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;Feed&quot;</span><span class="p">,</span>
-                           <span class="n">inputs</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
-                           <span class="n">outputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">var</span><span class="p">],</span>
-                           <span class="p">{</span><span class="n">column_name</span><span class="p">:</span> <span class="n">column_name</span><span class="p">})</span>
-    <span class="k">return</span> <span class="n">var</span>
+<div class="section" id="layer-function">
+<span id="layer-function"></span><h2>Layer Function<a class="headerlink" href="#layer-function" title="Permalink to this headline">¶</a></h2>
+<p>A layer is a Python function that creates some operators and variables. Layers simplify the work of application programmers.</p>
+<p>Layer functions take <code class="docutils literal"><span class="pre">Variable</span></code> and configuration parameters as its input and return the output variable(s).</p>
+<p>For example, <code class="docutils literal"><span class="pre">FullyConnected</span></code> take one or more variable as its input. The input could be input data or another layer&#8217;s output. There are many configuration options for a <code class="docutils literal"><span class="pre">FullyConnected</span></code> layer, such as layer size, activation, parameter names, initialization strategies of parameters, and so on. The <code class="docutils literal"><span class="pre">FullyConnected</span></code> layer will return an output variable.</p>
+<div class="section" id="necessity-for-reusing-code-between-layer-functions">
+<span id="necessity-for-reusing-code-between-layer-functions"></span><h3>Necessity for reusing code between layer functions<a class="headerlink" href="#necessity-for-reusing-code-between-layer-functions" title="Permalink to this headline">¶</a></h3>
+<p>There are a lot of code that can be reused. Such as</p>
+<ul class="simple">
+<li>Give the default value of configuration. e.g., default initialize strategy for parameters is uniform random with <code class="docutils literal"><span class="pre">min</span> <span class="pre">=</span> <span class="pre">-1.0</span></code>, <code class="docutils literal"><span class="pre">max</span> <span class="pre">=</span> <span class="pre">1.0</span></code>. and default initialize strategy for bias is to fill zero.</li>
+<li>Append the activation operator.</li>
+<li>Create a temporary variable.</li>
+<li>Create parameter.</li>
+<li>Generate a unique name.</li>
+<li>Add a bias.</li>
+<li>...</li>
+</ul>
+<p>A mechanism to reuse code between layer functions is necessary. It will be around <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/pull/4724/files#diff-823b27e07e93914ada859232ae23f846R12">150 lines of code</a> if we write a <code class="docutils literal"><span class="pre">FullyConnected</span></code> layer without any helper functions.</p>
+</div>
+<div class="section" id="comparision-between-global-functions-and-helper-class">
+<span id="comparision-between-global-functions-and-helper-class"></span><h3>Comparision between global functions and helper class<a class="headerlink" href="#comparision-between-global-functions-and-helper-class" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal"><span class="pre">FullyConnected</span></code> layer will be as follow when we provide global functions:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">fc_layer</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">param_attr</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">bias_attr</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">act</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+  <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">unique_name</span><span class="p">(</span><span class="s2">&quot;fc&quot;</span><span class="p">)</span>
+  <span class="nb">input</span> <span class="o">=</span> <span class="n">multiple_input</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+  <span class="n">param_attr</span> <span class="o">=</span> <span class="n">default_param_attr</span><span class="p">(</span><span class="n">param_attr</span><span class="p">)</span>
+  <span class="n">param_attr</span> <span class="o">=</span> <span class="n">multiple_param_attr</span><span class="p">(</span><span class="n">param_attr</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nb">input</span><span class="p">))</span>
+
+  <span class="c1"># mul</span>
+  <span class="n">mul_results</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="k">for</span> <span class="n">ipt</span><span class="p">,</span> <span class="n">attr</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">param_attr</span><span class="p">):</span>
+    <span class="n">shape</span> <span class="o">=</span> <span class="n">ipt</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="p">[</span><span class="n">size</span><span class="p">]</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">g_program</span><span class="o">.</span><span class="n">global_block</span><span class="p">()</span><span class="o">.</span><span class="n">create_parameter</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">ipt</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+    <span class="n">tmp</span> <span class="o">=</span> <span class="n">create_tmp_var</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">g_program</span><span class="o">.</span><span class="n">current_block</span><span class="p">()</span><span class="o">.</span><span class="n">append_op</span><span class="p">(</span><span class="s2">&quot;mul&quot;</span><span class="p">,</span> <span class="p">{</span><span class="n">ipt</span><span class="p">,</span> <span class="n">w</span><span class="p">},</span> <span class="p">{</span><span class="n">tmp</span><span class="p">})</span>
+  <span class="n">mul_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+
+  <span class="c1"># add sum</span>
+  <span class="o">...</span>
+  <span class="c1"># add bias</span>
+  <span class="o">...</span>
+  <span class="c1"># add activation</span>
+  <span class="o">...</span>
+  <span class="k">return</span> <span class="n">out</span>
 </pre></div>
 </div>
-<p>The input to the feed operator is a special variable in the global scope, which is the output of <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/doc/design/reader/README.md">Python readers</a>.</p>
+<p>We can provide many helpers functions for layer developers. However, there are several disadvantages for global helper functions:</p>
+<ol class="simple">
+<li>We need a namespace for these methods, then layer developers can quickly figure out what method they can use.</li>
+<li>Global functions will force layer developers to pass its parameter time by time.</li>
+</ol>
+<p>So we provide a helper class, <code class="docutils literal"><span class="pre">LayerHelper</span></code>, to share code between layer functions. The <code class="docutils literal"><span class="pre">FullyConnected</span></code> Layer will be as follow.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">fc_layer</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">param_attr</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">bias_attr</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">act</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+  <span class="n">helper</span> <span class="o">=</span> <span class="n">LayerHelper</span><span class="p">(</span><span class="nb">locals</span><span class="p">())</span>  <span class="c1"># pass all parameter to LayerHelper</span>
+
+  <span class="n">mul_results</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="k">for</span> <span class="n">ipt</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">helper</span><span class="o">.</span><span class="n">iter_multiple_input_and_param</span><span class="p">():</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">helper</span><span class="o">.</span><span class="n">create_parameter</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">ipt</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="p">[</span><span class="n">size</span><span class="p">],</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">ipt</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="n">tmp</span> <span class="o">=</span> <span class="n">helper</span><span class="o">.</span><span class="n">create_tmp_variable</span><span class="p">()</span>
+    <span class="n">helper</span><span class="o">.</span><span class="n">append_op</span><span class="p">(</span><span class="s1">&#39;mul&#39;</span><span class="p">,</span> <span class="p">{</span><span class="n">ipt</span><span class="p">,</span> <span class="n">w</span><span class="p">},</span> <span class="p">{</span><span class="n">tmp</span><span class="p">})</span>
+    <span class="n">mul_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+
+  <span class="n">pre_bias</span> <span class="o">=</span> <span class="n">helper</span><span class="o">.</span><span class="n">add_sum</span><span class="p">(</span><span class="n">mul_results</span><span class="p">)</span>
+  <span class="n">pre_activation</span> <span class="o">=</span> <span class="n">helper</span><span class="o">.</span><span class="n">add_bias</span><span class="p">(</span><span class="n">pre_bias</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">helper</span><span class="o">.</span><span class="n">add_activation</span><span class="p">(</span><span class="n">pre_activation</span><span class="p">)</span>
+</pre></div>
 </div>
-<div class="section" id="fc-layer">
-<span id="fc-layer"></span><h3>FC Layer<a class="headerlink" href="#fc-layer" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">fc_layer</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="o">...</span><span class="p">):</span>
-    <span class="n">block</span> <span class="o">=</span> <span class="n">program</span><span class="o">.</span><span class="n">current_block</span><span class="p">()</span>
-    <span class="n">w</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">create_parameter</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
-    <span class="n">b</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">create_parameter</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
-    <span class="n">out</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">create_var</span><span class="p">()</span>
-    <span class="n">op</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">append_operator</span><span class="p">(</span><span class="s2">&quot;FC&quot;</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="nb">input</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="n">b</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">out</span><span class="p">)</span>
-    <span class="n">out</span><span class="o">.</span><span class="n">writer</span> <span class="o">=</span> <span class="n">op</span>
-    <span class="k">return</span> <span class="n">out</span>
+<p>We not only use the fewer lines of code to write <code class="docutils literal"><span class="pre">fc_layer</span></code> but also make the code clearer to understand. At the same time, layer developers can figure out what function they can invoke by typing <code class="docutils literal"><span class="pre">helper.</span></code> in a python editor.</p>
+</div>
+<div class="section" id="implementation-of-layer-helper">
+<span id="implementation-of-layer-helper"></span><h3>Implementation of layer helper<a class="headerlink" href="#implementation-of-layer-helper" title="Permalink to this headline">¶</a></h3>
+<p>We just keep all parameters of a layer function as a dictionary in layer helper as a private data member. Every method of layer helper will look up the dictionary after it is invoked. In that way, we can implement a layer helper for all layer functions even some layer does not contain some operator. For example, The <code class="docutils literal"><span class="pre">activation</span></code> is used by the FullyConnected layer or convolution layers, but a cross-entropy layer does not use it. The example code of <code class="docutils literal"><span class="pre">add_activation</span></code> are:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">LayerHelper</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>  <span class="c1"># kwargs is short for `keyword arguments`</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
+
+  <span class="k">def</span> <span class="nf">add_activation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_var</span><span class="p">):</span>
+    <span class="n">act</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;act&quot;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>  <span class="c1"># default value is None</span>
+    <span class="k">if</span> <span class="n">act</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>  <span class="c1"># do nothing if no act</span>
+      <span class="k">return</span> <span class="n">input_var</span>
+
+    <span class="n">tmp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_tmp_var</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">append_op</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="n">act</span><span class="p">,</span> <span class="nb">input</span><span class="o">=</span><span class="n">input_var</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="n">tmp</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">tmp</span>
 </pre></div>
 </div>
 </div>
