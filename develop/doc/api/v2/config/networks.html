@@ -938,7 +938,62 @@ compute attention weight.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a context vector</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">a context vector</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">LayerOutput</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="dot-product-attention">
+<h3>dot_product_attention<a class="headerlink" href="#dot-product-attention" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.networks.</code><code class="descname">dot_product_attention</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
+<dd><p>Calculate and return a context vector with dot-product attention mechanism.
+The dimension of the context vector equals to that of the attended_sequence.</p>
+<div class="math">
+\[ \begin{align}\begin{aligned}a(s_{i-1},h_{j}) &amp; = s_{i-1}^\mathrm{T} h_{j}\\e_{i,j} &amp; = a(s_{i-1}, h_{j})\\a_{i,j} &amp; = \frac{exp(e_{i,j})}{\sum_{k=1}^{T_x}{exp(e_{i,k})}}\\c_{i} &amp; = \sum_{j=1}^{T_{x}}a_{i,j}z_{j}\end{aligned}\end{align} \]</div>
+<p>where <span class="math">\(h_{j}\)</span> is the jth element of encoded_sequence,
+<span class="math">\(z_{j}\)</span> is the jth element of attended_sequence,
+<span class="math">\(s_{i-1}\)</span> is transformed_state.</p>
+<p>The example usage is:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">context</span> <span class="o">=</span> <span class="n">dot_product_attention</span><span class="p">(</span><span class="n">encoded_sequence</span><span class="o">=</span><span class="n">enc_seq</span><span class="p">,</span>
+                                <span class="n">attended_sequence</span><span class="o">=</span><span class="n">att_seq</span><span class="p">,</span>
+                                <span class="n">transformed_state</span><span class="o">=</span><span class="n">state</span><span class="p">,)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> (<em>basestring</em>) &#8211; A prefix attached to the name of each layer that defined inside
+the dot_product_attention.</li>
+<li><strong>softmax_param_attr</strong> (<em>ParameterAttribute</em>) &#8211; The parameter attribute of sequence softmax
+that is used to produce attention weight.</li>
+<li><strong>encoded_sequence</strong> (<em>LayerOutput</em>) &#8211; The output hidden vectors of the encoder.</li>
+<li><strong>attended_sequence</strong> (<em>LayerOutput</em>) &#8211; The attention weight is computed by a feed forward neural
+network which has two inputs : decoder&#8217;s transformed hidden
+state of previous time step and encoder&#8217;s output.
+attended_sequence is the sequence to be attended.</li>
+<li><strong>transformed_state</strong> (<em>LayerOutput</em>) &#8211; The transformed hidden state of decoder in previous time step.
+Since the dot-product operation will be performed on it and the
+encoded_sequence, their dimensions must be equal. For flexibility,
+we suppose transformations of the decoder&#8217;s hidden state have been
+done outside dot_product_attention and no more will be performed
+inside. Then users can use either the original or transformed one.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The context vector.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">LayerOutput</p>
 </td>
 </tr>
 </tbody>
