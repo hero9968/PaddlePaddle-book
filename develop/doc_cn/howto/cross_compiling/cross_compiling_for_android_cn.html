@@ -193,26 +193,77 @@
             
   <div class="section" id="androidpaddlepaddle">
 <span id="androidpaddlepaddle"></span><h1>构建Android平台上的PaddlePaddle库<a class="headerlink" href="#androidpaddlepaddle" title="永久链接至标题">¶</a></h1>
-<p>用户可通过交叉编译的方式，在用户熟悉的开发平台（Linux，Mac OS X和Windows）上编译Android平台上适用的PaddlePaddle库。
-本文档将以Linux x86-64平台为例，介绍交叉编译Android平台上适用的PaddlePaddle库的方法和步骤。</p>
+<p>用户可通过如下两种方式，交叉编译Android平台上适用的PaddlePaddle库：</p>
+<ul class="simple">
+<li>基于Docker容器的编译方式</li>
+<li>基于Linux交叉编译环境的编译方式</li>
+</ul>
+<div class="section" id="docker">
+<span id="docker"></span><h2>基于Docker容器的编译方式<a class="headerlink" href="#docker" title="永久链接至标题">¶</a></h2>
+<p>Docker能在所有主要操作系统（包括Linux，Mac OS X和Windows）上运行，因此，使用基于Docker容器的编译方式，用户可在自己熟悉的开发平台上编译Android平台上适用的PaddlePaddle库。</p>
+<div class="section" id="paddlepaddleandroid">
+<span id="paddlepaddleandroid"></span><h3>构建PaddlePaddle的Android开发镜像<a class="headerlink" href="#paddlepaddleandroid" title="永久链接至标题">¶</a></h3>
+<p>我们把PaddlePaddle的交叉编译环境打包成一个镜像，称为开发镜像，里面涵盖了交叉编译Android版PaddlePaddle库需要的所有编译工具。</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ git clone https://github.com/PaddlePaddle/Paddle.git
+$ <span class="nb">cd</span> Paddle
+$ docker build -t username/paddle-android:dev . -f Dockerfile.android
+</pre></div>
+</div>
+</div>
+<div class="section" id="paddlepaddle-c-api">
+<span id="paddlepaddle-c-api"></span><h3>编译PaddlePaddle C-API库<a class="headerlink" href="#paddlepaddle-c-api" title="永久链接至标题">¶</a></h3>
+<p>构建好开发镜像后，即可使用开发镜像来编译Android版PaddlePaddle C-API库。
+Android的Docker开发镜像向用户提供两个可配置的参数：</p>
+<p>| Argument        | Optional Values         | Default |
+|&#8212;&#8212;&#8212;&#8212;&#8212;&#8211;|&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;-|&#8212;&#8212;&#8212;|
+|<code class="docutils literal"><span class="pre">ANDROID_ABI</span></code>    |<code class="docutils literal"><span class="pre">armeabi-v7a,</span> <span class="pre">arm64-v8a</span></code> | <code class="docutils literal"><span class="pre">armeabi-v7a</span></code> |
+|<code class="docutils literal"><span class="pre">ANDROID_API</span></code>    |<code class="docutils literal"><span class="pre">&gt;=</span> <span class="pre">21</span></code> | <code class="docutils literal"><span class="pre">21</span></code> |</p>
+<ul class="simple">
+<li>编译<code class="docutils literal"><span class="pre">armeabi-v7a</span></code>，<code class="docutils literal"><span class="pre">Android</span> <span class="pre">API</span> <span class="pre">21</span></code>的PaddlePaddle库</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ docker run -it --rm -v <span class="nv">$PWD</span>:/paddle -e <span class="s2">&quot;ANDROID_ABI=armeabi-v7a&quot;</span> -e <span class="s2">&quot;ANDROID_API=21&quot;</span> username/paddle-android:dev
+</pre></div>
+</div>
+<ul class="simple">
+<li>编译<code class="docutils literal"><span class="pre">arm64-v8a</span></code>，<code class="docutils literal"><span class="pre">Android</span> <span class="pre">API</span> <span class="pre">21</span></code>的PaddlePaddle库</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ docker run -it --rm -v <span class="nv">$PWD</span>:/paddle -e <span class="s2">&quot;ANDROID_ABI=arm64-v8a&quot;</span> -e <span class="s2">&quot;ANDROID_API=21&quot;</span> username/paddle-android:dev
+</pre></div>
+</div>
+<p>执行上述<code class="docutils literal"><span class="pre">docker</span> <span class="pre">run</span></code>命令时，容器默认执行<a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/scripts/docker/build_android.sh">paddle/scripts/docker/build_android.sh</a>脚本。该脚本中记录了交叉编译Android版PaddlePaddle库常用的CMake配置，并且会根据<code class="docutils literal"><span class="pre">ANDROID_ABI</span></code>和<code class="docutils literal"><span class="pre">ANDROID_API</span></code>自动构建独立工具链、进行编译和安装。由于arm64架构要求Android API不小于21。因此当<code class="docutils literal"><span class="pre">ANDROID_ABI=arm64-v8a</span></code>，<code class="docutils literal"><span class="pre">ANDROID_API&lt;21</span></code>时，Docker容器中将默认使用<code class="docutils literal"><span class="pre">Android</span> <span class="pre">API</span> <span class="pre">21</span></code>的编译工具链。用户可以参考下文<strong>配置交叉编译参数</strong>章节，根据个人的需求修改定制Docker容器所执行的脚本。编译安装结束之后，PaddlePaddle的C-API库将被安装到<code class="docutils literal"><span class="pre">$PWD/install_android</span></code>目录，所依赖的第三方库同时也被安装到<code class="docutils literal"><span class="pre">$PWD/install_android/third_party</span></code>目录。</p>
+</div>
+</div>
+<div class="section" id="linux">
+<span id="linux"></span><h2>基于Linux交叉编译环境的编译方式<a class="headerlink" href="#linux" title="永久链接至标题">¶</a></h2>
+<p>本文档将以Linux x86-64平台为例，介绍交叉编译Android平台上适用的PaddlePaddle库的方法和步骤。</p>
 <div class="section" id="">
-<span id="id1"></span><h2>准备交叉编译环境<a class="headerlink" href="#" title="永久链接至标题">¶</a></h2>
+<span id="id1"></span><h3>准备交叉编译环境<a class="headerlink" href="#" title="永久链接至标题">¶</a></h3>
 <p>从源码交叉编译PaddlePaddle，用户需要提前准备好交叉编译环境。Android平台上使用的C/C++交叉编译工具链为<a class="reference external" href="https://developer.android.com/ndk/downloads/index.html?hl=zh-cn">Android NDK</a>，用户可自行前往下载预编译好的版本，也可通过以下命令获取：</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>wget -q https://dl.google.com/android/repository/android-ndk-r14b-linux-x86_64.zip
 unzip -q android-ndk-r14b-linux-x86_64.zip
 </pre></div>
 </div>
-<p>Android NDK中包含了所有Android API级别、所有架构（arm/arm64/x86/mips）需要用到的编译工具和系统库。用户可根据自己的编译目标架构、所需支持的最低Android API级别，构建<a class="reference external" href="https://developer.android.google.cn/ndk/guides/standalone_toolchain.html?hl=zh-cn">独立工具链</a>。
-比如：</p>
+<p>Android NDK中包含了所有Android API级别、所有架构（arm/arm64/x86/mips）需要用到的编译工具和系统库。用户可根据自己的编译目标架构、所需支持的最低Android API级别，构建<a class="reference external" href="https://developer.android.google.cn/ndk/guides/standalone_toolchain.html?hl=zh-cn">独立工具链</a>。</p>
+<ul class="simple">
+<li>构建<code class="docutils literal"><span class="pre">armeabi-v7a</span></code>、 <code class="docutils literal"><span class="pre">Android</span> <span class="pre">API</span> <span class="pre">21</span></code>的独立工具链：</li>
+</ul>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>your/path/to/android-ndk-r14b-linux-x86_64/build/tools/make-standalone-toolchain.sh <span class="se">\</span>
-        --arch<span class="o">=</span>arm --platform<span class="o">=</span>android-21 --install-dir<span class="o">=</span>your/path/to/my_standalone_toolchain
+        --arch<span class="o">=</span>arm --platform<span class="o">=</span>android-21 --install-dir<span class="o">=</span>your/path/to/arm_standalone_toolchain
 </pre></div>
 </div>
-<p>此命令将在your/path/to/my_standalone_toolchain目录生成一套编译工具链，面向架构为32位ARM架构，支持的最小的Android API级别为21，使用的编译器为arm-linux-androideabi-gcc (GCC) 4.9。</p>
-<p>注意：<strong>PaddlePaddle要求使用的编译工具链所支持的Andoid API级别不小于21</strong>。</p>
+<p>此命令将在<code class="docutils literal"><span class="pre">your/path/to/arm_standalone_toolchain</span></code>目录生成一套独立编译工具链，面向架构为32位ARM架构，支持的最小的Android API级别为21，支持编译器<code class="docutils literal"><span class="pre">arm-linux-androideabi-gcc</span> <span class="pre">(GCC)</span> <span class="pre">4.9</span></code>和<code class="docutils literal"><span class="pre">clang</span> <span class="pre">3.8</span></code>。</p>
+<ul class="simple">
+<li>构建<code class="docutils literal"><span class="pre">arm64-v8a</span></code>、 <code class="docutils literal"><span class="pre">Android</span> <span class="pre">API</span> <span class="pre">21</span></code>的独立工具链：</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>your/path/to/android-ndk-r14b-linux-x86_64/build/tools/make-standalone-toolchain.sh <span class="se">\</span>
+        --arch<span class="o">=</span>arm64 --platform<span class="o">=</span>android-21 --install-dir<span class="o">=</span>your/path/to/arm64_standalone_toolchain
+</pre></div>
+</div>
+<p>此命令将在<code class="docutils literal"><span class="pre">your/path/to/arm64_standalone_toolchain</span></code>目录生成一套独立编译工具链，面向架构为64位ARM64架构，支持的最小Android API级别为21，支持编译器<code class="docutils literal"><span class="pre">arm-linux-androideabi-gcc</span> <span class="pre">(GCC)</span> <span class="pre">4.9</span></code>和<code class="docutils literal"><span class="pre">clang</span> <span class="pre">3.8</span></code>。</p>
+<p>注意：<strong>PaddlePaddle要求使用的编译工具链所支持的Android API级别不小于21</strong>。</p>
 </div>
 <div class="section" id="">
-<span id="id2"></span><h2>配置交叉编译参数<a class="headerlink" href="#" title="永久链接至标题">¶</a></h2>
+<span id="id2"></span><h3>配置交叉编译参数<a class="headerlink" href="#" title="永久链接至标题">¶</a></h3>
 <p>CMake系统对交叉编译提供了支持<a class="reference external" href="https://cmake.org/cmake/help/v3.0/manual/cmake-toolchains.7.html#cross-compiling">cmake-toolchains</a>。为了简化cmake配置，PaddlePaddle为交叉编译提供了工具链配置文档<a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/cmake/cross_compiling/android.cmake">cmake/cross_compiling/android.cmake</a>，以提供一些默认的编译器和编译参数相关配置。注意，从CMake 3.7版本开始，CMake官方对Android平台的交叉编译提供了通用的支持。PaddlePaddle若检测到用户使用的CMake版本不低于3.7时，将会将用户传进来的配置参数传递CMake系统，交由CMake系统本身来处理。有关参数配置的详细说明见<a class="reference external" href="https://cmake.org/cmake/help/v3.7/manual/cmake-toolchains.7.html#cross-compiling">cmake-toolchains</a>。</p>
 <p>交叉编译Android版本的PaddlePaddle库时，有一些必须配置的参数：</p>
 <ul class="simple">
@@ -223,38 +274,70 @@ unzip -q android-ndk-r14b-linux-x86_64.zip
 <p>Android平台可选配置参数：</p>
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">ANDROID_STANDALONE_TOOLCHAIN</span></code>，独立工具链所在的绝对路径，或者相对于构建目录的相对路径。PaddlePaddle的CMake系统将根据该值自动推导和设置需要使用的交叉编译器、sysroot、以及Android API级别；否则，用户需要在cmake时手动设置这些值。无默认值。</li>
-<li><code class="docutils literal"><span class="pre">ANDROID_ABI</span></code>，目标架构ABI。目前只支持<code class="docutils literal"><span class="pre">armeabi-v7a</span></code>，默认值为<code class="docutils literal"><span class="pre">armeabi-v7a</span></code>。</li>
+<li><code class="docutils literal"><span class="pre">ANDROID_TOOLCHAIN</span></code>，目标工具链。可设置<code class="docutils literal"><span class="pre">gcc/clang</span></code>，默认值为<code class="docutils literal"><span class="pre">clang</span></code>。<ul>
+<li>CMake 3.7以上，将会始终使用<code class="docutils literal"><span class="pre">clang</span></code>工具链；CMake 3.7以下，可设置<code class="docutils literal"><span class="pre">ANDROID_TOOLCHAIN=gcc</span></code>以使用<code class="docutils literal"><span class="pre">gcc</span></code>工具链。</li>
+<li>Android官方提供的<code class="docutils literal"><span class="pre">clang</span></code>编译器要求系统支持<code class="docutils literal"><span class="pre">GLIBC</span> <span class="pre">2.15</span></code>以上。</li>
+</ul>
+</li>
+<li><code class="docutils literal"><span class="pre">ANDROID_ABI</span></code>，目标架构ABI。目前支持<code class="docutils literal"><span class="pre">armeabi-v7a</span></code>和<code class="docutils literal"><span class="pre">arm64-v8a</span></code>，默认值为<code class="docutils literal"><span class="pre">armeabi-v7a</span></code>。</li>
 <li><code class="docutils literal"><span class="pre">ANDROID_NATIVE_API_LEVEL</span></code>，工具链的Android API级别。若没有显式设置，PaddlePaddle将根据<code class="docutils literal"><span class="pre">ANDROID_STANDALONE_TOOLCHAIN</span></code>的值自动推导得到。</li>
-<li><code class="docutils literal"><span class="pre">ANROID_ARM_MODE</span></code>，是否使用ARM模式。可设置<code class="docutils literal"><span class="pre">ON/OFF</span></code>，默认值为<code class="docutils literal"><span class="pre">ON</span></code>。</li>
-<li><code class="docutils literal"><span class="pre">ANDROID_ARM_NEON</span></code>，是否使用NEON指令。目前必须设置成<code class="docutils literal"><span class="pre">ON</span></code>，默认值为<code class="docutils literal"><span class="pre">ON</span></code>。</li>
+<li><code class="docutils literal"><span class="pre">ANROID_ARM_MODE</span></code>，是否使用ARM模式。<ul>
+<li><code class="docutils literal"><span class="pre">ANDROID_ABI=armeabi-v7a</span></code>时，可设置<code class="docutils literal"><span class="pre">ON/OFF</span></code>，默认值为<code class="docutils literal"><span class="pre">ON</span></code>；</li>
+<li><code class="docutils literal"><span class="pre">ANDROID_ABI=arm64-v8a</span></code>时，不需要设置。</li>
+</ul>
+</li>
+<li><code class="docutils literal"><span class="pre">ANDROID_ARM_NEON</span></code>，是否使用NEON指令。<ul>
+<li><code class="docutils literal"><span class="pre">ANDROID_ABI=armeabi-v7a</span></code>时，可设置<code class="docutils literal"><span class="pre">ON/OFF</span></code>，默认值为<code class="docutils literal"><span class="pre">ON</span></code>；</li>
+<li><code class="docutils literal"><span class="pre">ANDROID_ABI=arm64-v8a</span></code>时，不需要设置。</li>
+</ul>
+</li>
 </ul>
 <p>其他配置参数：</p>
 <ul class="simple">
+<li><code class="docutils literal"><span class="pre">USE_EIGEN_FOR_BLAS</span></code>，是否使用Eigen库进行矩阵计算。可设置<code class="docutils literal"><span class="pre">ON/OFF</span></code>，默认值为<code class="docutils literal"><span class="pre">OFF</span></code>。</li>
 <li><code class="docutils literal"><span class="pre">HOST_C/CXX_COMPILER</span></code>，宿主机的C/C++编译器。在编译宿主机版protoc可执行文件和目标机版OpenBLAS库时需要用到。默认设置成环境变量<code class="docutils literal"><span class="pre">CC</span></code>的值；若环境变量<code class="docutils literal"><span class="pre">CC</span></code>没有设置，则设置成<code class="docutils literal"><span class="pre">cc</span></code>编译器。</li>
 </ul>
-<p>一种常用的cmake配置如下：</p>
+<p>常用的cmake配置如下：</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>cmake -DCMAKE_SYSTEM_NAME<span class="o">=</span>Android <span class="se">\</span>
-      -DANDROID_STANDALONE_TOOLCHAIN<span class="o">=</span>your/path/to/my_standalone_toolchain <span class="se">\</span>
+      -DANDROID_STANDALONE_TOOLCHAIN<span class="o">=</span>your/path/to/arm_standalone_toolchain <span class="se">\</span>
       -DANDROID_ABI<span class="o">=</span>armeabi-v7a <span class="se">\</span>
       -DANDROID_ARM_NEON<span class="o">=</span>ON <span class="se">\</span>
       -DANDROID_ARM_MODE<span class="o">=</span>ON <span class="se">\</span>
+      -DUSE_EIGEN_FOR_BLAS<span class="o">=</span>ON <span class="se">\</span>
       -DCMAKE_INSTALL_PREFIX<span class="o">=</span>your/path/to/install <span class="se">\</span>
       -DWITH_C_API<span class="o">=</span>ON <span class="se">\</span>
       -DWITH_SWIG_PY<span class="o">=</span>OFF <span class="se">\</span>
       ..
 </pre></div>
 </div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cmake</span> <span class="o">-</span><span class="n">DCMAKE_SYSTEM_NAME</span><span class="o">=</span><span class="n">Android</span> \
+      <span class="o">-</span><span class="n">DANDROID_STANDALONE_TOOLCHAIN</span><span class="o">=</span><span class="n">your</span><span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">arm64_standalone_toolchain</span> \
+      <span class="o">-</span><span class="n">DANDROID_ABI</span><span class="o">=</span><span class="n">arm64</span><span class="o">-</span><span class="n">v8a</span> \
+      <span class="o">-</span><span class="n">DUSE_EIGEN_FOR_BLAS</span><span class="o">=</span><span class="n">OFF</span> \
+      <span class="o">-</span><span class="n">DCMAKE_INSTALL_PREFIX</span><span class="o">=</span><span class="n">your</span><span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">install</span> \  
+      <span class="o">-</span><span class="n">DWITH_C_API</span><span class="o">=</span><span class="n">ON</span> \
+      <span class="o">-</span><span class="n">DWITH_SWIG_PY</span><span class="o">=</span><span class="n">OFF</span> \
+      <span class="o">..</span>
+</pre></div>
+</div>
 <p>用户还可根据自己的需求设置其他编译参数。比如希望最小化生成的库的大小，可以设置<code class="docutils literal"><span class="pre">CMAKE_BUILD_TYPE</span></code>为<code class="docutils literal"><span class="pre">MinSizeRel</span></code>；若希望最快的执行速度，则可设置<code class="docutils literal"><span class="pre">CMAKE_BUILD_TYPE</span></code>为<code class="docutils literal"><span class="pre">Release</span></code>。亦可以通过手动设置<code class="docutils literal"><span class="pre">CMAKE_C/CXX_FLAGS_MINSIZEREL/RELEASE</span></code>来影响PaddlePaddle的编译过程。</p>
+<p><strong>性能TIPS</strong>，为了达到最快的计算速度，在CMake参数配置上，有以下建议：</p>
+<ul class="simple">
+<li>设置<code class="docutils literal"><span class="pre">CMAKE_BUILD_TYPE</span></code>为<code class="docutils literal"><span class="pre">Release</span></code></li>
+<li>使用<code class="docutils literal"><span class="pre">clang</span></code>编译工具链</li>
+<li><code class="docutils literal"><span class="pre">armeabi-v7a</span></code>时，设置<code class="docutils literal"><span class="pre">USE_EIGEN_BLAS=ON</span></code>，使用Eigen进行矩阵计算；<code class="docutils literal"><span class="pre">arm64-v8a</span></code>时，设置<code class="docutils literal"><span class="pre">USE_EIGEN_FOR_BLAS=OFF</span></code>，使用OpenBLAS进行矩阵计算</li>
+</ul>
 </div>
 <div class="section" id="">
-<span id="id3"></span><h2>编译和安装<a class="headerlink" href="#" title="永久链接至标题">¶</a></h2>
+<span id="id3"></span><h3>编译和安装<a class="headerlink" href="#" title="永久链接至标题">¶</a></h3>
 <p>CMake配置完成后，执行以下命令，PaddlePaddle将自动下载和编译所有第三方依赖库、编译和安装PaddlePaddle预测库。</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>make
 make install
 </pre></div>
 </div>
 <p>注意：如果你曾经在源码目录下编译过其他平台的PaddlePaddle库，请先使用<code class="docutils literal"><span class="pre">rm</span> <span class="pre">-rf</span></code>命令删除<code class="docutils literal"><span class="pre">third_party</span></code>目录和<code class="docutils literal"><span class="pre">build</span></code>目录，以确保所有的第三方依赖库和PaddlePaddle代码都是针对新的CMake配置重新编译的。</p>
-<p>执行完安装命令后，<code class="docutils literal"><span class="pre">your/path/to/install</span></code>目录中会包含<code class="docutils literal"><span class="pre">include</span></code>和<code class="docutils literal"><span class="pre">lib</span></code>目录，其中<code class="docutils literal"><span class="pre">include</span></code>中包含C-API的头文件，<code class="docutils literal"><span class="pre">lib</span></code>中包含一个Android版本的库。自此，PaddlePaddle的已经安装完成，用户可将<code class="docutils literal"><span class="pre">your/path/to/install</span></code>目录下的生成文件用于深度学习相关Android App中，调用方法见C-API文档。</p>
+<p>执行完安装命令后，<code class="docutils literal"><span class="pre">your/path/to/install</span></code>目录中会包含<code class="docutils literal"><span class="pre">include</span></code>、<code class="docutils literal"><span class="pre">lib</span></code>和<code class="docutils literal"><span class="pre">third_party</span></code>目录，其中<code class="docutils literal"><span class="pre">include</span></code>中包含C-API的头文件，<code class="docutils literal"><span class="pre">lib</span></code>中包含若干个不同Android ABI的PaddlePaddle库，<code class="docutils literal"><span class="pre">third_party</span></code>中包含所依赖的所有第三方库。自此，PaddlePaddle的已经安装完成，用户可将<code class="docutils literal"><span class="pre">your/path/to/install</span></code>目录下的生成文件用于深度学习相关Android App中，调用方法见C-API文档。</p>
+</div>
 </div>
 </div>
 
