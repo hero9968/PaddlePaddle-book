@@ -358,6 +358,50 @@ every element in this vector is either zero or one.</p>
 
 <dl class="function">
 <dt>
+<code class="descclassname">paddle.v2.data_type.</code><code class="descname">sparse_float_vector</code><span class="sig-paren">(</span><em>dim</em>, <em>seq_type=0</em><span class="sig-paren">)</span></dt>
+<dd><p>Sparse vector. It means the input feature is a sparse vector. Most of the
+elements in this vector are zero, others could be any float value.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>dim</strong> (<em>int</em>) &#8211; dimension of this vector.</li>
+<li><strong>seq_type</strong> (<em>int</em>) &#8211; sequence type of this input.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An input type object.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">InputType</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.data_type.</code><code class="descname">sparse_float_vector_sequence</code><span class="sig-paren">(</span><em>dim</em><span class="sig-paren">)</span></dt>
+<dd><p>Data type of a sequence of sparse vector, which most elements are zero,
+others could be any float value.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dim</strong> (<em>int</em>) &#8211; dimension of sparse vector.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">An input type object</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">InputType</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
 <code class="descclassname">paddle.v2.data_type.</code><code class="descname">sparse_non_value_slot</code><span class="sig-paren">(</span><em>dim</em>, <em>seq_type=0</em><span class="sig-paren">)</span></dt>
 <dd><p>Sparse binary vector. It means the input feature is a sparse vector and the
 every element in this vector is either zero or one.</p>
@@ -401,50 +445,6 @@ elements in this vector are zero, others could be any float value.</p>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">InputType</p>
 </td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt>
-<code class="descclassname">paddle.v2.data_type.</code><code class="descname">sparse_vector</code><span class="sig-paren">(</span><em>dim</em>, <em>seq_type=0</em><span class="sig-paren">)</span></dt>
-<dd><p>Sparse vector. It means the input feature is a sparse vector. Most of the
-elements in this vector are zero, others could be any float value.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>dim</strong> (<em>int</em>) &#8211; dimension of this vector.</li>
-<li><strong>seq_type</strong> (<em>int</em>) &#8211; sequence type of this input.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An input type object.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">InputType</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt>
-<code class="descclassname">paddle.v2.data_type.</code><code class="descname">sparse_vector_sequence</code><span class="sig-paren">(</span><em>dim</em><span class="sig-paren">)</span></dt>
-<dd><p>Data type of a sequence of sparse vector, which most elements are zero,
-others could be any float value.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dim</strong> (<em>int</em>) &#8211; dimension of sparse vector.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">An input type object</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">InputType</td>
 </tr>
 </tbody>
 </table>

@@ -414,7 +414,7 @@ layer_attr=paddle.attr.ExtraLayerAttribute(</p>
 <li>两者都是对梯度的截断，但截断时机不同，前者在 <code class="code docutils literal"><span class="pre">optimzier</span></code> 更新网络参数时应用；后者在激活函数反向计算时被调用；</li>
 <li>截断对象不同：前者截断可学习参数的梯度，后者截断回传给前层的梯度;</li>
 </ol>
-<p>除此之外，还可以通过减小学习律或者对数据进行归一化处理来解决这类问题。</p>
+<p>除此之外，还可以通过减小学习率或者对数据进行归一化处理来解决这类问题。</p>
 </div>
 <div class="section" id="infer-layer">
 <h2><a class="toc-backref" href="#id20">5.  如何调用 infer 接口输出多个layer的预测结果</a><a class="headerlink" href="#infer-layer" title="永久链接至标题">¶</a></h2>
