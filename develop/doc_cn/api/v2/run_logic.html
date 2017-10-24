@@ -428,6 +428,27 @@ Trainer.train.</p>
 </table>
 </dd></dl>
 
+<dl class="method">
+<dt>
+<code class="descname">to_tar</code><span class="sig-paren">(</span><em>f</em><span class="sig-paren">)</span></dt>
+<dd><p>Save parameters to a tar file.</p>
+<dl class="docutils">
+<dt>WARNING: You should use <cite>paddle.v2.trainer.SGD.save_parameter_to_tar(f)</cite></dt>
+<dd>to save parameters most of the time. Otherwise, some settings such
+as model average will not take effect.</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><strong>f</strong> (<em>file</em>) &#8211; </td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="staticmethod">
 <dt>
 <em class="property">static </em><code class="descname">from_tar</code><span class="sig-paren">(</span><em>f</em><span class="sig-paren">)</span></dt>
