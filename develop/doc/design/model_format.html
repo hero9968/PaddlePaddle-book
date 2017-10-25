@@ -185,16 +185,16 @@
 <span id="design-doc-model-format"></span><h1>Design Doc: Model Format<a class="headerlink" href="#design-doc-model-format" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="motivation">
 <span id="motivation"></span><h2>Motivation<a class="headerlink" href="#motivation" title="Permalink to this headline">¶</a></h2>
-<p>The model is the output of training process. One complete model consists of two parts, namely, the <strong>topology</strong> and the <strong>parameters</strong>. To support industrial deployment, we need to make the model format must be self-completed and do not expose any training source code.</p>
-<p>As a result, In PaddlePaddle, the <strong>topology</strong> represents as a  <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/1c0a4c901c9fc881d120249c703b15d1c50dae7d/doc/design/program.md">ProgramDesc</a>, which describes the model structure. The <strong>parameters</strong> contain all the trainable weights in the model, we must support large size parameter, and efficient serialization/deserialization.</p>
+<p>A model is an output of the training process. One complete model consists of two parts, the <strong>topology</strong> and the <strong>parameters</strong>. In order to support industrial deployment, the model format must be self-complete and must not expose any training source code.</p>
+<p>As a result, In PaddlePaddle, the <strong>topology</strong> is represented as a  <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/1c0a4c901c9fc881d120249c703b15d1c50dae7d/doc/design/program.md">ProgramDesc</a>, which describes the model structure. The <strong>parameters</strong> contain all the trainable weights in the model. We must support large size parameters and efficient serialization/deserialization of parameters.</p>
 </div>
 <div class="section" id="implementation">
 <span id="implementation"></span><h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>
-<p>The topology is saved as a plain text, in detail, a self-contain protobuf file.</p>
-<p>The parameters are saved as a binary file. As we all know, the protobuf message has the limits of <a class="reference external" href="https://developers.google.com/protocol-buffers/docs/reference/cpp/google.protobuf.io.coded_stream#CodedInputStream.SetTotalBytesLimit.details">64M size</a>. We do a (benchmark experiment)[https://github.com/PaddlePaddle/Paddle/pull/4610], its result shows protobuf is not fit in this scene.</p>
-<p>As a result, we design a particular format for tensor serialization. By default, arbitrary tensor in Paddle is a <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/framework/lod_tensor.md">LoDTensor</a>, and has a description information proto of (LoDTensorDesc)[https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/framework/framework.proto#L99]. We save the DescProto as the byte string header, it contains the necessary information, such as the <code class="docutils literal"><span class="pre">dims</span></code>, the <code class="docutils literal"><span class="pre">name</span></code> of the tensor, and the <code class="docutils literal"><span class="pre">LoD</span></code> information in <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/1c0a4c901c9fc881d120249c703b15d1c50dae7d/paddle/framework/lod_tensor.md">LoDTensor</a>. Tensor stores value in a continuous memory buffer, for speed we dump the raw memory to disk and save it as the byte string content. So, the binary format of one tensor is,</p>
+<p>The topology is saved as a plain text in a detailed self-contain protobuf file.</p>
+<p>The parameters are saved as a binary file. As we all know, the protobuf message has a limit of <a class="reference external" href="https://developers.google.com/protocol-buffers/docs/reference/cpp/google.protobuf.io.coded_stream#CodedInputStream.SetTotalBytesLimit.details">64M size</a>. We have done a <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/pull/4610">benchmark experiment</a>, which shows that protobuf is not fit for the task.</p>
+<p>As a result, we design a particular format for tensor serialization. By default, an arbitrary tensor in Paddle is a <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/framework/lod_tensor.md">LoDTensor</a>, and has a description information proto of <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/framework/framework.proto#L99">LoDTensorDesc</a>. We save the DescProto as the byte string header. It contains all the necessary information, such as the <code class="docutils literal"><span class="pre">dims</span></code>, the <code class="docutils literal"><span class="pre">name</span></code> of the tensor, and the <code class="docutils literal"><span class="pre">LoD</span></code> information in <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/1c0a4c901c9fc881d120249c703b15d1c50dae7d/paddle/framework/lod_tensor.md">LoDTensor</a>. A tensor stores values in a continuous memory buffer. For speed we dump the raw memory to disk and save it as the byte string content. So, the binary format of one tensor is,</p>
 <p>|HeaderLength|ContentLength|<strong>LoDTensorDesc</strong>|<strong>TensorValue</strong>|</p>
-<p>In detail, tensor&#8217;s  byte view as the table shows. Note that all the signed value written in little-endian.</p>
+<p>The table below shows a tensor&#8217;s byte view in detail. Note that all the signed values are written in the little-endian format.</p>
 <div class="highlight-text"><div class="highlight"><pre><span></span>[offset] [type]              [description] 
 0004     4 bytes integer      HeaderLength, the length of LoDTensorDesc
 0008     4 bytes integer      ContentLength, the length of LodTensor Buffer
@@ -210,7 +210,11 @@
 </div>
 <div class="section" id="summary">
 <span id="summary"></span><h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
-<p>We introduce the model format, the <code class="docutils literal"><span class="pre">ProgramDesc</span></code> describe the <strong>topology</strong>, and a bunch of particular format binary tensors describes the <strong>parameters</strong>.</p>
+<ul class="simple">
+<li>We introduce a model format.</li>
+<li>The <code class="docutils literal"><span class="pre">ProgramDesc</span></code> describe the model <strong>topology</strong>.</li>
+<li>A bunch of specified format binary tensors describe the <strong>parameters</strong>.</li>
+</ul>
 </div>
 </div>
 
