@@ -199,7 +199,7 @@
 <span id="regularization-in-paddlepaddle"></span><h1>Regularization in PaddlePaddle<a class="headerlink" href="#regularization-in-paddlepaddle" title="永久链接至标题">¶</a></h1>
 <div class="section" id="introduction-to-regularization">
 <span id="introduction-to-regularization"></span><h2>Introduction to Regularization<a class="headerlink" href="#introduction-to-regularization" title="永久链接至标题">¶</a></h2>
-<p>A central problem in machine learning is how to design an algorithm that will perform well not just on the training data, but also on new data. Many strategies are used by machine learning practitioners to reduce the test error, possibly at the expense of increased training error. These strategies are collectively known as <strong>regularization</strong>.</p>
+<p>A central problem in machine learning is how to design an algorithm that will perform well not just on the training data, but also on new data. A frequently faced problem is the problem of <strong>overfitting</strong>, where the model does not make reliable predictions on new unseen data. <strong>Regularization</strong> is the process of introducing additional information in order to prevent overfitting. This is usually done by adding extra penalties to the loss function that restricts the parameter spaces that an optimization algorithm can explore.</p>
 <div class="section" id="parameter-norm-penalties">
 <span id="parameter-norm-penalties"></span><h3>Parameter Norm Penalties<a class="headerlink" href="#parameter-norm-penalties" title="永久链接至标题">¶</a></h3>
 <p>Most common regularization approaches in deep learning are based on limiting the capacity of the models by adding a parameter norm penalty to the objective function <code class="docutils literal"><span class="pre">J</span></code>. This is given as follows:</p>
@@ -213,61 +213,24 @@
 <div class="section" id="l1-regularization">
 <span id="l1-regularization"></span><h4>L1 Regularization<a class="headerlink" href="#l1-regularization" title="永久链接至标题">¶</a></h4>
 <p><img src="./images/l1_regularization.png" align="center"/><br/></p>
-<p>A much more detailed mathematical background of reguilarization can be found <a class="reference external" href="http://www.deeplearningbook.org/contents/regularization.html">here</a>.</p>
+<p>A much more detailed mathematical background of regularization can be found <a class="reference external" href="http://www.deeplearningbook.org/contents/regularization.html">here</a>.</p>
 </div>
 </div>
 </div>
-<div class="section" id="how-to-do-regularization-in-paddlepaddle">
-<span id="how-to-do-regularization-in-paddlepaddle"></span><h2>How to do Regularization in PaddlePaddle<a class="headerlink" href="#how-to-do-regularization-in-paddlepaddle" title="永久链接至标题">¶</a></h2>
-<p>On surveying existing frameworks like Tensorflow, PyTorch, Caffe, etc, it can be seen that there are 2 common approaches of doing regularization:</p>
-<ol>
-<li><p class="first">Making regularization a part of the optimizer using an attribute like <code class="docutils literal"><span class="pre">weight_decay</span></code> that is used to control the scale of the L2 Penalty. This approach is used in PyTorch as follows:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">opt</span> <span class="o">=</span>  <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">weight_decay</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>At every optimization step, this code will add the gradient of the L2 Norm of the params to the gradient of the params with respect to the loss function. This can seen in the following code snippet:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">weight_decay</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-    <span class="n">d_p</span><span class="o">.</span><span class="n">add_</span><span class="p">(</span><span class="n">weight_decay</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>This is a very restyrictive way of doing regularization and does not give the users enough flexibility.</p>
-<p><strong>Advantages</strong>:</p>
-<ul class="simple">
-<li>It is easy to implement for us.</li>
-<li>Faster execution of backward. However, it can be done manually by advanced users too.</li>
-</ul>
-<p><strong>Disadvantages</strong>:</p>
-<ul class="simple">
-<li>Not flexible for other regularizations such as L1/L0 regularization.</li>
-<li>Does not allow for different regularization coefficient for different parameters. For example, in most models, ony the weight matrices are regularized and the bias vectors are unregularized.</li>
-<li>Tightly coupled optimizer and regularization implementation.</li>
-</ul>
-</li>
-</ol>
-<ol>
-<li><p class="first">Adding regularization ops to the graph through Python API. This approach is used by Tensorflow and Caffe. Using this approach, we manually add regularization ops to the graph and then add the regularization loss to the final loss function before sending them to the optimizer.</p>
-<p><strong>Advantages</strong>:</p>
-<ul class="simple">
-<li>Allows for greater flexibility to the users of Paddle. Using this approach, the users can put different regularization to different parameters and also choose parameters that are not a part of regularization.</li>
-<li>Makes it easy for the users to customize and extend the framework.</li>
-</ul>
-<p><strong>Disadvantages</strong>:</p>
-<ul class="simple">
-<li>Implementation requires comprehensive design and time.</li>
-</ul>
-</li>
-</ol>
+<div class="section" id="regularization-survey">
+<span id="regularization-survey"></span><h2>Regularization Survey<a class="headerlink" href="#regularization-survey" title="永久链接至标题">¶</a></h2>
+<p>A detailed survey of regularization in various deep learning frameworks can be found <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/wiki/Regularization-Survey">here</a>.</p>
 </div>
 <div class="section" id="proposal-for-regularization-in-paddlepaddle">
 <span id="proposal-for-regularization-in-paddlepaddle"></span><h2>Proposal for Regularization in PaddlePaddle<a class="headerlink" href="#proposal-for-regularization-in-paddlepaddle" title="永久链接至标题">¶</a></h2>
 <div class="section" id="low-level-implementation">
 <span id="low-level-implementation"></span><h3>Low-Level implementation<a class="headerlink" href="#low-level-implementation" title="永久链接至标题">¶</a></h3>
-<p>In the new design, we propose to create new operations for regularization. For now, we can add 2 ops thgat correspond to the most frequently used regularizations:</p>
+<p>In the new design, we propose to create new operations for regularization. For now, we can add 2 ops that correspond to the most frequently used regularizations:</p>
 <ul class="simple">
 <li>L2_regularization_op</li>
 <li>L1_regularization_op</li>
 </ul>
-<p>These ops can be like any other ops with their own CPU/GPU implementations either using Eigen or separate Cpu and GPU kernels. As the initial implementation, we can implement their kernels using Eigen following the abstraction pattern implemented for <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/operators/accuracy_op.h">Activation Ops</a>. This abstraction pattern can make it very easy to implement new regularization schemes. other than L1 and L2 norm penalties.</p>
+<p>These ops can be like any other ops with their own CPU/GPU implementations either using Eigen or separate CPU and GPU kernels. As the initial implementation, we can implement their kernels using Eigen following the abstraction pattern implemented for <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/operators/accuracy_op.h">Activation Ops</a>. This abstraction pattern can make it very easy to implement new regularization schemes other than L1 and L2 norm penalties.</p>
 <p>The idea of building ops for regularization is in sync with the refactored Paddle philosophy of using operators to represent any computation unit. The way these ops will be added to the computation graph, will be decided by the <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/doc/design/python_api.md#layer-function">layer functions</a> in Python API.</p>
 </div>
 <div class="section" id="computation-graph">
@@ -295,7 +258,7 @@
 </div>
 <div class="section" id="high-level-api">
 <span id="high-level-api"></span><h4>High-level API<a class="headerlink" href="#high-level-api" title="永久链接至标题">¶</a></h4>
-<p>In PaddlePaddle Python API, users will primarily rely on <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/doc/design/python_api.md#layer-function">layer functions</a> to create neural network layers. Hence, we lso need to provide regularization functionality in layer functions. The design of these APIs can be postponed for later right now. A good reference for these APIs can be found in <a class="reference external" href="https://keras.io/regularizers/">Keras</a> and also by looking at Tensorflow in <a class="reference external" href="https://www.tensorflow.org/api_guides/python/contrib.layers"><code class="docutils literal"><span class="pre">tf.contrib.layers</span></code></a>.</p>
+<p>In PaddlePaddle Python API, users will primarily rely on <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/doc/design/python_api.md#layer-function">layer functions</a> to create neural network layers. Hence, we also need to provide regularization functionality in layer functions. The design of these APIs can be postponed for later right now. A good reference for these APIs can be found in <a class="reference external" href="https://keras.io/regularizers/">Keras</a> and also by looking at Tensorflow in <a class="reference external" href="https://www.tensorflow.org/api_guides/python/contrib.layers"><code class="docutils literal"><span class="pre">tf.contrib.layers</span></code></a>.</p>
 </div>
 </div>
 </div>
