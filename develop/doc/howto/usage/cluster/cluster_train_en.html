@@ -124,10 +124,6 @@
 </ul>
 </li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">PaddlePaddle Distributed Training</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#preparations">Preparations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#command-line-arguments">Command-line arguments</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#use-cluster-platforms-or-cluster-management-tools">Use cluster platforms or cluster management tools</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../k8s/k8s_en.html">Paddle On Kubernetes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../k8s/k8s_aws_en.html">Distributed PaddlePaddle Training on AWS with Kubernetes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../dev/build_en.html">Build PaddlePaddle from Source Code and Run Unit Test</a></li>
@@ -216,9 +212,8 @@
 </ul>
 </li>
 </ul>
-</div>
 <div class="section" id="introduction">
-<span id="introduction"></span><h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<span id="introduction"></span><h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
 <p>In this article, we&#8217;ll explain how to run distributed training jobs with PaddlePaddle on different types of clusters. The diagram below shows the main architecture of a distributed trainning job:</p>
 <p><img src="https://user-images.githubusercontent.com/13348433/31772146-41523d84-b511-11e7-8a12-a69fd136c283.png" width="500"></p>
 <ul class="simple">
@@ -230,7 +225,7 @@
 <p>When training with synchronize SGD, PaddlePaddle uses an internal &#8220;synchronize barrier&#8221; which makes gradients update and parameter download in strict order. On the other hand, asynchronous SGD won&#8217;t wait for all trainers to finish upload at a single step, this will increase the parallelism of distributed training: parameter servers do not depend on each other, they&#8217;ll do parameter optimization concurrently. Parameter servers will not wait for trainers, so trainers will also do their work concurrently. But asynchronous SGD will introduce more randomness and noises in the gradient.</p>
 </div>
 <div class="section" id="preparations">
-<span id="preparations"></span><h1>Preparations<a class="headerlink" href="#preparations" title="Permalink to this headline">¶</a></h1>
+<span id="preparations"></span><h2>Preparations<a class="headerlink" href="#preparations" title="Permalink to this headline">¶</a></h2>
 <ol class="simple">
 <li>Prepare your computer cluster. It&#8217;s normally a bunch of Linux servers connected by LAN. Each server will be assigned a unique IP address. The computers in the cluster can be called &#8220;nodes&#8221;.</li>
 <li>Install PaddlePaddle on every node. If you are going to take advantage of GPU cards, you&#8217;ll also need to install proper driver and CUDA libraries. To install PaddlePaddle please read <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/tree/develop/doc/getstarted/build_and_install">this build and install</a> document. We strongly recommend using <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/doc/getstarted/build_and_install/docker_install_en.rst">Docker installation</a>.</li>
@@ -249,9 +244,9 @@ PaddlePaddle <span class="m">0</span>.10.0rc, compiled with
 <p>We&#8217;ll take <code class="docutils literal"><span class="pre">doc/howto/usage/cluster/src/word2vec</span></code> as an example to introduce distributed training using PaddlePaddle v2 API.</p>
 </div>
 <div class="section" id="command-line-arguments">
-<span id="command-line-arguments"></span><h1>Command-line arguments<a class="headerlink" href="#command-line-arguments" title="Permalink to this headline">¶</a></h1>
+<span id="command-line-arguments"></span><h2>Command-line arguments<a class="headerlink" href="#command-line-arguments" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="starting-parameter-server">
-<span id="starting-parameter-server"></span><h2>Starting parameter server<a class="headerlink" href="#starting-parameter-server" title="Permalink to this headline">¶</a></h2>
+<span id="starting-parameter-server"></span><h3>Starting parameter server<a class="headerlink" href="#starting-parameter-server" title="Permalink to this headline">¶</a></h3>
 <p>Type the below command to start a parameter server which will wait for trainers to connect:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ paddle pserver --port<span class="o">=</span><span class="m">7164</span> --ports_num<span class="o">=</span><span class="m">1</span> --ports_num_for_sparse<span class="o">=</span><span class="m">1</span> --num_gradient_servers<span class="o">=</span><span class="m">1</span>
 </pre></div>
@@ -268,7 +263,7 @@ PaddlePaddle <span class="m">0</span>.10.0rc, compiled with
 | num_gradient_servers  | required | 1 | total number of gradient servers |</p>
 </div>
 <div class="section" id="starting-trainer">
-<span id="starting-trainer"></span><h2>Starting trainer<a class="headerlink" href="#starting-trainer" title="Permalink to this headline">¶</a></h2>
+<span id="starting-trainer"></span><h3>Starting trainer<a class="headerlink" href="#starting-trainer" title="Permalink to this headline">¶</a></h3>
 <p>Type the command below to start the trainer(name the file whatever you want, like &#8220;train.py&#8221;)</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ python train.py
 </pre></div>
@@ -310,7 +305,7 @@ python train.py
 | pservers  | required | 127.0.0.1 | list of IPs of parameter servers, separated by &#8221;,&#8221; |</p>
 </div>
 <div class="section" id="prepare-training-dataset">
-<span id="prepare-training-dataset"></span><h2>Prepare Training Dataset<a class="headerlink" href="#prepare-training-dataset" title="Permalink to this headline">¶</a></h2>
+<span id="prepare-training-dataset"></span><h3>Prepare Training Dataset<a class="headerlink" href="#prepare-training-dataset" title="Permalink to this headline">¶</a></h3>
 <p>Here&#8217;s some example code <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/tree/develop/doc/howto/usage/cluster/src/word2vec/prepare.py">prepare.py</a>, it will download public <code class="docutils literal"><span class="pre">imikolov</span></code> dataset and split it into multiple files according to job parallelism(trainers count). Modify <code class="docutils literal"><span class="pre">SPLIT_COUNT</span></code> at the begining of <code class="docutils literal"><span class="pre">prepare.py</span></code> to change the count of output files.</p>
 <p>In the real world, we often use <code class="docutils literal"><span class="pre">MapReduce</span></code> job&#8217;s output as training data, so there will be lots of files. You can use <code class="docutils literal"><span class="pre">mod</span></code> to assign training file to trainers:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
@@ -337,7 +332,7 @@ python train.py
 <p>Different training jobs may have different data format and <code class="docutils literal"><span class="pre">reader()</span></code> function, developers may need to write different data prepare scripts and <code class="docutils literal"><span class="pre">reader()</span></code> functions for their job.</p>
 </div>
 <div class="section" id="prepare-training-program">
-<span id="prepare-training-program"></span><h2>Prepare Training program<a class="headerlink" href="#prepare-training-program" title="Permalink to this headline">¶</a></h2>
+<span id="prepare-training-program"></span><h3>Prepare Training program<a class="headerlink" href="#prepare-training-program" title="Permalink to this headline">¶</a></h3>
 <p>We&#8217;ll create a <em>workspace</em> directory on each node, storing your training program, dependencies, mounted or downloaded dataset directory.</p>
 <p>Your workspace may looks like:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>.
@@ -376,7 +371,7 @@ python train.py
 </div>
 </div>
 <div class="section" id="use-cluster-platforms-or-cluster-management-tools">
-<span id="use-cluster-platforms-or-cluster-management-tools"></span><h1>Use cluster platforms or cluster management tools<a class="headerlink" href="#use-cluster-platforms-or-cluster-management-tools" title="Permalink to this headline">¶</a></h1>
+<span id="use-cluster-platforms-or-cluster-management-tools"></span><h2>Use cluster platforms or cluster management tools<a class="headerlink" href="#use-cluster-platforms-or-cluster-management-tools" title="Permalink to this headline">¶</a></h2>
 <p>PaddlePaddle supports running jobs on several platforms including:</p>
 <ul class="simple">
 <li><a class="reference external" href="http://kubernetes.io">Kubernetes</a> open-source system for automating deployment, scaling, and management of containerized applications from Google.</li>
@@ -386,13 +381,13 @@ python train.py
 <p>We&#8217;ll introduce cluster job management on these platforms. The examples can be found under <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/tree/develop/paddle/scripts/cluster_train_v2">cluster_train_v2</a>.</p>
 <p>These cluster platforms provide API or environment variables for training processes, when the job is dispatched to different nodes. Like node ID, IP or total number of nodes etc.</p>
 <div class="section" id="cluster-training-using-fabric">
-<span id="cluster-training-using-fabric"></span><h2>Cluster Training Using Fabric<a class="headerlink" href="#cluster-training-using-fabric" title="Permalink to this headline">¶</a></h2>
+<span id="cluster-training-using-fabric"></span><h3>Cluster Training Using Fabric<a class="headerlink" href="#cluster-training-using-fabric" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="prepare-a-linux-cluster">
-<span id="prepare-a-linux-cluster"></span><h3>Prepare a Linux cluster<a class="headerlink" href="#prepare-a-linux-cluster" title="Permalink to this headline">¶</a></h3>
+<span id="prepare-a-linux-cluster"></span><h4>Prepare a Linux cluster<a class="headerlink" href="#prepare-a-linux-cluster" title="Permalink to this headline">¶</a></h4>
 <p>Run <code class="docutils literal"><span class="pre">kubectl</span> <span class="pre">-f</span> <span class="pre">ssh_servers.yaml</span></code> under the directory:  <code class="docutils literal"><span class="pre">paddle/scripts/cluster_train_v2/fabric/docker_cluster</span></code> will launch a demo cluster. Run <code class="docutils literal"><span class="pre">kubectl</span> <span class="pre">get</span> <span class="pre">po</span> <span class="pre">-o</span> <span class="pre">wide</span></code> to get IP addresses of these nodes.</p>
 </div>
 <div class="section" id="launching-cluster-job">
-<span id="launching-cluster-job"></span><h3>Launching Cluster Job<a class="headerlink" href="#launching-cluster-job" title="Permalink to this headline">¶</a></h3>
+<span id="launching-cluster-job"></span><h4>Launching Cluster Job<a class="headerlink" href="#launching-cluster-job" title="Permalink to this headline">¶</a></h4>
 <p><code class="docutils literal"><span class="pre">paddle.py</span></code> provides automatical scripts to start all PaddlePaddle cluster processes in different nodes. By default, all command line options can be set as <code class="docutils literal"><span class="pre">paddle.py</span></code> command options and <code class="docutils literal"><span class="pre">paddle.py</span></code> will transparently and automatically set these options to PaddlePaddle lower level processes.</p>
 <p><code class="docutils literal"><span class="pre">paddle.py</span></code>provides two distinguished command option for easy job launching.</p>
 <ul class="simple">
@@ -407,11 +402,11 @@ dispatch latency.</li>
 <p>The cluster Job will start in several seconds.</p>
 </div>
 <div class="section" id="kill-cluster-job">
-<span id="kill-cluster-job"></span><h3>Kill Cluster Job<a class="headerlink" href="#kill-cluster-job" title="Permalink to this headline">¶</a></h3>
+<span id="kill-cluster-job"></span><h4>Kill Cluster Job<a class="headerlink" href="#kill-cluster-job" title="Permalink to this headline">¶</a></h4>
 <p><code class="docutils literal"><span class="pre">paddle.py</span></code> can capture <code class="docutils literal"><span class="pre">Ctrl</span> <span class="pre">+</span> <span class="pre">C</span></code> SIGINT signal to automatically kill all processes launched by it. So just stop <code class="docutils literal"><span class="pre">paddle.py</span></code> to kill cluster job. You should manually kill the job if the program crashed.</p>
 </div>
 <div class="section" id="check-cluster-training-result">
-<span id="check-cluster-training-result"></span><h3>Check Cluster Training Result<a class="headerlink" href="#check-cluster-training-result" title="Permalink to this headline">¶</a></h3>
+<span id="check-cluster-training-result"></span><h4>Check Cluster Training Result<a class="headerlink" href="#check-cluster-training-result" title="Permalink to this headline">¶</a></h4>
 <p>Check log in $workspace/log for details, each node owns same log structure.</p>
 <p><code class="docutils literal"><span class="pre">paddle_trainer.INFO</span></code>
 It provides almost all internal output log for training,  same as local training. Check runtime model convergence here.</p>
@@ -423,15 +418,15 @@ It provides stderr and stdout of parameter server process. Check error log if tr
 It provides stderr and stdout of trainer process. Check error log if training crashes.</p>
 </div>
 <div class="section" id="check-model-output">
-<span id="check-model-output"></span><h3>Check Model Output<a class="headerlink" href="#check-model-output" title="Permalink to this headline">¶</a></h3>
+<span id="check-model-output"></span><h4>Check Model Output<a class="headerlink" href="#check-model-output" title="Permalink to this headline">¶</a></h4>
 <p>After one pass finished, model files will be written in <code class="docutils literal"><span class="pre">output</span></code> directory in node 0.
 <code class="docutils literal"><span class="pre">nodefile</span></code> in workspace indicates the node id of current cluster job.</p>
 </div>
 </div>
 <div class="section" id="cluster-training-using-openmpi">
-<span id="cluster-training-using-openmpi"></span><h2>Cluster Training Using OpenMPI<a class="headerlink" href="#cluster-training-using-openmpi" title="Permalink to this headline">¶</a></h2>
+<span id="cluster-training-using-openmpi"></span><h3>Cluster Training Using OpenMPI<a class="headerlink" href="#cluster-training-using-openmpi" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="prepare-an-openmpi-cluster">
-<span id="prepare-an-openmpi-cluster"></span><h3>Prepare an OpenMPI cluster<a class="headerlink" href="#prepare-an-openmpi-cluster" title="Permalink to this headline">¶</a></h3>
+<span id="prepare-an-openmpi-cluster"></span><h4>Prepare an OpenMPI cluster<a class="headerlink" href="#prepare-an-openmpi-cluster" title="Permalink to this headline">¶</a></h4>
 <p>Run the following command to start a 3-node MPI cluster and one &#8220;head&#8221; node.</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">cd</span> paddle/scripts/cluster_train_v2/openmpi/docker_cluster
 kubectl create -f head.yaml
@@ -441,7 +436,7 @@ kubectl create -f mpi-nodes.yaml
 <p>Then you can log in to every OpenMPI node using ssh without input any passwords.</p>
 </div>
 <div class="section" id="launching-cluster-job">
-<span id="id1"></span><h3>Launching Cluster Job<a class="headerlink" href="#launching-cluster-job" title="Permalink to this headline">¶</a></h3>
+<span id="id1"></span><h4>Launching Cluster Job<a class="headerlink" href="#launching-cluster-job" title="Permalink to this headline">¶</a></h4>
 <p>Follow the steps to launch a PaddlePaddle training job in OpenMPI cluster:\</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># find out node IP addresses</span>
 kubectl get po -o wide
@@ -469,8 +464,9 @@ mpirun -hostfile machines -n <span class="m">3</span>  /home/tutorial/start_mpi_
 </div>
 </div>
 <div class="section" id="cluster-training-using-kubernetes">
-<span id="cluster-training-using-kubernetes"></span><h2>Cluster Training Using Kubernetes<a class="headerlink" href="#cluster-training-using-kubernetes" title="Permalink to this headline">¶</a></h2>
+<span id="cluster-training-using-kubernetes"></span><h3>Cluster Training Using Kubernetes<a class="headerlink" href="#cluster-training-using-kubernetes" title="Permalink to this headline">¶</a></h3>
 <p>The details can be found <span class="xref doc">here</span></p>
+</div>
 </div>
 </div>
 
