@@ -217,18 +217,18 @@ Android的Docker开发镜像向用户提供两个可配置的参数：</p>
 |&#8212;&#8212;&#8212;&#8212;&#8212;&#8211;|&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;-|&#8212;&#8212;&#8212;|
 |<code class="docutils literal"><span class="pre">ANDROID_ABI</span></code>    |<code class="docutils literal"><span class="pre">armeabi-v7a,</span> <span class="pre">arm64-v8a</span></code> | <code class="docutils literal"><span class="pre">armeabi-v7a</span></code> |
 |<code class="docutils literal"><span class="pre">ANDROID_API</span></code>    |<code class="docutils literal"><span class="pre">&gt;=</span> <span class="pre">21</span></code> | <code class="docutils literal"><span class="pre">21</span></code> |</p>
-<ul class="simple">
-<li>编译<code class="docutils literal"><span class="pre">armeabi-v7a</span></code>，<code class="docutils literal"><span class="pre">Android</span> <span class="pre">API</span> <span class="pre">21</span></code>的PaddlePaddle库</li>
-</ul>
+<ul>
+<li><p class="first">编译<code class="docutils literal"><span class="pre">armeabi-v7a</span></code>，<code class="docutils literal"><span class="pre">Android</span> <span class="pre">API</span> <span class="pre">21</span></code>的PaddlePaddle库</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ docker run -it --rm -v <span class="nv">$PWD</span>:/paddle -e <span class="s2">&quot;ANDROID_ABI=armeabi-v7a&quot;</span> -e <span class="s2">&quot;ANDROID_API=21&quot;</span> username/paddle-android:dev
 </pre></div>
 </div>
-<ul class="simple">
-<li>编译<code class="docutils literal"><span class="pre">arm64-v8a</span></code>，<code class="docutils literal"><span class="pre">Android</span> <span class="pre">API</span> <span class="pre">21</span></code>的PaddlePaddle库</li>
-</ul>
+</li>
+<li><p class="first">编译<code class="docutils literal"><span class="pre">arm64-v8a</span></code>，<code class="docutils literal"><span class="pre">Android</span> <span class="pre">API</span> <span class="pre">21</span></code>的PaddlePaddle库</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ docker run -it --rm -v <span class="nv">$PWD</span>:/paddle -e <span class="s2">&quot;ANDROID_ABI=arm64-v8a&quot;</span> -e <span class="s2">&quot;ANDROID_API=21&quot;</span> username/paddle-android:dev
 </pre></div>
 </div>
+</li>
+</ul>
 <p>执行上述<code class="docutils literal"><span class="pre">docker</span> <span class="pre">run</span></code>命令时，容器默认执行<a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/scripts/docker/build_android.sh">paddle/scripts/docker/build_android.sh</a>脚本。该脚本中记录了交叉编译Android版PaddlePaddle库常用的CMake配置，并且会根据<code class="docutils literal"><span class="pre">ANDROID_ABI</span></code>和<code class="docutils literal"><span class="pre">ANDROID_API</span></code>自动构建独立工具链、进行编译和安装。由于arm64架构要求Android API不小于21。因此当<code class="docutils literal"><span class="pre">ANDROID_ABI=arm64-v8a</span></code>，<code class="docutils literal"><span class="pre">ANDROID_API&lt;21</span></code>时，Docker容器中将默认使用<code class="docutils literal"><span class="pre">Android</span> <span class="pre">API</span> <span class="pre">21</span></code>的编译工具链。用户可以参考下文<strong>配置交叉编译参数</strong>章节，根据个人的需求修改定制Docker容器所执行的脚本。编译安装结束之后，PaddlePaddle的C-API库将被安装到<code class="docutils literal"><span class="pre">$PWD/install_android</span></code>目录，所依赖的第三方库同时也被安装到<code class="docutils literal"><span class="pre">$PWD/install_android/third_party</span></code>目录。</p>
 </div>
 </div>
@@ -313,7 +313,7 @@ unzip -q android-ndk-r14b-linux-x86_64.zip
       <span class="o">-</span><span class="n">DANDROID_STANDALONE_TOOLCHAIN</span><span class="o">=</span><span class="n">your</span><span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">arm64_standalone_toolchain</span> \
       <span class="o">-</span><span class="n">DANDROID_ABI</span><span class="o">=</span><span class="n">arm64</span><span class="o">-</span><span class="n">v8a</span> \
       <span class="o">-</span><span class="n">DUSE_EIGEN_FOR_BLAS</span><span class="o">=</span><span class="n">OFF</span> \
-      <span class="o">-</span><span class="n">DCMAKE_INSTALL_PREFIX</span><span class="o">=</span><span class="n">your</span><span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">install</span> \  
+      <span class="o">-</span><span class="n">DCMAKE_INSTALL_PREFIX</span><span class="o">=</span><span class="n">your</span><span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">install</span> \
       <span class="o">-</span><span class="n">DWITH_C_API</span><span class="o">=</span><span class="n">ON</span> \
       <span class="o">-</span><span class="n">DWITH_SWIG_PY</span><span class="o">=</span><span class="n">OFF</span> \
       <span class="o">..</span>
