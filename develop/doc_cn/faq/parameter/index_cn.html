@@ -263,7 +263,7 @@
 <p>这是一种按已训练pass数分段取值的学习率退火方法。使用该learning_rate_schedule时，用户通过参数 <code class="code docutils literal"><span class="pre">learning_rate_args</span></code> 设置学习率衰减因子分段函数，当前的学习率为所设置 <code class="code docutils literal"><span class="pre">learning_rate</span></code> 与当前的衰减因子的乘积。以使用Adam算法为例，代码如下：</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">optimizer</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span>
     <span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span>
-    <span class="n">learning_rate_schedule</span><span class="o">=</span><span class="s2">&quot;manual&quot;</span><span class="p">,</span>
+    <span class="n">learning_rate_schedule</span><span class="o">=</span><span class="s2">&quot;pass_manual&quot;</span><span class="p">,</span>
     <span class="n">learning_rate_args</span><span class="o">=</span><span class="s2">&quot;1:1.0,2:0.9,3:0.8&quot;</span><span class="p">,)</span>
 </pre></div>
 </div>
