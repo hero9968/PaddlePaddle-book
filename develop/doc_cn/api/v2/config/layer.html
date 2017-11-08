@@ -2221,8 +2221,8 @@ will be sliced for multiple times.</p>
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer, which should be a sequence.</li>
-<li><strong>starts</strong> (<em>paddle.v2.config_base.Layer | None</em>) &#8211; start indices to slice the input sequence.</li>
-<li><strong>ends</strong> (<em>paddle.v2.config_base.Layer | None</em>) &#8211; end indices to slice the input sequence.</li>
+<li><strong>starts</strong> (<em>paddle.v2.config_base.Layer | None</em>) &#8211; The start indices to slice the input sequence.</li>
+<li><strong>ends</strong> (<em>paddle.v2.config_base.Layer | None</em>) &#8211; The end indices to slice the input sequence.</li>
 </ul>
 </td>
 </tr>
@@ -3047,7 +3047,7 @@ processed in one batch.</p>
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">scale_shift</code></dt>
 <dd><p>A layer applies a linear transformation to each element in each row of
-the input matrix. For each element, the layer first re-scale it and then
+the input matrix. For each element, the layer first re-scales it and then
 adds a bias to it.</p>
 <p>This layer is very like the SlopeInterceptLayer, except the scale and
 bias are trainable.</p>
