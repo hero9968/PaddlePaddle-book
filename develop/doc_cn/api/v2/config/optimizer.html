@@ -219,7 +219,7 @@
 <dd><p>Momentum Optimizer.</p>
 <p>When sparse=False, the momentum update formula is as follows:</p>
 <div class="math">
-\[\begin{split}v_{t} &amp;= k * v_{t-1} - \gamma_t / (g_{t} + \lambda w_{t-1}) \\
+\[\begin{split}v_{t} &amp;= k * v_{t-1} - \gamma_t (g_{t} + \lambda w_{t-1}) \\
 w_{t} &amp;= w_{t-1} + v_{t} \\\end{split}\]</div>
 <p>where, <span class="math">\(k\)</span> is momentum, <span class="math">\(\lambda\)</span> is decay rate,
 <span class="math">\(\gamma_t\)</span> is learning rate at the t&#8217;th iteration.
