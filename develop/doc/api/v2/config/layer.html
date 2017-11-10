@@ -800,6 +800,36 @@ automatically from previous output.</li>
 </dd></dl>
 
 </div>
+<div class="section" id="roi-pool">
+<h3>roi_pool<a class="headerlink" href="#roi-pool" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">roi_pool</code></dt>
+<dd><p>A layer used by Fast R-CNN to extract feature maps of ROIs from the last
+feature map.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The Layer Name.</li>
+<li><strong>input</strong> (<em>paddle.v2.config_base.Layer.</em>) &#8211; The input layer.</li>
+<li><strong>rois</strong> (<em>paddle.v2.config_base.Layer.</em>) &#8211; The input ROIs&#8217; data.</li>
+<li><strong>pooled_width</strong> (<em>int</em>) &#8211; The width after pooling.</li>
+<li><strong>pooled_height</strong> (<em>int</em>) &#8211; The height after pooling.</li>
+<li><strong>spatial_scale</strong> (<em>float</em>) &#8211; The spatial scale between the image and feature map.</li>
+<li><strong>num_channels</strong> (<em>int</em>) &#8211; number of input channel.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">paddle.v2.config_base.Layer</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
 </div>
 <div class="section" id="norm-layer">
 <h2>Norm Layer<a class="headerlink" href="#norm-layer" title="Permalink to this headline">¶</a></h2>
