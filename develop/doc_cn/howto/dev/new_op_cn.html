@@ -394,7 +394,7 @@ Kernel实现       | CPU、GPU共享Kernel实现在<code class="docutils literal
 <li>请注意，如果GPU Kernel的实现基于Eigen unsupported模块，那么在 <code class="docutils literal"><span class="pre">.cu</span></code>的开始请加上宏定义 <code class="docutils literal"><span class="pre">#define</span> <span class="pre">EIGEN_USE_GPU</span></code>，代码示例如下：</li>
 </ul>
 <div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="c1">// if use Eigen unsupported module before include head files</span>
-<span class="cp">#define EIGEN_USE_GPU</span>
+<span class="c1">// #define EIGEN_USE_GPU</span>
 
 <span class="k">namespace</span> <span class="n">ops</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">::</span><span class="n">operators</span><span class="p">;</span>
 <span class="n">REGISTER_OP_GPU_KERNEL</span><span class="p">(</span><span class="n">mul</span><span class="p">,</span> <span class="n">ops</span><span class="o">::</span><span class="n">MulKernel</span><span class="o">&lt;</span><span class="n">paddle</span><span class="o">::</span><span class="n">platform</span><span class="o">::</span><span class="n">GPUPlace</span><span class="p">,</span> <span class="kt">float</span><span class="o">&gt;</span><span class="p">);</span>
