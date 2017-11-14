@@ -297,9 +297,10 @@ If is None, acts exactly like fc.</li>
 <li><strong>size</strong> (<em>int</em>) &#8211; The layer dimension.</li>
 <li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type. paddle.v2.activation.Tanh is the default.</li>
 <li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The Parameter Attribute.</li>
-<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | None | bool | Any</em>) &#8211; The bias attribute. If the parameter is set to False or an object
-whose type is not paddle.v2.attr.ParameterAttribute, no bias is defined. If the
-parameter is set to True, the bias is initialized to zero.</li>
+<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | None | bool | Any</em>) &#8211; The parameter attribute for bias. If this parameter is set to
+False or an object whose type is not paddle.v2.attr.ParameterAttribute,
+no bias is defined. If this parameter is set to True,
+the bias is initialized to zero.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute | None</em>) &#8211; Extra Layer config.</li>
 </ul>
 </td>
@@ -1098,9 +1099,10 @@ out_{i} = act(in_{i} + out_{i+1} * W) \ \ \text{for} \ start &lt;= i &lt; end\en
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer.</li>
 <li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type. paddle.v2.activation.Tanh is the default.</li>
-<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | None | bool | Any</em>) &#8211; The bias attribute. If the parameter is set to False or an object
-whose type is not paddle.v2.attr.ParameterAttribute, no bias is defined. If the
-parameter is set to True, the bias is initialized to zero.</li>
+<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | None | bool | Any</em>) &#8211; The parameter attribute for bias. If this parameter is set to
+False or an object whose type is not paddle.v2.attr.ParameterAttribute,
+no bias is defined. If the parameter is set to True,
+the bias is initialized to zero.</li>
 <li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; parameter attribute.</li>
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; Layer Attribute.</li>
@@ -1402,9 +1404,8 @@ output is <span class="math">\(o_t\)</span>, whose name is &#8216;state&#8217; a
 <li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type. paddle.v2.activation.Tanh is the default.</li>
 <li><strong>gate_act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Gate Activation Type. paddle.v2.activation.Sigmoid is the default.</li>
 <li><strong>state_act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; State Activation Type. paddle.v2.activation.Tanh is the default.</li>
-<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | None | bool | Any</em>) &#8211; The bias attribute. If the parameter is set to False or an object
-whose type is not paddle.v2.attr.ParameterAttribute, no bias is defined. If the
-parameter is set to True, the bias is initialized to zero.</li>
+<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | None | True</em>) &#8211; The parameter attribute for bias. If this parameter is
+set to True or None, the bias is initialized to zero.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; layer&#8217;s extra attribute.</li>
 </ul>
 </td>
@@ -1436,9 +1437,10 @@ parameter is set to True, the bias is initialized to zero.</li>
 <li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; </li>
 <li><strong>name</strong> &#8211; The name of this layer. It is optional.</li>
 <li><strong>gate_act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type of this layer&#8217;s two gates. Default is Sigmoid.</li>
-<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | None | bool | Any</em>) &#8211; The bias attribute. If the parameter is set to False or an object
-whose type is not paddle.v2.attr.ParameterAttribute, no bias is defined. If the
-parameter is set to True, the bias is initialized to zero.</li>
+<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | None | bool | Any</em>) &#8211; The parameter attribute for bias. If this parameter is set to
+False or an object whose type is not paddle.v2.attr.ParameterAttribute, no bias
+is defined. If this parameter is set to True,
+the bias is initialized to zero.</li>
 <li><strong>param_attr</strong> &#8211; the parameter_attribute for transforming the output_mem
 from previous step.</li>
 <li><strong>layer_attr</strong> &#8211; </li>
@@ -2966,9 +2968,10 @@ For example, each sample:</p>
 <li><strong>size</strong> (<em>int.</em>) &#8211; the layer dimension.</li>
 <li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type. paddle.v2.activation.Linear is the default.</li>
 <li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The Parameter Attribute.</li>
-<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | None | bool | Any</em>) &#8211; The bias attribute. If the parameter is set to False or an object
-whose type is not paddle.v2.attr.ParameterAttribute, no bias is defined. If the
-parameter is set to True, the bias is initialized to zero.</li>
+<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | None | bool | Any</em>) &#8211; The parameter attribute for bias. If this parameter is set to
+False or an object whose type is not paddle.v2.attr.ParameterAttribute,
+no bias is defined. If this parameter is set to True,
+the bias is initialized to zero.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute | None</em>) &#8211; Extra Layer config.</li>
 </ul>
 </td>
@@ -3926,10 +3929,10 @@ uniform distribution will be used. A user defined
 distribution is a list whose length must be equal
 to the num_classes. Each member of the list defines
 the probability of a class given input x.</li>
-<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | None | bool | Any</em>) &#8211; The attribute for bias. If this parameter is set False or
-any object whose type is not paddle.v2.attr.ParameterAttribute, no bias
-is added. If this parameter is set True, the bias is
-initialized to zero.</li>
+<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | None | bool | Any</em>) &#8211; The parameter attribute for bias. If this parameter is set to
+False or an object whose type is not paddle.v2.attr.ParameterAttribute,
+no bias is defined. If this parameter is set to True,
+the bias is initialized to zero.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; Extra Layer Attribute.</li>
 </ul>
 </td>
@@ -4222,16 +4225,16 @@ product between <a href="#id11"><span class="problematic" id="id12">:match:`X&#8
 details.</li>
 <li><strong>gate_param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The parameter attribute of the gate. See paddle.v2.attr.ParameterAttribute
 for details.</li>
-<li><strong>gate_bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | bool | None | Any</em>) &#8211; The bias attribute of the gate. If the parameter is set to False or
+<li><strong>gate_bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | bool | None | Any</em>) &#8211; The bias attribute of the gate. If this parameter is set to False or
 an object whose type is not paddle.v2.attr.ParameterAttribute, no bias is defined.
-If the parameter is set to True, the bias is initialized to zero.</li>
+If this parameter is set to True, the bias is initialized to zero.</li>
 <li><strong>inproj_attr</strong> (<em>paddle.v2.attr.ExtraAttribute | None</em>) &#8211; Extra layer attributes of the projection. See paddle.v2.attr.ExtraAttribute for
 details.</li>
 <li><strong>inproj_param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The parameter attribute of the projection. See paddle.v2.attr.ParameterAttribute
 for details.</li>
-<li><strong>inproj_bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | bool | None | Any</em>) &#8211; The bias attribute of the projection. If the parameter is set to False
+<li><strong>inproj_bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | bool | None | Any</em>) &#8211; The bias attribute of the projection. If this parameter is set to False
 or an object whose type is not paddle.v2.attr.ParameterAttribute, no bias is defined.
-If the parameter is set to True, the bias is initialized to zero.</li>
+If this parameter is set to True, the bias is initialized to zero.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute | None</em>) &#8211; Extra layer attribute of the product. See paddle.v2.attr.ExtraAttribute for
 details.</li>
 </ul>

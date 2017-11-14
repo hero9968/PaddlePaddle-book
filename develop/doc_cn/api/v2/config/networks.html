@@ -508,25 +508,33 @@ for more details about LSTM. The link goes as follows:
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>input</strong> (<em>LayerOutput</em>) &#8211; input layer.</li>
-<li><strong>out_memory</strong> (<em>LayerOutput | None</em>) &#8211; output of previous time step</li>
-<li><strong>name</strong> (<em>basestring</em>) &#8211; lstmemory unit name.</li>
-<li><strong>size</strong> (<em>int</em>) &#8211; lstmemory unit size.</li>
-<li><strong>param_attr</strong> (<em>ParameterAttribute</em>) &#8211; parameter attribute, None means default attribute.</li>
-<li><strong>act</strong> (<em>BaseActivation</em>) &#8211; last activiation type of lstm.</li>
-<li><strong>gate_act</strong> (<em>BaseActivation</em>) &#8211; gate activiation type of lstm.</li>
-<li><strong>state_act</strong> (<em>BaseActivation</em>) &#8211; state activiation type of lstm.</li>
-<li><strong>input_proj_bias_attr</strong> (<em>ParameterAttribute|False|None</em>) &#8211; bias attribute for input to hidden projection.
-False means no bias, None means default bias.</li>
-<li><strong>input_proj_layer_attr</strong> (<em>ExtraLayerAttribute</em>) &#8211; extra layer attribute for input to hidden
-projection of the LSTM unit, such as dropout, error clipping.</li>
-<li><strong>lstm_bias_attr</strong> (<em>ParameterAttribute|False|None</em>) &#8211; bias parameter attribute of lstm layer.
-False means no bias, None means default bias.</li>
-<li><strong>lstm_layer_attr</strong> (<em>ExtraLayerAttribute</em>) &#8211; extra attribute of lstm layer.</li>
+<li><strong>input</strong> (<em>LayerOutput</em>) &#8211; Input layer.</li>
+<li><strong>out_memory</strong> (<em>LayerOutput | None</em>) &#8211; The output of previous time step.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The lstmemory unit name.</li>
+<li><strong>size</strong> (<em>int</em>) &#8211; The lstmemory unit size.</li>
+<li><strong>param_attr</strong> (<em>ParameterAttribute</em>) &#8211; The parameter attribute for the weights in
+input to hidden projection.
+None means default attribute.</li>
+<li><strong>act</strong> (<em>BaseActivation</em>) &#8211; The last activiation type of lstm.</li>
+<li><strong>gate_act</strong> (<em>BaseActivation</em>) &#8211; The gate activiation type of lstm.</li>
+<li><strong>state_act</strong> (<em>BaseActivation</em>) &#8211; The state activiation type of lstm.</li>
+<li><strong>input_proj_bias_attr</strong> (<em>ParameterAttribute|bool|None</em>) &#8211; The parameter attribute for the bias in
+input to hidden projection.
+False or None means no bias.
+If this parameter is set to True,
+the bias is initialized to zero.</li>
+<li><strong>input_proj_layer_attr</strong> (<em>ExtraLayerAttribute</em>) &#8211; The extra layer attribute for
+input to hidden projection of the LSTM unit,
+such as dropout, error clipping.</li>
+<li><strong>lstm_bias_attr</strong> (<em>ParameterAttribute|True|None</em>) &#8211; The parameter attribute for the bias in lstm layer.
+False or None means no bias.
+If this parameter is set to True,
+the bias is initialized to zero.</li>
+<li><strong>lstm_layer_attr</strong> (<em>ExtraLayerAttribute</em>) &#8211; The extra attribute of lstm layer.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">lstmemory unit name.</p>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">The lstmemory unit name.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">LayerOutput</p>
@@ -569,22 +577,30 @@ full_matrix_projection must be included before lstmemory_unit is called.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>input</strong> (<em>LayerOutput</em>) &#8211; input layer.</li>
-<li><strong>size</strong> (<em>int</em>) &#8211; lstmemory group size.</li>
-<li><strong>name</strong> (<em>basestring</em>) &#8211; name of lstmemory group.</li>
-<li><strong>out_memory</strong> (<em>LayerOutput | None</em>) &#8211; output of previous time step.</li>
-<li><strong>reverse</strong> (<em>bool</em>) &#8211; process the input in a reverse order or not.</li>
-<li><strong>param_attr</strong> (<em>ParameterAttribute</em>) &#8211; parameter attribute, None means default attribute.</li>
-<li><strong>act</strong> (<em>BaseActivation</em>) &#8211; last activiation type of lstm.</li>
-<li><strong>gate_act</strong> (<em>BaseActivation</em>) &#8211; gate activiation type of lstm.</li>
-<li><strong>state_act</strong> (<em>BaseActivation</em>) &#8211; state activiation type of lstm.</li>
-<li><strong>lstm_bias_attr</strong> (<em>ParameterAttribute|False|None</em>) &#8211; bias parameter attribute of lstm layer.
-False means no bias, None means default bias.</li>
-<li><strong>input_proj_bias_attr</strong> (<em>ParameterAttribute|False|None</em>) &#8211; bias attribute for input to hidden projection.
-False means no bias, None means default bias.</li>
-<li><strong>input_proj_layer_attr</strong> (<em>ExtraLayerAttribute</em>) &#8211; extra layer attribute for input to hidden
-projection of the LSTM unit, such as dropout, error clipping.</li>
-<li><strong>lstm_layer_attr</strong> (<em>ExtraLayerAttribute</em>) &#8211; lstm layer&#8217;s extra attribute.</li>
+<li><strong>input</strong> (<em>LayerOutput</em>) &#8211; Input layer.</li>
+<li><strong>size</strong> (<em>int</em>) &#8211; The lstmemory group size.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of lstmemory group.</li>
+<li><strong>out_memory</strong> (<em>LayerOutput | None</em>) &#8211; The output of previous time step.</li>
+<li><strong>reverse</strong> (<em>bool</em>) &#8211; Process the input in a reverse order or not.</li>
+<li><strong>param_attr</strong> (<em>ParameterAttribute</em>) &#8211; The parameter attribute for the weights in
+input to hidden projection.
+None means default attribute.</li>
+<li><strong>act</strong> (<em>BaseActivation</em>) &#8211; The last activiation type of lstm.</li>
+<li><strong>gate_act</strong> (<em>BaseActivation</em>) &#8211; The gate activiation type of lstm.</li>
+<li><strong>state_act</strong> (<em>BaseActivation</em>) &#8211; The state activiation type of lstm.</li>
+<li><strong>input_proj_bias_attr</strong> (<em>ParameterAttribute|bool|None</em>) &#8211; The parameter attribute for the bias in
+input to hidden projection.
+False or None means no bias.
+If this parameter is set to True,
+the bias is initialized to zero.</li>
+<li><strong>input_proj_layer_attr</strong> (<em>ExtraLayerAttribute</em>) &#8211; The extra layer attribute for
+input to hidden projection of the LSTM unit,
+such as dropout, error clipping.</li>
+<li><strong>lstm_bias_attr</strong> (<em>ParameterAttribute|True|None</em>) &#8211; The parameter attribute for the bias in lstm layer.
+False or None means no bias.
+If this parameter is set to True,
+the bias is initialized to zero.</li>
+<li><strong>lstm_layer_attr</strong> (<em>ExtraLayerAttribute</em>) &#8211; The extra attribute of lstm layer.</li>
 </ul>
 </td>
 </tr>
