@@ -251,7 +251,7 @@
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer | list | tuple</em>) &#8211; The input of this layer.</li>
 <li><strong>size</strong> (<em>int</em>) &#8211; The layer dimension.</li>
-<li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation Type. paddle.v2.activation.Tanh is the default.</li>
+<li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation Type. paddle.v2.activation.Tanh is the default activation.</li>
 <li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The Parameter Attribute|list.</li>
 <li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | None | bool | Any</em>) &#8211; The bias attribute. If the parameter is set to False or an object
 whose type is not paddle.v2.attr.ParameterAttribute, no bias is defined. If the
@@ -277,7 +277,7 @@ parameter is set to True, the bias is initialized to zero.</li>
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">selective_fc</code></dt>
 <dd><p>Selectived fully connected layer. Different from fc, the output
-of this layer maybe sparse. It requires an additional input to indicate
+of this layer can be sparse. It requires an additional input to indicate
 several selected columns for output. If the selected columns is not
 specified, selective_fc acts exactly like fc.</p>
 <p>The simple usage is:</p>
@@ -291,17 +291,26 @@ specified, selective_fc acts exactly like fc.</p>
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer | list | tuple</em>) &#8211; The input of this layer.</li>
-<li><strong>select</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The select layer. The output of select layer should be a
-sparse binary matrix, and treat as the mask of selective fc.
-If is None, acts exactly like fc.</li>
-<li><strong>size</strong> (<em>int</em>) &#8211; The layer dimension.</li>
-<li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type. paddle.v2.activation.Tanh is the default.</li>
-<li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The Parameter Attribute.</li>
+<li><strong>select</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The layer to select columns to output. It should be a sparse
+binary matrix, and is treated as the mask of selective fc. If
+it is not set or set to None, selective_fc acts exactly
+like fc.</li>
+<li><strong>size</strong> (<em>int</em>) &#8211; The dimension of this layer, which should be equal to that of
+the layer &#8216;select&#8217;.</li>
+<li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type. paddle.v2.activation.Tanh is the default activation.</li>
+<li><strong>pass_generation</strong> (<em>bool</em>) &#8211; The flag which indicates whether it is during generation.</li>
+<li><strong>has_selected_colums</strong> (<em>bool</em>) &#8211; The flag which indicates whether the parameter &#8216;select&#8217;
+has been set. True is the default.</li>
+<li><strong>mul_ratio</strong> (<em>float</em>) &#8211; A ratio helps to judge how sparse the output is and determine
+the computation method for speed consideration.</li>
+<li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The parameter attribute. See paddle.v2.attr.ParameterAttribute for
+details.</li>
 <li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | None | bool | Any</em>) &#8211; The parameter attribute for bias. If this parameter is set to
 False or an object whose type is not paddle.v2.attr.ParameterAttribute,
 no bias is defined. If this parameter is set to True,
 the bias is initialized to zero.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute | None</em>) &#8211; Extra Layer config.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute | None</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
 </ul>
 </td>
 </tr>
@@ -327,7 +336,7 @@ the bias is initialized to zero.</li>
 <dd><p>Different from img_conv, conv_op is an Operator, which can be used
 in mixed. And conv_op takes two inputs to perform convolution.
 The first input is the image and the second is filter kernel. It only
-support GPU mode.</p>
+supports GPU mode.</p>
 <p>The example usage is:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">op</span> <span class="o">=</span> <span class="n">conv_operator</span><span class="p">(</span><span class="n">img</span><span class="o">=</span><span class="n">input1</span><span class="p">,</span>
                    <span class="nb">filter</span><span class="o">=</span><span class="n">input2</span><span class="p">,</span>
@@ -341,18 +350,22 @@ support GPU mode.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>img</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; input image</li>
-<li><strong>filter</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; input filter</li>
-<li><strong>filter_size</strong> (<em>int</em>) &#8211; The x dimension of a filter kernel.</li>
-<li><strong>filter_size_y</strong> (<em>int</em>) &#8211; The y dimension of a filter kernel. Since
-PaddlePaddle now supports rectangular filters,
-the filter&#8217;s shape can be (filter_size, filter_size_y).</li>
-<li><strong>num_filters</strong> (<em>int</em>) &#8211; channel of output data.</li>
-<li><strong>num_channels</strong> (<em>int</em>) &#8211; channel of input data.</li>
-<li><strong>stride</strong> (<em>int</em>) &#8211; The x dimension of the stride.</li>
-<li><strong>stride_y</strong> (<em>int</em>) &#8211; The y dimension of the stride.</li>
-<li><strong>padding</strong> (<em>int</em>) &#8211; The x dimension of padding.</li>
-<li><strong>padding_y</strong> (<em>int</em>) &#8211; The y dimension of padding.</li>
+<li><strong>img</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input image.</li>
+<li><strong>filter</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input filter.</li>
+<li><strong>filter_size</strong> (<em>int</em>) &#8211; The dimension of the filter kernel on the x axis.</li>
+<li><strong>filter_size_y</strong> (<em>int</em>) &#8211; The dimension of the filter kernel on the y axis.
+If the parameter is not set or set to None, it will
+set to &#8216;filter_size&#8217; automatically.</li>
+<li><strong>num_filters</strong> (<em>int</em>) &#8211; The number of the output channels.</li>
+<li><strong>num_channels</strong> (<em>int</em>) &#8211; The number of the input channels. If the parameter is not set
+or set to None, it will be automatically set to the channel
+number of the &#8216;img&#8217;.</li>
+<li><strong>stride</strong> (<em>int</em>) &#8211; The stride on the x axis.</li>
+<li><strong>stride_y</strong> (<em>int</em>) &#8211; The stride on the y axis. If the parameter is not set or
+set to None, it will be set to &#8216;stride&#8217; automatically.</li>
+<li><strong>padding</strong> (<em>int</em>) &#8211; The padding size on the x axis.</li>
+<li><strong>padding_y</strong> (<em>int</em>) &#8211; The padding size on the y axis. If the parameter is not set
+or set to None, it will be set to &#8216;padding&#8217; automatically.</li>
 </ul>
 </td>
 </tr>
@@ -372,9 +385,9 @@ the filter&#8217;s shape can be (filter_size, filter_size_y).</li>
 <dl class="class">
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">conv_projection</code></dt>
-<dd><p>Different from img_conv and conv_op, conv_projection is an Projection,
-which can be used in mixed and conat. It use cudnn to implement
-conv and only support GPU mode.</p>
+<dd><p>Different from img_conv and conv_op, conv_projection is a Projection,
+which can be used in mixed and concat. It uses cudnn to implement
+convolution and only supports GPU mode.</p>
 <p>The example usage is:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">proj</span> <span class="o">=</span> <span class="n">conv_projection</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">input1</span><span class="p">,</span>
                        <span class="n">filter_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
@@ -388,26 +401,39 @@ conv and only support GPU mode.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer.</li>
-<li><strong>filter_size</strong> (<em>int</em>) &#8211; The x dimension of a filter kernel.</li>
-<li><strong>filter_size_y</strong> (<em>int</em>) &#8211; The y dimension of a filter kernel. Since
-PaddlePaddle now supports rectangular filters,
-the filter&#8217;s shape can be (filter_size, filter_size_y).</li>
-<li><strong>num_filters</strong> (<em>int</em>) &#8211; channel of output data.</li>
-<li><strong>num_channels</strong> (<em>int</em>) &#8211; channel of input data.</li>
-<li><strong>stride</strong> (<em>int</em>) &#8211; The x dimension of the stride.</li>
-<li><strong>stride_y</strong> (<em>int</em>) &#8211; The y dimension of the stride.</li>
-<li><strong>padding</strong> (<em>int</em>) &#8211; The x dimension of padding.</li>
-<li><strong>padding_y</strong> (<em>int</em>) &#8211; The y dimension of padding.</li>
+<li><strong>filter_size</strong> (<em>int | tuple | list</em>) &#8211; The dimensions of the filter kernel. If the parameter is
+set to one integer, the two dimensions on x and y axises
+will be same when filter_size_y is not set. If it is set
+to a list, the first element indicates the dimension on
+the x axis, and the second is used to specify the dimension
+on the y axis when filter_size is not provided.</li>
+<li><strong>filter_size_y</strong> (<em>int</em>) &#8211; The dimension of the filter kernel on the y axis. If the parameter
+is not set, it will be set automatically according to filter_size.</li>
+<li><strong>num_filters</strong> (<em>int</em>) &#8211; The number of filters.</li>
+<li><strong>num_channels</strong> (<em>int</em>) &#8211; The number of the input channels.</li>
+<li><strong>stride</strong> (<em>int | tuple | list</em>) &#8211; The strides. If the parameter is set to one integer, the strides
+on x and y axises will be same when stride_y is not set. If it is
+set to a list, the first element indicates the stride on the x axis,
+and the second is used to specify the stride on the y axis when
+stride_y is not provided.</li>
+<li><strong>stride_y</strong> (<em>int</em>) &#8211; The stride on the y axis.</li>
+<li><strong>padding</strong> (<em>int | tuple | list</em>) &#8211; The padding sizes. If the parameter is set to one integer, the padding
+sizes on x and y axises will be same when padding_y is not set. If it
+is set to a list, the first element indicates the padding size on the
+x axis, and the second is used to specify the padding size on the y axis
+when padding_y is not provided.</li>
+<li><strong>padding_y</strong> (<em>int</em>) &#8211; The padding size on the y axis.</li>
 <li><strong>groups</strong> (<em>int</em>) &#8211; The group number.</li>
-<li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; Convolution param attribute. None means default attribute</li>
-<li><strong>trans</strong> (<em>bool</em>) &#8211; whether it is convTrans or conv</li>
+<li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The parameter attribute of the convolution. See paddle.v2.attr.ParameterAttribute for
+details.</li>
+<li><strong>trans</strong> (<em>bool</em>) &#8211; Whether it is ConvTransProjection or ConvProjection</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">A DotMulProjection Object.</p>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">A Projection Object.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">DotMulProjection</p>
+<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">ConvTransProjection | ConvProjection</p>
 </td>
 </tr>
 </tbody>
@@ -421,7 +447,7 @@ the filter&#8217;s shape can be (filter_size, filter_size_y).</li>
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">conv_shift</code></dt>
 <dd><dl class="docutils">
-<dt>This layer performs cyclic convolution for two input. For example:</dt>
+<dt>This layer performs cyclic convolution on two inputs. For example:</dt>
 <dd><ul class="first last simple">
 <li>a[in]: contains M elements.</li>
 <li>b[in]: contains N elements (N should be odd).</li>
@@ -432,7 +458,7 @@ the filter&#8217;s shape can be (filter_size, filter_size_y).</li>
 <div class="math">
 \[c[i] = \sum_{j=-(N-1)/2}^{(N-1)/2}a_{i+j} * b_{j}\]</div>
 <dl class="docutils">
-<dt>In this formular:</dt>
+<dt>In this formula:</dt>
 <dd><ul class="first last simple">
 <li>a&#8217;s index is computed modulo M. When it is negative, then get item from
 the right side (which is the end of array) to the left.</li>
@@ -451,9 +477,10 @@ the right size (which is the end of array) to the left.</li>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
-<li><strong>a</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Input layer a.</li>
-<li><strong>b</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; input layer b.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; layer&#8217;s extra attribute.</li>
+<li><strong>a</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The first input of this layer.</li>
+<li><strong>b</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The second input of this layer.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
 </ul>
 </td>
 </tr>
@@ -512,7 +539,7 @@ two image dimension.</li>
 currently supports rectangular filters, the filter&#8217;s
 shape will be (filter_size, filter_size_y).</li>
 <li><strong>num_filters</strong> &#8211; Each filter group&#8217;s number of filter</li>
-<li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type. paddle.v2.activation.Relu is the default.</li>
+<li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type. paddle.v2.activation.Relu is the default activation.</li>
 <li><strong>groups</strong> (<em>int</em>) &#8211; Group size of filters.</li>
 <li><strong>stride</strong> (<em>int | tuple | list</em>) &#8211; The x dimension of the stride. Or input a tuple for two image
 dimension.</li>
@@ -628,7 +655,7 @@ number plus one equals context_len.</p>
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer.</li>
 <li><strong>context_len</strong> (<em>int</em>) &#8211; The context length equals the lookahead step number
 plus one.</li>
-<li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation Type. paddle.v2.activation.Linear is the default.</li>
+<li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation Type. paddle.v2.activation.Linear is the default activation.</li>
 <li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The parameter attribute. See paddle.v2.attr.ParameterAttribute for
 details.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute | None</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
@@ -760,15 +787,23 @@ The details please refer to
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">maxout</code></dt>
 <dd><dl class="docutils">
-<dt>A layer to do max out on conv layer output.</dt>
+<dt>A layer to do max out on convolutional layer output.</dt>
 <dd><ul class="first last simple">
-<li>Input: output of a conv layer.</li>
-<li>Output: feature map size same as input. Channel is (input channel) / groups.</li>
+<li>Input: the output of a convolutional layer.</li>
+<li>Output: feature map size same as the input&#8217;s, and its channel number is
+(input channel) / groups.</li>
 </ul>
 </dd>
 </dl>
 <p>So groups should be larger than 1, and the num of channels should be able
-to devided by groups.</p>
+to be devided by groups.</p>
+<dl class="docutils">
+<dt>Reference:</dt>
+<dd>Maxout Networks
+<a class="reference external" href="http://www.jmlr.org/proceedings/papers/v28/goodfellow13.pdf">http://www.jmlr.org/proceedings/papers/v28/goodfellow13.pdf</a>
+Multi-digit Number Recognition from Street View Imagery using Deep Convolutional Neural Networks
+<a class="reference external" href="https://arxiv.org/pdf/1312.6082v4.pdf">https://arxiv.org/pdf/1312.6082v4.pdf</a></dd>
+</dl>
 <div class="math">
 \[y_{si+j} = \max_k x_{gsi + sk + j}
 g = groups
@@ -776,14 +811,6 @@ s = input.size / num_channels
 0 \le i &lt; num_channels / groups
 0 \le j &lt; s
 0 \le k &lt; groups\]</div>
-<dl class="docutils">
-<dt>Please refer to Paper:</dt>
-<dd><ul class="first last simple">
-<li>Maxout Networks: <a class="reference external" href="http://www.jmlr.org/proceedings/papers/v28/goodfellow13.pdf">http://www.jmlr.org/proceedings/papers/v28/goodfellow13.pdf</a></li>
-<li>Multi-digit Number Recognition from Street View         Imagery using Deep Convolutional Neural Networks:         <a class="reference external" href="https://arxiv.org/pdf/1312.6082v4.pdf">https://arxiv.org/pdf/1312.6082v4.pdf</a></li>
-</ul>
-</dd>
-</dl>
 <p>The simple usage is:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">maxout</span> <span class="o">=</span> <span class="n">maxout</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span>
                       <span class="n">num_channels</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
@@ -796,11 +823,13 @@ s = input.size / num_channels
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer.</li>
-<li><strong>num_channels</strong> (<em>int | None</em>) &#8211; The channel number of input layer. If None will be set
-automatically from previous output.</li>
+<li><strong>num_channels</strong> (<em>int</em>) &#8211; The number of input channels. If the parameter is not set or
+set to None, its actual value will be automatically set to
+the channels number of the input.</li>
 <li><strong>groups</strong> (<em>int</em>) &#8211; The group number of input layer.</li>
-<li><strong>name</strong> (<em>None | basestring.</em>) &#8211; The name of this layer. It is optional.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; Extra Layer attribute.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
 </ul>
 </td>
 </tr>
@@ -1098,14 +1127,16 @@ out_{i} = act(in_{i} + out_{i+1} * W) \ \ \text{for} \ start &lt;= i &lt; end\en
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer.</li>
-<li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type. paddle.v2.activation.Tanh is the default.</li>
+<li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type. paddle.v2.activation.Tanh is the default activation.</li>
 <li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | None | bool | Any</em>) &#8211; The parameter attribute for bias. If this parameter is set to
 False or an object whose type is not paddle.v2.attr.ParameterAttribute,
 no bias is defined. If the parameter is set to True,
 the bias is initialized to zero.</li>
-<li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; parameter attribute.</li>
+<li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The parameter attribute. See paddle.v2.attr.ParameterAttribute for
+details.</li>
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; Layer Attribute.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
 </ul>
 </td>
 </tr>
@@ -1149,7 +1180,7 @@ more details about LSTM.</p>
 <li><strong>size</strong> (<em>int</em>) &#8211; DEPRECATED. size of the lstm cell</li>
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer.</li>
 <li><strong>reverse</strong> (<em>bool</em>) &#8211; is sequence process reversed or not.</li>
-<li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type. paddle.v2.activation.Tanh is the default. <span class="math">\(h_t\)</span></li>
+<li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type. paddle.v2.activation.Tanh is the default activation.</li>
 <li><strong>gate_act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; gate activation type, paddle.v2.activation.Sigmoid by default.</li>
 <li><strong>state_act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; state activation type, paddle.v2.activation.Tanh by default.</li>
 <li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | None | bool | Any</em>) &#8211; The bias attribute. If the parameter is set to False or an object
@@ -1309,8 +1340,8 @@ It is ignored when name is provided.</li>
 <dd><p>Recurrent layer group is an extremely flexible recurrent unit in
 PaddlePaddle. As long as the user defines the calculation done within a
 time step, PaddlePaddle will iterate such a recurrent calculation over
-sequence input. This is extremely usefull for attention based model, or
-Neural Turning Machine like models.</p>
+sequence input. This is useful for attention-based models, or Neural
+Turning Machine like models.</p>
 <p>The basic usage (time steps) is:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">fc</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">layer</span><span class="p">,</span>
@@ -1333,22 +1364,21 @@ Neural Turning Machine like models.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>step</strong> (<em>callable</em>) &#8211; <p>recurrent one time step function.The input of this function is
-input of the group. The return of this function will be
-recurrent group&#8217;s return value.</p>
-<p>The recurrent group scatter a sequence into time steps. And
-for each time step, will invoke step function, and return
-a time step result. Then gather each time step of output into
+<li><strong>step</strong> (<em>callable</em>) &#8211; <p>A step function which takes the input of recurrent_group as its own
+input and returns values as recurrent_group&#8217;s output every time step.</p>
+<p>The recurrent group scatters a sequence into time steps. And
+for each time step, it will invoke step function, and return
+a time step result. Then gather outputs of each time step into
 layer group&#8217;s output.</p>
 </li>
-<li><strong>name</strong> (<em>basestring</em>) &#8211; recurrent_group&#8217;s name.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The recurrent_group&#8217;s name. It is optional.</li>
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer | StaticInput | SubsequenceInput | list | tuple</em>) &#8211; <p>Input links array.</p>
 <p>paddle.v2.config_base.Layer will be scattered into time steps.
 SubsequenceInput will be scattered into sequence steps.
 StaticInput will be imported to each time step, and doesn&#8217;t change
-through time. It&#8217;s a mechanism to access layer outside step function.</p>
+over time. It&#8217;s a mechanism to access layer outside step function.</p>
 </li>
-<li><strong>reverse</strong> (<em>bool</em>) &#8211; If reverse is set true, the recurrent unit will process the
+<li><strong>reverse</strong> (<em>bool</em>) &#8211; If reverse is set to True, the recurrent unit will process the
 input sequence in a reverse order.</li>
 <li><strong>targetInlink</strong> (<em>paddle.v2.config_base.Layer | SubsequenceInput</em>) &#8211; <p>DEPRECATED.
 The input layer which share info with layer group&#8217;s output</p>
@@ -1387,8 +1417,8 @@ input vectors.</p>
 <p>The state of lstm step is <span class="math">\(c_{t-1}\)</span>. And lstm step layer will do</p>
 <div class="math">
 \[ \begin{align}\begin{aligned}i_t = \sigma(input + W_{ci}c_{t-1} + b_i)\\...\end{aligned}\end{align} \]</div>
-<p>This layer has two outputs. Default output is <span class="math">\(h_t\)</span>. The other
-output is <span class="math">\(o_t\)</span>, whose name is &#8216;state&#8217; and can use
+<p>This layer has two outputs. The default output is <span class="math">\(h_t\)</span>. The other
+output is <span class="math">\(o_t\)</span>, whose name is &#8216;state&#8217; and users can use
 <code class="code docutils literal"><span class="pre">get_output</span></code> to extract this output.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1396,17 +1426,19 @@ output is <span class="math">\(o_t\)</span>, whose name is &#8216;state&#8217; a
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
-<li><strong>size</strong> (<em>int</em>) &#8211; Layer&#8217;s size. NOTE: lstm layer&#8217;s size, should be equal to
-<code class="code docutils literal"><span class="pre">input.size/4</span></code>, and should be equal to
-<code class="code docutils literal"><span class="pre">state.size</span></code>.</li>
-<li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; input layer. <span class="math">\(Wx_t + Wh_{t-1}\)</span></li>
-<li><strong>state</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; State Layer. <span class="math">\(c_{t-1}\)</span></li>
-<li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type. paddle.v2.activation.Tanh is the default.</li>
-<li><strong>gate_act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Gate Activation Type. paddle.v2.activation.Sigmoid is the default.</li>
-<li><strong>state_act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; State Activation Type. paddle.v2.activation.Tanh is the default.</li>
-<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | None | True</em>) &#8211; The parameter attribute for bias. If this parameter is
-set to True or None, the bias is initialized to zero.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; layer&#8217;s extra attribute.</li>
+<li><strong>size</strong> (<em>int</em>) &#8211; The dimension of this layer&#8217;s output, which must be
+equal to the dimension of the state.</li>
+<li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer.</li>
+<li><strong>state</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The state of the LSTM unit.</li>
+<li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type. paddle.v2.activation.Tanh is the default activation.</li>
+<li><strong>gate_act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type of the gate. paddle.v2.activation.Sigmoid is the
+default activation.</li>
+<li><strong>state_act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type of the state. paddle.v2.activation.Tanh is the
+default activation.</li>
+<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | None | bool | Any</em>) &#8211; The bias attribute. If the parameter is set to False or an object
+whose type is not paddle.v2.attr.ParameterAttribute, no bias is defined. If the
+parameter is set to True, the bias is initialized to zero.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for details.</li>
 </ul>
 </td>
 </tr>
@@ -1431,19 +1463,22 @@ set to True or None, the bias is initialized to zero.</li>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; </li>
-<li><strong>output_mem</strong> &#8211; </li>
-<li><strong>size</strong> &#8211; </li>
-<li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; </li>
-<li><strong>name</strong> &#8211; The name of this layer. It is optional.</li>
-<li><strong>gate_act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type of this layer&#8217;s two gates. Default is Sigmoid.</li>
+<li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer, whose dimension can be divided by 3.</li>
+<li><strong>output_mem</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; A memory which memorizes the output of this layer at previous
+time step.</li>
+<li><strong>size</strong> (<em>int</em>) &#8211; The dimension of this layer&#8217;s output. If it is not set or set to None,
+it will be set to one-third of the dimension of the input automatically.</li>
+<li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type of this layer&#8217;s output. paddle.v2.activation.Tanh
+is the default activation.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
+<li><strong>gate_act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type of this layer&#8217;s two gates. paddle.v2.activation.Sigmoid is
+the default activation.</li>
 <li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | None | bool | Any</em>) &#8211; The parameter attribute for bias. If this parameter is set to
 False or an object whose type is not paddle.v2.attr.ParameterAttribute, no bias
 is defined. If this parameter is set to True,
 the bias is initialized to zero.</li>
-<li><strong>param_attr</strong> &#8211; the parameter_attribute for transforming the output_mem
-from previous step.</li>
-<li><strong>layer_attr</strong> &#8211; </li>
+<li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The parameter attribute. See paddle.v2.attr.ParameterAttribute for details.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for details.</li>
 </ul>
 </td>
 </tr>
@@ -1497,7 +1532,8 @@ to maintain tractability.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<em>base string</em>) &#8211; Name of the recurrent unit that generates sequences.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of the recurrent unit that is responsible for
+generating sequences. It is optional.</li>
 <li><strong>step</strong> (<em>callable</em>) &#8211; <p>A callable function that defines the calculation in a time
 step, and it is applied to sequences with arbitrary length by
 sharing a same set of weights.</p>
@@ -1555,10 +1591,11 @@ the output from input.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
-<li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; get output layer&#8217;s input. And this layer should contains
+<li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input layer. And this layer should contain
 multiple outputs.</li>
-<li><strong>arg_name</strong> (<em>basestring</em>) &#8211; Output name from input.</li>
-<li><strong>layer_attr</strong> &#8211; Layer&#8217;s extra attribute.</li>
+<li><strong>arg_name</strong> (<em>basestring</em>) &#8211; The name of the output to be extracted from the input layer.</li>
+<li><strong>layer_attr</strong> &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
 </ul>
 </td>
 </tr>
@@ -1609,7 +1646,7 @@ Each inputs is a projection or operator.</p>
 <li><strong>size</strong> (<em>int</em>) &#8211; layer size.</li>
 <li><strong>input</strong> &#8211; The input of this layer. It is an optional parameter. If set,
 then this function will just return layer&#8217;s name.</li>
-<li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation Type. paddle.v2.activation.Linear is the default.</li>
+<li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation Type. paddle.v2.activation.Linear is the default activation.</li>
 <li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | None | bool | Any</em>) &#8211; The bias attribute. If the parameter is set to False or an object
 whose type is not paddle.v2.attr.ParameterAttribute, no bias is defined. If the
 parameter is set to True, the bias is initialized to zero.</li>
@@ -2152,7 +2189,7 @@ Inputs can be list of paddle.v2.config_base.Layer or list of projection.</p>
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>input</strong> (<em>list | tuple | collections.Sequence</em>) &#8211; input layers or projections</li>
-<li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type. paddle.v2.activation.Identity is the default.</li>
+<li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type. paddle.v2.activation.Identity is the default activation.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; Extra Layer Attribute.</li>
 </ul>
 </td>
@@ -2197,7 +2234,7 @@ processed in one batch.</p>
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>a</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; input sequence layer</li>
 <li><strong>b</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; input sequence layer</li>
-<li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type. paddle.v2.activation.Identity is the default.</li>
+<li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type. paddle.v2.activation.Identity is the default activation.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; Extra Layer Attribute.</li>
 <li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | None | bool | Any</em>) &#8211; The bias attribute. If the parameter is set to False or an object
 whose type is not paddle.v2.attr.ParameterAttribute, no bias is defined. If the
@@ -2321,11 +2358,11 @@ beam training.</p>
 </dl>
 <div class="math">
 \[ \begin{align}\begin{aligned}outputH = 1 + (2 * padding_y + imgSizeH - block_y + stride_y - 1) / stride_y\\outputW = 1 + (2 * padding_x + imgSizeW - block_x + stride_x - 1) / stride_x\end{aligned}\end{align} \]</div>
-<p>The expand method is the same with ExpandConvLayer, but saved the transposed
+<p>The expanding method is the same with ExpandConvLayer, but saved the transposed
 value. After expanding, output.sequenceStartPositions will store timeline.
-The number of time steps are outputH * outputW and the dimension of each
+The number of time steps is outputH * outputW and the dimension of each
 time step is block_y * block_x * num_channels. This layer can be used after
-convolution neural network, and before recurrent neural network.</p>
+convolutional neural network, and before recurrent neural network.</p>
 <p>The simple usage is:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">block_expand</span> <span class="o">=</span> <span class="n">block_expand</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">layer</span><span class="p">,</span>
                                   <span class="n">num_channels</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
@@ -2341,15 +2378,18 @@ convolution neural network, and before recurrent neural network.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer.</li>
-<li><strong>num_channels</strong> (<em>int | None</em>) &#8211; The channel number of input layer.</li>
+<li><strong>num_channels</strong> (<em>int</em>) &#8211; The number of input channels. If the parameter is not set or
+set to None, its actual value will be automatically set to
+the channels number of the input.</li>
 <li><strong>block_x</strong> (<em>int</em>) &#8211; The width of sub block.</li>
 <li><strong>block_y</strong> (<em>int</em>) &#8211; The width of sub block.</li>
 <li><strong>stride_x</strong> (<em>int</em>) &#8211; The stride size in horizontal direction.</li>
 <li><strong>stride_y</strong> (<em>int</em>) &#8211; The stride size in vertical direction.</li>
 <li><strong>padding_x</strong> (<em>int</em>) &#8211; The padding size in horizontal direction.</li>
 <li><strong>padding_y</strong> (<em>int</em>) &#8211; The padding size in vertical direction.</li>
-<li><strong>name</strong> (<em>None | basestring.</em>) &#8211; The name of this layer. It is optional.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute | None</em>) &#8211; Extra Layer config.</li>
+<li><strong>name</strong> (<em>basestring.</em>) &#8211; The name of this layer. It is optional.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
 </ul>
 </td>
 </tr>
@@ -2455,7 +2495,7 @@ in the column direction.  This is equivalent to apply
 concat() with num_repeats same input.
 False for treating input as column vector and repeating
 in the row direction.</li>
-<li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type. paddle.v2.activation.Identity is the default.</li>
+<li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type. paddle.v2.activation.Identity is the default activation.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; extra layer attributes.</li>
 </ul>
 </td>
@@ -2531,7 +2571,7 @@ output sequence has T*M/N instances, the dimension of each instance is N.</p>
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer.</li>
 <li><strong>reshape_size</strong> (<em>int</em>) &#8211; the size of reshaped sequence.</li>
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
-<li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type. paddle.v2.activation.Identity is the default.</li>
+<li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type. paddle.v2.activation.Identity is the default activation.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; extra layer attributes.</li>
 <li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | None | bool | Any</em>) &#8211; The bias attribute. If the parameter is set to False or an object
 whose type is not paddle.v2.attr.ParameterAttribute, no bias is defined. If the
@@ -2587,7 +2627,7 @@ Please refer to dropout for details.</p>
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer | list | tuple</em>) &#8211; Input layers. It could be a paddle.v2.config_base.Layer or list/tuple of
 paddle.v2.config_base.Layer.</li>
-<li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation Type. paddle.v2.activation.Linear is the default.</li>
+<li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation Type. paddle.v2.activation.Linear is the default activation.</li>
 <li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | None | bool | Any</em>) &#8211; The bias attribute. If the parameter is set to False or an object
 whose type is not paddle.v2.attr.ParameterAttribute, no bias is defined. If the
 parameter is set to True, the bias is initialized to zero.</li>
@@ -2652,9 +2692,10 @@ processed in one batch.</p>
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>weights</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The weight layer.</li>
 <li><strong>vectors</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The vector layer.</li>
-<li><strong>size</strong> (<em>int</em>) &#8211; the dimension of this layer.</li>
+<li><strong>size</strong> (<em>int</em>) &#8211; The dimension of this layer.</li>
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute | None</em>) &#8211; Extra Layer config.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
 </ul>
 </td>
 </tr>
@@ -2901,8 +2942,7 @@ where size is the parameter of this layer indicating the output dimension.</p>
 <dl class="class">
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">slope_intercept</code></dt>
-<dd><p>This layer for applying a slope and an intercept to the input
-element-wise. There is no activation and weight.</p>
+<dd><p>This layer for applying a slope and an intercept to the input.</p>
 <div class="math">
 \[y = slope * x + intercept\]</div>
 <p>The simple usage is:</p>
@@ -2916,9 +2956,10 @@ element-wise. There is no activation and weight.</p>
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer.</li>
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
-<li><strong>slope</strong> (<em>float.</em>) &#8211; the scale factor.</li>
-<li><strong>intercept</strong> (<em>float.</em>) &#8211; the offset.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute | None</em>) &#8211; Extra Layer config.</li>
+<li><strong>slope</strong> (<em>float</em>) &#8211; The scale factor.</li>
+<li><strong>intercept</strong> (<em>float</em>) &#8211; The offset.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
 </ul>
 </td>
 </tr>
@@ -2938,8 +2979,8 @@ element-wise. There is no activation and weight.</p>
 <dl class="class">
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">tensor</code></dt>
-<dd><p>This layer performs tensor operation for two input.
-For example, each sample:</p>
+<dd><p>This layer performs tensor operation on two inputs.
+For example:</p>
 <div class="math">
 \[y_{i} = a * W_{i} * {b^\mathrm{T}}, i=0,1,...,K-1\]</div>
 <dl class="docutils">
@@ -2963,16 +3004,18 @@ For example, each sample:</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
-<li><strong>a</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Input layer a.</li>
-<li><strong>b</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; input layer b.</li>
-<li><strong>size</strong> (<em>int.</em>) &#8211; the layer dimension.</li>
-<li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type. paddle.v2.activation.Linear is the default.</li>
-<li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The Parameter Attribute.</li>
+<li><strong>a</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The first input of this layer.</li>
+<li><strong>b</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The second input of this layer.</li>
+<li><strong>size</strong> (<em>int</em>) &#8211; The dimension of this layer.</li>
+<li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type. paddle.v2.activation.Linear is the default activation.</li>
+<li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The parameter attribute. See paddle.v2.attr.ParameterAttribute for
+details.</li>
 <li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | None | bool | Any</em>) &#8211; The parameter attribute for bias. If this parameter is set to
 False or an object whose type is not paddle.v2.attr.ParameterAttribute,
 no bias is defined. If this parameter is set to True,
 the bias is initialized to zero.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute | None</em>) &#8211; Extra Layer config.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute | None</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
 </ul>
 </td>
 </tr>
@@ -3127,7 +3170,8 @@ The result is stored in output.ids.</p>
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer.</li>
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; extra layer attributes.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
 </ul>
 </td>
 </tr>
@@ -3147,7 +3191,7 @@ The result is stored in output.ids.</p>
 <dl class="class">
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">sampling_id</code></dt>
-<dd><p>A layer for sampling id from multinomial distribution from the input layer.
+<dd><p>A layer for sampling id from a multinomial distribution from the input layer.
 Sampling one id for one sample.</p>
 <p>The simple usage is:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">samping_id</span> <span class="o">=</span> <span class="n">sampling_id</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="nb">input</span><span class="p">)</span>
@@ -3160,7 +3204,8 @@ Sampling one id for one sample.</p>
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer.</li>
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute | None</em>) &#8211; Extra Layer config.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
 </ul>
 </td>
 </tr>
@@ -3229,12 +3274,12 @@ details.</li>
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">pad</code></dt>
 <dd><p>This operation pads zeros to the input data according to pad_c,pad_h
-and pad_w. pad_c, pad_h, pad_w specifies the which dimension and size
-of padding. And the input data shape is NCHW.</p>
-<p>For example, pad_c=[2,3] means padding 2 zeros before the
-input data and 3 zeros after the input data in channel dimension.
-pad_h means padding zeros in height dimension. pad_w means padding zeros
-in width dimension.</p>
+and pad_w. pad_c, pad_h, pad_w specify the size in the corresponding
+dimension. And the input data shape is NCHW.</p>
+<p>For example, pad_c=[2,3] means padding 2 zeros before the input data
+and 3 zeros after the input data in the channel dimension. pad_h means
+padding zeros in the height dimension. pad_w means padding zeros in the
+width dimension.</p>
 <p>For example,</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="nb">input</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>  <span class="o">=</span> <span class="p">[</span>
                     <span class="p">[</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]],</span>
@@ -3270,10 +3315,11 @@ in width dimension.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer.</li>
-<li><strong>pad_c</strong> (<em>list | None</em>) &#8211; padding size in channel dimension.</li>
-<li><strong>pad_h</strong> (<em>list | None</em>) &#8211; padding size in height dimension.</li>
-<li><strong>pad_w</strong> (<em>list | None</em>) &#8211; padding size in width dimension.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; Extra Layer Attribute.</li>
+<li><strong>pad_c</strong> (<em>list | None</em>) &#8211; The padding size in the channel dimension.</li>
+<li><strong>pad_h</strong> (<em>list | None</em>) &#8211; The padding size in the height dimension.</li>
+<li><strong>pad_w</strong> (<em>list | None</em>) &#8211; The padding size in the width dimension.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 </ul>
 </td>
@@ -3312,10 +3358,9 @@ in width dimension.</p>
 <li><strong>label</strong> &#8211; The input label.</li>
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>coeff</strong> (<em>float</em>) &#8211; The weight of the gradient in the back propagation.
-1.0 is the default.</li>
-<li><strong>weight</strong> (<em>LayerOutout</em>) &#8211; The cost of each sample is multiplied with each weight.
-The weight should be a layer with size=1. Note that gradient
-will not be calculated for weight.</li>
+1.0 is the default value.</li>
+<li><strong>weight</strong> (<em>LayerOutout</em>) &#8211; The weight layer defines a weight for each sample in the
+mini-batch. It is optional.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
 details.</li>
 </ul>
@@ -3353,7 +3398,7 @@ Input should be a vector of positive numbers, without normalization.</p>
 <li><strong>label</strong> &#8211; The input label.</li>
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>coeff</strong> (<em>float</em>) &#8211; The weight of the gradient in the back propagation.
-1.0 is the default.</li>
+1.0 is the default value.</li>
 <li><strong>softmax_selfnorm_alpha</strong> (<em>float</em>) &#8211; The scale factor affects the cost.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
 details.</li>
@@ -3391,7 +3436,7 @@ details.</li>
 <li><strong>label</strong> &#8211; The input label.</li>
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>coeff</strong> (<em>float</em>) &#8211; The weight of the gradient in the back propagation.
-1.0 is the default.</li>
+1.0 is the default value.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
 details.</li>
 </ul>
@@ -3449,7 +3494,7 @@ ight <a href="#id2"><span class="problematic" id="id3">|</span></a>leq delta</p>
 <tr class="field-even field"><th class="field-name">type delta:</th><td class="field-body">float</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">param coeff:</th><td class="field-body">The weight of the gradient in the back propagation.
-1.0 is the default.</td>
+1.0 is the default value.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">type coeff:</th><td class="field-body">float</td>
 </tr>
@@ -3506,7 +3551,7 @@ a true binary class label :math:<a href="#id6"><span class="problematic" id="id7
 <tr class="field-even field"><th class="field-name">type name:</th><td class="field-body">basestring</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">param coeff:</th><td class="field-body">The weight of the gradient in the back propagation.
-1.0 is the default.</td>
+1.0 is the default value.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">type coeff:</th><td class="field-body">float</td>
 </tr>
@@ -3546,20 +3591,20 @@ details.</td>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Samples of the same query should be loaded as sequence.</li>
-<li><strong>score</strong> &#8211; The 2nd input. Score of each sample.</li>
+<li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The first input of this layer, which is often a document
+samples list of the same query and whose type must be sequence.</li>
+<li><strong>score</strong> &#8211; The scores of the samples.</li>
 <li><strong>NDCG_num</strong> (<em>int</em>) &#8211; The size of NDCG (Normalized Discounted Cumulative Gain),
 e.g., 5 for NDCG&#64;5. It must be less than or equal to the
-minimum size of lists.</li>
-<li><strong>max_sort_size</strong> (<em>int</em>) &#8211; The size of partial sorting in calculating gradient.
-If max_sort_size = -1, then for each list, the
-algorithm will sort the entire list to get gradient.
-In other cases, max_sort_size must be greater than or
-equal to NDCG_num. And if max_sort_size is greater
-than the size of a list, the algorithm will sort the
-entire list of get gradient.</li>
-<li><strong>name</strong> (<em>None | basestring</em>) &#8211; The name of this layer. It is optional.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; Extra Layer Attribute.</li>
+minimum size of the list.</li>
+<li><strong>max_sort_size</strong> (<em>int</em>) &#8211; The size of partial sorting in calculating gradient. If
+max_sort_size is equal to -1 or greater than the number
+of the samples in the list, then the algorithm will sort
+the entire list to compute the gradient. In other cases,
+max_sort_size must be greater than or equal to NDCG_num.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
 </ul>
 </td>
 </tr>
@@ -3588,12 +3633,14 @@ entire list of get gradient.</li>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
-<li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Network prediction.</li>
-<li><strong>label</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Data label.</li>
-<li><strong>weight</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The weight affects the cost, namely the scale of cost.
-It is an optional argument.</li>
-<li><strong>coeff</strong> (<em>float</em>) &#8211; The coefficient affects the gradient in the backward.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; layer&#8217;s extra attribute.</li>
+<li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The first input layer.</li>
+<li><strong>label</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input label.</li>
+<li><strong>weight</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The weight layer defines a weight for each sample in the
+mini-batch. It is optional.</li>
+<li><strong>coeff</strong> (<em>float</em>) &#8211; The weight of the gradient in the back propagation.
+1.0 is the default value.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
 </ul>
 </td>
 </tr>
@@ -3613,10 +3660,12 @@ It is an optional argument.</li>
 <dl class="class">
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">rank_cost</code></dt>
-<dd><p>A cost Layer for learning to rank using gradient descent. Details can refer
-to <a class="reference external" href="http://research.microsoft.com/en-us/um/people/cburges/papers/ICML_ranking.pdf">papers</a>.
-This layer contains at least three inputs. The weight is an optional
-argument, which affects the cost.</p>
+<dd><p>A cost Layer for learning to rank using gradient descent.</p>
+<dl class="docutils">
+<dt>Reference:</dt>
+<dd>Learning to Rank using Gradient Descent
+<a class="reference external" href="http://research.microsoft.com/en-us/um/people/cburges/papers/ICML_ranking.pdf">http://research.microsoft.com/en-us/um/people/cburges/papers/ICML_ranking.pdf</a></dd>
+</dl>
 <div class="math">
 \[ \begin{align}\begin{aligned}C_{i,j} &amp; = -\tilde{P_{ij}} * o_{i,j} + log(1 + e^{o_{i,j}})\\o_{i,j} &amp; =  o_i - o_j\\\tilde{P_{i,j}} &amp; = \{0, 0.5, 1\} \ or \ \{0, 1\}\end{aligned}\end{align} \]</div>
 <dl class="docutils">
@@ -3644,11 +3693,13 @@ Their dimension is one.</li>
 <li><strong>left</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The first input, the size of this layer is 1.</li>
 <li><strong>right</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The right input, the size of this layer is 1.</li>
 <li><strong>label</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Label is 1 or 0, means positive order and reverse order.</li>
-<li><strong>weight</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The weight affects the cost, namely the scale of cost.
-It is an optional argument.</li>
-<li><strong>name</strong> (<em>None | basestring</em>) &#8211; The name of this layer. It is optional.</li>
-<li><strong>coeff</strong> (<em>float</em>) &#8211; The coefficient affects the gradient in the backward.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; Extra Layer Attribute.</li>
+<li><strong>weight</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The weight layer defines a weight for each sample in the
+mini-batch. It is optional.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
+<li><strong>coeff</strong> (<em>float</em>) &#8211; The weight of the gradient in the back propagation.
+1.0 is the default value.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
 </ul>
 </td>
 </tr>
@@ -3714,15 +3765,18 @@ field model.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The first input layer is the feature.</li>
-<li><strong>label</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The second input layer is label.</li>
+<li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The first input layer.</li>
+<li><strong>label</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input label.</li>
 <li><strong>size</strong> (<em>int</em>) &#8211; The category number.</li>
-<li><strong>weight</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The third layer is &#8220;weight&#8221; of each sample, which is an
-optional argument.</li>
-<li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; Parameter attribute. None means default attribute</li>
-<li><strong>name</strong> (<em>None | basestring</em>) &#8211; The name of this layer. It is optional.</li>
-<li><strong>coeff</strong> (<em>float</em>) &#8211; The coefficient affects the gradient in the backward.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute | None</em>) &#8211; Extra Layer config.</li>
+<li><strong>weight</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The weight layer defines a weight for each sample in the
+mini-batch. It is optional.</li>
+<li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The parameter attribute. See paddle.v2.attr.ParameterAttribute for
+details.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
+<li><strong>coeff</strong> (<em>float</em>) &#8211; The weight of the gradient in the back propagation.
+1.0 is the default value.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
 </ul>
 </td>
 </tr>
@@ -3744,9 +3798,9 @@ optional argument.</li>
 <em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">crf_decoding</code></dt>
 <dd><p>A layer for calculating the decoding sequence of sequential conditional
 random field model. The decoding sequence is stored in output.ids.
-If a second input is provided, it is treated as the ground-truth label, and
-this layer will also calculate error. output.value[i] is 1 for incorrect
-decoding or 0 for correct decoding.</p>
+If the input &#8216;label&#8217; is provided, it is treated as the ground-truth label, and
+this layer will also calculate error. output.value[i] is 1 for an incorrect
+decoding and 0 for the correct.</p>
 <p>The example usage is:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">crf_decoding</span> <span class="o">=</span> <span class="n">crf_decoding</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="nb">input</span><span class="p">,</span>
                                   <span class="n">size</span><span class="o">=</span><span class="n">label_dim</span><span class="p">)</span>
@@ -3758,11 +3812,13 @@ decoding or 0 for correct decoding.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The first input layer.</li>
-<li><strong>size</strong> (<em>int</em>) &#8211; size of this layer.</li>
-<li><strong>label</strong> (<em>paddle.v2.config_base.Layer</em><em> or </em><em>None</em>) &#8211; None or ground-truth label.</li>
-<li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; Parameter attribute. None means default attribute</li>
-<li><strong>name</strong> (<em>None | basestring</em>) &#8211; The name of this layer. It is optional.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute | None</em>) &#8211; Extra Layer config.</li>
+<li><strong>size</strong> (<em>int</em>) &#8211; The dimension of this layer.</li>
+<li><strong>label</strong> (<em>paddle.v2.config_base.Layer | None</em>) &#8211; The input label.</li>
+<li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The parameter attribute. See paddle.v2.attr.ParameterAttribute for
+details.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
 </ul>
 </td>
 </tr>
@@ -3783,18 +3839,21 @@ decoding or 0 for correct decoding.</p>
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">ctc</code></dt>
 <dd><p>Connectionist Temporal Classification (CTC) is designed for temporal
-classication task. That is, for sequence labeling problems where the
+classication task. e.g. sequence labeling problems where the
 alignment between the inputs and the target labels is unknown.</p>
-<p>More details can be found by referring to <a class="reference external" href="http://machinelearning.wustl.edu/mlpapers/paper_files/icml2006_GravesFGS06.pdf">Connectionist Temporal
-Classification: Labelling Unsegmented Sequence Data with Recurrent
-Neural Networks</a></p>
+<dl class="docutils">
+<dt>Reference:</dt>
+<dd>Connectionist Temporal Classification: Labelling Unsegmented Sequence Data
+with Recurrent Neural Networks
+<a class="reference external" href="http://machinelearning.wustl.edu/mlpapers/paper_files/icml2006_GravesFGS06.pdf">http://machinelearning.wustl.edu/mlpapers/paper_files/icml2006_GravesFGS06.pdf</a></dd>
+</dl>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">Considering the &#8216;blank&#8217; label needed by CTC, you need to use
-(num_classes + 1) as the input size. num_classes is the category number.
-And the &#8216;blank&#8217; is the last category index. So the size of &#8216;input&#8217; layer, such as
-fc with softmax activation, should be num_classes + 1. The size of ctc
-should also be num_classes + 1.</p>
+<p class="last">Considering the &#8216;blank&#8217; label needed by CTC, you need to use (num_classes + 1)
+as the size of the input, where num_classes is the category number.
+And the &#8216;blank&#8217; is the last category index. So the size of &#8216;input&#8217; layer (e.g.
+fc with softmax activation) should be (num_classes + 1). The size of
+ctc should also be (num_classes + 1).</p>
 </div>
 <p>The example usage is:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">ctc</span> <span class="o">=</span> <span class="n">ctc</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="nb">input</span><span class="p">,</span>
@@ -3809,11 +3868,12 @@ should also be num_classes + 1.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer.</li>
-<li><strong>label</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The data layer of label with variable length.</li>
-<li><strong>size</strong> (<em>int</em>) &#8211; category numbers + 1.</li>
-<li><strong>name</strong> (<em>basestring | None</em>) &#8211; The name of this layer. It is optional.</li>
-<li><strong>norm_by_times</strong> (<em>bool</em>) &#8211; Whether to normalization by times. False by default.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute | None</em>) &#8211; Extra Layer config.</li>
+<li><strong>label</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input label.</li>
+<li><strong>size</strong> (<em>int</em>) &#8211; The dimension of this layer, which must be equal to (category number + 1).</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
+<li><strong>norm_by_times</strong> (<em>bool</em>) &#8211; Whether to do normalization by times. False is the default.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
 </ul>
 </td>
 </tr>
@@ -3839,20 +3899,22 @@ Classification (CTC) loss. Besides, another <a class="reference external" href="
 the official one, is maintained to enable more compiling options. During the
 building process, PaddlePaddle will clone the source codes, build and
 install it to <code class="code docutils literal"><span class="pre">third_party/install/warpctc</span></code> directory.</p>
-<p>More details of CTC can be found by referring to <a class="reference external" href="http://machinelearning.wustl.edu/mlpapers/paper_files/icml2006_GravesFGS06.pdf">Connectionist Temporal
-Classification: Labelling Unsegmented Sequence Data with Recurrent
-Neural Networks</a>.</p>
+<dl class="docutils">
+<dt>Reference:</dt>
+<dd>Connectionist Temporal Classification: Labelling Unsegmented Sequence Data
+with Recurrent Neural Networks
+<a class="reference external" href="http://machinelearning.wustl.edu/mlpapers/paper_files/icml2006_GravesFGS06.pdf">http://machinelearning.wustl.edu/mlpapers/paper_files/icml2006_GravesFGS06.pdf</a></dd>
+</dl>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
 <ul class="last simple">
-<li>Let num_classes represent the category number. Considering the &#8216;blank&#8217;
-label needed by CTC, you need to use (num_classes + 1) as the input size.
-Thus, the size of both warp_ctc layer and &#8216;input&#8217; layer should be set to
-num_classes + 1.</li>
+<li>Let num_classes represents the category number. Considering the &#8216;blank&#8217;
+label needed by CTC, you need to use (num_classes + 1) as the size of
+warp_ctc layer.</li>
 <li>You can set &#8216;blank&#8217; to any value ranged in [0, num_classes], which
-should be consistent as that used in your labels.</li>
+should be consistent with those used in your labels.</li>
 <li>As a native &#8216;softmax&#8217; activation is interated to the warp-ctc library,
-&#8216;linear&#8217; activation is expected instead in the &#8216;input&#8217; layer.</li>
+&#8216;linear&#8217; activation is expected to be used instead in the &#8216;input&#8217; layer.</li>
 </ul>
 </div>
 <p>The example usage is:</p>
@@ -3869,12 +3931,13 @@ should be consistent as that used in your labels.</li>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer.</li>
-<li><strong>label</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The data layer of label with variable length.</li>
-<li><strong>size</strong> (<em>int</em>) &#8211; category numbers + 1.</li>
-<li><strong>name</strong> (<em>basestring | None</em>) &#8211; The name of this layer. It is optional.</li>
-<li><strong>blank</strong> (<em>int</em>) &#8211; the &#8216;blank&#8217; label used in ctc</li>
-<li><strong>norm_by_times</strong> (<em>bool</em>) &#8211; Whether to normalization by times. False by default.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute | None</em>) &#8211; Extra Layer config.</li>
+<li><strong>label</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input label.</li>
+<li><strong>size</strong> (<em>int</em>) &#8211; The dimension of this layer, which must be equal to (category number + 1).</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
+<li><strong>blank</strong> (<em>int</em>) &#8211; The &#8216;blank&#8217; label used in ctc.</li>
+<li><strong>norm_by_times</strong> (<em>bool</em>) &#8211; Whether to do normalization by times. False is the default.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
 </ul>
 </td>
 </tr>
@@ -3894,8 +3957,7 @@ should be consistent as that used in your labels.</li>
 <dl class="class">
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">nce</code></dt>
-<dd><p>Noise-contrastive estimation. This layer implements the method in the
-following paper:</p>
+<dd><p>Noise-contrastive estimation.</p>
 <dl class="docutils">
 <dt>Reference:</dt>
 <dd>A fast and simple algorithm for training neural probabilistic language
@@ -3913,19 +3975,20 @@ models. <a class="reference external" href="https://www.cs.toronto.edu/~amnih/pa
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
-<li><strong>input</strong> (<em>paddle.v2.config_base.Layer | list | tuple | collections.Sequence</em>) &#8211; The input layers. It should be a paddle.v2.config_base.Layer or a list/tuple
-of paddle.v2.config_base.Layer.</li>
-<li><strong>label</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The ground truth.</li>
+<li><strong>input</strong> (<em>paddle.v2.config_base.Layer | list | tuple | collections.Sequence</em>) &#8211; The first input of this layer.</li>
+<li><strong>label</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input label.</li>
 <li><strong>weight</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The weight layer defines a weight for each sample in the
-mini-batch. The default value is None.</li>
-<li><strong>num_classes</strong> (<em>int</em>) &#8211; The class number.</li>
-<li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute|list</em>) &#8211; The parameter attributes.</li>
-<li><strong>num_neg_samples</strong> (<em>int</em>) &#8211; The number of sampled negative labels. The default
-value is 10.</li>
+mini-batch. It is optional.</li>
+<li><strong>num_classes</strong> (<em>int</em>) &#8211; The number of classes.</li>
+<li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type. paddle.v2.activation.Sigmoid is the default activation.</li>
+<li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The parameter attribute. See paddle.v2.attr.ParameterAttribute for
+details.</li>
+<li><strong>num_neg_samples</strong> (<em>int</em>) &#8211; The number of sampled negative labels. 10 is the
+default value.</li>
 <li><strong>neg_distribution</strong> (<em>list | tuple | collections.Sequence | None</em>) &#8211; The discrete noisy distribution over the output
 space from which num_neg_samples negative labels
 are sampled. If this parameter is not set, a
-uniform distribution will be used. A user defined
+uniform distribution will be used. A user-defined
 distribution is a list whose length must be equal
 to the num_classes. Each member of the list defines
 the probability of a class given input x.</li>
@@ -3933,11 +3996,12 @@ the probability of a class given input x.</li>
 False or an object whose type is not paddle.v2.attr.ParameterAttribute,
 no bias is defined. If this parameter is set to True,
 the bias is initialized to zero.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; Extra Layer Attribute.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">The paddle.v2.config_base.Layer object.</p>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">paddle.v2.config_base.Layer object.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">paddle.v2.config_base.Layer</p>
@@ -4021,7 +4085,7 @@ sizes of input and label are equal. The formula is as follows,</p>
 <li><strong>label</strong> &#8211; The input label.</li>
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>coeff</strong> (<em>float</em>) &#8211; The weight of the gradient in the back propagation.
-1.0 is the default.</li>
+1.0 is the default value.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
 details.</li>
 </ul>
@@ -4093,8 +4157,9 @@ It is used by recurrent layer group.</p>
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer.</li>
-<li><strong>eos_id</strong> (<em>int</em>) &#8211; end id of sequence</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; extra layer attributes.</li>
+<li><strong>eos_id</strong> (<em>int</em>) &#8211; End id of sequence</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
 </ul>
 </td>
 </tr>
@@ -4203,7 +4268,7 @@ details.</li>
 <dd><p>The gated unit layer implements a simple gating mechanism over the input.
 The input <span class="math">\(X\)</span> is first projected into a new space <span class="math">\(X'\)</span>, and
 it is also used to produce a gate weight <span class="math">\(\sigma\)</span>. Element-wise
-product between <a href="#id11"><span class="problematic" id="id12">:match:`X&#8217;`</span></a> and <span class="math">\(\sigma\)</span> is finally returned.</p>
+product between <a href="#id10"><span class="problematic" id="id11">:match:`X&#8217;`</span></a> and <span class="math">\(\sigma\)</span> is finally returned.</p>
 <dl class="docutils">
 <dt>Reference:</dt>
 <dd>Language Modeling with Gated Convolutional Networks
@@ -4219,7 +4284,8 @@ product between <a href="#id11"><span class="problematic" id="id12">:match:`X&#8
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer.</li>
 <li><strong>size</strong> (<em>int</em>) &#8211; The dimension of this layer&#8217;s output.</li>
-<li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type of the projection. paddle.v2.activation.Linear is the default.</li>
+<li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type of the projection. paddle.v2.activation.Linear is the default
+activation.</li>
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>gate_attr</strong> (<em>paddle.v2.attr.ExtraAttribute | None</em>) &#8211; The extra layer attribute of the gate. See paddle.v2.attr.ExtraAttribute for
 details.</li>
