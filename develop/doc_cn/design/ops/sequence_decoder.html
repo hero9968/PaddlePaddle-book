@@ -204,31 +204,24 @@
             
   <div class="section" id="design-sequence-decoder-generating-lodtensors">
 <span id="design-sequence-decoder-generating-lodtensors"></span><h1>Design: Sequence Decoder Generating LoDTensors<a class="headerlink" href="#design-sequence-decoder-generating-lodtensors" title="永久链接至标题">¶</a></h1>
-<p>In tasks such as machine translation and image to text,
-a <a class="reference external" href="https://github.com/PaddlePaddle/book/blob/develop/08.machine_translation/README.md">sequence decoder</a> is necessary to generate sequences.</p>
+<p>In tasks such as machine translation and visual captioning,
+a <a class="reference external" href="https://github.com/PaddlePaddle/book/blob/develop/08.machine_translation/README.md">sequence decoder</a> is necessary to generate sequences, one word at a time.</p>
 <p>This documentation describes how to implement the sequence decoder as an operator.</p>
 <div class="section" id="beam-search-based-decoder">
 <span id="beam-search-based-decoder"></span><h2>Beam Search based Decoder<a class="headerlink" href="#beam-search-based-decoder" title="永久链接至标题">¶</a></h2>
-<p>The <a class="reference external" href="https://en.wikipedia.org/wiki/Beam_search">beam search algorithm</a> is necessary when generating sequences,
-it is a heuristic search algorithm that explores the paths by expanding the most promising node in a limited set.</p>
-<p>In the old version of PaddlePaddle, a C++ class <code class="docutils literal"><span class="pre">RecurrentGradientMachine</span></code> implements the general sequence decoder based on beam search,
-due to the complexity, the implementation relays on a lot of special data structures,
-quite trivial and hard to be customized by users.</p>
-<p>There are a lot of heuristic tricks in the sequence generation tasks,
-so the flexibility of sequence decoder is very important to users.</p>
-<p>During PaddlePaddle&#8217;s refactoring work,
-some new concept is proposed such as <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/framework/lod_tensor.md">LoDTensor</a> and <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/doc/design/tensor_array.md">TensorArray</a> that can better support sequence usage,
-and they can help to make the implementation of beam search based sequence decoder <strong>more transparent and modular</strong> .</p>
-<p>For example, the RNN sates, candidates IDs and probabilities of beam search can be represented as <code class="docutils literal"><span class="pre">LoDTensors</span></code>;
+<p>The <a class="reference external" href="https://en.wikipedia.org/wiki/Beam_search">beam search algorithm</a> is necessary when generating sequences. It is a heuristic search algorithm that explores the paths by expanding the most promising node in a limited set.</p>
+<p>In the old version of PaddlePaddle, the C++ class <code class="docutils literal"><span class="pre">RecurrentGradientMachine</span></code> implements the general sequence decoder based on beam search, due to the complexity involved, the implementation relies on a lot of special data structures that are quite trivial and hard to be customized by users.</p>
+<p>There are a lot of heuristic tricks in the sequence generation tasks, so the flexibility of sequence decoder is very important to users.</p>
+<p>During the refactoring of PaddlePaddle, some new concepts are proposed such as:  <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/framework/lod_tensor.md">LoDTensor</a> and <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/doc/design/tensor_array.md">TensorArray</a> that can better support the sequence usage, and they can also help make the implementation of beam search based sequence decoder <strong>more transparent and modular</strong> .</p>
+<p>For example, the RNN states, candidates IDs and probabilities of beam search can be represented all as <code class="docutils literal"><span class="pre">LoDTensors</span></code>;
 the selected candidate&#8217;s IDs in each time step can be stored in a <code class="docutils literal"><span class="pre">TensorArray</span></code>, and <code class="docutils literal"><span class="pre">Packed</span></code> to the sentences translated.</p>
 </div>
 <div class="section" id="changing-lod-s-absolute-offset-to-relative-offsets">
 <span id="changing-lod-s-absolute-offset-to-relative-offsets"></span><h2>Changing LoD&#8217;s absolute offset to relative offsets<a class="headerlink" href="#changing-lod-s-absolute-offset-to-relative-offsets" title="永久链接至标题">¶</a></h2>
-<p>The current <code class="docutils literal"><span class="pre">LoDTensor</span></code> is designed to store levels of variable-length sequences,
-it stores several arrays of integers each represents a level.</p>
-<p>The integers in each level represents the begin and end (not inclusive) offset of a sequence <strong>in the underlying tensor</strong>,
-let&#8217;s call this format the <strong>absolute-offset LoD</strong> for clear.</p>
-<p>The relative-offset LoD can fast retrieve any sequence but fails to represent empty sequences, for example, a two-level LoD is as follows</p>
+<p>The current <code class="docutils literal"><span class="pre">LoDTensor</span></code> is designed to store levels of variable-length sequences. It stores several arrays of integers where each represents a level.</p>
+<p>The integers in each level represent the begin and end (not inclusive) offset of a sequence <strong>in the underlying tensor</strong>,
+let&#8217;s call this format the <strong>absolute-offset LoD</strong> for clarity.</p>
+<p>The relative-offset LoD can retrieve any sequence very quickly but fails to represent empty sequences, for example, a two-level LoD is as follows</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">]</span>
  <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">]]</span>
 </pre></div>
@@ -240,8 +233,7 @@ let&#8217;s call this format the <strong>absolute-offset LoD</strong> for clear.
 </ul>
 <p>while on the second level, there are several empty sequences that both begin and end at <code class="docutils literal"><span class="pre">3</span></code>.
 It is impossible to tell how many empty second-level sequences exist in the first-level sequences.</p>
-<p>There are many scenarios that relay on empty sequence representation,
-such as machine translation or image to text, one instance has no translations or the empty candidate set for a prefix.</p>
+<p>There are many scenarios that rely on empty sequence representation, for example in machine translation or visual captioning, one instance has no translation or the empty candidate set for a prefix.</p>
 <p>So let&#8217;s introduce another format of LoD,
 it stores <strong>the offsets of the lower level sequences</strong> and is called <strong>relative-offset</strong> LoD.</p>
 <p>For example, to represent the same sequences of the above data</p>
@@ -253,13 +245,12 @@ it stores <strong>the offsets of the lower level sequences</strong> and is calle
 their offsets in the second-level LoD is <code class="docutils literal"><span class="pre">[0,</span> <span class="pre">3)</span></code> and <code class="docutils literal"><span class="pre">[3,</span> <span class="pre">5)</span></code>.</p>
 <p>The second level is the same with the relative offset example because the lower level is a tensor.
 It is easy to find out the second sequence in the first-level LoD has two empty sequences.</p>
-<p>The following demos are based on relative-offset LoD.</p>
+<p>The following examples are based on relative-offset LoD.</p>
 </div>
 <div class="section" id="usage-in-a-simple-machine-translation-model">
 <span id="usage-in-a-simple-machine-translation-model"></span><h2>Usage in a simple machine translation model<a class="headerlink" href="#usage-in-a-simple-machine-translation-model" title="永久链接至标题">¶</a></h2>
-<p>Let&#8217;s start from a simple machine translation model that is simplified from <a class="reference external" href="https://github.com/PaddlePaddle/book/tree/develop/08.machine_translation">machine translation chapter</a> to draw a simple blueprint of what a sequence decoder can do and how to use it.</p>
-<p>The model has an encoder that learns the semantic vector from a sequence,
-and a decoder which uses the sequence decoder to generate new sentences.</p>
+<p>Let&#8217;s start from a simple machine translation model that is simplified from the <a class="reference external" href="https://github.com/PaddlePaddle/book/tree/develop/08.machine_translation">machine translation chapter</a> to draw a blueprint of what a sequence decoder can do and how to use it.</p>
+<p>The model has an encoder that learns the semantic vector from a sequence, and a decoder which uses the sequence encoder to generate new sentences.</p>
 <p><strong>Encoder</strong></p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">paddle</span> <span class="kn">as</span> <span class="nn">pd</span>
 
@@ -306,7 +297,7 @@ and a decoder which uses the sequence decoder to generate new sentences.</p>
         <span class="c1"># which means there are 2 sentences to translate</span>
         <span class="c1">#   - the first sentence has 1 translation prefixes, the offsets are [0, 1)</span>
         <span class="c1">#   - the second sentence has 2 translation prefixes, the offsets are [1, 3) and [3, 6)</span>
-        <span class="c1"># the target_word.lod is </span>
+        <span class="c1"># the target_word.lod is</span>
         <span class="c1"># [[0, 1, 6]</span>
         <span class="c1">#  [0, 2, 4, 7, 9 12]]</span>
         <span class="c1"># which means 2 sentences to translate, each has 1 and 5 prefixes</span>
@@ -344,30 +335,29 @@ and a decoder which uses the sequence decoder to generate new sentences.</p>
 <span class="n">translation_ids</span><span class="p">,</span> <span class="n">translation_scores</span> <span class="o">=</span> <span class="n">decoder</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>The <code class="docutils literal"><span class="pre">decoder.beam_search</span></code> is a operator that given the candidates and the scores of translations including the candidates,
-return the result of the beam search algorithm.</p>
-<p>In this way, users can customize anything on the inputs or outputs of beam search, for example, two ways to prune some translation prefixes</p>
+<p>The <code class="docutils literal"><span class="pre">decoder.beam_search</span></code> is an operator that, given the candidates and the scores of translations including the candidates,
+returns the result of the beam search algorithm.</p>
+<p>In this way, users can customize anything on the input or output of beam search, for example:</p>
 <ol class="simple">
-<li>meke the correspondind elements in <code class="docutils literal"><span class="pre">topk_generated_scores</span></code> zero or some small values, beam_search will discard this candidate.</li>
-<li>remove some specific candidate in <code class="docutils literal"><span class="pre">selected_ids</span></code></li>
-<li>get the final <code class="docutils literal"><span class="pre">translation_ids</span></code>, remove the translation sequence in it.</li>
+<li>Make the corresponding elements in <code class="docutils literal"><span class="pre">topk_generated_scores</span></code> zero or some small values, beam_search will discard this candidate.</li>
+<li>Remove some specific candidate in <code class="docutils literal"><span class="pre">selected_ids</span></code>.</li>
+<li>Get the final <code class="docutils literal"><span class="pre">translation_ids</span></code>, remove the translation sequence in it.</li>
 </ol>
-<p>The implementation of sequence decoder can reuse the C++ class <a class="reference external" href="https://github.com/Superjom/Paddle/blob/68cac3c0f8451fe62a4cdf156747d6dc0ee000b3/paddle/operators/dynamic_recurrent_op.h#L30">RNNAlgorithm</a>,
-so the python syntax is quite similar to a <a class="reference external" href="https://github.com/Superjom/Paddle/blob/68cac3c0f8451fe62a4cdf156747d6dc0ee000b3/doc/design/block.md#blocks-with-for-and-rnnop">RNN</a>.</p>
-<p>Both of them are two-level <code class="docutils literal"><span class="pre">LoDTensors</span></code></p>
+<p>The implementation of sequence decoder can reuse the C++ class:  <a class="reference external" href="https://github.com/Superjom/Paddle/blob/68cac3c0f8451fe62a4cdf156747d6dc0ee000b3/paddle/operators/dynamic_recurrent_op.h#L30">RNNAlgorithm</a>,
+so the python syntax is quite similar to that of an  <a class="reference external" href="https://github.com/Superjom/Paddle/blob/68cac3c0f8451fe62a4cdf156747d6dc0ee000b3/doc/design/block.md#blocks-with-for-and-rnnop">RNN</a>.</p>
+<p>Both of them are two-level <code class="docutils literal"><span class="pre">LoDTensors</span></code>:</p>
 <ul class="simple">
-<li>the first level represents <code class="docutils literal"><span class="pre">batch_size</span></code> of (source) sentences;</li>
-<li>the second level represents the candidate ID sets for translation prefix.</li>
+<li>The first level represents <code class="docutils literal"><span class="pre">batch_size</span></code> of (source) sentences.</li>
+<li>The second level represents the candidate ID sets for translation prefix.</li>
 </ul>
-<p>for example, 3 source sentences to translate, and has 2, 3, 1 candidates.</p>
-<p>Unlike an RNN, in sequence decoder, the previous state and the current state have different LoD and shape,
-a <code class="docutils literal"><span class="pre">lod_expand</span></code> operator is used to expand the LoD of the previous state to fit the current state.</p>
-<p>For example, the previous state</p>
+<p>For example, 3 source sentences to translate, and has 2, 3, 1 candidates.</p>
+<p>Unlike an RNN, in sequence decoder, the previous state and the current state have different LoD and shape, and an <code class="docutils literal"><span class="pre">lod_expand</span></code> operator is used to expand the LoD of the previous state to fit the current state.</p>
+<p>For example, the previous state:</p>
 <ul class="simple">
 <li>LoD is <code class="docutils literal"><span class="pre">[0,</span> <span class="pre">1,</span> <span class="pre">3][0,</span> <span class="pre">2,</span> <span class="pre">5,</span> <span class="pre">6]</span></code></li>
 <li>content of tensor is <code class="docutils literal"><span class="pre">a1</span> <span class="pre">a2</span> <span class="pre">b1</span> <span class="pre">b2</span> <span class="pre">b3</span> <span class="pre">c1</span></code></li>
 </ul>
-<p>the current state stored in <code class="docutils literal"><span class="pre">encoder_ctx_expanded</span></code></p>
+<p>the current state is stored in <code class="docutils literal"><span class="pre">encoder_ctx_expanded</span></code>:</p>
 <ul class="simple">
 <li>LoD is <code class="docutils literal"><span class="pre">[0,</span> <span class="pre">2,</span> <span class="pre">7][0</span> <span class="pre">3</span> <span class="pre">5</span> <span class="pre">8</span> <span class="pre">9</span> <span class="pre">11</span> <span class="pre">11]</span></code></li>
 <li>the content is<ul>
@@ -380,51 +370,45 @@ a <code class="docutils literal"><span class="pre">lod_expand</span></code> oper
 </ul>
 </li>
 </ul>
-<p>Benefit from the relative offset LoD, empty candidate set can be represented naturally.</p>
-<p>the status in each time step can be stored in <code class="docutils literal"><span class="pre">TensorArray</span></code>, and <code class="docutils literal"><span class="pre">Pack</span></code>ed to a final LoDTensor, the corresponding syntax is</p>
+<p>The benefit from the relative offset LoD is that the empty candidate set can be represented naturally.</p>
+<p>The status in each time step can be stored in <code class="docutils literal"><span class="pre">TensorArray</span></code>, and <code class="docutils literal"><span class="pre">Pack</span></code>ed to a final LoDTensor. The corresponding syntax is:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">decoder</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">selected_ids</span><span class="p">)</span>
 <span class="n">decoder</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">selected_generation_scores</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>the <code class="docutils literal"><span class="pre">selected_ids</span></code> is the candidate ids for the prefixes,
-it will be <code class="docutils literal"><span class="pre">Packed</span></code> by <code class="docutils literal"><span class="pre">TensorArray</span></code> to a two-level <code class="docutils literal"><span class="pre">LoDTensor</span></code>,
-the first level represents the source sequences,
-the second level represents generated sequences.</p>
-<p>Pack the <code class="docutils literal"><span class="pre">selected_scores</span></code> will get a <code class="docutils literal"><span class="pre">LoDTensor</span></code> that stores scores of each candidate of translations.</p>
-<p>Pack the <code class="docutils literal"><span class="pre">selected_generation_scores</span></code> will get a <code class="docutils literal"><span class="pre">LoDTensor</span></code>, and each tail is the probability of the translation.</p>
+<p>The <code class="docutils literal"><span class="pre">selected_ids</span></code> are the candidate ids for the prefixes, and will be <code class="docutils literal"><span class="pre">Packed</span></code> by <code class="docutils literal"><span class="pre">TensorArray</span></code> to a two-level <code class="docutils literal"><span class="pre">LoDTensor</span></code>, where the first level represents the source sequences and the second level represents generated sequences.</p>
+<p>Packing the <code class="docutils literal"><span class="pre">selected_scores</span></code> will get a <code class="docutils literal"><span class="pre">LoDTensor</span></code> that stores scores of each translation candidate.</p>
+<p>Packing the <code class="docutils literal"><span class="pre">selected_generation_scores</span></code> will get a <code class="docutils literal"><span class="pre">LoDTensor</span></code>, and each tail is the probability of the translation.</p>
 </div>
 <div class="section" id="lod-and-shape-changes-during-decoding">
 <span id="lod-and-shape-changes-during-decoding"></span><h2>LoD and shape changes during decoding<a class="headerlink" href="#lod-and-shape-changes-during-decoding" title="永久链接至标题">¶</a></h2>
 <p align="center">
   <img src="./images/LOD-and-shape-changes-during-decoding.jpg"/>
-</p><p>According the image above, the only phrase to change LoD is beam search.</p>
+</p><p>According to the image above, the only phase that changes the LoD is beam search.</p>
 </div>
 <div class="section" id="beam-search-design">
 <span id="beam-search-design"></span><h2>Beam search design<a class="headerlink" href="#beam-search-design" title="永久链接至标题">¶</a></h2>
-<p>The beam search algorthm will be implemented as one method of the sequence decoder, it has 3 inputs</p>
+<p>The beam search algorithm will be implemented as one method of the sequence decoder and has 3 inputs:</p>
 <ol class="simple">
-<li><code class="docutils literal"><span class="pre">topk_ids</span></code>, top K candidate ids for each prefix.</li>
+<li><code class="docutils literal"><span class="pre">topk_ids</span></code>, the top K candidate ids for each prefix.</li>
 <li><code class="docutils literal"><span class="pre">topk_scores</span></code>, the corresponding scores for <code class="docutils literal"><span class="pre">topk_ids</span></code></li>
 <li><code class="docutils literal"><span class="pre">generated_scores</span></code>, the score of the prefixes.</li>
 </ol>
-<p>All of the are LoDTensors, so that the sequence affilication is clear.
-Beam search will keep a beam for each prefix and select a smaller candidate set for each prefix.</p>
-<p>It will return three variables</p>
+<p>All of these are LoDTensors, so that the sequence affiliation is clear. Beam search will keep a beam for each prefix and select a smaller candidate set for each prefix.</p>
+<p>It will return three variables:</p>
 <ol class="simple">
 <li><code class="docutils literal"><span class="pre">selected_ids</span></code>, the final candidate beam search function selected for the next step.</li>
 <li><code class="docutils literal"><span class="pre">selected_scores</span></code>, the scores for the candidates.</li>
-<li><code class="docutils literal"><span class="pre">generated_scores</span></code>, the updated scores for each prefixes (with the new candidates appended).</li>
+<li><code class="docutils literal"><span class="pre">generated_scores</span></code>, the updated scores for each prefix (with the new candidates appended).</li>
 </ol>
 </div>
 <div class="section" id="introducing-the-lod-based-pack-and-unpack-methods-in-tensorarray">
 <span id="introducing-the-lod-based-pack-and-unpack-methods-in-tensorarray"></span><h2>Introducing the LoD-based <code class="docutils literal"><span class="pre">Pack</span></code> and <code class="docutils literal"><span class="pre">Unpack</span></code> methods in <code class="docutils literal"><span class="pre">TensorArray</span></code><a class="headerlink" href="#introducing-the-lod-based-pack-and-unpack-methods-in-tensorarray" title="永久链接至标题">¶</a></h2>
-<p>The <code class="docutils literal"><span class="pre">selected_ids</span></code>, <code class="docutils literal"><span class="pre">selected_scores</span></code> and <code class="docutils literal"><span class="pre">generated_scores</span></code> are LoDTensors,
-and they exist in each time step,
+<p>The <code class="docutils literal"><span class="pre">selected_ids</span></code>, <code class="docutils literal"><span class="pre">selected_scores</span></code> and <code class="docutils literal"><span class="pre">generated_scores</span></code> are LoDTensors that exist at each time step,
 so it is natural to store them in arrays.</p>
-<p>Currently, PaddlePaddle has a module called <code class="docutils literal"><span class="pre">TensorArray</span></code> which can store an array of tensors,
-the results of beam search are better to store in a <code class="docutils literal"><span class="pre">TensorArray</span></code>.</p>
-<p>The <code class="docutils literal"><span class="pre">Pack</span></code> and <code class="docutils literal"><span class="pre">UnPack</span></code> in <code class="docutils literal"><span class="pre">TensorArray</span></code> are used to package tensors in the array to a <code class="docutils literal"><span class="pre">LoDTensor</span></code> or split the <code class="docutils literal"><span class="pre">LoDTensor</span></code> to an array of tensors.
-It needs some extensions to support pack or unpack an array of <code class="docutils literal"><span class="pre">LoDTensors</span></code>.</p>
+<p>Currently, PaddlePaddle has a module called <code class="docutils literal"><span class="pre">TensorArray</span></code> which can store an array of tensors. It is better to store the results of beam search in a <code class="docutils literal"><span class="pre">TensorArray</span></code>.</p>
+<p>The <code class="docutils literal"><span class="pre">Pack</span></code> and <code class="docutils literal"><span class="pre">UnPack</span></code> in <code class="docutils literal"><span class="pre">TensorArray</span></code> are used to pack tensors in the array to an <code class="docutils literal"><span class="pre">LoDTensor</span></code> or split the <code class="docutils literal"><span class="pre">LoDTensor</span></code> to an array of tensors.
+It needs some extensions to support the packing or unpacking an array of <code class="docutils literal"><span class="pre">LoDTensors</span></code>.</p>
 </div>
 </div>
 
