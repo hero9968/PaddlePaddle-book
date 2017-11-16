@@ -882,9 +882,12 @@ feature map.</p>
 <dl class="class">
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">img_cmrnorm</code></dt>
-<dd><p>Response normalization across feature maps.
-The details please refer to
-<a class="reference external" href="http://www.cs.toronto.edu/~fritz/absps/imagenet.pdf">Alex&#8217;s paper</a>.</p>
+<dd><p>Response normalization across feature maps.</p>
+<dl class="docutils">
+<dt>Reference:</dt>
+<dd>ImageNet Classification with Deep Convolutional Neural Networks
+<a class="reference external" href="http://www.cs.toronto.edu/~fritz/absps/imagenet.pdf">http://www.cs.toronto.edu/~fritz/absps/imagenet.pdf</a></dd>
+</dl>
 <p>The example usage is:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">norm</span> <span class="o">=</span> <span class="n">img_cmrnorm</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">net</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
@@ -894,14 +897,16 @@ The details please refer to
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<em>None | basestring</em>) &#8211; The name of this layer. It is optional.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer.</li>
 <li><strong>size</strong> (<em>int</em>) &#8211; Normalize in number of <span class="math">\(size\)</span> feature maps.</li>
 <li><strong>scale</strong> (<em>float</em>) &#8211; The hyper-parameter.</li>
 <li><strong>power</strong> (<em>float</em>) &#8211; The hyper-parameter.</li>
-<li><strong>num_channels</strong> &#8211; input layer&#8217;s filers number or channels. If
-num_channels is None, it will be set automatically.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; Extra Layer Attribute.</li>
+<li><strong>num_channels</strong> &#8211; The number of input channels. If the parameter is not set or
+set to None, its actual value will be automatically set to
+the channels number of the input.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attributes. See paddle.v2.attr.ExtraAttribute for
+details.</li>
 </ul>
 </td>
 </tr>
@@ -921,7 +926,7 @@ num_channels is None, it will be set automatically.</li>
 <dl class="class">
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">batch_norm</code></dt>
-<dd><p>Batch Normalization Layer. The notation of this layer as follow.</p>
+<dd><p>Batch Normalization Layer. The notation of this layer is as follows.</p>
 <p><span class="math">\(x\)</span> is the input features over a mini-batch.</p>
 <div class="math">
 \[\begin{split}\mu_{\beta} &amp;\gets \frac{1}{m} \sum_{i=1}^{m} x_i \qquad &amp;//\
@@ -931,8 +936,12 @@ num_channels is None, it will be set automatically.</li>
 \hat{x_i} &amp;\gets \frac{x_i - \mu_\beta} {\sqrt{\
 \sigma_{\beta}^{2} + \epsilon}} \qquad &amp;//\ normalize \\
 y_i &amp;\gets \gamma \hat{x_i} + \beta \qquad &amp;//\ scale\ and\ shift\end{split}\]</div>
-<p>The details of batch normalization please refer to this
-<a class="reference external" href="http://arxiv.org/abs/1502.03167">paper</a>.</p>
+<dl class="docutils">
+<dt>Reference:</dt>
+<dd>Batch Normalization: Accelerating Deep Network Training by Reducing
+Internal Covariate Shift
+<a class="reference external" href="http://arxiv.org/abs/1502.03167">http://arxiv.org/abs/1502.03167</a></dd>
+</dl>
 <p>The example usage is:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">norm</span> <span class="o">=</span> <span class="n">batch_norm</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">net</span><span class="p">,</span> <span class="n">act</span><span class="o">=</span><span class="n">paddle</span><span class="o">.</span><span class="n">v2</span><span class="o">.</span><span class="n">activation</span><span class="o">.</span><span class="n">Relu</span><span class="p">())</span>
 </pre></div>
@@ -943,40 +952,39 @@ y_i &amp;\gets \gamma \hat{x_i} + \beta \qquad &amp;//\ scale\ and\ shift\end{sp
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
-<li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; batch normalization input. Better be linear activation.
-Because there is an activation inside batch_normalization.</li>
+<li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; This layer&#8217;s input which is to be performed batch normalization on.</li>
 <li><strong>batch_norm_type</strong> (<em>None | string</em><em>, </em><em>None</em><em> or </em><em>&quot;batch_norm&quot;</em><em> or </em><em>&quot;cudnn_batch_norm&quot;</em><em>
 or </em><em>&quot;mkldnn_batch_norm&quot;</em>) &#8211; We have batch_norm, mkldnn_batch_norm and cudnn_batch_norm.
 batch_norm supports CPU, MKLDNN and GPU. cudnn_batch_norm
 requires cuDNN version greater or equal to v4 (&gt;=v4).
 But cudnn_batch_norm is faster and needs less
 memory than batch_norm. mkldnn_batch_norm requires
-enable use_mkldnn. By default (None), we will
-automaticly select cudnn_batch_norm for GPU,
+use_mkldnn is enabled. By default (None), we will
+automatically select cudnn_batch_norm for GPU,
 mkldnn_batch_norm for MKLDNN and batch_norm for CPU.
-Otherwise, select batch norm type based on the
-specified type. If you use cudnn_batch_norm,
-we suggested you use latest version, such as v5.1.</li>
-<li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation Type. Better be relu. Because batch
-normalization will normalize input near zero.</li>
-<li><strong>num_channels</strong> (<em>int</em>) &#8211; num of image channels or previous layer&#8217;s number of
-filters. None will automatically get from layer&#8217;s
-input.</li>
-<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | None | bool | Any</em>) &#8211; <span class="math">\(\beta\)</span>, better be zero when initialize. So the
-initial_std=0, initial_mean=1 is best practice.</li>
-<li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; <span class="math">\(\gamma\)</span>, better be one when initialize. So the
-initial_std=0, initial_mean=1 is best practice.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; Extra Layer Attribute.</li>
-<li><strong>use_global_stats</strong> (<em>bool | None.</em>) &#8211; whether use moving mean/variance statistics
-during testing peroid. If None or True,
-it will use moving mean/variance statistics during
-testing. If False, it will use the mean
-and variance of current batch of test data for
-testing.</li>
-<li><strong>moving_average_fraction</strong> (<em>float.</em>) &#8211; Factor used in the moving average
-computation, referred to as facotr,
-<span class="math">\(runningMean = newMean*(1-factor)
-+ runningMean*factor\)</span></li>
+Users can specify the batch norm type. If you use
+cudnn_batch_norm, we suggested you use latest version,
+such as v5.1.</li>
+<li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type. paddle.v2.activation.Relu is the default activation.</li>
+<li><strong>num_channels</strong> (<em>int</em>) &#8211; The number of input channels. If the parameter is not set or
+set to None, its actual value will be automatically set to
+the channels number of the input.</li>
+<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | None | bool | Any</em>) &#8211; <span class="math">\(\beta\)</span>. The bias attribute. If the parameter is set to
+False or an object whose type is not paddle.v2.attr.ParameterAttribute, no
+bias is defined. If the parameter is set to True, the bias is
+initialized to zero.</li>
+<li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; <span class="math">\(\gamma\)</span>. The parameter attribute. See paddle.v2.attr.ParameterAttribute
+for details.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
+<li><strong>use_global_stats</strong> (<em>bool | None.</em>) &#8211; Whether use moving mean/variance statistics during
+testing peroid. If the parameter is set to None or
+True, it will use moving mean/variance statistics
+during testing. If the parameter is set to False, it
+will use the mean and variance of the current batch
+of test data.</li>
+<li><strong>moving_average_fraction</strong> (<em>float.</em>) &#8211; Factor used in the moving average computation.
+<span class="math">\(runningMean = newMean*(1-factor) + runningMean*factor\)</span></li>
 <li><strong>mean_var_names</strong> (<em>string list</em>) &#8211; [mean name, variance name]</li>
 </ul>
 </td>
@@ -1014,7 +1022,8 @@ and <span class="math">\(out\)</span> is a (batchSize x dataDim) output vector.<
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer.</li>
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; extra layer attributes.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute
+for details.</li>
 </ul>
 </td>
 </tr>
@@ -1088,7 +1097,8 @@ and the size of <span class="math">\(out\)</span> is a (batchSize x dataDim) .</
 <tr class="field-even field"><th class="field-name">type name:</th><td class="field-body">basestring</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">param layer_attr:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">extra layer attributes.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The extra layer attribute. See paddle.v2.attr.ExtraAttribute
+for details.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">type layer_attr:</th></tr>
 <tr class="field-even field"><td>&#160;</td><td class="field-body">paddle.v2.attr.ExtraAttribute</td>
@@ -1279,24 +1289,19 @@ parameter is set to True, the bias is initialized to zero.</li>
 <dl class="class">
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">memory</code></dt>
-<dd><p>The memory layers is a layer cross each time step. Reference this output
-as previous time step layer <code class="code docutils literal"><span class="pre">name</span></code> &#8216;s output.</p>
-<p>The default memory is zero in first time step, previous time step&#8217;s
-output in the rest time steps.</p>
-<p>If boot_bias, the first time step value is this bias and
-with activation.</p>
-<p>If boot_with_const_id, then the first time stop is a IndexSlot, the
-Arguments.ids()[0] is this <code class="code docutils literal"><span class="pre">cost_id</span></code>.</p>
-<p>If boot is not null, the memory is just the boot&#8217;s output.
-Set <code class="code docutils literal"><span class="pre">is_seq</span></code> is true boot layer is sequence.</p>
-<p>The same name layer in recurrent group will set memory on each time
-step.</p>
+<dd><p>The memory takes a layer&#8217;s output at previous time step as its own output.</p>
+<p>If boot_bias, the activation of the bias is the initial value of the memory.</p>
+<p>If boot_with_const_id is set, then the memory&#8217;s output at the first time step
+is a IndexSlot, the Arguments.ids()[0] is this <code class="code docutils literal"><span class="pre">cost_id</span></code>.</p>
+<p>If boot is specified, the memory&#8217;s output at the first time step will
+be the boot&#8217;s output.</p>
+<p>In other case, the default memory&#8217;s output at the first time step is zero.</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">mem</span> <span class="o">=</span> <span class="n">memory</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;state&#39;</span><span class="p">)</span>
 <span class="n">state</span> <span class="o">=</span> <span class="n">fc</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">mem</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;state&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>If you do not want to specify the name, you can equivalently use set_input()
-to specify the layer needs to be remembered as the following:</p>
+<p>If you do not want to specify the name, you can also use set_input()
+to specify the layer to be remembered as the following:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">mem</span> <span class="o">=</span> <span class="n">memory</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span>
 <span class="n">state</span> <span class="o">=</span> <span class="n">fc</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">mem</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span>
 <span class="n">mem</span><span class="o">.</span><span class="n">set_input</span><span class="p">(</span><span class="n">mem</span><span class="p">)</span>
@@ -1307,21 +1312,26 @@ to specify the layer needs to be remembered as the following:</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<em>basestring</em>) &#8211; the name of the layer which this memory remembers.
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of the layer which this memory remembers.
 If name is None, user should call set_input() to specify the
 name of the layer which this memory remembers.</li>
-<li><strong>size</strong> (<em>int</em>) &#8211; size of memory.</li>
-<li><strong>memory_name</strong> (<em>basestring</em>) &#8211; the name of the memory.
-It is ignored when name is provided.</li>
+<li><strong>size</strong> (<em>int</em>) &#8211; The dimensionality of memory.</li>
+<li><strong>memory_name</strong> (<em>basestring</em>) &#8211; The name of the memory. It is ignored when name is provided.</li>
 <li><strong>is_seq</strong> (<em>bool</em>) &#8211; DEPRECATED. is sequence for boot</li>
-<li><strong>boot</strong> (<em>paddle.v2.config_base.Layer | None</em>) &#8211; boot layer of memory.</li>
-<li><strong>boot_bias</strong> (<em>paddle.v2.attr.ParameterAttribute | None</em>) &#8211; boot layer&#8217;s bias</li>
-<li><strong>boot_bias_active_type</strong> (<em>paddle.v2.activation.Base</em>) &#8211; boot layer&#8217;s active type.</li>
-<li><strong>boot_with_const_id</strong> (<em>int</em>) &#8211; boot layer&#8217;s id.</li>
+<li><strong>boot</strong> (<em>paddle.v2.config_base.Layer | None</em>) &#8211; This parameter specifies memory&#8217;s output at the first time
+step and the output is boot&#8217;s output.</li>
+<li><strong>boot_bias</strong> (<em>paddle.v2.attr.ParameterAttribute | None</em>) &#8211; The bias attribute of memory&#8217;s output at the first time step.
+If the parameter is set to False or an object whose type is not
+paddle.v2.attr.ParameterAttribute, no bias is defined. If the parameter is set
+to True, the bias is initialized to zero.</li>
+<li><strong>boot_bias_active_type</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type for memory&#8217;s bias at the first time
+step. paddle.v2.activation.Linear is the default activation.</li>
+<li><strong>boot_with_const_id</strong> (<em>int</em>) &#8211; This parameter specifies memory&#8217;s output at the first
+time step and the output is an index.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">paddle.v2.config_base.Layer object which is a memory.</p>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">paddle.v2.config_base.Layer object.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">paddle.v2.config_base.Layer</p>
@@ -2176,8 +2186,8 @@ of stride is -1.</p>
 <dl class="class">
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">concat</code></dt>
-<dd><p>Concat all input vector into one huge vector.
-Inputs can be list of paddle.v2.config_base.Layer or list of projection.</p>
+<dd><p>Concatenate all input vectors to one vector.
+Inputs can be a list of paddle.v2.config_base.Layer or a list of projection.</p>
 <p>The example usage is:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">concat</span> <span class="o">=</span> <span class="n">concat</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="p">[</span><span class="n">layer1</span><span class="p">,</span> <span class="n">layer2</span><span class="p">])</span>
 </pre></div>
@@ -2188,9 +2198,10 @@ Inputs can be list of paddle.v2.config_base.Layer or list of projection.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
-<li><strong>input</strong> (<em>list | tuple | collections.Sequence</em>) &#8211; input layers or projections</li>
+<li><strong>input</strong> (<em>list | tuple | collections.Sequence</em>) &#8211; The input layers or projections</li>
 <li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type. paddle.v2.activation.Identity is the default activation.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; Extra Layer Attribute.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
 </ul>
 </td>
 </tr>
@@ -2210,7 +2221,7 @@ Inputs can be list of paddle.v2.config_base.Layer or list of projection.</p>
 <dl class="class">
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">seq_concat</code></dt>
-<dd><p>Concat sequence a with sequence b.</p>
+<dd><p>Concatenate sequence a and sequence b.</p>
 <dl class="docutils">
 <dt>Inputs:</dt>
 <dd><ul class="first last simple">
@@ -2232,10 +2243,11 @@ processed in one batch.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
-<li><strong>a</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; input sequence layer</li>
-<li><strong>b</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; input sequence layer</li>
+<li><strong>a</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The first input sequence layer</li>
+<li><strong>b</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The second input sequence layer</li>
 <li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type. paddle.v2.activation.Identity is the default activation.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; Extra Layer Attribute.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
 <li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | None | bool | Any</em>) &#8211; The bias attribute. If the parameter is set to False or an object
 whose type is not paddle.v2.attr.ParameterAttribute, no bias is defined. If the
 parameter is set to True, the bias is initialized to zero.</li>
@@ -2609,29 +2621,26 @@ and <span class="math">\(f\)</span> is activation function.</p>
                     <span class="n">bias_attr</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>This layer just simply add all input layers together, then activate the sum
-inputs. Each input of this layer should be the same size, which is also the
-output size of this layer.</p>
+<p>This layer just simply adds all input layers together, then activates the
+sum. All inputs should share the same dimension, which is also the dimension
+of this layer&#8217;s output.</p>
 <p>There is no weight matrix for each input, because it just a simple add
 operation. If you want a complicated operation before add, please use
 mixed.</p>
-<p>It is a very good way to set dropout outside the layers. Since not all
-PaddlePaddle layer support dropout, you can add an add_to layer, set
-dropout here.
-Please refer to dropout for details.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
-<li><strong>input</strong> (<em>paddle.v2.config_base.Layer | list | tuple</em>) &#8211; Input layers. It could be a paddle.v2.config_base.Layer or list/tuple of
+<li><strong>input</strong> (<em>paddle.v2.config_base.Layer | list | tuple</em>) &#8211; The input layers. It could be a paddle.v2.config_base.Layer or list/tuple of
 paddle.v2.config_base.Layer.</li>
 <li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation Type. paddle.v2.activation.Linear is the default activation.</li>
 <li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | None | bool | Any</em>) &#8211; The bias attribute. If the parameter is set to False or an object
 whose type is not paddle.v2.attr.ParameterAttribute, no bias is defined. If the
 parameter is set to True, the bias is initialized to zero.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; Extra Layer attribute.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
 </ul>
 </td>
 </tr>
