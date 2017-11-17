@@ -2779,6 +2779,75 @@ which is used in NEURAL TURING MACHINE.</p>
 </dd></dl>
 
 </div>
+<div class="section" id="dot-prod">
+<h3>dot_prod<a class="headerlink" href="#dot-prod" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">dot_prod</code></dt>
+<dd><p>A layer for computing the dot product of two vectors.</p>
+<p>The example usage is:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">dot_prod</span> <span class="o">=</span> <span class="n">dot_prod</span><span class="p">(</span><span class="n">input1</span><span class="o">=</span><span class="n">vec1</span><span class="p">,</span> <span class="n">input2</span><span class="o">=</span><span class="n">vec2</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
+<li><strong>input1</strong> &#8211; The first input layer.</li>
+<li><strong>input2</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The second input layer.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">paddle.v2.config_base.Layer object.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">paddle.v2.config_base.Layer</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="out-prod">
+<h3>out_prod<a class="headerlink" href="#out-prod" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">out_prod</code></dt>
+<dd><p>A layer for computing the outer product of two vectors
+The result is a matrix of size(input1) x size(input2)</p>
+<p>The example usage is:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">out_prod</span> <span class="o">=</span> <span class="n">out_prod</span><span class="p">(</span><span class="n">input1</span><span class="o">=</span><span class="n">vec1</span><span class="p">,</span> <span class="n">input2</span><span class="o">=</span><span class="n">vec2</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
+<li><strong>input1</strong> &#8211; The first input layer.</li>
+<li><strong>input2</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The second input layer.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">paddle.v2.config_base.Layer object.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">paddle.v2.config_base.Layer</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
 <div class="section" id="power">
 <h3>power<a class="headerlink" href="#power" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
