@@ -230,7 +230,7 @@ sh build_docs.sh
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">cd</span> TO_YOUR_PADDLE_CLONE_PATH
 mkdir -p build
 <span class="nb">cd</span> build
-cmake .. -DCMAKE_BUILD_TYPE<span class="o">=</span>Debug -DWITH_GPU<span class="o">=</span>OFF -DWITH_MKLDNN<span class="o">=</span>OFF -DWITH_MKLML<span class="o">=</span>OFF -DWITH_DOC<span class="o">=</span>ON
+cmake .. -DCMAKE_BUILD_TYPE<span class="o">=</span>Debug -DWITH_GPU<span class="o">=</span>OFF -DWITH_MKL<span class="o">=</span>OFF -DWITH_DOC<span class="o">=</span>ON
 make gen_proto_py
 make paddle_docs paddle_docs_cn
 </pre></div>
