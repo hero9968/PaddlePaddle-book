@@ -3137,6 +3137,49 @@ processed in one batch.</p>
 </dd></dl>
 
 </div>
+<div class="section" id="l2-distance">
+<h3>l2_distance<a class="headerlink" href="#l2-distance" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">l2_distance</code></dt>
+<dd><p>This layer calculates and returns the Euclidean distance between two input
+vectors x and y. The equation is as follows:</p>
+<div class="math">
+\[l2_distance(\mathbf{x}, \mathbf{y}) = \sqrt{\sum_{i=1}^D(x_i - y_i)}\]</div>
+<p>The output size of this layer is fixed to be 1. Note that the above
+computation is for one sample. Multiple samples are processed in one batch.</p>
+<p>The example usage is:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">l2_sim</span> <span class="o">=</span> <span class="n">l2_distance</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">layer1</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">layer2</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
+<li><strong>x</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The first input x for this layer, whose output is a matrix with
+dimensionality N x D. N is the sample number in a mini-batch.
+D is the dimensionality of x&#8217;s output.</li>
+<li><strong>y</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The second input y for this layer, whose output is a matrix with
+dimensionality N x D. N is the sample number in a mini-batch.
+D is the dimensionality of y&#8217;s output.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attributes, for example, drop rate.
+See paddle.v2.attr.ExtraAttribute for more details.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The returned paddle.v2.config_base.Layer object.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">paddle.v2.config_base.Layer</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
 <div class="section" id="trans">
 <h3>trans<a class="headerlink" href="#trans" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
