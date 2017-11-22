@@ -997,6 +997,7 @@ True, it will use moving mean/variance statistics
 during testing. If the parameter is set to False, it
 will use the mean and variance of the current batch
 of test data.</li>
+<li><strong>epsilon</strong> (<em>float.</em>) &#8211; The small constant added to the variance to improve numeric stability.</li>
 <li><strong>moving_average_fraction</strong> (<em>float.</em>) &#8211; Factor used in the moving average computation.
 <span class="math">\(runningMean = newMean*(1-factor) + runningMean*factor\)</span></li>
 <li><strong>mean_var_names</strong> (<em>string list</em>) &#8211; [mean name, variance name]</li>
