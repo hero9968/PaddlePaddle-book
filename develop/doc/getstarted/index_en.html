@@ -110,8 +110,9 @@
           <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">GET STARTED</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="build_and_install/index_en.html">Install and Build</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="build_and_install/pip_install_en.html">Install PaddlePaddle Using pip</a></li>
 <li class="toctree-l3"><a class="reference internal" href="build_and_install/docker_install_en.html">PaddlePaddle in Docker Containers</a></li>
-<li class="toctree-l3"><a class="reference internal" href="build_and_install/build_from_source_en.html">Installing from Sources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="build_and_install/build_from_source_en.html">Build PaddlePaddle from Sources</a></li>
 </ul>
 </li>
 </ul>
@@ -192,14 +193,57 @@
             
   <div class="section" id="get-started">
 <h1>GET STARTED<a class="headerlink" href="#get-started" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="quick-install">
+<span id="id1"></span><h2>Quick Install<a class="headerlink" href="#quick-install" title="Permalink to this headline">¶</a></h2>
+<p>You can use pip to install PaddlePaddle with a single command, supports
+CentOS 6 above, Ubuntu 14.04 above or MacOS 10.12, with Python 2.7 installed.
+Simply run the following command to install:</p>
+<blockquote>
+<div><div class="highlight-bash"><div class="highlight"><pre><span></span>pip install paddlepaddle
+</pre></div>
+</div>
+</div></blockquote>
+<p>If you need to install GPU version, run:</p>
+<blockquote>
+<div><div class="highlight-bash"><div class="highlight"><pre><span></span>pip install paddlepaddle-gpu
+</pre></div>
+</div>
+</div></blockquote>
+<p>For more details about installation and build:</p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="build_and_install/index_en.html">Install and Build</a></li>
 </ul>
 </div>
-<ul class="simple">
-<li><a class="reference external" href="http://book.paddlepaddle.org/index.html">Deep Learning 101</a></li>
-</ul>
+<div class="section" id="quick-start">
+<span id="id2"></span><h3>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h3>
+<p>Create a new file called housing.py, and paste this Python
+code:</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">paddle.v2</span> <span class="kn">as</span> <span class="nn">paddle</span>
+
+<span class="c1"># Initialize PaddlePaddle.</span>
+<span class="n">paddle</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">use_gpu</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">trainer_count</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Configure the neural network.</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">paddle</span><span class="o">.</span><span class="n">data_type</span><span class="o">.</span><span class="n">dense_vector</span><span class="p">(</span><span class="mi">13</span><span class="p">))</span>
+<span class="n">y_predict</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">act</span><span class="o">=</span><span class="n">paddle</span><span class="o">.</span><span class="n">activation</span><span class="o">.</span><span class="n">Linear</span><span class="p">())</span>
+
+<span class="c1"># Infer using provided test data.</span>
+<span class="n">probs</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">infer</span><span class="p">(</span>
+    <span class="n">output_layer</span><span class="o">=</span><span class="n">y_predict</span><span class="p">,</span>
+    <span class="n">parameters</span><span class="o">=</span><span class="n">paddle</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">uci_housing</span><span class="o">.</span><span class="n">model</span><span class="p">(),</span>
+    <span class="nb">input</span><span class="o">=</span><span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">paddle</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">uci_housing</span><span class="o">.</span><span class="n">test</span><span class="p">()()])</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">probs</span><span class="p">)):</span>
+    <span class="k">print</span> <span class="s1">&#39;Predicted price: ${:,.2f}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">probs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Run <code class="code docutils literal"><span class="pre">python</span> <span class="pre">housing.py</span></code> and voila! It should print out a list of predictions
+for the test housing data.</p>
+</div>
+</div>
 </div>
 
 

@@ -111,8 +111,9 @@
           <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../getstarted/index_en.html">GET STARTED</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../getstarted/build_and_install/index_en.html">Install and Build</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../getstarted/build_and_install/pip_install_en.html">Install PaddlePaddle Using pip</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../getstarted/build_and_install/docker_install_en.html">PaddlePaddle in Docker Containers</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../getstarted/build_and_install/build_from_source_en.html">Installing from Sources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../getstarted/build_and_install/build_from_source_en.html">Build PaddlePaddle from Sources</a></li>
 </ul>
 </li>
 </ul>
@@ -757,8 +758,8 @@ be used.</li>
 <dd><p>A layer performs spatial pyramid pooling.</p>
 <dl class="docutils">
 <dt>Reference:</dt>
-<dd>Spatial Pyramid Pooling in Deep Convolutional Networks for Visual Recognition
-<a class="reference external" href="https://arxiv.org/abs/1406.4729">https://arxiv.org/abs/1406.4729</a></dd>
+<dd><a href="#id12"><span class="problematic" id="id13">`Spatial Pyramid Pooling in Deep Convolutional Networks for Visual Recognition
+https://arxiv.org/abs/1406.4729`_</span></a></dd>
 </dl>
 <p>The example usage is:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">spp</span> <span class="o">=</span> <span class="n">spp</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
@@ -813,10 +814,10 @@ details.</li>
 to be devided by groups.</p>
 <dl class="docutils">
 <dt>Reference:</dt>
-<dd>Maxout Networks
-<a class="reference external" href="http://www.jmlr.org/proceedings/papers/v28/goodfellow13.pdf">http://www.jmlr.org/proceedings/papers/v28/goodfellow13.pdf</a>
-Multi-digit Number Recognition from Street View Imagery using Deep Convolutional Neural Networks
-<a class="reference external" href="https://arxiv.org/pdf/1312.6082v4.pdf">https://arxiv.org/pdf/1312.6082v4.pdf</a></dd>
+<dd><a href="#id14"><span class="problematic" id="id15">`Maxout Networks
+http://www.jmlr.org/proceedings/papers/v28/goodfellow13.pdf`_</span></a>
+<a href="#id16"><span class="problematic" id="id17">`Multi-digit Number Recognition from Street View Imagery using Deep Convolutional Neural Networks
+https://arxiv.org/pdf/1312.6082v4.pdf`_</span></a></dd>
 </dl>
 <div class="math">
 \[y_{si+j} = \max_k x_{gsi + sk + j}
@@ -899,8 +900,8 @@ feature map.</p>
 <dd><p>Response normalization across feature maps.</p>
 <dl class="docutils">
 <dt>Reference:</dt>
-<dd>ImageNet Classification with Deep Convolutional Neural Networks
-<a class="reference external" href="http://www.cs.toronto.edu/~fritz/absps/imagenet.pdf">http://www.cs.toronto.edu/~fritz/absps/imagenet.pdf</a></dd>
+<dd><a href="#id18"><span class="problematic" id="id19">`ImageNet Classification with Deep Convolutional Neural Networks
+http://www.cs.toronto.edu/~fritz/absps/imagenet.pdf`_</span></a></dd>
 </dl>
 <p>The example usage is:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">norm</span> <span class="o">=</span> <span class="n">img_cmrnorm</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">net</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
@@ -952,9 +953,9 @@ details.</li>
 y_i &amp;\gets \gamma \hat{x_i} + \beta \qquad &amp;//\ scale\ and\ shift\end{split}\]</div>
 <dl class="docutils">
 <dt>Reference:</dt>
-<dd>Batch Normalization: Accelerating Deep Network Training by Reducing
+<dd><a href="#id20"><span class="problematic" id="id21">`Batch Normalization: Accelerating Deep Network Training by Reducing
 Internal Covariate Shift
-<a class="reference external" href="http://arxiv.org/abs/1502.03167">http://arxiv.org/abs/1502.03167</a></dd>
+http://arxiv.org/abs/1502.03167`_</span></a></dd>
 </dl>
 <p>The example usage is:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">norm</span> <span class="o">=</span> <span class="n">batch_norm</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">net</span><span class="p">,</span> <span class="n">act</span><span class="o">=</span><span class="n">paddle</span><span class="o">.</span><span class="n">v2</span><span class="o">.</span><span class="n">activation</span><span class="o">.</span><span class="n">Relu</span><span class="p">())</span>
@@ -2495,16 +2496,12 @@ parameter is set to True, the bias is initialized to zero.</li>
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">repeat</code></dt>
 <dd><p>A layer for repeating the input for num_repeats times.</p>
-<p>If as_row_vector:
-.. math:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">y</span>  <span class="o">=</span> <span class="p">[</span><span class="n">x_1</span><span class="p">,</span>\<span class="n">cdots</span><span class="p">,</span> <span class="n">x_n</span><span class="p">,</span> \<span class="n">cdots</span><span class="p">,</span> <span class="n">x_1</span><span class="p">,</span> \<span class="n">cdots</span><span class="p">,</span> <span class="n">x_n</span><span class="p">]</span>
-</pre></div>
-</div>
-<p>If not as_row_vector:
-.. math:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">y</span>  <span class="o">=</span> <span class="p">[</span><span class="n">x_1</span><span class="p">,</span>\<span class="n">cdots</span><span class="p">,</span> <span class="n">x_1</span><span class="p">,</span> \<span class="n">cdots</span><span class="p">,</span> <span class="n">x_n</span><span class="p">,</span> \<span class="n">cdots</span><span class="p">,</span> <span class="n">x_n</span><span class="p">]</span>
-</pre></div>
-</div>
+<p>If as_row_vector:</p>
+<div class="math">
+\[y  = [x_1,\cdots, x_n, \cdots, x_1, \cdots, x_n]\]</div>
+<p>If not as_row_vector:</p>
+<div class="math">
+\[y  = [x_1,\cdots, x_1, \cdots, x_n, \cdots, x_n]\]</div>
 <p>The example usage is:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">expand</span> <span class="o">=</span> <span class="n">repeat</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">layer</span><span class="p">,</span> <span class="n">num_repeats</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 </pre></div>
@@ -2515,15 +2512,15 @@ parameter is set to True, the bias is initialized to zero.</li>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer.</li>
-<li><strong>num_repeats</strong> (<em>int</em>) &#8211; Repeat the input so many times</li>
+<li><strong>num_repeats</strong> (<em>int</em>) &#8211; The times of repeating the input.</li>
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
-<li><strong>as_row_vector</strong> (<em>bool</em>) &#8211; True for treating input as row vector and repeating
-in the column direction.  This is equivalent to apply
-concat() with num_repeats same input.
-False for treating input as column vector and repeating
-in the row direction.</li>
+<li><strong>as_row_vector</strong> (<em>bool</em>) &#8211; Whether to treat the input as row vectors or not. If
+the parameter is set to True, the repeating operation
+will be performed in the column direction. Otherwise,
+it will be performed in the row direction.</li>
 <li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type. paddle.v2.activation.Identity is the default activation.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; extra layer attributes.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
 </ul>
 </td>
 </tr>
@@ -2560,9 +2557,11 @@ usually used when the input sample is some image or feature map.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer.</li>
-<li><strong>height</strong> (<em>int</em>) &#8211; The height of the sample matrix</li>
+<li><strong>height</strong> (<em>int</em>) &#8211; The height of the sample matrix.</li>
+<li><strong>width</strong> (<em>int</em>) &#8211; The width of the sample matrix.</li>
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; extra layer attributes.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
 </ul>
 </td>
 </tr>
@@ -2596,10 +2595,11 @@ output sequence has T*M/N instances, the dimension of each instance is N.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer.</li>
-<li><strong>reshape_size</strong> (<em>int</em>) &#8211; the size of reshaped sequence.</li>
+<li><strong>reshape_size</strong> (<em>int</em>) &#8211; The dimension of the reshaped sequence.</li>
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type. paddle.v2.activation.Identity is the default activation.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; extra layer attributes.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
 <li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | None | bool | Any</em>) &#8211; The bias attribute. If the parameter is set to False or an object
 whose type is not paddle.v2.attr.ParameterAttribute, no bias is defined. If the
 parameter is set to True, the bias is initialized to zero.</li>
@@ -2739,7 +2739,7 @@ details.</li>
 <dl class="class">
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">interpolation</code></dt>
-<dd><p>This layer is for linear interpolation with two inputs,
+<dd><p>This layer performs linear interpolation on two inputs,
 which is used in NEURAL TURING MACHINE.</p>
 <div class="math">
 \[y.row[i] = w[i] * x_1.row[i] + (1 - w[i]) * x_2.row[i]\]</div>
@@ -2758,7 +2758,8 @@ which is used in NEURAL TURING MACHINE.</p>
 <li><strong>input</strong> (<em>list | tuple</em>) &#8211; The input of this layer.</li>
 <li><strong>weight</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Weight layer.</li>
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; extra layer attributes.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
 </ul>
 </td>
 </tr>
@@ -2778,7 +2779,7 @@ which is used in NEURAL TURING MACHINE.</p>
 <dl class="class">
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">bilinear_interp</code></dt>
-<dd><p>This layer is to implement bilinear interpolation on conv layer output.</p>
+<dd><p>This layer implements bilinear interpolation on convolutional layer&#8217;s output.</p>
 <p>Please refer to Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Bilinear_interpolation">https://en.wikipedia.org/wiki/Bilinear_interpolation</a></p>
 <p>The simple usage is:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">bilinear</span> <span class="o">=</span> <span class="n">bilinear_interp</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">layer1</span><span class="p">,</span> <span class="n">out_size_x</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">out_size_y</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
@@ -2789,11 +2790,12 @@ which is used in NEURAL TURING MACHINE.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>input</strong> (<em>paddle.v2.config_base.Layer.</em>) &#8211; A input layer.</li>
-<li><strong>out_size_x</strong> (<em>int | None</em>) &#8211; bilinear interpolation output width.</li>
-<li><strong>out_size_y</strong> (<em>int | None</em>) &#8211; bilinear interpolation output height.</li>
-<li><strong>name</strong> (<em>None | basestring</em>) &#8211; The layer&#8217;s name, which cna not be specified.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; Extra Layer attribute.</li>
+<li><strong>input</strong> (<em>paddle.v2.config_base.Layer.</em>) &#8211; The input of this layer.</li>
+<li><strong>out_size_x</strong> (<em>int</em>) &#8211; The width of the output.</li>
+<li><strong>out_size_y</strong> (<em>int</em>) &#8211; The height of the output.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
 </ul>
 </td>
 </tr>
@@ -2824,7 +2826,7 @@ which is used in NEURAL TURING MACHINE.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
-<li><strong>input1</strong> &#8211; The first input layer.</li>
+<li><strong>input1</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The first input layer.</li>
 <li><strong>input2</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The second input layer.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
 details.</li>
@@ -2886,8 +2888,8 @@ details.</li>
 which is used in NEURAL TURING MACHINE.</p>
 <div class="math">
 \[y = x^w\]</div>
-<p>where <span class="math">\(x\)</span> is a input vector, <span class="math">\(w\)</span> is scalar weight,
-and <span class="math">\(y\)</span> is a output vector.</p>
+<p>where <span class="math">\(x\)</span> is an input vector, <span class="math">\(w\)</span> is a scalar exponent,
+and <span class="math">\(y\)</span> is an output vector.</p>
 <p>The example usage is:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">power</span> <span class="o">=</span> <span class="n">power</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">layer1</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="n">layer2</span><span class="p">)</span>
 </pre></div>
@@ -2898,9 +2900,10 @@ and <span class="math">\(y\)</span> is a output vector.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer.</li>
-<li><strong>weight</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Weight layer.</li>
+<li><strong>weight</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The exponent of the power.</li>
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; extra layer attributes.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
 </ul>
 </td>
 </tr>
@@ -2937,9 +2940,10 @@ processed in one batch.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer.</li>
-<li><strong>weight</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Weight layer.</li>
+<li><strong>weight</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The weight of each sample.</li>
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; extra layer attributes.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
 </ul>
 </td>
 </tr>
@@ -3147,11 +3151,11 @@ processed in one batch.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
-<li><strong>a</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; input layer a</li>
-<li><strong>b</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; input layer b</li>
-<li><strong>scale</strong> (<em>float</em>) &#8211; scale for cosine value. default is 5.</li>
-<li><strong>size</strong> (<em>int</em>) &#8211; layer size. NOTE size_a * size should equal size_b.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; Extra Layer Attribute.</li>
+<li><strong>a</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The first input of this layer.</li>
+<li><strong>b</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The second input of this layer.</li>
+<li><strong>scale</strong> (<em>float</em>) &#8211; The scale of the cosine similarity. 1 is the default value.</li>
+<li><strong>size</strong> (<em>int</em>) &#8211; The dimension of this layer. NOTE size_a * size should equal size_b.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for details.</li>
 </ul>
 </td>
 </tr>
@@ -3229,7 +3233,8 @@ See paddle.v2.attr.ExtraAttribute for more details.</li>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer.</li>
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; extra layer attributes.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
 </ul>
 </td>
 </tr>
@@ -3398,6 +3403,77 @@ details.</li>
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="factorization-machine-layer">
+<h2>Factorization Machine Layer<a class="headerlink" href="#factorization-machine-layer" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="factorization-machine">
+<h3>factorization_machine<a class="headerlink" href="#factorization-machine" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">factorization_machine</code></dt>
+<dd><blockquote>
+<div><p>The Factorization Machine models pairwise feature interactions as inner
+product of the learned latent vectors corresponding to each input feature.
+The Factorization Machine can effectively capture feature interactions
+especially when the input is sparse.</p>
+<p>This implementation only consider the 2-order feature interactions using
+Factorization Machine with the formula:</p>
+<div class="math">
+\[y = \sum_{i=1}^{n-1}\sum_{j=i+1}^n\langle v_i, v_j\]</div>
+</div></blockquote>
+<p>angle x_i x_j</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>Note:</dt>
+<dd>X is the input vector with size n. V is the factor matrix. Each row of V
+is the latent vector corresponding to each input dimesion. The size of
+each latent vector is k.</dd>
+</dl>
+<p>For details of Factorization Machine, please refer to the paper:
+Factorization machines.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param input:</th><td class="field-body">The input layer. Supported input types: all input data types
+on CPU, and only dense input types on GPU.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">type input:</th><td class="field-body">paddle.v2.config_base.Layer</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">param factor_size:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The hyperparameter that defines the dimensionality of
+the latent vector size.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">type context_len:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">int</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">param act:</th><td class="field-body">Activation Type. Default is linear activation.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">type act:</th><td class="field-body">paddle.v2.activation.Base</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">param param_attr:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The parameter attribute. See paddle.v2.attr.ParameterAttribute for
+details.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">type param_attr:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">paddle.v2.attr.ParameterAttribute</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">param layer_attr:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">Extra Layer config.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">type layer_attr:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">paddle.v2.attr.ExtraAttributeNone</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">return:</th><td class="field-body">paddle.v2.config_base.Layer object.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">rtype:</th><td class="field-body">paddle.v2.config_base.Layer</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
 </dd></dl>
 
 </div>
@@ -3799,8 +3875,8 @@ details.</li>
 <dd><p>A cost Layer for learning to rank using gradient descent.</p>
 <dl class="docutils">
 <dt>Reference:</dt>
-<dd>Learning to Rank using Gradient Descent
-<a class="reference external" href="http://research.microsoft.com/en-us/um/people/cburges/papers/ICML_ranking.pdf">http://research.microsoft.com/en-us/um/people/cburges/papers/ICML_ranking.pdf</a></dd>
+<dd><a href="#id22"><span class="problematic" id="id23">`Learning to Rank using Gradient Descent
+http://research.microsoft.com/en-us/um/people/cburges/papers/ICML_ranking.pdf`_</span></a></dd>
 </dl>
 <div class="math">
 \[ \begin{align}\begin{aligned}C_{i,j} &amp; = -\tilde{P_{ij}} * o_{i,j} + log(1 + e^{o_{i,j}})\\o_{i,j} &amp; =  o_i - o_j\\\tilde{P_{i,j}} &amp; = \{0, 0.5, 1\} \ or \ \{0, 1\}\end{aligned}\end{align} \]</div>
@@ -3979,9 +4055,9 @@ classication task. e.g. sequence labeling problems where the
 alignment between the inputs and the target labels is unknown.</p>
 <dl class="docutils">
 <dt>Reference:</dt>
-<dd>Connectionist Temporal Classification: Labelling Unsegmented Sequence Data
+<dd><a href="#id24"><span class="problematic" id="id25">`Connectionist Temporal Classification: Labelling Unsegmented Sequence Data
 with Recurrent Neural Networks
-<a class="reference external" href="http://machinelearning.wustl.edu/mlpapers/paper_files/icml2006_GravesFGS06.pdf">http://machinelearning.wustl.edu/mlpapers/paper_files/icml2006_GravesFGS06.pdf</a></dd>
+http://machinelearning.wustl.edu/mlpapers/paper_files/icml2006_GravesFGS06.pdf`_</span></a></dd>
 </dl>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -4037,9 +4113,9 @@ building process, PaddlePaddle will clone the source codes, build and
 install it to <code class="code docutils literal"><span class="pre">third_party/install/warpctc</span></code> directory.</p>
 <dl class="docutils">
 <dt>Reference:</dt>
-<dd>Connectionist Temporal Classification: Labelling Unsegmented Sequence Data
+<dd><a href="#id26"><span class="problematic" id="id27">`Connectionist Temporal Classification: Labelling Unsegmented Sequence Data
 with Recurrent Neural Networks
-<a class="reference external" href="http://machinelearning.wustl.edu/mlpapers/paper_files/icml2006_GravesFGS06.pdf">http://machinelearning.wustl.edu/mlpapers/paper_files/icml2006_GravesFGS06.pdf</a></dd>
+http://machinelearning.wustl.edu/mlpapers/paper_files/icml2006_GravesFGS06.pdf`_</span></a></dd>
 </dl>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -4096,8 +4172,8 @@ details.</li>
 <dd><p>Noise-contrastive estimation.</p>
 <dl class="docutils">
 <dt>Reference:</dt>
-<dd>A fast and simple algorithm for training neural probabilistic language
-models. <a class="reference external" href="https://www.cs.toronto.edu/~amnih/papers/ncelm.pdf">https://www.cs.toronto.edu/~amnih/papers/ncelm.pdf</a></dd>
+<dd><a href="#id28"><span class="problematic" id="id29">`A fast and simple algorithm for training neural probabilistic language
+models. https://www.cs.toronto.edu/~amnih/papers/ncelm.pdf`_</span></a></dd>
 </dl>
 <p>The example usage is:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">cost</span> <span class="o">=</span> <span class="n">nce</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="p">[</span><span class="n">layer1</span><span class="p">,</span> <span class="n">layer2</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">layer2</span><span class="p">,</span>
@@ -4154,9 +4230,11 @@ details.</li>
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">hsigmoid</code></dt>
 <dd><p>Organize the classes into a binary tree. At each node, a sigmoid function
-is used to calculate the probability of belonging to the right branch.
-This idea is from &#8220;F. Morin, Y. Bengio (AISTATS 05):
-Hierarchical Probabilistic Neural Network Language Model.&#8221;</p>
+is used to calculate the probability of belonging to the right branch.</p>
+<dl class="docutils">
+<dt>Reference:</dt>
+<dd><a class="reference external" href="http://www.gatsby.ucl.ac.uk/aistats/fullpapers/208.pdf">Hierarchical Probabilistic Neural Network Language Model</a></dd>
+</dl>
 <p>The example usage is:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">cost</span> <span class="o">=</span> <span class="n">hsigmoid</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="p">[</span><span class="n">layer1</span><span class="p">,</span> <span class="n">layer2</span><span class="p">],</span>
                 <span class="n">label</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
@@ -4168,14 +4246,16 @@ Hierarchical Probabilistic Neural Network Language Model.&#8221;</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer | list | tuple</em>) &#8211; The input of this layer.</li>
-<li><strong>label</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Label layer.</li>
-<li><strong>num_classes</strong> (<em>int | None</em>) &#8211; number of classes.</li>
+<li><strong>label</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input label.</li>
+<li><strong>num_classes</strong> (<em>int</em>) &#8211; The number of classes. And it should be larger than 2. If the parameter
+is not set or set to None, its actual value will be automatically set to
+the number of labels.</li>
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | None | bool | Any</em>) &#8211; The bias attribute. If the parameter is set to False or an object
 whose type is not paddle.v2.attr.ParameterAttribute, no bias is defined. If the
 parameter is set to True, the bias is initialized to zero.</li>
-<li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | None</em>) &#8211; Parameter Attribute. None means default parameter.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; Extra Layer Attribute.</li>
+<li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The parameter attribute. See paddle.v2.attr.ParameterAttribute for details.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for details.</li>
 </ul>
 </td>
 </tr>
@@ -4204,8 +4284,8 @@ sizes of input and label are equal. The formula is as follows,</p>
 \[\begin{split}smooth_{L1}(x) = \begin{cases} 0.5x^2&amp; \text{if}  \ |x| &lt; 1 \\ |x|-0.5&amp; \text{otherwise} \end{cases}\end{split}\]</div>
 <dl class="docutils">
 <dt>Reference:</dt>
-<dd>Fast R-CNN
-<a class="reference external" href="https://arxiv.org/pdf/1504.08083v2.pdf">https://arxiv.org/pdf/1504.08083v2.pdf</a></dd>
+<dd><a href="#id30"><span class="problematic" id="id31">`Fast R-CNN
+https://arxiv.org/pdf/1504.08083v2.pdf`_</span></a></dd>
 </dl>
 <p>The example usage is:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">cost</span> <span class="o">=</span> <span class="n">smooth_l1_cost</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="nb">input</span><span class="p">,</span>
@@ -4355,8 +4435,8 @@ details.</li>
 <dd><p>The Parametric Relu activation that actives outputs with a learnable weight.</p>
 <dl class="docutils">
 <dt>Reference:</dt>
-<dd>Delving Deep into Rectifiers: Surpassing Human-Level Performance on
-ImageNet Classification <a class="reference external" href="http://arxiv.org/pdf/1502.01852v1.pdf">http://arxiv.org/pdf/1502.01852v1.pdf</a></dd>
+<dd><a href="#id32"><span class="problematic" id="id33">`Delving Deep into Rectifiers: Surpassing Human-Level Performance on
+ImageNet Classification http://arxiv.org/pdf/1502.01852v1.pdf`_</span></a></dd>
 </dl>
 <div class="math">
 \[\begin{split}z_i &amp;\quad if \quad z_i &gt; 0 \\
@@ -4414,8 +4494,8 @@ it is also used to produce a gate weight <span class="math">\(\sigma\)</span>. E
 product between <a href="#id10"><span class="problematic" id="id11">:match:`X&#8217;`</span></a> and <span class="math">\(\sigma\)</span> is finally returned.</p>
 <dl class="docutils">
 <dt>Reference:</dt>
-<dd>Language Modeling with Gated Convolutional Networks
-<a class="reference external" href="https://arxiv.org/abs/1612.08083">https://arxiv.org/abs/1612.08083</a></dd>
+<dd><a href="#id34"><span class="problematic" id="id35">`Language Modeling with Gated Convolutional Networks
+https://arxiv.org/abs/1612.08083`_</span></a></dd>
 </dl>
 <div class="math">
 \[y=\text{act}(X \cdot W + b)\otimes \sigma(X \cdot V + c)\]</div>
