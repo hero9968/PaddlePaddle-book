@@ -243,7 +243,7 @@
         1    0.618    0.618    0.618    0.618 /home/yuyang/perf_test/.env/lib/python2.7/site-packages/paddle/v2/fluid/__init__.py:1(&lt;module&gt;)
 </pre></div>
 </div>
-<p>可以看到最耗时的函数是C++端的<code class="docutils literal"><span class="pre">run</span></code>函数。这需要联合我们第二节<code class="docutils literal"><span class="pre">Python与C++混合代码的性能分析</span></code>来进行调优。而<code class="docutils literal"><span class="pre">sync_with_cpp</span></code>函数的总共耗时很长，每次调用的耗时也很长。于是我们可以点击<code class="docutils literal"><span class="pre">sync_with_cpp</span></code>的详细信息，了解其调用关系。</p>
+<p>可以看到最耗时的函数是C++端的<code class="docutils literal"><span class="pre">run</span></code>函数。这需要联合我们第二节<code class="docutils literal"><span class="pre">Python</span></code>与<code class="docutils literal"><span class="pre">C++</span></code>混合代码的性能分析来进行调优。而<code class="docutils literal"><span class="pre">sync_with_cpp</span></code>函数的总共耗时很长，每次调用的耗时也很长。于是我们可以点击<code class="docutils literal"><span class="pre">sync_with_cpp</span></code>的详细信息，了解其调用关系。</p>
 <div class="highlight-text"><div class="highlight"><pre><span></span>Called By:
 
    Ordered by: internal time
@@ -284,7 +284,7 @@ pip install yep
 <ol class="simple">
 <li>编译时指定<code class="docutils literal"><span class="pre">-g</span></code>生成调试信息。使用cmake的话，可以将CMAKE_BUILD_TYPE指定为<code class="docutils literal"><span class="pre">RelWithDebInfo</span></code>。</li>
 <li>编译时一定要开启优化。单纯的<code class="docutils literal"><span class="pre">Debug</span></code>编译性能会和<code class="docutils literal"><span class="pre">-O2</span></code>或者<code class="docutils literal"><span class="pre">-O3</span></code>有非常大的差别。<code class="docutils literal"><span class="pre">Debug</span></code>模式下的性能测试是没有意义的。</li>
-<li>运行性能分析的时候，先从单线程开始，再开启多线程，进而多机。毕竟如果单线程调试更容易。可以设置<code class="docutils literal"><span class="pre">OMP_NUM_THREADS=1</span></code>这个环境变量关闭openmp优化。</li>
+<li>运行性能分析的时候，先从单线程开始，再开启多线程，进而多机。毕竟单线程调试更容易。可以设置<code class="docutils literal"><span class="pre">OMP_NUM_THREADS=1</span></code>这个环境变量关闭openmp优化。</li>
 </ol>
 </div>
 <div class="section" id="">
