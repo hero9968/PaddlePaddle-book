@@ -227,6 +227,52 @@
 <li><a class="reference external" href="https://github.com/ARM-software/ComputeLibrary">ARM compute library</a> &gt;= 17.02.01 supports NEON FP16 kernels (requires ARMv8.2-A CPU).</li>
 </ul>
 </div>
+<div class="section" id="cuda-version-issue">
+<span id="cuda-version-issue"></span><h3>CUDA version issue<a class="headerlink" href="#cuda-version-issue" title="Permalink to this headline">¶</a></h3>
+<p>There are currently three versions of CUDA that supports <code class="docutils literal"><span class="pre">__half</span></code> data type, namely, CUDA 7.5, 8.0, and 9.0.
+CUDA 7.5 and 8.0 define <code class="docutils literal"><span class="pre">__half</span></code> as a simple struct that has a <code class="docutils literal"><span class="pre">uint16_t</span></code> data (see <a class="reference external" href="https://github.com/ptillet/isaac/blob/9212ab5a3ddbe48f30ef373f9c1fb546804c7a8c/include/isaac/external/CUDA/cuda_fp16.h"><code class="docutils literal"><span class="pre">cuda_fp16.h</span></code></a>) as follows:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">typedef</span> <span class="n">struct</span> <span class="n">__align__</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+   <span class="n">unsigned</span> <span class="n">short</span> <span class="n">x</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">__half</span><span class="p">;</span>
+
+<span class="n">typedef</span> <span class="n">__half</span> <span class="n">half</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>This struct does not define any overloaded arithmetic operators. So you have to directly use <code class="docutils literal"><span class="pre">__hadd</span></code> instead of <code class="docutils literal"><span class="pre">+</span></code> to correctly add two half types:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">__global__</span> <span class="n">void</span> <span class="n">Add</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">half</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">;</span>
+  <span class="n">c</span> <span class="o">=</span> <span class="n">__hadd</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">);</span> <span class="o">//</span> <span class="n">correct</span>
+  <span class="n">c</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">;</span> <span class="o">//</span> <span class="n">compiler</span> <span class="n">error</span><span class="p">:</span> <span class="n">no</span> <span class="n">operator</span> <span class="s2">&quot;+&quot;</span> <span class="n">matches</span> <span class="n">these</span> <span class="n">operands</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>CUDA 9.0 provides a major update to the half data type. The related code can be found in the updated <a class="reference external" href="https://github.com/ptillet/isaac/blob/master/include/isaac/external/CUDA/cuda_fp16.h"><code class="docutils literal"><span class="pre">cuda_fp16.h</span></code></a> and the newly added <a class="reference external" href="https://github.com/ptillet/isaac/blob/master/include/isaac/external/CUDA/cuda_fp16.hpp"><code class="docutils literal"><span class="pre">cuda_fp16.hpp</span></code></a>.</p>
+<p>Essentially, CUDA 9.0 renames the original <code class="docutils literal"><span class="pre">__half</span></code> type in 7.5 and 8.0 as <code class="docutils literal"><span class="pre">__half_raw</span></code>, and defines a new <code class="docutils literal"><span class="pre">__half</span></code> class type that has constructors, conversion operators, and also provides overloaded arithmetic operators such as follows:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">typedef</span> <span class="n">struct</span> <span class="n">__CUDA_ALIGN__</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">unsigned</span> <span class="n">short</span> <span class="n">x</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">__half_raw</span><span class="p">;</span>
+
+
+<span class="n">struct</span> <span class="n">__CUDA_ALIGN__</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="n">__half</span> <span class="p">{</span>
+<span class="n">protected</span><span class="p">:</span>
+    <span class="n">unsigned</span> <span class="n">short</span> <span class="n">__x</span><span class="p">;</span>
+<span class="n">public</span><span class="p">:</span>
+    <span class="o">//</span> <span class="n">constructors</span> <span class="ow">and</span> <span class="n">conversion</span> <span class="n">operators</span> <span class="n">from</span><span class="o">/</span><span class="n">to</span> 
+    <span class="o">//</span> <span class="n">__half_raw</span> <span class="ow">and</span> <span class="n">other</span> <span class="n">built</span><span class="o">-</span><span class="ow">in</span> <span class="n">data</span> <span class="n">types</span>
+<span class="p">}</span>
+
+<span class="n">typedef</span> <span class="n">__half</span> <span class="n">half</span><span class="p">;</span>
+
+<span class="n">__device__</span> <span class="n">__forceinline__</span> 
+<span class="n">__half</span> <span class="n">operator</span><span class="o">+</span><span class="p">(</span><span class="n">const</span> <span class="n">__half</span> <span class="o">&amp;</span><span class="n">lh</span><span class="p">,</span> <span class="n">const</span> <span class="n">__half</span> <span class="o">&amp;</span><span class="n">rh</span><span class="p">)</span> <span class="p">{</span> 
+    <span class="k">return</span> <span class="n">__hadd</span><span class="p">(</span><span class="n">lh</span><span class="p">,</span> <span class="n">rh</span><span class="p">);</span> 
+<span class="p">}</span>
+
+<span class="o">//</span> <span class="n">Other</span> <span class="n">overloaded</span> <span class="n">operators</span>
+</pre></div>
+</div>
+<p>This new design makes <code class="docutils literal"><span class="pre">c</span> <span class="pre">=</span> <span class="pre">a</span> <span class="pre">+</span> <span class="pre">b</span></code> work correctly for CUDA half data type.</p>
+</div>
 </div>
 <div class="section" id="implementation">
 <span id="implementation"></span><h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>
