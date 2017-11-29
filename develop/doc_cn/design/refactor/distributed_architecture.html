@@ -207,93 +207,57 @@
 <span id="design-doc-distributed-training-architecture"></span><h1>Design Doc: Distributed Training Architecture<a class="headerlink" href="#design-doc-distributed-training-architecture" title="永久链接至标题">¶</a></h1>
 <div class="section" id="abstract">
 <span id="abstract"></span><h2>Abstract<a class="headerlink" href="#abstract" title="永久链接至标题">¶</a></h2>
-<p>PaddlePaddle v0.10.0 uses the &#8220;trainer-parameter server&#8221;
-architecture. We run multiple replicated instances of trainers (runs
-the same code written by the user) and parameter servers for
-distributed training. This architecture served us well, but has some
-limitations:</p>
+<p>PaddlePaddle version 0.10.0 uses the &#8220;trainer-parameter server&#8221; architecture. We run multiple instances of trainers (where each trainer runs the same model) and parameter servers for distributed training. This architecture serves well, but has few limitations:</p>
 <ol class="simple">
-<li>Need to write special code to handle tasks which should only be run
-by a single trainer. E.g., initializing model and saving model.</li>
-<li>Model parallelism is hard: need to write if-else branches conditioned
-on the trainer ID to partition model onto each trainer, and manually
-write the inter-model-shard communication code.</li>
-<li>The user can not directly specify the parameter update rule: need
-to modify the parameter server C++ code and compile a new
-binary. This adds complication for researchers: A lot of extra
-effort is required. Besides, the training job submission program
-may not allow running arbitrary binaries.</li>
+<li>There is a need to write special code that handles tasks which should only be run on a single trainer. E.g., initializing the model, saving the model etc.</li>
+<li>Model parallelism is hard: It would need all the if-else branches conditioned on the trainer ID to partition the model onto the trainers, and eventually manually writing out the inter-model-shard communication code to communicate between different trainers.</li>
+<li>The user can not directly specify the parameter update rule: This would need to modify the parameter server code and compile a new binary. This makes things more complicated for researchers: A lot of extra effort is required to make this work. Besides, the training job submission program may not allow running arbitrary binaries.</li>
 </ol>
-<p>This design doc discusses PaddlePaddle&#8217;s new distributed training
-architecture that addresses the above limitations.</p>
+<p>This design doc discusses PaddlePaddle&#8217;s new distributed training architecture that addresses the above mentioned limitations.</p>
 </div>
 <div class="section" id="analysis">
 <span id="analysis"></span><h2>Analysis<a class="headerlink" href="#analysis" title="永久链接至标题">¶</a></h2>
-<p>We will assume the user writes the trainer program by Python, the same
-analysis holds if the trainer program is written in C++.</p>
+<p>The assumption is that the user writes the trainer program in either Python or C++.</p>
 <div class="section" id="limitation-1">
 <span id="limitation-1"></span><h3>Limitation 1<a class="headerlink" href="#limitation-1" title="永久链接至标题">¶</a></h3>
-<p>If we look at the Python code that the user writes, there are two
-kinds of functionalities:</p>
-<ul class="simple">
-<li>The training logic such as load / save model and print log.</li>
-<li>The neural network definition such as the definition of the data
-layer, the fully connected layer, the cost function and the
+<p>There are two basic functionalities in the trainer program:</p>
+<ol class="simple">
+<li>The training logic such as loading / saving the model and printing out the logs.</li>
+<li>The neural network definition such as the definition of the data layer, the fully connected layer, the cost function and the
 optimizer.</li>
-</ul>
-<p>When we training with PaddlePaddle v0.10.0 distributedly, multiple
-replicated Python instances are running on different nodes: both the
-training logic and the neural network computation is replicated.</p>
-<p>The tasks that should only run once all belong to the training logic,
-if we only replicate the neural network computation, but do <strong>not</strong>
-replicate the training logic, the limitation could be solved.</p>
+</ol>
+<p>When we train using PaddlePaddle v0.10.0 in a distributed fashion, multiple instances of the same Python code are run on different nodes, hence both: the
+training logic as well as the neural network computation logic, is replicated.</p>
+<p>The tasks that only need to be run once belong to the training logic. Hence if we only replicate the neural network computation part, and do <strong>not</strong>
+replicate the training logic, the limitation mentioned above can be avoided.</p>
 </div>
 <div class="section" id="limitation-2">
 <span id="limitation-2"></span><h3>Limitation 2<a class="headerlink" href="#limitation-2" title="永久链接至标题">¶</a></h3>
-<p>Model parallelism means running a single model on multiple nodes by
-partitioning the model onto different nodes and managing the
-inter-model-shard communications.</p>
-<p>PaddlePaddle should be able to modify the nerual network computation
-definition to support model parallelism automatically. However, the
-computation is only specified in Python code, and PaddlePaddle can not
-modify Python code.</p>
-<p>Just like compiler uses a intermediate representation (IR) so that
-programmer does not need to manually optimize their code in most of
-the cases - the compiler will optimize the IR:</p>
+<p>Model parallelism means that a single model is partitioned into different components and each node runs one of the component separately. This comes at the extra cost of managing the
+inter-model-shard communication between nodes.</p>
+<p>PaddlePaddle should ideally be able to modify the neural network computation and figure out the support for model parallelism automatically. However, the
+computation is only specified in Python code which sits outside of PaddlePaddle, hence PaddlePaddle can not support the feature in this setup.</p>
+<p>Similar to how a compiler uses an intermediate representation (IR) so that the programmer does not need to manually optimize their code for most of the cases, we can have an intermediate representation in PaddlePaddle as well. The compiler optimizes the IR as follows:</p>
 <p><img src="src/compiler.png"/></p>
-<p>We can have our own IR too: PaddlePaddle can support model parallel by
-converting the IR so the user no longer need to manually do it in
-Python:</p>
+<p>PaddlePaddle can support model parallelism by converting the IR so that the user no longer needs to manually perform the computation and operations in the Python component:</p>
 <p><img src="src/paddle-compile.png"/></p>
-<p>The IR for PaddlePaddle after refactor is called <code class="docutils literal"><span class="pre">Block</span></code>, it specifies
-the computation dependency graph and the variables used in the
-computation.</p>
+<p>The IR for PaddlePaddle after refactoring is called a <code class="docutils literal"><span class="pre">Block</span></code>, it specifies the computation dependency graph and the variables used in the computation.</p>
 </div>
 <div class="section" id="limitation-3">
 <span id="limitation-3"></span><h3>Limitation 3<a class="headerlink" href="#limitation-3" title="永久链接至标题">¶</a></h3>
-<p>The user can not directly specify the parameter update rule for the
-parameter server because the parameter server does not use the same
-computation definition as the trainer. Instead, the update rule is
-baked in the parameter server. The user can not specify the update
-rule in the same way of specifying the trainer computation.</p>
-<p>This could be fixed by making the parameter server run the same
-computation definition as the trainer. For a detailed explanation,
-please
-see
+<p>The user can not directly specify the parameter update rule for the parameter server in the Python module, since the parameter server does not use the same computation definition as the trainer. Instead, the update rule is baked inside the parameter server. The user can not specify the update rule explicitly.</p>
+<p>This could be fixed by making the parameter server run the same computation definition as the trainer (the user&#8217;s Python module). For a detailed explanation, refer to this document -
 <a class="reference external" href="design/refactor/dist_train.md">Design Doc: Operation Graph Based Parameter Server</a></p>
 </div>
 </div>
 <div class="section" id="distributed-training-architecture">
 <span id="distributed-training-architecture"></span><h2>Distributed Training Architecture<a class="headerlink" href="#distributed-training-architecture" title="永久链接至标题">¶</a></h2>
-<p>The new distributed training architecture can address the above
-limitations. Below is the illustration:</p>
+<p>The revamped distributed training architecture can address the above discussed limitations. Below is the illustration of how it does so:</p>
 <p><img src="src/distributed_architecture.png"/></p>
-<p>The architecture includes major components: <em>PaddlePaddle Python</em>,
-<em>PaddlePaddle converter</em> and <em>PaddlePaddle runtime</em>:</p>
+<p>The major components in the architecture are: <em>PaddlePaddle Python</em>, <em>PaddlePaddle converter</em> and <em>PaddlePaddle runtime</em>.</p>
 <div class="section" id="paddlepaddle-python">
 <span id="paddlepaddle-python"></span><h3>PaddlePaddle Python<a class="headerlink" href="#paddlepaddle-python" title="永久链接至标题">¶</a></h3>
-<p>PaddlePaddle Python is the Python library that user&#8217;s Python trainer
-invoke to build the neural network topology, start training, etc.</p>
+<p>PaddlePaddle Python is the Python library that user&#8217;s Python code invokes, to read the data. build the neural network topology, start training, etc.</p>
 <div class="highlight-Python"><div class="highlight"><pre><span></span><span class="n">paddle</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
 <span class="nb">input</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">op</span><span class="o">.</span><span class="n">recordIO</span><span class="p">(</span><span class="s2">&quot;/home/data/mnist.recordio&quot;</span><span class="p">)</span> <span class="c1"># file stored on the cluster</span>
 <span class="n">img</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="nb">input</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">input</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -307,88 +271,46 @@ invoke to build the neural network topology, start training, etc.</p>
     <span class="k">print</span> <span class="n">cost_val</span>
 </pre></div>
 </div>
-<p>The code above is a typical Python trainer code, the neural network
-topology is built using helper functions such as
-<code class="docutils literal"><span class="pre">paddle.layer.fc</span></code>. The training is done by calling <code class="docutils literal"><span class="pre">session.eval</span></code>
-iteratively.</p>
+<p>The above code is what a typical Python trainer code is, the neural network topology is built using the helper functions such as <code class="docutils literal"><span class="pre">paddle.layer.fc</span></code>. Training is done by calling <code class="docutils literal"><span class="pre">session.eval</span></code> iteratively.</p>
 <div class="section" id="session-eval">
 <span id="session-eval"></span><h4>session.eval<a class="headerlink" href="#session-eval" title="永久链接至标题">¶</a></h4>
-<p>As shown in the graph, <code class="docutils literal"><span class="pre">session.eval</span></code> sends the IR and the evaluation
-inputs/targets to the PaddlePaddle cluster for evaluation. The
-targets can be any variable in the computation graph. When the target
-is the <code class="docutils literal"><span class="pre">optimizer</span></code> variable, the neural network will be optimized
-once. When the target is the <code class="docutils literal"><span class="pre">cost</span></code> variable, <code class="docutils literal"><span class="pre">session.eval</span></code> returns
-the cost value.</p>
-<p>The Python <code class="docutils literal"><span class="pre">session</span></code> is a wrapper of the C++ <code class="docutils literal"><span class="pre">Session</span></code> class. For more
-information about <code class="docutils literal"><span class="pre">Session</span></code>, please
-see <a class="reference internal" href="session.html"><span class="doc">Design Doc: Session</span></a>.</p>
+<p>As shown in the graph, <code class="docutils literal"><span class="pre">session.eval</span></code> sends the IR and the evaluation inputs or targets to the PaddlePaddle cluster for evaluation.
+The targets can be any variable in the computation graph. When the target is say, the <code class="docutils literal"><span class="pre">optimizer</span></code> variable, the neural network will be optimized once. When the target is the <code class="docutils literal"><span class="pre">cost</span></code> variable, <code class="docutils literal"><span class="pre">session.eval</span></code> returns the cost value. Based on what the target is, an appropriate action is taken.</p>
+<p>The Python <code class="docutils literal"><span class="pre">session</span></code> is a wrapper of the C++ <code class="docutils literal"><span class="pre">Session</span></code> class. For more information about <code class="docutils literal"><span class="pre">Session</span></code>, refer to this document - <a class="reference internal" href="session.html"><span class="doc">Design Doc: Session</span></a>.</p>
 </div>
 </div>
 <div class="section" id="paddlepaddle-converter">
 <span id="paddlepaddle-converter"></span><h3>PaddlePaddle Converter<a class="headerlink" href="#paddlepaddle-converter" title="永久链接至标题">¶</a></h3>
-<p>PaddlePaddle converter automatically converts the IR in the request
-(IR and evaluation inputs/targets) from PaddlePaddle Python to new
-partitioned IRs and dispatch the new IRs and evaluation inputs/targets
-to different PaddlePaddle runtimes. Below are the steps:</p>
+<p>The PaddlePaddle converter automatically converts the IR in the request (IR and evaluation inputs/targets) from PaddlePaddle Python to partitioned IRs and dispatches the new IRs and evaluation inputs/targets to different PaddlePaddle runtimes. Below are the steps that are followed :</p>
 <ol class="simple">
-<li>Add <code class="docutils literal"><span class="pre">feed</span></code> OP that feeds the eval inputs, and <code class="docutils literal"><span class="pre">fetch</span></code> OP that
-fetches the eval targets to the IR.</li>
-<li>Extract a new computation (sub)graph with <code class="docutils literal"><span class="pre">feed</span></code> and <code class="docutils literal"><span class="pre">fetch</span></code> OP as
-the boundary. The runtime does not need to run the OP that is not
-dependent by the <code class="docutils literal"><span class="pre">fetch</span></code> OP.</li>
-<li>Optimizes the computation graph.</li>
-<li>Place the OPs in the graph onto different devices on different
-PaddlePaddle runtime according to a placement algorithm and device
-constraint specified by the user.</li>
-<li>Partition the graph according to runtime boundaries and add <code class="docutils literal"><span class="pre">send</span></code> /
-<code class="docutils literal"><span class="pre">recv</span></code> OP pair on the runtime boundaries.</li>
+<li>Add a <code class="docutils literal"><span class="pre">feed</span></code> OP that feeds the eval inputs, and a <code class="docutils literal"><span class="pre">fetch</span></code> OP that fetches the eval targets to the IR.</li>
+<li>Extract a new computation (sub)graph with the <code class="docutils literal"><span class="pre">feed</span></code> and <code class="docutils literal"><span class="pre">fetch</span></code> OPs as the boundary. The runtime does not need to run the OP that is not dependent on the <code class="docutils literal"><span class="pre">fetch</span></code> OP.</li>
+<li>Optimize the computation graph.</li>
+<li>Place the OPs in the graph onto different devices on different PaddlePaddle runtime according to a placement algorithm and the device constraints specified by the user.</li>
+<li>Partition the graph according to runtime boundaries and add <code class="docutils literal"><span class="pre">send</span></code> / <code class="docutils literal"><span class="pre">recv</span></code> OP pair on the runtime boundaries.</li>
 <li>Dispatch the partitioned graph to different PaddlePaddle runtimes.</li>
-<li>PaddlePaddle runtimes with the <code class="docutils literal"><span class="pre">fetch</span></code> OP reports evaluation
-results back to the converter, the convert reports the evaluation
-results back to the PaddlePaddle Python.</li>
+<li>PaddlePaddle runtimes with the <code class="docutils literal"><span class="pre">fetch</span></code> OP reports evaluation results back to the converter, the converter reports the evaluation results back to the PaddlePaddle Python.</li>
 </ol>
 <p>The output IRs will be cached to optimize the conversion latency.</p>
 <div class="section" id="placement-algorithm">
 <span id="placement-algorithm"></span><h4>Placement Algorithm<a class="headerlink" href="#placement-algorithm" title="永久链接至标题">¶</a></h4>
-<p>Our first implementation will only support &#8220;trainer-parameter server&#8221;
-placement: the parameters, initializers, and optimizers are placed on
-the PaddlePaddle runtimes with the parameter server role. And
-everything else will be placed on the PaddlePaddle runtimes with the
-trainer role. This has the same functionality of our
-&#8220;trainer-parameter server&#8221; architecture of PaddlePaddle v0.10.0, but
-is more general and flexible.</p>
-<p>In the future, we will implement the general placement algorithm,
-which makes placements according to the input IR, and a model of
-device computation time and device communication time. Model
-parallelism requires the general placement algorithm.</p>
+<p>Our first implementation will only support &#8220;trainer-parameter server&#8221; placement: the parameters, initializers, and optimizers are all placed on the PaddlePaddle runtimes with the parameter server role. Everything else will be placed on the PaddlePaddle runtimes with the trainer role. This has the same functionality as the &#8220;trainer-parameter server&#8221; architecture of PaddlePaddle v0.10.0, but is more generic and flexible.</p>
+<p>In the future, a more general placement algorithm should be implemented, which makes placements according to the input IR, and a model of device computation time and device communication time. Model parallelism requires the generic placement algorithm.</p>
 </div>
 </div>
 <div class="section" id="paddlepaddle-runtime">
 <span id="paddlepaddle-runtime"></span><h3>PaddlePaddle Runtime<a class="headerlink" href="#paddlepaddle-runtime" title="永久链接至标题">¶</a></h3>
-<p>The PaddlePaddle runtime owns multiple devices (e.g., CPUs, GPUs) and
-runs the IR. The runtime does not need to do OP placement since it&#8217;s
-already done by the converter.</p>
+<p>The PaddlePaddle runtime owns multiple devices (e.g., CPUs, GPUs) and runs the IR. The runtime does not need to do OP placement since it is already done by the converter.</p>
 </div>
 <div class="section" id="local-training-architecture">
 <span id="local-training-architecture"></span><h3>Local Training Architecture<a class="headerlink" href="#local-training-architecture" title="永久链接至标题">¶</a></h3>
-<p>The local training architecture will be the same as the distributed
-training architecture, the differences are everything runs locally,
-and there is just one PaddlePaddle runtime:</p>
+<p>The local training architecture will be the same as the distributed training architecture, the difference is that everything runs locally, and there is just one PaddlePaddle runtime:</p>
 <p><img src="src/local_architecture.png"/></p>
 </div>
 <div class="section" id="training-data">
 <span id="training-data"></span><h3>Training Data<a class="headerlink" href="#training-data" title="永久链接至标题">¶</a></h3>
-<p>In PaddlePaddle v0.10.0, training data is typically read
-with <a class="reference internal" href="../reader/README.html"><span class="doc">data reader</span></a> from Python. This approach is
-no longer efficient when training distributedly since the Python
-process no longer runs on the same node with the trainer processes,
-the Python reader will need to read from the distributed filesystem
-(assuming it has the access) and send to the trainers, doubling the
-network traffic.</p>
-<p>When doing distributed training, the user can still use Python data
-reader: the training data are sent with <code class="docutils literal"><span class="pre">session.eval</span></code>. However should
-be used for debugging purpose only. The users are encouraged to use
-the read data OPs.</p>
+<p>In PaddlePaddle v0.10.0, training data is typically read with a <a class="reference internal" href="../reader/README.html"><span class="doc">data reader</span></a> from Python. This approach is no longer efficient when training in a distributed fashion since the Python process no longer runs on the same node with the trainer processes. The Python reader will need to read from the distributed filesystem (assuming it has the required access) and send to the trainers, doubling the network traffic.</p>
+<p>When doing distributed training, the user can still use Python data reader: the training data are sent with <code class="docutils literal"><span class="pre">session.eval</span></code>. However this should be used for debugging purpose only. The users are encouraged to use the read data OPs.</p>
 </div>
 </div>
 <div class="section" id="references">
