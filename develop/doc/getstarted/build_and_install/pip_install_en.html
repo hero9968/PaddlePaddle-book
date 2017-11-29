@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Install PaddlePaddle Using pip &mdash; PaddlePaddle  documentation</title>
+  <title>Install Using pip &mdash; PaddlePaddle  documentation</title>
   
 
   
@@ -34,7 +34,7 @@
         <link rel="search" title="Search" href="../../search.html"/>
     <link rel="top" title="PaddlePaddle  documentation" href="../../index.html"/>
         <link rel="up" title="Install and Build" href="index_en.html"/>
-        <link rel="next" title="PaddlePaddle in Docker Containers" href="docker_install_en.html"/>
+        <link rel="next" title="Run in Docker Containers" href="docker_install_en.html"/>
         <link rel="prev" title="Install and Build" href="index_en.html"/> 
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/css/perfect-scrollbar.min.css" type="text/css" />
@@ -111,9 +111,9 @@
           <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../index_en.html">GET STARTED</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="index_en.html">Install and Build</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Install PaddlePaddle Using pip</a></li>
-<li class="toctree-l3"><a class="reference internal" href="docker_install_en.html">PaddlePaddle in Docker Containers</a></li>
-<li class="toctree-l3"><a class="reference internal" href="build_from_source_en.html">Build PaddlePaddle from Sources</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Install Using pip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="docker_install_en.html">Run in Docker Containers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="build_from_source_en.html">Build from Sources</a></li>
 </ul>
 </li>
 </ul>
@@ -128,7 +128,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../../howto/usage/cluster/cluster_train_en.html">PaddlePaddle Distributed Training</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../howto/usage/k8s/k8s_en.html">Paddle On Kubernetes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../howto/usage/k8s/k8s_aws_en.html">Distributed PaddlePaddle Training on AWS with Kubernetes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../howto/dev/build_en.html">Build PaddlePaddle from Source Code and Run Unit Test</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../howto/dev/new_layer_en.html">Write New Layers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../howto/dev/contribute_to_paddle_en.html">Contribute Code</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../howto/deep_model/rnn/index_en.html">RNN Models</a><ul>
@@ -187,7 +186,7 @@
       
         <li><a href="index_en.html">Install and Build</a> > </li>
       
-    <li>Install PaddlePaddle Using pip</li>
+    <li>Install Using pip</li>
   </ul>
 </div>
       
@@ -196,14 +195,14 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="install-paddlepaddle-using-pip">
-<h1>Install PaddlePaddle Using pip<a class="headerlink" href="#install-paddlepaddle-using-pip" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="install-using-pip">
+<h1>Install Using pip<a class="headerlink" href="#install-using-pip" title="Permalink to this headline">¶</a></h1>
 <p>You can use current widely used Python package management
 tool <a class="reference external" href="https://pip.pypa.io/en/stable/installing/">pip</a>
 to install PaddlePaddle. This method can be used in
 most of current Linux systems or MacOS.</p>
-<div class="section" id="install-using-pip">
-<span id="pip-install"></span><h2>Install Using pip<a class="headerlink" href="#install-using-pip" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="pip-install">
+<span id="id1"></span><h2>Install Using pip<a class="headerlink" href="#pip-install" title="Permalink to this headline">¶</a></h2>
 <p>Run the following command to install PaddlePaddle on the current
 machine, it will also download requirements.</p>
 <blockquote>
@@ -223,8 +222,8 @@ the below links, log in as guest, then click at the &#8220;Artifact&#8221;
 tab, you&#8217;ll find the download link of whl packages.</p>
 <p>If the links below shows up the login form, just click &#8220;Log in as guest&#8221; to start the download:</p>
 <a class="reference internal image-reference" href="../../_images/paddleci.png"><img alt="../../_images/paddleci.png" class="align-center" src="../../_images/paddleci.png" style="width: 398.0px; height: 224.5px;" /></a>
-<table border="1" class="colwidths-given docutils" id="id12">
-<caption><span class="caption-text">whl package of each version</span><a class="headerlink" href="#id12" title="Permalink to this table">¶</a></caption>
+<table border="1" class="colwidths-given docutils" id="id13">
+<caption><span class="caption-text">whl package of each version</span><a class="headerlink" href="#id13" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="10%" />
 <col width="30%" />
@@ -278,8 +277,8 @@ and MacOS 10.12.</p>
 standard, which uses CentOS 5 as default build environment. But CUDA libraries
 seems only run on CentOS 6 at least, also, CentOS 5 is about to end its lifetime,
 so we use CentOS 6 as default build environment.</p>
-<table border="1" class="colwidths-given docutils" id="id13">
-<caption><span class="caption-text">PaddlePaddle Runtime Deps</span><a class="headerlink" href="#id13" title="Permalink to this table">¶</a></caption>
+<table border="1" class="colwidths-given docutils" id="id14">
+<caption><span class="caption-text">PaddlePaddle Runtime Deps</span><a class="headerlink" href="#id14" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="18%" />
 <col width="27%" />
@@ -353,7 +352,7 @@ file to manylinux1_x86_64 suffix and then install.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="docker_install_en.html" class="btn btn-neutral float-right" title="PaddlePaddle in Docker Containers" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="docker_install_en.html" class="btn btn-neutral float-right" title="Run in Docker Containers" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="index_en.html" class="btn btn-neutral" title="Install and Build" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>

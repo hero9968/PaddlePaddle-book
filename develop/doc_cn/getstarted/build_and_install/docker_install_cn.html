@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>使用Docker安装运行PaddlePaddle &mdash; PaddlePaddle  文档</title>
+  <title>使用Docker安装运行 &mdash; PaddlePaddle  文档</title>
   
 
   
@@ -34,8 +34,8 @@
         <link rel="search" title="搜索" href="../../search.html"/>
     <link rel="top" title="PaddlePaddle  文档" href="../../index.html"/>
         <link rel="up" title="安装与编译" href="index_cn.html"/>
-        <link rel="next" title="从源码编译PaddlePaddle" href="build_from_source_cn.html"/>
-        <link rel="prev" title="使用pip安装PaddlePaddle" href="pip_install_cn.html"/> 
+        <link rel="next" title="从源码编译" href="build_from_source_cn.html"/>
+        <link rel="prev" title="使用pip安装" href="pip_install_cn.html"/> 
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/css/perfect-scrollbar.min.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/css/override.css" type="text/css" />
@@ -112,9 +112,9 @@
           <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../index_cn.html">新手入门</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="index_cn.html">安装与编译</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="pip_install_cn.html">使用pip安装PaddlePaddle</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">使用Docker安装运行PaddlePaddle</a></li>
-<li class="toctree-l3"><a class="reference internal" href="build_from_source_cn.html">从源码编译PaddlePaddle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pip_install_cn.html">使用pip安装</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">使用Docker安装运行</a></li>
+<li class="toctree-l3"><a class="reference internal" href="build_from_source_cn.html">从源码编译</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../concepts/use_concepts_cn.html">基本使用概念</a></li>
@@ -131,7 +131,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../../howto/usage/k8s/k8s_basis_cn.html">Kubernetes 简介</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../howto/usage/k8s/k8s_cn.html">Kubernetes单机训练</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../howto/usage/k8s/k8s_distributed_cn.html">Kubernetes分布式训练</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../howto/dev/build_cn.html">编译PaddlePaddle和运行单元测试</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../howto/dev/write_docs_cn.html">如何贡献/修改文档</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../howto/deep_model/rnn/index_cn.html">RNN相关模型</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../howto/deep_model/rnn/rnn_config_cn.html">RNN配置</a></li>
@@ -201,7 +200,7 @@
       
         <li><a href="index_cn.html">安装与编译</a> > </li>
       
-    <li>使用Docker安装运行PaddlePaddle</li>
+    <li>使用Docker安装运行</li>
   </ul>
 </div>
       
@@ -210,8 +209,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="dockerpaddlepaddle">
-<h1>使用Docker安装运行PaddlePaddle<a class="headerlink" href="#dockerpaddlepaddle" title="永久链接至标题">¶</a></h1>
+  <div class="section" id="docker">
+<h1>使用Docker安装运行<a class="headerlink" href="#docker" title="永久链接至标题">¶</a></h1>
 <p>使用Docker安装和运行PaddlePaddle可以无需考虑依赖环境即可运行。并且也可以在Windows的docker中运行。
 您可以在 <a class="reference external" href="https://docs.docker.com/get-started/">Docker官网</a> 获得基本的Docker安装和使用方法。</p>
 <p>如果您在使用Windows，可以参考
@@ -257,8 +256,8 @@ docker pull docker.paddlepaddle.org/paddle:0.10.0-gpu
 </div>
 </div></blockquote>
 </div>
-<div class="section" id="docker-run">
-<span id="id2"></span><h2>在Docker中执行PaddlePaddle训练程序<a class="headerlink" href="#docker-run" title="永久链接至标题">¶</a></h2>
+<div class="section" id="dockerpaddlepaddle">
+<span id="docker-run"></span><h2>在Docker中执行PaddlePaddle训练程序<a class="headerlink" href="#dockerpaddlepaddle" title="永久链接至标题">¶</a></h2>
 <p>假设您已经在当前目录（比如在/home/work）编写了一个PaddlePaddle的程序 <code class="code docutils literal"><span class="pre">train.py</span></code> （可以参考
 <a class="reference external" href="http://www.paddlepaddle.org/docs/develop/book/01.fit_a_line/index.cn.html">PaddlePaddleBook</a>
 编写），就可以使用下面的命令开始执行训练：</p>
@@ -336,10 +335,10 @@ docker run <span class="si">${</span><span class="nv">CUDA_SO</span><span class=
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="build_from_source_cn.html" class="btn btn-neutral float-right" title="从源码编译PaddlePaddle" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="build_from_source_cn.html" class="btn btn-neutral float-right" title="从源码编译" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="pip_install_cn.html" class="btn btn-neutral" title="使用pip安装PaddlePaddle" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="pip_install_cn.html" class="btn btn-neutral" title="使用pip安装" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
