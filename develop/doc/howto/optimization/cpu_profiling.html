@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Python代码的性能分析 &mdash; PaddlePaddle  documentation</title>
+  <title>Profiling the Python Code &mdash; PaddlePaddle  documentation</title>
   
 
   
@@ -179,7 +179,7 @@
 <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
       
-    <li>Python代码的性能分析</li>
+    <li>Profiling the Python Code</li>
   </ul>
 </div>
       
@@ -188,54 +188,69 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <p>此教程会介绍如何使用Python的cProfile包，与Python库yep，google perftools来运行性能分析(Profiling)与调优。</p>
-<p>运行性能分析可以让开发人员科学的，有条不紊的对程序进行性能优化。性能分析是性能调优的基础。因为在程序实际运行中，真正的瓶颈可能和程序员开发过程中想象的瓶颈相去甚远。</p>
-<p>性能优化的步骤，通常是循环重复若干次『性能分析 &#8211;&gt; 寻找瓶颈 &#8212;&gt; 调优瓶颈 &#8211;&gt; 性能分析确认调优效果』。其中性能分析是性能调优的至关重要的量化指标。</p>
-<p>Paddle提供了Python语言绑定。用户使用Python进行神经网络编程，训练，测试。Python解释器通过<code class="docutils literal"><span class="pre">pybind</span></code>和<code class="docutils literal"><span class="pre">swig</span></code>调用Paddle的动态链接库，进而调用Paddle C++部分的代码。所以Paddle的性能分析与调优分为两个部分:</p>
-<ul class="simple">
-<li>Python代码的性能分析</li>
-<li>Python与C++混合代码的性能分析</li>
-</ul>
-<div class="section" id="python">
-<span id="python"></span><h1>Python代码的性能分析<a class="headerlink" href="#python" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="">
-<span id="id1"></span><h2>生成性能分析文件<a class="headerlink" href="#" title="Permalink to this headline">¶</a></h2>
-<p>Python标准库中提供了性能分析的工具包，<a class="reference external" href="https://docs.python.org/2/library/profile.html">cProfile</a>。生成Python性能分析的命令如下:</p>
+  <p>This tutorial introduces techniques we used to profile and tune the
+CPU performance of PaddlePaddle.  We will use Python packages
+<code class="docutils literal"><span class="pre">cProfile</span></code> and <code class="docutils literal"><span class="pre">yep</span></code>, and Google <code class="docutils literal"><span class="pre">perftools</span></code>.</p>
+<p>Profiling is the process that reveals the performance bottlenecks,
+which could be very different from what&#8217;s in the developers&#8217; mind.
+Performance tuning is to fix the bottlenecks. Performance optimization
+repeats the steps of profiling and tuning alternatively.</p>
+<p>PaddlePaddle users program AI by calling the Python API, which calls
+into <code class="docutils literal"><span class="pre">libpaddle.so.</span></code> written in C++.  In this tutorial, we focus on
+the profiling and tuning of</p>
+<ol class="simple">
+<li>the Python code and</li>
+<li>the mixture of Python and C++ code.</li>
+</ol>
+<div class="section" id="profiling-the-python-code">
+<span id="profiling-the-python-code"></span><h1>Profiling the Python Code<a class="headerlink" href="#profiling-the-python-code" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="generate-the-performance-profiling-file">
+<span id="generate-the-performance-profiling-file"></span><h2>Generate the Performance Profiling File<a class="headerlink" href="#generate-the-performance-profiling-file" title="Permalink to this headline">¶</a></h2>
+<p>We can use Python standard
+package, <a class="reference external" href="https://docs.python.org/2/library/profile.html"><code class="docutils literal"><span class="pre">cProfile</span></code></a>,
+to generate Python profiling file.  For example:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>python -m cProfile -o profile.out main.py
 </pre></div>
 </div>
-<p>其中<code class="docutils literal"><span class="pre">-o</span></code>标识了一个输出的文件名，用来存储本次性能分析的结果。如果不指定这个文件，<code class="docutils literal"><span class="pre">cProfile</span></code>会打印一些统计信息到<code class="docutils literal"><span class="pre">stdout</span></code>。这不方便我们进行后期处理(进行<code class="docutils literal"><span class="pre">sort</span></code>, <code class="docutils literal"><span class="pre">split</span></code>, <code class="docutils literal"><span class="pre">cut</span></code>等等)。</p>
+<p>where <code class="docutils literal"><span class="pre">main.py</span></code> is the program we are going to profile, <code class="docutils literal"><span class="pre">-o</span></code> specifies
+the output file.  Without <code class="docutils literal"><span class="pre">-o</span></code>, <code class="docutils literal"><span class="pre">cProfile</span></code> would outputs to standard
+output.</p>
 </div>
-<div class="section" id="">
-<span id="id2"></span><h2>查看性能分析文件<a class="headerlink" href="#" title="Permalink to this headline">¶</a></h2>
-<p>当main.py运行完毕后，性能分析结果文件<code class="docutils literal"><span class="pre">profile.out</span></code>就生成出来了。我们可以使用<a class="reference external" href="https://github.com/ymichael/cprofilev">cprofilev</a>来查看性能分析结果。<code class="docutils literal"><span class="pre">cprofilev</span></code>是一个Python的第三方库。使用它会开启一个HTTP服务，将性能分析结果以网页的形式展示出来。</p>
-<p>使用<code class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">cprofilev</span></code>安装<code class="docutils literal"><span class="pre">cprofilev</span></code>工具。安装完成后，使用如下命令开启HTTP服务</p>
+<div class="section" id="look-into-the-profiling-file">
+<span id="look-into-the-profiling-file"></span><h2>Look into the Profiling File<a class="headerlink" href="#look-into-the-profiling-file" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">cProfile</span></code> generates <code class="docutils literal"><span class="pre">profile.out</span></code> after <code class="docutils literal"><span class="pre">main.py</span></code> completes. We can
+use <a class="reference external" href="https://github.com/ymichael/cprofilev"><code class="docutils literal"><span class="pre">cprofilev</span></code></a> to look into
+the details:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>cprofilev -a <span class="m">0</span>.0.0.0 -p <span class="m">3214</span> -f profile.out main.py
 </pre></div>
 </div>
-<p>其中<code class="docutils literal"><span class="pre">-a</span></code>标识HTTP服务绑定的IP。使用<code class="docutils literal"><span class="pre">0.0.0.0</span></code>允许外网访问这个HTTP服务。<code class="docutils literal"><span class="pre">-p</span></code>标识HTTP服务的端口。<code class="docutils literal"><span class="pre">-f</span></code>标识性能分析的结果文件。<code class="docutils literal"><span class="pre">main.py</span></code>标识被性能分析的源文件。</p>
-<p>访问对应网址，即可显示性能分析的结果。性能分析结果格式如下:</p>
-<div class="highlight-text"><div class="highlight"><pre><span></span>   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
-        1    0.284    0.284   29.514   29.514 main.py:1(&lt;module&gt;)
-     4696    0.128    0.000   15.748    0.003 /home/yuyang/perf_test/.env/lib/python2.7/site-packages/paddle/v2/fluid/executor.py:20(run)
-     4696   12.040    0.003   12.040    0.003 {built-in method run}
-        1    0.144    0.144    6.534    6.534 /home/yuyang/perf_test/.env/lib/python2.7/site-packages/paddle/v2/__init__.py:14(&lt;module&gt;)
+<p>where <code class="docutils literal"><span class="pre">-a</span></code> specifies the HTTP IP, <code class="docutils literal"><span class="pre">-p</span></code> specifies the port, <code class="docutils literal"><span class="pre">-f</span></code>
+specifies the profiling file, and <code class="docutils literal"><span class="pre">main.py</span></code> is the source file.</p>
+<p>Open the Web browser and points to the local IP and the specifies
+port, we will see the output like the following:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>   <span class="n">ncalls</span>  <span class="n">tottime</span>  <span class="n">percall</span>  <span class="n">cumtime</span>  <span class="n">percall</span> <span class="n">filename</span><span class="p">:</span><span class="n">lineno</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
+        <span class="mi">1</span>    <span class="mf">0.284</span>    <span class="mf">0.284</span>   <span class="mf">29.514</span>   <span class="mf">29.514</span> <span class="n">main</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">1</span><span class="p">(</span><span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">)</span>
+     <span class="mi">4696</span>    <span class="mf">0.128</span>    <span class="mf">0.000</span>   <span class="mf">15.748</span>    <span class="mf">0.003</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">yuyang</span><span class="o">/</span><span class="n">perf_test</span><span class="o">/.</span><span class="n">env</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python2</span><span class="o">.</span><span class="mi">7</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">paddle</span><span class="o">/</span><span class="n">v2</span><span class="o">/</span><span class="n">fluid</span><span class="o">/</span><span class="n">executor</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">20</span><span class="p">(</span><span class="n">run</span><span class="p">)</span>
+     <span class="mi">4696</span>   <span class="mf">12.040</span>    <span class="mf">0.003</span>   <span class="mf">12.040</span>    <span class="mf">0.003</span> <span class="p">{</span><span class="n">built</span><span class="o">-</span><span class="ow">in</span> <span class="n">method</span> <span class="n">run</span><span class="p">}</span>
+        <span class="mi">1</span>    <span class="mf">0.144</span>    <span class="mf">0.144</span>    <span class="mf">6.534</span>    <span class="mf">6.534</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">yuyang</span><span class="o">/</span><span class="n">perf_test</span><span class="o">/.</span><span class="n">env</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python2</span><span class="o">.</span><span class="mi">7</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">paddle</span><span class="o">/</span><span class="n">v2</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">14</span><span class="p">(</span><span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>每一列的含义是:</p>
-<p>| 列名 | 含义 |
+<p>where each line corresponds to Python function, and the meaning of
+each column is as follows:</p>
+<p>| column | meaning |
 | &#8212; | &#8212; |
-| ncalls | 函数的调用次数 |
-| tottime | 函数实际使用的总时间。该时间去除掉本函数调用其他函数的时间 |
-| percall | tottime的每次调用平均时间 |
-| cumtime | 函数总时间。包含这个函数调用其他函数的时间 |
-| percall | cumtime的每次调用平均时间 |
-| filename:lineno(function) | 文件名, 行号，函数名 |</p>
+| ncalls | the number of calls into a function |
+| tottime | the total execution time of the function, not including the
+execution time of other functions called by the function |
+| percall | tottime divided by ncalls |
+| cumtime | the total execution time of the function, including the execution time of other functions being called |
+| percall | cumtime divided by ncalls |
+| filename:lineno(function) | where the function is defined |</p>
 </div>
-<div class="section" id="">
-<span id="id3"></span><h2>寻找性能瓶颈<a class="headerlink" href="#" title="Permalink to this headline">¶</a></h2>
-<p>通常<code class="docutils literal"><span class="pre">tottime</span></code>和<code class="docutils literal"><span class="pre">cumtime</span></code>是寻找瓶颈的关键指标。这两个指标代表了某一个函数真实的运行时间。</p>
-<p>将性能分析结果按照tottime排序，效果如下:</p>
+<div class="section" id="identify-performance-bottlenecks">
+<span id="identify-performance-bottlenecks"></span><h2>Identify Performance Bottlenecks<a class="headerlink" href="#identify-performance-bottlenecks" title="Permalink to this headline">¶</a></h2>
+<p>Usually, <code class="docutils literal"><span class="pre">tottime</span></code> and the related <code class="docutils literal"><span class="pre">percall</span></code> time is what we want to
+focus on. We can sort above profiling file by tottime:</p>
 <div class="highlight-text"><div class="highlight"><pre><span></span>     4696   12.040    0.003   12.040    0.003 {built-in method run}
    300005    0.874    0.000    1.681    0.000 /home/yuyang/perf_test/.env/lib/python2.7/site-packages/paddle/v2/dataset/mnist.py:38(reader)
    107991    0.676    0.000    1.519    0.000 /home/yuyang/perf_test/.env/lib/python2.7/site-packages/paddle/v2/fluid/framework.py:219(__init__)
@@ -243,77 +258,104 @@
         1    0.618    0.618    0.618    0.618 /home/yuyang/perf_test/.env/lib/python2.7/site-packages/paddle/v2/fluid/__init__.py:1(&lt;module&gt;)
 </pre></div>
 </div>
-<p>可以看到最耗时的函数是C++端的<code class="docutils literal"><span class="pre">run</span></code>函数。这需要联合我们第二节<code class="docutils literal"><span class="pre">Python</span></code>与<code class="docutils literal"><span class="pre">C++</span></code>混合代码的性能分析来进行调优。而<code class="docutils literal"><span class="pre">sync_with_cpp</span></code>函数的总共耗时很长，每次调用的耗时也很长。于是我们可以点击<code class="docutils literal"><span class="pre">sync_with_cpp</span></code>的详细信息，了解其调用关系。</p>
-<div class="highlight-text"><div class="highlight"><pre><span></span>Called By:
+<p>We can see that the most time-consuming function is the <code class="docutils literal"><span class="pre">built-in</span> <span class="pre">method</span> <span class="pre">run</span></code>, which is a C++ function in <code class="docutils literal"><span class="pre">libpaddle.so</span></code>.  We will
+explain how to profile C++ code in the next section.  At the right
+moment, let&#8217;s look into the third function <code class="docutils literal"><span class="pre">sync_with_cpp</span></code>, which is a
+Python function.  We can click it to understand more about it:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Called</span> <span class="n">By</span><span class="p">:</span>
 
-   Ordered by: internal time
-   List reduced from 4497 to 2 due to restriction &lt;&#39;sync_with_cpp&#39;&gt;
+   <span class="n">Ordered</span> <span class="n">by</span><span class="p">:</span> <span class="n">internal</span> <span class="n">time</span>
+   <span class="n">List</span> <span class="n">reduced</span> <span class="kn">from</span> <span class="mi">4497</span> <span class="n">to</span> <span class="mi">2</span> <span class="n">due</span> <span class="n">to</span> <span class="n">restriction</span> <span class="o">&lt;</span><span class="s1">&#39;sync_with_cpp&#39;</span><span class="o">&gt;</span>
 
-Function                                                                                                 was called by...
-                                                                                                             ncalls  tottime  cumtime
-/home/yuyang/perf_test/.env/lib/python2.7/site-packages/paddle/v2/fluid/framework.py:428(sync_with_cpp)  &lt;-    4697    0.626    2.291  /home/yuyang/perf_test/.env/lib/python2.7/site-packages/paddle/v2/fluid/framework.py:562(sync_with_cpp)
-/home/yuyang/perf_test/.env/lib/python2.7/site-packages/paddle/v2/fluid/framework.py:562(sync_with_cpp)  &lt;-    4696    0.019    2.316  /home/yuyang/perf_test/.env/lib/python2.7/site-packages/paddle/v2/fluid/framework.py:487(clone)
-                                                                                                                  1    0.000    0.001  /home/yuyang/perf_test/.env/lib/python2.7/site-packages/paddle/v2/fluid/framework.py:534(append_backward)
+<span class="n">Function</span>                                                                                                 <span class="n">was</span> <span class="n">called</span> <span class="n">by</span><span class="o">...</span>
+                                                                                                             <span class="n">ncalls</span>  <span class="n">tottime</span>  <span class="n">cumtime</span>
+<span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">yuyang</span><span class="o">/</span><span class="n">perf_test</span><span class="o">/.</span><span class="n">env</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python2</span><span class="o">.</span><span class="mi">7</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">paddle</span><span class="o">/</span><span class="n">v2</span><span class="o">/</span><span class="n">fluid</span><span class="o">/</span><span class="n">framework</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">428</span><span class="p">(</span><span class="n">sync_with_cpp</span><span class="p">)</span>  <span class="o">&lt;-</span>    <span class="mi">4697</span>    <span class="mf">0.626</span>    <span class="mf">2.291</span>  <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">yuyang</span><span class="o">/</span><span class="n">perf_test</span><span class="o">/.</span><span class="n">env</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python2</span><span class="o">.</span><span class="mi">7</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">paddle</span><span class="o">/</span><span class="n">v2</span><span class="o">/</span><span class="n">fluid</span><span class="o">/</span><span class="n">framework</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">562</span><span class="p">(</span><span class="n">sync_with_cpp</span><span class="p">)</span>
+<span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">yuyang</span><span class="o">/</span><span class="n">perf_test</span><span class="o">/.</span><span class="n">env</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python2</span><span class="o">.</span><span class="mi">7</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">paddle</span><span class="o">/</span><span class="n">v2</span><span class="o">/</span><span class="n">fluid</span><span class="o">/</span><span class="n">framework</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">562</span><span class="p">(</span><span class="n">sync_with_cpp</span><span class="p">)</span>  <span class="o">&lt;-</span>    <span class="mi">4696</span>    <span class="mf">0.019</span>    <span class="mf">2.316</span>  <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">yuyang</span><span class="o">/</span><span class="n">perf_test</span><span class="o">/.</span><span class="n">env</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python2</span><span class="o">.</span><span class="mi">7</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">paddle</span><span class="o">/</span><span class="n">v2</span><span class="o">/</span><span class="n">fluid</span><span class="o">/</span><span class="n">framework</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">487</span><span class="p">(</span><span class="n">clone</span><span class="p">)</span>
+                                                                                                                  <span class="mi">1</span>    <span class="mf">0.000</span>    <span class="mf">0.001</span>  <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">yuyang</span><span class="o">/</span><span class="n">perf_test</span><span class="o">/.</span><span class="n">env</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python2</span><span class="o">.</span><span class="mi">7</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">paddle</span><span class="o">/</span><span class="n">v2</span><span class="o">/</span><span class="n">fluid</span><span class="o">/</span><span class="n">framework</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">534</span><span class="p">(</span><span class="n">append_backward</span><span class="p">)</span>
 
 
-Called:
+<span class="n">Called</span><span class="p">:</span>
 
-   Ordered by: internal time
-   List reduced from 4497 to 2 due to restriction &lt;&#39;sync_with_cpp&#39;&gt;
+   <span class="n">Ordered</span> <span class="n">by</span><span class="p">:</span> <span class="n">internal</span> <span class="n">time</span>
+   <span class="n">List</span> <span class="n">reduced</span> <span class="kn">from</span> <span class="mi">4497</span> <span class="n">to</span> <span class="mi">2</span> <span class="n">due</span> <span class="n">to</span> <span class="n">restriction</span> <span class="o">&lt;</span><span class="s1">&#39;sync_with_cpp&#39;</span><span class="o">&gt;</span>
 </pre></div>
 </div>
-<p>通常观察热点函数间的调用关系，和对应行的代码，就可以了解到问题代码在哪里。当我们做出性能修正后，再次进行性能分析(profiling)即可检查我们调优后的修正是否能够改善程序的性能。</p>
+<p>The lists of the callers of <code class="docutils literal"><span class="pre">sync_with_cpp</span></code> might help us understand
+how to improve the function definition.</p>
 </div>
 </div>
-<div class="section" id="pythonc">
-<span id="pythonc"></span><h1>Python与C++混合代码的性能分析<a class="headerlink" href="#pythonc" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="">
-<span id="id4"></span><h2>生成性能分析文件<a class="headerlink" href="#" title="Permalink to this headline">¶</a></h2>
-<p>C++的性能分析工具非常多。常见的包括<code class="docutils literal"><span class="pre">gprof</span></code>, <code class="docutils literal"><span class="pre">valgrind</span></code>, <code class="docutils literal"><span class="pre">google-perftools</span></code>。但是调试Python中使用的动态链接库与直接调试原始二进制相比增加了很多复杂度。幸而Python的一个第三方库<code class="docutils literal"><span class="pre">yep</span></code>提供了方便的和<code class="docutils literal"><span class="pre">google-perftools</span></code>交互的方法。于是这里使用<code class="docutils literal"><span class="pre">yep</span></code>进行Python与C++混合代码的性能分析</p>
-<p>使用<code class="docutils literal"><span class="pre">yep</span></code>前需要安装<code class="docutils literal"><span class="pre">google-perftools</span></code>与<code class="docutils literal"><span class="pre">yep</span></code>包。ubuntu下安装命令为</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>apt install libgoogle-perftools-dev
+<div class="section" id="profiling-python-and-c-code">
+<span id="profiling-python-and-c-code"></span><h1>Profiling Python and C++ Code<a class="headerlink" href="#profiling-python-and-c-code" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="generate-the-profiling-file">
+<span id="generate-the-profiling-file"></span><h2>Generate the Profiling File<a class="headerlink" href="#generate-the-profiling-file" title="Permalink to this headline">¶</a></h2>
+<p>To profile a mixture of Python and C++ code, we can use a Python
+package, <code class="docutils literal"><span class="pre">yep</span></code>, that can work with Google&#8217;s <code class="docutils literal"><span class="pre">perftools</span></code>, which is a
+commonly-used profiler for C/C++ code.</p>
+<p>In Ubuntu systems, we can install <code class="docutils literal"><span class="pre">yep</span></code> and <code class="docutils literal"><span class="pre">perftools</span></code> by running the
+following commands:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>apt update
+apt install libgoogle-perftools-dev
 pip install yep
 </pre></div>
 </div>
-<p>安装完毕后，我们可以通过</p>
+<p>Then we can run the following command</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>python -m yep -v main.py
 </pre></div>
 </div>
-<p>生成性能分析文件。生成的性能分析文件为<code class="docutils literal"><span class="pre">main.py.prof</span></code>。</p>
-<p>命令行中的<code class="docutils literal"><span class="pre">-v</span></code>指定在生成性能分析文件之后，在命令行显示分析结果。我们可以在命令行中简单的看一下生成效果。因为C++与Python不同，编译时可能会去掉调试信息，运行时也可能因为多线程产生混乱不可读的性能分析结果。为了生成更可读的性能分析结果，可以采取下面几点措施:</p>
+<p>to generate the profiling file.  The default filename is
+<code class="docutils literal"><span class="pre">main.py.prof</span></code>.</p>
+<p>Please be aware of the <code class="docutils literal"><span class="pre">-v</span></code> command line option, which prints the
+analysis results after generating the profiling file.  By taking a
+glance at the print result, we&#8217;d know that if we stripped debug
+information from <code class="docutils literal"><span class="pre">libpaddle.so</span></code> at build time.  The following hints
+help make sure that the analysis results are readable:</p>
 <ol class="simple">
-<li>编译时指定<code class="docutils literal"><span class="pre">-g</span></code>生成调试信息。使用cmake的话，可以将CMAKE_BUILD_TYPE指定为<code class="docutils literal"><span class="pre">RelWithDebInfo</span></code>。</li>
-<li>编译时一定要开启优化。单纯的<code class="docutils literal"><span class="pre">Debug</span></code>编译性能会和<code class="docutils literal"><span class="pre">-O2</span></code>或者<code class="docutils literal"><span class="pre">-O3</span></code>有非常大的差别。<code class="docutils literal"><span class="pre">Debug</span></code>模式下的性能测试是没有意义的。</li>
-<li>运行性能分析的时候，先从单线程开始，再开启多线程，进而多机。毕竟单线程调试更容易。可以设置<code class="docutils literal"><span class="pre">OMP_NUM_THREADS=1</span></code>这个环境变量关闭openmp优化。</li>
+<li>Use GCC command line option <code class="docutils literal"><span class="pre">-g</span></code> when building <code class="docutils literal"><span class="pre">libpaddle.so</span></code> so to
+include the debug information.  The standard building system of
+PaddlePaddle is CMake, so you might want to set
+<code class="docutils literal"><span class="pre">CMAKE_BUILD_TYPE=RelWithDebInfo</span></code>.</li>
+<li>Use GCC command line option <code class="docutils literal"><span class="pre">-O2</span></code> or <code class="docutils literal"><span class="pre">-O3</span></code> to generate optimized
+binary code. It doesn&#8217;t make sense to profile <code class="docutils literal"><span class="pre">libpaddle.so</span></code>
+without optimization, because it would anyway run slowly.</li>
+<li>Profiling the single-threaded binary file before the
+multi-threading version, because the latter often generates tangled
+profiling analysis result.  You might want to set environment
+variable <code class="docutils literal"><span class="pre">OMP_NUM_THREADS=1</span></code> to prevents OpenMP from automatically
+starting multiple threads.</li>
 </ol>
 </div>
-<div class="section" id="">
-<span id="id5"></span><h2>查看性能分析文件<a class="headerlink" href="#" title="Permalink to this headline">¶</a></h2>
-<p>在运行完性能分析后，会生成性能分析结果文件。我们可以使用<a class="reference external" href="https://github.com/google/pprof">pprof</a>来显示性能分析结果。注意，这里使用了用<code class="docutils literal"><span class="pre">Go</span></code>语言重构后的<code class="docutils literal"><span class="pre">pprof</span></code>，因为这个工具具有web服务界面，且展示效果更好。</p>
-<p>安装<code class="docutils literal"><span class="pre">pprof</span></code>的命令和一般的<code class="docutils literal"><span class="pre">Go</span></code>程序是一样的，其命令如下:</p>
+<div class="section" id="look-into-the-profiling-file">
+<span id="id1"></span><h2>Look into the Profiling File<a class="headerlink" href="#look-into-the-profiling-file" title="Permalink to this headline">¶</a></h2>
+<p>The tool we used to look into the profiling file generated by
+<code class="docutils literal"><span class="pre">perftools</span></code> is <a class="reference external" href="https://github.com/google/pprof"><code class="docutils literal"><span class="pre">pprof</span></code></a>, which
+provides a Web-based GUI like <code class="docutils literal"><span class="pre">cprofilev</span></code>.</p>
+<p>We can rely on the standard Go toolchain to retrieve the source code
+of <code class="docutils literal"><span class="pre">pprof</span></code> and build it:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>go get github.com/google/pprof
 </pre></div>
 </div>
-<p>进而我们可以使用如下命令开启一个HTTP服务:</p>
+<p>Then we can use it to profile <code class="docutils literal"><span class="pre">main.py.prof</span></code> generated in the previous
+section:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>pprof -http<span class="o">=</span><span class="m">0</span>.0.0.0:3213 <span class="sb">`</span>which python<span class="sb">`</span>  ./main.py.prof
 </pre></div>
 </div>
-<p>这行命令中，<code class="docutils literal"><span class="pre">-http</span></code>指开启HTTP服务。<code class="docutils literal"><span class="pre">which</span> <span class="pre">python</span></code>会产生当前Python二进制的完整路径，进而指定了Python可执行文件的路径。<code class="docutils literal"><span class="pre">./main.py.prof</span></code>输入了性能分析结果。</p>
-<p>访问对应的网址，我们可以查看性能分析的结果。结果如下图所示:</p>
+<p>Where <code class="docutils literal"><span class="pre">-http</span></code> specifies the IP and port of the HTTP service.
+Directing our Web browser to the service, we would see something like
+the following:</p>
 <p><img alt="result" src="../../_images/pprof_1.png" /></p>
 </div>
-<div class="section" id="">
-<span id="id6"></span><h2>寻找性能瓶颈<a class="headerlink" href="#" title="Permalink to this headline">¶</a></h2>
-<p>与寻找Python代码的性能瓶颈类似，寻找Python与C++混合代码的性能瓶颈也是要看<code class="docutils literal"><span class="pre">tottime</span></code>和<code class="docutils literal"><span class="pre">cumtime</span></code>。而<code class="docutils literal"><span class="pre">pprof</span></code>展示的调用图也可以帮助我们发现性能中的问题。</p>
-<p>例如下图中，</p>
+<div class="section" id="identifying-the-performance-bottlenecks">
+<span id="identifying-the-performance-bottlenecks"></span><h2>Identifying the Performance Bottlenecks<a class="headerlink" href="#identifying-the-performance-bottlenecks" title="Permalink to this headline">¶</a></h2>
+<p>Similar to how we work with <code class="docutils literal"><span class="pre">cprofilev</span></code>, we&#8217;d focus on <code class="docutils literal"><span class="pre">tottime</span></code> and
+<code class="docutils literal"><span class="pre">cumtime</span></code>.</p>
 <p><img alt="kernel_perf" src="../../_images/pprof_2.png" /></p>
-<p>在一次训练中，乘法和乘法梯度的计算占用2%-4%左右的计算时间。而<code class="docutils literal"><span class="pre">MomentumOp</span></code>占用了17%左右的计算时间。显然，<code class="docutils literal"><span class="pre">MomentumOp</span></code>的性能有问题。</p>
-<p>在<code class="docutils literal"><span class="pre">pprof</span></code>中，对于性能的关键路径都做出了红色标记。先检查关键路径的性能问题，再检查其他部分的性能问题，可以更有次序的完成性能的优化。</p>
+<p>We can see that the execution time of multiplication and the computing
+of the gradient of multiplication takes 2% to 4% of the total running
+time, and <code class="docutils literal"><span class="pre">MomentumOp</span></code> takes about 17%. Obviously, we&#8217;d want to
+optimize <code class="docutils literal"><span class="pre">MomentumOp</span></code>.</p>
+<p><code class="docutils literal"><span class="pre">pprof</span></code> would mark performance critical parts of the program in
+red. It&#8217;s a good idea to follow the hint.</p>
 </div>
-</div>
-<div class="section" id="">
-<span id="id7"></span><h1>总结<a class="headerlink" href="#" title="Permalink to this headline">¶</a></h1>
-<p>至此，两种性能分析的方式都介绍完毕了。希望通过这两种性能分析的方式，Paddle的开发人员和使用人员可以有次序的，科学的发现和解决性能问题。</p>
 </div>
 
 
