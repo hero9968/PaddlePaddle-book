@@ -1,0 +1,416 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Layers &mdash; PaddlePaddle  文档</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+  
+        <link rel="index" title="索引"
+              href="../../../genindex.html"/>
+        <link rel="search" title="搜索" href="../../../search.html"/>
+    <link rel="top" title="PaddlePaddle  文档" href="../../../index.html"/> 
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/css/perfect-scrollbar.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/override.css" type="text/css" />
+  <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?b9a314ab40d04d805655aab1deee08ba";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
+
+  
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  
+  <header class="site-header">
+    <div class="site-logo">
+      <a href="/"><img src="../../../_static/images/PP_w.png"></a>
+    </div>
+    <div class="site-nav-links">
+      <div class="site-menu">
+        <a class="fork-on-github" href="https://github.com/PaddlePaddle/Paddle" target="_blank"><i class="fa fa-github"></i>Fork me on Github</a>
+        <div class="language-switcher dropdown">
+          <a type="button" data-toggle="dropdown">
+            <span>English</span>
+            <i class="fa fa-angle-up"></i>
+            <i class="fa fa-angle-down"></i>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="/doc_cn">中文</a></li>
+            <li><a href="/doc">English</a></li>
+          </ul>
+        </div>
+        <ul class="site-page-links">
+          <li><a href="/">Home</a></li>
+        </ul>
+      </div>
+      <div class="doc-module">
+        
+        <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../getstarted/index_cn.html">新手入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howto/index_cn.html">进阶指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index_cn.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq/index_cn.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mobile/index_cn.html">MOBILE</a></li>
+</ul>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>        
+      </div>
+    </div>
+  </header>
+  
+  <div class="main-content-wrap">
+
+    
+    <nav class="doc-menu-vertical" role="navigation">
+        
+          
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../getstarted/index_cn.html">新手入门</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../getstarted/build_and_install/index_cn.html">安装与编译</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../getstarted/build_and_install/pip_install_cn.html">使用pip安装</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../getstarted/build_and_install/docker_install_cn.html">使用Docker安装运行</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../getstarted/build_and_install/build_from_source_cn.html">从源码编译</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../getstarted/concepts/use_concepts_cn.html">基本使用概念</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howto/index_cn.html">进阶指南</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../howto/usage/cmd_parameter/index_cn.html">设置命令行参数</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../howto/usage/cmd_parameter/use_case_cn.html">使用案例</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../howto/usage/cmd_parameter/arguments_cn.html">参数概述</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../howto/usage/cmd_parameter/detail_introduction_cn.html">细节描述</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../howto/usage/cluster/cluster_train_cn.html">PaddlePaddle分布式训练</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../howto/usage/k8s/k8s_basis_cn.html">Kubernetes 简介</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../howto/usage/k8s/k8s_cn.html">Kubernetes单机训练</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../howto/usage/k8s/k8s_distributed_cn.html">Kubernetes分布式训练</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../howto/dev/write_docs_cn.html">如何贡献/修改文档</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../howto/deep_model/rnn/index_cn.html">RNN相关模型</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../howto/deep_model/rnn/rnn_config_cn.html">RNN配置</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../howto/deep_model/rnn/recurrent_group_cn.html">Recurrent Group教程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../howto/deep_model/rnn/hierarchical_layer_cn.html">支持双层序列作为输入的Layer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../howto/deep_model/rnn/hrnn_rnn_api_compare_cn.html">单双层RNN API对比介绍</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../howto/optimization/gpu_profiling_cn.html">GPU性能分析与调优</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../index_cn.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../model_configs.html">模型配置</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../config/activation.html">Activation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../config/layer.html">Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../config/evaluators.html">Evaluators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../config/optimizer.html">Optimizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../config/pooling.html">Pooling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../config/networks.html">Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../config/attr.html">Parameter Attribute</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../data.html">数据访问</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../data/data_reader.html">Data Reader Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../data/image.html">Image Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../data/dataset.html">Dataset</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../run_logic.html">训练与应用</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq/index_cn.html">FAQ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../faq/build_and_install/index_cn.html">编译安装与单元测试</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../faq/model/index_cn.html">模型配置</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../faq/parameter/index_cn.html">参数设置</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../faq/local/index_cn.html">本地训练与预测</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../faq/cluster/index_cn.html">集群训练与预测</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mobile/index_cn.html">MOBILE</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../mobile/cross_compiling_for_android_cn.html">Android平台编译指南</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../mobile/cross_compiling_for_ios_cn.html">iOS平台编译指南</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../mobile/cross_compiling_for_raspberry_cn.html">Raspberry Pi平台编译指南</a></li>
+</ul>
+</li>
+</ul>
+
+        
+    </nav>
+    
+    <section class="doc-content-wrap">
+
+      
+
+ 
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+      
+    <li>Layers</li>
+  </ul>
+</div>
+      
+      <div class="wy-nav-content" id="doc-content">
+        <div class="rst-content">
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="layers">
+<h1>Layers<a class="headerlink" href="#layers" title="永久链接至标题">¶</a></h1>
+<div class="section" id="fc">
+<h2>fc<a class="headerlink" href="#fc" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="embedding">
+<h2>embedding<a class="headerlink" href="#embedding" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="dynamic-lstm">
+<h2>dynamic_lstm<a class="headerlink" href="#dynamic-lstm" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="data">
+<h2>data<a class="headerlink" href="#data" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="mean">
+<h2>mean<a class="headerlink" href="#mean" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="mul">
+<h2>mul<a class="headerlink" href="#mul" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="elementwise-add">
+<h2>elementwise_add<a class="headerlink" href="#elementwise-add" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="elementwise-div">
+<h2>elementwise_div<a class="headerlink" href="#elementwise-div" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="dropout">
+<h2>dropout<a class="headerlink" href="#dropout" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="reshape">
+<h2>reshape<a class="headerlink" href="#reshape" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="sigmoid">
+<h2>sigmoid<a class="headerlink" href="#sigmoid" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="scale">
+<h2>scale<a class="headerlink" href="#scale" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="id1">
+<h2>reshape<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="transpose">
+<h2>transpose<a class="headerlink" href="#transpose" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="sigmoid-cross-entropy-with-logits">
+<h2>sigmoid_cross_entropy_with_logits<a class="headerlink" href="#sigmoid-cross-entropy-with-logits" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="cast">
+<h2>cast<a class="headerlink" href="#cast" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="concat">
+<h2>concat<a class="headerlink" href="#concat" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="sums">
+<h2>sums<a class="headerlink" href="#sums" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="linear-chain-crf">
+<h2>linear_chain_crf<a class="headerlink" href="#linear-chain-crf" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="assign">
+<h2>assign<a class="headerlink" href="#assign" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="split-lod-tensor">
+<h2>split_lod_tensor<a class="headerlink" href="#split-lod-tensor" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="merge-lod-tensor">
+<h2>merge_lod_tensor<a class="headerlink" href="#merge-lod-tensor" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="cos-sim">
+<h2>cos_sim<a class="headerlink" href="#cos-sim" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="cross-entropy">
+<h2>cross_entropy<a class="headerlink" href="#cross-entropy" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="square-error-cost">
+<h2>square_error_cost<a class="headerlink" href="#square-error-cost" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="accuracy">
+<h2>accuracy<a class="headerlink" href="#accuracy" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="sequence-conv">
+<h2>sequence_conv<a class="headerlink" href="#sequence-conv" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="conv2d">
+<h2>conv2d<a class="headerlink" href="#conv2d" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="sequence-pool">
+<h2>sequence_pool<a class="headerlink" href="#sequence-pool" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="pool2d">
+<h2>pool2d<a class="headerlink" href="#pool2d" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="batch-norm">
+<h2>batch_norm<a class="headerlink" href="#batch-norm" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="beam-search-decode">
+<h2>beam_search_decode<a class="headerlink" href="#beam-search-decode" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="lstm">
+<h2>lstm<a class="headerlink" href="#lstm" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="lod-rank-table">
+<h2>lod_rank_table<a class="headerlink" href="#lod-rank-table" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="max-sequence-len">
+<h2>max_sequence_len<a class="headerlink" href="#max-sequence-len" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="topk">
+<h2>topk<a class="headerlink" href="#topk" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="lod-tensor-to-array">
+<h2>lod_tensor_to_array<a class="headerlink" href="#lod-tensor-to-array" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="array-to-lod-tensor">
+<h2>array_to_lod_tensor<a class="headerlink" href="#array-to-lod-tensor" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="fill-constant">
+<h2>fill_constant<a class="headerlink" href="#fill-constant" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="fill-constant-batch-size-like">
+<h2>fill_constant_batch_size_like<a class="headerlink" href="#fill-constant-batch-size-like" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="ones">
+<h2>ones<a class="headerlink" href="#ones" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="zeros">
+<h2>zeros<a class="headerlink" href="#zeros" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="increment">
+<h2>increment<a class="headerlink" href="#increment" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="array-write">
+<h2>array_write<a class="headerlink" href="#array-write" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="create-array">
+<h2>create_array<a class="headerlink" href="#create-array" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="less-than">
+<h2>less_than<a class="headerlink" href="#less-than" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="array-read">
+<h2>array_read<a class="headerlink" href="#array-read" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="shrink-memory">
+<h2>shrink_memory<a class="headerlink" href="#shrink-memory" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="array-length">
+<h2>array_length<a class="headerlink" href="#array-length" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="conv2d-transpose">
+<h2>conv2d_transpose<a class="headerlink" href="#conv2d-transpose" title="永久链接至标题">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, PaddlePaddle developers.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: ".txt",
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../../_static/translations.js"></script>
+      <script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+       
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+  
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/js/perfect-scrollbar.jquery.min.js"></script>
+  <script src="../../../_static/js/paddle_doc_init.js"></script> 
+
+</body>
+</html>
