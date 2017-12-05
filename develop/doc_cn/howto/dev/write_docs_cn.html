@@ -35,7 +35,7 @@
     <link rel="top" title="PaddlePaddle  文档" href="../../index.html"/>
         <link rel="up" title="进阶指南" href="../index_cn.html"/>
         <link rel="next" title="RNN相关模型" href="../deep_model/rnn/index_cn.html"/>
-        <link rel="prev" title="Kubernetes分布式训练" href="../usage/k8s/k8s_distributed_cn.html"/> 
+        <link rel="prev" title="如何贡献代码" href="contribute_to_paddle_cn.html"/> 
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/css/perfect-scrollbar.min.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/css/override.css" type="text/css" />
@@ -131,6 +131,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../usage/k8s/k8s_basis_cn.html">Kubernetes 简介</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../usage/k8s/k8s_cn.html">Kubernetes单机训练</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../usage/k8s/k8s_distributed_cn.html">Kubernetes分布式训练</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contribute_to_paddle_cn.html">如何贡献代码</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">如何贡献/修改文档</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../deep_model/rnn/index_cn.html">RNN相关模型</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../deep_model/rnn/rnn_config_cn.html">RNN配置</a></li>
@@ -209,10 +210,55 @@
             
   <div class="section" id="id1">
 <h1>如何贡献/修改文档<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
-<p>PaddlePaddle的文档包括英文文档 <code class="docutils literal"><span class="pre">doc</span></code> 和中文文档 <code class="docutils literal"><span class="pre">doc_cn</span></code> 两个部分。文档都是通过 <a class="reference external" href="https://cmake.org/">cmake</a> 驱动 <a class="reference external" href="http://www.sphinx-doc.org/en/1.4.8/">sphinx</a> 编译生成，生成后的文档分别存储在编译目录的 <code class="docutils literal"><span class="pre">doc</span></code> 和 <code class="docutils literal"><span class="pre">doc_cn</span></code> 两个子目录下。</p>
+<p>PaddlePaddle的文档包括英文文档 <code class="docutils literal"><span class="pre">doc</span></code> 和中文文档 <code class="docutils literal"><span class="pre">doc_cn</span></code> 两个部分。文档都是通过 <a class="reference external" href="https://cmake.org/">cmake</a> 驱动 <a class="reference external" href="http://www.sphinx-doc.org/en/1.4.8/">sphinx</a> 编译生成，生成后的文档分别存储在编译目录的 <code class="docutils literal"><span class="pre">doc</span></code> 和 <code class="docutils literal"><span class="pre">doc_cn</span></code> 两个子目录下。
+也可以利用PaddlePaddle 工具来编译文档，这个情况下所有的文件会存在整理过的的文件目录 .ppo_workspace/content 下</p>
 <div class="section" id="id2">
 <h2>如何构建文档<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
-<p>PaddlePaddle的文档构建有两种方式。</p>
+<p>PaddlePaddle的文档构建有三种方式。</p>
+<div class="section" id="paddlepaddle-org">
+<h3>使用PaddlePaddle.org工具<a class="headerlink" href="#paddlepaddle-org" title="永久链接至标题">¶</a></h3>
+<p>这个是目前推荐的使用方法。除了可以自动编译文档，也可以直接在网页预览文档。</p>
+<p>文件工具是使用Docker，需要在系统里先安装好Docker工具包。Docker安装请参考Docker的官网。安装好Docker之后及可用以下命令启动工具</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>mkdir paddlepaddle <span class="c1"># Create paddlepaddle working directory</span>
+<span class="nb">cd</span> paddlepaddle
+
+<span class="c1"># Clone the content repositories</span>
+git clone https://github.com/PaddlePaddle/Paddle.git
+git clone https://github.com/PaddlePaddle/book.git
+git clone https://github.com/PaddlePaddle/models.git
+git clone https://github.com/PaddlePaddle/Mobile.git
+
+<span class="c1"># Please specify the working directory through -v</span>
+docker run -it -p <span class="m">8000</span>:8000 -v <span class="sb">`</span><span class="nb">pwd</span><span class="sb">`</span>:/var/content paddlepaddle/paddlepaddle.org:latest
+</pre></div>
+</div>
+<p>注意: PaddlePaddle.org 会在 -v (volume) 指定的内容存储库运行命令
+之后再用网页连到http://localhost:8000就可以在网页上生成需要的文档
+编译后的文件将被存储在工作目录 &lt;paddlepaddle working directory&gt;/.ppo_workspace/content。</p>
+<p>如果不想使用 Docker，你还可以通过运行Django框架直接激活工具的服务器。使用下面的命令来运行它。</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>mkdir paddlepaddle <span class="c1"># Create paddlepaddle working directory</span>
+<span class="nb">cd</span> paddlepaddle
+
+<span class="c1"># Clone the content repositories and PaddlePaddle.org</span>
+git clone https://github.com/PaddlePaddle/Paddle.git
+git clone https://github.com/PaddlePaddle/book.git
+git clone https://github.com/PaddlePaddle/models.git
+git clone https://github.com/PaddlePaddle/Mobile.git
+git clone https://github.com/PaddlePaddle/PaddlePaddle.org.git
+
+<span class="c1"># Please specify the PaddlePaddle working directory. In the current setting, it should be pwd</span>
+<span class="nb">export</span> <span class="nv">CONTENT_DIR</span><span class="o">=</span>&lt;path_to_paddlepaddle_working_directory&gt;
+<span class="nb">export</span> <span class="nv">ENV</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="nb">cd</span> PaddlePaddle.org/portal/
+pip install -r requirements.txt
+python manage.py runserver
+</pre></div>
+</div>
+<p>工具服务器将读取环境变量 CONTENT_DIR 搜索代码库。请指定的PaddlePaddle工作目录给环境变量 CONTENT_DIR。
+之后再用网页连到http://localhost:8000就可以在网页上生成需要的文档。
+编译后的文件将被存储在工作目录 &lt;paddlepaddle working directory&gt;/.ppo_workspace/content。</p>
+<p>想了解更多PaddlePaddle.org工具的详细信息，可以 <a class="reference external" href="https://github.com/PaddlePaddle/PaddlePaddle.org/blob/develop/README.cn.md">点击这里</a> 。</p>
+</div>
 <div class="section" id="docker">
 <h3>使用Docker构建<a class="headerlink" href="#docker" title="永久链接至标题">¶</a></h3>
 <p>使用Docker构建PaddlePaddle的文档，需要在系统里先安装好Docker工具包。Docker安装请参考 <a class="reference external" href="https://docs.docker.com/">Docker的官网</a> 。安装好Docker之后可以使用源码目录下的脚本构建文档，即</p>
@@ -224,8 +270,8 @@ sh build_docs.sh
 <p>编译完成之后，会在当前目录生成两个子目录: doc(英文文档目录)和 doc_cn(中文文档目录)。
 打开浏览器访问对应目录下的index.html即可访问本地文档。</p>
 </div>
-<div class="section" id="id4">
-<h3>直接构建<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id5">
+<h3>直接构建<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h3>
 <p>如果提示正确，可以执行以下命令编译生成文档，即</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">cd</span> TO_YOUR_PADDLE_CLONE_PATH
 mkdir -p build
@@ -239,19 +285,15 @@ make paddle_docs paddle_docs_cn
 打开浏览器访问对应目录下的index.html即可访问本地文档。</p>
 </div>
 </div>
-<div class="section" id="id5">
-<h2>如何书写文档<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id6">
+<h2>如何书写文档<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h2>
 <p>PaddlePaddle文档使用 <a class="reference external" href="http://www.sphinx-doc.org/en/1.4.8/">sphinx</a> 自动生成，用户可以参考sphinx教程进行书写。</p>
 </div>
-<div class="section" id="id6">
-<h2>如何更新文档主题<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h2>
-<p>PaddlePaddle文档主题在 <cite>TO_YOUR_PADDLE_CLONE_PATH/doc_theme</cite> 文件夹下，包含所有和前端网页设计相关的文件。</p>
-</div>
-<div class="section" id="doc-paddlepaddle-org">
-<h2>如何更新doc.paddlepaddle.org<a class="headerlink" href="#doc-paddlepaddle-org" title="永久链接至标题">¶</a></h2>
-<p>更新的文档以PR的形式提交到github中，提交方式参见 <a class="reference external" href="http://doc.paddlepaddle.org/develop/doc_cn/howto/dev/contribute_to_paddle_cn.html">贡献文档</a> 。
-目前PaddlePaddle的develop分支的文档是自动触发更新的，用户可以分别查看最新的 <a class="reference external" href="http://doc.paddlepaddle.org/develop/doc_cn/">中文文档</a> 和
-<a class="reference external" href="http://doc.paddlepaddle.org/develop/doc/">英文文档</a> 。</p>
+<div class="section" id="www-paddlepaddle-org">
+<h2>如何更新www.paddlepaddle.org<a class="headerlink" href="#www-paddlepaddle-org" title="永久链接至标题">¶</a></h2>
+<p>更新的文档以PR的形式提交到github中，提交方式参见 <a class="reference external" href="http://www.paddlepaddle.org/docs/develop/documentation/en/howto/dev/contribute_to_paddle_en.html">贡献文档</a> 。
+目前PaddlePaddle的develop分支的文档是自动触发更新的，用户可以分别查看最新的 <a class="reference external" href="http://www.paddlepaddle.org/docs/develop/documentation/zh/getstarted/index_cn.html">中文文档</a> 和
+<a class="reference external" href="http://www.paddlepaddle.org/docs/develop/documentation/en/getstarted/index_en.html">英文文档</a> 。</p>
 </div>
 </div>
 
@@ -265,7 +307,7 @@ make paddle_docs paddle_docs_cn
         <a href="../deep_model/rnn/index_cn.html" class="btn btn-neutral float-right" title="RNN相关模型" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../usage/k8s/k8s_distributed_cn.html" class="btn btn-neutral" title="Kubernetes分布式训练" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="contribute_to_paddle_cn.html" class="btn btn-neutral" title="如何贡献代码" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
