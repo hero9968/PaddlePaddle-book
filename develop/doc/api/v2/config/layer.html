@@ -747,9 +747,13 @@ the channels number of the input.</li>
 None, its actual value will be automatically set to &#8216;stride&#8217;.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
 details.</li>
-<li><strong>ceil_mode</strong> (<em>bool</em>) &#8211; Wether to use the ceil function to calculate output height and width.
+<li><strong>ceil_mode</strong> (<em>bool</em>) &#8211; Whether to use the ceil function to calculate output height and width.
 True is the default. If it is set to False, the floor function will
 be used.</li>
+<li><strong>exclude_mode</strong> (<em>bool</em>) &#8211; Whether to exclude the padding cells when calculating, but only
+work when pool_type is AvgPooling. If None, also exclude the padding
+cells. If use cudnn, use CudnnAvgPooling or CudnnAvgInclPadPooling
+as pool_type to identify the mode.</li>
 </ul>
 </td>
 </tr>
