@@ -214,24 +214,105 @@
 <h1>Optimizer<a class="headerlink" href="#optimizer" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="id1">
 <h2>Optimizer<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">paddle.v2.fluid.optimizer.</code><code class="descname">Optimizer</code><span class="sig-paren">(</span><em>global_step=None</em><span class="sig-paren">)</span></dt>
+<dd><p>Optimizer Base class.</p>
+<p>Define the common interface of an optimizer.
+User should not use this class directly,
+but need to use one of it&#8217;s implementation.</p>
+<dl class="method">
+<dt>
+<code class="descname">create_optimization_pass</code><span class="sig-paren">(</span><em>parameters_and_grads</em>, <em>loss</em>, <em>startup_program=None</em><span class="sig-paren">)</span></dt>
+<dd><p>Add optimization operators to update gradients to variables.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>loss</strong> &#8211; the target that this optimization is for.</li>
+<li><strong>parameters_and_grads</strong> &#8211; a list of (variable, gradient) pair to update.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">a list of operators that will complete one step of
+optimization. This will include parameter update ops, global step
+update ops and any other custom ops required by subclasses to manage
+their internal state.
+:param startup_program:</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">return_op_list</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">minimize</code><span class="sig-paren">(</span><em>loss</em>, <em>startup_program=None</em>, <em>parameter_list=None</em>, <em>no_grad_set=None</em><span class="sig-paren">)</span></dt>
+<dd><p>Add operations to minimize <cite>loss</cite> by updating <cite>parameter_list</cite>.</p>
+<p>This method combines interface <cite>append_backward_ops()</cite> and
+<cite>create_optimization_pass()</cite> into one.</p>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="sgdoptimizer">
 <h2>SGDOptimizer<a class="headerlink" href="#sgdoptimizer" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">paddle.v2.fluid.optimizer.</code><code class="descname">SGDOptimizer</code><span class="sig-paren">(</span><em>learning_rate</em>, <em>global_step=None</em><span class="sig-paren">)</span></dt>
+<dd><p>Simple SGD optimizer without any state.</p>
+</dd></dl>
+
 </div>
 <div class="section" id="momentumoptimizer">
 <h2>MomentumOptimizer<a class="headerlink" href="#momentumoptimizer" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">paddle.v2.fluid.optimizer.</code><code class="descname">MomentumOptimizer</code><span class="sig-paren">(</span><em>learning_rate</em>, <em>momentum</em>, <em>use_nesterov=False</em>, <em>global_step=None</em><span class="sig-paren">)</span></dt>
+<dd><p>Simple Momentum optimizer with velocity state</p>
+</dd></dl>
+
 </div>
 <div class="section" id="adagradoptimizer">
 <h2>AdagradOptimizer<a class="headerlink" href="#adagradoptimizer" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">paddle.v2.fluid.optimizer.</code><code class="descname">AdagradOptimizer</code><span class="sig-paren">(</span><em>learning_rate</em>, <em>epsilon=1e-06</em>, <em>global_step=None</em><span class="sig-paren">)</span></dt>
+<dd><p>Simple Adagrad optimizer with moment state</p>
+</dd></dl>
+
 </div>
 <div class="section" id="adamoptimizer">
 <h2>AdamOptimizer<a class="headerlink" href="#adamoptimizer" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">paddle.v2.fluid.optimizer.</code><code class="descname">AdamOptimizer</code><span class="sig-paren">(</span><em>learning_rate=0.001</em>, <em>beta1=0.9</em>, <em>beta2=0.999</em>, <em>epsilon=1e-08</em>, <em>global_step=None</em><span class="sig-paren">)</span></dt>
+<dd><p>Implements the Adam Optimizer</p>
+</dd></dl>
+
 </div>
 <div class="section" id="adamaxoptimizer">
 <h2>AdamaxOptimizer<a class="headerlink" href="#adamaxoptimizer" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">paddle.v2.fluid.optimizer.</code><code class="descname">AdamaxOptimizer</code><span class="sig-paren">(</span><em>learning_rate=0.001</em>, <em>beta1=0.9</em>, <em>beta2=0.999</em>, <em>epsilon=1e-08</em>, <em>global_step=None</em><span class="sig-paren">)</span></dt>
+<dd><p>Implements the Adamax Optimizer</p>
+</dd></dl>
+
 </div>
 <div class="section" id="decayedadagradoptimizer">
 <h2>DecayedAdagradOptimizer<a class="headerlink" href="#decayedadagradoptimizer" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">paddle.v2.fluid.optimizer.</code><code class="descname">DecayedAdagradOptimizer</code><span class="sig-paren">(</span><em>learning_rate</em>, <em>decay=0.95</em>, <em>epsilon=1e-06</em>, <em>global_step=None</em><span class="sig-paren">)</span></dt>
+<dd><p>Simple Decayed Adagrad optimizer with moment state</p>
+</dd></dl>
+
 </div>
 </div>
 
