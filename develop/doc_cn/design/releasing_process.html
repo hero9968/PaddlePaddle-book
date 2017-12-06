@@ -215,6 +215,8 @@
 </li>
 <li><p class="first">对这个版本的提交，做如下几个操作:</p>
 <ul>
+<li><p class="first">修改<code class="docutils literal"><span class="pre">python/setup.py.in</span></code>中的版本信息,并将<code class="docutils literal"><span class="pre">istaged</span></code>字段设为<code class="docutils literal"><span class="pre">True</span></code>。</p>
+</li>
 <li><p class="first">编译这个版本的Docker发行镜像，发布到dockerhub。如果失败，修复Docker编译镜像问题，Patch号加一，返回第二步</p>
 </li>
 <li><p class="first">编译这个版本的Ubuntu Deb包。如果失败，修复Ubuntu Deb包编译问题，Patch号加一，返回第二步。</p>
@@ -253,9 +255,8 @@
 <li><code class="docutils literal"><span class="pre">release/版本号</span></code>分支一旦建立，一般不允许再从<code class="docutils literal"><span class="pre">develop</span></code>分支合入<code class="docutils literal"><span class="pre">release/版本号</span></code>。这样保证<code class="docutils literal"><span class="pre">release/版本号</span></code>分支功能的封闭，方便测试人员测试PaddlePaddle的行为。</li>
 <li>在<code class="docutils literal"><span class="pre">release/版本号</span></code>分支存在的时候，如果有bugfix的行为，需要将bugfix的分支同时merge到<code class="docutils literal"><span class="pre">master</span></code>, <code class="docutils literal"><span class="pre">develop</span></code>和<code class="docutils literal"><span class="pre">release/版本号</span></code>这三个分支。</li>
 </ul>
-</div>
 <div class="section" id="paddlepaddle">
-<span id="id1"></span><h1>PaddlePaddle 分支规范<a class="headerlink" href="#paddlepaddle" title="永久链接至标题">¶</a></h1>
+<span id="id1"></span><h2>PaddlePaddle 分支规范<a class="headerlink" href="#paddlepaddle" title="永久链接至标题">¶</a></h2>
 <p>PaddlePaddle开发过程使用<a class="reference external" href="http://nvie.com/posts/a-successful-git-branching-model/">git-flow</a>分支规范，并适应github的特性做了一些区别。</p>
 <ul class="simple">
 <li>PaddlePaddle的主版本库遵循<a class="reference external" href="http://nvie.com/posts/a-successful-git-branching-model/">git-flow</a>分支规范。其中:<ul>
@@ -277,10 +278,10 @@
 </ul>
 </div>
 <div class="section" id="paddlepaddle">
-<span id="id2"></span><h1>PaddlePaddle回归测试列表<a class="headerlink" href="#paddlepaddle" title="永久链接至标题">¶</a></h1>
+<span id="id2"></span><h2>PaddlePaddle回归测试列表<a class="headerlink" href="#paddlepaddle" title="永久链接至标题">¶</a></h2>
 <p>本列表说明PaddlePaddle发版之前需要测试的功能点。</p>
 <div class="section" id="paddlepaddle-book">
-<span id="paddlepaddle-book"></span><h2>PaddlePaddle Book中所有章节<a class="headerlink" href="#paddlepaddle-book" title="永久链接至标题">¶</a></h2>
+<span id="paddlepaddle-book"></span><h3>PaddlePaddle Book中所有章节<a class="headerlink" href="#paddlepaddle-book" title="永久链接至标题">¶</a></h3>
 <p>PaddlePaddle每次发版本首先要保证PaddlePaddle Book中所有章节功能的正确性。功能的正确性包括验证PaddlePaddle目前的<code class="docutils literal"><span class="pre">paddle_trainer</span></code>训练和纯使用<code class="docutils literal"><span class="pre">Python</span></code>训练模型正确性。</p>
 <p>| | 新手入门章节 | 识别数字 | 图像分类 | 词向量 | 情感分析 | 语意角色标注 | 机器翻译 | 个性化推荐 |
 | &#8212; | &#8212; | &#8212; | &#8212; | &#8212; | &#8212; | &#8212; | &#8212; | &#8212; |
@@ -292,6 +293,7 @@
 | API.V2 + Ubuntu + CPU |  |  |  |  |  |  |  |  |
 | <code class="docutils literal"><span class="pre">paddle_trainer</span></code> + Ubuntu + GPU |  |  |  |  |  |  |  |  |
 | <code class="docutils literal"><span class="pre">paddle_trainer</span></code> + Ubuntu + CPU |  |  |  |  |  |  |  |  |</p>
+</div>
 </div>
 </div>
 
