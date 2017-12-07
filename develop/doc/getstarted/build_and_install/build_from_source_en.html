@@ -224,7 +224,7 @@ below <a class="reference internal" href="#compile-dependencies">Compile Depende
 <div class="highlight-bash"><div class="highlight"><pre><span></span>git clone https://github.com/PaddlePaddle/Paddle.git
 <span class="nb">cd</span> Paddle
 <span class="c1"># run the following command to build a CPU-Only binaries if you are using docker</span>
-docker run -it -v <span class="nv">$PWD</span>:/paddle -e <span class="s2">&quot;WITH_GPU=OFF&quot;</span> -e <span class="s2">&quot;WITH_TESTING=OFF&quot;</span> paddlepaddle/paddle_manylinux_devel:cuda8.0_cudnn5 bash -x paddle/scripts/docker/build.sh
+docker run -it -v <span class="nv">$PWD</span>:/paddle -e <span class="s2">&quot;WITH_GPU=OFF&quot;</span> -e <span class="s2">&quot;WITH_TESTING=OFF&quot;</span> paddlepaddle/paddle_manylinux_devel:cuda8.0_cudnn5 bash -x /paddle/paddle/scripts/docker/build.sh
 <span class="c1"># else run these commands</span>
 mkdir build
 <span class="nb">cd</span> build
@@ -235,7 +235,7 @@ make
 <p>When the compile finishes, you can get the output whl package under
 build/python/dist, then you can choose to install the whl on local
 machine or copy it to the target machine.</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>pip install python/dist/*.whl
+<div class="highlight-bash"><div class="highlight"><pre><span></span>pip install build/python/dist/*.whl
 </pre></div>
 </div>
 </div>
@@ -244,7 +244,7 @@ machine or copy it to the target machine.</p>
 <p>If you wish to run the tests, you may follow the below steps:</p>
 <p>When using Docker, set <code class="code docutils literal"><span class="pre">RUN_TEST=ON</span></code> and <code class="code docutils literal"><span class="pre">WITH_TESTING=ON</span></code> will run test immediately after the build.
 Set <code class="code docutils literal"><span class="pre">WITH_GPU=ON</span></code> Can also run tests on GPU.</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>docker run -it -v <span class="nv">$PWD</span>:/paddle -e <span class="s2">&quot;WITH_GPU=OFF&quot;</span> -e <span class="s2">&quot;WITH_TESTING=ON&quot;</span> -e <span class="s2">&quot;RUN_TEST=ON&quot;</span> paddlepaddle/paddle_manylinux_devel:cuda8.0_cudnn5 bash -x paddle/scripts/docker/build.sh
+<div class="highlight-bash"><div class="highlight"><pre><span></span>docker run -it -v <span class="nv">$PWD</span>:/paddle -e <span class="s2">&quot;WITH_GPU=OFF&quot;</span> -e <span class="s2">&quot;WITH_TESTING=ON&quot;</span> -e <span class="s2">&quot;RUN_TEST=ON&quot;</span> paddlepaddle/paddle_manylinux_devel:cuda8.0_cudnn5 bash -x paddle/paddle/scripts/docker/build.sh
 </pre></div>
 </div>
 <p>If you don&#8217;t use Docker, just run ctest will start the tests:</p>
@@ -366,7 +366,7 @@ For detailed cmake tutorial please refer to <a class="reference external" href="
 <td>ON</td>
 </tr>
 <tr class="row-even"><td>WITH_DOC</td>
-<td>Build documentaions</td>
+<td>Build documentations</td>
 <td>OFF</td>
 </tr>
 <tr class="row-odd"><td>WITH_SWIG_PY</td>
