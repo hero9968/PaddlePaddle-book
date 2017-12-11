@@ -216,7 +216,7 @@
 <h2>Optimizer<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt>
-<em class="property">class </em><code class="descclassname">paddle.v2.fluid.optimizer.</code><code class="descname">Optimizer</code><span class="sig-paren">(</span><em>global_step=None</em><span class="sig-paren">)</span></dt>
+<em class="property">class </em><code class="descclassname">paddle.v2.fluid.optimizer.</code><code class="descname">Optimizer</code><span class="sig-paren">(</span><em>global_step=None</em>, <em>regularization=None</em><span class="sig-paren">)</span></dt>
 <dd><p>Optimizer Base class.</p>
 <p>Define the common interface of an optimizer.
 User should not use this class directly,
@@ -264,7 +264,7 @@ their internal state.
 <h2>SGDOptimizer<a class="headerlink" href="#sgdoptimizer" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt>
-<em class="property">class </em><code class="descclassname">paddle.v2.fluid.optimizer.</code><code class="descname">SGDOptimizer</code><span class="sig-paren">(</span><em>learning_rate</em>, <em>global_step=None</em><span class="sig-paren">)</span></dt>
+<em class="property">class </em><code class="descclassname">paddle.v2.fluid.optimizer.</code><code class="descname">SGDOptimizer</code><span class="sig-paren">(</span><em>learning_rate</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Simple SGD optimizer without any state.</p>
 </dd></dl>
 
@@ -273,7 +273,7 @@ their internal state.
 <h2>MomentumOptimizer<a class="headerlink" href="#momentumoptimizer" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt>
-<em class="property">class </em><code class="descclassname">paddle.v2.fluid.optimizer.</code><code class="descname">MomentumOptimizer</code><span class="sig-paren">(</span><em>learning_rate</em>, <em>momentum</em>, <em>use_nesterov=False</em>, <em>global_step=None</em><span class="sig-paren">)</span></dt>
+<em class="property">class </em><code class="descclassname">paddle.v2.fluid.optimizer.</code><code class="descname">MomentumOptimizer</code><span class="sig-paren">(</span><em>learning_rate</em>, <em>momentum</em>, <em>use_nesterov=False</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Simple Momentum optimizer with velocity state</p>
 </dd></dl>
 
@@ -282,7 +282,7 @@ their internal state.
 <h2>AdagradOptimizer<a class="headerlink" href="#adagradoptimizer" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt>
-<em class="property">class </em><code class="descclassname">paddle.v2.fluid.optimizer.</code><code class="descname">AdagradOptimizer</code><span class="sig-paren">(</span><em>learning_rate</em>, <em>epsilon=1e-06</em>, <em>global_step=None</em><span class="sig-paren">)</span></dt>
+<em class="property">class </em><code class="descclassname">paddle.v2.fluid.optimizer.</code><code class="descname">AdagradOptimizer</code><span class="sig-paren">(</span><em>learning_rate</em>, <em>epsilon=1e-06</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Simple Adagrad optimizer with moment state</p>
 </dd></dl>
 
@@ -291,7 +291,7 @@ their internal state.
 <h2>AdamOptimizer<a class="headerlink" href="#adamoptimizer" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt>
-<em class="property">class </em><code class="descclassname">paddle.v2.fluid.optimizer.</code><code class="descname">AdamOptimizer</code><span class="sig-paren">(</span><em>learning_rate=0.001</em>, <em>beta1=0.9</em>, <em>beta2=0.999</em>, <em>epsilon=1e-08</em>, <em>global_step=None</em><span class="sig-paren">)</span></dt>
+<em class="property">class </em><code class="descclassname">paddle.v2.fluid.optimizer.</code><code class="descname">AdamOptimizer</code><span class="sig-paren">(</span><em>learning_rate=0.001</em>, <em>beta1=0.9</em>, <em>beta2=0.999</em>, <em>epsilon=1e-08</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Implements the Adam Optimizer</p>
 </dd></dl>
 
@@ -300,7 +300,7 @@ their internal state.
 <h2>AdamaxOptimizer<a class="headerlink" href="#adamaxoptimizer" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt>
-<em class="property">class </em><code class="descclassname">paddle.v2.fluid.optimizer.</code><code class="descname">AdamaxOptimizer</code><span class="sig-paren">(</span><em>learning_rate=0.001</em>, <em>beta1=0.9</em>, <em>beta2=0.999</em>, <em>epsilon=1e-08</em>, <em>global_step=None</em><span class="sig-paren">)</span></dt>
+<em class="property">class </em><code class="descclassname">paddle.v2.fluid.optimizer.</code><code class="descname">AdamaxOptimizer</code><span class="sig-paren">(</span><em>learning_rate=0.001</em>, <em>beta1=0.9</em>, <em>beta2=0.999</em>, <em>epsilon=1e-08</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Implements the Adamax Optimizer</p>
 </dd></dl>
 
@@ -309,7 +309,7 @@ their internal state.
 <h2>DecayedAdagradOptimizer<a class="headerlink" href="#decayedadagradoptimizer" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt>
-<em class="property">class </em><code class="descclassname">paddle.v2.fluid.optimizer.</code><code class="descname">DecayedAdagradOptimizer</code><span class="sig-paren">(</span><em>learning_rate</em>, <em>decay=0.95</em>, <em>epsilon=1e-06</em>, <em>global_step=None</em><span class="sig-paren">)</span></dt>
+<em class="property">class </em><code class="descclassname">paddle.v2.fluid.optimizer.</code><code class="descname">DecayedAdagradOptimizer</code><span class="sig-paren">(</span><em>learning_rate</em>, <em>decay=0.95</em>, <em>epsilon=1e-06</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Simple Decayed Adagrad optimizer with moment state</p>
 </dd></dl>
 
