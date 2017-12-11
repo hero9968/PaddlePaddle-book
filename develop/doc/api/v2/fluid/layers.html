@@ -811,7 +811,7 @@ in the input parameters to the function.</p>
 <h2>conv2d<a class="headerlink" href="#conv2d" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">conv2d</code><span class="sig-paren">(</span><em>input, num_filters, filter_size, stride=[1, 1], padding=None, groups=None, param_attr=None, bias_attr=None, act=None, name=None, main_program=None, startup_program=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">conv2d</code><span class="sig-paren">(</span><em>input</em>, <em>num_filters</em>, <em>filter_size</em>, <em>stride=None</em>, <em>padding=None</em>, <em>groups=None</em>, <em>param_attr=None</em>, <em>bias_attr=None</em>, <em>act=None</em>, <em>name=None</em>, <em>main_program=None</em>, <em>startup_program=None</em><span class="sig-paren">)</span></dt>
 <dd><p>This function creates the op for a 2-dimensional Convolution.
 This is performed using the parameters of filters(size, dimensionality etc)
 , stride and other configurations for a Convolution operation.
@@ -835,7 +835,7 @@ in the parameters.</p>
 <h2>pool2d<a class="headerlink" href="#pool2d" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">pool2d</code><span class="sig-paren">(</span><em>input, pool_size, pool_type, pool_stride=[1, 1], pool_padding=[0, 0], global_pooling=False, main_program=None, startup_program=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">pool2d</code><span class="sig-paren">(</span><em>input</em>, <em>pool_size</em>, <em>pool_type</em>, <em>pool_stride=None</em>, <em>pool_padding=None</em>, <em>global_pooling=False</em>, <em>main_program=None</em>, <em>startup_program=None</em><span class="sig-paren">)</span></dt>
 <dd><p>This function adds the operator for pooling in 2 dimensions, using the
 pooling configurations mentioned in input parameters.</p>
 </dd></dl>
