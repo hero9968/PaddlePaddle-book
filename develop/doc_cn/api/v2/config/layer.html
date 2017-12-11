@@ -1180,14 +1180,10 @@ factors which dimensions equal to the channel&#8217;s number.</p>
 <dl class="class">
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">row_l2_norm</code></dt>
-<dd><blockquote>
-<div><p>A layer for L2-normalization in each row.</p>
+<dd><p>A layer for L2-normalization in each row.</p>
 <div class="math">
-\[out[i] =\]</div>
-</div></blockquote>
-<p>rac{in[i]}{sqrt{sum_{k=1}^N in[k]^{2}}}</p>
-<blockquote>
-<div><p>where the size of <span class="math">\(in\)</span> is (batchSize x dataDim) ,
+\[out[i] = \frac{in[i]} {\sqrt{\sum_{k=1}^N in[k]^{2}}}\]</div>
+<p>where the size of <span class="math">\(in\)</span> is (batchSize x dataDim) ,
 and the size of <span class="math">\(out\)</span> is a (batchSize x dataDim) .</p>
 <p>The example usage is:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">row_l2_norm</span> <span class="o">=</span> <span class="n">row_l2_norm</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">layer</span><span class="p">)</span>
@@ -1197,28 +1193,22 @@ and the size of <span class="math">\(out\)</span> is a (batchSize x dataDim) .</
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param input:</th><td class="field-body">The input of this layer.</td>
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
+<li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute
+for details.</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">type input:</th><td class="field-body">paddle.v2.config_base.Layer</td>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">paddle.v2.config_base.Layer object.</p>
+</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">param name:</th><td class="field-body">The name of this layer. It is optional.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">type name:</th><td class="field-body">basestring</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">param layer_attr:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The extra layer attribute. See paddle.v2.attr.ExtraAttribute
-for details.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">type layer_attr:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">paddle.v2.attr.ExtraAttribute</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">return:</th><td class="field-body">paddle.v2.config_base.Layer object.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">rtype:</th><td class="field-body">paddle.v2.config_base.Layer</td>
+<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">paddle.v2.config_base.Layer</p>
+</td>
 </tr>
 </tbody>
 </table>
-</div></blockquote>
 </dd></dl>
 
 </div>
@@ -1287,26 +1277,29 @@ be included in the configuration file to complete the input-to-hidden
 mappings before lstmemory is called.</p>
 <p>NOTE: This is a low level user interface. You can use network.simple_lstm
 to config a simple plain lstm layer.</p>
-<p>Please refer to <strong>Generating Sequences With Recurrent Neural Networks</strong> for
-more details about LSTM.</p>
-<p><a class="reference external" href="http://arxiv.org/abs/1308.0850">Link</a> goes as below.</p>
+<dl class="docutils">
+<dt>Reference:</dt>
+<dd><a class="reference external" href="https://arxiv.org/pdf/1308.0850.pdf">Generating Sequences With Recurrent Neural Networks</a></dd>
+</dl>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<em>basestring</em>) &#8211; The lstmemory layer name.</li>
-<li><strong>size</strong> (<em>int</em>) &#8211; DEPRECATED. size of the lstm cell</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
+<li><strong>size</strong> (<em>int</em>) &#8211; DEPRECATED. The dimension of the lstm cell.</li>
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer.</li>
-<li><strong>reverse</strong> (<em>bool</em>) &#8211; is sequence process reversed or not.</li>
+<li><strong>reverse</strong> (<em>bool</em>) &#8211; Whether the input sequence is processed in a reverse order.</li>
 <li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type. paddle.v2.activation.Tanh is the default activation.</li>
-<li><strong>gate_act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; gate activation type, paddle.v2.activation.Sigmoid by default.</li>
-<li><strong>state_act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; state activation type, paddle.v2.activation.Tanh by default.</li>
+<li><strong>gate_act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type of this layer&#8217;s gates. paddle.v2.activation.Sigmoid is the
+default activation.</li>
+<li><strong>state_act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type of the state. paddle.v2.activation.Tanh is the default activation.</li>
 <li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | None | bool | Any</em>) &#8211; The bias attribute. If the parameter is set to False or an object
 whose type is not paddle.v2.attr.ParameterAttribute, no bias is defined. If the
 parameter is set to True, the bias is initialized to zero.</li>
-<li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | None | False</em>) &#8211; Parameter Attribute.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute | None</em>) &#8211; Extra Layer attribute</li>
+<li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The parameter attribute. See paddle.v2.attr.ParameterAttribute for details.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute | None</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
 </ul>
 </td>
 </tr>
@@ -1347,12 +1340,14 @@ candidate activation <span class="math">\(\tilde{h_t}\)</span>:</p>
 <div class="math">
 \[h_t = (1 - z_t) h_{t-1} + z_t {\tilde{h_t}}\]</div>
 <p>NOTE: In PaddlePaddle&#8217;s implementation, the multiplication operations
-<span class="math">\(W_{r}x_{t}\)</span>, <span class="math">\(W_{z}x_{t}\)</span> and <span class="math">\(W x_t\)</span> are not computed in
-gate_recurrent layer. Consequently, an additional mixed with
+<span class="math">\(W_{r}x_{t}\)</span>, <span class="math">\(W_{z}x_{t}\)</span> and <span class="math">\(W x_t\)</span> are not performed
+in gate_recurrent layer. Consequently, an additional mixed with
 full_matrix_projection or a fc must be included before grumemory
 is called.</p>
-<p>More details can be found by referring to <a class="reference external" href="https://arxiv.org/abs/1412.3555">Empirical Evaluation of Gated
-Recurrent Neural Networks on Sequence Modeling.</a></p>
+<dl class="docutils">
+<dt>Reference:</dt>
+<dd><a class="reference external" href="https://arxiv.org/abs/1412.3555">Empirical Evaluation of Gated Recurrent Neural Networks on Sequence Modeling</a></dd>
+</dl>
 <p>The simple usage is:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">gru</span> <span class="o">=</span> <span class="n">grumemory</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
 </pre></div>
@@ -1362,20 +1357,21 @@ Recurrent Neural Networks on Sequence Modeling.</a></p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<em>None | basestring</em>) &#8211; The gru layer name.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer.</em>) &#8211; The input of this layer.</li>
-<li><strong>size</strong> (<em>int</em>) &#8211; DEPRECATED. size of the gru cell</li>
-<li><strong>reverse</strong> (<em>bool</em>) &#8211; Whether sequence process is reversed or not.</li>
+<li><strong>size</strong> (<em>int</em>) &#8211; DEPRECATED. The dimension of the gru cell.</li>
+<li><strong>reverse</strong> (<em>bool</em>) &#8211; Whether the input sequence is processed in a reverse order.</li>
 <li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type, paddle.v2.activation.Tanh is the default. This activation
 affects the <span class="math">\({\tilde{h_t}}\)</span>.</li>
-<li><strong>gate_act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; gate activation type, paddle.v2.activation.Sigmoid by default.
-This activation affects the <span class="math">\(z_t\)</span> and <span class="math">\(r_t\)</span>. It is the
-<span class="math">\(\sigma\)</span> in the above formula.</li>
+<li><strong>gate_act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type of this layer&#8217;s two gates. paddle.v2.activation.Sigmoid is
+the default activation. This activation affects the <span class="math">\(z_t\)</span>
+and <span class="math">\(r_t\)</span>. It is the <span class="math">\(\sigma\)</span> in the above formula.</li>
 <li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | None | bool | Any</em>) &#8211; The bias attribute. If the parameter is set to False or an object
 whose type is not paddle.v2.attr.ParameterAttribute, no bias is defined. If the
 parameter is set to True, the bias is initialized to zero.</li>
-<li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | None | False</em>) &#8211; Parameter Attribute.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute | None</em>) &#8211; Extra Layer attribute</li>
+<li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The parameter attribute. See paddle.v2.attr.ParameterAttribute for details.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute | None</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
 </ul>
 </td>
 </tr>
@@ -2220,10 +2216,10 @@ parameter is set to True, the bias is initialized to zero.</li>
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">last_seq</code></dt>
 <dd><p>Get Last Timestamp Activation of a sequence.</p>
-<p>If stride &gt; 0, this layer slides a window whose size is determined by stride,
-and return the last value of the window as the output. Thus, a long sequence
-will be shorten. Note that for sequence with sub-sequence, the default value
-of stride is -1.</p>
+<p>If stride &gt; 0, this layer will slide a window whose size is determined by stride,
+and return the last value of the sequence in the window as the output. Thus, a
+long sequence will be shortened. Note that for sequence with sub-sequence, the
+default value of stride is -1.</p>
 <p>The simple usage is:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">seq</span> <span class="o">=</span> <span class="n">last_seq</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">layer</span><span class="p">)</span>
 </pre></div>
@@ -2233,11 +2229,12 @@ of stride is -1.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>agg_level</strong> &#8211; Aggregated level</li>
+<li><strong>agg_level</strong> (<em>AggregateLevel</em>) &#8211; Aggregated level</li>
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer.</li>
-<li><strong>stride</strong> (<em>Int</em>) &#8211; The step size between successive pooling regions.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; extra layer attributes.</li>
+<li><strong>stride</strong> (<em>int</em>) &#8211; The step size between successive pooling regions.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
 </ul>
 </td>
 </tr>
@@ -2258,10 +2255,10 @@ of stride is -1.</p>
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">first_seq</code></dt>
 <dd><p>Get First Timestamp Activation of a sequence.</p>
-<p>If stride &gt; 0, this layer slides a window whose size is determined by stride,
-and return the first value of the window as the output. Thus, a long sequence
-will be shorten. Note that for sequence with sub-sequence, the default value
-of stride is -1.</p>
+<p>If stride &gt; 0, this layer will slide a window whose size is determined by stride,
+and return the first value of the sequence in the window as the output. Thus, a
+long sequence will be shortened. Note that for sequence with sub-sequence, the
+default value of stride is -1.</p>
 <p>The simple usage is:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">seq</span> <span class="o">=</span> <span class="n">first_seq</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">layer</span><span class="p">)</span>
 </pre></div>
@@ -2271,11 +2268,12 @@ of stride is -1.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>agg_level</strong> &#8211; aggregation level</li>
+<li><strong>agg_level</strong> (<em>AggregateLevel</em>) &#8211; aggregation level</li>
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer.</li>
-<li><strong>stride</strong> (<em>Int</em>) &#8211; The step size between successive pooling regions.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; extra layer attributes.</li>
+<li><strong>stride</strong> (<em>int</em>) &#8211; The step size between successive pooling regions.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
 </ul>
 </td>
 </tr>
@@ -2548,8 +2546,8 @@ details.</li>
 <dl class="class">
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">expand</code></dt>
-<dd><p>A layer for &#8220;Expand Dense data or (sequence data where the length of each
-sequence is one) to sequence data.&#8221;</p>
+<dd><p>A layer for expanding dense data or (sequence data where the length of each
+sequence is one) to sequence data.</p>
 <p>The example usage is:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">expand</span> <span class="o">=</span> <span class="n">expand</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">layer1</span><span class="p">,</span>
                       <span class="n">expand_as</span><span class="o">=</span><span class="n">layer2</span><span class="p">,</span>
@@ -2562,13 +2560,16 @@ sequence is one) to sequence data.&#8221;</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer.</li>
-<li><strong>expand_as</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Expand as this layer&#8217;s sequence info.</li>
+<li><strong>expand_as</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Expand the input according to this layer&#8217;s sequence infomation. And
+after the operation, the input expanded will have the same number of
+elememts as this layer.</li>
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | None | bool | Any</em>) &#8211; The bias attribute. If the parameter is set to False or an object
 whose type is not paddle.v2.attr.ParameterAttribute, no bias is defined. If the
 parameter is set to True, the bias is initialized to zero.</li>
-<li><strong>expand_level</strong> (<em>ExpandLevel</em>) &#8211; whether input layer is timestep(default) or sequence.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; extra layer attributes.</li>
+<li><strong>expand_level</strong> (<em>ExpandLevel</em>) &#8211; Whether the input layer is a sequence or the element of a sequence.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
 </ul>
 </td>
 </tr>
@@ -3056,44 +3057,32 @@ details.</li>
 <dl class="class">
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">clip</code></dt>
-<dd><blockquote>
-<div><p>A layer for clipping the input value by the threshold.</p>
+<dd><p>A layer for clipping the input value by the threshold.</p>
 <div class="math">
-\[out[i] = \min\left(\max\left(in[i],p_{1}\]</div>
-</div></blockquote>
-<p>ight),p_{2}
-ight)</p>
-<blockquote>
-<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">clip</span> <span class="o">=</span> <span class="n">clip</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="nb">input</span><span class="p">,</span> <span class="nb">min</span><span class="o">=-</span><span class="mi">10</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+\[out[i] = \min (\max (in[i],p_{1} ),p_{2} )\]</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">clip</span> <span class="o">=</span> <span class="n">clip</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="nb">input</span><span class="p">,</span> <span class="nb">min</span><span class="o">=-</span><span class="mi">10</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param name:</th><td class="field-body">The name of this layer. It is optional.</td>
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
+<li><strong>input</strong> (<em>paddle.v2.config_base.Layer.</em>) &#8211; The input of this layer.</li>
+<li><strong>min</strong> (<em>float</em>) &#8211; The lower threshold for clipping.</li>
+<li><strong>max</strong> (<em>float</em>) &#8211; The upper threshold for clipping.</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">type name:</th><td class="field-body">basestring</td>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">paddle.v2.config_base.Layer object.</p>
+</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">param input:</th><td class="field-body">The input of this layer.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">type input:</th><td class="field-body">paddle.v2.config_base.Layer.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">param min:</th><td class="field-body">The lower threshold for clipping.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">type min:</th><td class="field-body">float</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">param max:</th><td class="field-body">The upper threshold for clipping.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">type max:</th><td class="field-body">float</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">return:</th><td class="field-body">paddle.v2.config_base.Layer object.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">rtype:</th><td class="field-body">paddle.v2.config_base.Layer</td>
+<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">paddle.v2.config_base.Layer</p>
+</td>
 </tr>
 </tbody>
 </table>
-</div></blockquote>
 </dd></dl>
 
 </div>
@@ -3763,18 +3752,13 @@ details.</li>
 <dl class="class">
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">huber_regression_cost</code></dt>
-<dd><blockquote>
-<div>In statistics, the Huber loss is a loss function used in robust regression,
+<dd><p>In statistics, the Huber loss is a loss function used in robust regression,
 that is less sensitive to outliers in data than the squared error loss.
 Given a prediction f(x), a label y and <span class="math">\(\delta\)</span>, the loss function
-is defined as:</div></blockquote>
-<p>ight )^2, left | y-f(x)
-ight <a href="#id2"><span class="problematic" id="id3">|</span></a>leq delta</p>
-<blockquote>
-<div>loss = delta left | y-f(x)</div></blockquote>
-<p>ight <a href="#id4"><span class="problematic" id="id5">|</span></a>-0.5delta ^2, otherwise</p>
-<blockquote>
-<div><p>The example usage is:</p>
+is defined as:</p>
+<div class="math">
+\[ \begin{align}\begin{aligned}loss = 0.5*(y-f(x))^{2}, | y-f(x) | &lt; \delta\\loss = \delta | y-f(x) | - 0.5 \delta ^2, otherwise\end{aligned}\end{align} \]</div>
+<p>The example usage is:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">cost</span> <span class="o">=</span> <span class="n">huber_regression_cost</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="nb">input</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -3782,41 +3766,26 @@ ight <a href="#id2"><span class="problematic" id="id3">|</span></a>leq delta</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param input:</th><td class="field-body">The first input layer.</td>
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
+<li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The first input layer.</li>
+<li><strong>label</strong> &#8211; The input label.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
+<li><strong>delta</strong> (<em>float</em>) &#8211; The difference between the observed and predicted values.</li>
+<li><strong>coeff</strong> (<em>float</em>) &#8211; The weight of the gradient in the back propagation.
+1.0 is the default value.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">type input:</th><td class="field-body">paddle.v2.config_base.Layer</td>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">paddle.v2.config_base.Layer object.</p>
+</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">param label:</th><td class="field-body">The input label.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">type input:</th><td class="field-body">paddle.v2.config_base.Layer</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">param name:</th><td class="field-body">The name of this layer. It is optional.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">type name:</th><td class="field-body">basestring</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">param delta:</th><td class="field-body">The difference between the observed and predicted values.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">type delta:</th><td class="field-body">float</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">param coeff:</th><td class="field-body">The weight of the gradient in the back propagation.
-1.0 is the default value.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">type coeff:</th><td class="field-body">float</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">param layer_attr:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
-details.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">type layer_attr:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">paddle.v2.attr.ExtraAttribute</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">return:</th><td class="field-body">paddle.v2.config_base.Layer object.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">rtype:</th><td class="field-body">paddle.v2.config_base.Layer.</td>
+<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">paddle.v2.config_base.Layer.</p>
+</td>
 </tr>
 </tbody>
 </table>
-</div></blockquote>
 </dd></dl>
 
 </div>
@@ -3825,56 +3794,37 @@ details.</td>
 <dl class="class">
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">huber_classification_cost</code></dt>
-<dd><blockquote>
-<div>For classification purposes, a variant of the Huber loss called modified Huber
+<dd><p>For classification purposes, a variant of the Huber loss called modified Huber
 is sometimes used. Given a prediction f(x) (a real-valued classifier score) and
-a true binary class label :math:<a href="#id6"><span class="problematic" id="id7">`</span></a>yin left {-1, 1</div></blockquote>
-<dl class="docutils">
-<dt>ight }`, the modified Huber</dt>
-<dd>loss is defined as:</dd>
-<dt>ight )^2, yf(x)geq 1</dt>
-<dd><blockquote class="first">
-<div>loss = -4yf(x),  ext{otherwise}</div></blockquote>
+a true binary class label <span class="math">\(y\in \{-1, 1 \}\)</span>, the modified Huber
+loss is defined as:</p>
 <p>The example usage is:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">cost</span> <span class="o">=</span> <span class="n">huber_classification_cost</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="nb">input</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
 </pre></div>
 </div>
-<table class="last docutils field-list" frame="void" rules="none">
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param input:</th><td class="field-body">The first input layer.</td>
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
+<li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The first input layer.</li>
+<li><strong>label</strong> &#8211; The input label.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
+<li><strong>coeff</strong> (<em>float</em>) &#8211; The weight of the gradient in the back propagation.
+1.0 is the default value.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">type input:</th><td class="field-body">paddle.v2.config_base.Layer</td>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">paddle.v2.config_base.Layer object.</p>
+</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">param label:</th><td class="field-body">The input label.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">type input:</th><td class="field-body">paddle.v2.config_base.Layer</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">param name:</th><td class="field-body">The name of this layer. It is optional.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">type name:</th><td class="field-body">basestring</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">param coeff:</th><td class="field-body">The weight of the gradient in the back propagation.
-1.0 is the default value.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">type coeff:</th><td class="field-body">float</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">param layer_attr:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
-details.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">type layer_attr:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">paddle.v2.attr.ExtraAttribute</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">return:</th><td class="field-body">paddle.v2.config_base.Layer object.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">rtype:</th><td class="field-body">paddle.v2.config_base.Layer</td>
+<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">paddle.v2.config_base.Layer</p>
+</td>
 </tr>
 </tbody>
 </table>
-</dd>
-</dl>
 </dd></dl>
 
 </div>
@@ -4580,7 +4530,7 @@ details.</li>
 <dd><p>The gated unit layer implements a simple gating mechanism over the input.
 The input <span class="math">\(X\)</span> is first projected into a new space <span class="math">\(X'\)</span>, and
 it is also used to produce a gate weight <span class="math">\(\sigma\)</span>. Element-wise
-product between <a href="#id11"><span class="problematic" id="id12">:match:`X&#8217;`</span></a> and <span class="math">\(\sigma\)</span> is finally returned.</p>
+product between <a href="#id5"><span class="problematic" id="id6">:match:`X&#8217;`</span></a> and <span class="math">\(\sigma\)</span> is finally returned.</p>
 <dl class="docutils">
 <dt>Reference:</dt>
 <dd><a class="reference external" href="https://arxiv.org/abs/1612.08083">Language Modeling with Gated Convolutional Networks</a></dd>
