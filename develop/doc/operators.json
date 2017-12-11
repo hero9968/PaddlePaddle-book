@@ -2122,35 +2122,6 @@
    "generated" : 0
  } ] 
 },{
- "type" : "reduce_mean",
- "comment" : "\n{ReduceOp} Operator.\n\nThis operator computes the mean of input tensor along the given dimension. \nThe result tensor has 1 fewer dimension than the input unless keep_dim is true.\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(Tensor) The input tensor. Tensors with rank at most 6 are supported.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(Tensor) The result tensor.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "dim",
-   "type" : "int",
-   "comment" : "(int, default 0) The dimension to reduce. Must be in the range [-rank(input), rank(input)). If `dim < 0`, the dim to reduce is `rank + dim`. Note that reducing on the first dim will make the LoD info lost.",
-   "generated" : 0
- }, { 
-   "name" : "keep_dim",
-   "type" : "bool",
-   "comment" : "(bool, default false) If true, retain the reduced dimension with length 1.",
-   "generated" : 0
- } ] 
-},{
  "type" : "conv2d_transpose_cudnn",
  "comment" : "\nConvolution2D Transpose Operator.\n\nThe convolution transpose operation calculates the output based on the input, filter\nand strides, paddings, groups parameters. The size of each dimension of the\nparameters is checked in the infer-shape.\nInput(Input) and output(Output) are in NCHW format. Where N is batchsize, C is the\nnumber of channels, H is the height of the feature, and W is the width of the feature.\nFilter(Input) is in MCHW format. Where M is the number of input feature channels,\nC is the number of output feature channels, H is the height of the filter,\nand W is the width of the filter.\nParameters(strides, paddings) are two elements. These two elements represent height\nand width, respectively.\nThe input(X) size and output(Out) size may be different.\n\nExample:\n  Input:\n       Input shape: $(N, C_{in}, H_{in}, W_{in})$\n       Filter shape: $(C_{in}, C_{out}, H_f, W_f)$\n  Output:\n       Output shape: $(N, C_{out}, H_{out}, W_{out})$\n  Where\n  $$\n       H_{out} = (H_{in} - 1) * strides[0] - 2 * paddings[0] + H_f \\\\\n       W_{out} = (W_{in} - 1) * strides[1] - 2 * paddings[1] + W_f\n  $$\n",
  "inputs" : [ 
@@ -2194,24 +2165,6 @@
    "comment" : "workspace size for cudnn, in MB, workspace is a section of GPU memory which will be allocated/freed each time the operator runs, larger workspace size can increase performance but also requires better hardward. This size should be carefully setted.",
    "generated" : 0
  } ] 
-},{
- "type" : "square",
- "comment" : "\nSquare Activation Operator.\n\n$y = x^2$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "Input of Square operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Y",
-   "comment" : "Output of Square operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
 },{
  "type" : "gaussian_random",
  "comment" : "\nGaussianRandom Operator.\n\nUsed to initialize tensors with gaussian random generator.\n\n",
@@ -2483,6 +2436,48 @@
    "generated" : 0
  } ] 
 },{
+ "type" : "sum",
+ "comment" : "\nSum operator.\n\nThis operators sums the input tensors. All the inputs can carry the \nLoD (Level of Details) information. However, the output only shares \nthe LoD information with the first input.\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(vector<Tensor>) The input tensors of sum operator.",
+   "duplicable" : 1,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(Tensor) The output tensor of sum operator.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
+ "type" : "concat",
+ "comment" : "\nConcat Operator.\n\nConcatenate the input tensors along dimension axis.\nExamples:\n  Input[0] = [[1,2],[3,4]]\n  Input[1] = [[5,6]]\n  axis = 0\n  Output = [[1,2],\n            [3,4],\n            [5,6]]\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "Input tensors of concat operator.",
+   "duplicable" : 1,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "Output tensor of concat operator.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "axis",
+   "type" : "int",
+   "comment" : "The axis along which the input tensors will be concatenated.",
+   "generated" : 0
+ } ] 
+},{
  "type" : "softmax_with_cross_entropy",
  "comment" : "\nSoftmax With Cross Entropy Operator.\n\nCross entropy loss with softmax is used as the output layer extensively. This\noperator computes the softmax normalized values for each row of the input\ntensor, after which cross-entropy loss is computed. This provides a more\nnumerically stable gradient.\n\nBecause this operator performs a softmax on logits internally, it expects\nunscaled logits. This operator should not be used with the output of\nsoftmax operator since that would produce incorrect results.\n\nWhen the attribute soft_label is set false, this operators expects mutually\nexclusive hard labels, each sample in a batch is in exactly one class with a\nprobability of 1.0. Each sample in the batch will have a single label.\n\nThe equation is as follows:\n\n1) Hard label (one-hot label, so every sample has exactly one class)\n\n$$Loss_j =  -\\text{Logit}_{Label_j} +\n\\log\\left(\\sum_{i=0}^{K}\\exp(\\text{Logit}_i)\\right),\nj = 1,..., K$$\n\n2) Soft label (each sample can have a distribution over all classes)\n\n$$Loss_j =  -\\sum_{i=0}^{K}\\text{Label}_i \\left(\\text{Logit}_i -\n\\log\\left(\\sum_{i=0}^{K}\\exp(\\text{Logit}_i)\\right)\\right),\nj = 1,...,K$$\n\n",
  "inputs" : [ 
@@ -2632,138 +2627,6 @@
    "intermediate" : 0
  } ], 
  "attrs" : [  ] 
-},{
- "type" : "merge_lod_tensor",
- "comment" : "\n        Merge True and False branches of LoDTensor into a single Output,\n        with a mask at certain lod level. X is used to obtain complete\n        lod information. Please refer to SplitLoDTensorOp.",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "The input LoDTensor, contains complete lod information to construct the output",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Mask",
-   "comment" : "A bool column vector which mask the input",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "InTrue",
-   "comment" : "The True branch to be merged",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "InFalse",
-   "comment" : "The False branch to be merged",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "The merged output LoDTensor",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "level",
-   "type" : "int",
-   "comment" : "(int) the specific lod level to rank.",
-   "generated" : 0
- } ] 
-},{
- "type" : "elementwise_mul",
- "comment" : "\nLimited Elementwise Mul Operator.\n\nThe equation is:\n\n$Out = X \\odot\\ Y$\n\nX is a tensor of any dimension and the dimensions of tensor Y must be smaller than\nor equal to the dimensions of X. \n\nThere are two cases for this operator:\n1. The shape of Y is same with X;\n2. The shape of Y is a subset of X.\n\nFor case 2:\nY will be broadcasted to match the shape of X and axis should be \nthe starting dimension index for broadcasting Y onto X.\n\nexample:\n  shape(X) = (2, 3, 4, 5), shape(Y) = (,)\n  shape(X) = (2, 3, 4, 5), shape(Y) = (5,)\n  shape(X) = (2, 3, 4, 5), shape(Y) = (4, 5)\n  shape(X) = (2, 3, 4, 5), shape(Y) = (3, 4), with axis=1\n  shape(X) = (2, 3, 4, 5), shape(Y) = (2), with axis=0\n\nBoth the input X and Y can carry the LoD (Level of Details) information,\nor not. But the output only shares the LoD information with input X.\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(Tensor) The first input tensor of elementwise op",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Y",
-   "comment" : "(Tensor) The second input tensor of elementwise op",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "The output of elementwise op",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "axis",
-   "type" : "int",
-   "comment" : "(int, default -1) The starting dimension index for broadcasting Y onto X",
-   "generated" : 0
- } ] 
-},{
- "type" : "rmsprop",
- "comment" : "\nRmsprop Optimizer. \n\n$$\nMeanSquareOut = decay * MeanSquare + (1 - decay) * Grad * Grad \\\\\nMomentOut = momentum * Moment +\n            \\frac{LearningRate * Grad}{\\sqrt{MeanSquareOut + epsilon}} \\\\\nParamOut = Param -  MomentOut\n$$\n\nThe original slides that proposed Rmsprop: Slide 29 of\nhttp://www.cs.toronto.edu/~tijmen/csc321/slides/lecture_slides_lec6.pdf)\n\n",
- "inputs" : [ 
- { 
-   "name" : "Param",
-   "comment" : "(Tensor, default Tensor<float>) Input parameter value that has to be updated.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "MeanSquare",
-   "comment" : "(Tensor, default Tensor<float>) The mean square value that gets updated.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "LearningRate",
-   "comment" : "(Tensor, default Tensor<float>) The learning rate should be a tensor of size 1.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Grad",
-   "comment" : "(Tensor, default Tensor<float>) Input gradient of the parameter.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Moment",
-   "comment" : "(Tensor, default Tensor<float>) The moment that gets updated.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "ParamOut",
-   "comment" : "(Tensor) Output updated parameter value.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "MomentOut",
-   "comment" : "(Tensor) Output updated moment.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "MeanSquareOut",
-   "comment" : "(Tensor) Output Mean squared updated value.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "epsilon",
-   "type" : "float",
-   "comment" : "(float, default 1e-10) Constant for numerical stability.",
-   "generated" : 0
- }, { 
-   "name" : "decay",
-   "type" : "float",
-   "comment" : "(float, default 0.9) Discounting factor for coming gradient.",
-   "generated" : 0
- }, { 
-   "name" : "momentum",
-   "type" : "float",
-   "comment" : "(float, default 0.0) Constant value.",
-   "generated" : 0
- } ] 
 },{
  "type" : "conv3d_cudnn",
  "comment" : "\nConvolution3D Operator.\n\nThe convolution operation calculates the output based on the input, filter\nand strides, paddings, dilations, groups parameters. The size of each dimension of the\nparameters is checked in the infer-shape.\nInput(Input) and output(Output) are in NCDHW format, where N is batch\nsize, C is the number of channels,D is the depth of the feature, H is the height of\nthe feature, and W is the width of the feature.\nFilters(Input) is MCDHW format, where M is the number of output image channels,\nC is the number of input image channels, D is the depth of the filter,\nH is the height of the filter, and W is the width of the filter.\nParameters(strides, paddings, dilations) are three elements. These three elements\nrepresent depth, height and width, respectively.\nThe input(X) size and output(Out) size may be different.\n\nExample:\n  Input:\n       Input shape: $(N, C_{in}, D_{in}, H_{in}, W_{in})$\n       Filter shape: $(C_{out}, C_{in}, D_f, H_f, W_f)$\n  Output:\n       Output shape: $(N, C_{out}, D_{out}, H_{out}, W_{out})$\n  Where\n  $$\n       D_{out}= \\frac{(D_{in} + 2 * paddings[0] - (dilations[0] * (D_f - 1) + 1))}{ strides[0]}+ 1 \\\\\n       H_{out}= \\frac{(H_{in} + 2 * paddings[1] - (dilations[1] * (H_f - 1) + 1))}{ strides[1]}+ 1 \\\\\n       W_{out}= \\frac{(W_{in} + 2 * paddings[2] - (dilations[2] * (W_f - 1) + 1))}{ strides[2]}+ 1\n  $$\n",
@@ -2921,6 +2784,63 @@
    "generated" : 0
  } ] 
 },{
+ "type" : "brelu",
+ "comment" : "\nBRelu Activation Operator.\n\n$y = \\max(\\min(x, t_{min}), t_{max})$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "Input of BRelu operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Y",
+   "comment" : "Output of BRelu operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "t_min",
+   "type" : "float",
+   "comment" : "The min marginal value of BRelu",
+   "generated" : 0
+ }, { 
+   "name" : "t_max",
+   "type" : "float",
+   "comment" : "The max marginal value of BRelu",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "crf_decoding",
+ "comment" : "\nThe crf_decoding operator reads the emission feature weights and the transition\nfeature weights learned by the linear_chain_crf operator. It implements the\nViterbi algorithm which is a dynamic programming algorithm for finding the most\nlikely sequence of hidden states, called the Viterbi path, that results in a\nsequence of observed tags.\n\nThe output of this operator changes according to whether Input(Label) is given:\n\n1. Input(Label) is given:\n\nThis happens in training. This operator is used to co-work with the chunk_eval\noperator.\n\nWhen Input(Label) is given, the crf_decoding operator returns a row vector\nwith shape [N x 1] whose values are fixed to be 0, indicating an incorrect\nprediction, or 1 indicating a tag is correctly predicted. Such an output is the\ninput to chunk_eval operator.\n\n2. Input(Label) is not given:\n\nThis is the standard decoding process.\n\nThe crf_decoding operator returns a row vector with shape [N x 1] whose values\nrange from 0 to maximum tag number - 1. Each element indicates an index of a\npredicted tag.\n",
+ "inputs" : [ 
+ { 
+   "name" : "Emission",
+   "comment" : "(LoDTensor, default: LoDTensor<float>). A LoDTensor with shape [N x D] where N is the size of the mini-batch and D is the total tag number. This input is the unscaled emission weight matrix of the linear_chain_crf operator.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Transition",
+   "comment" : "(Tensor, default: Tensor<float>). A Tensor with shape [(D + 2) x D]. This input is the transition weights learned by the linear_chain_crf operator, denoted as w. The 1st row of w are transition weights for the start mask. The 2nd row of w are transition weights for the end mask. Transition weights between other tags begin from the 3rd row of w. See more details in comments of the linear_chain_crf operator.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Label",
+   "comment" : "(LoDTensor,  LoDTensor<int64_t>). The ground truth with shape [N x 1]. This input is optional. See more details in the operator's comments.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "ViterbiPath",
+   "comment" : "(LoDTensor, LoDTensor<int64_t>). The decoding results. What to return changes depending on whether the Input(Label) (the ground truth) is given. See more details in the operator's comment.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
  "type" : "clip_by_norm",
  "comment" : "\nClipByNorm Operator.\n\nThis operator limits the L2 norm of the input $X$ within $max\\_norm$.\nIf the L2 norm of $X$ is less than or equal to $max\\_norm$, $Out$ will be\nthe same as $X$. If the L2 norm of $X$ is greater than $max\\_norm$, $X$ will\nbe linearly scaled to make the L2 norm of $Out$ equal to $max\\_norm$, as\nshown in the following formula:\n\n$$\nOut = \\frac{max\\_norm * X}{norm(X)},\n$$\n\nwhere $norm(X)$ represents the L2 norm of $X$.\n",
  "inputs" : [ 
@@ -3043,6 +2963,138 @@
    "name" : "shape",
    "type" : "int array",
    "comment" : "A list<int> describing the shape of output. The size of shape list should be the same as the dimension size of input X.",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "merge_lod_tensor",
+ "comment" : "\n        Merge True and False branches of LoDTensor into a single Output,\n        with a mask at certain lod level. X is used to obtain complete\n        lod information. Please refer to SplitLoDTensorOp.",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "The input LoDTensor, contains complete lod information to construct the output",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Mask",
+   "comment" : "A bool column vector which mask the input",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "InTrue",
+   "comment" : "The True branch to be merged",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "InFalse",
+   "comment" : "The False branch to be merged",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "The merged output LoDTensor",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "level",
+   "type" : "int",
+   "comment" : "(int) the specific lod level to rank.",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "elementwise_mul",
+ "comment" : "\nLimited Elementwise Mul Operator.\n\nThe equation is:\n\n$Out = X \\odot\\ Y$\n\nX is a tensor of any dimension and the dimensions of tensor Y must be smaller than\nor equal to the dimensions of X. \n\nThere are two cases for this operator:\n1. The shape of Y is same with X;\n2. The shape of Y is a subset of X.\n\nFor case 2:\nY will be broadcasted to match the shape of X and axis should be \nthe starting dimension index for broadcasting Y onto X.\n\nexample:\n  shape(X) = (2, 3, 4, 5), shape(Y) = (,)\n  shape(X) = (2, 3, 4, 5), shape(Y) = (5,)\n  shape(X) = (2, 3, 4, 5), shape(Y) = (4, 5)\n  shape(X) = (2, 3, 4, 5), shape(Y) = (3, 4), with axis=1\n  shape(X) = (2, 3, 4, 5), shape(Y) = (2), with axis=0\n\nBoth the input X and Y can carry the LoD (Level of Details) information,\nor not. But the output only shares the LoD information with input X.\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(Tensor) The first input tensor of elementwise op",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Y",
+   "comment" : "(Tensor) The second input tensor of elementwise op",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "The output of elementwise op",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "axis",
+   "type" : "int",
+   "comment" : "(int, default -1) The starting dimension index for broadcasting Y onto X",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "rmsprop",
+ "comment" : "\nRmsprop Optimizer. \n\n$$\nMeanSquareOut = decay * MeanSquare + (1 - decay) * Grad * Grad \\\\\nMomentOut = momentum * Moment +\n            \\frac{LearningRate * Grad}{\\sqrt{MeanSquareOut + epsilon}} \\\\\nParamOut = Param -  MomentOut\n$$\n\nThe original slides that proposed Rmsprop: Slide 29 of\nhttp://www.cs.toronto.edu/~tijmen/csc321/slides/lecture_slides_lec6.pdf)\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "Param",
+   "comment" : "(Tensor, default Tensor<float>) Input parameter value that has to be updated.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "MeanSquare",
+   "comment" : "(Tensor, default Tensor<float>) The mean square value that gets updated.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "LearningRate",
+   "comment" : "(Tensor, default Tensor<float>) The learning rate should be a tensor of size 1.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Grad",
+   "comment" : "(Tensor, default Tensor<float>) Input gradient of the parameter.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Moment",
+   "comment" : "(Tensor, default Tensor<float>) The moment that gets updated.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "ParamOut",
+   "comment" : "(Tensor) Output updated parameter value.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "MomentOut",
+   "comment" : "(Tensor) Output updated moment.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "MeanSquareOut",
+   "comment" : "(Tensor) Output Mean squared updated value.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "epsilon",
+   "type" : "float",
+   "comment" : "(float, default 1e-10) Constant for numerical stability.",
+   "generated" : 0
+ }, { 
+   "name" : "decay",
+   "type" : "float",
+   "comment" : "(float, default 0.9) Discounting factor for coming gradient.",
+   "generated" : 0
+ }, { 
+   "name" : "momentum",
+   "type" : "float",
+   "comment" : "(float, default 0.0) Constant value.",
    "generated" : 0
  } ] 
 },{
@@ -3225,47 +3277,23 @@
    "generated" : 0
  } ] 
 },{
- "type" : "sum",
- "comment" : "\nSum operator.\n\nThis operators sums the input tensors. All the inputs can carry the \nLoD (Level of Details) information. However, the output only shares \nthe LoD information with the first input.\n",
+ "type" : "fill_zeros_like",
+ "comment" : "\nFillZerosLike Operator.\n\nFill up a variable with zeros.\nThe output will have the same size as the input.\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
-   "comment" : "(vector<Tensor>) The input tensors of sum operator.",
-   "duplicable" : 1,
+   "comment" : "The input of fill-zeros-like op.",
+   "duplicable" : 0,
    "intermediate" : 0
  } ], 
  "outputs" : [ 
  { 
-   "name" : "Out",
-   "comment" : "(Tensor) The output tensor of sum operator.",
+   "name" : "Y",
+   "comment" : "The variable will be filled up with zeros.",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
  "attrs" : [  ] 
-},{
- "type" : "concat",
- "comment" : "\nConcat Operator.\n\nConcatenate the input tensors along dimension axis.\nExamples:\n  Input[0] = [[1,2],[3,4]]\n  Input[1] = [[5,6]]\n  axis = 0\n  Output = [[1,2],\n            [3,4],\n            [5,6]]\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "Input tensors of concat operator.",
-   "duplicable" : 1,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "Output tensor of concat operator.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "axis",
-   "type" : "int",
-   "comment" : "The axis along which the input tensors will be concatenated.",
-   "generated" : 0
- } ] 
 },{
  "type" : "prelu",
  "comment" : "\nPRelu Operator.\n\nThe equation is:\n\n$$\nf(x) =\n\\begin{cases}\n\\alpha * x, \\quad  \\text{if} \\ x < 0 \\\\\nx,         \\qquad  \\text{if} \\ x >= 0\n\\end{cases}\n$$\n\nThe input `X` can carry the LoD (Level of Details) information,\nor not. And the output shares the LoD information with input `X`.\n\n",
@@ -3290,19 +3318,48 @@
  } ], 
  "attrs" : [  ] 
 },{
- "type" : "fill_zeros_like",
- "comment" : "\nFillZerosLike Operator.\n\nFill up a variable with zeros.\nThe output will have the same size as the input.\n\n",
+ "type" : "reduce_mean",
+ "comment" : "\n{ReduceOp} Operator.\n\nThis operator computes the mean of input tensor along the given dimension. \nThe result tensor has 1 fewer dimension than the input unless keep_dim is true.\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
-   "comment" : "The input of fill-zeros-like op.",
+   "comment" : "(Tensor) The input tensor. Tensors with rank at most 6 are supported.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(Tensor) The result tensor.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "dim",
+   "type" : "int",
+   "comment" : "(int, default 0) The dimension to reduce. Must be in the range [-rank(input), rank(input)). If `dim < 0`, the dim to reduce is `rank + dim`. Note that reducing on the first dim will make the LoD info lost.",
+   "generated" : 0
+ }, { 
+   "name" : "keep_dim",
+   "type" : "bool",
+   "comment" : "(bool, default false) If true, retain the reduced dimension with length 1.",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "square",
+ "comment" : "\nSquare Activation Operator.\n\n$y = x^2$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "Input of Square operator",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
  "outputs" : [ 
  { 
    "name" : "Y",
-   "comment" : "The variable will be filled up with zeros.",
+   "comment" : "Output of Square operator",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
@@ -4819,63 +4876,6 @@
  } ], 
  "attrs" : [  ] 
 },{
- "type" : "crf_decoding",
- "comment" : "\nThe crf_decoding operator reads the emission feature weights and the transition\nfeature weights learned by the linear_chain_crf operator. It implements the\nViterbi algorithm which is a dynamic programming algorithm for finding the most\nlikely sequence of hidden states, called the Viterbi path, that results in a\nsequence of observed tags.\n\nThe output of this operator changes according to whether Input(Label) is given:\n\n1. Input(Label) is given:\n\nThis happens in training. This operator is used to co-work with the chunk_eval\noperator.\n\nWhen Input(Label) is given, the crf_decoding operator returns a row vector\nwith shape [N x 1] whose values are fixed to be 0, indicating an incorrect\nprediction, or 1 indicating a tag is correctly predicted. Such an output is the\ninput to chunk_eval operator.\n\n2. Input(Label) is not given:\n\nThis is the standard decoding process.\n\nThe crf_decoding operator returns a row vector with shape [N x 1] whose values\nrange from 0 to maximum tag number - 1. Each element indicates an index of a\npredicted tag.\n",
- "inputs" : [ 
- { 
-   "name" : "Emission",
-   "comment" : "(LoDTensor, default: LoDTensor<float>). A LoDTensor with shape [N x D] where N is the size of the mini-batch and D is the total tag number. This input is the unscaled emission weight matrix of the linear_chain_crf operator.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Transition",
-   "comment" : "(Tensor, default: Tensor<float>). A Tensor with shape [(D + 2) x D]. This input is the transition weights learned by the linear_chain_crf operator, denoted as w. The 1st row of w are transition weights for the start mask. The 2nd row of w are transition weights for the end mask. Transition weights between other tags begin from the 3rd row of w. See more details in comments of the linear_chain_crf operator.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Label",
-   "comment" : "(LoDTensor,  LoDTensor<int64_t>). The ground truth with shape [N x 1]. This input is optional. See more details in the operator's comments.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "ViterbiPath",
-   "comment" : "(LoDTensor, LoDTensor<int64_t>). The decoding results. What to return changes depending on whether the Input(Label) (the ground truth) is given. See more details in the operator's comment.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
- "type" : "brelu",
- "comment" : "\nBRelu Activation Operator.\n\n$y = \\max(\\min(x, t_{min}), t_{max})$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "Input of BRelu operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Y",
-   "comment" : "Output of BRelu operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "t_min",
-   "type" : "float",
-   "comment" : "The min marginal value of BRelu",
-   "generated" : 0
- }, { 
-   "name" : "t_max",
-   "type" : "float",
-   "comment" : "The max marginal value of BRelu",
-   "generated" : 0
- } ] 
-},{
  "type" : "accuracy",
  "comment" : "\nAccuracy Operator. \n\nIt will print accuracy rate for classification.\nThe accuracy is calculated as follows:\n\n$$accuracy = \\frac{NumOfCorrectPredicts}{NumOfAllSamples}$$\n\nBoth the input Out and Label can carry the LoD (Level of Details)\ninformation, or not. But the output only shares the LoD information \nwith the input Out(Inference).\n\n",
  "inputs" : [ 
@@ -5057,6 +5057,29 @@
  { 
    "name" : "Y",
    "comment" : "Output of LogSigmoid operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
+ "type" : "row_conv",
+ "comment" : "\nRow-convolution Operator.\n\nThe row convolution is called lookahead convolution.  This operator was \nintroduced in the following paper for DeepSpeech2:\nhttp://www.cs.cmu.edu/~dyogatam/papers/wang+etal.iclrworkshop2016.pdf \n\nThe main motivation is that a bidirectional RNN, useful in DeepSpeech \nlike speech models, learns representation for a sequence by performing a \nforward and a backward pass through the entire sequence. However, unlike \nunidirectional RNNs, bidirectional RNNs are challenging to deploy in an online\nand low-latency setting. The lookahead convolution incorporates information \nfrom future subsequences in a computationally efficient manner to improve \nunidirectional recurrent neural networks. The row convolution operator is \ndifferent from the 1D sequence convolution, and is computed as follows:\n\nGiven an input sequence $in$ of length $t$ and input dimension $d$, \nand a filter ($W$) of size $context \\times d$, \nthe output sequence is convolved as:\n\n$$\nout_{i, :} = \\sum_{j=i}^{i + context} in_{j,:} \\dot W_{i-j, :}\n$$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(LoDTensor), the input(X) is a LodTensor, which supports variable time-length input sequences. The underlying tensor in this LoDTensor is a matrix with shape (T x N), where T is the total time steps in this mini-batch and N is the input data dimension.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Filter",
+   "comment" : "(Tensor), the input(Filter) is a learnable parameter. It is a 2-D tensor with shape (future_context x N), where, future_context is the future context length and N is the data dimension.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(LoDTensor), the output(Out) is a LodTensor, which supports variable time-length input sequences. The underlying tensor in this LodTensor is a matrix with shape T x N, i.e., the same shape as X.",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
