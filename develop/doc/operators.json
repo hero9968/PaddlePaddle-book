@@ -993,34 +993,6 @@
    "generated" : 0
  } ] 
 },{
- "type" : "modified_huber_loss",
- "comment" : "\nModified Huber Loss Operator.\n\nThis operator is used in binary classification problem. The shape of\ninput X and target Y are both [N, 1] and so is the shape of the output loss.\nSince target Y is not differentiable, calculating gradient for Y is illegal.\nThe formula of modified huber loss is:\n\n$$\nL(y, f(x)) = \n\\begin{cases}\n(\\max(0, 1 - yf(x)))^2,  \\text{if} \\  yf(x) >= -1    \\\\\n             -4yf(x),    \\quad \\text{otherwise}\n\\end{cases}\n$$\n\nMake sure the values of target label Y are in {0, 1} here. This operator will\nscale values of Y to {-1, +1} when computing losses and gradients.\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "The input tensor of modified huber loss op. X is 2-D tensor with shape [batch_size, 1].",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Y",
-   "comment" : "The target labels of modified huber loss op. The shape of Y is the same as X. Values of Y must be 0 or 1.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "IntermediateVal",
-   "comment" : "Variable to save intermediate result which will be reused in backward processing.",
-   "duplicable" : 0,
-   "intermediate" : 1
- }, { 
-   "name" : "Out",
-   "comment" : "Classification loss for X.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
  "type" : "top_k",
  "comment" : "\nTop K operator\n\nIf the input is a vector (1d tensor), this operator finds the k largest \nentries in the vector and outputs their values and indices as vectors. \nThus values[j] is the j-th largest entry in input, and its index is indices[j].\n\nFor matrices, this operator computes the top k entries in each row. ",
  "inputs" : [ 
@@ -1408,35 +1380,6 @@
    "intermediate" : 0
  } ], 
  "attrs" : [  ] 
-},{
- "type" : "elementwise_sub",
- "comment" : "\nLimited Elementwise Sub Operator.\n\nThe equation is:\n\n$Out = X - Y$\n\nX is a tensor of any dimension and the dimensions of tensor Y must be smaller than\nor equal to the dimensions of X. \n\nThere are two cases for this operator:\n1. The shape of Y is same with X;\n2. The shape of Y is a subset of X.\n\nFor case 2:\nY will be broadcasted to match the shape of X and axis should be \nthe starting dimension index for broadcasting Y onto X.\n\nexample:\n  shape(X) = (2, 3, 4, 5), shape(Y) = (,)\n  shape(X) = (2, 3, 4, 5), shape(Y) = (5,)\n  shape(X) = (2, 3, 4, 5), shape(Y) = (4, 5)\n  shape(X) = (2, 3, 4, 5), shape(Y) = (3, 4), with axis=1\n  shape(X) = (2, 3, 4, 5), shape(Y) = (2), with axis=0\n\nBoth the input X and Y can carry the LoD (Level of Details) information,\nor not. But the output only shares the LoD information with input X.\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(Tensor) The first input tensor of elementwise op",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Y",
-   "comment" : "(Tensor) The second input tensor of elementwise op",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "The output of elementwise op",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "axis",
-   "type" : "int",
-   "comment" : "(int, default -1) The starting dimension index for broadcasting Y onto X",
-   "generated" : 0
- } ] 
 },{
  "type" : "reshape",
  "comment" : "\nReshape Operator.\n\nReshape Input(X) into the shape specified by Attr(shape).\n\nAn example:\nGiven a 2-D tensor X with 2 rows and 2 columns\n\n    [[1, 2], [3, 4]]\n\nand target shape = [1, 4], the reshape operator will transform\nthe tensor X into a 1-D tensor:\n\n    [1, 2, 3, 4]\n\n",
@@ -3318,6 +3261,119 @@
  } ], 
  "attrs" : [  ] 
 },{
+ "type" : "fill",
+ "comment" : "Fill operator\n\nFill an tensor with `value` and `shape`. The type of the tensor is specify by\n`dtype`.\n",
+ "inputs" : [  ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(LoDTensor) The output tensor.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "value",
+   "type" : "float array",
+   "comment" : "The float values of tensor, which are flatten in row major",
+   "generated" : 0
+ }, { 
+   "name" : "shape",
+   "type" : "int array",
+   "comment" : "The shape of output tensor",
+   "generated" : 0
+ }, { 
+   "name" : "dtype",
+   "type" : "int",
+   "comment" : "The data type of output tensor, Default is float",
+   "generated" : 0
+ }, { 
+   "name" : "force_cpu",
+   "type" : "bool",
+   "comment" : "Whether the output tensor must be at CPU memory or not. Default is false.",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "sigmoid_cross_entropy_with_logits",
+ "comment" : "\nSigmoidCrossEntropyWithLogits Operator.\n\nThis measures the element-wise probability error in classification tasks\nin which each class is independent. This can be thought of as predicting labels\nfor a data-point, where labels are not mutually exclusive.\nFor example, a news article can be about politics, technology or sports\nat the same time or none of these.\n\nThe logistic loss is given as follows:\n\n       $$loss = -Labels * \\log(\\sigma(X)) - (1 - Labels) * \\log(1 - \\sigma(X))$$\n\nWe know that $$\\sigma(X) = (1 / (1 + \\exp(-X)))$$. By substituting this we get:\n\n       $$loss = X - X * Labels + \\log(1 + \\exp(-X))$$\n\nFor stability and to prevent overflow of $$\\exp(-X)$$ when X < 0,\nwe reformulate the loss as follows:\n\n       $$loss = \\max(X, 0) - X * Labels + \\log(1 + \\exp(-|X|))$$\n\nBoth the input `X` and `Labels` can carry the LoD (Level of Details) information.\nHowever the output only shares the LoD with input `X`.\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(Tensor, default Tensor<float>), a 2-D tensor with shape N x D, where N is the batch size and D is the number of classes. This input is a tensor of logits computed by the previous  operator. Logits are unscaled log probabilities given as log(p/(1-p)).",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Label",
+   "comment" : "(Tensor, default Tensor<float>), a 2-D tensor of the same type and shape as X. This input is a tensor of probabalistic labels for each logit",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(Tensor, default Tensor<float>), a 2-D tensor with shape N x D  of elementwise logistic losses.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
+ "type" : "modified_huber_loss",
+ "comment" : "\nModified Huber Loss Operator.\n\nThis operator is used in binary classification problem. The shape of\ninput X and target Y are both [N, 1] and so is the shape of the output loss.\nSince target Y is not differentiable, calculating gradient for Y is illegal.\nThe formula of modified huber loss is:\n\n$$\nL(y, f(x)) = \n\\begin{cases}\n(\\max(0, 1 - yf(x)))^2,  \\text{if} \\  yf(x) >= -1    \\\\\n             -4yf(x),    \\quad \\text{otherwise}\n\\end{cases}\n$$\n\nMake sure the values of target label Y are in {0, 1} here. This operator will\nscale values of Y to {-1, +1} when computing losses and gradients.\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "The input tensor of modified huber loss op. X is 2-D tensor with shape [batch_size, 1].",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Y",
+   "comment" : "The target labels of modified huber loss op. The shape of Y is the same as X. Values of Y must be 0 or 1.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "IntermediateVal",
+   "comment" : "Variable to save intermediate result which will be reused in backward processing.",
+   "duplicable" : 0,
+   "intermediate" : 1
+ }, { 
+   "name" : "Out",
+   "comment" : "Classification loss for X.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
+ "type" : "elementwise_sub",
+ "comment" : "\nLimited Elementwise Sub Operator.\n\nThe equation is:\n\n$Out = X - Y$\n\nX is a tensor of any dimension and the dimensions of tensor Y must be smaller than\nor equal to the dimensions of X. \n\nThere are two cases for this operator:\n1. The shape of Y is same with X;\n2. The shape of Y is a subset of X.\n\nFor case 2:\nY will be broadcasted to match the shape of X and axis should be \nthe starting dimension index for broadcasting Y onto X.\n\nexample:\n  shape(X) = (2, 3, 4, 5), shape(Y) = (,)\n  shape(X) = (2, 3, 4, 5), shape(Y) = (5,)\n  shape(X) = (2, 3, 4, 5), shape(Y) = (4, 5)\n  shape(X) = (2, 3, 4, 5), shape(Y) = (3, 4), with axis=1\n  shape(X) = (2, 3, 4, 5), shape(Y) = (2), with axis=0\n\nBoth the input X and Y can carry the LoD (Level of Details) information,\nor not. But the output only shares the LoD information with input X.\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(Tensor) The first input tensor of elementwise op",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Y",
+   "comment" : "(Tensor) The second input tensor of elementwise op",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "The output of elementwise op",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "axis",
+   "type" : "int",
+   "comment" : "(int, default -1) The starting dimension index for broadcasting Y onto X",
+   "generated" : 0
+ } ] 
+},{
  "type" : "reduce_mean",
  "comment" : "\n{ReduceOp} Operator.\n\nThis operator computes the mean of input tensor along the given dimension. \nThe result tensor has 1 fewer dimension than the input unless keep_dim is true.\n\n",
  "inputs" : [ 
@@ -3629,6 +3685,48 @@
    "intermediate" : 0
  } ], 
  "attrs" : [  ] 
+},{
+ "type" : "tanh",
+ "comment" : "\nTanh Activation Operator.\n\n$$y = \\frac{e^{x} - e^{-x}}{e^{x} + e^{-x}}$$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "Input of Tanh operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Y",
+   "comment" : "Output of Tanh operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
+ "type" : "feed",
+ "comment" : "\nFeed Operator.\n\nIt should not be configured by users directly.\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "The input of feed op",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "The output of feed op",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "col",
+   "type" : "int",
+   "comment" : "(int) The column of feed",
+   "generated" : 0
+ } ] 
 },{
  "type" : "rnn_memory_helper",
  "comment" : "",
@@ -4806,71 +4904,6 @@
  { 
    "name" : "Y",
    "comment" : "Output of Softplus operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
- "type" : "sigmoid_cross_entropy_with_logits",
- "comment" : "\nSigmoidCrossEntropyWithLogits Operator.\n\nThis measures the element-wise probability error in classification tasks\nin which each class is independent. This can be thought of as predicting labels\nfor a data-point, where labels are not mutually exclusive.\nFor example, a news article can be about politics, technology or sports\nat the same time or none of these.\n\nThe logistic loss is given as follows:\n\n       $$loss = -Labels * \\log(\\sigma(X)) - (1 - Labels) * \\log(1 - \\sigma(X))$$\n\nWe know that $$\\sigma(X) = (1 / (1 + \\exp(-X)))$$. By substituting this we get:\n\n       $$loss = X - X * Labels + \\log(1 + \\exp(-X))$$\n\nFor stability and to prevent overflow of $$\\exp(-X)$$ when X < 0,\nwe reformulate the loss as follows:\n\n       $$loss = \\max(X, 0) - X * Labels + \\log(1 + \\exp(-|X|))$$\n\nBoth the input `X` and `Labels` can carry the LoD (Level of Details) information.\nHowever the output only shares the LoD with input `X`.\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(Tensor, default Tensor<float>), a 2-D tensor with shape N x D, where N is the batch size and D is the number of classes. This input is a tensor of logits computed by the previous  operator. Logits are unscaled log probabilities given as log(p/(1-p)).",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Label",
-   "comment" : "(Tensor, default Tensor<float>), a 2-D tensor of the same type and shape as X. This input is a tensor of probabalistic labels for each logit",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(Tensor, default Tensor<float>), a 2-D tensor with shape N x D  of elementwise logistic losses.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
- "type" : "feed",
- "comment" : "\nFeed Operator.\n\nIt should not be configured by users directly.\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "The input of feed op",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "The output of feed op",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "col",
-   "type" : "int",
-   "comment" : "(int) The column of feed",
-   "generated" : 0
- } ] 
-},{
- "type" : "tanh",
- "comment" : "\nTanh Activation Operator.\n\n$$y = \\frac{e^{x} - e^{-x}}{e^{x} + e^{-x}}$$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "Input of Tanh operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Y",
-   "comment" : "Output of Tanh operator",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
