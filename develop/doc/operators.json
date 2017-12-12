@@ -29,7 +29,7 @@
  "attrs" : [  ] 
 },{
  "type" : "adagrad",
- "comment" : "\n\nAdaptive Gradient Algorithm (Adagrad).\n\nThe update is done as follows:\n\n$$momentOut = moment + grad * grad \\break\nparamOut = param - learningRate * grad / ($\\sqrt{momentOut}$ + \\epsilon) \\break\n$$\n\nThe original paper(http://www.jmlr.org/papers/volume12/duchi11a/duchi11a.pdf)\ndoes not have the epsilon attribute. It is added here in our implementation\nas also proposed here: http://cs231n.github.io/neural-networks-3/#ada\nfor numerical stability to avoid the division by zero error.\n\n",
+ "comment" : "\n\nAdaptive Gradient Algorithm (Adagrad).\n\nThe update is done as follows:\n\n$$moment\\_out = moment + grad * grad \\\\\nparam\\_out = param - \\frac{learning\\_rate * grad}{\\sqrt{moment\\_out} + \\epsilon}\n$$\n\nThe original paper(http://www.jmlr.org/papers/volume12/duchi11a/duchi11a.pdf)\ndoes not have the epsilon attribute. It is added here in our implementation\nas also proposed here: http://cs231n.github.io/neural-networks-3/#ada\nfor numerical stability to avoid the division by zero error.\n\n",
  "inputs" : [ 
  { 
    "name" : "Param",
@@ -1255,7 +1255,7 @@
  "attrs" : [  ] 
 },{
  "type" : "adam",
- "comment" : "\nAdam Optimizer.\n\nThis implements the Adam optimizer from Section 2 of the Adam\npaper : https://arxiv.org/abs/1412.6980.\nAdam is a first-order gradient-based optimization method based on\nadaptive estimates of lower-order moments.\n\nAdam updates:\n\n$$moment_1_{out} = \\beta_1 * moment_1 + (1 - \\beta_1) * grad \\break\nmoment_2_{out} = \\beta_2 * moment_2 + (1 - \\beta_2) * grad * grad \\break\nlearningRate = learningRate *\n                  $\\sqrt{(1 - \\beta_2_{pow})}$ / (1 - \\beta_1_{pow}) \\break\nparamOut = param - learningRate * moment_1/ ($\\sqrt{(moment_2)} + \\epsilon)$$\n\n",
+ "comment" : "\nAdam Optimizer.\n\nThis implements the Adam optimizer from Section 2 of the Adam\npaper : https://arxiv.org/abs/1412.6980.\nAdam is a first-order gradient-based optimization method based on\nadaptive estimates of lower-order moments.\n\nAdam updates:\n\n$$\nmoment\\_1\\_out = \\beta_1 * moment\\_1 + (1 - \\beta_1) * grad \\\\\nmoment\\_2_\\out = \\beta_2 * moment\\_2 + (1 - \\beta_2) * grad * grad \\\\\nlearning\\_rate = learning\\_rate *\n                  \\frac{\\sqrt{1 - \\beta_{2\\_pow}}}{1 - \\beta_{1\\_pow}} \\\\\nparam\\_out = param - learning\\_rate * \\frac{moment\\_1}{\\sqrt{moment\\_2} + \\epsilon}\n$$\n\n",
  "inputs" : [ 
  { 
    "name" : "Param",
@@ -1930,7 +1930,7 @@
  } ] 
 },{
  "type" : "adamax",
- "comment" : "\nAdamax Optimizer.\n\nWe implement the Adamax optimizer from Section 7 of the Adam\npaper: https://arxiv.org/abs/1412.6980. Adamax is a variant of the\nAdam algorithm based on the infinity norm.\n\nAdamax updates:\n\n$$\n  momentOut = \\beta_{1} * moment + (1 - \\beta_{1}) * grad \\\\\n  infNormOut = max(\\beta_{2} * infNorm + \\epsilon, |grad|) \\\\\n  learningRate = \\frac{learningRate}{1 - \\beta_{1}^{Beta1Pow}} \\\\\n  paramOut = param - learningRate * \\frac{momentOut}{infNormOut}\n$$\n\nThe original paper does not have an epsilon attribute.\nHowever, it is added here for numerical stability to prevent the\ndivision by 0 error.\n\n",
+ "comment" : "\nAdamax Optimizer.\n\nWe implement the Adamax optimizer from Section 7 of the Adam\npaper: https://arxiv.org/abs/1412.6980. Adamax is a variant of the\nAdam algorithm based on the infinity norm.\n\nAdamax updates:\n\n$$\nmoment\\_out = \\beta_1 * moment + (1 - \\beta_1) * grad \\\\\ninf\\_norm\\_out = max(\\beta_2 * inf\\_norm + \\epsilon, |grad|) \\\\\nlearning\\_rate = \\frac{learning\\_rate}{1 - \\beta_{1\\_pow}} \\\\\nparam\\_out = param - learning\\_rate * \\frac{moment\\_out}{inf\\_norm\\_out}\n$$\n\nThe original paper does not have an epsilon attribute.\nHowever, it is added here for numerical stability to prevent the\ndivision by 0 error.\n\n",
  "inputs" : [ 
  { 
    "name" : "Param",
@@ -2557,7 +2557,7 @@
  } ] 
 },{
  "type" : "adadelta",
- "comment" : "\nAdadelta Optimizer.\n\nAdadelta optimizer is implemented as explained in:\nhttps://arxiv.org/abs/1212.5701\nAdadelta is a per-dimension adaptive learning rate method used\nfor gradient descent.\n\nAdadelta updates are as follows:\n\n$$avgSquaredGradOut = \\rho * avgSquaredGrad + (1 - \\rho) * grad * grad \\break\nparamUpdate =  - $\\sqrt{((avgSquaredUpdate + \\epsilon) /\n                       (avgSquaredGrad_out + \\epsilon))}$ * grad \\break\navgSquaredUpdateOut = \\rho * avgSquaredUpdate + (1 - \\rho) *\n                                  {(paramUpdate)}^2 \\break\nparamOut = param + paramUpdate$$\n\n",
+ "comment" : "\nAdadelta Optimizer.\n\nAdadelta optimizer is implemented as explained in:\nhttps://arxiv.org/abs/1212.5701\nAdadelta is a per-dimension adaptive learning rate method used\nfor gradient descent.\n\nAdadelta updates are as follows:\n\n$$\navg\\_squared\\_grad\\_out = \\rho * avg\\_squared\\_grad + (1 - \\rho) * grad * grad \\\\\nparam\\_update =  - \\sqrt{\\frac{avg\\_squared\\_update + \\epsilon}{avg\\_squared\\_grad\\_out + \\epsilon}} * grad \\\\\navg\\_squared\\_update\\_out = \\rho * avg\\_squared\\_update + (1 - \\rho) * {param\\_update}^2 \\\\\nparam\\_out = param + param\\_update\n$$\n\n",
  "inputs" : [ 
  { 
    "name" : "Param",
