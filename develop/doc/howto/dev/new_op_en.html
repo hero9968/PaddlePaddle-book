@@ -237,8 +237,8 @@
 &#8212;&#8212;&#8212;&#8212;&#8211;  | :&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;-
 OpProtoMake definition  | <code class="docutils literal"><span class="pre">.cc</span></code>files, Backward Op does not need an OpProtoMake interface.
 Op definition           | <code class="docutils literal"><span class="pre">.cc</span></code> files
-Kernel implementation       | The kernel methods shared between CPU and GPU are defined in <code class="docutils literal"><span class="pre">.h</span></code> files. CPU-specific kernels live in <code class="docutils literal"><span class="pre">.cc</span></code> files, while GPU-specific kernels are implemented in <code class="docutils literal"><span class="pre">.cu</span></code>files.
-Registering the Op           | Ops are registered in <code class="docutils literal"><span class="pre">.cc</span></code> files; For Kernel registration, <code class="docutils literal"><span class="pre">.cc</span></code> files contain the CPU implementation, while <code class="docutils literal"><span class="pre">.cu</span></code> files contain the GPU implementation.</p>
+Kernel implementation       | The kernel methods shared between CPU and CUDA are defined in <code class="docutils literal"><span class="pre">.h</span></code> files. CPU-specific kernels live in <code class="docutils literal"><span class="pre">.cc</span></code> files, while CUDA-specific kernels are implemented in <code class="docutils literal"><span class="pre">.cu</span></code>files.
+Registering the Op           | Ops are registered in <code class="docutils literal"><span class="pre">.cc</span></code> files; For Kernel registration, <code class="docutils literal"><span class="pre">.cc</span></code> files contain the CPU implementation, while <code class="docutils literal"><span class="pre">.cu</span></code> files contain the CUDA implementation.</p>
 <p>New Operator implementations are added to the list <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/tree/develop/paddle/operators">paddle/operators</a>, with file names in the format <code class="docutils literal"><span class="pre">*_op.h</span></code> (if applicable), <code class="docutils literal"><span class="pre">*_op.cc</span></code>, <code class="docutils literal"><span class="pre">*_op.cu</span></code> (if applicable).** The system will use the naming scheme to automatically build operators and their corresponding Python extensions. **</p>
 <p>Let&#8217;s take matrix multiplication operator, <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/operators/mul_op.cc">MulOp</a>, as an example to introduce the writing of an Operator with Kernel.</p>
 </div>
@@ -339,7 +339,7 @@ Registering the Op           | Ops are registered in <code class="docutils liter
 <span id="defining-opkernel"></span><h3>3. Defining OpKernel<a class="headerlink" href="#defining-opkernel" title="Permalink to this headline">¶</a></h3>
 <p><code class="docutils literal"><span class="pre">MulKernel</span></code> inherits <code class="docutils literal"><span class="pre">framework::OpKernel</span></code>, which includes the following templates:</p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">typename</span> <span class="pre">Place</span></code> denotes device type. When different devices, namely the CPU and the GPU, share the same kernel, this template needs to be added. If they don&#8217;t share kernels, this must not be added. An example of a non-sharing kernel is <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/operators/cross_entropy_op.h#L43"><code class="docutils literal"><span class="pre">OnehotCrossEntropyOpKernel</span></code></a>.</li>
+<li><code class="docutils literal"><span class="pre">typename</span> <span class="pre">DeviceContext</span></code> denotes device context type. When different devices, namely the CPUDeviceContext and the CUDADeviceContext, share the same kernel, this template needs to be added. If they don&#8217;t share kernels, this must not be added. An example of a non-sharing kernel is <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/operators/cross_entropy_op.h#L43"><code class="docutils literal"><span class="pre">OnehotCrossEntropyOpKernel</span></code></a>.</li>
 <li><code class="docutils literal"><span class="pre">typename</span> <span class="pre">T</span></code> denotes data type, such as <code class="docutils literal"><span class="pre">float</span></code> or <code class="docutils literal"><span class="pre">double</span></code>.</li>
 </ul>
 <p><code class="docutils literal"><span class="pre">MulKernel</span></code> types need to rewrite the interface for <code class="docutils literal"><span class="pre">Compute</span></code>.</p>
@@ -349,7 +349,7 @@ Registering the Op           | Ops are registered in <code class="docutils liter
 <li><code class="docutils literal"><span class="pre">Compute</span></code> implements the computation logics of an <code class="docutils literal"><span class="pre">OpKernel</span></code>.</li>
 </ul>
 <p><code class="docutils literal"><span class="pre">MulKernel</span></code>&#8216;s implementation of <code class="docutils literal"><span class="pre">Compute</span></code> is as follows:</p>
-<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">Place</span><span class="p">,</span> <span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">DeviceContext</span><span class="p">,</span> <span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
 <span class="k">class</span> <span class="nc">MulKernel</span> <span class="o">:</span> <span class="k">public</span> <span class="n">framework</span><span class="o">::</span><span class="n">OpKernel</span> <span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
 <span class="kt">void</span> <span class="n">Compute</span><span class="p">(</span><span class="k">const</span> <span class="n">framework</span><span class="o">::</span><span class="n">ExecutionContext</span><span class="o">&amp;</span> <span class="n">context</span><span class="p">)</span> <span class="k">const</span> <span class="k">override</span> <span class="p">{</span>
@@ -357,15 +357,14 @@ Registering the Op           | Ops are registered in <code class="docutils liter
   <span class="k">auto</span><span class="o">*</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">context</span><span class="p">.</span><span class="n">Input</span><span class="o">&lt;</span><span class="n">Tensor</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;Y&quot;</span><span class="p">);</span>
   <span class="k">auto</span><span class="o">*</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">context</span><span class="p">.</span><span class="n">Output</span><span class="o">&lt;</span><span class="n">Tensor</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;Out&quot;</span><span class="p">);</span>
   <span class="n">Z</span><span class="o">-&gt;</span><span class="n">mutable_data</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">context</span><span class="p">.</span><span class="n">GetPlace</span><span class="p">());</span>
-  <span class="k">auto</span><span class="o">*</span> <span class="n">device_context</span> <span class="o">=</span>
-      <span class="k">const_cast</span><span class="o">&lt;</span><span class="n">platform</span><span class="o">::</span><span class="n">DeviceContext</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">context</span><span class="p">.</span><span class="n">device_context_</span><span class="p">);</span>
-  <span class="n">math</span><span class="o">::</span><span class="n">matmul</span><span class="o">&lt;</span><span class="n">Place</span><span class="p">,</span> <span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="o">*</span><span class="n">X</span><span class="p">,</span> <span class="nb">false</span><span class="p">,</span> <span class="o">*</span><span class="n">Y</span><span class="p">,</span> <span class="nb">false</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">device_context</span><span class="p">);</span>
+  <span class="k">auto</span><span class="o">&amp;</span> <span class="n">device_context</span> <span class="o">=</span> <span class="n">context</span><span class="p">.</span><span class="k">template</span> <span class="n">device_context</span><span class="o">&lt;</span><span class="n">DeviceContext</span><span class="o">&gt;</span><span class="p">();</span>
+  <span class="n">math</span><span class="o">::</span><span class="n">matmul</span><span class="o">&lt;</span><span class="n">DeviceContext</span><span class="p">,</span> <span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="o">*</span><span class="n">X</span><span class="p">,</span> <span class="nb">false</span><span class="p">,</span> <span class="o">*</span><span class="n">Y</span><span class="p">,</span> <span class="nb">false</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">device_context</span><span class="p">);</span>
 <span class="p">}</span>
 <span class="p">};</span>
 </pre></div>
 </div>
-<p>Note that <strong>different devices (CPU, GPU)share an Op definition; whether or not they share the same <code class="docutils literal"><span class="pre">OpKernel</span></code> depends on whether <code class="docutils literal"><span class="pre">Compute</span></code> calls functions that support both devices.</strong></p>
-<p><code class="docutils literal"><span class="pre">MulOp</span></code>&#8216;s CPU and GPU share the same <code class="docutils literal"><span class="pre">Kernel</span></code>. A non-sharing  <code class="docutils literal"><span class="pre">OpKernel</span></code> example can be seen in <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/operators/cross_entropy_op.h#L43"><code class="docutils literal"><span class="pre">OnehotCrossEntropyOpKernel</span></code></a>.</p>
+<p>Note that <strong>different devices (CPU, CUDA)share an Op definition; whether or not they share the same <code class="docutils literal"><span class="pre">OpKernel</span></code> depends on whether <code class="docutils literal"><span class="pre">Compute</span></code> calls functions that support both devices.</strong></p>
+<p><code class="docutils literal"><span class="pre">MulOp</span></code>&#8216;s CPU and CUDA share the same <code class="docutils literal"><span class="pre">Kernel</span></code>. A non-sharing  <code class="docutils literal"><span class="pre">OpKernel</span></code> example can be seen in <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/operators/cross_entropy_op.h#L43"><code class="docutils literal"><span class="pre">OnehotCrossEntropyOpKernel</span></code></a>.</p>
 <p>To ease the writing of <code class="docutils literal"><span class="pre">OpKernel</span></code> compute, and for reusing code cross-device, <a class="reference external" href="https://bitbucket.org/eigen/eigen/src/default/unsupported/Eigen/CXX11/src/Tensor/README.md?fileviewer=file-view-default"><code class="docutils literal"><span class="pre">Eigen-unsupported</span> <span class="pre">Tensor</span></code></a> module is used to implement <code class="docutils literal"><span class="pre">Compute</span></code> interface. To learn about how the Eigen library is used in PaddlePaddle, please see <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/doc/howto/dev/use_eigen_cn.md">usage document</a>.</p>
 <p>This concludes the forward implementation of an operator. Next its operation and kernel need to be registered in a <code class="docutils literal"><span class="pre">.cc</span></code> file.</p>
 <p>The definition of its corresponding backward operator, if applicable, is similar to that of an forward operator. <strong>Note that a backward operator does not include a <code class="docutils literal"><span class="pre">ProtoMaker</span></code></strong>.</p>
@@ -376,9 +375,9 @@ Registering the Op           | Ops are registered in <code class="docutils liter
 <li><p class="first">In <code class="docutils literal"><span class="pre">.cc</span></code> files, register forward and backward operator classes and the CPU kernel.</p>
 <div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="k">namespace</span> <span class="n">ops</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">::</span><span class="n">operators</span><span class="p">;</span>
 <span class="n">REGISTER_OP</span><span class="p">(</span><span class="n">mul</span><span class="p">,</span> <span class="n">ops</span><span class="o">::</span><span class="n">MulOp</span><span class="p">,</span> <span class="n">ops</span><span class="o">::</span><span class="n">MulOpMaker</span><span class="p">,</span> <span class="n">mul_grad</span><span class="p">,</span> <span class="n">ops</span><span class="o">::</span><span class="n">MulOpGrad</span><span class="p">);</span>
-<span class="n">REGISTER_OP_CPU_KERNEL</span><span class="p">(</span><span class="n">mul</span><span class="p">,</span> <span class="n">ops</span><span class="o">::</span><span class="n">MulKernel</span><span class="o">&lt;</span><span class="n">paddle</span><span class="o">::</span><span class="n">platform</span><span class="o">::</span><span class="n">CPUPlace</span><span class="p">,</span> <span class="kt">float</span><span class="o">&gt;</span><span class="p">);</span>
+<span class="n">REGISTER_OP_CPU_KERNEL</span><span class="p">(</span><span class="n">mul</span><span class="p">,</span> <span class="n">ops</span><span class="o">::</span><span class="n">MulKernel</span><span class="o">&lt;</span><span class="n">paddle</span><span class="o">::</span><span class="n">platform</span><span class="o">::</span><span class="n">CPUDeviceContext</span><span class="p">,</span> <span class="kt">float</span><span class="o">&gt;</span><span class="p">);</span>
 <span class="n">REGISTER_OP_CPU_KERNEL</span><span class="p">(</span><span class="n">mul_grad</span><span class="p">,</span>
-              <span class="n">ops</span><span class="o">::</span><span class="n">MulGradKernel</span><span class="o">&lt;</span><span class="n">paddle</span><span class="o">::</span><span class="n">platform</span><span class="o">::</span><span class="n">CPUPlace</span><span class="p">,</span> <span class="kt">float</span><span class="o">&gt;</span><span class="p">);</span>
+              <span class="n">ops</span><span class="o">::</span><span class="n">MulGradKernel</span><span class="o">&lt;</span><span class="n">paddle</span><span class="o">::</span><span class="n">platform</span><span class="o">::</span><span class="n">CPUDeviceContext</span><span class="p">,</span> <span class="kt">float</span><span class="o">&gt;</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>In that code block,</p>
@@ -390,17 +389,17 @@ Registering the Op           | Ops are registered in <code class="docutils liter
 </li>
 </ul>
 <ul>
-<li><p class="first">Registering GPU Kernel in <code class="docutils literal"><span class="pre">.cu</span></code> files</p>
+<li><p class="first">Registering CUDA Kernel in <code class="docutils literal"><span class="pre">.cu</span></code> files</p>
 <ul class="simple">
-<li>Note that if GPU Kernel is implemented using the <code class="docutils literal"><span class="pre">Eigen</span> <span class="pre">unsupported</span></code> module, then on top of <code class="docutils literal"><span class="pre">.cu</span></code>, a macro definition <code class="docutils literal"><span class="pre">#define</span> <span class="pre">EIGEN_USE_GPU</span></code> is needed, such as</li>
+<li>Note that if CUDA Kernel is implemented using the <code class="docutils literal"><span class="pre">Eigen</span> <span class="pre">unsupported</span></code> module, then on top of <code class="docutils literal"><span class="pre">.cu</span></code>, a macro definition <code class="docutils literal"><span class="pre">#define</span> <span class="pre">EIGEN_USE_GPU</span></code> is needed, such as</li>
 </ul>
 <div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="c1">// if use Eigen unsupported module before include head files</span>
 <span class="cp">#define EIGEN_USE_GPU</span>
 
 <span class="k">namespace</span> <span class="n">ops</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">::</span><span class="n">operators</span><span class="p">;</span>
-<span class="n">REGISTER_OP_GPU_KERNEL</span><span class="p">(</span><span class="n">mul</span><span class="p">,</span> <span class="n">ops</span><span class="o">::</span><span class="n">MulKernel</span><span class="o">&lt;</span><span class="n">paddle</span><span class="o">::</span><span class="n">platform</span><span class="o">::</span><span class="n">GPUPlace</span><span class="p">,</span> <span class="kt">float</span><span class="o">&gt;</span><span class="p">);</span>
-<span class="n">REGISTER_OP_GPU_KERNEL</span><span class="p">(</span><span class="n">mul_grad</span><span class="p">,</span>
-                       <span class="n">ops</span><span class="o">::</span><span class="n">MulGradKernel</span><span class="o">&lt;</span><span class="n">paddle</span><span class="o">::</span><span class="n">platform</span><span class="o">::</span><span class="n">GPUPlace</span><span class="p">,</span> <span class="kt">float</span><span class="o">&gt;</span><span class="p">);</span>
+<span class="n">REGISTER_OP_CUDA_KERNEL</span><span class="p">(</span><span class="n">mul</span><span class="p">,</span> <span class="n">ops</span><span class="o">::</span><span class="n">MulKernel</span><span class="o">&lt;</span><span class="n">paddle</span><span class="o">::</span><span class="n">platform</span><span class="o">::</span><span class="n">CUDADeviceContext</span><span class="p">,</span> <span class="kt">float</span><span class="o">&gt;</span><span class="p">);</span>
+<span class="n">REGISTER_OP_CUDA_KERNEL</span><span class="p">(</span><span class="n">mul_grad</span><span class="p">,</span>
+                       <span class="n">ops</span><span class="o">::</span><span class="n">MulGradKernel</span><span class="o">&lt;</span><span class="n">paddle</span><span class="o">::</span><span class="n">platform</span><span class="o">::</span><span class="n">CUDADeviceContext</span><span class="p">,</span> <span class="kt">float</span><span class="o">&gt;</span><span class="p">);</span>
 </pre></div>
 </div>
 </li>
@@ -433,46 +432,27 @@ Registering the Op           | Ops are registered in <code class="docutils liter
 <ol class="simple">
 <li>Defining input, output and relevant attributes in <code class="docutils literal"><span class="pre">setUp</span></code> method.</li>
 <li>Generating random input data.</li>
-<li>Implementing the same computation logic in a Python script:</li>
+<li>Implementing the same computation logic in a Python script.</li>
+<li>Call check gradient function to check the backward operator.</li>
 </ol>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">unittest</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">gradient_checker</span> <span class="kn">import</span> <span class="n">GradientChecker</span><span class="p">,</span> <span class="n">create_op</span>
-<span class="kn">from</span> <span class="nn">op_test_util</span> <span class="kn">import</span> <span class="n">OpTestMeta</span>
+<span class="kn">from</span> <span class="nn">op_test</span> <span class="kn">import</span> <span class="n">OpTest</span>
 
-<span class="k">class</span> <span class="nc">TestMulOp</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
-    <span class="vm">__metaclass__</span> <span class="o">=</span> <span class="n">OpTestMeta</span>
 
+<span class="k">class</span> <span class="nc">TestMulOp</span><span class="p">(</span><span class="n">OpTest</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="s2">&quot;mul&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">op_type</span> <span class="o">=</span> <span class="s2">&quot;mul&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s1">&#39;X&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">32</span><span class="p">,</span> <span class="mi">84</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">),</span>
             <span class="s1">&#39;Y&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">84</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
         <span class="p">}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">outputs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Out&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;Y&#39;</span><span class="p">])}</span>
-</pre></div>
-</div>
-<p>Get its output, and compare it with the forward operator&#8217;s own output.</p>
-<p>The code above first loads required packages. In addition, we have</p>
-<ul class="simple">
-<li><code class="docutils literal"><span class="pre">self.type</span> <span class="pre">=</span> <span class="pre">&quot;mul&quot;</span></code> defines the type that is identical to what the operator&#8217;s registered type.</li>
-<li><code class="docutils literal"><span class="pre">self.inputs</span></code> defines input, with type <code class="docutils literal"><span class="pre">numpy.array</span></code> and initializes it.</li>
-<li><code class="docutils literal"><span class="pre">self.outputs</span></code> defines output and completes the same operator computation in the Python script, and returns its result from the Python script.</li>
-</ul>
-</div>
-<div class="section" id="testing-backward-operators">
-<span id="testing-backward-operators"></span><h3>Testing Backward Operators<a class="headerlink" href="#testing-backward-operators" title="Permalink to this headline">¶</a></h3>
-<p>A backward operator unit test inherits <code class="docutils literal"><span class="pre">GradientChecker</span></code>, which inherits <code class="docutils literal"><span class="pre">unittest.TestCase</span></code>. As a result, <strong>a backward operator unit test needs to be have the prefix <code class="docutils literal"><span class="pre">test_</span></code></strong>.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TestMulGradOp</span><span class="p">(</span><span class="n">GradientChecker</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">op</span> <span class="o">=</span> <span class="n">create_op</span><span class="p">(</span><span class="s2">&quot;mul&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s1">&#39;X&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">32</span><span class="p">,</span> <span class="mi">84</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">),</span>
-            <span class="s1">&#39;Y&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">84</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
-        <span class="p">}</span>
 
+    <span class="k">def</span> <span class="nf">test_check_output</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_output</span><span class="p">()</span>
+        
     <span class="k">def</span> <span class="nf">test_check_grad_normal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># mul op will enlarge the relative error</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_grad</span><span class="p">([</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;Y&#39;</span><span class="p">],</span> <span class="s1">&#39;Out&#39;</span><span class="p">,</span> <span class="n">max_relative_error</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">test_check_grad_ingore_x</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -482,11 +462,18 @@ Registering the Op           | Ops are registered in <code class="docutils liter
     <span class="k">def</span> <span class="nf">test_check_grad_ingore_y</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_grad</span><span class="p">(</span>
             <span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">],</span> <span class="s1">&#39;Out&#39;</span><span class="p">,</span> <span class="n">max_relative_error</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">no_grad_set</span><span class="o">=</span><span class="nb">set</span><span class="p">(</span><span class="s1">&#39;Y&#39;</span><span class="p">))</span>
+
 </pre></div>
 </div>
-<p>Some key points in the code above include:</p>
+<p>Get its output, and compare it with the forward operator&#8217;s own output.</p>
+<p>The code above first loads required packages. In addition, we have</p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">create_op(&quot;mul&quot;)</span></code> creates the backward operator&#8217;s corresponding forward operator.</li>
+<li><code class="docutils literal"><span class="pre">self.op_type</span> <span class="pre">=</span> <span class="pre">&quot;mul&quot;</span></code> defines the type that is identical to what the operator&#8217;s registered type.</li>
+<li><code class="docutils literal"><span class="pre">self.inputs</span></code> defines input, with type <code class="docutils literal"><span class="pre">numpy.array</span></code> and initializes it.</li>
+<li><code class="docutils literal"><span class="pre">self.outputs</span></code> defines output and completes the same operator computation in the Python script, and returns its result from the Python script.</li>
+</ul>
+<p>Some key points in checking gradient above include:</p>
+<ul class="simple">
 <li><code class="docutils literal"><span class="pre">test_normal</span></code> calls <code class="docutils literal"><span class="pre">check_grad</span></code> to validate scaling tests&#8217; correctness and stability through numeric methods.<ul>
 <li>The first variable <code class="docutils literal"><span class="pre">[&quot;X&quot;,</span> <span class="pre">&quot;Y&quot;]</span></code> appoints <code class="docutils literal"><span class="pre">X</span></code> and <code class="docutils literal"><span class="pre">Y</span></code> to be scale tested.</li>
 <li>The second variable <code class="docutils literal"><span class="pre">&quot;Out&quot;</span></code> points to the network&#8217;s final output target <code class="docutils literal"><span class="pre">Out</span></code>.</li>
@@ -515,7 +502,7 @@ Registering the Op           | Ops are registered in <code class="docutils liter
 <ul class="simple">
 <li>Every <code class="docutils literal"><span class="pre">*_op.h</span></code> (if applicable), <code class="docutils literal"><span class="pre">*_op.cc</span></code>, and <code class="docutils literal"><span class="pre">*_op.cu</span></code> (if applicable) must be created for a unique Op. Compiling will fail if multiple operators are included per file.</li>
 <li>The type with which an operator is registered needs to be identical to the Op&#8217;s name. Registering <code class="docutils literal"><span class="pre">REGISTER_OP(B,</span> <span class="pre">...)</span></code> in <code class="docutils literal"><span class="pre">A_op.cc</span></code> will cause unit testing failures.</li>
-<li>If the operator does not implement a GPU kernel, please refrain from creating an empty <code class="docutils literal"><span class="pre">*_op.cu</span></code> file, or else unit tests will fail.</li>
+<li>If the operator does not implement a CUDA kernel, please refrain from creating an empty <code class="docutils literal"><span class="pre">*_op.cu</span></code> file, or else unit tests will fail.</li>
 <li>If multiple operators rely on some shared methods, a file NOT named <code class="docutils literal"><span class="pre">*_op.*</span></code> can be created to store them, such as <code class="docutils literal"><span class="pre">gather.h</span></code>.</li>
 </ul>
 </div>
