@@ -278,13 +278,13 @@ no changes added to commit <span class="o">(</span>use <span class="s2">&quot;gi
 </div>
 <div class="section" id="">
 <span id="id5"></span><h2>构建和测试<a class="headerlink" href="#" title="永久链接至标题">¶</a></h2>
-<p>编译 PaddlePaddle 的源码以及生成文档需要多种开发工具。为了方便大家，我们的标准开发流程是把这些工具都装进一个Docker image，称为<em>开发镜像</em>，通常名字是 <code class="docutils literal"><span class="pre">paddle:dev</span></code>。然后所有用 <code class="docutils literal"><span class="pre">cmake</span> <span class="pre">&amp;&amp;</span> <span class="pre">make</span></code> 的地方（比如IDE配置里）都用 <code class="docutils literal"><span class="pre">docker</span> <span class="pre">run</span> <span class="pre">paddle:dev</span></code>来代替。</p>
+<p>编译 PaddlePaddle 的源码以及生成文档需要多种开发工具。为了方便大家，我们的标准开发流程是把这些工具都装进一个Docker image，称为<em>开发镜像</em>，通常名字是 <code class="docutils literal"><span class="pre">paddle:latest-dev</span></code> 或者 <code class="docutils literal"><span class="pre">paddle:[version</span> <span class="pre">tag]-dev</span></code> 如 <code class="docutils literal"><span class="pre">paddle:0.11.0-dev</span></code>。然后所有用 <code class="docutils literal"><span class="pre">cmake</span> <span class="pre">&amp;&amp;</span> <span class="pre">make</span></code> 的地方（比如IDE配置里）都用 <code class="docutils literal"><span class="pre">docker</span> <span class="pre">run</span> <span class="pre">paddle:latest-dev</span></code>来代替。</p>
 <p>如要build这个开发镜像，在源码目录树的根目录中运行：</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>➜  docker build -t paddle:dev .
+<div class="highlight-bash"><div class="highlight"><pre><span></span>➜  docker build -t paddle:latest-dev .
 </pre></div>
 </div>
 <p>随后可以用这个开发镜像开始build PaddlePaddle的源码。比如如果要build一个不依赖GPU，但是支持AVX指令集，并且包括unit tests的PaddlePaddle，可以：</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>➜  docker run -v <span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>:/paddle -e <span class="s2">&quot;WITH_GPU=OFF&quot;</span> -e <span class="s2">&quot;WITH_AVX=ON&quot;</span> -e <span class="s2">&quot;WITH_TEST=ON&quot;</span> paddle:dev
+<div class="highlight-bash"><div class="highlight"><pre><span></span>➜  docker run -v <span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>:/paddle -e <span class="s2">&quot;WITH_GPU=OFF&quot;</span> -e <span class="s2">&quot;WITH_AVX=ON&quot;</span> -e <span class="s2">&quot;WITH_TESTING=ON&quot;</span> paddle:latest-dev
 </pre></div>
 </div>
 <p>这个过程除了编译PaddlePaddle为 <code class="docutils literal"><span class="pre">./build/libpaddle.so</span></code>，并且输出一个 <code class="docutils literal"><span class="pre">./build/paddle.deb</span></code>文件之外，还会输出一个 <code class="docutils literal"><span class="pre">build/Dockerfile</span></code>。我们只需要运行下面命令把编译好的PaddlePaddle打包成一个<em>生产镜像</em>（<code class="docutils literal"><span class="pre">paddle:prod</span></code>）：</p>
@@ -292,7 +292,7 @@ no changes added to commit <span class="o">(</span>use <span class="s2">&quot;gi
 </pre></div>
 </div>
 <p>如果要运行所有的单元测试，可以用如下命令：</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>➜  docker run -it -v <span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>:/paddle paddle:dev bash -c <span class="s2">&quot;cd /paddle/build &amp;&amp; ctest&quot;</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>➜  docker run -it -v <span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>:/paddle paddle:latest-dev bash -c <span class="s2">&quot;cd /paddle/build &amp;&amp; ctest&quot;</span>
 </pre></div>
 </div>
 <p>关于构建和测试的更多信息，请参见<a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/doc/getstarted/build_and_install/docker_install_cn.rst">这篇文档</a>。</p>
