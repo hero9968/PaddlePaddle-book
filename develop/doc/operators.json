@@ -671,7 +671,7 @@
    "comment" : "The state variable names. [ex_states, states, initial_states@GRAD] must be the same order",
    "generated" : 0
  }, { 
-   "name" : "step_block",
+   "name" : "sub_block",
    "type" : "block id",
    "comment" : "The step block inside RNN",
    "generated" : 0
@@ -3797,7 +3797,7 @@
  } ], 
  "attrs" : [ 
  { 
-   "name" : "step_block",
+   "name" : "sub_block",
    "type" : "block id",
    "comment" : "The step block inside WhileOp",
    "generated" : 0
@@ -4244,7 +4244,7 @@
  } ], 
  "attrs" : [ 
  { 
-   "name" : "block",
+   "name" : "sub_block",
    "type" : "block id",
    "comment" : "The step block of conditional block operator",
    "generated" : 0
