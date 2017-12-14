@@ -2038,7 +2038,7 @@
  } ] 
 },{
  "type" : "reduce_min",
- "comment" : "\n{ReduceOp} Operator.\n\nThis operator computes the min of input tensor along the given dimension. \nThe result tensor has 1 fewer dimension than the input unless keep_dim is true.\n\n",
+ "comment" : "\n{ReduceOp} Operator.\n\nThis operator computes the min of input tensor along the given dimension. \nThe result tensor has 1 fewer dimension than the input unless keep_dim is true.\nIf reduce_all is true, just reduce along all dimensions and output a scalar.\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
@@ -2063,6 +2063,11 @@
    "name" : "keep_dim",
    "type" : "bool",
    "comment" : "(bool, default false) If true, retain the reduced dimension with length 1.",
+   "generated" : 0
+ }, { 
+   "name" : "reduce_all",
+   "type" : "bool",
+   "comment" : "(bool, default false) If true, output a scalar reduced along all dimensions.",
    "generated" : 0
  } ] 
 },{
@@ -2284,7 +2289,7 @@
  "attrs" : [  ] 
 },{
  "type" : "reduce_max",
- "comment" : "\n{ReduceOp} Operator.\n\nThis operator computes the max of input tensor along the given dimension. \nThe result tensor has 1 fewer dimension than the input unless keep_dim is true.\n\n",
+ "comment" : "\n{ReduceOp} Operator.\n\nThis operator computes the max of input tensor along the given dimension. \nThe result tensor has 1 fewer dimension than the input unless keep_dim is true.\nIf reduce_all is true, just reduce along all dimensions and output a scalar.\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
@@ -2309,6 +2314,11 @@
    "name" : "keep_dim",
    "type" : "bool",
    "comment" : "(bool, default false) If true, retain the reduced dimension with length 1.",
+   "generated" : 0
+ }, { 
+   "name" : "reduce_all",
+   "type" : "bool",
+   "comment" : "(bool, default false) If true, output a scalar reduced along all dimensions.",
    "generated" : 0
  } ] 
 },{
@@ -2609,7 +2619,7 @@
  } ] 
 },{
  "type" : "reduce_sum",
- "comment" : "\n{ReduceOp} Operator.\n\nThis operator computes the sum of input tensor along the given dimension. \nThe result tensor has 1 fewer dimension than the input unless keep_dim is true.\n\n",
+ "comment" : "\n{ReduceOp} Operator.\n\nThis operator computes the sum of input tensor along the given dimension. \nThe result tensor has 1 fewer dimension than the input unless keep_dim is true.\nIf reduce_all is true, just reduce along all dimensions and output a scalar.\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
@@ -2634,6 +2644,11 @@
    "name" : "keep_dim",
    "type" : "bool",
    "comment" : "(bool, default false) If true, retain the reduced dimension with length 1.",
+   "generated" : 0
+ }, { 
+   "name" : "reduce_all",
+   "type" : "bool",
+   "comment" : "(bool, default false) If true, output a scalar reduced along all dimensions.",
    "generated" : 0
  } ] 
 },{
@@ -2772,7 +2787,7 @@
  "attrs" : [  ] 
 },{
  "type" : "reduce_mean",
- "comment" : "\n{ReduceOp} Operator.\n\nThis operator computes the mean of input tensor along the given dimension. \nThe result tensor has 1 fewer dimension than the input unless keep_dim is true.\n\n",
+ "comment" : "\n{ReduceOp} Operator.\n\nThis operator computes the mean of input tensor along the given dimension. \nThe result tensor has 1 fewer dimension than the input unless keep_dim is true.\nIf reduce_all is true, just reduce along all dimensions and output a scalar.\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
@@ -2797,6 +2812,11 @@
    "name" : "keep_dim",
    "type" : "bool",
    "comment" : "(bool, default false) If true, retain the reduced dimension with length 1.",
+   "generated" : 0
+ }, { 
+   "name" : "reduce_all",
+   "type" : "bool",
+   "comment" : "(bool, default false) If true, output a scalar reduced along all dimensions.",
    "generated" : 0
  } ] 
 },{
