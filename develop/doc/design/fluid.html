@@ -207,22 +207,22 @@
 <span id="design-doc-paddlepaddle-fluid"></span><h1>Design Doc: PaddlePaddle Fluid<a class="headerlink" href="#design-doc-paddlepaddle-fluid" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="why-fluid">
 <span id="why-fluid"></span><h2>Why Fluid<a class="headerlink" href="#why-fluid" title="Permalink to this headline">¶</a></h2>
-<p>When Baidu developed PaddlePaddle in 2013, the only well-known open source deep learning system was Caffe.  However, when it open-sourced PaddlePaddle in 2016, there had been many other choices over there.  We were facing a challenge &#8211; why would we open source yet another one?</p>
-<p>Fluid is the answer.  Fluid is similar to PyTorch and TensorFlow Eager Execution, which describes the &#8220;process&#8221; of training or inference a model, but not the model itself.  Indeed, in PyTorch, Eager Execution, and Fluid, there is no such a concept of the model at all. I will explain in this article, Fluid is currently more extreme in this idea than PyTorch and Eager Execution, and we are pushing Fluid towards a compiler and even a new programming language for deep learning</p>
+<p>When Baidu developed PaddlePaddle in 2013, the only well-known open source deep learning system at the time was Caffe.  However, when PaddlePaddle was open-sourced in 2016, many other choices were available. There was a challenge &#8211; what is the need for open sourcing yet another deep learning framework?</p>
+<p>Fluid is the answer.  Fluid is similar to PyTorch and TensorFlow Eager Execution, which describes the &#8220;process&#8221; of training or inference using the concept of a model.  In fact in PyTorch, TensorFlow Eager Execution and Fluid, there is no  concept of a model at all. The details are covered in the sections below. Fluid is currently more extreme in the above mentioned idea than PyTorch and Eager Execution, and we are trying to push Fluid towards the directions of a compiler and a new programming language for deep learning.</p>
 </div>
 <div class="section" id="the-evolution-of-deep-learning-systems">
 <span id="the-evolution-of-deep-learning-systems"></span><h2>The Evolution of Deep Learning Systems<a class="headerlink" href="#the-evolution-of-deep-learning-systems" title="Permalink to this headline">¶</a></h2>
-<p>Deep learning infrastructure is one of the fastest involving technology.  Within only four years, there have been three generations of technologies invented.</p>
-<p>| Since around | model = sequence of layers | model = graph of operators | No model |
+<p>Deep learning infrastructure is one of the fastest evolving technologies. Within four years, there have already been three generations of technologies invented.</p>
+<p>| Existed since | model as sequence of layers | model as graph of operators | No model |
 |&#8211;|&#8211;|&#8211;|&#8211;|
 | 2013 | Caffe, Theano, Torch, PaddlePaddle | | |
 | 2015 | | TensorFlow, MxNet, Caffe2, ONNX, n-graph | |
 | 2016 | | | PyTorch, TensorFlow Eager Execution, PaddlePaddle Fluid |</p>
-<p>From the above table, we see that the technology is evolving towards the removal of the concept of the model.  To better understand the reason, let us compare the <em>programming paradigms</em>, or, the ways we program deep learning applications using these systems.</p>
+<p>From the above table, we see that the deep learning technology is evolving towards getting rid of the concept of a model.  To understand the reasons behind this direction, a comparison of the <em>programming paradigms</em> or the ways to program deep learning applications using these systems, would be helpful. The following section goes over these.</p>
 </div>
 <div class="section" id="deep-learning-programming-paradigms">
 <span id="deep-learning-programming-paradigms"></span><h2>Deep Learning Programming Paradigms<a class="headerlink" href="#deep-learning-programming-paradigms" title="Permalink to this headline">¶</a></h2>
-<p>With any system listed as the first or second generation, e.g., Caffe or TensorFlow, an AI application training program looks like the following:</p>
+<p>With the systems listed as the first or second generation, e.g., Caffe or TensorFlow, an AI application training program looks like the following:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="s2">&quot;image&quot;</span><span class="p">)</span>
 <span class="n">l</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">)</span>
 <span class="n">f</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">W</span><span class="p">)</span>
@@ -233,17 +233,17 @@
     <span class="n">m</span> <span class="o">=</span> <span class="n">read_minibatch</span><span class="p">()</span>
     <span class="n">forward</span><span class="p">({</span><span class="nb">input</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">m</span><span class="p">},</span> <span class="n">minimize</span><span class="o">=</span><span class="n">c</span><span class="p">)</span>
     <span class="n">backward</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
-    
+
 <span class="k">print</span> <span class="n">W</span> <span class="c1"># print the trained model parameters.</span>
 </pre></div>
 </div>
 <p>The above program includes two parts:</p>
 <ol class="simple">
-<li>the first part describes the model, and</li>
-<li>the second part describes the training process (or inference process).</li>
+<li>The first part describes the model, and</li>
+<li>The second part describes the training process (or inference process) for the model.</li>
 </ol>
-<p>This paradigm has a well-known problem that limits programmers&#8217; productivity.  Suppose that we made some mistakes at configuring the model in the first part of the program, when we run the program, it wouldn&#8217;t prompt error messages until the execution enters the second part, when the invocation to <code class="docutils literal"><span class="pre">forward</span></code> or <code class="docutils literal"><span class="pre">backward</span></code> raise errors.   It is difficult for the programmer to realize and locate that there is a mistake many lines away from where the error appears.</p>
-<p>This problem of hard to debug a program is the primary reason that programmers prefer PyTorch than elder systems.  Using PyTorch, we would write the above program like the following</p>
+<p>This paradigm has a well-known problem that limits the productivity of programmers. If the programmer made a mistake in configuring the model, the error messages wouldn&#8217;t show up until the second part is executed and <code class="docutils literal"><span class="pre">forward</span></code> and <code class="docutils literal"><span class="pre">backward</span></code> propagations are performed. This makes it difficult for the programmer to debug and locate a mistake that is located blocks away from the actual error prompt.</p>
+<p>This problem of being hard to debug and re-iterate fast on a program is the primary reason that programmers, in general,  prefer PyTorch over the older systems.  Using PyTorch, we would write the above program as following:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">W</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span> <span class="c1"># train for 1000 iterations</span>
@@ -254,16 +254,16 @@
     <span class="n">s</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
     <span class="n">c</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">mse</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
     <span class="n">backward</span><span class="p">()</span>
-    
+
 <span class="k">print</span> <span class="n">W</span> <span class="c1"># print the trained model parameters.</span>
 </pre></div>
 </div>
-<p>We can see that the main difference is the moving of the model configuration, the first part, into the train loop.  This change would allow that mistakes in model configuration reported where they appear.  This change also represents the model, or its forward pass, by the process in the training loop.</p>
+<p>We can see that the main difference is the moving the model configuration part (the first step) into the training loop.  This change would allow the mistakes in model configuration to be reported where they actually appear in the programming block.  This change also represents the model better, or its forward pass, by keeping the configuration process in the training loop.</p>
 </div>
 <div class="section" id="describe-arbitrary-models-for-the-future">
 <span id="describe-arbitrary-models-for-the-future"></span><h2>Describe Arbitrary Models for the Future<a class="headerlink" href="#describe-arbitrary-models-for-the-future" title="Permalink to this headline">¶</a></h2>
-<p>Describing the process instead of the model also brings Fluid the flexibility to define models not yet invented.</p>
-<p>As we can program the process, we can write an RNN as a loop, instead of an RNN layer or operator.  A PyTorch example could look like</p>
+<p>Describing the process instead of the model also brings Fluid, the flexibility to define different non-standard models that haven&#8217;t been invented yet.</p>
+<p>As we write out the program for the process, we can write an RNN as a loop, instead of an RNN as a layer or as an operator.  A PyTorch example would look like the following:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
     <span class="n">m</span> <span class="o">=</span> <span class="n">read_minibatch</span><span class="p">()</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="s2">&quot;sentence&quot;</span><span class="p">]</span>
@@ -271,7 +271,7 @@
         <span class="n">h</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">the_step</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">t</span><span class="p">])</span>
 </pre></div>
 </div>
-<p>With Fluid, the training loop and the RNN in the above program are not Python loop, but a &#8220;loop structure&#8221; provided by Fluid and implemented in C++:</p>
+<p>With Fluid, the training loop and the RNN in the above program are not really Python loops, but just a &#8220;loop structure&#8221; provided by Fluid and implemented in C++ as the following:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">train_loop</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">While</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span>
 <span class="k">with</span> <span class="n">train_loop</span><span class="o">.</span><span class="n">block</span><span class="p">():</span>
   <span class="n">m</span> <span class="o">=</span> <span class="n">read_minibatch</span><span class="p">()</span>
@@ -281,29 +281,29 @@
     <span class="n">h</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">the_step</span><span class="p">(</span><span class="nb">input</span><span class="p">[</span><span class="n">t</span><span class="p">])</span>
 </pre></div>
 </div>
-<p>A real Fluid example is <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/a91efdde6910ce92a78e3aa7157412c4c88d9ee8/python/paddle/v2/fluid/tests/test_while_op.py#L36-L44">here</a>.</p>
-<p>From these examples, you can see that Fluid programs look similar to their PyTorch equivalent, except that Fluid&#8217;s loop structure, wrapped with Python&#8217;s <code class="docutils literal"><span class="pre">with</span></code> statement, could run much faster than Python&#8217;s loop.</p>
+<p>An actual Fluid example is described  <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/a91efdde6910ce92a78e3aa7157412c4c88d9ee8/python/paddle/v2/fluid/tests/test_while_op.py#L36-L44">here</a>.</p>
+<p>From the example, the Fluid programs look very similar to their PyTorch equivalent programs, except that Fluid&#8217;s loop structure, wrapped with Python&#8217;s <code class="docutils literal"><span class="pre">with</span></code> statement, could run much faster than just a Python loop.</p>
 <p>We have more examples of the <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/doc/design/if_else_op.md"><code class="docutils literal"><span class="pre">if-then-else</span></code></a> structure of Fluid.</p>
 </div>
 <div class="section" id="turing-completeness">
 <span id="turing-completeness"></span><h2>Turing Completeness<a class="headerlink" href="#turing-completeness" title="Permalink to this headline">¶</a></h2>
-<p>In computability theory, a system of data-manipulation rules, such as a programming language, is said to be Turing complete if it can be used to simulate any Turing machine.  For a programming language, if it provides if-then-else and loop, it is Turing complete.  From above examples, Fluid seems Turing complete; however, I would like to point out is a slight difference between the if-then-else of Fluid and that in a programming language is that the former runs both of its branches.  It splits the input minibatch into two &#8211; one for the true condition and one for the false.  I am not sure if this is equivalent to the if-then-else that makes programming languages Turing-complete.  I talked with <a class="reference external" href="https://research.google.com/pubs/104812.html">Yuang Yu</a>, but I need to figure out more.</p>
+<p>In computability theory, a system of data-manipulation rules, such as a programming language, is said to be Turing complete if it can be used to simulate any Turing machine.  For a programming language, if it provides if-then-else and loop, it is Turing complete.  From the above examples, Fluid seems to be Turing complete; however, it is noteworthy to notice that there  is a slight difference between the <code class="docutils literal"><span class="pre">if-then-else</span></code> of Fluid and that of a programming language. The difference being that the former runs both of its branches and splits the input mini-batch into two &#8211; one for the True condition and another for the False condition. This hasn&#8217;t been researched in depth if this is equivalent to the <code class="docutils literal"><span class="pre">if-then-else</span></code> in programming languages that makes them Turing-complete.  Based on a conversation with <a class="reference external" href="https://research.google.com/pubs/104812.html">Yuang Yu</a>, it seems to be the case but this needs to be looked into in-depth.</p>
 </div>
 <div class="section" id="the-execution-of-a-fluid-program">
 <span id="the-execution-of-a-fluid-program"></span><h2>The Execution of a Fluid Program<a class="headerlink" href="#the-execution-of-a-fluid-program" title="Permalink to this headline">¶</a></h2>
-<p>There are two ways to run a Fluid program.  When we run an example program, it creates a protobuf message <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/a91efdde6910ce92a78e3aa7157412c4c88d9ee8/paddle/framework/framework.proto#L145"><code class="docutils literal"><span class="pre">ProgramDesc</span></code></a> that describes the process and conceptually likes an <a class="reference external" href="https://en.wikipedia.org/wiki/Abstract_syntax_tree">abstract syntax tree</a>.</p>
-<p>We have a C++ class <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/framework/executor.h"><code class="docutils literal"><span class="pre">Executor</span></code></a>, which runs a <code class="docutils literal"><span class="pre">ProgramDesc</span></code> like that an interpreter runs a Python program.</p>
-<p>We are moving towards a compiler, which we will explain in more details later in this article.</p>
+<p>There are two ways to execute a Fluid program.  When a program is executed, it creates a protobuf message <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/a91efdde6910ce92a78e3aa7157412c4c88d9ee8/paddle/framework/framework.proto#L145"><code class="docutils literal"><span class="pre">ProgramDesc</span></code></a> that describes the process and is conceptually like an <a class="reference external" href="https://en.wikipedia.org/wiki/Abstract_syntax_tree">abstract syntax tree</a>.</p>
+<p>There is a C++ class <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/framework/executor.h"><code class="docutils literal"><span class="pre">Executor</span></code></a>, which runs a <code class="docutils literal"><span class="pre">ProgramDesc</span></code>, similar to how an interpreter runs a Python program.</p>
+<p>Fluid is moving towards the direction of a compiler, which is explain in more detail later in this article.</p>
 </div>
-<div class="section" id="backward-compatibility">
-<span id="backward-compatibility"></span><h2>Backward Compatibility<a class="headerlink" href="#backward-compatibility" title="Permalink to this headline">¶</a></h2>
-<p>Given all advantages from the removal of the concept <em>model</em>, hardware manufacturers might still prefer the existence of the concept model, so they could build their hardware reads and runs a trained model for inference.  For example, Nervana, a startup company acquired by Intel, has been working on an XPU that reads models in the format known as <a class="reference external" href="https://github.com/NervanaSystems/ngraph">n-graph</a>.  Similarly, <a class="reference external" href="https://www.movidius.com/">Movidius</a> is producing a mobile deep learning chip that reads and runs graphs of operators too.  The well-known <a class="reference external" href="https://github.com/onnx/onnx">ONNX</a> is also a file format of graphs of operators.</p>
-<p>For Fluid, we can write a converter that extracts parts in the <code class="docutils literal"><span class="pre">ProgramDesc</span></code> protobuf message, converts them into a graph of operators, and exports into the ONNX or n-graph format.</p>
+<div class="section" id="backward-compatibility-of-fluid">
+<span id="backward-compatibility-of-fluid"></span><h2>Backward Compatibility of Fluid<a class="headerlink" href="#backward-compatibility-of-fluid" title="Permalink to this headline">¶</a></h2>
+<p>Given all the advantages from the removal of the concept of a <em>model</em>, hardware manufacturers might still prefer the existence of the concept of a model, so it would be easier for them to support multiple frameworks all at once and could run a trained model during inference.  For example, Nervana, a startup company acquired by Intel, has been working on an XPU that reads the models in the format known as <a class="reference external" href="https://github.com/NervanaSystems/ngraph">n-graph</a>.  Similarly, <a class="reference external" href="https://www.movidius.com/">Movidius</a> is producing a mobile deep learning chip that reads and runs graphs of operators.  The well-known <a class="reference external" href="https://github.com/onnx/onnx">ONNX</a> is also a file format of graphs of operators.</p>
+<p>For Fluid, we can write a converter that extracts the parts in the <code class="docutils literal"><span class="pre">ProgramDesc</span></code> protobuf message, converts them into a graph of operators, and exports the graph into the ONNX or n-graph format.</p>
 </div>
 <div class="section" id="towards-a-deep-learning-language-and-the-compiler">
 <span id="towards-a-deep-learning-language-and-the-compiler"></span><h2>Towards a Deep Learning Language and the Compiler<a class="headerlink" href="#towards-a-deep-learning-language-and-the-compiler" title="Permalink to this headline">¶</a></h2>
-<p>We can change the if-then-else and loop structure a little bit in the above Fluid example programs so to make it a new programming language, different from Python.</p>
-<p>Even if we don&#8217;t invent a new language, as long as we get the <code class="docutils literal"><span class="pre">ProgramDesc</span></code> message filled in, we can write a transpiler, which translates each invocation to an operator into a C++ call to a kernel function of that operator. For example, a transpiler that weaves the CUDA kernels outputs an NVIDIA-friendly C++ program, which can be built using <code class="docutils literal"><span class="pre">nvcc</span></code>.  Another transpiler could generate MKL-friendly code that should be built using <code class="docutils literal"><span class="pre">icc</span></code> from Intel.  More interestingly, we can translate a Fluid program into its distributed version of two <code class="docutils literal"><span class="pre">ProgramDesc</span></code> messages, one for running on the trainer process, and the other one for the parameter server.  For more details of the last example, let us check the <a class="reference external" href="design/concurrent_programming.md">concurrent programming design</a>.  The following figure explains this two-stage process:</p>
+<p>We can change the <code class="docutils literal"><span class="pre">if-then-else</span></code> and loop structure a little bit in the above Fluid example programs, to make it into a new programming language, different than Python.</p>
+<p>Even if we do not invent a new language, as long as we get the <code class="docutils literal"><span class="pre">ProgramDesc</span></code> message filled in, we can write a transpiler, which translates each invocation to an operator, into a C++ call to a kernel function of that operator. For example, a transpiler that weaves the CUDA kernels outputs an NVIDIA-friendly C++ program, which can be built using <code class="docutils literal"><span class="pre">nvcc</span></code>.  Another transpiler could generate MKL-friendly code that should be built using <code class="docutils literal"><span class="pre">icc</span></code> from Intel.  More interestingly, we can translate a Fluid program into its distributed version of two <code class="docutils literal"><span class="pre">ProgramDesc</span></code> messages, one for running on the trainer process, and the other one for the parameter server.  For more details of the last example, the <a class="reference external" href="design/concurrent_programming.md">concurrent programming design</a> document would be a good pointer.  The following figure explains the proposed two-stage process:</p>
 <p><img alt="" src="../_images/fluid-compiler.png" /></p>
 </div>
 </div>
