@@ -310,7 +310,7 @@ dig deeper into deep learning, PaddlePaddle Book definitely is your best choice.
 to run GPU training jobs. Please ensure you have latest
 GPU driver installed before move on.</p>
 <blockquote>
-<div><div class="highlight-bash"><div class="highlight"><pre><span></span>nvidia-docker run -it -v <span class="nv">$PWD</span>:/work paddledev/paddle:latest-gpu /bin/bash
+<div><div class="highlight-bash"><div class="highlight"><pre><span></span>nvidia-docker run -it -v <span class="nv">$PWD</span>:/work paddlepaddle/paddle:latest-gpu /bin/bash
 </pre></div>
 </div>
 </div></blockquote>
@@ -318,7 +318,7 @@ GPU driver installed before move on.</p>
 <blockquote>
 <div><div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">CUDA_SO</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span><span class="se">\l</span>s /usr/lib64/libcuda* <span class="p">|</span> xargs -I<span class="o">{}</span> <span class="nb">echo</span> <span class="s1">&#39;-v {}:{}&#39;</span><span class="k">)</span><span class="s2"> </span><span class="k">$(</span><span class="se">\l</span>s /usr/lib64/libnvidia* <span class="p">|</span> xargs -I<span class="o">{}</span> <span class="nb">echo</span> <span class="s1">&#39;-v {}:{}&#39;</span><span class="k">)</span><span class="s2">&quot;</span>
 <span class="nb">export</span> <span class="nv">DEVICES</span><span class="o">=</span><span class="k">$(</span><span class="se">\l</span>s /dev/nvidia* <span class="p">|</span> xargs -I<span class="o">{}</span> <span class="nb">echo</span> <span class="s1">&#39;--device {}:{}&#39;</span><span class="k">)</span>
-docker run <span class="si">${</span><span class="nv">CUDA_SO</span><span class="si">}</span> <span class="si">${</span><span class="nv">DEVICES</span><span class="si">}</span> -it paddledev/paddle:latest-gpu
+docker run <span class="si">${</span><span class="nv">CUDA_SO</span><span class="si">}</span> <span class="si">${</span><span class="nv">DEVICES</span><span class="si">}</span> -it paddlepaddle/paddle:latest-gpu
 </pre></div>
 </div>
 </div></blockquote>
