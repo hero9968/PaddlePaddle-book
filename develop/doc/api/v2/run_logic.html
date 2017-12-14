@@ -481,16 +481,22 @@ can be used in the inference.</p>
 
 <dl class="method">
 <dt>
-<code class="descname">init_from_tar</code><span class="sig-paren">(</span><em>f</em><span class="sig-paren">)</span></dt>
+<code class="descname">init_from_tar</code><span class="sig-paren">(</span><em>f</em>, <em>exclude_params=[]</em><span class="sig-paren">)</span></dt>
 <dd><p>Different from <cite>from_tar</cite>, this interface can be used to
 init partial network parameters from another saved model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>f</strong> (<em>tar file</em>) &#8211; the initialized model file.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>f</strong> (<em>tar file</em>) &#8211; the initialized model file.</li>
+<li><strong>exclude_params</strong> (<em>list of strings</em>) &#8211; the names of parameters that should
+not be initialized from the model file.</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Nothing.</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Nothing.</p>
+</td>
 </tr>
 </tbody>
 </table>
