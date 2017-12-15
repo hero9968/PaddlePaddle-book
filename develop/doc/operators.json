@@ -2888,7 +2888,7 @@
  "attrs" : [  ] 
 },{
  "type" : "reshape",
- "comment" : "\nReshape Operator.\n\nReshape Input(X) into the shape specified by Attr(shape).\n\nAn example:\nGiven a 2-D tensor X with 2 rows and 2 columns\n\n    [[1, 2], [3, 4]]\n\nand target shape = [1, 4], the reshape operator will transform\nthe tensor X into a 2-D tensor:\n\n    [[1, 2, 3, 4]]\n\n",
+ "comment" : "\nReshape Operator.\n\nReshape Input(X) into the shape specified by Attr(shape).\n\nAn example:\nGiven a 2-D tensor X with 2 rows and 2 columns\n\n    [[1, 2], [3, 4]]\n\nand target shape = [1, 4], the reshape operator will transform\nthe tensor X into a 2-D tensor:\n\n    [[1, 2, 3, 4]]\n\nOne dimension in the target shape can be set -1, representing that its\nsize is unknown. In this case, the real dimension will be infered from \nthe original shape of Input(X) and other dimensions in the target shape.\n",
  "inputs" : [ 
  { 
    "name" : "X",
