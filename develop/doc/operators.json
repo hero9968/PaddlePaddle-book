@@ -4415,6 +4415,21 @@
    "comment" : "(float). The evaluated F1-Score on the given mini-batch.",
    "duplicable" : 0,
    "intermediate" : 0
+ }, { 
+   "name" : "NumInferChunks",
+   "comment" : "(int64_t). The number of chunks in Inference on the given mini-batch.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "NumLabelChunks",
+   "comment" : "(int64_t). The number of chunks in Label on the given mini-batch.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "NumCorrectChunks",
+   "comment" : "(int64_t). The number of chunks both in Inference and Label on the given mini-batch.",
+   "duplicable" : 0,
+   "intermediate" : 0
  } ], 
  "attrs" : [ 
  { 
