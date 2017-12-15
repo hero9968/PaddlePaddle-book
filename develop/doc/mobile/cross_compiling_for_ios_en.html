@@ -32,7 +32,10 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="PaddlePaddle  documentation" href="../index.html"/> 
+    <link rel="top" title="PaddlePaddle  documentation" href="../index.html"/>
+        <link rel="up" title="MOBILE" href="index_en.html"/>
+        <link rel="next" title="Build PaddlePaddle for Raspberry Pi" href="cross_compiling_for_raspberry_en.html"/>
+        <link rel="prev" title="Build PaddlePaddle for Android" href="cross_compiling_for_android_en.html"/> 
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/css/perfect-scrollbar.min.css" type="text/css" />
   <link rel="stylesheet" href="../_static/css/override.css" type="text/css" />
@@ -80,11 +83,11 @@
       </div>
       <div class="doc-module">
         
-        <ul>
+        <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../getstarted/index_en.html">GET STARTED</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../howto/index_en.html">HOW TO</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api/index_en.html">API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="index_en.html">MOBILE</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index_en.html">MOBILE</a></li>
 </ul>
 
         
@@ -105,7 +108,7 @@
     <nav class="doc-menu-vertical" role="navigation">
         
           
-          <ul>
+          <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../getstarted/index_en.html">GET STARTED</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../getstarted/build_and_install/index_en.html">Install and Build</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../getstarted/build_and_install/pip_install_en.html">Install Using pip</a></li>
@@ -169,8 +172,9 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="index_en.html">MOBILE</a><ul>
+<li class="toctree-l1 current"><a class="reference internal" href="index_en.html">MOBILE</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="cross_compiling_for_android_en.html">Build PaddlePaddle for Android</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">PaddlePaddle Compiling Guide for iOS</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cross_compiling_for_raspberry_en.html">Build PaddlePaddle for Raspberry Pi</a></li>
 </ul>
 </li>
@@ -193,6 +197,8 @@
 
 <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
+      
+        <li><a href="index_en.html">MOBILE</a> > </li>
       
     <li>PaddlePaddle Compiling Guide for iOS</li>
   </ul>
@@ -220,11 +226,11 @@ Build version 9A235
 <p>PaddlePaddle provides cross-compiling toolchain configuration documentation <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/cmake/cross_compiling/ios.cmake">cmake/cross_compiling/ios.cmake</a>, which has some default settings for frequently used compilers.</p>
 <p>There are some mandatory environment variables need to be set before cross compiling PaddlePaddle for iOS:</p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">CMAKE_SYSTEM_NAME</span></code>, CMake compiling target platform name, has to be <code class="docutils literal"><span class="pre">iOS</span></code>. PaddlePaddle CMake will compile all the third party dependencies and enforce some parameters (<code class="docutils literal"><span class="pre">WITH_C_API=ON</span></code>、<code class="docutils literal"><span class="pre">WITH_GPU=OFF</span></code>、<code class="docutils literal"><span class="pre">WITH_AVX=OFF</span></code>、<code class="docutils literal"><span class="pre">WITH_PYTHON=OFF</span></code>、<code class="docutils literal"><span class="pre">WITH_RDMA=OFF</span></code>) when this variable is set with value <code class="docutils literal"><span class="pre">iOS</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">CMAKE_SYSTEM_NAME</span></code>, CMake compiling target platform name, has to be <code class="docutils literal"><span class="pre">iOS</span></code>. PaddlePaddle CMake will compile all the third party dependencies and enforce some parameters (<code class="docutils literal"><span class="pre">WITH_C_API=ON</span></code>, <code class="docutils literal"><span class="pre">WITH_GPU=OFF</span></code>, <code class="docutils literal"><span class="pre">WITH_AVX=OFF</span></code>, <code class="docutils literal"><span class="pre">WITH_PYTHON=OFF</span></code>,<code class="docutils literal"><span class="pre">WITH_RDMA=OFF</span></code>) when this variable is set with value <code class="docutils literal"><span class="pre">iOS</span></code>.</li>
 <li><code class="docutils literal"><span class="pre">WITH_C_API</span></code>, Whether to compile inference C-API library, has to be <code class="docutils literal"><span class="pre">ON</span></code>, since C-API is the only supported interface for inferencing in iOS.</li>
-<li><code class="docutils literal"><span class="pre">WITH_SWIG_PY</span></code>, has to be <code class="docutils literal"><span class="pre">ON</span></code>. It&#8217;s not supported to inference or train via swig in iOS.</li>
+<li><code class="docutils literal"><span class="pre">WITH_SWIG_PY</span></code>, has to be <code class="docutils literal"><span class="pre">OFF</span></code>. It&#8217;s not supported to inference or train via swig in iOS.</li>
 </ul>
-<p>Optional environment variables for iOS are：</p>
+<p>Optional environment variables for iOS are:</p>
 <ul>
 <li><p class="first"><code class="docutils literal"><span class="pre">IOS_PLATFORM</span></code>, either <code class="docutils literal"><span class="pre">OS</span></code> (default) or <code class="docutils literal"><span class="pre">SIMULATOR</span></code>.</p>
 <ul class="simple">
@@ -316,7 +322,7 @@ $ make install
 <li><code class="docutils literal"><span class="pre">lib</span></code>, contains PaddlePaddle C-API static library.</li>
 <li><code class="docutils literal"><span class="pre">third_party</span></code> contains all the 3rd party libraries.</li>
 </ul>
-<p>Please note: if PaddlePaddle library need to support both physical devices and simulators, you will need to compile correspondingly, then merge fat library with <code class="docutils literal"><span class="pre">lipo</span></code></p>
+<p>Please note: if PaddlePaddle library need to support both physical devices and simulators, you will need to compile correspondingly, then merge fat library with <code class="docutils literal"><span class="pre">lipo</span></code>.</p>
 <p>Now you will have PaddlePaddle library compiled and installed, the fat library can be used in deep learning related iOS APPs. Please refer to C-API documentation for usage guides.</p>
 </div>
 </div>
@@ -325,6 +331,15 @@ $ make install
            </div>
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="cross_compiling_for_raspberry_en.html" class="btn btn-neutral float-right" title="Build PaddlePaddle for Raspberry Pi" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="cross_compiling_for_android_en.html" class="btn btn-neutral" title="Build PaddlePaddle for Android" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>
