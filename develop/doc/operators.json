@@ -388,35 +388,6 @@
    "generated" : 0
  } ] 
 },{
- "type" : "sequence_pool",
- "comment" : "\nSequence Pool Operator.\n\nThe SequencePoolOp pools features of all time-steps of each instance.\nIt supports six pooling types:\n1. AVERAGE: $$Out[i] = \\frac{\\sum_i X_i}{N}$$\n2. SUM:     $$Out[i] = \\sum_jX_{ij}$$\n3. SQRT:    $$Out[i] = \\frac{\\sum_jX_{ij}}{\\sqrt{len(X_i)}}$$\n4. LAST:    Out[i] = last instance in i-th sequence X[i]\n5. FIRST:   Out[i] = first instance in i-th sequence X[i]\n6. MAX:     $$Out[i] = max(X_i)$$\n\nThe following example explains how this works:\nFor a mini-batch of 3 variable-length sentences,\ncontaining 2, 3, and 2 time-steps:\n\nAssume X is a [7,M,N] LoDTensor, and X->lod()[0] = [0, 2, 5, 7], 7=2+3+2.\nBesides, for the sake of simplicity, we assume M=1 and N=1,\nand the value of X = [[1, 3], [2, 4, 6], [5, 1]].\n\nThus, Out is a [3,1,1] Tensor without LoD infomation.\nAnd for different pooltype, the value of Out is as follows:\n\n- AVERAGE: [2, 4, 3], where 2=(1+3)/2, 4=(2+4+6)/3, 3=(5+1)/2\n- SUM: [4, 12, 6], where 4=1+3, 12=2+4+6, 6=5+1\n- SQRT: [2.82, 6.93, 4.24], where 2.82=(1+3)/sqrt(2),\n           6.93=(2+4+6)/sqrt(3), 4.24=(5+1)/sqrt(2)\n- MAX: [3, 6, 5], where 3=max(1,3), 6=max(2,4,6), 5=max(5,1)\n- LAST: [3, 6, 1], where 3=last(1,3), 6=last(2,4,6), 1=last(5,1)\n- FIRST: [1, 2, 5], where 1=first(1,3), 2=first(2,4,6), 5=first(5,1)\n\n    ",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(LoDTensor) The variable-length input of SequencePoolOp",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(Tensor) The output of SequencePoolOp does not contain LoD infomation.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "MaxIndex",
-   "comment" : "(Tensor<int>) This tensor is used for the sequence max-pooling to record the max indexes.",
-   "duplicable" : 0,
-   "intermediate" : 1
- } ], 
- "attrs" : [ 
- { 
-   "name" : "pooltype",
-   "type" : "string",
-   "comment" : "(int, default AVERAGE) the pooling pooltype of SequencePoolOp.",
-   "generated" : 0
- } ] 
-},{
  "type" : "lstm",
  "comment" : "\nLong-Short Term Memory (LSTM) Operator.\n\nThe defalut implementation is diagonal/peephole connection\n(https://arxiv.org/pdf/1402.1128.pdf), the formula is as follows:\n\n$$\ni_t = \\sigma(W_{ix}x_{t} + W_{ih}h_{t-1} + W_{ic}c_{t-1} + b_i) \\\\\n\nf_t = \\sigma(W_{fx}x_{t} + W_{fh}h_{t-1} + W_{fc}c_{t-1} + b_f) \\\\\n\n\\tilde{c_t} = act_g(W_{cx}x_t + W_{ch}h_{t-1} + b_c) \\\\\n\no_t = \\sigma(W_{ox}x_{t} + W_{oh}h_{t-1} + W_{oc}c_t + b_o) \\\\\n\nc_t = f_t \\odot c_{t-1} + i_t \\odot \\tilde{c_t} \\\\\n\nh_t = o_t \\odot act_h(c_t)\n$$\n\nwhere the W terms denote weight matrices (e.g. $W_{xi}$ is the matrix\nof weights from the input gate to the input), $W_{ic}, W_{fc}, W_{oc}$\nare diagonal weight matrices for peephole connections. In our implementation,\nwe use vectors to reprenset these diagonal weight matrices. The b terms\ndenote bias vectors ($b_i$ is the input gate bias vector), $\\sigma$\nis the non-line activations, such as logistic sigmoid function, and\n$i, f, o$ and $c$ are the input gate, forget gate, output gate,\nand cell activation vectors, respectively, all of which have the same size as\nthe cell output activation vector $h$.\n\nThe $\\odot$ is the element-wise product of the vectors. $act_g$ and $act_h$\nare the cell input and cell output activation functions and `tanh` is usually\nused for them. $\\tilde{c_t}$ is also called candidate hidden state,\nwhich is computed based on the current input and the previous hidden state.\n\nSet `use_peepholes` False to disable peephole connection. The formula\nis omitted here, please refer to the paper\nhttp://www.bioinf.jku.at/publications/older/2604.pdf for details.\n\nNote that these $W_{xi}x_{t}, W_{xf}x_{t}, W_{xc}x_{t}, W_{xo}x_{t}$\noperations on the input $x_{t}$ are NOT included in this operator.\nUsers can choose to use fully-connect operator before LSTM operator.\n\n",
  "inputs" : [ 
@@ -1010,6 +981,47 @@
  } ], 
  "attrs" : [  ] 
 },{
+ "type" : "read_from_array",
+ "comment" : "\nReadFromArray Operator.\n\nRead a LoDTensor from a LoDTensor Array.\n\nAssume $T$ is LoDTensor, $i$ is the subscript of the array, and $A$ is the array. The\nequation is\n\n$$T = A[i]$$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(TensorArray) the array will be read from.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "I",
+   "comment" : "(Tensor) the subscript index in tensor array. The number of element should be 1",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(LoDTensor) the tensor will be read from.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
+ "type" : "softplus",
+ "comment" : "\nSoftplus Activation Operator.\n\n$y = \\ln(1 + e^{x})$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "Input of Softplus operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Y",
+   "comment" : "Output of Softplus operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
  "type" : "logical_xor",
  "comment" : "logical_xor Operator\n\nIt operates element-wise on X and Y, and returns the Out. X, Y and Out are N-dim boolean tensors.\nEach element of Out is calculated by $$Out = (X || Y) \\, \\&\\& \\, !(X \\&\\& Y)$$\n",
  "inputs" : [ 
@@ -1332,24 +1344,6 @@
    "generated" : 0
  } ] 
 },{
- "type" : "l1_norm",
- "comment" : "\nL1 Norm Operator.\n\nComputes the L1 norm of a tensor.\n\n$$Out = \\sum{|X|}$$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(Tensor) The input of l1_norm op.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(Scalar) The output of l1_norm op.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
  "type" : "sqrt",
  "comment" : "\nSqrt Activation Operator.\n\n$y = \\sqrt{x}$\n\n",
  "inputs" : [ 
@@ -1590,42 +1584,37 @@
  } ], 
  "attrs" : [  ] 
 },{
- "type" : "merge_lod_tensor",
- "comment" : "\n        Merge True and False branches of LoDTensor into a single Output,\n        with a mask at certain lod level. X is used to obtain complete\n        lod information. Please refer to SplitLoDTensorOp.",
+ "type" : "reduce_min",
+ "comment" : "\n{ReduceOp} Operator.\n\nThis operator computes the min of input tensor along the given dimension. \nThe result tensor has 1 fewer dimension than the input unless keep_dim is true.\nIf reduce_all is true, just reduce along all dimensions and output a scalar.\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
-   "comment" : "The input LoDTensor, contains complete lod information to construct the output",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Mask",
-   "comment" : "A bool column vector which mask the input",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "InTrue",
-   "comment" : "The True branch to be merged",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "InFalse",
-   "comment" : "The False branch to be merged",
+   "comment" : "(Tensor) The input tensor. Tensors with rank at most 6 are supported.",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
  "outputs" : [ 
  { 
    "name" : "Out",
-   "comment" : "The merged output LoDTensor",
+   "comment" : "(Tensor) The result tensor.",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
  "attrs" : [ 
  { 
-   "name" : "level",
+   "name" : "dim",
    "type" : "int",
-   "comment" : "(int) the specific lod level to rank.",
+   "comment" : "(int, default 0) The dimension to reduce. Must be in the range [-rank(input), rank(input)). If `dim < 0`, the dim to reduce is `rank + dim`. Note that reducing on the first dim will make the LoD info lost.",
+   "generated" : 0
+ }, { 
+   "name" : "keep_dim",
+   "type" : "bool",
+   "comment" : "(bool, default false) If true, retain the reduced dimension with length 1.",
+   "generated" : 0
+ }, { 
+   "name" : "reduce_all",
+   "type" : "bool",
+   "comment" : "(bool, default false) If true, output a scalar reduced along all dimensions.",
    "generated" : 0
  } ] 
 },{
@@ -1812,6 +1801,50 @@
    "generated" : 0
  } ] 
 },{
+ "type" : "smooth_l1_loss",
+ "comment" : "\nSmooth L1 Loss Operator.\n\nThis operator computes the smooth l1 loss for X and Y.\nThe operator takes the first dimension of X and Y as batch size.\nFor each instance, it computes the smooth l1 loss element by element first\nand then sums all the losses. So the shape of Out is [batch_size, 1].\n\nThe equation is:\n$$\nOut_{\\sigma}(X, Y)_i = \\begin{cases}\n0.5 * (\\sigma * (X_i - Y_i)) ^ 2\n\\quad |X_i - Y_i| \\lt \\frac{1} {{\\sigma} ^ 2} \\\\\n\\frac{|X_i - Y_i| - 0.5}{{\\sigma}^2},\n\\quad otherwise\n\\end{cases}\n$$\n\nIn the above equation, $Out_{\\sigma}(X, Y)_i$, $X_i$ and $Y_i$ represent the ith\nelement of Out, X and Y.\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(Tensor, default Tensor<float>) A tensor with rank at least 2. The input value of smooth l1 loss op with shape [batch_size, dim1, ..., dimN].",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Y",
+   "comment" : "(Tensor, default Tensor<float>) A tensor with rank at least 2. The target value of smooth l1 loss op with same shape as X.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "InsideWeight",
+   "comment" : "(Tensor, default Tensor<float>) A tensor with rank at least 2. This input is optional and should have same shape with X. If provided, the result of (X - Y) will be multiplied by this tensor element by element.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "OutsideWeight",
+   "comment" : "(Tensor, default Tensor<float>) A tensor with rank at least 2. This input is optional and should have same shape with X. If provided, the out smooth l1 loss will be multiplied by this tensor element by element.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Diff",
+   "comment" : "Intermediate variable to cache InsideWeight * (X - Y).",
+   "duplicable" : 0,
+   "intermediate" : 1
+ }, { 
+   "name" : "Out",
+   "comment" : "(Tensor, default Tensor<float>) A tensor with rank be 2. The output smooth l1 loss with shape [batch_size, 1].",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "sigma",
+   "type" : "float",
+   "comment" : "Hyper parameter of smooth l1 loss op.A float scalar with default value 3.0.",
+   "generated" : 0
+ } ] 
+},{
  "type" : "pad",
  "comment" : "\nPad Operator.\n\nPad input into output, as specified by paddings and pad_value. \nThe input should be a k-D tensor(k > 0 and k < 7). As an example:\n\nGiven:\n\nX = [[1, 2],\n     [3, 4]],\n\npaddings = [0, 1, 1, 2],\n\nand\n\npad_value = 0,\n\nwe have:\n\nOut = [[0, 1, 2, 0, 0]\n       [0, 3, 4, 0, 0]\n       [0, 0, 0, 0, 0]]\n\n",
  "inputs" : [ 
@@ -1993,125 +2026,27 @@
    "generated" : 0
  } ] 
 },{
- "type" : "conv2d_transpose_cudnn",
- "comment" : "\nConvolution2D Transpose Operator.\n\nThe convolution transpose operation calculates the output based on the input, filter\nand strides, paddings, groups parameters. The size of each dimension of the\nparameters is checked in the infer-shape.\nInput(Input) and output(Output) are in NCHW format. Where N is batchsize, C is the\nnumber of channels, H is the height of the feature, and W is the width of the feature.\nFilter(Input) is in MCHW format. Where M is the number of input feature channels,\nC is the number of output feature channels, H is the height of the filter,\nand W is the width of the filter.\nParameters(strides, paddings) are two elements. These two elements represent height\nand width, respectively.\nThe input(X) size and output(Out) size may be different.\n\nExample:\n  Input:\n       Input shape: $(N, C_{in}, H_{in}, W_{in})$\n       Filter shape: $(C_{in}, C_{out}, H_f, W_f)$\n  Output:\n       Output shape: $(N, C_{out}, H_{out}, W_{out})$\n  Where\n  $$\n       H_{out} = (H_{in} - 1) * strides[0] - 2 * paddings[0] + H_f \\\\\n       W_{out} = (W_{in} - 1) * strides[1] - 2 * paddings[1] + W_f\n  $$\n",
- "inputs" : [ 
- { 
-   "name" : "Input",
-   "comment" : "(Tensor) The input tensor of convolution transpose operator. The format of input tensor is NCHW. Where N is batch size, C is the number of input channels, H is the height of the feature, and W is the width of the feature.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Filter",
-   "comment" : "(Tensor) The filter tensor of convolution transpose operator. The format of the filter tensor is MCHW, where M is the number of input feature channels, C is the number of output feature channels,H is the height of the filter, and W is the width of the filter. We enforce groups number == 1 in the convolution transpose scenario.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Output",
-   "comment" : "(Tensor) The output tensor of convolution transpose operator. The format of output tensor is also NCHW.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "strides",
-   "type" : "int array",
-   "comment" : "(vector<int> default:{1, 1}), the strides(h_stride, w_stride) of convolution transpose operator.",
-   "generated" : 0
- }, { 
-   "name" : "paddings",
-   "type" : "int array",
-   "comment" : "(vector<int> default:{0, 0}), the paddings(h_pad, w_pad) of convolution transpose operator.",
-   "generated" : 0
- }, { 
-   "name" : "dilations",
-   "type" : "int array",
-   "comment" : "dilations of convolution operator.",
-   "generated" : 0
- }, { 
-   "name" : "workspace_size_MB",
-   "type" : "int",
-   "comment" : "workspace size for cudnn, in MB, workspace is a section of GPU memory which will be allocated/freed each time the operator runs, larger workspace size can increase performance but also requires better hardward. This size should be carefully setted.",
-   "generated" : 0
- } ] 
-},{
- "type" : "reduce_min",
- "comment" : "\n{ReduceOp} Operator.\n\nThis operator computes the min of input tensor along the given dimension. \nThe result tensor has 1 fewer dimension than the input unless keep_dim is true.\nIf reduce_all is true, just reduce along all dimensions and output a scalar.\n\n",
+ "type" : "increment",
+ "comment" : "\nIncrement Operator.\n\nThe equation is: \n$$Out = X + step$$\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
-   "comment" : "(Tensor) The input tensor. Tensors with rank at most 6 are supported.",
+   "comment" : "(Tensor) The input tensor of increment operator",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
  "outputs" : [ 
  { 
    "name" : "Out",
-   "comment" : "(Tensor) The result tensor.",
+   "comment" : "(Tensor) The output tensor of increment operator.",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
  "attrs" : [ 
  { 
-   "name" : "dim",
-   "type" : "int",
-   "comment" : "(int, default 0) The dimension to reduce. Must be in the range [-rank(input), rank(input)). If `dim < 0`, the dim to reduce is `rank + dim`. Note that reducing on the first dim will make the LoD info lost.",
-   "generated" : 0
- }, { 
-   "name" : "keep_dim",
-   "type" : "bool",
-   "comment" : "(bool, default false) If true, retain the reduced dimension with length 1.",
-   "generated" : 0
- }, { 
-   "name" : "reduce_all",
-   "type" : "bool",
-   "comment" : "(bool, default false) If true, output a scalar reduced along all dimensions.",
-   "generated" : 0
- } ] 
-},{
- "type" : "smooth_l1_loss",
- "comment" : "\nSmooth L1 Loss Operator.\n\nThis operator computes the smooth l1 loss for X and Y.\nThe operator takes the first dimension of X and Y as batch size.\nFor each instance, it computes the smooth l1 loss element by element first\nand then sums all the losses. So the shape of Out is [batch_size, 1].\n\nThe equation is:\n$$\nOut_{\\sigma}(X, Y)_i = \\begin{cases}\n0.5 * (\\sigma * (X_i - Y_i)) ^ 2\n\\quad |X_i - Y_i| \\lt \\frac{1} {{\\sigma} ^ 2} \\\\\n\\frac{|X_i - Y_i| - 0.5}{{\\sigma}^2},\n\\quad otherwise\n\\end{cases}\n$$\n\nIn the above equation, $Out_{\\sigma}(X, Y)_i$, $X_i$ and $Y_i$ represent the ith\nelement of Out, X and Y.\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(Tensor, default Tensor<float>) A tensor with rank at least 2. The input value of smooth l1 loss op with shape [batch_size, dim1, ..., dimN].",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Y",
-   "comment" : "(Tensor, default Tensor<float>) A tensor with rank at least 2. The target value of smooth l1 loss op with same shape as X.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "InsideWeight",
-   "comment" : "(Tensor, default Tensor<float>) A tensor with rank at least 2. This input is optional and should have same shape with X. If provided, the result of (X - Y) will be multiplied by this tensor element by element.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "OutsideWeight",
-   "comment" : "(Tensor, default Tensor<float>) A tensor with rank at least 2. This input is optional and should have same shape with X. If provided, the out smooth l1 loss will be multiplied by this tensor element by element.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Diff",
-   "comment" : "Intermediate variable to cache InsideWeight * (X - Y).",
-   "duplicable" : 0,
-   "intermediate" : 1
- }, { 
-   "name" : "Out",
-   "comment" : "(Tensor, default Tensor<float>) A tensor with rank be 2. The output smooth l1 loss with shape [batch_size, 1].",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "sigma",
+   "name" : "step",
    "type" : "float",
-   "comment" : "Hyper parameter of smooth l1 loss op.A float scalar with default value 3.0.",
+   "comment" : "(float, default 1.0) The step size by which the input tensor will be incremented.",
    "generated" : 0
  } ] 
 },{
@@ -2246,48 +2181,6 @@
    "generated" : 0
  } ] 
 },{
- "type" : "swish",
- "comment" : "\nSwish Activation Operator.\n\n$$y = \\frac{x}{1 + e^{- \\beta x}}$$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "Input of Swish operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Y",
-   "comment" : "Output of Swish operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "beta",
-   "type" : "float",
-   "comment" : "Constant beta of swish operator",
-   "generated" : 0
- } ] 
-},{
- "type" : "is_empty",
- "comment" : "\nIsEmpty Operator which checks whether a tensor is empty.\n\nIt will just return product(tensor.ddims()) > 0;\n              ",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(Tensor) Tensor which is to be checked.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(Tensor) a boolean Tensor that indicate empty or not.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
  "type" : "reduce_max",
  "comment" : "\n{ReduceOp} Operator.\n\nThis operator computes the max of input tensor along the given dimension. \nThe result tensor has 1 fewer dimension than the input unless keep_dim is true.\nIf reduce_all is true, just reduce along all dimensions and output a scalar.\n\n",
  "inputs" : [ 
@@ -2319,6 +2212,227 @@
    "name" : "reduce_all",
    "type" : "bool",
    "comment" : "(bool, default false) If true, output a scalar reduced along all dimensions.",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "shrink_rnn_memory",
+ "comment" : "\n        In dynamic RNN, we are able to handle sequences of different lengths. \n        Because of the multiple lengths, the size of each step input can be \n        different, which may lead to a mismatching between the input of\n        the current step and the memory generated by the previous one. This \n        operator shrinks memory according to the size of the next step input, \n        to make sure that they can match each other.\n        ",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(LoDTensor) The RNN step memory to be shrinked.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "RankTable",
+   "comment" : "(LoDRankTable) The lod_rank_table of dynamic RNN.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "I",
+   "comment" : "(LoDTensor) The step index. The RNN step memory 'X' will be shrinked to match the size of the input of the index'th step.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(LoDTensor) The shrinked RNN step memory.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
+ "type" : "lod_reset",
+ "comment" : "LoDReset operator\n\nReset LoD of Input(X) into a new one specified by Input(TargetLoD) or\nAttr(target_lod), or set LoD for Input(X) if it doesn't have one.\nCurrently the lod_reset operator only supports the reset of level 0 LoD.\nAt least one of Input(TargetLoD) and Attr(target_lod) must be set,\nand if both of them are set, Input(TargetLoD) will be chosen as the\ntarget LoD.\n\nAn example:\nGiven a float LoDTensor X with shape (6, 1), its transpose form represents\n\n    [1.0, 2.0, 3.0, 4.0, 5.0, 6.0],\n\nwith LoD = [[0, 2, 5, 6]] and the three (transposed) sequences look like\n\n    [1.0, 2.0], [3.0, 4.0, 5.0], [6.0].\n\nIf target LoD = [0, 4, 6], the lod_reset operator will reset the LoD and\nthe sequences that the LoDTensor Output(Out) contains becomes:\n\n    [1.0, 2.0, 3.0, 4.0], [5.0, 6.0].\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(LoDTensor) The input tensor of lod_reset operator.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "TargetLoD",
+   "comment" : "(Tensor, optional) The target level 0 LoD from Input().",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(LoDTensor) The output tensor of lod_reset operator.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "target_lod",
+   "type" : "int array",
+   "comment" : "The target level 0 LoD from Attr().",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "write_to_array",
+ "comment" : "\nWriteToArray Operator.\n\nThis operator writes a LoDTensor to a LoDTensor array.\n\nAssume $T$ is LoDTensor, $i$ is the subscript of the array, and $A$ is the array. The\nequation is\n\n$$A[i] = T$$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(LoDTensor) the tensor will be written to tensor array",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "I",
+   "comment" : "(Tensor) the subscript index in tensor array. The number of element should be 1",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(TensorArray) the tensor array will be written",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
+ "type" : "sequence_pool",
+ "comment" : "\nSequence Pool Operator.\n\nThe SequencePoolOp pools features of all time-steps of each instance.\nIt supports six pooling types:\n1. AVERAGE: $$Out[i] = \\frac{\\sum_i X_i}{N}$$\n2. SUM:     $$Out[i] = \\sum_jX_{ij}$$\n3. SQRT:    $$Out[i] = \\frac{\\sum_jX_{ij}}{\\sqrt{len(X_i)}}$$\n4. LAST:    Out[i] = last instance in i-th sequence X[i]\n5. FIRST:   Out[i] = first instance in i-th sequence X[i]\n6. MAX:     $$Out[i] = max(X_i)$$\n\nThe following example explains how this works:\nFor a mini-batch of 3 variable-length sentences,\ncontaining 2, 3, and 2 time-steps:\n\nAssume X is a [7,M,N] LoDTensor, and X->lod()[0] = [0, 2, 5, 7], 7=2+3+2.\nBesides, for the sake of simplicity, we assume M=1 and N=1,\nand the value of X = [[1, 3], [2, 4, 6], [5, 1]].\n\nThus, Out is a [3,1,1] Tensor without LoD infomation.\nAnd for different pooltype, the value of Out is as follows:\n\n- AVERAGE: [2, 4, 3], where 2=(1+3)/2, 4=(2+4+6)/3, 3=(5+1)/2\n- SUM: [4, 12, 6], where 4=1+3, 12=2+4+6, 6=5+1\n- SQRT: [2.82, 6.93, 4.24], where 2.82=(1+3)/sqrt(2),\n           6.93=(2+4+6)/sqrt(3), 4.24=(5+1)/sqrt(2)\n- MAX: [3, 6, 5], where 3=max(1,3), 6=max(2,4,6), 5=max(5,1)\n- LAST: [3, 6, 1], where 3=last(1,3), 6=last(2,4,6), 1=last(5,1)\n- FIRST: [1, 2, 5], where 1=first(1,3), 2=first(2,4,6), 5=first(5,1)\n\n    ",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(LoDTensor) The variable-length input of SequencePoolOp",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(Tensor) The output of SequencePoolOp does not contain LoD infomation.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "MaxIndex",
+   "comment" : "(Tensor<int>) This tensor is used for the sequence max-pooling to record the max indexes.",
+   "duplicable" : 0,
+   "intermediate" : 1
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "pooltype",
+   "type" : "string",
+   "comment" : "(int, default AVERAGE) the pooling pooltype of SequencePoolOp.",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "spp",
+ "comment" : "\n        \"With spatial pyramid pooling, the input image can\n        be of any sizes. This not only allows arbitrary aspect\n        ratios, but also allows arbitrary scales. We can resize\n        the input image to any scale (e.g., min(w, h)=180, 224,\n        ...) and apply the same deep network. When the\n        input image is at different scales, the network (with\n        the same filter sizes) will extract features at different\n        scales. The scales play important roles in traditional\n        methods.\n        Input shape: $(N, C_{in}, H_{in}, W_{in})$\n        Output shape: $(H_{out}, W_{out})$\n        Where\n          $$\n            H_{out} = N \\\\\n            W_{out} = (((4^pyramid_height) - 1) / (4 - 1))$ * C_{in}\n          $$\n        paper https://arxiv.org/pdf/1406.4729v4.pdf\n        ",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(Tensor) The input tensor of spp operator. The format of input tensor is NCHW. Where N is batch size, C is the number of channels, H and W is the height and width of feature.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(Tensor) The output tensor of spp operator.N * M.M = C * H * W",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "pyramid_height",
+   "type" : "int",
+   "comment" : "(int), multi level pooling",
+   "generated" : 0
+ }, { 
+   "name" : "pooling_type",
+   "type" : "string",
+   "comment" : "(string), pooling type, can be \"max\" for max-pooling and \"avg\" for average-pooling.",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "conv2d_transpose_cudnn",
+ "comment" : "\nConvolution2D Transpose Operator.\n\nThe convolution transpose operation calculates the output based on the input, filter\nand strides, paddings, groups parameters. The size of each dimension of the\nparameters is checked in the infer-shape.\nInput(Input) and output(Output) are in NCHW format. Where N is batchsize, C is the\nnumber of channels, H is the height of the feature, and W is the width of the feature.\nFilter(Input) is in MCHW format. Where M is the number of input feature channels,\nC is the number of output feature channels, H is the height of the filter,\nand W is the width of the filter.\nParameters(strides, paddings) are two elements. These two elements represent height\nand width, respectively.\nThe input(X) size and output(Out) size may be different.\n\nExample:\n  Input:\n       Input shape: $(N, C_{in}, H_{in}, W_{in})$\n       Filter shape: $(C_{in}, C_{out}, H_f, W_f)$\n  Output:\n       Output shape: $(N, C_{out}, H_{out}, W_{out})$\n  Where\n  $$\n       H_{out} = (H_{in} - 1) * strides[0] - 2 * paddings[0] + H_f \\\\\n       W_{out} = (W_{in} - 1) * strides[1] - 2 * paddings[1] + W_f\n  $$\n",
+ "inputs" : [ 
+ { 
+   "name" : "Input",
+   "comment" : "(Tensor) The input tensor of convolution transpose operator. The format of input tensor is NCHW. Where N is batch size, C is the number of input channels, H is the height of the feature, and W is the width of the feature.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Filter",
+   "comment" : "(Tensor) The filter tensor of convolution transpose operator. The format of the filter tensor is MCHW, where M is the number of input feature channels, C is the number of output feature channels,H is the height of the filter, and W is the width of the filter. We enforce groups number == 1 in the convolution transpose scenario.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Output",
+   "comment" : "(Tensor) The output tensor of convolution transpose operator. The format of output tensor is also NCHW.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "strides",
+   "type" : "int array",
+   "comment" : "(vector<int> default:{1, 1}), the strides(h_stride, w_stride) of convolution transpose operator.",
+   "generated" : 0
+ }, { 
+   "name" : "paddings",
+   "type" : "int array",
+   "comment" : "(vector<int> default:{0, 0}), the paddings(h_pad, w_pad) of convolution transpose operator.",
+   "generated" : 0
+ }, { 
+   "name" : "dilations",
+   "type" : "int array",
+   "comment" : "dilations of convolution operator.",
+   "generated" : 0
+ }, { 
+   "name" : "workspace_size_MB",
+   "type" : "int",
+   "comment" : "workspace size for cudnn, in MB, workspace is a section of GPU memory which will be allocated/freed each time the operator runs, larger workspace size can increase performance but also requires better hardward. This size should be carefully setted.",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "merge_lod_tensor",
+ "comment" : "\n        Merge True and False branches of LoDTensor into a single Output,\n        with a mask at certain lod level. X is used to obtain complete\n        lod information. Please refer to SplitLoDTensorOp.",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "The input LoDTensor, contains complete lod information to construct the output",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Mask",
+   "comment" : "A bool column vector which mask the input",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "InTrue",
+   "comment" : "The True branch to be merged",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "InFalse",
+   "comment" : "The False branch to be merged",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "The merged output LoDTensor",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "level",
+   "type" : "int",
+   "comment" : "(int) the specific lod level to rank.",
    "generated" : 0
  } ] 
 },{
@@ -2468,86 +2582,6 @@
  } ], 
  "attrs" : [  ] 
 },{
- "type" : "shrink_rnn_memory",
- "comment" : "\n        In dynamic RNN, we are able to handle sequences of different lengths. \n        Because of the multiple lengths, the size of each step input can be \n        different, which may lead to a mismatching between the input of\n        the current step and the memory generated by the previous one. This \n        operator shrinks memory according to the size of the next step input, \n        to make sure that they can match each other.\n        ",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(LoDTensor) The RNN step memory to be shrinked.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "RankTable",
-   "comment" : "(LoDRankTable) The lod_rank_table of dynamic RNN.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "I",
-   "comment" : "(LoDTensor) The step index. The RNN step memory 'X' will be shrinked to match the size of the input of the index'th step.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(LoDTensor) The shrinked RNN step memory.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
- "type" : "lod_reset",
- "comment" : "LoDReset operator\n\nReset LoD of Input(X) into a new one specified by Input(TargetLoD) or\nAttr(target_lod), or set LoD for Input(X) if it doesn't have one.\nCurrently the lod_reset operator only supports the reset of level 0 LoD.\nAt least one of Input(TargetLoD) and Attr(target_lod) must be set,\nand if both of them are set, Input(TargetLoD) will be chosen as the\ntarget LoD.\n\nAn example:\nGiven a float LoDTensor X with shape (6, 1), its transpose form represents\n\n    [1.0, 2.0, 3.0, 4.0, 5.0, 6.0],\n\nwith LoD = [[0, 2, 5, 6]] and the three (transposed) sequences look like\n\n    [1.0, 2.0], [3.0, 4.0, 5.0], [6.0].\n\nIf target LoD = [0, 4, 6], the lod_reset operator will reset the LoD and\nthe sequences that the LoDTensor Output(Out) contains becomes:\n\n    [1.0, 2.0, 3.0, 4.0], [5.0, 6.0].\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(LoDTensor) The input tensor of lod_reset operator.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "TargetLoD",
-   "comment" : "(Tensor, optional) The target level 0 LoD from Input().",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(LoDTensor) The output tensor of lod_reset operator.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "target_lod",
-   "type" : "int array",
-   "comment" : "The target level 0 LoD from Attr().",
-   "generated" : 0
- } ] 
-},{
- "type" : "write_to_array",
- "comment" : "\nWriteToArray Operator.\n\nThis operator writes a LoDTensor to a LoDTensor array.\n\nAssume $T$ is LoDTensor, $i$ is the subscript of the array, and $A$ is the array. The\nequation is\n\n$$A[i] = T$$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(LoDTensor) the tensor will be written to tensor array",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "I",
-   "comment" : "(Tensor) the subscript index in tensor array. The number of element should be 1",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(TensorArray) the tensor array will be written",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
  "type" : "logical_or",
  "comment" : "logical_or Operator\n\nIt operates element-wise on X and Y, and returns the Out. X, Y and Out are N-dim boolean tensors.\nEach element of Out is calculated by $$Out = X || Y$$\n",
  "inputs" : [ 
@@ -2649,104 +2683,6 @@
    "name" : "reduce_all",
    "type" : "bool",
    "comment" : "(bool, default false) If true, output a scalar reduced along all dimensions.",
-   "generated" : 0
- } ] 
-},{
- "type" : "stanh",
- "comment" : "\nSTanh Activation Operator.\n\n$$y = b * \\frac{e^{a * x} - e^{-a * x}}{e^{a * x} + e^{-a * x}}$$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "Input of STanh operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Y",
-   "comment" : "Output of STanh operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "scale_a",
-   "type" : "float",
-   "comment" : "The scale parameter of a for the input",
-   "generated" : 0
- }, { 
-   "name" : "scale_b",
-   "type" : "float",
-   "comment" : "The scale parameter of b for the input",
-   "generated" : 0
- } ] 
-},{
- "type" : "adamax",
- "comment" : "\nAdamax Optimizer.\n\nWe implement the Adamax optimizer from Section 7 of the Adam\npaper: https://arxiv.org/abs/1412.6980. Adamax is a variant of the\nAdam algorithm based on the infinity norm.\n\nAdamax updates:\n\n$$\nmoment\\_out = \\beta_1 * moment + (1 - \\beta_1) * grad \\\\\ninf\\_norm\\_out = max(\\beta_2 * inf\\_norm + \\epsilon, |grad|) \\\\\nlearning\\_rate = \\frac{learning\\_rate}{1 - \\beta_{1\\_pow}} \\\\\nparam\\_out = param - learning\\_rate * \\frac{moment\\_out}{inf\\_norm\\_out}\n$$\n\nThe original paper does not have an epsilon attribute.\nHowever, it is added here for numerical stability to prevent the\ndivision by 0 error.\n\n",
- "inputs" : [ 
- { 
-   "name" : "Param",
-   "comment" : "(Tensor) Input parameter",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Grad",
-   "comment" : "(Tensor) Input gradient",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "LearningRate",
-   "comment" : "(Tensor) Learning rate",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Moment",
-   "comment" : "(Tensor) First moment",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "InfNorm",
-   "comment" : "(Tensor) Input exponentially weighted infinity norm",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Beta1Pow",
-   "comment" : "(Tensor) Input beta1 power accumulator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "ParamOut",
-   "comment" : "(Tensor) Output parameter",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "MomentOut",
-   "comment" : "(Tensor) Output first moment",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "InfNormOut",
-   "comment" : "(Tensor) Output exponentially weighted infinity norm",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "beta1",
-   "type" : "float",
-   "comment" : "(float, default 0.9) Exponential decay rate for the 1st moment estimates.",
-   "generated" : 0
- }, { 
-   "name" : "beta2",
-   "type" : "float",
-   "comment" : "(float, default 0.999) exponential decay rate for the weighted infinity norm estimates.",
-   "generated" : 0
- }, { 
-   "name" : "epsilon",
-   "type" : "float",
-   "comment" : "(float, default 1.0e-8) Constant for numerical stability",
    "generated" : 0
  } ] 
 },{
@@ -3045,29 +2981,163 @@
  } ], 
  "attrs" : [  ] 
 },{
- "type" : "increment",
- "comment" : "\nIncrement Operator.\n\nThe equation is: \n$$Out = X + step$$\n\n",
+ "type" : "l1_norm",
+ "comment" : "\nL1 Norm Operator.\n\nComputes the L1 norm of a tensor.\n\n$$Out = \\sum{|X|}$$\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
-   "comment" : "(Tensor) The input tensor of increment operator",
+   "comment" : "(Tensor) The input of l1_norm op.",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
  "outputs" : [ 
  { 
    "name" : "Out",
-   "comment" : "(Tensor) The output tensor of increment operator.",
+   "comment" : "(Scalar) The output of l1_norm op.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
+ "type" : "stanh",
+ "comment" : "\nSTanh Activation Operator.\n\n$$y = b * \\frac{e^{a * x} - e^{-a * x}}{e^{a * x} + e^{-a * x}}$$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "Input of STanh operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Y",
+   "comment" : "Output of STanh operator",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
  "attrs" : [ 
  { 
-   "name" : "step",
+   "name" : "scale_a",
    "type" : "float",
-   "comment" : "(float, default 1.0) The step size by which the input tensor will be incremented.",
+   "comment" : "The scale parameter of a for the input",
+   "generated" : 0
+ }, { 
+   "name" : "scale_b",
+   "type" : "float",
+   "comment" : "The scale parameter of b for the input",
    "generated" : 0
  } ] 
+},{
+ "type" : "adamax",
+ "comment" : "\nAdamax Optimizer.\n\nWe implement the Adamax optimizer from Section 7 of the Adam\npaper: https://arxiv.org/abs/1412.6980. Adamax is a variant of the\nAdam algorithm based on the infinity norm.\n\nAdamax updates:\n\n$$\nmoment\\_out = \\beta_1 * moment + (1 - \\beta_1) * grad \\\\\ninf\\_norm\\_out = max(\\beta_2 * inf\\_norm + \\epsilon, |grad|) \\\\\nlearning\\_rate = \\frac{learning\\_rate}{1 - \\beta_{1\\_pow}} \\\\\nparam\\_out = param - learning\\_rate * \\frac{moment\\_out}{inf\\_norm\\_out}\n$$\n\nThe original paper does not have an epsilon attribute.\nHowever, it is added here for numerical stability to prevent the\ndivision by 0 error.\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "Param",
+   "comment" : "(Tensor) Input parameter",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Grad",
+   "comment" : "(Tensor) Input gradient",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "LearningRate",
+   "comment" : "(Tensor) Learning rate",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Moment",
+   "comment" : "(Tensor) First moment",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "InfNorm",
+   "comment" : "(Tensor) Input exponentially weighted infinity norm",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Beta1Pow",
+   "comment" : "(Tensor) Input beta1 power accumulator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "ParamOut",
+   "comment" : "(Tensor) Output parameter",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "MomentOut",
+   "comment" : "(Tensor) Output first moment",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "InfNormOut",
+   "comment" : "(Tensor) Output exponentially weighted infinity norm",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "beta1",
+   "type" : "float",
+   "comment" : "(float, default 0.9) Exponential decay rate for the 1st moment estimates.",
+   "generated" : 0
+ }, { 
+   "name" : "beta2",
+   "type" : "float",
+   "comment" : "(float, default 0.999) exponential decay rate for the weighted infinity norm estimates.",
+   "generated" : 0
+ }, { 
+   "name" : "epsilon",
+   "type" : "float",
+   "comment" : "(float, default 1.0e-8) Constant for numerical stability",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "swish",
+ "comment" : "\nSwish Activation Operator.\n\n$$y = \\frac{x}{1 + e^{- \\beta x}}$$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "Input of Swish operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Y",
+   "comment" : "Output of Swish operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "beta",
+   "type" : "float",
+   "comment" : "Constant beta of swish operator",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "is_empty",
+ "comment" : "\nIsEmpty Operator which checks whether a tensor is empty.\n\nIt will just return product(tensor.ddims()) > 0;\n              ",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(Tensor) Tensor which is to be checked.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(Tensor) a boolean Tensor that indicate empty or not.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
 },{
  "type" : "rmsprop",
  "comment" : "\nRmsprop Optimizer. \n\n$$\nMeanSquareOut = decay * MeanSquare + (1 - decay) * Grad * Grad \\\\\nMomentOut = momentum * Moment +\n            \\frac{LearningRate * Grad}{\\sqrt{MeanSquareOut + epsilon}} \\\\\nParamOut = Param -  MomentOut\n$$\n\nThe original slides that proposed Rmsprop: Slide 29 of\nhttp://www.cs.toronto.edu/~tijmen/csc321/slides/lecture_slides_lec6.pdf)\n\n",
@@ -4755,47 +4825,6 @@
    "comment" : "The number of thresholds to use when discretizing the roc curve.",
    "generated" : 0
  } ] 
-},{
- "type" : "read_from_array",
- "comment" : "\nReadFromArray Operator.\n\nRead a LoDTensor from a LoDTensor Array.\n\nAssume $T$ is LoDTensor, $i$ is the subscript of the array, and $A$ is the array. The\nequation is\n\n$$T = A[i]$$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(TensorArray) the array will be read from.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "I",
-   "comment" : "(Tensor) the subscript index in tensor array. The number of element should be 1",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(LoDTensor) the tensor will be read from.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
- "type" : "softplus",
- "comment" : "\nSoftplus Activation Operator.\n\n$y = \\ln(1 + e^{x})$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "Input of Softplus operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Y",
-   "comment" : "Output of Softplus operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
 },{
  "type" : "split",
  "comment" : "\nSplit operator\n\nThis operator splits the input tensor into multiple sub-tensors.\n\nExample:\n  Input = [[1,2],\n           [3,4],\n           [5,6]]\n  sections = [2,1]\n  axis = 0\n  Output[0] = [[1,2],\n               [3,4]]\n  Output[1] = [[5,6]]\n\n    ",
