@@ -33,8 +33,8 @@
               href="../../../genindex.html"/>
         <link rel="search" title="搜索" href="../../../search.html"/>
     <link rel="top" title="PaddlePaddle  文档" href="../../../index.html"/>
-        <link rel="up" title="进阶指南" href="../../index_cn.html"/>
-        <link rel="next" title="如何贡献代码" href="../../dev/contribute_to_paddle_cn.html"/>
+        <link rel="up" title="PaddlePaddle分布式训练" href="cluster_train_cn.html"/>
+        <link rel="next" title="Distributed PaddlePaddle Training on AWS with Kubernetes" href="k8s_aws_cn.html"/>
         <link rel="prev" title="Kubernetes单机训练" href="k8s_cn.html"/> 
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/css/perfect-scrollbar.min.css" type="text/css" />
@@ -128,10 +128,14 @@
 <li class="toctree-l3"><a class="reference internal" href="../cmd_parameter/detail_introduction_cn.html">细节描述</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../cluster/cluster_train_cn.html">PaddlePaddle分布式训练</a></li>
-<li class="toctree-l2"><a class="reference internal" href="k8s_basis_cn.html">Kubernetes 简介</a></li>
-<li class="toctree-l2"><a class="reference internal" href="k8s_cn.html">Kubernetes单机训练</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Kubernetes分布式训练</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="cluster_train_cn.html">PaddlePaddle分布式训练</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="fabric_cn.html">fabric</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openmpi_cn.html">openmpi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="k8s_cn.html">kubernetes</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">kubernetes distributed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="k8s_aws_cn.html">kubernetes on AWS</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../dev/contribute_to_paddle_cn.html">如何贡献代码</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../dev/write_docs_cn.html">如何贡献/修改文档</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../deep_model/rnn/index_cn.html">RNN相关模型</a><ul>
@@ -213,6 +217,8 @@
       
         <li><a href="../../index_cn.html">进阶指南</a> > </li>
       
+        <li><a href="cluster_train_cn.html">PaddlePaddle分布式训练</a> > </li>
+      
     <li>Kubernetes分布式训练</li>
   </ul>
 </div>
@@ -224,8 +230,8 @@
             
   <div class="section" id="kubernetes">
 <span id="kubernetes"></span><h1>Kubernetes分布式训练<a class="headerlink" href="#kubernetes" title="永久链接至标题">¶</a></h1>
-<p>前一篇文章介绍了如何在Kubernetes集群上启动一个单机PaddlePaddle训练作业 (Job)。在这篇文章里，我们介绍如何在Kubernetes集群上进行分布式PaddlePaddle训练作业。关于PaddlePaddle的分布式训练，文章 <a class="reference external" href="https://github.com/baidu/Paddle/blob/develop/doc/cluster/opensource/cluster_train.md">Cluster Training</a>介绍了一种通过SSH远程分发任务，进行分布式训练的方法，与此不同的是，本文将介绍在Kubernetes容器管理平台上快速构建PaddlePaddle容器集群，进行分布式训练的方案。</p>
-<p>有关Kubernetes相关概念以及如何搭建和配置Kubernetes集群，可以参考<a class="reference internal" href="k8s_basis_cn.html"><span class="doc">k8s</span></a>。</p>
+<p>前一篇文章介绍了如何在Kubernetes集群上启动一个单机PaddlePaddle训练作业 (Job)。在这篇文章里，我们介绍如何在Kubernetes集群上进行分布式PaddlePaddle训练作业。关于PaddlePaddle的分布式训练，文章 <a class="reference external" href="http://www.paddlepaddle.org/docs/develop/documentation/zh/howto/usage/cluster/cluster_train_cn.html">Cluster Training</a>介绍了一种通过SSH远程分发任务，进行分布式训练的方法，与此不同的是，本文将介绍在Kubernetes容器管理平台上快速构建PaddlePaddle容器集群，进行分布式训练的方案。</p>
+<p>有关Kubernetes相关概念以及如何搭建和配置Kubernetes集群，可以参考<a class="reference external" href="howto/usage/cluster/k8s_basis_cn.md">k8s_basis</a>。</p>
 <div class="section" id="">
 <span id="id1"></span><h2>整体方案<a class="headerlink" href="#" title="永久链接至标题">¶</a></h2>
 <p>在训练之前，用户将配置与训练数据切分好放在分布式文件系统预先分配好的目录中(不同的分布式文件系统，需要使用其制定的方式挂载后并导入数据)，训练时，程序从此目录拷贝文件到容器内进行训练，将结果保存到此目录里。整体的结构图如下：</p>
@@ -246,7 +252,7 @@
 <li>拷贝训练文件到容器内</li>
 <li>生成<code class="docutils literal"><span class="pre">paddle</span> <span class="pre">pserver</span></code>与<code class="docutils literal"><span class="pre">paddle</span> <span class="pre">train</span></code>进程的启动参数，并且启动训练</li>
 </ul>
-<p>因为官方镜像 <code class="docutils literal"><span class="pre">paddledev/paddle:cpu-latest</span></code> 内已经包含PaddlePaddle的执行程序但是还没上述功能，所以我们可以在这个基础上，添加启动脚本，制作新镜像来完成以上的工作。参考镜像的<a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/doc/howto/usage/cluster/k8s/src/k8s_train/Dockerfile"><em>Dockerfile</em></a>。</p>
+<p>因为官方镜像 <code class="docutils literal"><span class="pre">paddledev/paddle:cpu-latest</span></code> 内已经包含PaddlePaddle的执行程序但是还没上述功能，所以我们可以在这个基础上，添加启动脚本，制作新镜像来完成以上的工作。参考镜像的<a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/doc/howto/usage/cluster/src/k8s_train/Dockerfile"><em>Dockerfile</em></a>。</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ <span class="nb">cd</span> doc/howto/usage/k8s/src/k8s_train
 $ docker build -t <span class="o">[</span>YOUR_REPO<span class="o">]</span>/paddle:mypaddle .
 </pre></div>
@@ -355,18 +361,18 @@ $ docker build -t <span class="o">[</span>YOUR_REPO<span class="o">]</span>/padd
 </pre></div>
 </div>
 <p>文件中，<code class="docutils literal"><span class="pre">metadata</span></code>下的<code class="docutils literal"><span class="pre">name</span></code>表示这个job的名字。<code class="docutils literal"><span class="pre">parallelism，completions</span></code>字段表示这个job会同时开启3个PaddlePaddle节点，成功训练且退出的pod数目为3时，这个job才算成功结束。然后申明一个存储卷<code class="docutils literal"><span class="pre">jobpath</span></code>，代表宿主机目录<code class="docutils literal"><span class="pre">/home/work/mfs</span></code>，在对容器的描述<code class="docutils literal"><span class="pre">containers</span></code>字段中，将此目录挂载为容器的<code class="docutils literal"><span class="pre">/home/jobpath</span></code>目录，这样容器的<code class="docutils literal"><span class="pre">/home/jobpath</span></code>目录就成为了共享存储，放在这个目录里的文件其实是保存到了MFS上。</p>
-<p><code class="docutils literal"><span class="pre">env</span></code>字段表示容器的环境变量，我们将<code class="docutils literal"><span class="pre">paddle</span></code>运行的一些参数通过这种方式传递到容器内。</p>
-<p>环境变量 | 说明
-&#8212; | &#8212;
-JOB_PATH | 共享存储挂在的路径
-JOB_NAME | Job的名字
-TRAIN_CONFIG_DIR | 本次训练文件所在目录，与JOB_PATH,JOB_NAME组合可以找到本次训练需要的文件路径
-CONF_PADDLE_NIC | <code class="docutils literal"><span class="pre">paddle</span> <span class="pre">pserver</span></code>进程需要的<code class="docutils literal"><span class="pre">--nics</span></code>参数，即网卡名
-CONF_PADDLE_PORT | <code class="docutils literal"><span class="pre">paddle</span> <span class="pre">paserver</span></code>的<code class="docutils literal"><span class="pre">--port</span></code>参数
-CONF_PADDLE_PORTS_NUM | 稠密更新的端口数量，即<code class="docutils literal"><span class="pre">--ports_num</span></code>参数
-CONF_PADDLE_PORTS_NUM_SPARSE | 稀疏更新的端口数量，即<code class="docutils literal"><span class="pre">--ports_num_for_sparse</span></code>参数
-CONF_PADDLE_GRADIENT_NUM | 训练节点数量，即<code class="docutils literal"><span class="pre">--num_gradient_servers参数</span></code></p>
-<p>这些参数的具体描述，读者可以查看<a class="reference external" href="http://www.paddlepaddle.org/doc/ui/cmd_argument/detail_introduction.html#parameter-server-and-distributed-communication">这里</a>。</p>
+<p><code class="docutils literal"><span class="pre">env</span></code>字段表示容器的环境变量，我们将<code class="docutils literal"><span class="pre">paddle</span></code>运行的一些参数通过这种方式传递到容器内：</p>
+<ul class="simple">
+<li>JOB_PATH：共享存储挂在的路径</li>
+<li>JOB_NAME：Job的名字</li>
+<li>TRAIN_CONFIG_DIR：本次训练文件所在目录，与JOB_PATH,JOB_NAME组合可以找到本次训练需要的文件路径</li>
+<li>CONF_PADDLE_NIC：<code class="docutils literal"><span class="pre">paddle</span> <span class="pre">pserver</span></code>进程需要的<code class="docutils literal"><span class="pre">--nics</span></code>参数，即网卡名</li>
+<li>CONF_PADDLE_PORT：<code class="docutils literal"><span class="pre">paddle</span> <span class="pre">paserver</span></code>的<code class="docutils literal"><span class="pre">--port</span></code>参数</li>
+<li>CONF_PADDLE_PORTS_NUM：稠密更新的端口数量，即<code class="docutils literal"><span class="pre">--ports_num</span></code>参数</li>
+<li>CONF_PADDLE_PORTS_NUM_SPARSE：稀疏更新的端口数量，即<code class="docutils literal"><span class="pre">--ports_num_for_sparse</span></code>参数</li>
+<li>CONF_PADDLE_GRADIENT_NUM：训练节点数量，即<code class="docutils literal"><span class="pre">--num_gradient_servers参数</span></code></li>
+</ul>
+<p>这些参数的具体描述，读者可以查看<a class="reference external" href="http://www.paddlepaddle.org/docs/develop/documentation/zh/howto/usage/cmd_parameter/detail_introduction_cn.html">这里</a>。</p>
 <p>编写完YAML文件后，可以使用Kubernetes的命令行工具创建job。</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>kubectl create -f job.yaml
 </pre></div>
@@ -517,7 +523,7 @@ I1116 <span class="m">09</span>:10:18.019836    <span class="m">50</span> Parame
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../../dev/contribute_to_paddle_cn.html" class="btn btn-neutral float-right" title="如何贡献代码" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="k8s_aws_cn.html" class="btn btn-neutral float-right" title="Distributed PaddlePaddle Training on AWS with Kubernetes" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="k8s_cn.html" class="btn btn-neutral" title="Kubernetes单机训练" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>

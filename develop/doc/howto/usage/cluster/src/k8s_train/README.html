@@ -123,9 +123,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../cmd_parameter/detail_introduction_en.html">Detail Description</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../../cluster/cluster_train_en.html">PaddlePaddle Distributed Training</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../k8s_en.html">Paddle On Kubernetes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../k8s_aws_en.html">Distributed PaddlePaddle Training on AWS with Kubernetes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cluster_train_en.html">PaddlePaddle Distributed Training</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../dev/new_layer_en.html">Write New Layers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../dev/contribute_to_paddle_en.html">Contribute Code</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../dev/write_docs_en.html">Contribute Documentation</a></li>
@@ -204,9 +202,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <p>To build PaddlePaddle data preparation image in tutorial <a class="reference internal" href="../../k8s_aws_en.html"><span class="doc">Distributed PaddlePaddle Training on AWS with Kubernetes</span></a>, run following commands:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cp</span> <span class="o">-</span><span class="n">r</span> <span class="o">../../../../../../</span><span class="n">demo</span><span class="o">/</span><span class="n">quick_start</span> <span class="o">.</span>
-<span class="n">docker</span> <span class="n">build</span> <span class="o">.</span> <span class="o">-</span><span class="n">t</span> <span class="n">prepare</span><span class="o">-</span><span class="n">data</span><span class="o">-</span><span class="n">image</span><span class="o">-</span><span class="n">name</span>
+  <p>To build PaddlePaddle training image in tutorial <a class="reference internal" href="../../k8s_aws_en.html"><span class="doc">Distributed PaddlePaddle Training on AWS with Kubernetes</span></a>, run following command:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">build</span> <span class="o">.</span> <span class="o">-</span><span class="n">t</span> <span class="n">train</span><span class="o">-</span><span class="n">image</span><span class="o">-</span><span class="n">name</span>
 </pre></div>
 </div>
 

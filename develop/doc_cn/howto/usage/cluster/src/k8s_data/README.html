@@ -125,10 +125,14 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../cmd_parameter/detail_introduction_cn.html">细节描述</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../../cluster/cluster_train_cn.html">PaddlePaddle分布式训练</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../k8s_basis_cn.html">Kubernetes 简介</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../k8s_cn.html">Kubernetes单机训练</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../k8s_distributed_cn.html">Kubernetes分布式训练</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cluster_train_cn.html">PaddlePaddle分布式训练</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../fabric_cn.html">fabric</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../openmpi_cn.html">openmpi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../k8s_cn.html">kubernetes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../k8s_distributed_cn.html">kubernetes distributed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../k8s_aws_cn.html">kubernetes on AWS</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../dev/contribute_to_paddle_cn.html">如何贡献代码</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../dev/write_docs_cn.html">如何贡献/修改文档</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../deep_model/rnn/index_cn.html">RNN相关模型</a><ul>
@@ -217,8 +221,9 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <p>To build PaddlePaddle training image in tutorial <span class="xref doc">Distributed PaddlePaddle Training on AWS with Kubernetes</span>, run following command:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">build</span> <span class="o">.</span> <span class="o">-</span><span class="n">t</span> <span class="n">train</span><span class="o">-</span><span class="n">image</span><span class="o">-</span><span class="n">name</span>
+  <p>To build PaddlePaddle data preparation image in tutorial <span class="xref doc">Distributed PaddlePaddle Training on AWS with Kubernetes</span>, run following commands:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cp</span> <span class="o">-</span><span class="n">r</span> <span class="o">../../../../../../</span><span class="n">demo</span><span class="o">/</span><span class="n">quick_start</span> <span class="o">.</span>
+<span class="n">docker</span> <span class="n">build</span> <span class="o">.</span> <span class="o">-</span><span class="n">t</span> <span class="n">prepare</span><span class="o">-</span><span class="n">data</span><span class="o">-</span><span class="n">image</span><span class="o">-</span><span class="n">name</span>
 </pre></div>
 </div>
 
