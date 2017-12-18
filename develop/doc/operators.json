@@ -1045,6 +1045,29 @@
  } ], 
  "attrs" : [  ] 
 },{
+ "type" : "logical_or",
+ "comment" : "logical_or Operator\n\nIt operates element-wise on X and Y, and returns the Out. X, Y and Out are N-dim boolean tensors.\nEach element of Out is calculated by $$Out = X || Y$$\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(LoDTensor) Left hand operand of logical_or operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Y",
+   "comment" : "(LoDTensor) Right hand operand of logical_or operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(LoDTensor) n-dim bool tensor. Each element is $$Out = X || Y$$",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
  "type" : "softmax",
  "comment" : "\nSoftmax Operator.\n\nThe input of the softmax operator is a 2-D tensor with shape N x K (N is the\nbatch_size, K is the dimension of input feature). The output tensor has the\nsame shape as the input tensor.\n\nFor each row of the input tensor, the softmax operator squashes the\nK-dimensional vector of arbitrary real values to a K-dimensional vector of real\nvalues in the range [0, 1] that add up to 1.\nIt computes the exponential of the given dimension and the sum of exponential\nvalues of all the other dimensions in the K-dimensional vector input.\nThen the ratio of the exponential of the given dimension and the sum of\nexponential values of all the other dimensions is the output of the softmax\noperator.\n\nFor each row $i$ and each column $j$ in Input(X), we have:\n    $$Y[i, j] = \\frac{\\exp(X[i, j])}{\\sum_j(exp(X[i, j])}$$\n\n",
  "inputs" : [ 
@@ -1721,62 +1744,6 @@
    "generated" : 0
  } ] 
 },{
- "type" : "sigmoid_cross_entropy_with_logits",
- "comment" : "\nSigmoidCrossEntropyWithLogits Operator.\n\nThis measures the element-wise probability error in classification tasks\nin which each class is independent. This can be thought of as predicting labels\nfor a data-point, where labels are not mutually exclusive.\nFor example, a news article can be about politics, technology or sports\nat the same time or none of these.\n\nThe logistic loss is given as follows:\n\n       $$loss = -Labels * \\log(\\sigma(X)) - (1 - Labels) * \\log(1 - \\sigma(X))$$\n\nWe know that $$\\sigma(X) = (1 / (1 + \\exp(-X)))$$. By substituting this we get:\n\n       $$loss = X - X * Labels + \\log(1 + \\exp(-X))$$\n\nFor stability and to prevent overflow of $$\\exp(-X)$$ when X < 0,\nwe reformulate the loss as follows:\n\n       $$loss = \\max(X, 0) - X * Labels + \\log(1 + \\exp(-|X|))$$\n\nBoth the input `X` and `Labels` can carry the LoD (Level of Details) information.\nHowever the output only shares the LoD with input `X`.\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(Tensor, default Tensor<float>), a 2-D tensor with shape N x D, where N is the batch size and D is the number of classes. This input is a tensor of logits computed by the previous  operator. Logits are unscaled log probabilities given as log(p/(1-p)).",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Label",
-   "comment" : "(Tensor, default Tensor<float>), a 2-D tensor of the same type and shape as X. This input is a tensor of probabalistic labels for each logit",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(Tensor, default Tensor<float>), a 2-D tensor with shape N x D  of elementwise logistic losses.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
- "type" : "fill",
- "comment" : "Fill operator\n\nFill an tensor with `value` and `shape`. The type of the tensor is specify by\n`dtype`.\n",
- "inputs" : [  ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(LoDTensor) The output tensor.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "value",
-   "type" : "float array",
-   "comment" : "The float values of tensor, which are flatten in row major",
-   "generated" : 0
- }, { 
-   "name" : "shape",
-   "type" : "int array",
-   "comment" : "The shape of output tensor",
-   "generated" : 0
- }, { 
-   "name" : "dtype",
-   "type" : "int",
-   "comment" : "The data type of output tensor, Default is float",
-   "generated" : 0
- }, { 
-   "name" : "force_cpu",
-   "type" : "bool",
-   "comment" : "Whether the output tensor must be at CPU memory or not. Default is false.",
-   "generated" : 0
- } ] 
-},{
  "type" : "rnn_memory_helper",
  "comment" : "",
  "inputs" : [ 
@@ -2436,6 +2403,96 @@
    "generated" : 0
  } ] 
 },{
+ "type" : "sigmoid_cross_entropy_with_logits",
+ "comment" : "\nSigmoidCrossEntropyWithLogits Operator.\n\nThis measures the element-wise probability error in classification tasks\nin which each class is independent. This can be thought of as predicting labels\nfor a data-point, where labels are not mutually exclusive.\nFor example, a news article can be about politics, technology or sports\nat the same time or none of these.\n\nThe logistic loss is given as follows:\n\n       $$loss = -Labels * \\log(\\sigma(X)) - (1 - Labels) * \\log(1 - \\sigma(X))$$\n\nWe know that $$\\sigma(X) = (1 / (1 + \\exp(-X)))$$. By substituting this we get:\n\n       $$loss = X - X * Labels + \\log(1 + \\exp(-X))$$\n\nFor stability and to prevent overflow of $$\\exp(-X)$$ when X < 0,\nwe reformulate the loss as follows:\n\n       $$loss = \\max(X, 0) - X * Labels + \\log(1 + \\exp(-|X|))$$\n\nBoth the input `X` and `Labels` can carry the LoD (Level of Details) information.\nHowever the output only shares the LoD with input `X`.\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(Tensor, default Tensor<float>), a 2-D tensor with shape N x D, where N is the batch size and D is the number of classes. This input is a tensor of logits computed by the previous  operator. Logits are unscaled log probabilities given as log(p/(1-p)).",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Label",
+   "comment" : "(Tensor, default Tensor<float>), a 2-D tensor of the same type and shape as X. This input is a tensor of probabalistic labels for each logit",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(Tensor, default Tensor<float>), a 2-D tensor with shape N x D  of elementwise logistic losses.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
+ "type" : "fill",
+ "comment" : "Fill operator\n\nFill an tensor with `value` and `shape`. The type of the tensor is specify by\n`dtype`.\n",
+ "inputs" : [  ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(LoDTensor) The output tensor.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "value",
+   "type" : "float array",
+   "comment" : "The float values of tensor, which are flatten in row major",
+   "generated" : 0
+ }, { 
+   "name" : "shape",
+   "type" : "int array",
+   "comment" : "The shape of output tensor",
+   "generated" : 0
+ }, { 
+   "name" : "dtype",
+   "type" : "int",
+   "comment" : "The data type of output tensor, Default is float",
+   "generated" : 0
+ }, { 
+   "name" : "force_cpu",
+   "type" : "bool",
+   "comment" : "Whether the output tensor must be at CPU memory or not. Default is false.",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "huber_loss",
+ "comment" : "\nHuberLoss Operator.\n\nHuber loss is a loss function used in robust regression. We define X as the\ninput value and Y as the target value. Huber loss can evaluate the fitness of\nX to Y. Different from MSE loss, Huber loss is more robust for outliers. The\nshape of X and Y are [batch_size, 1]. The equation is:\n\n$$\nOut_{\\delta}(X, Y)_i =\n\\begin{cases}\n0.5 * (Y_i - X_i)^2,\n\\quad |Y_i - X_i| \\leq \\delta \\\\\n\\delta * (|Y_i - X_i| - 0.5 * \\delta),\n\\quad otherwise\n\\end{cases}\n$$\n\nIn the above equation, $Out_\\delta(X, Y)_i$, $X_i$ and $Y_i$ represent the ith\nelement of Out, X and Y.\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "The input value of huber loss op.X is a 2-D tensor with shape [batch_size, 1].",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Y",
+   "comment" : "The target value of huber loss op.Y is a 2-D tensor with shape [batch_size, 1].",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Residual",
+   "comment" : "Intermediate tensor to cache residual value between Y and X.The shape is same as Input(X) and will be reused in backward.",
+   "duplicable" : 0,
+   "intermediate" : 1
+ }, { 
+   "name" : "Out",
+   "comment" : "The output tensor with shape [batch_size, 1] which represents the huber loss.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "delta",
+   "type" : "float",
+   "comment" : "Hyper parameter in huber loss.",
+   "generated" : 0
+ } ] 
+},{
  "type" : "rank_loss",
  "comment" : "\nRankLoss Operator.\n\nRankLoss operator for RankNet\n(http://icml.cc/2015/wp-content/uploads/2015/06/icml_ranking.pdf). \nRankNet is a pairwise ranking model with\none training sample consisting of a pair of doc A and B, and the label P\nindicating that A is ranked higher than B or not:\n\nP = {0, 1} or {0, 0.5, 1}, where 0.5 means no information about the rank of\nthe input pair.\n\nThe RankLoss operator takes three inputs: Left (o_i), Right (o_j) and Label\n(P_{i,j}), which represent the output score of RankNet for the two docs and \nthe label respectively, and yields the rank loss C_{i,j} using the following \nequation:\n\n$$\n  C_{i,j} = -\\tilde{P_{ij}} * o_{i,j} + \\log(1 + e^{o_{i,j}}) \\\\\n  o_{i,j} =  o_i - o_j  \\\\\n  \\tilde{P_{i,j}} = \\left \\{0, 0.5, 1 \\right \\} \\ or \\ \\left \\{0, 1 \\right \\}\n$$\n\nThe operator can take batch inputs with size batch_size (batch_size >= 1).\n\n",
  "inputs" : [ 
@@ -2554,6 +2611,29 @@
    "generated" : 0
  } ] 
 },{
+ "type" : "sequence_expand",
+ "comment" : "\nSequence Expand Operator.\n\nThis operator expands input(X) according to LOD of input(Y).\nFollowing are cases to better explain how this works:\nCase 1:\n\nGiven 2-level a LoDTensor input(X)\n    X.lod = [[0,       2, 3],\n             [0, 1,    3, 4]]\n    X.data = [a, b, c, d]\n    X.dims = [4, 1]\nand input(Y)\n    Y.lod = [[0,    2,    4],\n             [0, 3, 6, 7, 8]]\nwith condition len(Y.lod[-1]) -1 == X.dims[0]\nthen we get 2-level LoDTensor\n    Out.lod = [[0,                2,    4],\n               [0,       3,       6, 7, 8]]\n    Out.data = [a, a, a, b, b, b, c, d]\n    Out.dims = [8, 1]\n\nCase 2:\n\nGiven a 0-level LoDTensor input(X)\n    X.data = [a, b, c]\n    X.lod = NULL\n    X.dims = [3, 1]\nand input(Y)\n    Y.lod = [[0, 2, 3, 6]]\nwith condition len(Y.lod[-1]) -1 == X.dims[0]\nthen we get 1-level LoDTensor\n    Out.lod = [[0,    2, 3,      6]]\n    Out.data = [a, a, b, c, c, c]\n    Out.dims = [6, 1]\n\nCase 3:\n\nGiven a 0-level LoDTensor input(X)\n    X.data = [[a, b], [c, d], [e, f]]\n    X.lod = NULL\n    X.dims = [3, 2]\nand input(Y)\n    Y.lod = [[0, 2, 3, 6]]\nwith condition len(Y.lod[-1]) -1 == X.dims[0]\nthen we get 1-level LoDTensor\n    Out.lod = [[0,           2,     3,                     6]]\n    Out.data = [[a,b], [a,b] [c,d], [e, f], [e, f], [e, f]]\n    Out.dims = [6, 2]\n\nCase 4:\n\nGiven 2-level a LoDTensor input(X)\n    X.lod = [[0,       2, 3],\n             [0, 1,    3, 4]]\n    X.data = [a, b, c, d]\n    X.dims = [4, 1]\nand input(Y)\n    Y.lod = [[0,    2,    4],\n             [0, 3, 6, 6, 8]]\nwith condition len(Y.lod[-1]) -1 == X.dims[0]\nthen we get 2-level LoDTensor\n    Out.lod = [[0,                2,    4],\n               [0,       3,       6, 6, 8]]\n    Out.data = [a, a, a, b, b, b, d, d]\n    Out.dims = [8, 1]\n\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(Tensor or LoDTensor) The input(X) of this operator can be a LoDTensor or a base Tensor.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Y",
+   "comment" : "(LoDTensor)The reference input(Y) of sequence_expand op.It must be a LoDTensor with k-level(k>0).The input(X) will be expanded according to LOD of input(Y).The element numbers of last level in input(Y) must be equal to dims[0] of input(X).",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(LodTensor)The output of sequence_expand op.The lod of output will be as same as input(Y)'s lod.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
  "type" : "scatter",
  "comment" : "\nScatter Operator.\n\nThis operator obtains output by updating the input on selected indices on the first axis:\n\n$$\nOut = Ref \\\\\nOut[Index] = Ref[Index] + Updates\n$$\n\n",
  "inputs" : [ 
@@ -2577,52 +2657,6 @@
  { 
    "name" : "Out",
    "comment" : "The output of add op",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
- "type" : "logical_or",
- "comment" : "logical_or Operator\n\nIt operates element-wise on X and Y, and returns the Out. X, Y and Out are N-dim boolean tensors.\nEach element of Out is calculated by $$Out = X || Y$$\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(LoDTensor) Left hand operand of logical_or operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Y",
-   "comment" : "(LoDTensor) Right hand operand of logical_or operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(LoDTensor) n-dim bool tensor. Each element is $$Out = X || Y$$",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
- "type" : "seq_expand",
- "comment" : "\nSeq Expand Operator.\n\nThis operator expands input(X) according to LOD of input(Y).\nFollowing are cases to better explain how this works:\nCase 1:\n\nGiven 2-level a LoDTensor input(X)\n    X.lod = [[0,       2, 3],\n             [0, 1,    3, 4]]\n    X.data = [a, b, c, d]\n    X.dims = [4, 1]\nand input(Y)\n    Y.lod = [[0,    2,    4],\n             [0, 3, 6, 7, 8]]\nwith condition len(Y.lod[-1]) -1 == X.dims[0]\nthen we get 2-level LoDTensor\n    Out.lod = [[0,                2,    4],\n               [0,       3,       6, 7, 8]]\n    Out.data = [a, a, a, b, b, b, c, d]\n    Out.dims = [8, 1]\n\nCase 2:\n\nGiven a 0-level LoDTensor input(X)\n    X.data = [a, b, c]\n    X.lod = NULL\n    X.dims = [3, 1]\nand input(Y)\n    Y.lod = [[0, 2, 3, 6]]\nwith condition len(Y.lod[-1]) -1 == X.dims[0]\nthen we get 1-level LoDTensor\n    Out.lod = [[0,    2, 3,      6]]\n    Out.data = [a, a, b, c, c, c]\n    Out.dims = [6, 1]\n\nCase 3:\n\nGiven a 0-level LoDTensor input(X)\n    X.data = [[a, b], [c, d], [e, f]]\n    X.lod = NULL\n    X.dims = [3, 2]\nand input(Y)\n    Y.lod = [[0, 2, 3, 6]]\nwith condition len(Y.lod[-1]) -1 == X.dims[0]\nthen we get 1-level LoDTensor\n    Out.lod = [[0,           2,     3,                     6]]\n    Out.data = [[a,b], [a,b] [c,d], [e, f], [e, f], [e, f]]\n    Out.dims = [6, 2]\n\nCase 4:\n\nGiven 2-level a LoDTensor input(X)\n    X.lod = [[0,       2, 3],\n             [0, 1,    3, 4]]\n    X.data = [a, b, c, d]\n    X.dims = [4, 1]\nand input(Y)\n    Y.lod = [[0,    2,    4],\n             [0, 3, 6, 6, 8]]\nwith condition len(Y.lod[-1]) -1 == X.dims[0]\nthen we get 2-level LoDTensor\n    Out.lod = [[0,                2,    4],\n               [0,       3,       6, 6, 8]]\n    Out.data = [a, a, a, b, b, b, d, d]\n    Out.dims = [8, 1]\n\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(Tensor or LoDTensor) The input(X) of this operator can be a LoDTensor or a base Tensor.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Y",
-   "comment" : "(LoDTensor)The reference input(Y) of seq_expand op.It must be a LoDTensor with k-level(k>0).The input(X) will be expanded according to LOD of input(Y).The element numbers of last level in input(Y) must be equal to dims[0] of input(X).",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(LodTensor)The output of seq_expand op.The lod of output will be as same as input(Y)'s lod.",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
@@ -3229,40 +3263,6 @@
    "name" : "axis",
    "type" : "int",
    "comment" : "(int, default -1) The starting dimension index for broadcasting Y onto X",
-   "generated" : 0
- } ] 
-},{
- "type" : "huber_loss",
- "comment" : "\nHuberLoss Operator.\n\nHuber loss is a loss function used in robust regression. We define X as the\ninput value and Y as the target value. Huber loss can evaluate the fitness of\nX to Y. Different from MSE loss, Huber loss is more robust for outliers. The\nshape of X and Y are [batch_size, 1]. The equation is:\n\n$$\nOut_{\\delta}(X, Y)_i =\n\\begin{cases}\n0.5 * (Y_i - X_i)^2,\n\\quad |Y_i - X_i| \\leq \\delta \\\\\n\\delta * (|Y_i - X_i| - 0.5 * \\delta),\n\\quad otherwise\n\\end{cases}\n$$\n\nIn the above equation, $Out_\\delta(X, Y)_i$, $X_i$ and $Y_i$ represent the ith\nelement of Out, X and Y.\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "The input value of huber loss op.X is a 2-D tensor with shape [batch_size, 1].",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Y",
-   "comment" : "The target value of huber loss op.Y is a 2-D tensor with shape [batch_size, 1].",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Residual",
-   "comment" : "Intermediate tensor to cache residual value between Y and X.The shape is same as Input(X) and will be reused in backward.",
-   "duplicable" : 0,
-   "intermediate" : 1
- }, { 
-   "name" : "Out",
-   "comment" : "The output tensor with shape [batch_size, 1] which represents the huber loss.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "delta",
-   "type" : "float",
-   "comment" : "Hyper parameter in huber loss.",
    "generated" : 0
  } ] 
 },{
