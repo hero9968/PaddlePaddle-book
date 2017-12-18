@@ -206,24 +206,28 @@
 <span id="executor-design-doc"></span><h1>Executor Design Doc<a class="headerlink" href="#executor-design-doc" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="motivation">
 <span id="motivation"></span><h2>Motivation<a class="headerlink" href="#motivation" title="Permalink to this headline">¶</a></h2>
-<p>We use executor to do the runtime evaluation of a <code class="docutils literal"><span class="pre">ProgramDesc</span></code>.</p>
+<p>In the <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/doc/design/fluid.md">fluid</a>, we encourage user use deep learning programming paradigms to describe training process. When the user-written Python program is executed, it will create a protobuf message
+<a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/a91efdde6910ce92a78e3aa7157412c4c88d9ee8/paddle/framework/framework.proto#L145"><code class="docutils literal"><span class="pre">ProgramDesc</span></code></a> that describes the process and is conceptually like an <a class="reference external" href="https://en.wikipedia.org/wiki/Abstract_syntax_tree">abstract syntax tree</a>.</p>
+<p>The executor runs the <code class="docutils literal"><span class="pre">ProgramDesc</span></code> like an interpreter. <code class="docutils literal"><span class="pre">ProgramDesc</span></code> contains intrinsics/operators and variables which will be used, executor explicitly execute the stored precompiled code.</p>
 </div>
 <div class="section" id="overview">
 <span id="overview"></span><h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
 <p>An executor takes a <code class="docutils literal"><span class="pre">ProgramDesc</span></code>, a <code class="docutils literal"><span class="pre">block_id</span></code> and a <code class="docutils literal"><span class="pre">Scope</span></code>.  The <code class="docutils literal"><span class="pre">ProgramDesc</span></code> is a list of blocks and each block contains the protobuf definition of all the parameters and operators. The <code class="docutils literal"><span class="pre">block_id</span></code> specifies the entrance block. And the <code class="docutils literal"><span class="pre">Scope</span></code> is the container of all the variable instance, which is persistent throughout different runs.</p>
-<div class="section" id="what-does-executor-do">
-<span id="what-does-executor-do"></span><h3>What does executor do?<a class="headerlink" href="#what-does-executor-do" title="Permalink to this headline">¶</a></h3>
-<p>It evaluates all the operators in the <code class="docutils literal"><span class="pre">block_id</span></code>th block of a <code class="docutils literal"><span class="pre">ProgramDesc</span></code>.</p>
 </div>
-<div class="section" id="what-does-executor-not-do">
-<span id="what-does-executor-not-do"></span><h3>What does executor NOT do?<a class="headerlink" href="#what-does-executor-not-do" title="Permalink to this headline">¶</a></h3>
-<p>It does not do runtime optimization, meaning intelligently parse the dependency of each op a choose which one to be run and in which order they should be run.</p>
-<p>It does not do graph partitioning, meaning dividing the <code class="docutils literal"><span class="pre">ProgramDesc</span></code> into several small pieces and executing them on different devices.</p>
+<div class="section" id="executor">
+<span id="executor"></span><h2>Executor<a class="headerlink" href="#executor" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">Executor</span></code> explicitly executes all the intrinsics/operators in the <code class="docutils literal"><span class="pre">block_id</span></code>th block of a <code class="docutils literal"><span class="pre">ProgramDesc</span></code>. Essentially, it instantiates Variables and Operators, then runs all the operators in sequence. It is very similar to push stack frame when entering the block, it will destroy the temporary variables when mini-batch is finished, but it does not have stack frame pop process.</p>
+<div class="section" id="interface">
+<span id="interface"></span><h3>Interface<a class="headerlink" href="#interface" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-c++"><div class="highlight"><pre><span></span>  <span class="n">Executor</span><span class="p">(</span><span class="n">places</span><span class="p">);</span>
+</pre></div>
 </div>
+<p>A executor does not own any computing resources, user can only construct an executor with specified places.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>  <span class="n">void</span> <span class="n">Run</span><span class="p">(</span><span class="n">ProgramDesc</span><span class="p">,</span> <span class="n">Scope</span><span class="p">,</span> <span class="n">block_id</span><span class="p">,</span> <span class="n">create_local_scope</span><span class="p">);</span>
+</pre></div>
 </div>
-<div class="section" id="implementation">
-<span id="implementation"></span><h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal"><span class="pre">Executor</span></code> evaluates a <code class="docutils literal"><span class="pre">ProgramDesc</span></code>. Essentially, it instantiates Variables and Operators, then run all the operators in sequence. <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/framework/executor.cc">[code]</a></p>
+<p>A executor only provides an unified way to execute <code class="docutils literal"><span class="pre">ProgramDesc</span></code>. <code class="docutils literal"><span class="pre">ProgramDesc</span></code> is the target will be executed, scope specifies the variable container. <code class="docutils literal"><span class="pre">block_id</span></code> indicates the entrance block, <code class="docutils literal"><span class="pre">create_local_scope</span></code> means if it will destroy the temporary variables after execution finished.</p>
+</div>
 </div>
 </div>
 
