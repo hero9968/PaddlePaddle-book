@@ -238,14 +238,12 @@
 <li>转换冗余 由于在现有的某些情况下（例如RNN），多次调用 cblas_?gemm 会使用相同的原数据，因此，每次调用时对原数据的重复Packing便成为了冗余。</li>
 </ol>
 <p>为了最大程度减少多次调用 cblas_?gemm 在Packing上的耗时，Intel® MKL 引入了以下四个API:</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference external" href="https://software.intel.com/en-us/mkl-developer-reference-c-cblas-gemm-alloc">cblas</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://software.intel.com/en-us/mkl-developer-reference-c-cblas-gemm-pack">cblas</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://software.intel.com/en-us/mkl-developer-reference-c-cblas-gemm-compute">cblas</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://software.intel.com/en-us/mkl-developer-reference-c-cblas-gemm-free">cblas</a></li>
+<ul class="simple">
+<li>cblas_?gemm_alloc</li>
+<li>cblas_?gemm_pack</li>
+<li>cblas_?gemm_compute</li>
+<li>cblas_?gemm_free</li>
 </ul>
-</div>
 <p>通过使用这些API，我们可以先完成对原数据的Packing操作，再把已转换为Packed格式的数据传递给那些复用同一数据的gemm_compute函数，从而避免了Packing冗余。</p>
 </div>
 <div class="section" id="solution">
@@ -305,15 +303,7 @@
 </div>
 <div class="section" id="python-api">
 <span id="python-api"></span><h3>Python API<a class="headerlink" href="#python-api" title="Permalink to this headline">¶</a></h3>
-<p>计划在<code class="docutils literal"><span class="pre">paddle/utils.Flags</span></code>中添加<code class="docutils literal"><span class="pre">use_mkl_packed</span></code>的flag，用于选择是否使用相关功能，并且当编译时<code class="docutils literal"><span class="pre">WITH_MKL=ON</span></code>的情况下，默认设置为<code class="docutils literal"><span class="pre">true</span></code>。</p>
-<p>同时，在<code class="docutils literal"><span class="pre">python/paddle/trainer/config_parser.py</span></code>中对应的layer处，添加<code class="docutils literal"><span class="pre">use_mkl_packed</span></code>这个选择，方便用户在Python端选择是否启用这个功能。</p>
-<p>具体实现方式比如：</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">use_mkl_packed</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">g_command_config_args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;use_mkl_packed&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span>
-<span class="k">if</span> <span class="n">use_mkl_packed</span><span class="p">:</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">layer_type</span> <span class="o">=</span> <span class="n">mkl_packed_</span><span class="o">*</span>
-</pre></div>
-</div>
-<p>所有相关的<code class="docutils literal"><span class="pre">layer_type</span></code>会以*mkl_packed_*开头，这些会在<code class="docutils literal"><span class="pre">MKLPacked*Layer</span></code>注册layer的时候保证，以示区分。</p>
+<p>TBD</p>
 </div>
 <div class="section" id="benchmarking">
 <span id="benchmarking"></span><h3>Benchmarking<a class="headerlink" href="#benchmarking" title="Permalink to this headline">¶</a></h3>
