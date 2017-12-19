@@ -662,7 +662,7 @@ ip-10-0-0-55.us-west-2.compute.internal    Ready     6m
     <span class="n">spec</span><span class="p">:</span>
       <span class="n">containers</span><span class="p">:</span>
       <span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="n">paddle</span><span class="o">-</span><span class="n">data</span>
-        <span class="n">image</span><span class="p">:</span> <span class="n">paddledev</span><span class="o">/</span><span class="n">paddle</span><span class="o">-</span><span class="n">tutorial</span><span class="p">:</span><span class="n">k8s_data</span>
+        <span class="n">image</span><span class="p">:</span> <span class="n">paddlepaddle</span><span class="o">/</span><span class="n">paddle</span><span class="o">-</span><span class="n">tutorial</span><span class="p">:</span><span class="n">k8s_data</span>
         <span class="n">imagePullPolicy</span><span class="p">:</span> <span class="n">Always</span>
         <span class="n">volumeMounts</span><span class="p">:</span>
         <span class="o">-</span> <span class="n">mountPath</span><span class="p">:</span> <span class="s2">&quot;/efs&quot;</span>
@@ -689,7 +689,7 @@ NAME          DESIRED   SUCCESSFUL   AGE
 paddle-data   1         1            6m
 </pre></div>
 </div>
-<p>Data preparation is done by docker image <code class="docutils literal"><span class="pre">paddledev/paddle-tutorial:k8s_data</span></code>, see <a class="reference internal" href="src/k8s_data/README.html"><span class="doc">here</span></a> for how to build this docker image and source code.</p>
+<p>Data preparation is done by docker image <code class="docutils literal"><span class="pre">paddlepaddle/paddle-tutorial:k8s_data</span></code>, see <a class="reference internal" href="src/k8s_data/README.html"><span class="doc">here</span></a> for how to build this docker image and source code.</p>
 </div>
 <div class="section" id="start-training">
 <span id="start-training"></span><h4>Start Training<a class="headerlink" href="#start-training" title="永久链接至标题">¶</a></h4>
@@ -711,7 +711,7 @@ paddle-data   1         1            6m
           <span class="n">claimName</span><span class="p">:</span> <span class="n">efsvol</span>
       <span class="n">containers</span><span class="p">:</span>
       <span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="n">trainer</span>
-        <span class="n">image</span><span class="p">:</span> <span class="n">paddledev</span><span class="o">/</span><span class="n">paddle</span><span class="o">-</span><span class="n">tutorial</span><span class="p">:</span><span class="n">k8s_train</span>
+        <span class="n">image</span><span class="p">:</span> <span class="n">paddlepaddle</span><span class="o">/</span><span class="n">paddle</span><span class="o">-</span><span class="n">tutorial</span><span class="p">:</span><span class="n">k8s_train</span>
         <span class="n">command</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;bin/bash&quot;</span><span class="p">,</span>  <span class="s2">&quot;-c&quot;</span><span class="p">,</span> <span class="s2">&quot;/root/start.sh&quot;</span><span class="p">]</span>
         <span class="n">env</span><span class="p">:</span>
         <span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="n">JOB_NAME</span>
@@ -774,7 +774,7 @@ paddle-cluster-job-jx4xr   1/1       Running   0          9m
 </div>
 <p><code class="docutils literal"><span class="pre">POD_NAME</span></code>: name of any pod (e.g., <code class="docutils literal"><span class="pre">paddle-cluster-job-cm469</span></code>).</p>
 <p>Run <code class="docutils literal"><span class="pre">kubectl</span> <span class="pre">--kubeconfig=kubeconfig</span> <span class="pre">describe</span> <span class="pre">job</span> <span class="pre">paddle-cluster-job</span></code> to check training job status. It will complete in around 20 minutes.</p>
-<p>The details for start <code class="docutils literal"><span class="pre">pserver</span></code> and <code class="docutils literal"><span class="pre">trainer</span></code> are hidden inside docker image <code class="docutils literal"><span class="pre">paddledev/paddle-tutorial:k8s_train</span></code>, see <a class="reference internal" href="src/k8s_train/README.html"><span class="doc">here</span></a> for how to build the docker image and source code.</p>
+<p>The details for start <code class="docutils literal"><span class="pre">pserver</span></code> and <code class="docutils literal"><span class="pre">trainer</span></code> are hidden inside docker image <code class="docutils literal"><span class="pre">paddlepaddle/paddle-tutorial:k8s_train</span></code>, see <a class="reference internal" href="src/k8s_train/README.html"><span class="doc">here</span></a> for how to build the docker image and source code.</p>
 </div>
 <div class="section" id="inspect-training-output">
 <span id="inspect-training-output"></span><h4>Inspect Training Output<a class="headerlink" href="#inspect-training-output" title="永久链接至标题">¶</a></h4>

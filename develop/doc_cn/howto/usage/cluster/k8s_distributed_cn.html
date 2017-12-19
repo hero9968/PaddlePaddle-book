@@ -252,7 +252,7 @@
 <li>拷贝训练文件到容器内</li>
 <li>生成<code class="docutils literal"><span class="pre">paddle</span> <span class="pre">pserver</span></code>与<code class="docutils literal"><span class="pre">paddle</span> <span class="pre">train</span></code>进程的启动参数，并且启动训练</li>
 </ul>
-<p>因为官方镜像 <code class="docutils literal"><span class="pre">paddledev/paddle:cpu-latest</span></code> 内已经包含PaddlePaddle的执行程序但是还没上述功能，所以我们可以在这个基础上，添加启动脚本，制作新镜像来完成以上的工作。参考镜像的<a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/doc/howto/usage/cluster/src/k8s_train/Dockerfile"><em>Dockerfile</em></a>。</p>
+<p>因为官方镜像 <code class="docutils literal"><span class="pre">paddlepaddle/paddle:latest</span></code> 内已经包含PaddlePaddle的执行程序但是还没上述功能，所以我们可以在这个基础上，添加启动脚本，制作新镜像来完成以上的工作。参考镜像的<a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/doc/howto/usage/cluster/src/k8s_train/Dockerfile"><em>Dockerfile</em></a>。</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ <span class="nb">cd</span> doc/howto/usage/k8s/src/k8s_train
 $ docker build -t <span class="o">[</span>YOUR_REPO<span class="o">]</span>/paddle:mypaddle .
 </pre></div>
@@ -279,7 +279,7 @@ $ docker build -t <span class="o">[</span>YOUR_REPO<span class="o">]</span>/padd
       <span class="l l-Scalar l-Scalar-Plain">hostNetwork</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
       <span class="l l-Scalar l-Scalar-Plain">containers</span><span class="p p-Indicator">:</span>
       <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">paddle-data</span>
-        <span class="l l-Scalar l-Scalar-Plain">image</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">paddledev/paddle-tutorial:k8s_data</span>
+        <span class="l l-Scalar l-Scalar-Plain">image</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">paddlepaddle/paddle-tutorial:k8s_data</span>
         <span class="l l-Scalar l-Scalar-Plain">imagePullPolicy</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Always</span>
         <span class="l l-Scalar l-Scalar-Plain">volumeMounts</span><span class="p p-Indicator">:</span>
         <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">mountPath</span><span class="p p-Indicator">:</span> <span class="s">&quot;/mnt&quot;</span>

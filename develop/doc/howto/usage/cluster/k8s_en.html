@@ -220,12 +220,21 @@
 <p>In this article, we will introduce how to run PaddlePaddle training job on single CPU machine using Kubernetes. In next article, we will introduce how to run PaddlePaddle training job on distributed cluster.</p>
 <div class="section" id="build-docker-image">
 <span id="build-docker-image"></span><h2>Build Docker Image<a class="headerlink" href="#build-docker-image" title="Permalink to this headline">¶</a></h2>
-<p>In distributed Kubernetes cluster, we will use Ceph or other shared storage system for storing training data so that all processes in the training job can retrieve data from Ceph. In this example, we will only demo training job on single machine. In order to simplify the requirement of the environment, we will directly put training data into PaddlePaddle&#8217;s Docker Image, so we need to create a PaddlePaddle Docker image that already includes the training data.</p>
-<p>PaddlePaddle&#8217;s <a class="reference external" href="http://www.paddlepaddle.org/docs/develop/documentation/en/getstarted/index_en.html">Quick Start Tutorial</a> introduces how to download and train data by using script from PaddlePaddle&#8217;s source code.
-And <code class="docutils literal"><span class="pre">paddledev/paddle:cpu-demo-latest</span></code> image has the PaddlePaddle source code and demo. (Caution: Default PaddlePaddle image <code class="docutils literal"><span class="pre">paddledev/paddle:cpu-latest</span></code> doesn&#8217;t include the source code, PaddlePaddle&#8217;s different versions of image can be referred here: <a class="reference external" href="http://www.paddlepaddle.org/doc/build/docker_install.html">Docker installation guide</a>), so we run this container and download the training data, and then commit the whole container to be a new Docker image.</p>
+<p>In distributed Kubernetes cluster, we will use Ceph or other distributed
+storage system for storing training related data so that all processes in
+PaddlePaddle training can retrieve data from Ceph. In this example, we will
+only demo training job on single machine. In order to simplify the requirement
+of the environment, we will directly put training data into the PaddlePaddle Docker Image,
+so we need to create a PaddlePaddle Docker image that includes the training data.</p>
+<p>The production Docker Image <code class="docutils literal"><span class="pre">paddlepaddle/paddle:cpu-demo-latest</span></code> has the PaddlePaddle
+source code and demo. (Caution: Default PaddlePaddle Docker Image <code class="docutils literal"><span class="pre">paddlepaddle/paddle:latest</span></code> doesn&#8217;t include
+the source code, PaddlePaddle&#8217;s different versions of Docker Image can be referred here:
+<a class="reference external" href="http://paddlepaddle.org/docs/develop/documentation/zh/getstarted/build_and_install/docker_install_en.html">Docker Installation Guide</a>),
+so we run this Docker Image and download the training data, and then commit the whole
+Container to be a new Docker Image.</p>
 <div class="section" id="run-docker-container">
 <span id="run-docker-container"></span><h3>Run Docker Container<a class="headerlink" href="#run-docker-container" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ docker run --name quick_start_data -it paddledev/paddle:cpu-demo-latest
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ docker run --name quick_start_data -it paddlepaddle/paddle:cpu-demo-latest
 </pre></div>
 </div>
 </div>
