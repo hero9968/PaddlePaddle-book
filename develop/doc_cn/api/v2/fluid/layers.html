@@ -883,9 +883,6 @@ the BatchNorm layer using the configurations from the input parameters.</p>
 <dd></dd></dl>
 
 </div>
-<div class="section" id="lstm">
-<h2>lstm<a class="headerlink" href="#lstm" title="永久链接至标题">¶</a></h2>
-</div>
 <div class="section" id="lod-rank-table">
 <h2>lod_rank_table<a class="headerlink" href="#lod-rank-table" title="永久链接至标题">¶</a></h2>
 <dl class="function">
@@ -1089,7 +1086,7 @@ stride_H = stride_W = stride.</li>
 <h2>sequence_expand<a class="headerlink" href="#sequence-expand" title="永久链接至标题">¶</a></h2>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">sequence_expand</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>main_program=None</em>, <em>startup_program=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">sequence_expand</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span></dt>
 <dd><p>Sequence Expand Layer. This layer will expand the input variable <strong>x</strong>
 according to LoD information of <strong>y</strong>. And the following examples will
 explain how sequence_expand works:</p>
@@ -1135,8 +1132,6 @@ explain how sequence_expand works:</p>
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>x</strong> (<em>Variable</em>) &#8211; The input variable which is a Tensor or LoDTensor.</li>
 <li><strong>y</strong> (<em>Variable</em>) &#8211; The input variable which is a LoDTensor.</li>
-<li><strong>main_program</strong> (<em>Program</em>) &#8211; The main program.</li>
-<li><strong>startup_program</strong> (<em>Program</em>) &#8211; The startup program.</li>
 </ul>
 </td>
 </tr>
@@ -1153,6 +1148,71 @@ explain how sequence_expand works:</p>
 <span class="n">y</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">],</span>
                  <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">,</span> <span class="n">lod_level</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">out</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">sequence_expand</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="lstm-unit">
+<h2>lstm_unit<a class="headerlink" href="#lstm-unit" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">lstm_unit</code><span class="sig-paren">(</span><em>x_t</em>, <em>hidden_t_prev</em>, <em>cell_t_prev</em>, <em>forget_bias=0.0</em>, <em>param_attr=None</em>, <em>bias_attr=None</em><span class="sig-paren">)</span></dt>
+<dd><p>Lstm unit layer. The equation of a lstm step is:</p>
+<blockquote>
+<div><div class="math">
+\[ \begin{align}\begin{aligned}i_t &amp; = \sigma(W_{x_i}x_{t} + W_{h_i}h_{t-1} + W_{c_i}c_{t-1} + b_i)\\f_t &amp; = \sigma(W_{x_f}x_{t} + W_{h_f}h_{t-1} + W_{c_f}c_{t-1} + b_f)\\c_t &amp; = f_tc_{t-1} + i_t tanh (W_{x_c}x_t+W_{h_c}h_{t-1} + b_c)\\o_t &amp; = \sigma(W_{x_o}x_{t} + W_{h_o}h_{t-1} + W_{c_o}c_t + b_o)\\h_t &amp; = o_t tanh(c_t)\end{aligned}\end{align} \]</div>
+</div></blockquote>
+<p>The inputs of lstm unit includes <span class="math">\(x_t\)</span>, <span class="math">\(h_{t-1}\)</span> and
+<span class="math">\(c_{t-1}\)</span>. The implementation separates the linear transformation
+and non-linear transformation apart. Here, we take <span class="math">\(i_t\)</span> as an
+example. The linear transformation is applied by calling a <cite>fc</cite> layer and
+the equation is:</p>
+<blockquote>
+<div><div class="math">
+\[L_{i_t} = W_{x_i}x_{t} + W_{h_i}h_{t-1} + W_{c_i}c_{t-1} + b_i\]</div>
+</div></blockquote>
+<p>The non-linear transformation is applied by calling <cite>lstm_unit_op</cite> and the
+equation is:</p>
+<blockquote>
+<div><div class="math">
+\[i_t = \sigma(L_{i_t})\]</div>
+</div></blockquote>
+<p>This layer has two outputs including <span class="math">\(h_t\)</span> and <span class="math">\(o_t\)</span>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
+<li><strong>x_t</strong> (<em>Variable</em>) &#8211; The input value of current step.</li>
+<li><strong>hidden_t_prev</strong> (<em>Variable</em>) &#8211; The hidden value of lstm unit.</li>
+<li><strong>cell_t_prev</strong> (<em>Variable</em>) &#8211; The cell value of lstm unit.</li>
+<li><strong>forget_bias</strong> (<em>float</em>) &#8211; The forget bias of lstm unit.</li>
+<li><strong>param_attr</strong> (<em>ParamAttr</em>) &#8211; The attributes of parameter weights, used to set
+initializer, name etc.</li>
+<li><strong>bias_attr</strong> (<em>ParamAttr</em>) &#8211; The attributes of bias weights, if not False,
+bias weights will be created and be set to default value.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">The hidden value and cell value of lstm unit.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first">tuple</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">ValueError</span></code> &#8211; The ranks of <strong>x_t</strong>, <strong>hidden_t_prev</strong> and <strong>cell_t_prev</strong>                not be 2 or the 1st dimensions of <strong>x_t</strong>, <strong>hidden_t_prev</strong>                 and <strong>cell_t_prev</strong> not be the same.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">x_t</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">x_t_data</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">prev_hidden</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">prev_hidden_data</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">prev_cell</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">prev_cell_data</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">hidden_value</span><span class="p">,</span> <span class="n">cell_value</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">lstm_unit</span><span class="p">(</span><span class="n">x_t</span><span class="o">=</span><span class="n">x_t</span><span class="p">,</span>
+                                       <span class="n">hidden_t_prev</span><span class="o">=</span><span class="n">prev_hidden</span><span class="p">,</span>
+                                       <span class="n">cell_t_prev</span><span class="o">=</span><span class="n">prev_cell</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>

@@ -1846,7 +1846,7 @@
  "inputs" : [ 
  { 
    "name" : "X",
-   "comment" : "FC input before the non-linear activation.",
+   "comment" : "Lstm unit only applies non-linear activations, please make surethat linear tranformation has already been applied to `X`. Linear tranformation can be applied by adding a `fc` layer",
    "duplicable" : 0,
    "intermediate" : 0
  }, { 
