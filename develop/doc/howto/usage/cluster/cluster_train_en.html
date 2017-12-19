@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>PaddlePaddle Distributed Training &mdash; PaddlePaddle  documentation</title>
+  <title>Distributed Training &mdash; PaddlePaddle  documentation</title>
   
 
   
@@ -34,7 +34,7 @@
         <link rel="search" title="Search" href="../../../search.html"/>
     <link rel="top" title="PaddlePaddle  documentation" href="../../../index.html"/>
         <link rel="up" title="HOW TO" href="../../index_en.html"/>
-        <link rel="next" title="Write New Layers" href="../../dev/new_layer_en.html"/>
+        <link rel="next" title="Cluster Training Using Fabric" href="fabric_en.html"/>
         <link rel="prev" title="Detail Description" href="../cmd_parameter/detail_introduction_en.html"/> 
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/css/perfect-scrollbar.min.css" type="text/css" />
@@ -126,7 +126,13 @@
 <li class="toctree-l3"><a class="reference internal" href="../cmd_parameter/detail_introduction_en.html">Detail Description</a></li>
 </ul>
 </li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">PaddlePaddle Distributed Training</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Distributed Training</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fabric_en.html">fabric</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openmpi_en.html">openmpi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="k8s_en.html">kubernetes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="k8s_aws_en.html">kubernetes on AWS</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../dev/new_layer_en.html">Write New Layers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../dev/contribute_to_paddle_en.html">Contribute Code</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../dev/write_docs_en.html">Contribute Documentation</a></li>
@@ -198,7 +204,7 @@
       
         <li><a href="../../index_en.html">HOW TO</a> > </li>
       
-    <li>PaddlePaddle Distributed Training</li>
+    <li>Distributed Training</li>
   </ul>
 </div>
       
@@ -207,8 +213,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="paddlepaddle-distributed-training">
-<span id="paddlepaddle-distributed-training"></span><h1>PaddlePaddle Distributed Training<a class="headerlink" href="#paddlepaddle-distributed-training" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="distributed-training">
+<span id="distributed-training"></span><h1>Distributed Training<a class="headerlink" href="#distributed-training" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="introduction">
 <span id="introduction"></span><h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
 <p>In this article, we&#8217;ll explain how to run distributed training jobs with PaddlePaddle on different types of clusters. The diagram below shows the main architecture of a distributed trainning job:</p>
@@ -382,13 +388,14 @@ python train.py
 </div>
 <div class="section" id="use-different-clusters">
 <span id="use-different-clusters"></span><h2>Use different clusters<a class="headerlink" href="#use-different-clusters" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><a class="reference internal" href="fabric_en.html"><span class="doc">fabric</span></a></li>
-<li><a class="reference internal" href="openmpi_en.html"><span class="doc">openmpi</span></a></li>
-<li><a class="reference internal" href="k8s_en.html"><span class="doc">kubernetes</span></a></li>
-<li>kubernetes distributed</li>
-<li><a class="reference internal" href="k8s_aws_en.html"><span class="doc">kubernetes on AWS</span></a></li>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="fabric_en.html">fabric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="openmpi_en.html">openmpi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="k8s_en.html">kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="k8s_aws_en.html">kubernetes on AWS</a></li>
 </ul>
+</div>
 </div>
 </div>
 
@@ -399,7 +406,7 @@ python train.py
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../../dev/new_layer_en.html" class="btn btn-neutral float-right" title="Write New Layers" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="fabric_en.html" class="btn btn-neutral float-right" title="Cluster Training Using Fabric" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="../cmd_parameter/detail_introduction_en.html" class="btn btn-neutral" title="Detail Description" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>

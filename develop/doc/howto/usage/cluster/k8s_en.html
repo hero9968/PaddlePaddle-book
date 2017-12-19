@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Paddle On Kubernetes &mdash; PaddlePaddle  documentation</title>
+  <title>PaddlePaddle On Kubernetes &mdash; PaddlePaddle  documentation</title>
   
 
   
@@ -32,7 +32,10 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="PaddlePaddle  documentation" href="../../../index.html"/> 
+    <link rel="top" title="PaddlePaddle  documentation" href="../../../index.html"/>
+        <link rel="up" title="Distributed Training" href="cluster_train_en.html"/>
+        <link rel="next" title="Distributed PaddlePaddle Training on AWS with Kubernetes" href="k8s_aws_en.html"/>
+        <link rel="prev" title="Cluster Training Using OpenMPI" href="openmpi_en.html"/> 
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/css/perfect-scrollbar.min.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/css/override.css" type="text/css" />
@@ -80,9 +83,9 @@
       </div>
       <div class="doc-module">
         
-        <ul>
+        <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../getstarted/index_en.html">GET STARTED</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../index_en.html">HOW TO</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index_en.html">HOW TO</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../api/index_en.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../mobile/index_en.html">MOBILE</a></li>
 </ul>
@@ -105,7 +108,7 @@
     <nav class="doc-menu-vertical" role="navigation">
         
           
-          <ul>
+          <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../getstarted/index_en.html">GET STARTED</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../getstarted/build_and_install/index_en.html">Install and Build</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../getstarted/build_and_install/pip_install_en.html">Install Using pip</a></li>
@@ -116,14 +119,20 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../index_en.html">HOW TO</a><ul>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index_en.html">HOW TO</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../cmd_parameter/index_en.html">Set Command-line Parameters</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../cmd_parameter/use_case_en.html">Use Case</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../cmd_parameter/arguments_en.html">Argument Outline</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../cmd_parameter/detail_introduction_en.html">Detail Description</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="cluster_train_en.html">PaddlePaddle Distributed Training</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="cluster_train_en.html">Distributed Training</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="fabric_en.html">fabric</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openmpi_en.html">openmpi</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">kubernetes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="k8s_aws_en.html">kubernetes on AWS</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../dev/new_layer_en.html">Write New Layers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../dev/contribute_to_paddle_en.html">Contribute Code</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../dev/write_docs_en.html">Contribute Documentation</a></li>
@@ -193,7 +202,11 @@
 <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
       
-    <li>Paddle On Kubernetes</li>
+        <li><a href="../../index_en.html">HOW TO</a> > </li>
+      
+        <li><a href="cluster_train_en.html">Distributed Training</a> > </li>
+      
+    <li>PaddlePaddle On Kubernetes</li>
   </ul>
 </div>
       
@@ -202,15 +215,14 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="paddle-on-kubernetes">
-<span id="paddle-on-kubernetes"></span><h1>Paddle On Kubernetes<a class="headerlink" href="#paddle-on-kubernetes" title="Permalink to this headline">¶</a></h1>
-<blockquote>
-<div>In this article, we will introduce how to run Paddle training job on single CPU machine using Kubernetes. In next article, we will introduce how to run Paddle training job on distributed cluster.</div></blockquote>
+  <div class="section" id="paddlepaddle-on-kubernetes">
+<span id="paddlepaddle-on-kubernetes"></span><h1>PaddlePaddle On Kubernetes<a class="headerlink" href="#paddlepaddle-on-kubernetes" title="Permalink to this headline">¶</a></h1>
+<p>In this article, we will introduce how to run PaddlePaddle training job on single CPU machine using Kubernetes. In next article, we will introduce how to run PaddlePaddle training job on distributed cluster.</p>
 <div class="section" id="build-docker-image">
 <span id="build-docker-image"></span><h2>Build Docker Image<a class="headerlink" href="#build-docker-image" title="Permalink to this headline">¶</a></h2>
-<p>In distributed Kubernetes cluster, we will use Ceph or other shared storage system for storing training related data so that all processes in Paddle training can retrieve data from Ceph. In this example, we will only demo training job on single machine. In order to simplify the requirement of the environment, we will directly put training data into Paddle&#8217;s Docker Image, so we need to create a Paddle Docker image that already includes the training data.</p>
-<p>Paddle&#8217;s <a class="reference external" href="http://www.paddlepaddle.org/doc/demo/quick_start/index_en.html">Quick Start Tutorial</a> introduces how to download and train data by using script from Paddle&#8217;s source code.
-And <code class="docutils literal"><span class="pre">paddledev/paddle:cpu-demo-latest</span></code> image has the Paddle source code and demo. (Caution: Default Paddle image <code class="docutils literal"><span class="pre">paddledev/paddle:cpu-latest</span></code> doesn&#8217;t include the source code, Paddle&#8217;s different versions of image can be referred here: <a class="reference external" href="http://www.paddlepaddle.org/doc/build/docker_install.html">Docker installation guide</a>), so we run this container and download the training data, and then commit the whole container to be a new Docker image.</p>
+<p>In distributed Kubernetes cluster, we will use Ceph or other shared storage system for storing training data so that all processes in the training job can retrieve data from Ceph. In this example, we will only demo training job on single machine. In order to simplify the requirement of the environment, we will directly put training data into PaddlePaddle&#8217;s Docker Image, so we need to create a PaddlePaddle Docker image that already includes the training data.</p>
+<p>PaddlePaddle&#8217;s <a class="reference external" href="http://www.paddlepaddle.org/docs/develop/documentation/en/getstarted/index_en.html">Quick Start Tutorial</a> introduces how to download and train data by using script from PaddlePaddle&#8217;s source code.
+And <code class="docutils literal"><span class="pre">paddledev/paddle:cpu-demo-latest</span></code> image has the PaddlePaddle source code and demo. (Caution: Default PaddlePaddle image <code class="docutils literal"><span class="pre">paddledev/paddle:cpu-latest</span></code> doesn&#8217;t include the source code, PaddlePaddle&#8217;s different versions of image can be referred here: <a class="reference external" href="http://www.paddlepaddle.org/doc/build/docker_install.html">Docker installation guide</a>), so we run this container and download the training data, and then commit the whole container to be a new Docker image.</p>
 <div class="section" id="run-docker-container">
 <span id="run-docker-container"></span><h3>Run Docker Container<a class="headerlink" href="#run-docker-container" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-default"><div class="highlight"><pre><span></span>$ docker run --name quick_start_data -it paddledev/paddle:cpu-demo-latest
@@ -268,8 +280,7 @@ paddle train \
 </div>
 <div class="section" id="use-kubernetes-for-training">
 <span id="use-kubernetes-for-training"></span><h2>Use Kubernetes For Training<a class="headerlink" href="#use-kubernetes-for-training" title="Permalink to this headline">¶</a></h2>
-<blockquote>
-<div>We will use Kubernetes job for training process, following steps shows how to do the training with Kubernetes.</div></blockquote>
+<p>We will use Kubernetes job for training process, following steps shows how to do the training with Kubernetes.</p>
 <div class="section" id="create-yaml-files">
 <span id="create-yaml-files"></span><h3>Create Yaml Files<a class="headerlink" href="#create-yaml-files" title="Permalink to this headline">¶</a></h3>
 <p>The output result in container will be demolished when job finished (container stopped running), so we need to mount the volume out to the local disk when creating the container to store the training result. Using our previously created image, we can create a <a class="reference external" href="http://kubernetes.io/docs/user-guide/jobs/#what-is-a-job">Kubernetes Job</a>, the yaml contents are as follows:</p>
@@ -299,8 +310,8 @@ paddle train \
 </pre></div>
 </div>
 </div>
-<div class="section" id="start-paddle-job">
-<span id="start-paddle-job"></span><h3>Start Paddle Job<a class="headerlink" href="#start-paddle-job" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="start-paddlepaddle-job">
+<span id="start-paddlepaddle-job"></span><h3>Start PaddlePaddle Job<a class="headerlink" href="#start-paddlepaddle-job" title="Permalink to this headline">¶</a></h3>
 <p>Using the above yaml file to start the Kubernetes job.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>$ kubectl  create -f paddle.yaml
 </pre></div>
@@ -401,6 +412,15 @@ Volumes:
            </div>
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="k8s_aws_en.html" class="btn btn-neutral float-right" title="Distributed PaddlePaddle Training on AWS with Kubernetes" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="openmpi_en.html" class="btn btn-neutral" title="Cluster Training Using OpenMPI" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>
