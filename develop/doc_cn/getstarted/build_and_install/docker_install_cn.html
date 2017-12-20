@@ -336,7 +336,7 @@ docker run <span class="si">${</span><span class="nv">CUDA_SO</span><span class=
 <p><strong>关于AVX：</strong></p>
 <p>AVX是一种CPU指令集，可以加速PaddlePaddle的计算。最新的PaddlePaddle Docker镜像默认
 是开启AVX编译的，所以，如果您的电脑不支持AVX，需要单独
-<a class="reference external" href="./build_from_source_cn.rst">编译</a> PaddlePaddle为no-avx版本。</p>
+<a class="reference external" href="./build_from_source_cn.html">编译</a> PaddlePaddle为no-avx版本。</p>
 <p>以下指令能检查Linux电脑是否支持AVX：</p>
 <blockquote>
 <div><div class="highlight-bash"><div class="highlight"><pre><span></span><span class="k">if</span> cat /proc/cpuinfo <span class="p">|</span> grep -i avx<span class="p">;</span> <span class="k">then</span> <span class="nb">echo</span> Yes<span class="p">;</span> <span class="k">else</span> <span class="nb">echo</span> No<span class="p">;</span> <span class="k">fi</span>

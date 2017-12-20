@@ -331,7 +331,7 @@ docker run <span class="si">${</span><span class="nv">CUDA_SO</span><span class=
 <p>AVX is a kind of CPU instruction can accelerate PaddlePaddle&#8217;s calculations.
 The latest PaddlePaddle Docker image turns AVX on by default, so, if your
 computer doesn&#8217;t support AVX, you&#8217;ll probably need to
-<a class="reference external" href="./build_from_source_en.rst">build</a> with <code class="code docutils literal"><span class="pre">WITH_AVX=OFF</span></code>.</p>
+<a class="reference external" href="./build_from_source_en.html">build</a> with <code class="code docutils literal"><span class="pre">WITH_AVX=OFF</span></code>.</p>
 <p>The following command will tell you whether your computer supports AVX.</p>
 <blockquote>
 <div><div class="highlight-bash"><div class="highlight"><pre><span></span><span class="k">if</span> cat /proc/cpuinfo <span class="p">|</span> grep -i avx<span class="p">;</span> <span class="k">then</span> <span class="nb">echo</span> Yes<span class="p">;</span> <span class="k">else</span> <span class="nb">echo</span> No<span class="p">;</span> <span class="k">fi</span>
