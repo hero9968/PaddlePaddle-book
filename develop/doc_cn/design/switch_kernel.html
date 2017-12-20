@@ -1,0 +1,339 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Background &mdash; PaddlePaddle  文档</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+  
+        <link rel="index" title="索引"
+              href="../genindex.html"/>
+        <link rel="search" title="搜索" href="../search.html"/>
+    <link rel="top" title="PaddlePaddle  文档" href="../index.html"/> 
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/css/perfect-scrollbar.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/override.css" type="text/css" />
+  <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?b9a314ab40d04d805655aab1deee08ba";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
+
+  
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  
+  <header class="site-header">
+    <div class="site-logo">
+      <a href="/"><img src="../_static/images/PP_w.png"></a>
+    </div>
+    <div class="site-nav-links">
+      <div class="site-menu">
+        <a class="fork-on-github" href="https://github.com/PaddlePaddle/Paddle" target="_blank"><i class="fa fa-github"></i>Fork me on Github</a>
+        <div class="language-switcher dropdown">
+          <a type="button" data-toggle="dropdown">
+            <span>English</span>
+            <i class="fa fa-angle-up"></i>
+            <i class="fa fa-angle-down"></i>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="/doc_cn">中文</a></li>
+            <li><a href="/doc">English</a></li>
+          </ul>
+        </div>
+        <ul class="site-page-links">
+          <li><a href="/">Home</a></li>
+        </ul>
+      </div>
+      <div class="doc-module">
+        
+        <ul>
+<li class="toctree-l1"><a class="reference internal" href="../getstarted/index_cn.html">新手入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howto/index_cn.html">进阶指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index_cn.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq/index_cn.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mobile/index_cn.html">MOBILE</a></li>
+</ul>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>        
+      </div>
+    </div>
+  </header>
+  
+  <div class="main-content-wrap">
+
+    
+    <nav class="doc-menu-vertical" role="navigation">
+        
+          
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../getstarted/index_cn.html">新手入门</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getstarted/build_and_install/index_cn.html">安装与编译</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../getstarted/build_and_install/pip_install_cn.html">使用pip安装</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../getstarted/build_and_install/docker_install_cn.html">使用Docker安装运行</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/dev/build_cn.html">用Docker编译和测试PaddlePaddle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../getstarted/build_and_install/build_from_source_cn.html">从源码编译</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../getstarted/concepts/use_concepts_cn.html">基本使用概念</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../howto/index_cn.html">进阶指南</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../howto/usage/cmd_parameter/index_cn.html">设置命令行参数</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cmd_parameter/use_case_cn.html">使用案例</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cmd_parameter/arguments_cn.html">参数概述</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cmd_parameter/detail_introduction_cn.html">细节描述</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/usage/cluster/cluster_train_cn.html">分布式训练</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cluster/fabric_cn.html">fabric集群</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cluster/openmpi_cn.html">openmpi集群</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cluster/k8s_cn.html">kubernetes单机</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cluster/k8s_distributed_cn.html">kubernetes distributed分布式</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cluster/k8s_aws_cn.html">AWS上运行kubernetes集群训练</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/dev/contribute_to_paddle_cn.html">如何贡献代码</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/dev/write_docs_cn.html">如何贡献/修改文档</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/deep_model/rnn/index_cn.html">RNN相关模型</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../howto/deep_model/rnn/rnn_config_cn.html">RNN配置</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/deep_model/rnn/recurrent_group_cn.html">Recurrent Group教程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/deep_model/rnn/hierarchical_layer_cn.html">支持双层序列作为输入的Layer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/deep_model/rnn/hrnn_rnn_api_compare_cn.html">单双层RNN API对比介绍</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/optimization/gpu_profiling_cn.html">GPU性能分析与调优</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index_cn.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/v2/model_configs.html">模型配置</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/activation.html">Activation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/layer.html">Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/evaluators.html">Evaluators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/optimizer.html">Optimizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/pooling.html">Pooling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/networks.html">Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/attr.html">Parameter Attribute</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/v2/data.html">数据访问</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/data/data_reader.html">Data Reader Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/data/image.html">Image Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/data/dataset.html">Dataset</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/v2/run_logic.html">训练与应用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/v2/fluid.html">Fluid</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/layers.html">Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/data_feeder.html">DataFeeder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/executor.html">Executor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/initializer.html">Initializer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/evaluator.html">Evaluator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/nets.html">Nets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/optimizer.html">Optimizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/param_attr.html">ParamAttr</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/profiler.html">Profiler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/regularizer.html">Regularizer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../faq/index_cn.html">FAQ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../faq/build_and_install/index_cn.html">编译安装与单元测试</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faq/model/index_cn.html">模型配置</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faq/parameter/index_cn.html">参数设置</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faq/local/index_cn.html">本地训练与预测</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faq/cluster/index_cn.html">集群训练与预测</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../mobile/index_cn.html">MOBILE</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../mobile/cross_compiling_for_android_cn.html">Android平台编译指南</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mobile/cross_compiling_for_ios_cn.html">iOS平台编译指南</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mobile/cross_compiling_for_raspberry_cn.html">Raspberry Pi平台编译指南</a></li>
+</ul>
+</li>
+</ul>
+
+        
+    </nav>
+    
+    <section class="doc-content-wrap">
+
+      
+
+ 
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+      
+    <li>Background</li>
+  </ul>
+</div>
+      
+      <div class="wy-nav-content" id="doc-content">
+        <div class="rst-content">
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="background">
+<span id="background"></span><h1>Background<a class="headerlink" href="#background" title="永久链接至标题">¶</a></h1>
+<p>Every operator has many kernels because there are multiple data types, places, data layout that Fluid supports. We use the <code class="docutils literal"><span class="pre">KernelType</span></code> to describe kernel types that operators can hold.</p>
+<p>The <code class="docutils literal"><span class="pre">KernelType</span></code> is as follows.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">struct</span> <span class="n">KernelType</span> <span class="p">{</span>
+  <span class="n">Place</span> <span class="n">place_</span><span class="p">;</span>
+  <span class="n">DataType</span> <span class="n">data_type_</span><span class="p">;</span>
+  <span class="n">LayoutType</span> <span class="n">layout_</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">place_</span></code> is a descriptor of the device and the computational library, e.g., <code class="docutils literal"><span class="pre">MKLDNNPlace</span></code>, <code class="docutils literal"><span class="pre">CUDAPlace</span></code>.</p>
+<p>The <code class="docutils literal"><span class="pre">data_type_</span></code> is the data type that this kernel performs on, e.g., <code class="docutils literal"><span class="pre">FP32</span></code>, <code class="docutils literal"><span class="pre">INT64</span></code>. Note that one kernel may have inputs with different data types. However, it will be a major <code class="docutils literal"><span class="pre">data_type</span></code>. For example, the <code class="docutils literal"><span class="pre">cross_entropy</span></code> takes <code class="docutils literal"><span class="pre">int64</span></code> as it label, and <code class="docutils literal"><span class="pre">double</span></code>/<code class="docutils literal"><span class="pre">float</span></code> as its input logit and output cost. The major <code class="docutils literal"><span class="pre">data_type</span></code> of <code class="docutils literal"><span class="pre">cross_entropy</span></code> is <code class="docutils literal"><span class="pre">float</span></code>/<code class="docutils literal"><span class="pre">double</span></code>.</p>
+<p>The <code class="docutils literal"><span class="pre">layout</span></code> is useful for some computational library. One example is that MKLDNN uses many kinds of layout, such as <code class="docutils literal"><span class="pre">nChw8c</span></code>. Each kind of layout will invoke the different kernel.</p>
+</div>
+<div class="section" id="problem">
+<span id="problem"></span><h1>Problem<a class="headerlink" href="#problem" title="永久链接至标题">¶</a></h1>
+<p>We register a kernel for every operator and every kernel type ideally. However, it is impracticable for the following situations.</p>
+<ol class="simple">
+<li>Some operators, like CRF, are complicated and inefficient to be implemented on GPU. The CRF operator will only have a CPU kernel.</li>
+<li>Some operators will take too many memory. It is better to force them into CPU. However, the rest of operators in this neural network will be performed on GPU, i.e., model parallel problem.</li>
+<li>Some layout and place are particular. One example is that MKLDNN uses <code class="docutils literal"><span class="pre">nChw8</span></code> and there is no other library uses <code class="docutils literal"><span class="pre">nChw8c</span></code>.</li>
+</ol>
+<p>Problems under these situations are similar. We can formalise this problem as follow.</p>
+<p>We register kernels with types $KT = {kt_1, kt_2, kt_3, ...}$ for one operator. The inputs of this operator should be run on kernel type $kt_{?}$, which the $kt_{?} \notin KT$. How to cast the input of this operator from $kt_{?}$ to any of kernel type in $KT$.</p>
+</div>
+<div class="section" id="solution">
+<span id="solution"></span><h1>Solution<a class="headerlink" href="#solution" title="永久链接至标题">¶</a></h1>
+<p>It is clearly that transforming inputs of an operator toadapt another kernel type is not related to the particular operator. So we should register these transformation methods as global methods.</p>
+<p>We can infer a kernel type from the inputs of an operators. We let this kernel type as <code class="docutils literal"><span class="pre">actual</span> <span class="pre">kernel</span> <span class="pre">type</span></code>, which means this kernel type is the actually kernel type that operator should be performed.</p>
+<p>We can get a kernel type by 1) The configuration of operator description. (Users may want to force use <code class="docutils literal"><span class="pre">MKL</span></code> for <code class="docutils literal"><span class="pre">conv</span></code> operator). 2) The place of the current executor. (Executor is running on GPU). This kernel type is what we expect the operator will be performed on. We let this kernel type as <code class="docutils literal"><span class="pre">expect</span> <span class="pre">kernel</span> <span class="pre">type</span></code>.</p>
+<p>We transform the input data from <code class="docutils literal"><span class="pre">actual</span></code> to <code class="docutils literal"><span class="pre">expect</span></code> if the expect kernel type is not as same as actual kernel type.</p>
+<p>The algorithm is described as follow</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">DataTransformationFN</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">function</span><span class="o">&lt;</span><span class="kt">void</span><span class="p">(</span><span class="k">const</span> <span class="n">Tensor</span><span class="o">&amp;</span> <span class="n">in</span><span class="p">,</span> <span class="n">Tensor</span><span class="o">*</span> <span class="n">out</span><span class="p">)</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">KernelTypePair</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="n">KernelType</span><span class="p">,</span> <span class="n">KernelType</span><span class="o">&gt;</span><span class="p">;</span>
+
+<span class="n">map</span><span class="o">&lt;</span><span class="n">KernelTypePair</span><span class="p">,</span> <span class="n">DataTransformationFN</span><span class="o">&gt;</span> <span class="n">g_data_transformation_</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="n">OpWithKernel</span><span class="o">::</span><span class="n">Run</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">vec</span><span class="o">&lt;</span><span class="n">Tensor</span><span class="o">&gt;</span> <span class="n">inputs</span> <span class="o">=</span> <span class="p">...</span>
+  <span class="k">auto</span> <span class="n">actual_kernel_type</span> <span class="o">=</span> <span class="n">GetActualKernelType</span><span class="p">(</span><span class="n">inputs</span><span class="p">);</span>
+  
+  <span class="c1">// The expected kernel type is related to actual kernel type.</span>
+  <span class="c1">// For the most operators, the expected kernel type is as same as</span>
+  <span class="c1">// actual kernel type.</span>
+  <span class="c1">//</span>
+  <span class="c1">// So we pass `actual_kernel_type` as a parameter of </span>
+  <span class="c1">// GetExpectedKernelType</span>
+  <span class="k">auto</span> <span class="n">expect_kernel_type</span> <span class="o">=</span> <span class="n">GetExpectedKernelType</span><span class="p">(</span><span class="n">actual_kernel_type</span><span class="p">);</span>
+  
+  <span class="k">auto</span> <span class="n">trans</span> <span class="o">=</span> <span class="n">g_data_transformation_</span><span class="p">[{</span><span class="n">actual_kernel_type</span><span class="p">,</span> <span class="n">expect_kernel_type</span><span class="p">}];</span>
+  
+  <span class="n">kernel</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">trans</span><span class="p">(</span><span class="n">inputs</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, PaddlePaddle developers.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: ".txt",
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+      <script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+       
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+  
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/js/perfect-scrollbar.jquery.min.js"></script>
+  <script src="../_static/js/paddle_doc_init.js"></script> 
+
+</body>
+</html>
