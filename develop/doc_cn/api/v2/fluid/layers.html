@@ -1093,7 +1093,32 @@ LOD_TENSOR_ARRAY.</p>
 <dl class="function">
 <dt>
 <code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">less_than</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>cond=None</em>, <em>**ignored</em><span class="sig-paren">)</span></dt>
-<dd></dd></dl>
+<dd><p><strong>Less than</strong></p>
+<p>This layer returns the truth value of <span class="math">\(x &lt; y\)</span> elementwise.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> (<em>Variable</em>) &#8211; First operand of <em>less_than</em></li>
+<li><strong>y</strong> (<em>Variable</em>) &#8211; Second operand of <em>less_than</em></li>
+<li><strong>cond</strong> (<em>Variable|None</em>) &#8211; Optional output variable to store the result of <em>less_than</em></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">The tensor variable storing the output of <em>less_than</em>.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">Variable</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">less</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">less_than</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">limit</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
 
 </div>
 <div class="section" id="array-read">
