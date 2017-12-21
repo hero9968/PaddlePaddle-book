@@ -1142,7 +1142,7 @@ LOD_TENSOR_ARRAY.</p>
 <h2>conv2d_transpose<a class="headerlink" href="#conv2d-transpose" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">conv2d_transpose</code><span class="sig-paren">(</span><em>input</em>, <em>num_filters</em>, <em>output_size=None</em>, <em>filter_size=None</em>, <em>padding=None</em>, <em>stride=None</em>, <em>param_attr=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">conv2d_transpose</code><span class="sig-paren">(</span><em>input</em>, <em>num_filters</em>, <em>output_size=None</em>, <em>filter_size=None</em>, <em>padding=None</em>, <em>stride=None</em>, <em>dilation=None</em>, <em>param_attr=None</em><span class="sig-paren">)</span></dt>
 <dd><p>The transpose of conv2d layer.</p>
 <p>This layer is also known as deconvolution layer.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1166,6 +1166,9 @@ padding_H = padding_W = padding.</li>
 <li><strong>stride</strong> (<em>int|tuple</em>) &#8211; The stride size. If stride is a tuple, it must
 contain two integers, (stride_H, stride_W). Otherwise, the
 stride_H = stride_W = stride.</li>
+<li><strong>dilation</strong> (<em>int|tuple</em>) &#8211; The dilation size. If dilation is a tuple, it must
+contain two integers, (dilation_H, dilation_W). Otherwise, the
+dilation_H = dilation_W = dilation.</li>
 <li><strong>param_attr</strong> &#8211; Parameter Attribute.</li>
 <li><strong>main_program</strong> (<em>Program</em>) &#8211; the main program</li>
 <li><strong>startup_program</strong> (<em>Program</em>) &#8211; the startup program</li>

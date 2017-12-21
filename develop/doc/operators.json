@@ -468,7 +468,7 @@
  } ] 
 },{
  "type" : "conv3d_transpose",
- "comment" : "\nConvolution3D Transpose Operator.\n\nThe convolution transpose operation calculates the output based on the input, filter\nand strides, paddings, groups parameters. The size of each dimension of the\nparameters is checked in the infer-shape.\nInput(Input) and output(Output) are in NCDHW format. Where N is batch size, C is the\nnumber of channels, D is the depth of the feature, H is the height of the feature,\nand W is the width of the feature.\nFilter(Input) is in MCDHW format. Where M is the number of input feature channels,\nC is the number of output feature channels, D is the depth of the filter,H is the\nheight of the filter, and W is the width of the filter.\nParameters(strides, paddings) are three elements. These three elements represent\ndepth, height and width, respectively.\nThe input(X) size and output(Out) size may be different.\n\nExample:   \n  Input:\n       Input shape: $(N, C_{in}, D_{in}, H_{in}, W_{in})$\n       Filter shape: $(C_{in}, C_{out}, D_f, H_f, W_f)$\n  Output:\n       Output shape: $(N, C_{out}, D_{out}, H_{out}, W_{out})$\n  Where\n  $$\n       D_{out} = (D_{in} - 1) * strides[0] - 2 * paddings[0] + D_f \\\\\n       H_{out} = (H_{in} - 1) * strides[1] - 2 * paddings[1] + H_f \\\\\n       W_{out} = (W_{in} - 1) * strides[2] - 2 * paddings[2] + W_f\n  $$\n",
+ "comment" : "\nConvolution3D Transpose Operator.\n\nThe convolution transpose operation calculates the output based on the input, filter\nand dilations, strides, paddings, groups parameters. The size of each dimension of the\nparameters is checked in the infer-shape.\nInput(Input) and output(Output) are in NCDHW format. Where N is batch size, C is the\nnumber of channels, D is the depth of the feature, H is the height of the feature,\nand W is the width of the feature.\nFilter(Input) is in MCDHW format. Where M is the number of input feature channels,\nC is the number of output feature channels, D is the depth of the filter,H is the\nheight of the filter, and W is the width of the filter.\nParameters(strides, paddings) are three elements. These three elements represent\ndepth, height and width, respectively.\nThe input(X) size and output(Out) size may be different.\n\nExample:   \n  Input:\n       Input shape: $(N, C_{in}, D_{in}, H_{in}, W_{in})$\n       Filter shape: $(C_{in}, C_{out}, D_f, H_f, W_f)$\n  Output:\n       Output shape: $(N, C_{out}, D_{out}, H_{out}, W_{out})$\n  Where\n  $$\n       D_{out} = (D_{in} - 1) * strides[0] - 2 * paddings[0] + D_f \\\\\n       H_{out} = (H_{in} - 1) * strides[1] - 2 * paddings[1] + H_f \\\\\n       W_{out} = (W_{in} - 1) * strides[2] - 2 * paddings[2] + W_f\n  $$\n",
  "inputs" : [ 
  { 
    "name" : "Input",
@@ -490,6 +490,11 @@
  } ], 
  "attrs" : [ 
  { 
+   "name" : "dilations",
+   "type" : "int array",
+   "comment" : "(vector<int> default:{1, 1, 1}), the dilations(d_dilation,h_dilation, w_dilation) of convolution transpose operator.",
+   "generated" : 0
+ }, { 
    "name" : "strides",
    "type" : "int array",
    "comment" : "(vector<int> default:{1, 1, 1}), the strides{d_stride, h_stride, w_stride} of convolution transpose operator.",
@@ -502,7 +507,7 @@
  } ] 
 },{
  "type" : "conv2d_transpose",
- "comment" : "\nConvolution2D Transpose Operator.\n\nThe convolution transpose operation calculates the output based on the input, filter\nand strides, paddings, groups parameters. The size of each dimension of the\nparameters is checked in the infer-shape.\nInput(Input) and output(Output) are in NCHW format. Where N is batchsize, C is the\nnumber of channels, H is the height of the feature, and W is the width of the feature.\nFilter(Input) is in MCHW format. Where M is the number of input feature channels,\nC is the number of output feature channels, H is the height of the filter,\nand W is the width of the filter.\nParameters(strides, paddings) are two elements. These two elements represent height\nand width, respectively.\nThe input(X) size and output(Out) size may be different.\n\nExample:\n  Input:\n       Input shape: $(N, C_{in}, H_{in}, W_{in})$\n       Filter shape: $(C_{in}, C_{out}, H_f, W_f)$\n  Output:\n       Output shape: $(N, C_{out}, H_{out}, W_{out})$\n  Where\n  $$\n       H_{out} = (H_{in} - 1) * strides[0] - 2 * paddings[0] + H_f \\\\\n       W_{out} = (W_{in} - 1) * strides[1] - 2 * paddings[1] + W_f\n  $$\n",
+ "comment" : "\nConvolution2D Transpose Operator.\n\nThe convolution transpose operation calculates the output based on the input, filter\nand dilations, strides, paddings, groups parameters. The size of each dimension of the\nparameters is checked in the infer-shape.\nInput(Input) and output(Output) are in NCHW format. Where N is batchsize, C is the\nnumber of channels, H is the height of the feature, and W is the width of the feature.\nFilter(Input) is in MCHW format. Where M is the number of input feature channels,\nC is the number of output feature channels, H is the height of the filter,\nand W is the width of the filter.\nParameters(strides, paddings) are two elements. These two elements represent height\nand width, respectively.\nThe input(X) size and output(Out) size may be different.\n\nExample:\n  Input:\n       Input shape: $(N, C_{in}, H_{in}, W_{in})$\n       Filter shape: $(C_{in}, C_{out}, H_f, W_f)$\n  Output:\n       Output shape: $(N, C_{out}, H_{out}, W_{out})$\n  Where\n  $$\n       H_{out} = (H_{in} - 1) * strides[0] - 2 * paddings[0] + H_f \\\\\n       W_{out} = (W_{in} - 1) * strides[1] - 2 * paddings[1] + W_f\n  $$\n",
  "inputs" : [ 
  { 
    "name" : "Input",
@@ -524,6 +529,11 @@
  } ], 
  "attrs" : [ 
  { 
+   "name" : "dilations",
+   "type" : "int array",
+   "comment" : "(vector<int> default:{1, 1}), the dilations(h_dilation, w_dilation) of convolution transpose operator.",
+   "generated" : 0
+ }, { 
    "name" : "strides",
    "type" : "int array",
    "comment" : "(vector<int> default:{1, 1}), the strides(h_stride, w_stride) of convolution transpose operator.",
@@ -2321,7 +2331,7 @@
  } ] 
 },{
  "type" : "conv2d_transpose_cudnn",
- "comment" : "\nConvolution2D Transpose Operator.\n\nThe convolution transpose operation calculates the output based on the input, filter\nand strides, paddings, groups parameters. The size of each dimension of the\nparameters is checked in the infer-shape.\nInput(Input) and output(Output) are in NCHW format. Where N is batchsize, C is the\nnumber of channels, H is the height of the feature, and W is the width of the feature.\nFilter(Input) is in MCHW format. Where M is the number of input feature channels,\nC is the number of output feature channels, H is the height of the filter,\nand W is the width of the filter.\nParameters(strides, paddings) are two elements. These two elements represent height\nand width, respectively.\nThe input(X) size and output(Out) size may be different.\n\nExample:\n  Input:\n       Input shape: $(N, C_{in}, H_{in}, W_{in})$\n       Filter shape: $(C_{in}, C_{out}, H_f, W_f)$\n  Output:\n       Output shape: $(N, C_{out}, H_{out}, W_{out})$\n  Where\n  $$\n       H_{out} = (H_{in} - 1) * strides[0] - 2 * paddings[0] + H_f \\\\\n       W_{out} = (W_{in} - 1) * strides[1] - 2 * paddings[1] + W_f\n  $$\n",
+ "comment" : "\nConvolution2D Transpose Operator.\n\nThe convolution transpose operation calculates the output based on the input, filter\nand dilations, strides, paddings, groups parameters. The size of each dimension of the\nparameters is checked in the infer-shape.\nInput(Input) and output(Output) are in NCHW format. Where N is batchsize, C is the\nnumber of channels, H is the height of the feature, and W is the width of the feature.\nFilter(Input) is in MCHW format. Where M is the number of input feature channels,\nC is the number of output feature channels, H is the height of the filter,\nand W is the width of the filter.\nParameters(strides, paddings) are two elements. These two elements represent height\nand width, respectively.\nThe input(X) size and output(Out) size may be different.\n\nExample:\n  Input:\n       Input shape: $(N, C_{in}, H_{in}, W_{in})$\n       Filter shape: $(C_{in}, C_{out}, H_f, W_f)$\n  Output:\n       Output shape: $(N, C_{out}, H_{out}, W_{out})$\n  Where\n  $$\n       H_{out} = (H_{in} - 1) * strides[0] - 2 * paddings[0] + H_f \\\\\n       W_{out} = (W_{in} - 1) * strides[1] - 2 * paddings[1] + W_f\n  $$\n",
  "inputs" : [ 
  { 
    "name" : "Input",
@@ -2343,6 +2353,11 @@
  } ], 
  "attrs" : [ 
  { 
+   "name" : "dilations",
+   "type" : "int array",
+   "comment" : "(vector<int> default:{1, 1}), the dilations(h_dilation, w_dilation) of convolution transpose operator.",
+   "generated" : 0
+ }, { 
    "name" : "strides",
    "type" : "int array",
    "comment" : "(vector<int> default:{1, 1}), the strides(h_stride, w_stride) of convolution transpose operator.",
@@ -2351,11 +2366,6 @@
    "name" : "paddings",
    "type" : "int array",
    "comment" : "(vector<int> default:{0, 0}), the paddings(h_pad, w_pad) of convolution transpose operator.",
-   "generated" : 0
- }, { 
-   "name" : "dilations",
-   "type" : "int array",
-   "comment" : "dilations of convolution operator.",
    "generated" : 0
  }, { 
    "name" : "workspace_size_MB",
@@ -4171,7 +4181,7 @@
  "attrs" : [  ] 
 },{
  "type" : "conv3d_transpose_cudnn",
- "comment" : "\nConvolution3D Transpose Operator.\n\nThe convolution transpose operation calculates the output based on the input, filter\nand strides, paddings, groups parameters. The size of each dimension of the\nparameters is checked in the infer-shape.\nInput(Input) and output(Output) are in NCDHW format. Where N is batch size, C is the\nnumber of channels, D is the depth of the feature, H is the height of the feature,\nand W is the width of the feature.\nFilter(Input) is in MCDHW format. Where M is the number of input feature channels,\nC is the number of output feature channels, D is the depth of the filter,H is the\nheight of the filter, and W is the width of the filter.\nParameters(strides, paddings) are three elements. These three elements represent\ndepth, height and width, respectively.\nThe input(X) size and output(Out) size may be different.\n\nExample:   \n  Input:\n       Input shape: $(N, C_{in}, D_{in}, H_{in}, W_{in})$\n       Filter shape: $(C_{in}, C_{out}, D_f, H_f, W_f)$\n  Output:\n       Output shape: $(N, C_{out}, D_{out}, H_{out}, W_{out})$\n  Where\n  $$\n       D_{out} = (D_{in} - 1) * strides[0] - 2 * paddings[0] + D_f \\\\\n       H_{out} = (H_{in} - 1) * strides[1] - 2 * paddings[1] + H_f \\\\\n       W_{out} = (W_{in} - 1) * strides[2] - 2 * paddings[2] + W_f\n  $$\n",
+ "comment" : "\nConvolution3D Transpose Operator.\n\nThe convolution transpose operation calculates the output based on the input, filter\nand dilations, strides, paddings, groups parameters. The size of each dimension of the\nparameters is checked in the infer-shape.\nInput(Input) and output(Output) are in NCDHW format. Where N is batch size, C is the\nnumber of channels, D is the depth of the feature, H is the height of the feature,\nand W is the width of the feature.\nFilter(Input) is in MCDHW format. Where M is the number of input feature channels,\nC is the number of output feature channels, D is the depth of the filter,H is the\nheight of the filter, and W is the width of the filter.\nParameters(strides, paddings) are three elements. These three elements represent\ndepth, height and width, respectively.\nThe input(X) size and output(Out) size may be different.\n\nExample:   \n  Input:\n       Input shape: $(N, C_{in}, D_{in}, H_{in}, W_{in})$\n       Filter shape: $(C_{in}, C_{out}, D_f, H_f, W_f)$\n  Output:\n       Output shape: $(N, C_{out}, D_{out}, H_{out}, W_{out})$\n  Where\n  $$\n       D_{out} = (D_{in} - 1) * strides[0] - 2 * paddings[0] + D_f \\\\\n       H_{out} = (H_{in} - 1) * strides[1] - 2 * paddings[1] + H_f \\\\\n       W_{out} = (W_{in} - 1) * strides[2] - 2 * paddings[2] + W_f\n  $$\n",
  "inputs" : [ 
  { 
    "name" : "Input",
@@ -4193,6 +4203,11 @@
  } ], 
  "attrs" : [ 
  { 
+   "name" : "dilations",
+   "type" : "int array",
+   "comment" : "(vector<int> default:{1, 1, 1}), the dilations(d_dilation,h_dilation, w_dilation) of convolution transpose operator.",
+   "generated" : 0
+ }, { 
    "name" : "strides",
    "type" : "int array",
    "comment" : "(vector<int> default:{1, 1, 1}), the strides{d_stride, h_stride, w_stride} of convolution transpose operator.",
@@ -4201,11 +4216,6 @@
    "name" : "paddings",
    "type" : "int array",
    "comment" : "(vector<int> default:{0, 0, 0}), paddings(d_pad, h_pad, w_pad) of convolution transpose operator.",
-   "generated" : 0
- }, { 
-   "name" : "dilations",
-   "type" : "int array",
-   "comment" : "dilations of convolution operator.",
    "generated" : 0
  }, { 
    "name" : "workspace_size_MB",
