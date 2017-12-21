@@ -1148,8 +1148,24 @@ this is assigned.</li>
 <dl class="function">
 <dt>
 <code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">array_read</code><span class="sig-paren">(</span><em>array</em>, <em>i</em><span class="sig-paren">)</span></dt>
-<dd><p>This function creates an operator to read the data in as a
-LOD_TENSOR_ARRAY.</p>
+<dd><p>This function performs the operation to read the data in as an
+LOD_TENSOR_ARRAY.
+:param array: The input tensor that will be written to an array.
+:type array: Variable|list
+:param i: The subscript index in tensor array, that points the</p>
+<blockquote>
+<div>place where data will be written to.</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">返回:</th><td class="field-body">The tensor type variable that has the data written to it.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回类型:</th><td class="field-body">Variable</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
 </dd></dl>
 
 </div>
