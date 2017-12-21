@@ -1304,19 +1304,12 @@ bias weights will be created and be set to default value.</li>
 sequence. The dimension of each time-step should be 1. Thus, the shape of
 input Tensor can be either [N, 1] or [N], where N is the sum of the length
 of all sequences.</p>
-<dl class="docutils">
-<dt>The algorithm works as follows:</dt>
-<dd><dl class="first last docutils">
-<dt>for i-th sequence in a mini-batch:</dt>
-<dd><dl class="first last docutils">
-<dt>$$Out(X[lod[i]:lod[i+1]], :) =</dt>
-<dd>frac{exp(X[lod[i]:lod[i+1], :])}
-{sum(exp(X[lod[i]:lod[i+1], :]))}$$</dd>
-</dl>
-</dd>
-</dl>
-</dd>
-</dl>
+<p>The algorithm works as follows:</p>
+<blockquote>
+<div>for i-th sequence in a mini-batch:</div></blockquote>
+<p>$$
+Out(X[lod[i]:lod[i+1]], :) = frac{exp(X[lod[i]:lod[i+1], :])} {sum(exp(X[lod[i]:lod[i+1], :]))}
+$$</p>
 <p>For example, for a mini-batch of 3 sequences with variable-length,
 each containing 2, 3, 2 time-steps, the lod of which is [0, 2, 5, 7],
 then softmax will be computed among X[0:2, :], X[2:5, :], X[5:7, :]
