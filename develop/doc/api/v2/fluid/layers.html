@@ -956,8 +956,41 @@ max seqence through input rank_table(should be a lod_rank_table)</p>
 <dl class="function">
 <dt>
 <code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">lod_tensor_to_array</code><span class="sig-paren">(</span><em>x</em>, <em>table</em><span class="sig-paren">)</span></dt>
-<dd><p>This function creates an operator to convert an LOD_Tensor to
-an array.</p>
+<dd><dl class="docutils">
+<dt>This function performs the operation that converts an LOD_Tensor to</dt>
+<dd>an array.</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> (<em>Variable|list</em>) &#8211; The tensor that needs to be converted to an array.</li>
+<li><strong>table</strong> (<em>ParamAttr|list</em>) &#8211; The variable that stores the level of lod
+which is ordered by sequence length in
+descending order.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><dl class="docutils">
+<dt>The variable of type array that has been converted from a</dt>
+<dd><p class="first last">tensor.</p>
+</dd>
+</dl>
+</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">Variable</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">])</span>
+<span class="n">table</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">lod_rank_table</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">array</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">lod_tensor_to_array</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">table</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </div>
@@ -966,8 +999,42 @@ an array.</p>
 <dl class="function">
 <dt>
 <code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">array_to_lod_tensor</code><span class="sig-paren">(</span><em>x</em>, <em>table</em><span class="sig-paren">)</span></dt>
-<dd><p>This function creates an operator to convert an array to a
-LOD_Tensor.</p>
+<dd><dl class="docutils">
+<dt>This function performs the operations that converts an array to</dt>
+<dd>an LOD_Tensor.</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> (<em>Variable|list</em>) &#8211; The array that needs to be converted to a tensor.</li>
+<li><strong>table</strong> (<em>ParamAttr|list</em>) &#8211; The variable that stores the level of lod
+which is ordered by sequence length in
+descending order.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><dl class="docutils">
+<dt>The variable of type tensor that has been converted</dt>
+<dd><p class="first last">from an array.</p>
+</dd>
+</dl>
+</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">Variable</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">])</span>
+<span class="n">table</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">lod_rank_table</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">array</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">lod_tensor_to_array</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">table</span><span class="p">)</span>
+<span class="n">lod_tensor</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">array_to_lod_tensor</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">table</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </div>
@@ -1071,9 +1138,38 @@ with the constant value being 0.0.</p>
 <dl class="function">
 <dt>
 <code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">increment</code><span class="sig-paren">(</span><em>x</em>, <em>value=1.0</em>, <em>in_place=True</em><span class="sig-paren">)</span></dt>
-<dd><p>This function creates an operator to increment each value in the input
-<cite>x</cite> by an amount: <cite>value</cite> as mentioned in the input parameter. This
-operation is performed in-place by default.</p>
+<dd><p>This function performs an operation that increments each value in the
+input <span class="math">\(x\)</span> by an amount: <span class="math">\(value\)</span> as mentioned in the input
+parameter. This operation is performed in-place by default.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> (<em>Variable|list</em>) &#8211; The tensor that has the input values.</li>
+<li><strong>value</strong> (<em>float</em>) &#8211; The amount by which the values should be incremented.</li>
+<li><strong>in_place</strong> (<em>bool</em>) &#8211; If the increment should be performed in-place.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><dl class="docutils">
+<dt>The tensor variable storing the transformation of</dt>
+<dd><p class="first last">element-wise increment of each value in the input.</p>
+</dd>
+</dl>
+</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">Variable</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">increment</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span> <span class="n">in_place</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </div>
@@ -1114,7 +1210,25 @@ this is assigned.</li>
 <dl class="function">
 <dt>
 <code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">create_array</code><span class="sig-paren">(</span><em>dtype</em><span class="sig-paren">)</span></dt>
-<dd></dd></dl>
+<dd><p>This function creates an array of type <span class="math">\(LOD_TENSOR_ARRAY\)</span> using the
+LayerHelper.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dtype</strong> (<em>int|float</em>) &#8211; The data type of the elements in the array.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The tensor variable storing the elements of data type.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">Variable</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">create_array</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
 
 </div>
 <div class="section" id="less-than">
