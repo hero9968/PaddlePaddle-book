@@ -1075,8 +1075,30 @@ operation is performed in-place by default.</p>
 <dl class="function">
 <dt>
 <code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">array_write</code><span class="sig-paren">(</span><em>x</em>, <em>i</em>, <em>array=None</em><span class="sig-paren">)</span></dt>
-<dd><p>This function creates an operator to write the data out as a
+<dd><p>This function performs the operation to write the data out as an
 LOD_TENSOR_ARRAY.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> (<em>Variable|list</em>) &#8211; The input tensor from which the data will be read.</li>
+<li><strong>i</strong> (<em>Variable|list</em>) &#8211; The subscript index in tensor array, that points the
+place from which data will be read.</li>
+<li><strong>array</strong> (<em>Variable|list</em>) &#8211; The data can be read into this variable if
+this is assigned.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">The tensor type variable that has the data written to it.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">Variable</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
 </dd></dl>
 
 </div>
