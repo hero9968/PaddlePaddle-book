@@ -222,36 +222,55 @@
 <dl class="function">
 <dt>
 <code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">fc</code><span class="sig-paren">(</span><em>input</em>, <em>size</em>, <em>num_flatten_dims=1</em>, <em>param_attr=None</em>, <em>bias_attr=None</em>, <em>act=None</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
-<dd><p>Fully Connected Layer.</p>
+<dd><p><strong>Fully Connected Layer</strong></p>
+<p>This layer accepts multiple inputs and applies a linear transformation to each input.
+If activation type is provided, the corresponding activation function is applied to the
+output of the linear transformation. For each input <span class="math">\(X\)</span>, the equation is:</p>
+<div class="math">
+\[Out = Act(WX + b)\]</div>
+<p>In the above equation:</p>
+<blockquote>
+<div><ul class="simple">
+<li><span class="math">\(X\)</span>: Input value, a tensor with rank at least 2.</li>
+<li><span class="math">\(W\)</span>: Weight, a 2-D tensor with shape [M, N].</li>
+<li><span class="math">\(b\)</span>: Bias, a 2-D tensor with shape [M, 1].</li>
+<li><span class="math">\(Act\)</span>: Activation function.</li>
+<li><span class="math">\(Out\)</span>: Output value, same shape with <span class="math">\(X\)</span>.</li>
+</ul>
+</div></blockquote>
+<p>All the input variables are passed in as local variables to the LayerHelper
+constructor.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>input</strong> &#8211; The input tensor to the function</li>
-<li><strong>size</strong> &#8211; The size of the layer</li>
-<li><strong>num_flatten_dims</strong> &#8211; Number of columns in input</li>
-<li><strong>param_attr</strong> &#8211; The parameters/weights to the FC Layer</li>
-<li><strong>param_initializer</strong> &#8211; Initializer used for the weight/parameter. If None, XavierInitializer() is used</li>
-<li><strong>bias_attr</strong> &#8211; The bias parameter for the FC layer</li>
-<li><strong>bias_initializer</strong> &#8211; Initializer used for the bias. If None, then ConstantInitializer() is used</li>
-<li><strong>act</strong> &#8211; Activation to be applied to the output of FC layer</li>
-<li><strong>name</strong> &#8211; Name/alias of the function</li>
-<li><strong>main_program</strong> &#8211; Name of the main program that calls this</li>
-<li><strong>startup_program</strong> &#8211; Name of the startup program</li>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>input</strong> (<em>Variable|list</em>) &#8211; Input tensors. Each tensor has a rank of atleast 2</li>
+<li><strong>size</strong> (<em>int</em>) &#8211; Output size</li>
+<li><strong>num_flatten_dims</strong> (<em>int</em>) &#8211; Number of columns in input</li>
+<li><strong>param_attr</strong> (<em>ParamAttr|list</em>) &#8211; The parameters/weights to the FC Layer</li>
+<li><strong>bias_attr</strong> (<em>ParamAttr|list</em>) &#8211; Bias parameter for the FC layer</li>
+<li><strong>act</strong> (<em>str</em>) &#8211; Activation type</li>
+<li><strong>name</strong> (<em>str</em>) &#8211; Name/alias of the function</li>
 </ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The tensor variable storing the transformation and                   non-linearity activation result.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">Variable</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">ValueError</span></code> &#8211; If rank of input tensor is less than 2.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<p>This function can take in multiple inputs and performs the Fully Connected
-function (linear transformation) on top of each of them.
-So for input x, the output will be : Wx + b. Where W is the parameter,
-b the bias and x is the input.</p>
-<p>The function also applies an activation (non-linearity) on top of the
-output, if activation is passed in the input.</p>
-<p>All the input variables of this function are passed in as local variables
-to the LayerHelper constructor.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+<span class="n">fc</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">act</span><span class="o">=</span><span class="s2">&quot;tanh&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </div>
@@ -260,30 +279,37 @@ to the LayerHelper constructor.</p>
 <dl class="function">
 <dt>
 <code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">embedding</code><span class="sig-paren">(</span><em>input</em>, <em>size</em>, <em>is_sparse=False</em>, <em>param_attr=None</em>, <em>dtype='float32'</em><span class="sig-paren">)</span></dt>
-<dd><p>Embedding Layer.</p>
+<dd><p><strong>Embedding Layer</strong></p>
+<p>This layer is used to lookup a vector of IDs, provided by <em>input</em>, in a lookup table.
+The result of this lookup is the embedding of each ID in the <em>input</em>.</p>
+<p>All the input variables are passed in as local variables to the LayerHelper
+constructor.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>param_initializer</strong> &#8211; </li>
-<li><strong>input</strong> &#8211; The input to the function</li>
-<li><strong>size</strong> &#8211; The size of the layer</li>
-<li><strong>is_sparse</strong> &#8211; A flag that decleares whether the input is sparse</li>
-<li><strong>param_attr</strong> &#8211; Parameters for this layer</li>
-<li><strong>dtype</strong> &#8211; The type of data : float32, float_16, int etc</li>
-<li><strong>main_program</strong> &#8211; Name of the main program that calls this</li>
-<li><strong>startup_program</strong> &#8211; Name of the startup program</li>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>input</strong> (<em>Variable</em>) &#8211; Input to the function</li>
+<li><strong>size</strong> (<em>int</em>) &#8211; Output size</li>
+<li><strong>is_sparse</strong> (<em>bool</em>) &#8211; Boolean flag that specifying whether the input is sparse</li>
+<li><strong>param_attr</strong> (<em>ParamAttr</em>) &#8211; Parameters for this layer</li>
+<li><strong>dtype</strong> (<em>np.dtype|core.DataType|str</em>) &#8211; The type of data : float32, float_16, int etc</li>
 </ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The tensor variable storing the embeddings of the                   supplied inputs.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">Variable</p>
 </td>
 </tr>
 </tbody>
 </table>
-<p>This function can take in the input (which is a vector of IDs) and
-performs a lookup in the lookup_table using these IDs, to result into
-the embedding of each ID in the input.</p>
-<p>All the input variables of this function are passed in as local variables
-to the LayerHelper constructor.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;ids&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+<span class="n">fc</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">embedding</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </div>
@@ -725,30 +751,37 @@ and returns that as the output.</p>
 <dl class="function">
 <dt>
 <code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">embedding</code><span class="sig-paren">(</span><em>input</em>, <em>size</em>, <em>is_sparse=False</em>, <em>param_attr=None</em>, <em>dtype='float32'</em><span class="sig-paren">)</span></dt>
-<dd><p>Embedding Layer.</p>
+<dd><p><strong>Embedding Layer</strong></p>
+<p>This layer is used to lookup a vector of IDs, provided by <em>input</em>, in a lookup table.
+The result of this lookup is the embedding of each ID in the <em>input</em>.</p>
+<p>All the input variables are passed in as local variables to the LayerHelper
+constructor.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>param_initializer</strong> &#8211; </li>
-<li><strong>input</strong> &#8211; The input to the function</li>
-<li><strong>size</strong> &#8211; The size of the layer</li>
-<li><strong>is_sparse</strong> &#8211; A flag that decleares whether the input is sparse</li>
-<li><strong>param_attr</strong> &#8211; Parameters for this layer</li>
-<li><strong>dtype</strong> &#8211; The type of data : float32, float_16, int etc</li>
-<li><strong>main_program</strong> &#8211; Name of the main program that calls this</li>
-<li><strong>startup_program</strong> &#8211; Name of the startup program</li>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>input</strong> (<em>Variable</em>) &#8211; Input to the function</li>
+<li><strong>size</strong> (<em>int</em>) &#8211; Output size</li>
+<li><strong>is_sparse</strong> (<em>bool</em>) &#8211; Boolean flag that specifying whether the input is sparse</li>
+<li><strong>param_attr</strong> (<em>ParamAttr</em>) &#8211; Parameters for this layer</li>
+<li><strong>dtype</strong> (<em>np.dtype|core.DataType|str</em>) &#8211; The type of data : float32, float_16, int etc</li>
 </ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The tensor variable storing the embeddings of the                   supplied inputs.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">Variable</p>
 </td>
 </tr>
 </tbody>
 </table>
-<p>This function can take in the input (which is a vector of IDs) and
-performs a lookup in the lookup_table using these IDs, to result into
-the embedding of each ID in the input.</p>
-<p>All the input variables of this function are passed in as local variables
-to the LayerHelper constructor.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;ids&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+<span class="n">fc</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">embedding</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </div>
