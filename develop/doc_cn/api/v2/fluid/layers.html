@@ -735,9 +735,29 @@ and casts it to the output_dtype as the output.</p>
 <h2>concat<a class="headerlink" href="#concat" title="永久链接至标题">¶</a></h2>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">concat</code><span class="sig-paren">(</span><em>input</em>, <em>axis</em><span class="sig-paren">)</span></dt>
-<dd><p>This function concats the input along the axis mentioned
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">concat</code><span class="sig-paren">(</span><em>input</em>, <em>axis=0</em><span class="sig-paren">)</span></dt>
+<dd><p><strong>Concat</strong></p>
+<p>This function concatenates the input along the axis mentioned
 and returns that as the output.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
+<li><strong>input</strong> (<em>list</em>) &#8211; List of tensors to be concatenated</li>
+<li><strong>axis</strong> (<em>int</em>) &#8211; Integer axis along which the tensors will be concatenated</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">Output variable of the concatenation</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">Variable</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
 </dd></dl>
 
 </div>
