@@ -3486,7 +3486,7 @@
  } ], 
  "outputs" : [ 
  { 
-   "name" : "Y",
+   "name" : "Out",
    "comment" : "The variable will be filled up with zeros.",
    "duplicable" : 0,
    "intermediate" : 0
