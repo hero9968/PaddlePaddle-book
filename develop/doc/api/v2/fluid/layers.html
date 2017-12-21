@@ -956,9 +956,34 @@ LOD_Tensor.</p>
 <dl class="function">
 <dt>
 <code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">fill_constant</code><span class="sig-paren">(</span><em>shape</em>, <em>dtype</em>, <em>value</em>, <em>out=None</em><span class="sig-paren">)</span></dt>
-<dd><p>This function creates a tensor , with shape as mentioned in the input and
-specified dtype and fills this up with a constant value that
-comes in the input. It also sets the stop_gradient to be True.</p>
+<dd><p><strong>fill_constant</strong></p>
+<p>This function creates a tensor of specified <em>shape</em> and
+<em>dtype</em>, and initializes this with a constant supplied in <em>value</em>.</p>
+<p>It also sets <em>stop_gradient</em> to True.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>shape</strong> (<em>tuple|list|None</em>) &#8211; Shape of output tensor</li>
+<li><strong>dtype</strong> (<em>np.dtype|core.DataType|str</em>) &#8211; Data type of output tensor</li>
+<li><strong>value</strong> (<em>float</em>) &#8211; Constant value to initialize the output tensor</li>
+<li><strong>out</strong> (<em>Variable</em>) &#8211; Output Variable to initialize</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The tensor variable storing the output</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">Variable</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">fill_constant</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;int64&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </div>
@@ -967,7 +992,38 @@ comes in the input. It also sets the stop_gradient to be True.</p>
 <dl class="function">
 <dt>
 <code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">fill_constant_batch_size_like</code><span class="sig-paren">(</span><em>input</em>, <em>shape</em>, <em>dtype</em>, <em>value</em>, <em>input_dim_idx=0</em>, <em>output_dim_idx=0</em><span class="sig-paren">)</span></dt>
-<dd></dd></dl>
+<dd><p><strong>fill_constant_batch_size_like</strong></p>
+<p>This function creates a tensor of specified <em>shape</em>, <em>dtype</em> and batch size,
+and initializes this with a constant supplied in <em>value</em>. The batch size is
+obtained from the <cite>input</cite> tensor.</p>
+<p>It also sets <em>stop_gradient</em> to True.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>input</strong> (<em>Variable</em>) &#8211; Tensor whose dimensions will be used to get batch size</li>
+<li><strong>shape</strong> (<em>tuple|list|None</em>) &#8211; Shape of output tensor</li>
+<li><strong>dtype</strong> (<em>np.dtype|core.DataType|str</em>) &#8211; Data type of output tensor</li>
+<li><strong>value</strong> (<em>float</em>) &#8211; Constant value to initialize the output tensor</li>
+<li><strong>input_dim_idx</strong> (<em>int</em>) &#8211; Index of input&#8217;s batch size dimension</li>
+<li><strong>output_dim_idx</strong> (<em>int</em>) &#8211; Index of output&#8217;s batch size dimension</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The tensor variable storing the output</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">Variable</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">fill_constant</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;int64&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
 
 </div>
 <div class="section" id="ones">
