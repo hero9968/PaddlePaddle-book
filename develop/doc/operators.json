@@ -4791,7 +4791,7 @@
    "comment" : "",
    "generated" : 0
  }, { 
-   "name" : "tensor_format",
+   "name" : "data_layout",
    "type" : "string",
    "comment" : "",
    "generated" : 0
