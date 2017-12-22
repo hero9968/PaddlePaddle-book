@@ -1658,6 +1658,51 @@ than the <code class="xref py py-attr docutils literal"><span class="pre">input<
 </dd></dl>
 
 </div>
+<div class="section" id="reduce-mean">
+<h2>reduce_mean<a class="headerlink" href="#reduce-mean" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">reduce_mean</code><span class="sig-paren">(</span><em>input</em>, <em>dim=None</em>, <em>keep_dim=False</em><span class="sig-paren">)</span></dt>
+<dd><p>Computes the mean of tensor elements over the given dimension.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>input</strong> (<em>Variable</em>) &#8211; The input variable which is a Tensor or LoDTensor.</li>
+<li><strong>dim</strong> (<em>int|None</em>) &#8211; The dimension along which the mean is computed. If
+<code class="xref py py-attr docutils literal"><span class="pre">None</span></code>, compute the mean over all elements of <code class="xref py py-attr docutils literal"><span class="pre">input</span></code>
+and return a Tensor variable with a single element, otherwise
+must be in the range <span class="math">\([-rank(input), rank(input))\)</span>. If
+<span class="math">\(dim &lt; 0\)</span>, the dimension to reduce is <span class="math">\(rank + dim\)</span>.</li>
+<li><strong>keep_dim</strong> (<em>bool</em>) &#8211; Whether to reserve the reduced dimension in the
+output Tensor. The result tensor will have one fewer dimension
+than the <code class="xref py py-attr docutils literal"><span class="pre">input</span></code> unless <code class="xref py py-attr docutils literal"><span class="pre">keep_dim</span></code> is true.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The reduced Tensor variable.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">Variable</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># x is a Tensor variable with following elements:</span>
+<span class="c1">#    [[0.2, 0.3, 0.5, 0.9]</span>
+<span class="c1">#     [0.1, 0.2, 0.6, 0.7]]</span>
+<span class="c1"># Each example is followed by the correspending output tensor.</span>
+<span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># [0.4375]</span>
+<span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># [0.15, 0.25, 0.55, 0.8]</span>
+<span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># [0.475, 0.4]</span>
+<span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keep_dim</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>  <span class="c1"># [[0.475], [0.4]]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
 </div>
 
 
