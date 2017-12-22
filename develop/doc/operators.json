@@ -1212,23 +1212,23 @@
  } ] 
 },{
  "type" : "mul",
- "comment" : "\nMul Operator. \n\nThis operator is used to perform matrix multiplication for input X and Y.\n\nThe equation is:\n\n    $$Out = X * Y$$\n\nBoth the input `X` and `Y` can carry the LoD (Level of Details) information,\nor not. But the output only shares the LoD information with input `X`.\n\n",
+ "comment" : "\nMul Operator.\n\nThis operator is used to perform matrix multiplication for input $X$ and $Y$.\n\nThe equation is:\n\n    $$Out = X * Y$$\n\nBoth the input $X$ and $Y$ can carry the LoD (Level of Details) information,\nor not. But the output only shares the LoD information with input $X$.\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
-   "comment" : "The first input of mul op",
+   "comment" : "(Tensor), The first input tensor of mul op.",
    "duplicable" : 0,
    "intermediate" : 0
  }, { 
    "name" : "Y",
-   "comment" : "The second input of mul op",
+   "comment" : "(Tensor), The second input tensor of mul op.",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
  "outputs" : [ 
  { 
    "name" : "Out",
-   "comment" : "The output of mul op",
+   "comment" : "(Tensor), The output tensor of mul op.",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
@@ -1236,12 +1236,12 @@
  { 
    "name" : "x_num_col_dims",
    "type" : "int",
-   "comment" : "(int, default 1) mul_op can take tensors with more than two dimensions as input `X`,\n            in that case, tensors will be reshaped to a matrix. The matrix's first\n            dimension(column length) will be the product of tensor's last\n            `num_col_dims` dimensions, and the matrix's second dimension(row length)\n            will be the product of tensor's first `rank - num_col_dims` dimensions.\n        ",
+   "comment" : "(int, default 1), The mul_op can take tensors with more than two\n              dimensions as its inputs. If the input $X$ is a tensor with more\n              than two dimensions, $X$ will be flattened into a two-dimensional\n              matrix first. The flattening rule is: the first `num_col_dims`\n              will be flattened to form the first dimension of the final matrix\n              (the height of the matrix), and the rest `rank(X) - num_col_dims`\n              dimensions are flattened to form the second dimension of the final\n              matrix (the width of the matrix). As a result, height of the\n              flattened matrix is equal to the product of $X$'s first\n              `x_num_col_dims` dimensions' sizes, and width of the flattened\n              matrix is equal to the product of $X$'s last `rank(x) - num_col_dims`\n              dimensions' size. For example, suppose $X$ is a 6-dimensional\n              tensor with the shape [2, 3, 4, 5, 6], and `x_num_col_dims` = 3.\n              Thus, the flattened matrix will have a shape [2 x 3 x 4, 5 x 6] =\n              [24, 30].\n        ",
    "generated" : 0
  }, { 
    "name" : "y_num_col_dims",
    "type" : "int",
-   "comment" : "(int, default 1) mul_op can take tensors with more than two dimensions as input `Y`,\n             in that case, tensors will be reshaped to a matrix. Just like input `X`.\n        ",
+   "comment" : "(int, default 1), The mul_op can take tensors with more than two,\n              dimensions as its inputs. If the input $Y$ is a tensor with more\n              than two dimensions, $Y$ will be flattened into a two-dimensional\n              matrix first. The attribute `y_num_col_dims` determines how $Y$ is\n              flattened. See comments of `x_num_col_dims` for more details.\n        ",
    "generated" : 0
  } ] 
 },{
