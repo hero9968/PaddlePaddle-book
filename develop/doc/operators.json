@@ -2170,7 +2170,7 @@
  } ] 
 },{
  "type" : "unpool",
- "comment" : "\n        \"Input shape: $(N, C_{in}, H_{in}, W_{in})$\n        Output shape: $(N, C_{out}, H_{out}, W_{out})$\n        Where\n          $$\n            H_{out} = (H_{in}−1) * strides[0] − 2 * paddings[0] + ksize[0] \\\\\n            W_{out} = (W_{in}−1) * strides[1] − 2 * paddings[1] + ksize[1]\n          $$\n        Paper: http://www.matthewzeiler.com/wp-content/uploads/2017\n        /07/iccv2011.pdf\n        ",
+ "comment" : "\n\"Input shape: $(N, C_{in}, H_{in}, W_{in})$, \nOutput shape: $(N, C_{out}, H_{out}, W_{out})$\nWhere\n$$\nH_{out} = (H_{in}−1) * strides[0] − 2 * paddings[0] + ksize[0] \\\\\nW_{out} = (W_{in}−1) * strides[1] − 2 * paddings[1] + ksize[1]\n$$\nPaper: http://www.matthewzeiler.com/wp-content/uploads/2017/07/iccv2011.pdf\n",
  "inputs" : [ 
  { 
    "name" : "X",
