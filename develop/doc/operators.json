@@ -1145,7 +1145,7 @@
  } ] 
 },{
  "type" : "mul",
- "comment" : "\nMul Operator.\n\nThis operator is used to perform matrix multiplication for input $X$ and $Y$.\n\nThe equation is:\n\n    $$Out = X * Y$$\n\nBoth the input $X$ and $Y$ can carry the LoD (Level of Details) information,\nor not. But the output only shares the LoD information with input $X$.\n\n",
+ "comment" : "\nMul Operator.\n\nThis operator is used to perform matrix multiplication for input $X$ and $Y$.\n\nThe equation is:\n\n$$Out = X * Y$$\n\nBoth the input $X$ and $Y$ can carry the LoD (Level of Details) information,\nor not. But the output only shares the LoD information with input $X$.\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
@@ -1358,7 +1358,7 @@
  } ] 
 },{
  "type" : "positive_negative_pair",
- "comment" : "\n        PositiveNegativePairOp can be used to evaluate Learning To Rank(LTR) \n        model performance. \n        Within some context, e.g. the \"query\", a LTR model generates scores\n        for a list of items, which gives a partial order of the items.\n        PositiveNegativePairOp takes a list of reference rank order \n        (Input(\"Label\")) and the model generated scores (Input(Score)) as \n        inputs and counts the pairs that ranked correctly and incorrectly.\n",
+ "comment" : "\nPositiveNegativePairOp can be used to evaluate Learning To Rank(LTR) model's\nperformance.\n\nWithin some context, e.g. the \"query\", a LTR model generates scores for a list\nof items, which gives a partial order of the items. PositiveNegativePairOp\ntakes a list of reference rank order (Input(\"Label\")) and the model generated\nscores (Input(Score)) as inputs and counts the pairs that ranked correctly\nand incorrectly.\n",
  "inputs" : [ 
  { 
    "name" : "Score",
