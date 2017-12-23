@@ -249,7 +249,7 @@
 <dl class="class">
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">fc</code></dt>
-<dd><p>Helper for declare fully connected layer.</p>
+<dd><p>The fully connected layer.</p>
 <p>The example usage is:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">fc</span> <span class="o">=</span> <span class="n">fc</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">layer</span><span class="p">,</span>
               <span class="n">size</span><span class="o">=</span><span class="mi">1024</span><span class="p">,</span>
@@ -269,13 +269,14 @@
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer | list | tuple</em>) &#8211; The input of this layer.</li>
-<li><strong>size</strong> (<em>int</em>) &#8211; The layer dimension.</li>
+<li><strong>size</strong> (<em>int</em>) &#8211; The dimension of this layer.</li>
 <li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation Type. paddle.v2.activation.Tanh is the default activation.</li>
-<li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The Parameter Attribute|list.</li>
+<li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The parameter attribute. See paddle.v2.attr.ParameterAttribute for details.</li>
 <li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | None | bool | Any</em>) &#8211; The bias attribute. If the parameter is set to False or an object
 whose type is not paddle.v2.attr.ParameterAttribute, no bias is defined. If the
 parameter is set to True, the bias is initialized to zero.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute | None</em>) &#8211; Extra Layer config.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute | None</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
 </ul>
 </td>
 </tr>
@@ -617,13 +618,13 @@ otherwise layer_type has to be either &#8220;exconv&#8221; or &#8220;cudnn_conv&
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">context_projection</code></dt>
 <dd><p>Context Projection.</p>
-<p>It just simply reorganizes input sequence, combines &#8220;context_len&#8221; sequence
-to one context from context_start. &#8220;context_start&#8221; will be set to
--(context_len - 1) / 2 by default. If context position out of sequence
+<p>It just reorganizes input sequence, combines &#8220;context_len&#8221; elements of the
+sequence to one context from context_start. &#8220;context_start&#8221; will be set to
+-(context_len - 1) / 2 by default. When context position is out of sequence
 length, padding will be filled as zero if padding_attr = False, otherwise
 it is trainable.</p>
-<p>For example, origin sequence is [A B C D E F G], context len is 3, then
-after context projection and not set padding_attr, sequence will
+<p>For example, origin sequence is [A B C D E F G], context len is 3, padding_attr
+is not set, then after context projection, sequence will
 be [ 0AB ABC BCD CDE DEF EFG FG0 ].</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -631,16 +632,17 @@ be [ 0AB ABC BCD CDE DEF EFG FG0 ].</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer, which should be a sequence.</li>
-<li><strong>context_len</strong> (<em>int</em>) &#8211; context length.</li>
-<li><strong>context_start</strong> (<em>int</em>) &#8211; context start position. Default is
+<li><strong>context_len</strong> (<em>int</em>) &#8211; The length of the context.</li>
+<li><strong>context_start</strong> (<em>int</em>) &#8211; The start position of the context. The default value is
 -(context_len - 1)/2</li>
-<li><strong>padding_attr</strong> (<em>bool | paddle.v2.attr.ParameterAttribute</em>) &#8211; Padding Parameter Attribute. If false, it means padding
-always be zero. Otherwise Padding is learnable, and
-parameter attribute is set by this parameter.</li>
+<li><strong>padding_attr</strong> (<em>bool | paddle.v2.attr.ParameterAttribute</em>) &#8211; Parameter attribute of the padding. If the parameter is
+set to False, padding will be zero. In other cases, the
+padding is trainable, and its parameter attribute is set
+by this parameter.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">Projection</p>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">Projection object.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">Projection</p>
@@ -897,17 +899,20 @@ feature map.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<em>basestring</em>) &#8211; The Layer Name.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer.</em>) &#8211; The input layer.</li>
 <li><strong>rois</strong> (<em>paddle.v2.config_base.Layer.</em>) &#8211; The input ROIs&#8217; data.</li>
 <li><strong>pooled_width</strong> (<em>int</em>) &#8211; The width after pooling.</li>
 <li><strong>pooled_height</strong> (<em>int</em>) &#8211; The height after pooling.</li>
 <li><strong>spatial_scale</strong> (<em>float</em>) &#8211; The spatial scale between the image and feature map.</li>
-<li><strong>num_channels</strong> (<em>int</em>) &#8211; number of input channel.</li>
+<li><strong>num_channels</strong> (<em>int</em>) &#8211; The number of the input channels.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first last">paddle.v2.config_base.Layer</p>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">paddle.v2.config_base.Layer object.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">paddle.v2.config_base.Layer</p>
 </td>
 </tr>
 </tbody>
@@ -1083,10 +1088,10 @@ for details.</li>
 <dl class="class">
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">cross_channel_norm</code></dt>
-<dd><p>Normalize a layer&#8217;s output. This layer is necessary for ssd.
-This layer applys normalize across the channels of each sample to
-a conv layer&#8217;s output and scale the output by a group of trainable
-factors which dimensions equal to the channel&#8217;s number.</p>
+<dd><p>Normalize a layer&#8217;s output. This layer is necessary for ssd. This
+layer applys normalization across the channels of each sample to
+a convolutional layer&#8217;s output and scales the output by a group of
+trainable factors whose dimensions equal to the channel&#8217;s number.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1094,11 +1099,14 @@ factors which dimensions equal to the channel&#8217;s number.</p>
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer.</li>
-<li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The Parameter Attribute|list.</li>
+<li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The parameter attribute. See paddle.v2.attr.ParameterAttribute for details.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first last">paddle.v2.config_base.Layer</p>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">paddle.v2.config_base.Layer object.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">paddle.v2.config_base.Layer</p>
 </td>
 </tr>
 </tbody>
@@ -1664,11 +1672,11 @@ details.</li>
 <dl class="class">
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">mixed</code></dt>
-<dd><p>Mixed Layer. A mixed layer will add all inputs together, then activate.
-Each inputs is a projection or operator.</p>
+<dd><p>Mixed Layer. A mixed layer will add all inputs together, then activate the sum.
+Each input is a projection or operator.</p>
 <p>There are two styles of usages.</p>
 <ol class="arabic simple">
-<li>When not set inputs parameter, use mixed like this:</li>
+<li>When the parameter input is not set, use mixed like this:</li>
 </ol>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">mixed</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
     <span class="n">m</span> <span class="o">+=</span> <span class="n">full_matrix_projection</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">layer1</span><span class="p">)</span>
@@ -1688,19 +1696,19 @@ Each inputs is a projection or operator.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<em>basestring</em>) &#8211; mixed layer name. Can be referenced by other layer.</li>
-<li><strong>size</strong> (<em>int</em>) &#8211; layer size.</li>
-<li><strong>input</strong> &#8211; The input of this layer. It is an optional parameter. If set,
-then this function will just return layer&#8217;s name.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
+<li><strong>size</strong> (<em>int</em>) &#8211; The dimension of this layer.</li>
+<li><strong>input</strong> &#8211; The input of this layer. It is an optional parameter.</li>
 <li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation Type. paddle.v2.activation.Linear is the default activation.</li>
 <li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | None | bool | Any</em>) &#8211; The bias attribute. If the parameter is set to False or an object
 whose type is not paddle.v2.attr.ParameterAttribute, no bias is defined. If the
 parameter is set to True, the bias is initialized to zero.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer config. Default is None.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">MixedLayerType object can add inputs or layer name.</p>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">MixedLayerType object.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">MixedLayerType</p>
@@ -1723,11 +1731,12 @@ parameter is set to True, the bias is initialized to zero.</li>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
-<li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer, which must be Index Data.</li>
-<li><strong>size</strong> (<em>int</em>) &#8211; The embedding dimension.</li>
-<li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | None</em>) &#8211; The embedding parameter attribute. See paddle.v2.attr.ParameterAttribute
+<li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer, whose type must be Index Data.</li>
+<li><strong>size</strong> (<em>int</em>) &#8211; The dimension of the embedding vector.</li>
+<li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The embedding parameter attribute. See paddle.v2.attr.ParameterAttribute
 for details.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute | None</em>) &#8211; Extra layer Config. Default is None.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute | None</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
 </ul>
 </td>
 </tr>
@@ -1747,8 +1756,7 @@ for details.</li>
 <dl class="class">
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">scaling_projection</code></dt>
-<dd><p>scaling_projection multiplies the input with a scalar parameter and add to
-the output.</p>
+<dd><p>scaling_projection multiplies the input with a scalar parameter.</p>
 <div class="math">
 \[out += w * in\]</div>
 <p>The example usage is:</p>
@@ -1761,11 +1769,11 @@ the output.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer.</li>
-<li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; Parameter config, None if use default.</li>
+<li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The parameter attribute. See paddle.v2.attr.ParameterAttribute for details.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">A ScalingProjection object</p>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">ScalingProjection object.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">ScalingProjection</p>
@@ -1781,8 +1789,8 @@ the output.</p>
 <dl class="class">
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">dotmul_projection</code></dt>
-<dd><p>DotMulProjection with a layer as input.
-It performs element-wise multiplication with weight.</p>
+<dd><p>DotMulProjection takes a layer as input and performs
+element-wise multiplication with weight.</p>
 <div class="math">
 \[out.row[i] += in.row[i] .* weight\]</div>
 <p>where <span class="math">\(.*\)</span> means element-wise multiplication.</p>
@@ -1796,11 +1804,11 @@ It performs element-wise multiplication with weight.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer.</li>
-<li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; Parameter config, None if use default.</li>
+<li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The parameter attribute. See paddle.v2.attr.ParameterAttribute for details.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">A DotMulProjection Object.</p>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">DotMulProjection object.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">DotMulProjection</p>
@@ -1820,7 +1828,7 @@ It performs element-wise multiplication with weight.</p>
 <div class="math">
 \[out.row[i] += scale * (a.row[i] .* b.row[i])\]</div>
 <p>where <span class="math">\(.*\)</span> means element-wise multiplication, and
-scale is a config scalar, its default value is one.</p>
+scale is a config scalar, its default value is 1.</p>
 <p>The example usage is:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">op</span> <span class="o">=</span> <span class="n">dotmul_operator</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="n">layer1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="n">layer2</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 </pre></div>
@@ -1830,13 +1838,13 @@ scale is a config scalar, its default value is one.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>a</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Input layer1</li>
-<li><strong>b</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Input layer2</li>
-<li><strong>scale</strong> (<em>float</em>) &#8211; config scalar, default value is one.</li>
+<li><strong>a</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The first input of this layer.</li>
+<li><strong>b</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The second input of this layer.</li>
+<li><strong>scale</strong> (<em>float</em>) &#8211; A scalar to scale the product. Its default value is 1.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">A DotMulOperator Object.</p>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">DotMulOperator object.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">DotMulOperator</p>
@@ -1864,7 +1872,7 @@ scale is a config scalar, its default value is one.</p>
 </pre></div>
 </div>
 <ol class="arabic simple" start="2">
-<li>When used as an independant object like this, you must set the size:</li>
+<li>When used as an independent object like this, you must set the size:</li>
 </ol>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">proj</span> <span class="o">=</span> <span class="n">full_matrix_projection</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">layer</span><span class="p">,</span>
                               <span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
@@ -1877,12 +1885,12 @@ scale is a config scalar, its default value is one.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer.</li>
-<li><strong>size</strong> (<em>int</em>) &#8211; The parameter size. Means the width of parameter.</li>
-<li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; Parameter config, None if use default.</li>
+<li><strong>size</strong> (<em>int</em>) &#8211; The dimension of this layer.</li>
+<li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The parameter attribute. See paddle.v2.attr.ParameterAttribute for details.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">A FullMatrixProjection Object.</p>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">FullMatrixProjection Object.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">FullMatrixProjection</p>
@@ -1899,7 +1907,7 @@ scale is a config scalar, its default value is one.</p>
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">identity_projection</code></dt>
 <dd><ol class="arabic simple">
-<li>IdentityProjection if offset=None. It performs:</li>
+<li>If offset=None, it performs IdentityProjection as follows:</li>
 </ol>
 <div class="math">
 \[out.row[i] += in.row[i]\]</div>
@@ -1907,9 +1915,10 @@ scale is a config scalar, its default value is one.</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">proj</span> <span class="o">=</span> <span class="n">identity_projection</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">layer</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>2. IdentityOffsetProjection if offset!=None. It likes IdentityProjection,
-but layer size may be smaller than input size.
-It select dimesions [offset, offset+layer_size) from input:</p>
+<ol class="arabic simple" start="2">
+<li>If offset!=None, It executes IdentityOffsetProjection and takes the
+elements of the input in the range [offset, offset+size) as output.</li>
+</ol>
 <div class="math">
 \[out.row[i] += in.row[i + \textrm{offset}]\]</div>
 <p>The example usage is:</p>
@@ -1917,21 +1926,26 @@ It select dimesions [offset, offset+layer_size) from input:</p>
                            <span class="n">offset</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Note that both of two projections should not have any parameter.</p>
+<p>Note that neither of the projections have trainable parameter.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer.</li>
-<li><strong>offset</strong> (<em>int</em>) &#8211; Offset, None if use default.</li>
+<li><strong>offset</strong> (<em>int</em>) &#8211; The offset from the start of the input. The input&#8217;s
+elements in the range [offset, offset+size) will be
+taken as output. If this parameter is not set or set
+to None, the output will be the same as the input.</li>
+<li><strong>size</strong> (<em>int</em>) &#8211; The dimension of this layer. It will be neglected
+when offset is None or not set.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">A IdentityProjection or IdentityOffsetProjection object</p>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">IdentityProjection or IdentityOffsetProjection object</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">IdentityProjection or IdentityOffsetProjection</p>
+<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">IdentityProjection | IdentityOffsetProjection</p>
 </td>
 </tr>
 </tbody>
@@ -1944,28 +1958,26 @@ It select dimesions [offset, offset+layer_size) from input:</p>
 <dl class="class">
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">slice_projection</code></dt>
-<dd><p>slice_projection can slice the input value into multiple parts,
-and then select some of them to merge into a new output.</p>
+<dd><p>slice_projection slices the input value into multiple parts,
+then selects and merges some of them into a new output.</p>
 <div class="math">
 \[output = [input.slices()]\]</div>
 <p>The example usage is:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">proj</span> <span class="o">=</span> <span class="n">slice_projection</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">layer</span><span class="p">,</span> <span class="n">slices</span><span class="o">=</span><span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">)])</span>
 </pre></div>
 </div>
-<p>Note that slice_projection should not have any parameter.</p>
+<p>Note that slice_projection has no trainable parameter.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer.</li>
-<li><strong>slices</strong> (<em>pair of int</em>) &#8211; An array of slice parameters.
-Each slice contains the start and end offsets based
-on the input.</li>
+<li><strong>slices</strong> (<em>list of tuple</em>) &#8211; A list of start and end offsets of each slice.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">A SliceProjection object</p>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">SliceProjection object.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">SliceProjection</p>
@@ -1996,7 +2008,7 @@ and <span class="math">\(i\)</span> is row_id.</p>
 </pre></div>
 </div>
 <ol class="arabic simple" start="2">
-<li>When used as an independant object like this, you must set the size:</li>
+<li>When used as an independent object like this, you must set the size:</li>
 </ol>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">proj</span> <span class="o">=</span> <span class="n">table_projection</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">layer</span><span class="p">,</span>
                         <span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
@@ -2009,12 +2021,12 @@ and <span class="math">\(i\)</span> is row_id.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer, which must contains id fields.</li>
-<li><strong>size</strong> (<em>int</em>) &#8211; The parameter size. Means the width of parameter.</li>
-<li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; Parameter config, None if use default.</li>
+<li><strong>size</strong> (<em>int</em>) &#8211; The dimension of the output.</li>
+<li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The parameter attribute. See paddle.v2.attr.ParameterAttribute for details.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">A TableProjection Object.</p>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">TableProjection Object.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">TableProjection</p>
@@ -2031,10 +2043,10 @@ and <span class="math">\(i\)</span> is row_id.</p>
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">trans_full_matrix_projection</code></dt>
 <dd><p>Different from full_matrix_projection, this projection performs matrix
-multiplication, using transpose of weight.</p>
+multiplication, using the transpose of weight.</p>
 <div class="math">
 \[out.row[i] += in.row[i] * w^\mathrm{T}\]</div>
-<p><span class="math">\(w^\mathrm{T}\)</span> means transpose of weight.
+<p><span class="math">\(w^\mathrm{T}\)</span> means the transpose of weight.
 The simply usage is:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">proj</span> <span class="o">=</span> <span class="n">trans_full_matrix_projection</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">layer</span><span class="p">,</span>
                                     <span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
@@ -2051,11 +2063,11 @@ The simply usage is:</p>
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer.</li>
 <li><strong>size</strong> (<em>int</em>) &#8211; The parameter size. Means the width of parameter.</li>
-<li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; Parameter config, None if use default.</li>
+<li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The parameter attribute. See paddle.v2.attr.ParameterAttribute for details.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">A TransposedFullMatrixProjection Object.</p>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">TransposedFullMatrixProjection Object.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">TransposedFullMatrixProjection</p>
@@ -2100,11 +2112,9 @@ sequence of a nested sequence, <code class="code docutils literal"><span class="
 <em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">pooling</code></dt>
 <dd><p>Pooling layer for sequence inputs, not used for Image.</p>
 <p>If stride &gt; 0, this layer slides a window whose size is determined by stride,
-and return the pooling value of the window as the output. Thus, a long sequence
-will be shorten.</p>
-<p>The parameter stride specifies the intervals at which to apply the pooling
-operation. Note that for sequence with sub-sequence, the default value
-of stride is -1.</p>
+and returns the pooling value of the sequence in the window as the output. Thus,
+a long sequence will be shortened. Note that for sequence with sub-sequence, the
+default value of stride is -1.</p>
 <p>The example usage is:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">seq_pool</span> <span class="o">=</span> <span class="n">pooling</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">layer</span><span class="p">,</span>
                          <span class="n">pooling_type</span><span class="o">=</span><span class="n">AvgPooling</span><span class="p">(),</span>
@@ -2120,13 +2130,13 @@ of stride is -1.</p>
 AggregateLevel.TO_SEQUENCE</li>
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer.</li>
-<li><strong>pooling_type</strong> (<em>BasePoolingType | None</em>) &#8211; Type of pooling, MaxPooling(default), AvgPooling,
-SumPooling, SquareRootNPooling.</li>
-<li><strong>stride</strong> (<em>Int</em>) &#8211; The step size between successive pooling regions.</li>
+<li><strong>pooling_type</strong> (<em>BasePoolingType | None</em>) &#8211; Type of pooling. MaxPooling is the default pooling.</li>
+<li><strong>stride</strong> (<em>int</em>) &#8211; The step size between successive pooling regions.</li>
 <li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | None | bool | Any</em>) &#8211; The bias attribute. If the parameter is set to False or an object
 whose type is not paddle.v2.attr.ParameterAttribute, no bias is defined. If the
 parameter is set to True, the bias is initialized to zero.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute | None</em>) &#8211; The Extra Attributes for layer, such as dropout.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute | None</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
 </ul>
 </td>
 </tr>
@@ -4300,19 +4310,23 @@ details.</li>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
-<li><strong>input_loc</strong> (<em>paddle.v2.config_base.Layer | List of paddle.v2.config_base.Layer</em>) &#8211; The input predict locations.</li>
+<li><strong>input_loc</strong> (<em>paddle.v2.config_base.Layer | List of paddle.v2.config_base.Layer</em>) &#8211; The input predicted locations.</li>
 <li><strong>input_conf</strong> (<em>paddle.v2.config_base.Layer | List of paddle.v2.config_base.Layer</em>) &#8211; The input priorbox confidence.</li>
 <li><strong>priorbox</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input priorbox location and the variance.</li>
 <li><strong>label</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input label.</li>
 <li><strong>num_classes</strong> (<em>int</em>) &#8211; The number of the classification.</li>
 <li><strong>overlap_threshold</strong> (<em>float</em>) &#8211; The threshold of the overlap.</li>
-<li><strong>neg_pos_ratio</strong> (<em>float</em>) &#8211; The ratio of the negative bbox to the positive bbox.</li>
-<li><strong>neg_overlap</strong> (<em>float</em>) &#8211; The negative bbox overlap threshold.</li>
+<li><strong>neg_pos_ratio</strong> (<em>float</em>) &#8211; The ratio of the negative bounding box to
+the positive bounding box.</li>
+<li><strong>neg_overlap</strong> (<em>float</em>) &#8211; The negative bounding box overlap threshold.</li>
 <li><strong>background_id</strong> (<em>int</em>) &#8211; The background class index.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first last">paddle.v2.config_base.Layer</p>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">paddle.v2.config_base.Layer object.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">paddle.v2.config_base.Layer</p>
 </td>
 </tr>
 </tbody>
@@ -4529,16 +4543,19 @@ no valid bounding box.</p>
 <li><strong>input_loc</strong> (<em>paddle.v2.config_base.Layer | List of paddle.v2.config_base.Layer.</em>) &#8211; The input predict locations.</li>
 <li><strong>input_conf</strong> (<em>paddle.v2.config_base.Layer | List of paddle.v2.config_base.Layer.</em>) &#8211; The input priorbox confidence.</li>
 <li><strong>priorbox</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input priorbox location and the variance.</li>
-<li><strong>num_classes</strong> (<em>int</em>) &#8211; The number of the classification.</li>
+<li><strong>num_classes</strong> (<em>int</em>) &#8211; The number of the classes.</li>
 <li><strong>nms_threshold</strong> (<em>float</em>) &#8211; The Non-maximum suppression threshold.</li>
-<li><strong>nms_top_k</strong> (<em>int</em>) &#8211; The bbox number kept of the NMS&#8217;s output</li>
-<li><strong>keep_top_k</strong> (<em>int</em>) &#8211; The bbox number kept of the layer&#8217;s output</li>
-<li><strong>confidence_threshold</strong> (<em>float</em>) &#8211; The classification confidence threshold</li>
+<li><strong>nms_top_k</strong> (<em>int</em>) &#8211; The bounding boxes number kept of the NMS&#8217;s output.</li>
+<li><strong>keep_top_k</strong> (<em>int</em>) &#8211; The bounding boxes number kept of the layer&#8217;s output.</li>
+<li><strong>confidence_threshold</strong> (<em>float</em>) &#8211; The classification confidence threshold.</li>
 <li><strong>background_id</strong> (<em>int</em>) &#8211; The background class index.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first last">paddle.v2.config_base.Layer</p>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">paddle.v2.config_base.Layer object.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">paddle.v2.config_base.Layer</p>
 </td>
 </tr>
 </tbody>
