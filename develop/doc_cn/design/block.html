@@ -485,10 +485,10 @@ the block has enough information to run.</p>
   <span class="p">}</span>
 
   <span class="kt">void</span> <span class="n">Run</span><span class="p">(</span><span class="k">const</span> <span class="n">framework</span><span class="o">::</span><span class="n">Scope</span><span class="o">&amp;</span> <span class="n">scope</span><span class="p">,</span>
-           <span class="k">const</span> <span class="n">platform</span><span class="o">::</span><span class="n">DeviceContext</span><span class="o">&amp;</span> <span class="n">dev_ctx</span><span class="p">)</span> <span class="k">const</span> <span class="k">override</span> <span class="p">{</span>
+           <span class="k">const</span> <span class="n">platform</span><span class="o">::</span><span class="n">Place</span><span class="o">&amp;</span> <span class="n">place</span><span class="p">)</span> <span class="k">const</span> <span class="k">override</span> <span class="p">{</span>
     <span class="n">PADDLE_ENFORCE</span><span class="p">(</span><span class="n">symbols_ready_</span><span class="p">,</span> <span class="s">&quot;operators and variables should be created first.&quot;</span><span class="p">);</span>
     <span class="k">for</span> <span class="p">(</span><span class="k">auto</span><span class="o">&amp;</span> <span class="nl">op</span> <span class="p">:</span> <span class="n">runtime_table_</span><span class="p">.</span><span class="n">ops</span><span class="p">())</span> <span class="p">{</span>
-      <span class="n">op</span><span class="o">-&gt;</span><span class="n">Run</span><span class="p">(</span><span class="n">scope</span><span class="p">,</span> <span class="n">dev_ctx</span><span class="p">);</span>
+      <span class="n">op</span><span class="o">-&gt;</span><span class="n">Run</span><span class="p">(</span><span class="n">scope</span><span class="p">,</span> <span class="n">place</span><span class="p">);</span>
     <span class="p">}</span>
   <span class="p">}</span>
 
