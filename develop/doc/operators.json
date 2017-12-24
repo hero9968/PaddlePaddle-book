@@ -2170,7 +2170,7 @@
  } ] 
 },{
  "type" : "unpool",
- "comment" : "\n\"Input shape: $(N, C_{in}, H_{in}, W_{in})$, \nOutput shape: $(N, C_{out}, H_{out}, W_{out})$\nWhere\n$$\nH_{out} = (H_{in}−1) * strides[0] − 2 * paddings[0] + ksize[0] \\\\\nW_{out} = (W_{in}−1) * strides[1] − 2 * paddings[1] + ksize[1]\n$$\nPaper: http://www.matthewzeiler.com/wp-content/uploads/2017/07/iccv2011.pdf\n",
+ "comment" : "\nInput shape is: $(N, C_{in}, H_{in}, W_{in})$, Output shape is:\n$(N, C_{out}, H_{out}, W_{out})$, where\n$$\nH_{out} = (H_{in}−1) * strides[0] − 2 * paddings[0] + ksize[0] \\\\\nW_{out} = (W_{in}−1) * strides[1] − 2 * paddings[1] + ksize[1]\n$$\nPaper: http://www.matthewzeiler.com/wp-content/uploads/2017/07/iccv2011.pdf\n",
  "inputs" : [ 
  { 
    "name" : "X",
@@ -2214,7 +2214,7 @@
  } ] 
 },{
  "type" : "transpose",
- "comment" : "\nTranspose Operator.\n\nThe input tensor will be permuted according to the axis values given.\nThe op functions similar to how numpy.transpose works in python.\nFor example:\n >> input = numpy.arange(6).reshape((2,3))\n >> input\n array([[0, 1, 2],\n        [3, 4, 5]])\n >> axis = [1, 0]\n >> output = input.transpose(axis)\n >> output\n array([[0, 3],\n        [1, 4],\n\t\t[2, 5]])\nSo, given a input tensor of shape(N, C, H, W) and the axis is {0, 2, 3, 1},\nthe output tensor shape will be (N, H, W, C)\n\n",
+ "comment" : "\nTranspose Operator.\n\nThe input tensor will be permuted according to the axis values given.\nThe op functions is similar to how numpy.transpose works in python.\n\nFor example: input = numpy.arange(6).reshape((2,3))\nthe input is:\narray([[0, 1, 2],\n      [3, 4, 5]])\ngiven axis is: [1, 0]\n\noutput = input.transpose(axis)\nthen the output is:\narray([[0, 3],\n       [1, 4],\n       [2, 5]])\nSo, given a input tensor of shape(N, C, H, W) and the axis is {0, 2, 3, 1},\nthe output tensor shape will be (N, H, W, C)\n\n",
  "inputs" : [ 
  { 
    "name" : "X",

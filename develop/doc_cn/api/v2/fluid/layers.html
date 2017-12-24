@@ -730,25 +730,19 @@ Duplicable: False  Optional: False</li>
 <code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">transpose</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Transpose Operator.</p>
 <p>The input tensor will be permuted according to the axis values given.
-The op functions similar to how numpy.transpose works in python.
-For example:</p>
-<blockquote>
-<div><p>&gt;&gt; input = numpy.arange(6).reshape((2,3))
-&gt;&gt; input
+The op functions is similar to how numpy.transpose works in python.</p>
+<p>For example: input = numpy.arange(6).reshape((2,3))
+the input is:
 array([[0, 1, 2],</p>
 <blockquote>
 <div>[3, 4, 5]])</div></blockquote>
-<p>&gt;&gt; axis = [1, 0]
-&gt;&gt; output = input.transpose(axis)
-&gt;&gt; output
+<p>given axis is: [1, 0]</p>
+<p>output = input.transpose(axis)
+then the output is:
 array([[0, 3],</p>
 <blockquote>
-<div><dl class="docutils">
-<dt>[1, 4],</dt>
-<dd>[2, 5]])</dd>
-</dl>
-</div></blockquote>
-</div></blockquote>
+<div>[1, 4],
+[2, 5]])</div></blockquote>
 <p>So, given a input tensor of shape(N, C, H, W) and the axis is {0, 2, 3, 1},
 the output tensor shape will be (N, H, W, C)</p>
 <table class="docutils field-list" frame="void" rules="none">
