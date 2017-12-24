@@ -661,7 +661,7 @@ timestep to (t+k+1)-th timestep. Assumed that the hidden dim of input
 activations are d, the activations r_t for the new layer at time-step t are:</p>
 <div class="math">
 \[r_{t,r} = \sum_{j=1}^{k + 1} {w_{i,j}h_{t+j-1, i}}
-          \quad         ext{for} \quad  (1 \leq i \leq d)\]</div>
+          \quad \text{for} \quad  (1 \leq i \leq d)\]</div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">The <cite>context_len</cite> is <cite>k + 1</cite>. That is to say, the lookahead step
@@ -3424,66 +3424,46 @@ details.</li>
 <dl class="class">
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">factorization_machine</code></dt>
-<dd><blockquote>
-<div><p>The Factorization Machine models pairwise feature interactions as inner
+<dd><p>The Factorization Machine models pairwise feature interactions as inner
 product of the learned latent vectors corresponding to each input feature.
 The Factorization Machine can effectively capture feature interactions
 especially when the input is sparse.</p>
 <p>This implementation only consider the 2-order feature interactions using
 Factorization Machine with the formula:</p>
 <div class="math">
-\[y = \sum_{i=1}^{n-1}\sum_{j=i+1}^n\langle v_i, v_j\]</div>
-</div></blockquote>
-<p>angle x_i x_j</p>
-<blockquote>
-<div><dl class="docutils">
-<dt>Note:</dt>
-<dd>X is the input vector with size n. V is the factor matrix. Each row of V
+\[y = \sum_{i=1}^{n-1}\sum_{j=i+1}^n\langle v_i, v_j \rangle x_i x_j\]</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">X is the input vector with size n. V is the factor matrix. Each row of V
 is the latent vector corresponding to each input dimesion. The size of
-each latent vector is k.</dd>
-</dl>
+each latent vector is k.</p>
+</div>
 <p>For details of Factorization Machine, please refer to the paper:
 Factorization machines.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param input:</th><td class="field-body">The input layer. Supported input types: all input data types
-on CPU, and only dense input types on GPU.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input layer. Supported input types: all input data types
+on CPU, and only dense input types on GPU.</li>
+<li><strong>factor_size</strong> &#8211; The hyperparameter that defines the dimensionality of
+the latent vector size.</li>
+<li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation Type. Default is linear activation.</li>
+<li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The parameter attribute. See paddle.v2.attr.ParameterAttribute for
+details.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttributeNone</em>) &#8211; Extra Layer config.</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">type input:</th><td class="field-body">paddle.v2.config_base.Layer</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">paddle.v2.config_base.Layer object.</p>
+</td>
 </tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">param factor_size:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The hyperparameter that defines the dimensionality of
-the latent vector size.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">type context_len:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">int</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">param act:</th><td class="field-body">Activation Type. Default is linear activation.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">type act:</th><td class="field-body">paddle.v2.activation.Base</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">param param_attr:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The parameter attribute. See paddle.v2.attr.ParameterAttribute for
-details.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">type param_attr:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">paddle.v2.attr.ParameterAttribute</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">param layer_attr:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">Extra Layer config.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">type layer_attr:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">paddle.v2.attr.ExtraAttributeNone</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">return:</th><td class="field-body">paddle.v2.config_base.Layer object.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">rtype:</th><td class="field-body">paddle.v2.config_base.Layer</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">paddle.v2.config_base.Layer</p>
+</td>
 </tr>
 </tbody>
 </table>
-</div></blockquote>
 </dd></dl>
 
 </div>
@@ -4462,7 +4442,7 @@ details.</li>
 <dd><p>The gated unit layer implements a simple gating mechanism over the input.
 The input <span class="math">\(X\)</span> is first projected into a new space <span class="math">\(X'\)</span>, and
 it is also used to produce a gate weight <span class="math">\(\sigma\)</span>. Element-wise
-product between <a href="#id5"><span class="problematic" id="id6">:match:`X&#8217;`</span></a> and <span class="math">\(\sigma\)</span> is finally returned.</p>
+product between <span class="math">\(X'\)</span> and <span class="math">\(\sigma\)</span> is finally returned.</p>
 <dl class="docutils">
 <dt>Reference:</dt>
 <dd><a class="reference external" href="https://arxiv.org/abs/1612.08083">Language Modeling with Gated Convolutional Networks</a></dd>
