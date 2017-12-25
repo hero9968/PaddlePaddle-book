@@ -2376,7 +2376,7 @@
  { 
    "name" : "pooltype",
    "type" : "string",
-   "comment" : "(int, default AVERAGE) the pooling pooltype of SequencePoolOp.",
+   "comment" : "(string, default 'AVERAGE') the pooling pooltype of SequencePoolOp.",
    "generated" : 0
  } ] 
 },{

@@ -228,11 +228,12 @@
 </ul>
 <div class="section" id="place-and-devicecontext">
 <span id="place-and-devicecontext"></span><h3>Place and DeviceContext<a class="headerlink" href="#place-and-devicecontext" title="Permalink to this headline">¶</a></h3>
+<p>Please remind that device and computing library are not one-to-one corresponding. A device can have a lot of computing libraries and a computing library can also support several devices.</p>
 <div class="section" id="place">
 <span id="place"></span><h4>Place<a class="headerlink" href="#place" title="Permalink to this headline">¶</a></h4>
-<p>Fluid uses class <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/platform/place.h#L55">Place</a> to represent different devices and computing libraries. There are inheritance relationships between different kinds of <code class="docutils literal"><span class="pre">Place</span></code>.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>        <span class="o">|</span>   <span class="n">CPUPlace</span>   <span class="o">--&gt;</span> <span class="n">MKLDNNPlace</span>
-<span class="n">Place</span> <span class="o">--|</span>   <span class="n">CUDAPlace</span>  <span class="o">--&gt;</span> <span class="n">CUDNNPlace</span>
+<p>Fluid uses class <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/platform/place.h#L55">Place</a> to represent the device memory where data is located. If we add another device, we have to add corresponding <code class="docutils literal"><span class="pre">DevicePlace</span></code>.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>        <span class="o">|</span>   <span class="n">CPUPlace</span>
+<span class="n">Place</span> <span class="o">--|</span>   <span class="n">CUDAPlace</span>
         <span class="o">|</span>   <span class="n">FPGAPlace</span>
 </pre></div>
 </div>
@@ -243,7 +244,7 @@
 </div>
 <div class="section" id="devicecontext">
 <span id="devicecontext"></span><h4>DeviceContext<a class="headerlink" href="#devicecontext" title="Permalink to this headline">¶</a></h4>
-<p>Fluid uses class <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/platform/device_context.h#L30">DeviceContext</a> to manage the resources in different hardwares, such as CUDA stream in <code class="docutils literal"><span class="pre">CDUADeviceContext</span></code>. There are also inheritance relationships between different kinds of <code class="docutils literal"><span class="pre">DeviceContext</span></code>.</p>
+<p>Fluid uses class <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/platform/device_context.h#L30">DeviceContext</a> to manage the resources in different libraries, such as CUDA stream in <code class="docutils literal"><span class="pre">CDUADeviceContext</span></code>. There are also inheritance relationships between different kinds of <code class="docutils literal"><span class="pre">DeviceContext</span></code>.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>                <span class="o">/-&gt;</span>  <span class="n">CPUDeviceContext</span>   <span class="o">--&gt;</span> <span class="n">MKLDeviceContext</span>
 <span class="n">DeviceContext</span> <span class="o">----&gt;</span>  <span class="n">CUDADeviceContext</span>  <span class="o">--&gt;</span> <span class="n">CUDNNDeviceContext</span>
                 \<span class="o">-&gt;</span>  <span class="n">FPGADeviceContext</span>
@@ -297,7 +298,7 @@
 <span class="n">size_t</span> <span class="n">Used</span><span class="p">(</span><span class="n">Place</span> <span class="n">place</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>To implementing these interfaces, we have to implement MemoryAllocator for different Devices</p>
+<p>To implement these interfaces, we have to implement MemoryAllocator for different Devices.</p>
 </div>
 <div class="section" id="tensor">
 <span id="tensor"></span><h4>Tensor<a class="headerlink" href="#tensor" title="Permalink to this headline">¶</a></h4>
@@ -410,9 +411,10 @@
 <div class="section" id="advanced-topics-how-to-switch-between-different-device-library">
 <span id="advanced-topics-how-to-switch-between-different-device-library"></span><h2>Advanced topics: How to switch between different Device/Library<a class="headerlink" href="#advanced-topics-how-to-switch-between-different-device-library" title="Permalink to this headline">¶</a></h2>
 <p>Generally, we will impelement OpKernel for all Device/Library of an Operator. We can easily train a Convolutional Neural Network in GPU. However, some OpKernel is not sutibale on a specific Device. For example, crf operator can only run on CPU, whereas most other operators can run at GPU. To achieve high performance in such circumstance, we have to switch between different Device/Library.</p>
-<p>We will discuss how to implement an efficient OpKernel switch policy.</p>
+<p>For more details, please refer to following docs:</p>
 <ul class="simple">
-<li>TBD</li>
+<li>operator kernel type <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/doc/design/operator_kernel_type.md">doc</a></li>
+<li>switch kernel <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/doc/design/switch_kernel.md">doc</a></li>
 </ul>
 </div>
 </div>
