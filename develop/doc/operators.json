@@ -709,7 +709,7 @@
  "attrs" : [  ] 
 },{
  "type" : "hard_sigmoid",
- "comment" : "\nHardSigmoid Activation Operator.\n\nSegment-wise linear approximation of sigmoid(https://arxiv.org/abs/1603.00391), \nwhich is much faster than sigmoid.\n\n$y = \\max(0, \\min(1, slope * x + shift))$\n\nThe slope should be positive. The offset can be either positive or negative.\nThe default slope and shift are set according to the above reference.\nIt is recommended to use the defaults for this activation.\n\n",
+ "comment" : "\nHardSigmoid Activation Operator.\n\nSegment-wise linear approximation of sigmoid(https://arxiv.org/abs/1603.00391), \nwhich is much faster than sigmoid.\n\n$out = \\max(0, \\min(1, slope * x + shift))$\n\nThe slope should be positive. The offset can be either positive or negative.\nThe default slope and shift are set according to the above reference.\nIt is recommended to use the defaults for this activation.\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
@@ -719,7 +719,7 @@
  } ], 
  "outputs" : [ 
  { 
-   "name" : "Y",
+   "name" : "Out",
    "comment" : "Output of HardSigmoid operator",
    "duplicable" : 0,
    "intermediate" : 0
@@ -815,7 +815,7 @@
  } ] 
 },{
  "type" : "thresholded_relu",
- "comment" : "\nThresholdedRelu Activation Operator.\n\n$$\ny = \\begin{cases} \n    x, \\text{if } x > threshold \\\\\n    0,  \\text{otherwise}\n    \\end{cases}\n$$\n\n",
+ "comment" : "\nThresholdedRelu Activation Operator.\n\n$$\nout = \\begin{cases} \n    x, \\text{if } x > threshold \\\\\n    0,  \\text{otherwise}\n    \\end{cases}\n$$\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
@@ -825,7 +825,7 @@
  } ], 
  "outputs" : [ 
  { 
-   "name" : "Y",
+   "name" : "Out",
    "comment" : "Output of ThresholdedRelu operator",
    "duplicable" : 0,
    "intermediate" : 0
@@ -839,7 +839,7 @@
  } ] 
 },{
  "type" : "hard_shrink",
- "comment" : "\nHardShrink Activation Operator.\n\n$$\ny = \\begin{cases} \n    x, \\text{if } x > \\lambda \\\\\n    x, \\text{if } x < -\\lambda \\\\\n    0,  \\text{otherwise}\n    \\end{cases}\n$$\n\n",
+ "comment" : "\nHardShrink Activation Operator.\n\n$$\nout = \\begin{cases} \n    x, \\text{if } x > \\lambda \\\\\n    x, \\text{if } x < -\\lambda \\\\\n    0,  \\text{otherwise}\n    \\end{cases}\n$$\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
@@ -849,7 +849,7 @@
  } ], 
  "outputs" : [ 
  { 
-   "name" : "Y",
+   "name" : "Out",
    "comment" : "Output of HardShrink operator",
    "duplicable" : 0,
    "intermediate" : 0
@@ -863,7 +863,7 @@
  } ] 
 },{
  "type" : "relu6",
- "comment" : "\nRelu6 Activation Operator.\n\n$y = \\min(\\max(0, x), 6)$\n\n",
+ "comment" : "\nRelu6 Activation Operator.\n\n$out = \\min(\\max(0, x), 6)$\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
@@ -873,7 +873,7 @@
  } ], 
  "outputs" : [ 
  { 
-   "name" : "Y",
+   "name" : "Out",
    "comment" : "Output of Relu6 operator",
    "duplicable" : 0,
    "intermediate" : 0
@@ -887,7 +887,7 @@
  } ] 
 },{
  "type" : "elu",
- "comment" : "\nELU Activation Operator.\n\nApplies the following element-wise computation on the input according to\nhttps://arxiv.org/abs/1511.07289.\n\n$y = \\max(0, x) + \\min(0, \\alpha * (e^x - 1))$\n\n",
+ "comment" : "\nELU Activation Operator.\n\nApplies the following element-wise computation on the input according to\nhttps://arxiv.org/abs/1511.07289.\n\n$out = \\max(0, x) + \\min(0, \\alpha * (e^x - 1))$\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
@@ -897,7 +897,7 @@
  } ], 
  "outputs" : [ 
  { 
-   "name" : "Y",
+   "name" : "Out",
    "comment" : "Output of ELU operator",
    "duplicable" : 0,
    "intermediate" : 0
@@ -911,7 +911,7 @@
  } ] 
 },{
  "type" : "leaky_relu",
- "comment" : "\nLeakyRelu Activation Operator.\n\n$y = \\max(x, \\alpha * x)$\n\n",
+ "comment" : "\nLeakyRelu Activation Operator.\n\n$out = \\max(x, \\alpha * x)$\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
@@ -921,7 +921,7 @@
  } ], 
  "outputs" : [ 
  { 
-   "name" : "Y",
+   "name" : "Out",
    "comment" : "Output of LeakyRelu operator",
    "duplicable" : 0,
    "intermediate" : 0
@@ -935,7 +935,7 @@
  } ] 
 },{
  "type" : "softsign",
- "comment" : "\nSoftsign Activation Operator.\n\n$$y = \\frac{x}{1 + |x|}$$\n\n",
+ "comment" : "\nSoftsign Activation Operator.\n\n$$out = \\frac{x}{1 + |x|}$$\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
@@ -945,7 +945,7 @@
  } ], 
  "outputs" : [ 
  { 
-   "name" : "Y",
+   "name" : "Out",
    "comment" : "Output of Softsign operator",
    "duplicable" : 0,
    "intermediate" : 0
@@ -976,7 +976,7 @@
  "attrs" : [  ] 
 },{
  "type" : "softplus",
- "comment" : "\nSoftplus Activation Operator.\n\n$y = \\ln(1 + e^{x})$\n\n",
+ "comment" : "\nSoftplus Activation Operator.\n\n$out = \\ln(1 + e^{x})$\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
@@ -986,7 +986,7 @@
  } ], 
  "outputs" : [ 
  { 
-   "name" : "Y",
+   "name" : "Out",
    "comment" : "Output of Softplus operator",
    "duplicable" : 0,
    "intermediate" : 0
@@ -994,7 +994,7 @@
  "attrs" : [  ] 
 },{
  "type" : "square",
- "comment" : "\nSquare Activation Operator.\n\n$y = x^2$\n\n",
+ "comment" : "\nSquare Activation Operator.\n\n$out = x^2$\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
@@ -1004,7 +1004,7 @@
  } ], 
  "outputs" : [ 
  { 
-   "name" : "Y",
+   "name" : "Out",
    "comment" : "Output of Square operator",
    "duplicable" : 0,
    "intermediate" : 0
@@ -1012,7 +1012,7 @@
  "attrs" : [  ] 
 },{
  "type" : "softmax",
- "comment" : "\nSoftmax Operator.\n\nThe input of the softmax operator is a 2-D tensor with shape N x K (N is the\nbatch_size, K is the dimension of input feature). The output tensor has the\nsame shape as the input tensor.\n\nFor each row of the input tensor, the softmax operator squashes the\nK-dimensional vector of arbitrary real values to a K-dimensional vector of real\nvalues in the range [0, 1] that add up to 1.\nIt computes the exponential of the given dimension and the sum of exponential\nvalues of all the other dimensions in the K-dimensional vector input.\nThen the ratio of the exponential of the given dimension and the sum of\nexponential values of all the other dimensions is the output of the softmax\noperator.\n\nFor each row $i$ and each column $j$ in Input(X), we have:\n    $$Y[i, j] = \\frac{\\exp(X[i, j])}{\\sum_j(exp(X[i, j])}$$\n\n",
+ "comment" : "\nSoftmax Operator.\n\nThe input of the softmax operator is a 2-D tensor with shape N x K (N is the\nbatch_size, K is the dimension of input feature). The output tensor has the\nsame shape as the input tensor.\n\nFor each row of the input tensor, the softmax operator squashes the\nK-dimensional vector of arbitrary real values to a K-dimensional vector of real\nvalues in the range [0, 1] that add up to 1.\nIt computes the exponential of the given dimension and the sum of exponential\nvalues of all the other dimensions in the K-dimensional vector input.\nThen the ratio of the exponential of the given dimension and the sum of\nexponential values of all the other dimensions is the output of the softmax\noperator.\n\nFor each row $i$ and each column $j$ in Input(X), we have:\n    $$Out[i, j] = \\frac{\\exp(X[i, j])}{\\sum_j(exp(X[i, j])}$$\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
@@ -1022,7 +1022,7 @@
  } ], 
  "outputs" : [ 
  { 
-   "name" : "Y",
+   "name" : "Out",
    "comment" : "The normalized values with the same shape as X.",
    "duplicable" : 0,
    "intermediate" : 0
@@ -1287,7 +1287,7 @@
  } ] 
 },{
  "type" : "pow",
- "comment" : "\nPow Activation Operator.\n\n$y = x^{factor}$\n\n",
+ "comment" : "\nPow Activation Operator.\n\n$out = x^{factor}$\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
@@ -1297,7 +1297,7 @@
  } ], 
  "outputs" : [ 
  { 
-   "name" : "Y",
+   "name" : "Out",
    "comment" : "Output of Pow operator",
    "duplicable" : 0,
    "intermediate" : 0
@@ -1311,7 +1311,7 @@
  } ] 
 },{
  "type" : "sqrt",
- "comment" : "\nSqrt Activation Operator.\n\n$y = \\sqrt{x}$\n\n",
+ "comment" : "\nSqrt Activation Operator.\n\n$out = \\sqrt{x}$\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
@@ -1321,7 +1321,7 @@
  } ], 
  "outputs" : [ 
  { 
-   "name" : "Y",
+   "name" : "Out",
    "comment" : "Output of Sqrt operator",
    "duplicable" : 0,
    "intermediate" : 0
@@ -1533,7 +1533,7 @@
  } ] 
 },{
  "type" : "reciprocal",
- "comment" : "\nReciprocal Activation Operator.\n\n$$y = \\frac{1}{x}$$\n\n",
+ "comment" : "\nReciprocal Activation Operator.\n\n$$out = \\frac{1}{x}$$\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
@@ -1543,7 +1543,7 @@
  } ], 
  "outputs" : [ 
  { 
-   "name" : "Y",
+   "name" : "Out",
    "comment" : "Output of Reciprocal operator",
    "duplicable" : 0,
    "intermediate" : 0
@@ -2710,7 +2710,7 @@
  } ] 
 },{
  "type" : "tanh_shrink",
- "comment" : "\nTanhShrink Activation Operator.\n\n$$y = x - \\frac{e^{x} - e^{-x}}{e^{x} + e^{-x}}$$\n\n",
+ "comment" : "\nTanhShrink Activation Operator.\n\n$$out = x - \\frac{e^{x} - e^{-x}}{e^{x} + e^{-x}}$$\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
@@ -2720,7 +2720,7 @@
  } ], 
  "outputs" : [ 
  { 
-   "name" : "Y",
+   "name" : "Out",
    "comment" : "Output of TanhShrink operator",
    "duplicable" : 0,
    "intermediate" : 0
@@ -3108,7 +3108,7 @@
  "attrs" : [  ] 
 },{
  "type" : "abs",
- "comment" : "\nAbs Activation Operator.\n\n$y = |x|$\n\n",
+ "comment" : "\nAbs Activation Operator.\n\n$out = |x|$\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
@@ -3118,7 +3118,7 @@
  } ], 
  "outputs" : [ 
  { 
-   "name" : "Y",
+   "name" : "Out",
    "comment" : "Output of Abs operator",
    "duplicable" : 0,
    "intermediate" : 0
@@ -3144,7 +3144,7 @@
  "attrs" : [  ] 
 },{
  "type" : "stanh",
- "comment" : "\nSTanh Activation Operator.\n\n$$y = b * \\frac{e^{a * x} - e^{-a * x}}{e^{a * x} + e^{-a * x}}$$\n\n",
+ "comment" : "\nSTanh Activation Operator.\n\n$$out = b * \\frac{e^{a * x} - e^{-a * x}}{e^{a * x} + e^{-a * x}}$$\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
@@ -3154,7 +3154,7 @@
  } ], 
  "outputs" : [ 
  { 
-   "name" : "Y",
+   "name" : "Out",
    "comment" : "Output of STanh operator",
    "duplicable" : 0,
    "intermediate" : 0
@@ -3242,7 +3242,7 @@
  } ] 
 },{
  "type" : "swish",
- "comment" : "\nSwish Activation Operator.\n\n$$y = \\frac{x}{1 + e^{- \\beta x}}$$\n\n",
+ "comment" : "\nSwish Activation Operator.\n\n$$out = \\frac{x}{1 + e^{- \\beta x}}$$\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
@@ -3252,7 +3252,7 @@
  } ], 
  "outputs" : [ 
  { 
-   "name" : "Y",
+   "name" : "Out",
    "comment" : "Output of Swish operator",
    "duplicable" : 0,
    "intermediate" : 0
@@ -3595,7 +3595,7 @@
  } ] 
 },{
  "type" : "tanh",
- "comment" : "\nTanh Activation Operator.\n\n$$y = \\frac{e^{x} - e^{-x}}{e^{x} + e^{-x}}$$\n\n",
+ "comment" : "\nTanh Activation Operator.\n\n$$out = \\frac{e^{x} - e^{-x}}{e^{x} + e^{-x}}$$\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
@@ -3605,7 +3605,7 @@
  } ], 
  "outputs" : [ 
  { 
-   "name" : "Y",
+   "name" : "Out",
    "comment" : "Output of Tanh operator",
    "duplicable" : 0,
    "intermediate" : 0
@@ -3907,7 +3907,7 @@
  } ] 
 },{
  "type" : "relu",
- "comment" : "\nRelu Activation Operator.\n\n$y = \\max(x, 0)$\n\n",
+ "comment" : "\nRelu Activation Operator.\n\n$out = \\max(x, 0)$\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
@@ -3917,7 +3917,7 @@
  } ], 
  "outputs" : [ 
  { 
-   "name" : "Y",
+   "name" : "Out",
    "comment" : "Output of Relu operator",
    "duplicable" : 0,
    "intermediate" : 0
@@ -4114,7 +4114,7 @@
  } ] 
 },{
  "type" : "brelu",
- "comment" : "\nBRelu Activation Operator.\n\n$y = \\max(\\min(x, t_{min}), t_{max})$\n\n",
+ "comment" : "\nBRelu Activation Operator.\n\n$out = \\max(\\min(x, t_{min}), t_{max})$\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
@@ -4124,7 +4124,7 @@
  } ], 
  "outputs" : [ 
  { 
-   "name" : "Y",
+   "name" : "Out",
    "comment" : "Output of BRelu operator",
    "duplicable" : 0,
    "intermediate" : 0
@@ -4553,7 +4553,7 @@
  } ] 
 },{
  "type" : "sigmoid",
- "comment" : "\nSigmoid Activation Operator\n\n$$y = \\frac{1}{1 + e^{-x}}$$\n\n",
+ "comment" : "\nSigmoid Activation Operator\n\n$$out = \\frac{1}{1 + e^{-x}}$$\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
@@ -4563,7 +4563,7 @@
  } ], 
  "outputs" : [ 
  { 
-   "name" : "Y",
+   "name" : "Out",
    "comment" : "Output of Sigmoid operator",
    "duplicable" : 0,
    "intermediate" : 0
@@ -4600,7 +4600,7 @@
  } ] 
 },{
  "type" : "floor",
- "comment" : "\nFloor Activation Operator.\n\n$y = floor(x)$\n\n",
+ "comment" : "\nFloor Activation Operator.\n\n$out = floor(x)$\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
@@ -4610,7 +4610,7 @@
  } ], 
  "outputs" : [ 
  { 
-   "name" : "Y",
+   "name" : "Out",
    "comment" : "Output of Floor operator",
    "duplicable" : 0,
    "intermediate" : 0
@@ -4647,7 +4647,7 @@
  } ] 
 },{
  "type" : "ceil",
- "comment" : "\nCeil Activation Operator.\n\n$y = ceil(x)$\n\n",
+ "comment" : "\nCeil Activation Operator.\n\n$out = ceil(x)$\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
@@ -4657,7 +4657,7 @@
  } ], 
  "outputs" : [ 
  { 
-   "name" : "Y",
+   "name" : "Out",
    "comment" : "Output of Ceil operator",
    "duplicable" : 0,
    "intermediate" : 0
@@ -5068,7 +5068,7 @@
  } ] 
 },{
  "type" : "log",
- "comment" : "\nLog Activation Operator.\n\n$y = \\ln(x)$\n\nNatural logarithm of x.\n\n",
+ "comment" : "\nLog Activation Operator.\n\n$out = \\ln(x)$\n\nNatural logarithm of x.\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
@@ -5078,7 +5078,7 @@
  } ], 
  "outputs" : [ 
  { 
-   "name" : "Y",
+   "name" : "Out",
    "comment" : "Output of Log operator",
    "duplicable" : 0,
    "intermediate" : 0
@@ -5193,7 +5193,7 @@
  "attrs" : [  ] 
 },{
  "type" : "logsigmoid",
- "comment" : "\nLogsigmoid Activation Operator\n\n$$y = \\log \\frac{1}{1 + e^{-x}}$$\n\n",
+ "comment" : "\nLogsigmoid Activation Operator\n\n$$out = \\log \\frac{1}{1 + e^{-x}}$$\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
@@ -5203,7 +5203,7 @@
  } ], 
  "outputs" : [ 
  { 
-   "name" : "Y",
+   "name" : "Out",
    "comment" : "Output of LogSigmoid operator",
    "duplicable" : 0,
    "intermediate" : 0
@@ -5234,7 +5234,7 @@
  "attrs" : [  ] 
 },{
  "type" : "exp",
- "comment" : "\nExp Activation Operator.\n\n$y = e^x$\n\n",
+ "comment" : "\nExp Activation Operator.\n\n$out = e^x$\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
@@ -5244,7 +5244,7 @@
  } ], 
  "outputs" : [ 
  { 
-   "name" : "Y",
+   "name" : "Out",
    "comment" : "Output of Exp operator",
    "duplicable" : 0,
    "intermediate" : 0
@@ -5252,7 +5252,7 @@
  "attrs" : [  ] 
 },{
  "type" : "soft_relu",
- "comment" : "\nSoftRelu Activation Operator.\n\n$y = \\ln(1 + \\exp(\\max(\\min(x, threshold), threshold))$\n\n",
+ "comment" : "\nSoftRelu Activation Operator.\n\n$out = \\ln(1 + \\exp(\\max(\\min(x, threshold), threshold))$\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
@@ -5262,7 +5262,7 @@
  } ], 
  "outputs" : [ 
  { 
-   "name" : "Y",
+   "name" : "Out",
    "comment" : "Output of SoftRelu operator",
    "duplicable" : 0,
    "intermediate" : 0
@@ -5276,7 +5276,7 @@
  } ] 
 },{
  "type" : "softshrink",
- "comment" : "\nSoftshrink Activation Operator.\n\n$$\ny = \\begin{cases} \n    x - \\lambda, \\text{if } x > \\lambda \\\\\n    x + \\lambda, \\text{if } x < -\\lambda \\\\\n    0,  \\text{otherwise}\n    \\end{cases}\n$$\n\n",
+ "comment" : "\nSoftshrink Activation Operator.\n\n$$\nout = \\begin{cases} \n    x - \\lambda, \\text{if } x > \\lambda \\\\\n    x + \\lambda, \\text{if } x < -\\lambda \\\\\n    0,  \\text{otherwise}\n    \\end{cases}\n$$\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
@@ -5286,7 +5286,7 @@
  } ], 
  "outputs" : [ 
  { 
-   "name" : "Y",
+   "name" : "Out",
    "comment" : "Output of Softshrink operator",
    "duplicable" : 0,
    "intermediate" : 0
@@ -5388,7 +5388,7 @@
  } ] 
 },{
  "type" : "round",
- "comment" : "\nRound Activation Operator.\n\n$y = [x]$\n\n",
+ "comment" : "\nRound Activation Operator.\n\n$out = [x]$\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
@@ -5398,7 +5398,7 @@
  } ], 
  "outputs" : [ 
  { 
-   "name" : "Y",
+   "name" : "Out",
    "comment" : "Output of Round operator",
    "duplicable" : 0,
    "intermediate" : 0
