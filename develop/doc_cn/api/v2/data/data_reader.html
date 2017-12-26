@@ -743,60 +743,33 @@ And this function contains a buffered decorator.
 :rtype: callable</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="class">
 <dt>
-<code class="descclassname">paddle.v2.reader.</code><code class="descname">pipe_reader</code><span class="sig-paren">(</span><em>left_cmd</em>, <em>parser</em>, <em>bufsize=8192</em>, <em>file_type='plain'</em>, <em>cut_lines=True</em>, <em>line_break='\n'</em><span class="sig-paren">)</span></dt>
-<dd><blockquote>
-<div><p>pipe_reader read data by stream from a command, take it&#8217;s
+<em class="property">class </em><code class="descclassname">paddle.v2.reader.</code><code class="descname">PipeReader</code><span class="sig-paren">(</span><em>command</em>, <em>bufsize=8192</em>, <em>file_type='plain'</em><span class="sig-paren">)</span></dt>
+<dd><p>PipeReader read data by stream from a command, take it&#8217;s
 stdout into a pipe buffer and redirect it to the parser to
 parse, then yield data as your desired format.</p>
 <p>You can using standard linux command or call another program
 to read data, from HDFS, Ceph, URL, AWS S3 etc:</p>
-<p>cmd = &#8220;hadoop fs -cat /path/to/some/file&#8221;
-cmd = &#8220;cat sample_file.tar.gz&#8221;
-cmd = &#8220;curl <a class="reference external" href="http://someurl">http://someurl</a>&#8221;
-cmd = &#8220;python print_s3_bucket.py&#8221;</p>
-<p>A sample parser:</p>
-<dl class="docutils">
-<dt>def sample_parser(lines):</dt>
-<dd><p class="first"># parse each line as one sample data,
-# return a list of samples as batches.
-ret = []
-for l in lines:</p>
-<blockquote>
-<div>ret.append(l.split(&#8221; &#8221;)[1:5])</div></blockquote>
-<p class="last">return ret</p>
-</dd>
-</dl>
-<table class="docutils field-list" frame="void" rules="none">
+<p>An example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">example_reader</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">myfiles</span><span class="p">:</span>
+        <span class="n">pr</span> <span class="o">=</span> <span class="n">PipeReader</span><span class="p">(</span><span class="s2">&quot;cat </span><span class="si">%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">pr</span><span class="o">.</span><span class="n">get_line</span><span class="p">():</span>
+            <span class="n">sample</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">sample</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt>
+<code class="descname">get_line</code><span class="sig-paren">(</span><em>cut_lines=True</em>, <em>line_break='\n'</em><span class="sig-paren">)</span></dt>
+<dd><blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param left_cmd:</th><td class="field-body">command to excute to get stdout from.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">type left_cmd:</th><td class="field-body">string</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">param parser:</th><td class="field-body">parser function to parse lines of data.
-if cut_lines is True, parser will receive list
-of lines.
-if cut_lines is False, parser will receive a
-raw buffer each time.
-parser should return a list of parsed values.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">type parser:</th><td class="field-body">callable</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">param bufsize:</th><td class="field-body">the buffer size used for the stdout pipe.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">type bufsize:</th><td class="field-body">int</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">param file_type:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">can be plain/gzip, stream buffer data type.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">type file_type:</th><td class="field-body">string</td>
-</tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">param cut_lines:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">whether to pass lines instead of raw buffer
-to the parser</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">cut buffer to lines</td>
 </tr>
 <tr class="field-even field"><th class="field-name">type cut_lines:</th><td class="field-body">bool</td>
 </tr>
@@ -815,14 +788,16 @@ to the parser</td>
 <tr class="field-odd field"><th class="field-name" colspan="2">type line_break:</th></tr>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">string</td>
 </tr>
-<tr class="field-even field"><th class="field-name">return:</th><td class="field-body">the reader generator.</td>
+<tr class="field-even field"><th class="field-name">return:</th><td class="field-body">one line or a buffer of bytes</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">rtype:</th><td class="field-body">callable</td>
+<tr class="field-odd field"><th class="field-name">rtype:</th><td class="field-body">string</td>
 </tr>
 </tbody>
 </table>
 </dd>
 </dl>
+</dd></dl>
+
 </dd></dl>
 
 </div>

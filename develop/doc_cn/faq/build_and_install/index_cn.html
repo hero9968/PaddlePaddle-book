@@ -239,6 +239,7 @@
 <li><a class="reference internal" href="#import-paddle-v2-as-paddle-importerror-no-module-named-v2" id="id7">5. 编译安装后执行 import paddle.v2 as paddle 报ImportError: No module named v2</a></li>
 <li><a class="reference internal" href="#illegal-instruction" id="id8">6. 遇到“非法指令”或者是“illegal instruction”</a></li>
 <li><a class="reference internal" href="#python" id="id9">7.  python相关的单元测试都过不了</a></li>
+<li><a class="reference internal" href="#mklml" id="id10">8. 下载MKLML库失败</a></li>
 </ul>
 </li>
 </ul>
@@ -327,6 +328,30 @@ Please uninstall paddle package before start unittest. Try to <span class="s1">&
 <ul class="simple">
 <li>卸载PaddlePaddle包 <code class="code docutils literal"><span class="pre">pip</span> <span class="pre">uninstall</span> <span class="pre">paddle</span></code>, 清理掉老旧的PaddlePaddle安装包，使得单元测试有一个干净的环境。如果PaddlePaddle包已经在python的site-packages里面，单元测试会引用site-packages里面的python包，而不是源码目录里 <code class="code docutils literal"><span class="pre">/python</span></code> 目录下的python包。同时，即便设置 <code class="code docutils literal"><span class="pre">PYTHONPATH</span></code> 到 <code class="code docutils literal"><span class="pre">/python</span></code> 也没用，因为python的搜索路径是优先已经安装的python包。</li>
 </ul>
+</div>
+<div class="section" id="mklml">
+<h2><a class="toc-backref" href="#id10">8. 下载MKLML库失败</a><a class="headerlink" href="#mklml" title="永久链接至标题">¶</a></h2>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>make<span class="o">[</span><span class="m">2</span><span class="o">]</span>: *** <span class="o">[</span>third_party/mklml/src/extern_mklml-stamp/extern_mklml-download<span class="o">]</span> 错误 <span class="m">4</span>
+make<span class="o">[</span><span class="m">1</span><span class="o">]</span>: *** <span class="o">[</span>CMakeFiles/extern_mklml.dir/all<span class="o">]</span> 错误 <span class="m">2</span>
+make<span class="o">[</span><span class="m">1</span><span class="o">]</span>: *** 正在等待未完成的任务....
+</pre></div>
+</div>
+<p>原因：网速或SSL链接原因，导致MKLML库下载不成功。</p>
+<p>解决办法是：手动下载并安装，具体步骤如下。</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>// <span class="m">1</span>. 进入对应的目录
+<span class="nb">cd</span> build/third_party/mklml/src/extern_mklml
+
+// <span class="m">2</span>. 查看包的大小， 正常情况下是75M，如果小于75M，即下载失败：
+du -sh mklml_lnx_2018.0.1.20171007.tgz
+
+// <span class="m">3</span>. 手动下载且解压缩，并手动生成download成功标签：
+wget --no-check-certificate https://github.com/01org/mkl-dnn/releases/download/v0.11/mklml_lnx_2018.0.1.20171007.tgz -c -O mklml_lnx_2018.0.1.20171007.tgz
+tar zxf mklml_lnx_2018.0.1.20171007.tgz
+touch ../extern_mklml-stamp/extern_mklml-download
+
+// <span class="m">4</span>. 接着编译即可
+</pre></div>
+</div>
 </div>
 </div>
 
