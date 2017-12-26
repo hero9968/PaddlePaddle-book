@@ -2214,7 +2214,7 @@
  } ] 
 },{
  "type" : "transpose",
- "comment" : "\nTranspose Operator.\n\nThe input tensor will be permuted according to the axis values given.\nThe op functions is similar to how numpy.transpose works in python.\n\nFor example: input = numpy.arange(6).reshape((2,3))\nthe input is:\narray([[0, 1, 2],\n      [3, 4, 5]])\ngiven axis is: [1, 0]\n\noutput = input.transpose(axis)\nthen the output is:\narray([[0, 3],\n       [1, 4],\n       [2, 5]])\nSo, given a input tensor of shape(N, C, H, W) and the axis is {0, 2, 3, 1},\nthe output tensor shape will be (N, H, W, C)\n\n",
+ "comment" : "\nTranspose Operator.\n\nThe input tensor will be permuted according to the axis values given.\nThe op functions is similar to how numpy.transpose works in python.\n\nFor example:\n\n    .. code-block:: text\n\n      input = numpy.arange(6).reshape((2,3))\n\n      the input is:\n\n      array([[0, 1, 2],\n             [3, 4, 5]])\n\n      given axis is:\n\n      [1, 0]\n\n      output = input.transpose(axis)\n\n      then the output is:\n\n      array([[0, 3],\n             [1, 4],\n             [2, 5]])\n\nSo, given a input tensor of shape(N, C, H, W) and the axis is {0, 2, 3, 1},\nthe output tensor shape will be (N, H, W, C)\n\n",
  "inputs" : [ 
  { 
    "name" : "X",

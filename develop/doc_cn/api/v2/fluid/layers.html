@@ -732,18 +732,29 @@ Duplicable: False  Optional: False</li>
 <dd><p>Transpose Operator.</p>
 <p>The input tensor will be permuted according to the axis values given.
 The op functions is similar to how numpy.transpose works in python.</p>
-<p>For example: input = numpy.arange(6).reshape((2,3))
+<p>For example:</p>
+<blockquote>
+<div><div class="highlight-text"><div class="highlight"><pre><span></span>input = numpy.arange(6).reshape((2,3))
+
 the input is:
-array([[0, 1, 2],</p>
-<blockquote>
-<div>[3, 4, 5]])</div></blockquote>
-<p>given axis is: [1, 0]</p>
-<p>output = input.transpose(axis)
+
+array([[0, 1, 2],
+       [3, 4, 5]])
+
+given axis is:
+
+[1, 0]
+
+output = input.transpose(axis)
+
 then the output is:
-array([[0, 3],</p>
-<blockquote>
-<div>[1, 4],
-[2, 5]])</div></blockquote>
+
+array([[0, 3],
+       [1, 4],
+       [2, 5]])
+</pre></div>
+</div>
+</div></blockquote>
 <p>So, given a input tensor of shape(N, C, H, W) and the axis is {0, 2, 3, 1},
 the output tensor shape will be (N, H, W, C)</p>
 <table class="docutils field-list" frame="void" rules="none">
