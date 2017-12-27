@@ -928,12 +928,86 @@ in the input parameters to the function.</p>
 <h2>conv2d<a class="headerlink" href="#conv2d" title="永久链接至标题">¶</a></h2>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">conv2d</code><span class="sig-paren">(</span><em>input</em>, <em>num_filters</em>, <em>filter_size</em>, <em>stride=None</em>, <em>padding=None</em>, <em>groups=None</em>, <em>param_attr=None</em>, <em>bias_attr=None</em>, <em>act=None</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
-<dd><p>This function creates the op for a 2-dimensional Convolution.
-This is performed using the parameters of filters(size, dimensionality etc)
-, stride and other configurations for a Convolution operation.
-This funciton can also append an activation on top of the
-conv-2d output, if mentioned in the input parameters.</p>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">conv2d</code><span class="sig-paren">(</span><em>input</em>, <em>num_filters</em>, <em>filter_size</em>, <em>stride=None</em>, <em>padding=None</em>, <em>groups=None</em>, <em>param_attr=None</em>, <em>bias_attr=None</em>, <em>act=None</em><span class="sig-paren">)</span></dt>
+<dd><p><strong>Convlution2D Layer</strong></p>
+<p>The convolution2D layer calculates the output based on the input, filter
+and strides, paddings, dilations, groups parameters. Input(Input) and Output(Output)
+are in NCHW format. Where N is batch size, C is the number of channels, H is the height
+of the feature, and W is the width of the feature.
+The details of convolution layer, please refer UFLDL&#8217;s <a class="reference external" href="http://ufldl.stanford.edu/tutorial/supervised/FeatureExtractionUsingConvolution/">convolution,</a> .
+If bias attribution and activation type are provided, bias is added to the output of the convolution,
+and the corresponding activation function is applied to the final result.
+For each input <span class="math">\(X\)</span>, the equation is:</p>
+<div class="math">
+\[Out = \sigma (W \ast X + b)\]</div>
+<p>In the above equation:</p>
+<blockquote>
+<div><ul class="simple">
+<li><span class="math">\(X\)</span>: Input value, a tensor with NCHW format.</li>
+<li><span class="math">\(W\)</span>: Filter value, a tensor with MCHW format.</li>
+<li><span class="math">\(\ast\)</span>: Convolution operation.</li>
+<li><span class="math">\(b\)</span>: Bias value, a 2-D tensor with shape [M, 1].</li>
+<li><span class="math">\(\sigma\)</span>: Activation function.</li>
+<li><span class="math">\(Out\)</span>: Output value, the shape of <span class="math">\(Out\)</span> and <span class="math">\(X\)</span> may be different.</li>
+</ul>
+</div></blockquote>
+<p class="rubric">Example</p>
+<dl class="docutils">
+<dt>Input:</dt>
+<dd><p class="first">Input shape: $(N, C_{in}, H_{in}, W_{in})$</p>
+<p class="last">Filter shape: $(C_{out}, C_{in}, H_f, W_f)$</p>
+</dd>
+<dt>Output:</dt>
+<dd>Output shape: $(N, C_{out}, H_{out}, W_{out})$</dd>
+</dl>
+<p>Where</p>
+<div class="math">
+\[\begin{split}H_{out}&amp;= \frac{(H_{in} + 2 * paddings[0] - (dilations[0] * (H_f - 1) + 1))}{strides[0]} + 1 \\
+W_{out}&amp;= \frac{(W_{in} + 2 * paddings[1] - (dilations[1] * (W_f - 1) + 1))}{strides[1]} + 1\end{split}\]</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
+<li><strong>input</strong> (<em>Variable</em>) &#8211; The input image with [N, C, H, W] format.</li>
+<li><strong>num_filters</strong> (<em>int</em>) &#8211; The number of filter. It is as same as the output
+image channel.</li>
+<li><strong>filter_size</strong> (<em>int|tuple|None</em>) &#8211; The filter size. If filter_size is a tuple,
+it must contain two integers, (filter_size_H, filter_size_W).
+Otherwise, the filter will be a square.</li>
+<li><strong>stride</strong> (<em>int|tuple</em>) &#8211; The stride size. If stride is a tuple, it must
+contain two integers, (stride_H, stride_W). Otherwise, the
+stride_H = stride_W = stride. Default: stride = 1.</li>
+<li><strong>padding</strong> (<em>int|tuple</em>) &#8211; The padding size. If padding is a tuple, it must
+contain two integers, (padding_H, padding_W). Otherwise, the
+padding_H = padding_W = padding. Default: padding = 0.</li>
+<li><strong>groups</strong> (<em>int</em>) &#8211; The groups number of the Conv2d Layer. According to grouped
+convolution in Alex Krizhevsky&#8217;s Deep CNN paper: when group=2,
+the first half of the filters is only connected to the first half
+of the input channels, while the second half of the filters is only
+connected to the second half of the input channels. Default: groups=1</li>
+<li><strong>param_attr</strong> (<em>ParamAttr</em>) &#8211; The parameters to the Conv2d Layer. Default: None</li>
+<li><strong>bias_attr</strong> (<em>ParamAttr</em>) &#8211; Bias parameter for the Conv2d layer. Default: None</li>
+<li><strong>act</strong> (<em>str</em>) &#8211; Activation type. Default: None</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">The tensor variable storing the convolution and                   non-linearity activation result.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first">Variable</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">ValueError</span></code> &#8211; If the shapes of input, filter_size, stride, padding and groups mismatch.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+<span class="n">conv2d</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">conv2d</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">num_filters</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">filter_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">act</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </div>
