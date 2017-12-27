@@ -674,43 +674,6 @@ Duplicable: False  Optional: False</li>
 </dd></dl>
 
 </div>
-<div class="section" id="id1">
-<h2>reshape<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">reshape</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
-<dd><p>Reshape Operator.</p>
-<p>Reshape Input(X) into the shape specified by Attr(shape).</p>
-<p>An example:
-Given a 2-D tensor X with 2 rows and 2 columns</p>
-<blockquote>
-<div>[[1, 2], [3, 4]]</div></blockquote>
-<p>and target shape = [1, 4], the reshape operator will transform
-the tensor X into a 2-D tensor:</p>
-<blockquote>
-<div>[[1, 2, 3, 4]]</div></blockquote>
-<p>One dimension in the target shape can be set -1, representing that its
-size is unknown. In this case, the real dimension will be infered from
-the original shape of Input(X) and other dimensions in the target shape.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>x</strong> &#8211; The input tensor of reshape operator.
-Duplicable: False  Optional: False</li>
-<li><strong>shape</strong> (<em>INTS</em>) &#8211; (vector&lt;int&gt;) Target shape of reshape operator.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The output tensor of reshape operator.</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</div>
 <div class="section" id="transpose">
 <h2>transpose<a class="headerlink" href="#transpose" title="Permalink to this headline">¶</a></h2>
 <dl class="function">

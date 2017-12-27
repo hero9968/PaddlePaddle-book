@@ -2229,6 +2229,46 @@ details.</li>
 </dd></dl>
 
 </div>
+<div class="section" id="sub-seq">
+<h3>sub_seq<a class="headerlink" href="#sub-seq" title="永久链接至标题">¶</a></h3>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">sub_seq</code></dt>
+<dd><p>sub_seq will return sub-sequences from the input sequences. For each
+sequence in the input sequence layer, sub_seq will slice it by given
+offset and size. Please notice that, number of offset value and size value
+both are equal to the number of sequence in the input layer.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">sub_seq</span> <span class="o">=</span> <span class="n">sub_seq</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">input_seq</span><span class="p">,</span> <span class="n">offsets</span><span class="o">=</span><span class="n">offsets</span><span class="p">,</span> <span class="n">sizes</span><span class="o">=</span><span class="n">sizes</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
+<li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer, which should be sequence.</li>
+<li><strong>offsets</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The offset indices to slice the input sequence, which should
+be sequence type.</li>
+<li><strong>sizes</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The sizes of the sub-sequences, which should be sequence type.</li>
+<li><strong>act</strong> (<em>paddle.v2.activation.Base.</em>) &#8211; Activation type, paddle.v2.activation.Linear is the default activation.</li>
+<li><strong>bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | None | bool | Any</em>) &#8211; The bias attribute. If the parameter is set to False or an object
+whose type is not paddle.v2.attr.ParameterAttribute, no bias is defined. If the
+parameter is set to True, the bias is initialized to zero.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">paddle.v2.config_base.Layer object.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">paddle.v2.config_base.Layer</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
 <div class="section" id="concat">
 <h3>concat<a class="headerlink" href="#concat" title="永久链接至标题">¶</a></h3>
 <dl class="class">
