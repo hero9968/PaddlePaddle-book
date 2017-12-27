@@ -284,7 +284,7 @@
     <span class="k">def</span> <span class="nf">minimize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">parameter_list</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add operations to minimize `loss` by updating `parameter_list`.</span>
 
-<span class="sd">        This method combines interface `append_backward_ops()` and</span>
+<span class="sd">        This method combines interface `append_backward()` and</span>
 <span class="sd">        `create_optimization_pass()` into one.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">params_grads</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_backward_pass</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">parameter_list</span><span class="p">)</span>
