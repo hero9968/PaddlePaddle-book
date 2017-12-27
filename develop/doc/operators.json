@@ -952,47 +952,6 @@
  } ], 
  "attrs" : [  ] 
 },{
- "type" : "read_from_array",
- "comment" : "\nReadFromArray Operator.\n\nRead a LoDTensor from a LoDTensor Array.\n\nAssume $T$ is LoDTensor, $i$ is the subscript of the array, and $A$ is the array. The\nequation is\n\n$$T = A[i]$$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(TensorArray) the array will be read from.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "I",
-   "comment" : "(Tensor) the subscript index in tensor array. The number of element should be 1",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(LoDTensor) the tensor will be read from.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
- "type" : "softplus",
- "comment" : "\nSoftplus Activation Operator.\n\n$out = \\ln(1 + e^{x})$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "Input of Softplus operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "Output of Softplus operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
  "type" : "square",
  "comment" : "\nSquare Activation Operator.\n\n$out = x^2$\n\n",
  "inputs" : [ 
@@ -1011,6 +970,24 @@
  } ], 
  "attrs" : [  ] 
 },{
+ "type" : "log",
+ "comment" : "\nLog Activation Operator.\n\n$out = \\ln(x)$\n\nNatural logarithm of x.\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "Input of Log operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "Output of Log operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
  "type" : "softmax",
  "comment" : "\nSoftmax Operator.\n\nThe input of the softmax operator is a 2-D tensor with shape N x K (N is the\nbatch_size, K is the dimension of input feature). The output tensor has the\nsame shape as the input tensor.\n\nFor each row of the input tensor, the softmax operator squashes the\nK-dimensional vector of arbitrary real values to a K-dimensional vector of real\nvalues in the range [0, 1] that add up to 1.\nIt computes the exponential of the given dimension and the sum of exponential\nvalues of all the other dimensions in the K-dimensional vector input.\nThen the ratio of the exponential of the given dimension and the sum of\nexponential values of all the other dimensions is the output of the softmax\noperator.\n\nFor each row $i$ and each column $j$ in Input(X), we have:\n    $$Out[i, j] = \\frac{\\exp(X[i, j])}{\\sum_j(exp(X[i, j])}$$\n\n",
  "inputs" : [ 
@@ -1024,24 +1001,6 @@
  { 
    "name" : "Out",
    "comment" : "The normalized values with the same shape as X.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
- "type" : "lod_array_length",
- "comment" : "\nLoDArrayLength Operator.\n\nThis operator obtains the length of lod tensor array:\n\n$$Out = len(X)$$\n\nNOTE: The output is a CPU Tensor since the control variable should be only in\nCPU and the length of LoDTensorArray should be used as control variables.\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(LoDTensorArray) The input tensor array.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(Tensor) 1x1 CPU Tensor of length, int64_t",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
@@ -1618,106 +1577,37 @@
    "generated" : 0
  } ] 
 },{
- "type" : "precision_recall",
- "comment" : "\nPrecision Recall Operator.\n\nWhen given Input(Indices) and Input(Labels), this operator can be used\nto compute various metrics including:\n1. macro average precision\n2. macro average recall\n3. macro f1 score\n4. micro average precision\n5. micro average recall\n6. micro f1 score\n\nTo compute the above metrics, we need to do statistics for true positives,\nfalse positives and false negatives. Here the count of true negatives is not\nnecessary, but counting it may provide potential usage and the cost is\ntrivial, so the operator also provides the count of true negatives.\n\nWe define state as a 2-D tensor with shape [class_number, 4]. Each row of a\nstate contains statistic variables for corresponding class. Layout of each row\nis: TP(true positives), FP(false positives), TN(true negatives),\nFN(false negatives). If Input(Weights) is provided, TP, FP, TN, FN will be\ncalculated by given weight instead of the instance count.\n\nThis operator also supports metrics computing for cross-batch situation. To\nachieve this, Input(StatesInfo) should be provided. State of current batch\ndata will be accumulated to Input(StatesInfo) and Output(AccumStatesInfo)\nis the accumulation state.\n\nOutput(BatchMetrics) is metrics of current batch data while\nOutput(AccumStatesInfo) is metrics of accumulation data.\n\n",
+ "type" : "reduce_mean",
+ "comment" : "\n{ReduceOp} Operator.\n\nThis operator computes the mean of input tensor along the given dimension. \nThe result tensor has 1 fewer dimension than the input unless keep_dim is true.\nIf reduce_all is true, just reduce along all dimensions and output a scalar.\n\n",
  "inputs" : [ 
  { 
-   "name" : "MaxProbs",
-   "comment" : "(Tensor, default Tensor<float>) A 2-D tensor with shape N x 1, where N is the batch size. Each row contains the max probability of an instance which computed by the previous top_k (k=1) operator.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Indices",
-   "comment" : "(Tensor, default Tensor<int>) A 2-D tensor with shape N x 1, where N is the batch size. Each row contains the corresponding index which computed by the previous top_k (k=1) operator.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Labels",
-   "comment" : "(Tensor, default Tensor<int>) A 2-D tensor with shape N x 1, where N is the batch size. Each element is a label and the value should be in [0, class_number - 1].",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Weights",
-   "comment" : "(Tensor, default Tensor<float>) A 2-D tensor with shape N x 1, where N is the batch size. This input is optional. If provided, weight of instance would be considered when computing metrics.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "StatesInfo",
-   "comment" : "(Tensor, default Tensor<int>) A 2-D tensor with shape D x 4, where D is the number of classes. This input is optional. If provided, current state will be accumulated to this state and the accumulation state will be the output state.",
+   "name" : "X",
+   "comment" : "(Tensor) The input tensor. Tensors with rank at most 6 are supported.",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
  "outputs" : [ 
  { 
-   "name" : "BatchMetrics",
-   "comment" : "(Tensor, default Tensor<float>) A 1-D tensor with shape {6}. This output tensor contains metrics for current batch data. The layout is [macro average precision, macro average recall, macro f1 score, micro average precision, micro average recall, micro f1 score].",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "AccumMetrics",
-   "comment" : "(Tensor, default Tensor<float>) A 1-D tensor with shape {6}. This output tensor contains metrics for accumulated data. The layout is [macro average precision, macro average recall, macro f1 score, micro average precision, micro average recall, micro f1 score].",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "AccumStatesInfo",
-   "comment" : "(Tensor, default Tensor<float>) A 2-D tensor with shape D x 4, where D is equal to class number. This output tensor contains accumulated state variables used to compute metrics. The layout for each class is [true positives, false positives, true negatives, false negatives].",
+   "name" : "Out",
+   "comment" : "(Tensor) The result tensor.",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
  "attrs" : [ 
  { 
-   "name" : "class_number",
+   "name" : "dim",
    "type" : "int",
-   "comment" : "(int) Number of classes to be evaluated.",
-   "generated" : 0
- } ] 
-},{
- "type" : "conv3d_cudnn",
- "comment" : "\nConvolution3D Operator.\n\nThe convolution operation calculates the output based on the input, filter\nand strides, paddings, dilations, groups parameters. The size of each dimension of the\nparameters is checked in the infer-shape.\nInput(Input) and output(Output) are in NCDHW format, where N is batch\nsize, C is the number of channels,D is the depth of the feature, H is the height of\nthe feature, and W is the width of the feature.\nFilters(Input) is MCDHW format, where M is the number of output image channels,\nC is the number of input image channels, D is the depth of the filter,\nH is the height of the filter, and W is the width of the filter.\nParameters(strides, paddings, dilations) are three elements. These three elements\nrepresent depth, height and width, respectively.\nThe input(X) size and output(Out) size may be different.\n\nExample:\n  Input:\n       Input shape: $(N, C_{in}, D_{in}, H_{in}, W_{in})$\n       Filter shape: $(C_{out}, C_{in}, D_f, H_f, W_f)$\n  Output:\n       Output shape: $(N, C_{out}, D_{out}, H_{out}, W_{out})$\n  Where\n  $$\n       D_{out}= \\frac{(D_{in} + 2 * paddings[0] - (dilations[0] * (D_f - 1) + 1))}{ strides[0]}+ 1 \\\\\n       H_{out}= \\frac{(H_{in} + 2 * paddings[1] - (dilations[1] * (H_f - 1) + 1))}{ strides[1]}+ 1 \\\\\n       W_{out}= \\frac{(W_{in} + 2 * paddings[2] - (dilations[2] * (W_f - 1) + 1))}{ strides[2]}+ 1\n  $$\n",
- "inputs" : [ 
- { 
-   "name" : "Input",
-   "comment" : "(Tensor) The input tensor of convolution operator. The format of input tensor is NCDHW. Where N is batch size, C is the number of channels, D is the depth of the feature, H is the height of the feature, and W is the width of the feature.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Filter",
-   "comment" : "(Tensor) The filter tensor of convolution operator. The format of the filter tensor is MCDHW, where M is the number of output image channels, C is the number of input image channels, D is the depth of the filter, H is the height of the filter, and W is the width of the filter.If the groups attribute is greater than 1, C equals the number of input image channels divided by the groups.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Output",
-   "comment" : "(Tensor) The output tensor of convolution operator.The format of output tensor is also NCDHW.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "strides",
-   "type" : "int array",
-   "comment" : "(vector<int>, default:{1, 1, 1}), the strides(d_stride, h_stride, w_stride) of convolution operator.",
+   "comment" : "(int, default 0) The dimension to reduce. Must be in the range [-rank(input), rank(input)). If `dim < 0`, the dim to reduce is `rank + dim`. Note that reducing on the first dim will make the LoD info lost.",
    "generated" : 0
  }, { 
-   "name" : "paddings",
-   "type" : "int array",
-   "comment" : "(vector<int>, default:{0, 0, 0}), the paddings(d_pad, h_pad, w_pad) of convolution operator.",
+   "name" : "keep_dim",
+   "type" : "bool",
+   "comment" : "(bool, default false) If true, retain the reduced dimension with length 1.",
    "generated" : 0
  }, { 
-   "name" : "groups",
-   "type" : "int",
-   "comment" : "(int default:1), the groups number of the convolution operator. According to grouped convolution in Alex Krizhevsky's Deep CNN paper: when group=2, the first half of the filters is only connected to the first half of the input channels, while the second half of the filters is only connected to the second half of the input channels.",
-   "generated" : 0
- }, { 
-   "name" : "dilations",
-   "type" : "int array",
-   "comment" : "(vector<int> default:{1, 1, 1}), the dilations(d_dilation, h_dilation, w_dilation) of convolution operator.",
-   "generated" : 0
- }, { 
-   "name" : "workspace_size_MB",
-   "type" : "int",
-   "comment" : "workspace size for cudnn, in MB, workspace is a section of GPU memory which will be allocated/freed each time the operator runs, larger workspace size can increase performance but also requires better hardware. This size should be chosen carefully.",
+   "name" : "reduce_all",
+   "type" : "bool",
+   "comment" : "(bool, default false) If true, output a scalar reduced along all dimensions.",
    "generated" : 0
  } ] 
 },{
@@ -1840,6 +1730,55 @@
    "intermediate" : 0
  } ], 
  "attrs" : [  ] 
+},{
+ "type" : "conv3d_cudnn",
+ "comment" : "\nConvolution3D Operator.\n\nThe convolution operation calculates the output based on the input, filter\nand strides, paddings, dilations, groups parameters. The size of each dimension of the\nparameters is checked in the infer-shape.\nInput(Input) and output(Output) are in NCDHW format, where N is batch\nsize, C is the number of channels,D is the depth of the feature, H is the height of\nthe feature, and W is the width of the feature.\nFilters(Input) is MCDHW format, where M is the number of output image channels,\nC is the number of input image channels, D is the depth of the filter,\nH is the height of the filter, and W is the width of the filter.\nParameters(strides, paddings, dilations) are three elements. These three elements\nrepresent depth, height and width, respectively.\nThe input(X) size and output(Out) size may be different.\n\nExample:\n  Input:\n       Input shape: $(N, C_{in}, D_{in}, H_{in}, W_{in})$\n       Filter shape: $(C_{out}, C_{in}, D_f, H_f, W_f)$\n  Output:\n       Output shape: $(N, C_{out}, D_{out}, H_{out}, W_{out})$\n  Where\n  $$\n       D_{out}= \\frac{(D_{in} + 2 * paddings[0] - (dilations[0] * (D_f - 1) + 1))}{ strides[0]}+ 1 \\\\\n       H_{out}= \\frac{(H_{in} + 2 * paddings[1] - (dilations[1] * (H_f - 1) + 1))}{ strides[1]}+ 1 \\\\\n       W_{out}= \\frac{(W_{in} + 2 * paddings[2] - (dilations[2] * (W_f - 1) + 1))}{ strides[2]}+ 1\n  $$\n",
+ "inputs" : [ 
+ { 
+   "name" : "Input",
+   "comment" : "(Tensor) The input tensor of convolution operator. The format of input tensor is NCDHW. Where N is batch size, C is the number of channels, D is the depth of the feature, H is the height of the feature, and W is the width of the feature.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Filter",
+   "comment" : "(Tensor) The filter tensor of convolution operator. The format of the filter tensor is MCDHW, where M is the number of output image channels, C is the number of input image channels, D is the depth of the filter, H is the height of the filter, and W is the width of the filter.If the groups attribute is greater than 1, C equals the number of input image channels divided by the groups.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Output",
+   "comment" : "(Tensor) The output tensor of convolution operator.The format of output tensor is also NCDHW.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "strides",
+   "type" : "int array",
+   "comment" : "(vector<int>, default:{1, 1, 1}), the strides(d_stride, h_stride, w_stride) of convolution operator.",
+   "generated" : 0
+ }, { 
+   "name" : "paddings",
+   "type" : "int array",
+   "comment" : "(vector<int>, default:{0, 0, 0}), the paddings(d_pad, h_pad, w_pad) of convolution operator.",
+   "generated" : 0
+ }, { 
+   "name" : "groups",
+   "type" : "int",
+   "comment" : "(int default:1), the groups number of the convolution operator. According to grouped convolution in Alex Krizhevsky's Deep CNN paper: when group=2, the first half of the filters is only connected to the first half of the input channels, while the second half of the filters is only connected to the second half of the input channels.",
+   "generated" : 0
+ }, { 
+   "name" : "dilations",
+   "type" : "int array",
+   "comment" : "(vector<int> default:{1, 1, 1}), the dilations(d_dilation, h_dilation, w_dilation) of convolution operator.",
+   "generated" : 0
+ }, { 
+   "name" : "workspace_size_MB",
+   "type" : "int",
+   "comment" : "workspace size for cudnn, in MB, workspace is a section of GPU memory which will be allocated/freed each time the operator runs, larger workspace size can increase performance but also requires better hardware. This size should be chosen carefully.",
+   "generated" : 0
+ } ] 
 },{
  "type" : "sequence_expand",
  "comment" : "\nSequence Expand Operator.\n\nThis operator expands input(X) according to LOD of input(Y).\nFollowing are cases to better explain how this works:\nCase 1:\n\nGiven 2-level a LoDTensor input(X)\n    X.lod = [[0,       2, 3],\n             [0, 1,    3, 4]]\n    X.data = [a, b, c, d]\n    X.dims = [4, 1]\nand input(Y)\n    Y.lod = [[0,    2,    4],\n             [0, 3, 6, 7, 8]]\nwith condition len(Y.lod[-1]) -1 == X.dims[0]\nthen we get 2-level LoDTensor\n    Out.lod = [[0,                2,    4],\n               [0,       3,       6, 7, 8]]\n    Out.data = [a, a, a, b, b, b, c, d]\n    Out.dims = [8, 1]\n\nCase 2:\n\nGiven a 0-level LoDTensor input(X)\n    X.data = [a, b, c]\n    X.lod = NULL\n    X.dims = [3, 1]\nand input(Y)\n    Y.lod = [[0, 2, 3, 6]]\nwith condition len(Y.lod[-1]) -1 == X.dims[0]\nthen we get 1-level LoDTensor\n    Out.lod = [[0,    2, 3,      6]]\n    Out.data = [a, a, b, c, c, c]\n    Out.dims = [6, 1]\n\nCase 3:\n\nGiven a 0-level LoDTensor input(X)\n    X.data = [[a, b], [c, d], [e, f]]\n    X.lod = NULL\n    X.dims = [3, 2]\nand input(Y)\n    Y.lod = [[0, 2, 3, 6]]\nwith condition len(Y.lod[-1]) -1 == X.dims[0]\nthen we get 1-level LoDTensor\n    Out.lod = [[0,           2,     3,                     6]]\n    Out.data = [[a,b], [a,b] [c,d], [e, f], [e, f], [e, f]]\n    Out.dims = [6, 2]\n\nCase 4:\n\nGiven 2-level a LoDTensor input(X)\n    X.lod = [[0,       2, 3],\n             [0, 1,    3, 4]]\n    X.data = [a, b, c, d]\n    X.dims = [4, 1]\nand input(Y)\n    Y.lod = [[0,    2,    4],\n             [0, 3, 6, 6, 8]]\nwith condition len(Y.lod[-1]) -1 == X.dims[0]\nthen we get 2-level LoDTensor\n    Out.lod = [[0,                2,    4],\n               [0,       3,       6, 6, 8]]\n    Out.data = [a, a, a, b, b, b, d, d]\n    Out.dims = [8, 1]\n\n\n",
@@ -2053,6 +1992,64 @@
    "intermediate" : 0
  } ], 
  "attrs" : [  ] 
+},{
+ "type" : "sequence_pool",
+ "comment" : "\nSequence Pool Operator.\n\nThe SequencePoolOp pools features of all time-steps of each instance.\nIt supports six pooling types:\n1. AVERAGE: $$Out[i] = \\frac{\\sum_i X_i}{N}$$\n2. SUM:     $$Out[i] = \\sum_jX_{ij}$$\n3. SQRT:    $$Out[i] = \\frac{\\sum_jX_{ij}}{\\sqrt{len(X_i)}}$$\n4. LAST:    Out[i] = last instance in i-th sequence X[i]\n5. FIRST:   Out[i] = first instance in i-th sequence X[i]\n6. MAX:     $$Out[i] = max(X_i)$$\n\nThe following example explains how this works:\nFor a mini-batch of 3 variable-length sentences,\ncontaining 2, 3, and 2 time-steps:\n\nAssume X is a [7,M,N] LoDTensor, and X->lod()[0] = [0, 2, 5, 7], 7=2+3+2.\nBesides, for the sake of simplicity, we assume M=1 and N=1,\nand the value of X = [[1, 3], [2, 4, 6], [5, 1]].\n\nThus, Out is a [3,1,1] Tensor without LoD infomation.\nAnd for different pooltype, the value of Out is as follows:\n\n- AVERAGE: [2, 4, 3], where 2=(1+3)/2, 4=(2+4+6)/3, 3=(5+1)/2\n- SUM: [4, 12, 6], where 4=1+3, 12=2+4+6, 6=5+1\n- SQRT: [2.82, 6.93, 4.24], where 2.82=(1+3)/sqrt(2),\n           6.93=(2+4+6)/sqrt(3), 4.24=(5+1)/sqrt(2)\n- MAX: [3, 6, 5], where 3=max(1,3), 6=max(2,4,6), 5=max(5,1)\n- LAST: [3, 6, 1], where 3=last(1,3), 6=last(2,4,6), 1=last(5,1)\n- FIRST: [1, 2, 5], where 1=first(1,3), 2=first(2,4,6), 5=first(5,1)\n\n    ",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(LoDTensor) The variable-length input of SequencePoolOp",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(Tensor) The output of SequencePoolOp does not contain LoD infomation.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "MaxIndex",
+   "comment" : "(Tensor<int>) This tensor is used for the sequence max-pooling to record the max indexes.",
+   "duplicable" : 0,
+   "intermediate" : 1
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "pooltype",
+   "type" : "string",
+   "comment" : "(string, default 'AVERAGE') the pooling pooltype of SequencePoolOp.",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "spp",
+ "comment" : "\n        \"With spatial pyramid pooling, the input image can\n        be of any sizes. This not only allows arbitrary aspect\n        ratios, but also allows arbitrary scales. We can resize\n        the input image to any scale (e.g., min(w, h)=180, 224,\n        ...) and apply the same deep network. When the\n        input image is at different scales, the network (with\n        the same filter sizes) will extract features at different\n        scales. The scales play important roles in traditional\n        methods.\n        Input shape: $(N, C_{in}, H_{in}, W_{in})$\n        Output shape: $(H_{out}, W_{out})$\n        Where\n          $$\n            H_{out} = N \\\\\n            W_{out} = (((4^pyramid_height) - 1) / (4 - 1))$ * C_{in}\n          $$\n        paper https://arxiv.org/pdf/1406.4729v4.pdf\n        ",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(Tensor) The input tensor of spp operator. The format of input tensor is NCHW. Where N is batch size, C is the number of channels, H and W is the height and width of feature.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(Tensor) The output tensor of spp operator.N * M.M = C * H * W",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "pyramid_height",
+   "type" : "int",
+   "comment" : "(int), multi level pooling",
+   "generated" : 0
+ }, { 
+   "name" : "pooling_type",
+   "type" : "string",
+   "comment" : "(string), pooling type, can be \"max\" for max-pooling and \"avg\" for average-pooling.",
+   "generated" : 0
+ } ] 
 },{
  "type" : "sign",
  "comment" : "\nSign operator\n\n$$Out = X.sign()$$\n",
@@ -2328,6 +2325,65 @@
    "generated" : 0
  } ] 
 },{
+ "type" : "logical_and",
+ "comment" : "logical_and Operator\n\nIt operates element-wise on X and Y, and returns the Out. X, Y and Out are N-dim boolean tensors.\nEach element of Out is calculated by $$Out = X \\&\\& Y$$\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(LoDTensor) Left hand operand of logical_and operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Y",
+   "comment" : "(LoDTensor) Right hand operand of logical_and operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(LoDTensor) n-dim bool tensor. Each element is $$Out = X \\&\\& Y$$",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
+ "type" : "logical_not",
+ "comment" : "logical_not Operator\n\nIt operates element-wise on X, and returns the Out. X and Out are N-dim boolean tensors.\nEach element of Out is calculated by $$Out = !X$$\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(LoDTensor) Operand of logical_not operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(LoDTensor) n-dim bool tensor. Each element is $$Out = !X$$",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
+ "type" : "abs",
+ "comment" : "\nAbs Activation Operator.\n\n$out = |x|$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "Input of Abs operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "Output of Abs operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
  "type" : "write_to_array",
  "comment" : "\nWriteToArray Operator.\n\nThis operator writes a LoDTensor to a LoDTensor array.\n\nAssume $T$ is LoDTensor, $i$ is the subscript of the array, and $A$ is the array. The\nequation is\n\n$$A[i] = T$$\n\n",
  "inputs" : [ 
@@ -2351,61 +2407,98 @@
  } ], 
  "attrs" : [  ] 
 },{
- "type" : "sequence_pool",
- "comment" : "\nSequence Pool Operator.\n\nThe SequencePoolOp pools features of all time-steps of each instance.\nIt supports six pooling types:\n1. AVERAGE: $$Out[i] = \\frac{\\sum_i X_i}{N}$$\n2. SUM:     $$Out[i] = \\sum_jX_{ij}$$\n3. SQRT:    $$Out[i] = \\frac{\\sum_jX_{ij}}{\\sqrt{len(X_i)}}$$\n4. LAST:    Out[i] = last instance in i-th sequence X[i]\n5. FIRST:   Out[i] = first instance in i-th sequence X[i]\n6. MAX:     $$Out[i] = max(X_i)$$\n\nThe following example explains how this works:\nFor a mini-batch of 3 variable-length sentences,\ncontaining 2, 3, and 2 time-steps:\n\nAssume X is a [7,M,N] LoDTensor, and X->lod()[0] = [0, 2, 5, 7], 7=2+3+2.\nBesides, for the sake of simplicity, we assume M=1 and N=1,\nand the value of X = [[1, 3], [2, 4, 6], [5, 1]].\n\nThus, Out is a [3,1,1] Tensor without LoD infomation.\nAnd for different pooltype, the value of Out is as follows:\n\n- AVERAGE: [2, 4, 3], where 2=(1+3)/2, 4=(2+4+6)/3, 3=(5+1)/2\n- SUM: [4, 12, 6], where 4=1+3, 12=2+4+6, 6=5+1\n- SQRT: [2.82, 6.93, 4.24], where 2.82=(1+3)/sqrt(2),\n           6.93=(2+4+6)/sqrt(3), 4.24=(5+1)/sqrt(2)\n- MAX: [3, 6, 5], where 3=max(1,3), 6=max(2,4,6), 5=max(5,1)\n- LAST: [3, 6, 1], where 3=last(1,3), 6=last(2,4,6), 1=last(5,1)\n- FIRST: [1, 2, 5], where 1=first(1,3), 2=first(2,4,6), 5=first(5,1)\n\n    ",
+ "type" : "softplus",
+ "comment" : "\nSoftplus Activation Operator.\n\n$out = \\ln(1 + e^{x})$\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
-   "comment" : "(LoDTensor) The variable-length input of SequencePoolOp",
+   "comment" : "Input of Softplus operator",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
  "outputs" : [ 
  { 
    "name" : "Out",
-   "comment" : "(Tensor) The output of SequencePoolOp does not contain LoD infomation.",
+   "comment" : "Output of Softplus operator",
    "duplicable" : 0,
    "intermediate" : 0
- }, { 
-   "name" : "MaxIndex",
-   "comment" : "(Tensor<int>) This tensor is used for the sequence max-pooling to record the max indexes.",
-   "duplicable" : 0,
-   "intermediate" : 1
  } ], 
- "attrs" : [ 
- { 
-   "name" : "pooltype",
-   "type" : "string",
-   "comment" : "(string, default 'AVERAGE') the pooling pooltype of SequencePoolOp.",
-   "generated" : 0
- } ] 
+ "attrs" : [  ] 
 },{
- "type" : "spp",
- "comment" : "\n        \"With spatial pyramid pooling, the input image can\n        be of any sizes. This not only allows arbitrary aspect\n        ratios, but also allows arbitrary scales. We can resize\n        the input image to any scale (e.g., min(w, h)=180, 224,\n        ...) and apply the same deep network. When the\n        input image is at different scales, the network (with\n        the same filter sizes) will extract features at different\n        scales. The scales play important roles in traditional\n        methods.\n        Input shape: $(N, C_{in}, H_{in}, W_{in})$\n        Output shape: $(H_{out}, W_{out})$\n        Where\n          $$\n            H_{out} = N \\\\\n            W_{out} = (((4^pyramid_height) - 1) / (4 - 1))$ * C_{in}\n          $$\n        paper https://arxiv.org/pdf/1406.4729v4.pdf\n        ",
+ "type" : "read_from_array",
+ "comment" : "\nReadFromArray Operator.\n\nRead a LoDTensor from a LoDTensor Array.\n\nAssume $T$ is LoDTensor, $i$ is the subscript of the array, and $A$ is the array. The\nequation is\n\n$$T = A[i]$$\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
-   "comment" : "(Tensor) The input tensor of spp operator. The format of input tensor is NCHW. Where N is batch size, C is the number of channels, H and W is the height and width of feature.",
+   "comment" : "(TensorArray) the array will be read from.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "I",
+   "comment" : "(Tensor) the subscript index in tensor array. The number of element should be 1",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
  "outputs" : [ 
  { 
    "name" : "Out",
-   "comment" : "(Tensor) The output tensor of spp operator.N * M.M = C * H * W",
+   "comment" : "(LoDTensor) the tensor will be read from.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
+ "type" : "precision_recall",
+ "comment" : "\nPrecision Recall Operator.\n\nWhen given Input(Indices) and Input(Labels), this operator can be used\nto compute various metrics including:\n1. macro average precision\n2. macro average recall\n3. macro f1 score\n4. micro average precision\n5. micro average recall\n6. micro f1 score\n\nTo compute the above metrics, we need to do statistics for true positives,\nfalse positives and false negatives. Here the count of true negatives is not\nnecessary, but counting it may provide potential usage and the cost is\ntrivial, so the operator also provides the count of true negatives.\n\nWe define state as a 2-D tensor with shape [class_number, 4]. Each row of a\nstate contains statistic variables for corresponding class. Layout of each row\nis: TP(true positives), FP(false positives), TN(true negatives),\nFN(false negatives). If Input(Weights) is provided, TP, FP, TN, FN will be\ncalculated by given weight instead of the instance count.\n\nThis operator also supports metrics computing for cross-batch situation. To\nachieve this, Input(StatesInfo) should be provided. State of current batch\ndata will be accumulated to Input(StatesInfo) and Output(AccumStatesInfo)\nis the accumulation state.\n\nOutput(BatchMetrics) is metrics of current batch data while\nOutput(AccumStatesInfo) is metrics of accumulation data.\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "MaxProbs",
+   "comment" : "(Tensor, default Tensor<float>) A 2-D tensor with shape N x 1, where N is the batch size. Each row contains the max probability of an instance which computed by the previous top_k (k=1) operator.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Indices",
+   "comment" : "(Tensor, default Tensor<int>) A 2-D tensor with shape N x 1, where N is the batch size. Each row contains the corresponding index which computed by the previous top_k (k=1) operator.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Labels",
+   "comment" : "(Tensor, default Tensor<int>) A 2-D tensor with shape N x 1, where N is the batch size. Each element is a label and the value should be in [0, class_number - 1].",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Weights",
+   "comment" : "(Tensor, default Tensor<float>) A 2-D tensor with shape N x 1, where N is the batch size. This input is optional. If provided, weight of instance would be considered when computing metrics.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "StatesInfo",
+   "comment" : "(Tensor, default Tensor<int>) A 2-D tensor with shape D x 4, where D is the number of classes. This input is optional. If provided, current state will be accumulated to this state and the accumulation state will be the output state.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "BatchMetrics",
+   "comment" : "(Tensor, default Tensor<float>) A 1-D tensor with shape {6}. This output tensor contains metrics for current batch data. The layout is [macro average precision, macro average recall, macro f1 score, micro average precision, micro average recall, micro f1 score].",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "AccumMetrics",
+   "comment" : "(Tensor, default Tensor<float>) A 1-D tensor with shape {6}. This output tensor contains metrics for accumulated data. The layout is [macro average precision, macro average recall, macro f1 score, micro average precision, micro average recall, micro f1 score].",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "AccumStatesInfo",
+   "comment" : "(Tensor, default Tensor<float>) A 2-D tensor with shape D x 4, where D is equal to class number. This output tensor contains accumulated state variables used to compute metrics. The layout for each class is [true positives, false positives, true negatives, false negatives].",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
  "attrs" : [ 
  { 
-   "name" : "pyramid_height",
+   "name" : "class_number",
    "type" : "int",
-   "comment" : "(int), multi level pooling",
-   "generated" : 0
- }, { 
-   "name" : "pooling_type",
-   "type" : "string",
-   "comment" : "(string), pooling type, can be \"max\" for max-pooling and \"avg\" for average-pooling.",
+   "comment" : "(int) Number of classes to be evaluated.",
    "generated" : 0
  } ] 
 },{
@@ -2745,40 +2838,6 @@
  } ], 
  "attrs" : [  ] 
 },{
- "type" : "reduce_mean",
- "comment" : "\n{ReduceOp} Operator.\n\nThis operator computes the mean of input tensor along the given dimension. \nThe result tensor has 1 fewer dimension than the input unless keep_dim is true.\nIf reduce_all is true, just reduce along all dimensions and output a scalar.\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(Tensor) The input tensor. Tensors with rank at most 6 are supported.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(Tensor) The result tensor.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "dim",
-   "type" : "int",
-   "comment" : "(int, default 0) The dimension to reduce. Must be in the range [-rank(input), rank(input)). If `dim < 0`, the dim to reduce is `rank + dim`. Note that reducing on the first dim will make the LoD info lost.",
-   "generated" : 0
- }, { 
-   "name" : "keep_dim",
-   "type" : "bool",
-   "comment" : "(bool, default false) If true, retain the reduced dimension with length 1.",
-   "generated" : 0
- }, { 
-   "name" : "reduce_all",
-   "type" : "bool",
-   "comment" : "(bool, default false) If true, output a scalar reduced along all dimensions.",
-   "generated" : 0
- } ] 
-},{
  "type" : "pool2d_cudnn",
  "comment" : "\nPool2d Operator.\n\nThe pooling2d operation calculates the output based on\nthe input, pooling_type and ksize, strides, paddings parameters.\nInput(X) and output(Out) are in NCHW format, where N is batch size, C is the\nnumber of channels, H is the height of the feature, and W is the width of the feature.\nParameters(ksize, strides, paddings) are two elements.\nThese two elements represent height and width, respectively.\nThe input(X) size and output(Out) size may be different.\n\nExample:   \n  Input:\n       X shape: $(N, C, H_{in}, W_{in})$\n  Output:\n       Out shape: $(N, C, H_{out}, W_{out})$\n  Where\n       $$ \n       H_{out} = \\frac{(H_{in} - ksize[0] + 2 * paddings[0])}{strides[0]} + 1 \\\\\n       W_{out} = \\frac{(W_{in} - ksize[1] + 2 * paddings[1])}{strides[1]} + 1\n       $$\n\n",
  "inputs" : [ 
@@ -3066,60 +3125,19 @@
    "generated" : 0
  } ] 
 },{
- "type" : "logical_and",
- "comment" : "logical_and Operator\n\nIt operates element-wise on X and Y, and returns the Out. X, Y and Out are N-dim boolean tensors.\nEach element of Out is calculated by $$Out = X \\&\\& Y$$\n",
+ "type" : "lod_array_length",
+ "comment" : "\nLoDArrayLength Operator.\n\nThis operator obtains the length of lod tensor array:\n\n$$Out = len(X)$$\n\nNOTE: The output is a CPU Tensor since the control variable should be only in\nCPU and the length of LoDTensorArray should be used as control variables.\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
-   "comment" : "(LoDTensor) Left hand operand of logical_and operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Y",
-   "comment" : "(LoDTensor) Right hand operand of logical_and operator",
+   "comment" : "(LoDTensorArray) The input tensor array.",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
  "outputs" : [ 
  { 
    "name" : "Out",
-   "comment" : "(LoDTensor) n-dim bool tensor. Each element is $$Out = X \\&\\& Y$$",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
- "type" : "logical_not",
- "comment" : "logical_not Operator\n\nIt operates element-wise on X, and returns the Out. X and Out are N-dim boolean tensors.\nEach element of Out is calculated by $$Out = !X$$\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(LoDTensor) Operand of logical_not operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(LoDTensor) n-dim bool tensor. Each element is $$Out = !X$$",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
- "type" : "abs",
- "comment" : "\nAbs Activation Operator.\n\n$out = |x|$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "Input of Abs operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "Output of Abs operator",
+   "comment" : "(Tensor) 1x1 CPU Tensor of length, int64_t",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
@@ -5066,24 +5084,6 @@
    "comment" : "(float, default 1.0e-6) Constant for numerical stability",
    "generated" : 0
  } ] 
-},{
- "type" : "log",
- "comment" : "\nLog Activation Operator.\n\n$out = \\ln(x)$\n\nNatural logarithm of x.\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "Input of Log operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "Output of Log operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
 },{
  "type" : "nce",
  "comment" : "\nCompute and return the noise-contrastive estimation training loss.\nSee [Noise-contrastive estimation: A new estimation principle for unnormalized statistical models](http://www.jmlr.org/proceedings/papers/v9/gutmann10a/gutmann10a.pdf).\nBy default this operator uses a uniform distribution for sampling.\n",
