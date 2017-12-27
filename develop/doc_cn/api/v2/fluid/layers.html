@@ -889,7 +889,69 @@ X and Y and returns that as the output.</p>
 <dl class="function">
 <dt>
 <code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">cross_entropy</code><span class="sig-paren">(</span><em>input</em>, <em>label</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
-<dd><p>This function computes cross_entropy using the input and label.</p>
+<dd><p><strong>Cross Entropy Layer</strong></p>
+<p>This layer computes the cross entropy between <cite>input</cite> and <cite>label</cite>. It supports
+both standard cross-entropy and soft-label cross-entropy loss computation.</p>
+<ol class="arabic">
+<li><dl class="first docutils">
+<dt>One-hot cross-entropy:</dt>
+<dd><p class="first"><cite>soft_label = False</cite>, <cite>Label[i, 0]</cite> indicates the class index for sample i:</p>
+<div class="last math">
+\[Y[i] = -\log(X[i, Label[i]])\]</div>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Soft-label cross-entropy:</dt>
+<dd><p class="first"><cite>soft_label = True</cite>, <cite>Label[i, j]</cite> indicates the soft label of class j
+for sample i:</p>
+<div class="last math">
+\[Y[i] = \sum_j{-Label[i, j] * log(X[i, j])}\]</div>
+</dd>
+</dl>
+<p>Please make sure that in this case the summation of each row of <cite>label</cite>
+equals one.</p>
+</li>
+<li><dl class="first docutils">
+<dt>One-hot cross-entropy with vecterized <cite>label</cite>:</dt>
+<dd><p class="first last">As a special case of 2), when each row of &#8216;label&#8217; has only one
+non-zero element which is equal to 1, soft-label cross-entropy degenerates
+to a one-hot cross-entropy with one-hot label representation.</p>
+</dd>
+</dl>
+</li>
+</ol>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
+<li><strong>input</strong> (<em>Variable|list</em>) &#8211; a 2-D tensor with shape [N x D], where N is the
+batch size and D is the number of classes. This input is a probability
+computed by the previous operator, which is almost always the result
+of a softmax operator.</li>
+<li><strong>label</strong> (<em>Variable|list</em>) &#8211; the ground truth which is a 2-D tensor. When
+<cite>soft_label</cite> is set to <cite>False</cite>, <cite>label</cite> is a tensor&lt;int64&gt; with shape
+[N x 1]. When <cite>soft_label</cite> is set to <cite>True</cite>, <cite>label</cite> is a
+tensor&lt;float/double&gt; with shape [N x D].</li>
+<li><strong>soft_label</strong> (bool, via <cite>**kwargs</cite>) &#8211; a flag indicating whether to interpretate
+the given labels as soft labels, default <cite>False</cite>.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">A 2-D tensor with shape [N x 1], the cross entropy loss.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><cite>ValueError</cite> &#8211; 1) the 1st dimension of <cite>input</cite> and <cite>label</cite> are not equal; 2) when <cite>soft_label == True</cite>, and the 2nd dimension of <cite>input</cite> and <cite>label</cite> are not                equal; 3) when <cite>soft_label == False</cite>, and the 2nd dimension of <cite>label</cite> is not 1.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">predict</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">net</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">classdim</span><span class="p">,</span> <span class="n">act</span><span class="o">=</span><span class="s1">&#39;softmax&#39;</span><span class="p">)</span>
+<span class="n">cost</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">cross_entropy</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">predict</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </div>
