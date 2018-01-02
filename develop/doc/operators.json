@@ -3531,6 +3531,65 @@
    "generated" : 0
  } ] 
 },{
+ "type" : "detection_output",
+ "comment" : "\n          detection output for SSD(single shot multibox detector)\n          Apply the NMS to the output of network and compute the predict\n          bounding box location. The output’s shape of this layer could\n          be zero if there is no valid bounding box.\n        ",
+ "inputs" : [ 
+ { 
+   "name" : "Loc",
+   "comment" : "(Tensor) The input tensor of detection_output operator.The input predict locationsThe format of input tensor is kNCHW. Where K is priorbox point numbers,N is How many boxes are there on each point, C is 4, H and W both are 1.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Conf",
+   "comment" : "(Tensor) The input tensor of detection_output operator.The input priorbox confidence.The format of input tensor is kNCHW. Where K is priorbox point numbers,N is How many boxes are there on each point, C is the number of classes, H and W both are 1.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "PriorBox",
+   "comment" : "(Tensor) The input tensor of detection_output operator.The format of input tensor is the position and variance of the boxes",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(Tensor) The output tensor of detection_output operator.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "background_label_id",
+   "type" : "int",
+   "comment" : "(int), The background class index.",
+   "generated" : 0
+ }, { 
+   "name" : "num_classes",
+   "type" : "int",
+   "comment" : "(int), The number of the classification.",
+   "generated" : 0
+ }, { 
+   "name" : "nms_threshold",
+   "type" : "float",
+   "comment" : "(float), The Non-maximum suppression threshold.",
+   "generated" : 0
+ }, { 
+   "name" : "confidence_threshold",
+   "type" : "float",
+   "comment" : "(float), The classification confidence threshold.",
+   "generated" : 0
+ }, { 
+   "name" : "top_k",
+   "type" : "int",
+   "comment" : "(int), The bbox number kept of the layer’s output.",
+   "generated" : 0
+ }, { 
+   "name" : "nms_top_k",
+   "type" : "int",
+   "comment" : "(int), The bbox number kept of the NMS’s output.",
+   "generated" : 0
+ } ] 
+},{
  "type" : "fill_zeros_like",
  "comment" : "\nFillZerosLike Operator.\n\nFill up a variable with zeros.\nThe output will have the same size as the input.\n\n",
  "inputs" : [ 
