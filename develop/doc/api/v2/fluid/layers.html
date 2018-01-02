@@ -1288,8 +1288,30 @@ table.</li>
 <dl class="function">
 <dt>
 <code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">max_sequence_len</code><span class="sig-paren">(</span><em>rank_table</em><span class="sig-paren">)</span></dt>
-<dd><p>This function creates an operator to calculate the length of
-max seqence through input rank_table(should be a lod_rank_table)</p>
+<dd><p>Max Sequence Len Operator. Given a LoDRankTable object, this layer
+returns the max length of a batch of sequences. In fact, a LoDRankTable
+object contains a list of tuples(&lt;sequence index, sequence length&gt;) and
+the list is already sorted by sequence length in descending order, so the
+operator just returns the sequence length of the first tuple element.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rank_table</strong> (<em>Variable</em>) &#8211; Input variable which is a LoDRankTable object.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The max length of sequence.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">Variable</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">],</span>
+                <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">,</span> <span class="n">lod_level</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">rank_table</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">lod_rank_table</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">max_seq_len</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">max_sequence_len</span><span class="p">(</span><span class="n">rank_table</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </div>
