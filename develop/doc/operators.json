@@ -629,6 +629,39 @@
    "generated" : 0
  } ] 
 },{
+ "type" : "cos_sim",
+ "comment" : "\nCosine Similarity Operator.\n\n$Out = X^T * Y / (\\sqrt{X^T * X} * \\sqrt{Y^T * Y})$\n\nThe input X and Y must have the same shape, except that the 1st dimension\nof input Y could be just 1 (different from input X), which will be\nbroadcasted to match the shape of input X before computing their cosine\nsimilarity.\n\nBoth the input X and Y can carry the LoD (Level of Details) information,\nor not. But the output only shares the LoD information with input X.\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "The 1st input of cos_sim op.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Y",
+   "comment" : "The 2nd input of cos_sim op.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "The output of cos_sim op.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "XNorm",
+   "comment" : "Norm of the first input, reduced along the 1st dimension.",
+   "duplicable" : 0,
+   "intermediate" : 1
+ }, { 
+   "name" : "YNorm",
+   "comment" : "Norm of the second input, reduced along the 1st dimension.",
+   "duplicable" : 0,
+   "intermediate" : 1
+ } ], 
+ "attrs" : [  ] 
+},{
  "type" : "save",
  "comment" : "\nSave operator\n\nThis operator will serialize and write a tensor variable to file on disk.\n",
  "inputs" : [ 
@@ -965,24 +998,6 @@
  { 
    "name" : "Out",
    "comment" : "Output of Square operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
- "type" : "log",
- "comment" : "\nLog Activation Operator.\n\n$out = \\ln(x)$\n\nNatural logarithm of x.\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "Input of Log operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "Output of Log operator",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
@@ -4188,39 +4203,6 @@
  } ], 
  "attrs" : [  ] 
 },{
- "type" : "cos_sim",
- "comment" : "\nCosine Similarity Operator.\n\n$Out = X^T * Y / (\\sqrt{X^T * X} * \\sqrt{Y^T * Y})$\n\nThe input X and Y must have the same shape, except that the 1st dimension\nof input Y could be just 1 (different from input X), which will be\nbroadcasted to match the shape of input X before computing their cosine\nsimilarity.\n\nBoth the input X and Y can carry the LoD (Level of Details) information,\nor not. But the output only shares the LoD information with input X.\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "The 1st input of cos_sim op.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Y",
-   "comment" : "The 2nd input of cos_sim op.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "The output of cos_sim op.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "XNorm",
-   "comment" : "Norm of the first input, reduced along the 1st dimension.",
-   "duplicable" : 0,
-   "intermediate" : 1
- }, { 
-   "name" : "YNorm",
-   "comment" : "Norm of the second input, reduced along the 1st dimension.",
-   "duplicable" : 0,
-   "intermediate" : 1
- } ], 
- "attrs" : [  ] 
-},{
  "type" : "conv3d_transpose_cudnn",
  "comment" : "\nConvolution3D Transpose Operator.\n\nThe convolution transpose operation calculates the output based on the input, filter\nand dilations, strides, paddings, groups parameters. The size of each dimension of the\nparameters is checked in the infer-shape.\nInput(Input) and output(Output) are in NCDHW format. Where N is batch size, C is the\nnumber of channels, D is the depth of the feature, H is the height of the feature,\nand W is the width of the feature.\nFilter(Input) is in MCDHW format. Where M is the number of input feature channels,\nC is the number of output feature channels, D is the depth of the filter,H is the\nheight of the filter, and W is the width of the filter.\nParameters(strides, paddings) are three elements. These three elements represent\ndepth, height and width, respectively.\nThe input(X) size and output(Out) size may be different.\n\nExample:   \n  Input:\n       Input shape: $(N, C_{in}, D_{in}, H_{in}, W_{in})$\n       Filter shape: $(C_{in}, C_{out}, D_f, H_f, W_f)$\n  Output:\n       Output shape: $(N, C_{out}, D_{out}, H_{out}, W_{out})$\n  Where\n  $$\n       D_{out} = (D_{in} - 1) * strides[0] - 2 * paddings[0] + D_f \\\\\n       H_{out} = (H_{in} - 1) * strides[1] - 2 * paddings[1] + H_f \\\\\n       W_{out} = (W_{in} - 1) * strides[2] - 2 * paddings[2] + W_f\n  $$\n",
  "inputs" : [ 
@@ -5084,6 +5066,24 @@
    "comment" : "(float, default 1.0e-6) Constant for numerical stability",
    "generated" : 0
  } ] 
+},{
+ "type" : "log",
+ "comment" : "\nLog Activation Operator.\n\n$out = \\ln(x)$\n\nNatural logarithm of x.\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "Input of Log operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "Output of Log operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
 },{
  "type" : "nce",
  "comment" : "\nCompute and return the noise-contrastive estimation training loss.\nSee [Noise-contrastive estimation: A new estimation principle for unnormalized statistical models](http://www.jmlr.org/proceedings/papers/v9/gutmann10a/gutmann10a.pdf).\nBy default this operator uses a uniform distribution for sampling.\n",
