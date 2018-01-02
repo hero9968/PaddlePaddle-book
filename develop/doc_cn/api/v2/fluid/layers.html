@@ -1038,8 +1038,43 @@ the given labels as soft labels, default <cite>False</cite>.</li>
 <dl class="function">
 <dt>
 <code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">square_error_cost</code><span class="sig-paren">(</span><em>input</em>, <em>label</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
-<dd><p>This functions returns the squared error cost using the input and label.
-The output is appending the op to do the above.</p>
+<dd><p><strong>Square error cost layer</strong></p>
+<p>This layer accepts input predictions and target label and returns the squared error cost.
+For predictions, <span class="math">\(X\)</span>, and target labels, <span class="math">\(Y\)</span>, the equation is:</p>
+<div class="math">
+\[Out = (X - Y)^2\]</div>
+<p>In the above equation:</p>
+<blockquote>
+<div><ul class="simple">
+<li><span class="math">\(X\)</span>: Input predictions, a tensor.</li>
+<li><span class="math">\(Y\)</span>: Input labels, a tensor.</li>
+<li><span class="math">\(Out\)</span>: Output value, same shape with <span class="math">\(X\)</span>.</li>
+</ul>
+</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
+<li><strong>input</strong> (<em>Variable</em>) &#8211; Input tensor, has predictions.</li>
+<li><strong>label</strong> (<em>Variable</em>) &#8211; Label tensor, has target labels.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">The tensor variable storing the element-wise squared error difference                   of input and label.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">Variable</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+<span class="n">y_predict</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;y_predict&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+<span class="n">cost</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">square_error_cost</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">y_predict</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </div>
