@@ -1003,6 +1003,24 @@
  } ], 
  "attrs" : [  ] 
 },{
+ "type" : "log",
+ "comment" : "\nLog Activation Operator.\n\n$out = \\ln(x)$\n\nNatural logarithm of x.\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "Input of Log operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "Output of Log operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
  "type" : "softmax",
  "comment" : "\nSoftmax Operator.\n\nThe input of the softmax operator is a 2-D tensor with shape N x K (N is the\nbatch_size, K is the dimension of input feature). The output tensor has the\nsame shape as the input tensor.\n\nFor each row of the input tensor, the softmax operator squashes the\nK-dimensional vector of arbitrary real values to a K-dimensional vector of real\nvalues in the range [0, 1] that add up to 1.\nIt computes the exponential of the given dimension and the sum of exponential\nvalues of all the other dimensions in the K-dimensional vector input.\nThen the ratio of the exponential of the given dimension and the sum of\nexponential values of all the other dimensions is the output of the softmax\noperator.\n\nFor each row $i$ and each column $j$ in Input(X), we have:\n    $$Out[i, j] = \\frac{\\exp(X[i, j])}{\\sum_j(exp(X[i, j])}$$\n\n",
  "inputs" : [ 
@@ -1283,24 +1301,6 @@
    "comment" : "The exponential factor of Pow",
    "generated" : 0
  } ] 
-},{
- "type" : "sqrt",
- "comment" : "\nSqrt Activation Operator.\n\n$out = \\sqrt{x}$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "Input of Sqrt operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "Output of Sqrt operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
 },{
  "type" : "lookup_table",
  "comment" : "\nLookup Table Operator.\n\nThis operator is used to perform lookups on the parameter W,\nthen concatenated into a dense tensor.\n\nThe input Ids can carry the LoD (Level of Details) information,\nor not. And the output only shares the LoD information with input Ids.\n\n",
@@ -2311,35 +2311,6 @@
  } ], 
  "attrs" : [  ] 
 },{
- "type" : "lod_reset",
- "comment" : "LoDReset operator\n\nReset LoD of Input(X) into a new one specified by Input(TargetLoD) or\nAttr(target_lod), or set LoD for Input(X) if it doesn't have one.\nCurrently the lod_reset operator only supports the reset of level 0 LoD.\nAt least one of Input(TargetLoD) and Attr(target_lod) must be set,\nand if both of them are set, Input(TargetLoD) will be chosen as the\ntarget LoD.\n\nAn example:\nGiven a float LoDTensor X with shape (6, 1), its transpose form represents\n\n    [1.0, 2.0, 3.0, 4.0, 5.0, 6.0],\n\nwith LoD = [[0, 2, 5, 6]] and the three (transposed) sequences look like\n\n    [1.0, 2.0], [3.0, 4.0, 5.0], [6.0].\n\nIf target LoD = [0, 4, 6], the lod_reset operator will reset the LoD and\nthe sequences that the LoDTensor Output(Out) contains becomes:\n\n    [1.0, 2.0, 3.0, 4.0], [5.0, 6.0].\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(LoDTensor) The input tensor of lod_reset operator.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "TargetLoD",
-   "comment" : "(Tensor, optional) The target level 0 LoD from Input().",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(LoDTensor) The output tensor of lod_reset operator.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "target_lod",
-   "type" : "int array",
-   "comment" : "The target level 0 LoD from Attr().",
-   "generated" : 0
- } ] 
-},{
  "type" : "logical_and",
  "comment" : "logical_and Operator\n\nIt operates element-wise on X and Y, and returns the Out. X, Y and Out are N-dim boolean tensors.\nEach element of Out is calculated by $$Out = X \\&\\& Y$$\n",
  "inputs" : [ 
@@ -2394,29 +2365,6 @@
  { 
    "name" : "Out",
    "comment" : "Output of Abs operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
- "type" : "write_to_array",
- "comment" : "\nWriteToArray Operator.\n\nThis operator writes a LoDTensor to a LoDTensor array.\n\nAssume $T$ is LoDTensor, $i$ is the subscript of the array, and $A$ is the array. The\nequation is\n\n$$A[i] = T$$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(LoDTensor) the tensor will be written to tensor array",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "I",
-   "comment" : "(Tensor) the subscript index in tensor array. The number of element should be 1",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(TensorArray) the tensor array will be written",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
@@ -3083,6 +3031,35 @@
    "generated" : 0
  } ] 
 },{
+ "type" : "norm",
+ "comment" : "\n       \"Input shape: $(N, C, H, W)$\n        Sclae shape: $(C, 1)$\n        Output shape: $(N, C, H, W)$\n        Where\n        forward\n          $$\n            [\\frac {x_{1}}{\\sqrt{\\sum{x_{i}^{2}}}} \\frac {x_{2}}{\\sqrt{\\sum{x_{i}^{2}}}} \\frac {x_{3}}{\\sqrt{\\sum{x_{i}^{2}}}} \\cdot  \\cdot  \\cdot \\frac {x_{n}}{\\sqrt{\\sum{x_{i}^{2}}}}]\n          $$\n        backward\n          $$\n            \\frac{\\frac{\\mathrm{d}L }{\\mathrm{d}y_{1}} - \\frac {x_{1}\\sum {\\frac{\\mathrm{d} L}{\\mathrm{d} y_{j}}}x_{j}}{\\sum x_{j}^{2}} }{\\sqrt{\\sum{x_{j}^{2}}}}\n          $$\n        ",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(Tensor) The input tensor of norm operator. The format of input tensor is NCHW. Where N is batch size, C is the number of channels, H and W is the height and width of feature.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Scale",
+   "comment" : "(Tensor) The input tensor of norm operator. The format of input tensor is C * 1.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(Tensor) The output tensor of norm operator.N * M.M = C * H * W",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "epsilon",
+   "type" : "float",
+   "comment" : "(float, default 1e-10) Constant for numerical stability.",
+   "generated" : 0
+ } ] 
+},{
  "type" : "modified_huber_loss",
  "comment" : "\nModified Huber Loss Operator.\n\nThis operator is used in binary classification problem. The shape of\ninput X and target Y are both [N, 1] and so is the shape of the output loss.\nSince target Y is not differentiable, calculating gradient for Y is illegal.\nThe formula of modified huber loss is:\n\n$$\nL(y, f(x)) = \n\\begin{cases}\n(\\max(0, 1 - yf(x)))^2,  \\text{if} \\  yf(x) >= -1    \\\\\n             -4yf(x),    \\quad \\text{otherwise}\n\\end{cases}\n$$\n\nMake sure the values of target label Y are in {0, 1} here. This operator will\nscale values of Y to {-1, +1} when computing losses and gradients.\n\n",
  "inputs" : [ 
@@ -3139,6 +3116,76 @@
    "comment" : "(int, default -1) The starting dimension index for broadcasting Y onto X",
    "generated" : 0
  } ] 
+},{
+ "type" : "sqrt",
+ "comment" : "\nSqrt Activation Operator.\n\n$out = \\sqrt{x}$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "Input of Sqrt operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "Output of Sqrt operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
+ "type" : "lod_reset",
+ "comment" : "LoDReset operator\n\nReset LoD of Input(X) into a new one specified by Input(TargetLoD) or\nAttr(target_lod), or set LoD for Input(X) if it doesn't have one.\nCurrently the lod_reset operator only supports the reset of level 0 LoD.\nAt least one of Input(TargetLoD) and Attr(target_lod) must be set,\nand if both of them are set, Input(TargetLoD) will be chosen as the\ntarget LoD.\n\nAn example:\nGiven a float LoDTensor X with shape (6, 1), its transpose form represents\n\n    [1.0, 2.0, 3.0, 4.0, 5.0, 6.0],\n\nwith LoD = [[0, 2, 5, 6]] and the three (transposed) sequences look like\n\n    [1.0, 2.0], [3.0, 4.0, 5.0], [6.0].\n\nIf target LoD = [0, 4, 6], the lod_reset operator will reset the LoD and\nthe sequences that the LoDTensor Output(Out) contains becomes:\n\n    [1.0, 2.0, 3.0, 4.0], [5.0, 6.0].\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(LoDTensor) The input tensor of lod_reset operator.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "TargetLoD",
+   "comment" : "(Tensor, optional) The target level 0 LoD from Input().",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(LoDTensor) The output tensor of lod_reset operator.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "target_lod",
+   "type" : "int array",
+   "comment" : "The target level 0 LoD from Attr().",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "write_to_array",
+ "comment" : "\nWriteToArray Operator.\n\nThis operator writes a LoDTensor to a LoDTensor array.\n\nAssume $T$ is LoDTensor, $i$ is the subscript of the array, and $A$ is the array. The\nequation is\n\n$$A[i] = T$$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(LoDTensor) the tensor will be written to tensor array",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "I",
+   "comment" : "(Tensor) the subscript index in tensor array. The number of element should be 1",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(TensorArray) the tensor array will be written",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
 },{
  "type" : "lod_array_length",
  "comment" : "\nLoDArrayLength Operator.\n\nThis operator obtains the length of lod tensor array:\n\n$$Out = len(X)$$\n\nNOTE: The output is a CPU Tensor since the control variable should be only in\nCPU and the length of LoDTensorArray should be used as control variables.\n\n",
@@ -5125,24 +5172,6 @@
    "comment" : "(float, default 1.0e-6) Constant for numerical stability",
    "generated" : 0
  } ] 
-},{
- "type" : "log",
- "comment" : "\nLog Activation Operator.\n\n$out = \\ln(x)$\n\nNatural logarithm of x.\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "Input of Log operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "Output of Log operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
 },{
  "type" : "nce",
  "comment" : "\nCompute and return the noise-contrastive estimation training loss.\nSee [Noise-contrastive estimation: A new estimation principle for unnormalized statistical models](http://www.jmlr.org/proceedings/papers/v9/gutmann10a/gutmann10a.pdf).\nBy default this operator uses a uniform distribution for sampling.\n",
