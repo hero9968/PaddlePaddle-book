@@ -258,8 +258,8 @@
 <div class="section" id="devicecontext">
 <span id="devicecontext"></span><h4>DeviceContext<a class="headerlink" href="#devicecontext" title="永久链接至标题">¶</a></h4>
 <p>Fluid uses class <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/platform/device_context.h#L30">DeviceContext</a> to manage the resources in different libraries, such as CUDA stream in <code class="docutils literal"><span class="pre">CDUADeviceContext</span></code>. There are also inheritance relationships between different kinds of <code class="docutils literal"><span class="pre">DeviceContext</span></code>.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>                <span class="o">/-&gt;</span>  <span class="n">CPUDeviceContext</span>   <span class="o">--&gt;</span> <span class="n">MKLDeviceContext</span>
-<span class="n">DeviceContext</span> <span class="o">----&gt;</span>  <span class="n">CUDADeviceContext</span>  <span class="o">--&gt;</span> <span class="n">CUDNNDeviceContext</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span>                <span class="o">/-&gt;</span>  <span class="n">CPUDeviceContext</span>   
+<span class="n">DeviceContext</span> <span class="o">----&gt;</span>  <span class="n">CUDADeviceContext</span>  
                 \<span class="o">-&gt;</span>  <span class="n">FPGADeviceContext</span>
 </pre></div>
 </div>
@@ -282,15 +282,6 @@
   <span class="n">cudaStream_t</span> <span class="n">stream_</span><span class="p">;</span> 
   <span class="n">cublasHandle_t</span> <span class="n">cublas_handle_</span><span class="p">;</span>
   <span class="n">std</span><span class="p">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="n">Eigen</span><span class="p">::</span><span class="n">GpuDevice</span><span class="o">&gt;</span> <span class="n">eigen_device_</span><span class="p">;</span>  <span class="o">//</span> <span class="n">binds</span> <span class="k">with</span> <span class="n">stream_</span>
-<span class="p">};</span>
-</pre></div>
-</div>
-<ul class="simple">
-<li>CUDNNDeviceContext</li>
-</ul>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">CUDNNDeviceContext</span> <span class="p">:</span> <span class="n">public</span> <span class="n">CUDADeviceContext</span> <span class="p">{</span>
-  <span class="n">private</span><span class="p">:</span>
-    <span class="n">cudnnHandle_t</span> <span class="n">cudnn_handle_</span><span class="p">;</span>
 <span class="p">};</span>
 </pre></div>
 </div>
