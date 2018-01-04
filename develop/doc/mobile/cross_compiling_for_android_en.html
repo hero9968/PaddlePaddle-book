@@ -34,7 +34,7 @@
         <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="PaddlePaddle  documentation" href="../index.html"/>
         <link rel="up" title="MOBILE" href="index_en.html"/>
-        <link rel="next" title="PaddlePaddle Compiling Guide for iOS" href="cross_compiling_for_ios_en.html"/>
+        <link rel="next" title="Build PaddlePaddle for iOS" href="cross_compiling_for_ios_en.html"/>
         <link rel="prev" title="MOBILE" href="index_en.html"/> 
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/css/perfect-scrollbar.min.css" type="text/css" />
@@ -178,7 +178,7 @@
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="index_en.html">MOBILE</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Build PaddlePaddle for Android</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cross_compiling_for_ios_en.html">PaddlePaddle Compiling Guide for iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cross_compiling_for_ios_en.html">Build PaddlePaddle for iOS</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cross_compiling_for_raspberry_en.html">Build PaddlePaddle for Raspberry Pi</a></li>
 </ul>
 </li>
@@ -215,7 +215,11 @@
             
   <div class="section" id="build-paddlepaddle-for-android">
 <span id="build-paddlepaddle-for-android"></span><h1>Build PaddlePaddle for Android<a class="headerlink" href="#build-paddlepaddle-for-android" title="Permalink to this headline">¶</a></h1>
-<p>There are two approaches to build PaddlePaddle for Android: using Docker and on Linux without Docker.</p>
+<p>There are two approaches to build PaddlePaddle for Android:</p>
+<ul class="simple">
+<li><a class="reference external" href="#cross-compiling-using-docker">Cross-Compiling Using Docker</a></li>
+<li><a class="reference external" href="#cross-compiling-on-linux">Cross-Compiling on Linux</a></li>
+</ul>
 <div class="section" id="cross-compiling-using-docker">
 <span id="cross-compiling-using-docker"></span><h2>Cross-Compiling Using Docker<a class="headerlink" href="#cross-compiling-using-docker" title="Permalink to this headline">¶</a></h2>
 <p>Docker-based cross-compiling is the recommended approach because Docker runs on all major operating systems, including Linux, Mac OS X, and Windows.</p>
@@ -225,6 +229,10 @@
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ git clone https://github.com/PaddlePaddle/Paddle.git
 $ <span class="nb">cd</span> Paddle
 $ docker build -t paddle:dev-android . -f Dockerfile.android
+</pre></div>
+</div>
+<p>Users can directly use the published Docker image.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ docker pull paddlepaddle/paddle:latest-dev-android
 </pre></div>
 </div>
 </div>
@@ -256,7 +264,7 @@ $ docker build -t paddle:dev-android . -f Dockerfile.android
 </tr>
 <tr class="row-odd">
   <td>ANDROID_API</td>
-  <td>>= 21</td>
+  <td>>= 16</td>
   <td>21</td>
 </tr>
 </tbody>
@@ -292,14 +300,13 @@ unzip -q android-ndk-r14b-linux-x86_64.zip
 <p>The generated standalone toolchain will be in <code class="docutils literal"><span class="pre">your/path/to/arm64_standalone_toolchain</span></code>.</p>
 </li>
 </ul>
-<p><strong>Please be aware that the minimum level of Android API required by PaddlePaddle is 21.</strong></p>
 </div>
 <div class="section" id="cross-compiling-arguments">
 <span id="cross-compiling-arguments"></span><h3>Cross-Compiling Arguments<a class="headerlink" href="#cross-compiling-arguments" title="Permalink to this headline">¶</a></h3>
 <p>CMake supports <a class="reference external" href="https://cmake.org/cmake/help/v3.0/manual/cmake-toolchains.7.html#cross-compiling">choosing the toolchain</a>.  PaddlePaddle provides <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/cmake/cross_compiling/android.cmake"><code class="docutils literal"><span class="pre">android.cmake</span></code></a>, which configures the Android cross-compiling toolchain for CMake.  <code class="docutils literal"><span class="pre">android.cmake</span></code> is not required for CMake &gt;= 3.7, which support Android cross-compiling. PaddlePaddle detects the CMake version, for those newer than 3.7, it uses <a class="reference external" href="https://cmake.org/cmake/help/v3.7/manual/cmake-toolchains.7.html#cross-compiling">the official version</a>.</p>
 <p>Some other CMake arguments you need to know:</p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">CMAKE_SYSTEM_NAME</span></code> must be <code class="docutils literal"><span class="pre">Android</span></code>.  This tells PaddlePaddle&#8217;s CMake system to cross-compile third-party dependencies.  This also changes some other CMake arguments like <code class="docutils literal"><span class="pre">WITH_GPU=OFF</span></code>, <code class="docutils literal"><span class="pre">WITH_AVX=OFF</span></code>, <code class="docutils literal"><span class="pre">WITH_PYTHON=OFF</span></code>, and <code class="docutils literal"><span class="pre">WITH_RDMA=OFF</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">CMAKE_SYSTEM_NAME</span></code> must be <code class="docutils literal"><span class="pre">Android</span></code>.  This tells PaddlePaddle&#8217;s CMake system to cross-compile third-party dependencies. This also changes some other CMake arguments like <code class="docutils literal"><span class="pre">WITH_GPU=OFF</span></code>, <code class="docutils literal"><span class="pre">WITH_AVX=OFF</span></code>, <code class="docutils literal"><span class="pre">WITH_PYTHON=OFF</span></code>, <code class="docutils literal"><span class="pre">WITH_RDMA=OFF</span></code>, <code class="docutils literal"><span class="pre">WITH_MKL=OFF</span></code> and <code class="docutils literal"><span class="pre">WITH_GOLANG=OFF</span></code>.</li>
 <li><code class="docutils literal"><span class="pre">WITH_C_API</span></code> must be <code class="docutils literal"><span class="pre">ON</span></code>, to build the C-based inference library for Android.</li>
 <li><code class="docutils literal"><span class="pre">WITH_SWIG_PY</span></code> must be <code class="docutils literal"><span class="pre">OFF</span></code> because the Android platform doesn&#8217;t support SWIG-based API.</li>
 </ul>
@@ -327,7 +334,7 @@ unzip -q android-ndk-r14b-linux-x86_64.zip
 <p>Other useful arguments:</p>
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">USE_EIGEN_FOR_BLAS</span></code>: indicates if using Eigen.  Could be <code class="docutils literal"><span class="pre">ON</span></code> or <code class="docutils literal"><span class="pre">OFF</span></code>, defaults to <code class="docutils literal"><span class="pre">OFF</span></code>.</li>
-<li><code class="docutils literal"><span class="pre">HOST_C/CXX_COMPILER</span></code>: specifies the host compiler, which is used to build the host-specific protoc and target-specific OpenBLAS.  It defaults to the value of the environment variable <code class="docutils literal"><span class="pre">CC</span></code>, or <code class="docutils literal"><span class="pre">cc</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">HOST_C/CXX_COMPILER</span></code>: specifies the host compiler, which is used to build the host-specific protoc and target-specific OpenBLAS.  It defaults to the value of the environment variable <code class="docutils literal"><span class="pre">CC/C++</span></code>, or <code class="docutils literal"><span class="pre">cc/c++</span></code>.</li>
 </ul>
 <p>Some frequent configurations for your reference:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>cmake -DCMAKE_SYSTEM_NAME<span class="o">=</span>Android <span class="se">\</span>
@@ -385,7 +392,7 @@ unzip -q android-ndk-r14b-linux-x86_64.zip
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="cross_compiling_for_ios_en.html" class="btn btn-neutral float-right" title="PaddlePaddle Compiling Guide for iOS" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="cross_compiling_for_ios_en.html" class="btn btn-neutral float-right" title="Build PaddlePaddle for iOS" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="index_en.html" class="btn btn-neutral" title="MOBILE" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>

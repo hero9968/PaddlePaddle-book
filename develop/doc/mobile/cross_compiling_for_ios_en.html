@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>PaddlePaddle Compiling Guide for iOS &mdash; PaddlePaddle  documentation</title>
+  <title>Build PaddlePaddle for iOS &mdash; PaddlePaddle  documentation</title>
   
 
   
@@ -178,7 +178,7 @@
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="index_en.html">MOBILE</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="cross_compiling_for_android_en.html">Build PaddlePaddle for Android</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">PaddlePaddle Compiling Guide for iOS</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Build PaddlePaddle for iOS</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cross_compiling_for_raspberry_en.html">Build PaddlePaddle for Raspberry Pi</a></li>
 </ul>
 </li>
@@ -204,7 +204,7 @@
       
         <li><a href="index_en.html">MOBILE</a> > </li>
       
-    <li>PaddlePaddle Compiling Guide for iOS</li>
+    <li>Build PaddlePaddle for iOS</li>
   </ul>
 </div>
       
@@ -213,8 +213,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="paddlepaddle-compiling-guide-for-ios">
-<span id="paddlepaddle-compiling-guide-for-ios"></span><h1>PaddlePaddle Compiling Guide for iOS<a class="headerlink" href="#paddlepaddle-compiling-guide-for-ios" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="build-paddlepaddle-for-ios">
+<span id="build-paddlepaddle-for-ios"></span><h1>Build PaddlePaddle for iOS<a class="headerlink" href="#build-paddlepaddle-for-ios" title="Permalink to this headline">¶</a></h1>
 <p>This tutorial will walk you through cross compiling the PaddlePaddle library for iOS from the source in MacOS.</p>
 <div class="section" id="preparation">
 <span id="preparation"></span><h2>Preparation<a class="headerlink" href="#preparation" title="Permalink to this headline">¶</a></h2>
@@ -312,15 +312,15 @@ Build version 9A235
 <li>set <code class="docutils literal"><span class="pre">IOS_USE_VECLIB_FOR_BLAS</span></code> with <code class="docutils literal"><span class="pre">ON</span></code></li>
 </ul>
 </div>
-<div class="section" id="compile-and-install">
-<span id="compile-and-install"></span><h2>Compile and install<a class="headerlink" href="#compile-and-install" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="build-and-install">
+<span id="build-and-install"></span><h2>Build and install<a class="headerlink" href="#build-and-install" title="Permalink to this headline">¶</a></h2>
 <p>After CMake, run following commands, PaddlePaddle will download the compile 3rd party dependencies, compile and install PaddlePaddle inference library.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>$ make
 $ make install
 </pre></div>
 </div>
 <p>Please Note: if you compiled PaddlePaddle in the source directory for other platforms, do remove <code class="docutils literal"><span class="pre">third_party</span></code> and <code class="docutils literal"><span class="pre">build</span></code> directory within the source with <code class="docutils literal"><span class="pre">rm</span> <span class="pre">-rf</span></code> to ensure that all the 3rd party libraries dependencies and PaddlePaddle is newly compiled with current CMake configuration.</p>
-<p><code class="docutils literal"><span class="pre">your/path/to/install</span></code> directory will have following directories after <code class="docutils literal"><span class="pre">compile</span></code> and <code class="docutils literal"><span class="pre">install</span></code>:</p>
+<p><code class="docutils literal"><span class="pre">your/path/to/install</span></code> directory will have following directories after <code class="docutils literal"><span class="pre">make</span> <span class="pre">install</span></code>:</p>
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">include</span></code>, contains all the C-API header files.</li>
 <li><code class="docutils literal"><span class="pre">lib</span></code>, contains PaddlePaddle C-API static library.</li>
