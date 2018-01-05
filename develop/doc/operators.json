@@ -662,6 +662,45 @@
  } ], 
  "attrs" : [  ] 
 },{
+ "type" : "parallel_do",
+ "comment" : "\nParallelDo Operator.\n",
+ "inputs" : [ 
+ { 
+   "name" : "inputs",
+   "comment" : "",
+   "duplicable" : 1,
+   "intermediate" : 0
+ }, { 
+   "name" : "parameters",
+   "comment" : "",
+   "duplicable" : 1,
+   "intermediate" : 0
+ }, { 
+   "name" : "places",
+   "comment" : "",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "outputs",
+   "comment" : "",
+   "duplicable" : 1,
+   "intermediate" : 0
+ }, { 
+   "name" : "parallel_scopes",
+   "comment" : "",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "sub_block",
+   "type" : "block id",
+   "comment" : "",
+   "generated" : 0
+ } ] 
+},{
  "type" : "save",
  "comment" : "\nSave operator\n\nThis operator will serialize and write a tensor variable to file on disk.\n",
  "inputs" : [ 
