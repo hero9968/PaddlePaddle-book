@@ -297,10 +297,10 @@ value larger than some value, will be
 clipped.</li>
 <li><strong>sparse_update</strong> (<em>bool</em>) &#8211; Enable sparse update for this parameter. It will
 enable both local and remote sparse update.</li>
-<li><strong>initializer</strong> &#8211; If not None, it should be a callable object which accepts
+<li><strong>update_hooks</strong> (<em>HookAttribute</em>) &#8211; A HookAttribute object.</li>
+<li><strong>initializer</strong> (<em>callable object</em>) &#8211; If not None, it should be a callable object which accepts
 a parameter name and returns numpy array for the initial
 value of the parameter</li>
-<li><strong>initializer</strong> &#8211; callable object</li>
 </ul>
 </td>
 </tr>
