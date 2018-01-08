@@ -285,7 +285,7 @@ PaddlePaddle <span class="m">0</span>.10.0, compiled with
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ python train.py
 </pre></div>
 </div>
-<p>trainer需要和pserver保持网络联通以完成训练。trainer启动需要传入端口、pserver地址等参数使trainer可以正确连接到pserver。这些参数可以通过环境变量（https://zh.wikipedia.org/wiki/环境变量 ）或编写程序时<code class="docutils literal"><span class="pre">paddle.init()</span></code>中传入参数。如果同时使用<code class="docutils literal"><span class="pre">paddle.init()</span></code>参数和环境变量，将会优先使用<code class="docutils literal"><span class="pre">paddle.init()</span></code>中传入的参数。</p>
+<p>trainer需要和pserver保持网络联通以完成训练。trainer启动需要传入端口、pserver地址等参数使trainer可以正确连接到pserver。这些参数可以通过<a class="reference external" href="https://zh.wikipedia.org/wiki/环境变量">环境变量</a>或编写程序时<code class="docutils literal"><span class="pre">paddle.init()</span></code>中传入参数。如果同时使用<code class="docutils literal"><span class="pre">paddle.init()</span></code>参数和环境变量，将会优先使用<code class="docutils literal"><span class="pre">paddle.init()</span></code>中传入的参数。</p>
 <p>使用环境变量：</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PADDLE_INIT_USE_GPU</span><span class="o">=</span>False
 <span class="nb">export</span> <span class="nv">PADDLE_INIT_TRAINER_COUNT</span><span class="o">=</span><span class="m">1</span>
