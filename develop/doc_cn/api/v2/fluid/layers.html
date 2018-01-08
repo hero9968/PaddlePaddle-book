@@ -2033,15 +2033,18 @@ explain how sequence_expand works:</p>
 <dd><p>GRU unit layer. The equation of a gru step is:</p>
 <blockquote>
 <div><div class="math">
-\[ \begin{align}\begin{aligned}u_t &amp; = actGate(xu_{t} + W_u h_{t-1} + b_u)\\r_t &amp; = actGate(xr_{t} + W_r h_{t-1} + b_r)\\ch_t &amp; = actNode(xc_t + W_c dot(r_t, h_{t-1}) + b_c)\\h_t &amp; = dot((1-u_t), ch_{t-1}) + dot(u_t, h_t)\end{aligned}\end{align} \]</div>
+\[ \begin{align}\begin{aligned}u_t &amp; = actGate(xu_{t} + W_u h_{t-1} + b_u)\\r_t &amp; = actGate(xr_{t} + W_r h_{t-1} + b_r)\\m_t &amp; = actNode(xm_t + W_c dot(r_t, h_{t-1}) + b_m)\\h_t &amp; = dot((1-u_t), m_t) + dot(u_t, h_{t-1})\end{aligned}\end{align} \]</div>
 </div></blockquote>
 <p>The inputs of gru unit includes <span class="math">\(z_t\)</span>, <span class="math">\(h_{t-1}\)</span>. In terms
 of the equation above, the <span class="math">\(z_t\)</span> is split into 3 parts -
-<span class="math">\(xu_t\)</span>, <span class="math">\(xr_t\)</span> and <span class="math">\(xc_t\)</span>. This means that in order to
+<span class="math">\(xu_t\)</span>, <span class="math">\(xr_t\)</span> and <span class="math">\(xm_t\)</span>. This means that in order to
 implement a full GRU unit operator for an input, a fully
 connected layer has to be applied, such that <span class="math">\(z_t = W_{fc}x_t\)</span>.</p>
-<p>This layer has three outputs <span class="math">\(h_t\)</span>, <span class="math">\(dot(r_t, h_{t - 1})\)</span>
-and concatenation of <span class="math">\(u_t\)</span>, <span class="math">\(r_t\)</span> and <span class="math">\(ch_t\)</span>.</p>
+<p>The terms <span class="math">\(u_t\)</span> and <span class="math">\(r_t\)</span> represent the update and reset gates
+of the GRU cell. Unlike LSTM, GRU has one lesser gate. However, there is
+an intermediate candidate hidden output, which is denoted by <span class="math">\(m_t\)</span>.
+This layer has three outputs <span class="math">\(h_t\)</span>, <span class="math">\(dot(r_t, h_{t-1})\)</span>
+and concatenation of <span class="math">\(u_t\)</span>, <span class="math">\(r_t\)</span> and <span class="math">\(m_t\)</span>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
