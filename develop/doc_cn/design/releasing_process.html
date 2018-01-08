@@ -225,23 +225,17 @@
 <span id="paddlepaddle"></span><h1>PaddlePaddle发行规范<a class="headerlink" href="#paddlepaddle" title="永久链接至标题">¶</a></h1>
 <p>PaddlePaddle使用git-flow branching model做分支管理，使用<a class="reference external" href="http://semver.org/">Semantic Versioning</a>标准表示PaddlePaddle版本号。</p>
 <p>PaddlePaddle每次发新的版本，遵循以下流程:</p>
-<ol>
-<li><p class="first">从<code class="docutils literal"><span class="pre">develop</span></code>分支派生出新的分支，分支名为<code class="docutils literal"><span class="pre">release/版本号</span></code>。例如，<code class="docutils literal"><span class="pre">release/0.10.0</span></code></p>
-</li>
-<li><p class="first">将新分支的版本打上tag，tag为<code class="docutils literal"><span class="pre">版本号rc.Patch号</span></code>。第一个tag为<code class="docutils literal"><span class="pre">0.10.0rc1</span></code>，第二个为<code class="docutils literal"><span class="pre">0.10.0rc2</span></code>，依次类推。</p>
-</li>
-<li><p class="first">对这个版本的提交，做如下几个操作:</p>
+<ol class="simple">
+<li>从<code class="docutils literal"><span class="pre">develop</span></code>分支派生出新的分支，分支名为<code class="docutils literal"><span class="pre">release/版本号</span></code>。例如，<code class="docutils literal"><span class="pre">release/0.10.0</span></code></li>
+<li>将新分支的版本打上tag，tag为<code class="docutils literal"><span class="pre">版本号rc.Patch号</span></code>。第一个tag为<code class="docutils literal"><span class="pre">0.10.0rc1</span></code>，第二个为<code class="docutils literal"><span class="pre">0.10.0rc2</span></code>，依次类推。</li>
+<li>对这个版本的提交，做如下几个操作:</li>
+</ol>
 <ul>
+<li><p class="first">使用Regression Test List作为检查列表，测试本次release的正确性。</p>
+<ul>
+<li><p class="first">如果失败，记录下所有失败的例子，在这个<code class="docutils literal"><span class="pre">release/版本号</span></code>分支中，修复所有bug后，Patch号加一，到第二步</p>
+</li>
 <li><p class="first">修改<code class="docutils literal"><span class="pre">python/setup.py.in</span></code>中的版本信息,并将<code class="docutils literal"><span class="pre">istaged</span></code>字段设为<code class="docutils literal"><span class="pre">True</span></code>。</p>
-</li>
-<li><p class="first">编译这个版本的Docker发行镜像，发布到dockerhub。如果失败，修复Docker编译镜像问题，Patch号加一，返回第二步</p>
-</li>
-<li><p class="first">编译这个版本的Ubuntu Deb包。如果失败，修复Ubuntu Deb包编译问题，Patch号加一，返回第二步。</p>
-</li>
-<li><p class="first">使用Regression Test List作为检查列表，测试Docker镜像/ubuntu安装包的功能正确性</p>
-<ul class="simple">
-<li>如果失败，记录下所有失败的例子，在这个<code class="docutils literal"><span class="pre">release/版本号</span></code>分支中，修复所有bug后，Patch号加一，返回第二步</li>
-</ul>
 </li>
 <li><p class="first">编译这个版本的python wheel包，并发布到pypi。</p>
 <ul>
@@ -256,22 +250,47 @@
 </pre></div>
 </div>
 </li>
-</ul>
+<li><p class="first">编译这个版本的Docker发行镜像，发布到dockerhub。如果失败，修复Docker编译镜像问题，Patch号加一，返回第二步</p>
 </li>
 </ul>
 </li>
-<li><p class="first">第三步完成后，将<code class="docutils literal"><span class="pre">release/版本号</span></code>分支合入master分支，并删除<code class="docutils literal"><span class="pre">release/版本号</span></code>分支。将master分支的合入commit打上tag，tag为<code class="docutils literal"><span class="pre">版本号</span></code>。同时再将<code class="docutils literal"><span class="pre">master</span></code>分支合入<code class="docutils literal"><span class="pre">develop</span></code>分支。最后删除<code class="docutils literal"><span class="pre">release/版本号</span></code>分支。</p>
+</ul>
 </li>
-<li><p class="first">编译master分支的Docker发行镜像，发布到dockerhub。编译ubuntu的deb包，发布到github release页面</p>
-</li>
-<li><p class="first">协同完成Release Note的书写</p>
-</li>
+</ul>
+<ol class="simple">
+<li>第三步完成后，将<code class="docutils literal"><span class="pre">release/版本号</span></code>分支合入master分支，并删除<code class="docutils literal"><span class="pre">release/版本号</span></code>分支。将master分支的合入commit打上tag，tag为<code class="docutils literal"><span class="pre">版本号</span></code>。同时再将<code class="docutils literal"><span class="pre">master</span></code>分支合入<code class="docutils literal"><span class="pre">develop</span></code>分支。最后删除<code class="docutils literal"><span class="pre">release/版本号</span></code>分支。</li>
+<li>协同完成Release Note的书写</li>
 </ol>
 <p>需要注意的是:</p>
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">release/版本号</span></code>分支一旦建立，一般不允许再从<code class="docutils literal"><span class="pre">develop</span></code>分支合入<code class="docutils literal"><span class="pre">release/版本号</span></code>。这样保证<code class="docutils literal"><span class="pre">release/版本号</span></code>分支功能的封闭，方便测试人员测试PaddlePaddle的行为。</li>
 <li>在<code class="docutils literal"><span class="pre">release/版本号</span></code>分支存在的时候，如果有bugfix的行为，需要将bugfix的分支同时merge到<code class="docutils literal"><span class="pre">master</span></code>, <code class="docutils literal"><span class="pre">develop</span></code>和<code class="docutils literal"><span class="pre">release/版本号</span></code>这三个分支。</li>
 </ul>
+<div class="section" id="wheelpypi">
+<span id="wheelpypi"></span><h2>发布wheel包到pypi<a class="headerlink" href="#wheelpypi" title="永久链接至标题">¶</a></h2>
+<p>使用<a class="reference external" href="https://paddleci.ngrok.io/project.html?projectId=Manylinux1&amp;tab=projectOverview">PaddlePaddle CI</a>
+完成自动化二进制编译，参考下图，选择需要发布的版本（通常包含一个CPU版本和一个GPU版本），点击&#8221;run&#8221;右侧的&#8221;...&#8221;按钮，可以
+弹出下面的选择框，在第二个tab (Changes)里选择需要发布的分支，这里选择0.11.0，然后点击&#8221;Run Build&#8221;按钮。等待编译完成后
+可以在此页面的&#8221;Artifacts&#8221;下拉框中找到生成的3个二进制文件，分别对应CAPI，<code class="docutils literal"><span class="pre">cp27m</span></code>和<code class="docutils literal"><span class="pre">cp27mu</span></code>的版本。然后按照上述的方法
+使用<code class="docutils literal"><span class="pre">twine</span></code>工具上传即可。</p>
+<p><img src="ci_build_whl.png"></p>
+<ul class="simple">
+<li>注：CI环境使用 https://github.com/PaddlePaddle/buildtools 这里的DockerImage作为编译环境以支持更多的Linux
+发型版，如果需要手动编译，也可以使用这些镜像。这些镜像也可以从 https://hub.docker.com/r/paddlepaddle/paddle_manylinux_devel/tags/ 下载得到。</li>
+<li>pypi不支持覆盖上传，所以一个版本号的wheel包发布之后，不可以更改。下一个wheel包需要更新版本号才可以上传。</li>
+</ul>
+</div>
+<div class="section" id="docker">
+<span id="docker"></span><h2>发布Docker镜像<a class="headerlink" href="#docker" title="永久链接至标题">¶</a></h2>
+<p>上述PaddlePaddle CI编译wheel完成后会自动将Docker镜像push到DockerHub，所以，发布Docker镜像只需要对自动push的镜像打上
+版本号对应的tag即可：</p>
+<ol class="simple">
+<li>进入 https://hub.docker.com/r/paddlepaddle/paddle/tags/ 查看latest tag的更新时间是否在上述编译wheel包完成后是否最新。</li>
+<li>执行 <code class="docutils literal"><span class="pre">docker</span> <span class="pre">pull</span> <span class="pre">paddlepaddle/paddle:[latest</span> <span class="pre">tag]</span></code>，latest tag可以是latest或latest-gpu等。</li>
+<li>执行 <code class="docutils literal"><span class="pre">docker</span> <span class="pre">tag</span> <span class="pre">paddlepaddle/paddle:[latest</span> <span class="pre">tag]</span> <span class="pre">paddlepaddle/paddle:[version]</span></code></li>
+<li>执行 <code class="docutils literal"><span class="pre">docker</span> <span class="pre">push</span> <span class="pre">paddlepaddle/paddle:[version]</span></code></li>
+</ol>
+</div>
 <div class="section" id="paddlepaddle">
 <span id="id1"></span><h2>PaddlePaddle 分支规范<a class="headerlink" href="#paddlepaddle" title="永久链接至标题">¶</a></h2>
 <p>PaddlePaddle开发过程使用<a class="reference external" href="http://nvie.com/posts/a-successful-git-branching-model/">git-flow</a>分支规范，并适应github的特性做了一些区别。</p>
