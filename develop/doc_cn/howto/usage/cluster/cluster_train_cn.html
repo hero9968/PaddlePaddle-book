@@ -275,7 +275,7 @@ PaddlePaddle <span class="m">0</span>.10.0, compiled with
 <ul class="simple">
 <li>port：<strong>必选，默认7164</strong>，pserver监听的起始端口，根据ports_num决定总端口个数，从起始端口监听多个端口用于通信</li>
 <li>ports_num：<strong>必选，默认1</strong>，监听的端口个数</li>
-<li>ports_num_for_sparse：<strong>必选，默认1</strong>，用于稀疏类型参数通信的端口个数</li>
+<li>ports_num_for_sparse：<strong>必选，默认0</strong>，用于稀疏类型参数通信的端口个数</li>
 <li>num_gradient_servers：<strong>必选，默认1</strong>，当前训练任务pserver总数</li>
 </ul>
 </div>
@@ -315,7 +315,7 @@ PaddlePaddle <span class="m">0</span>.10.0, compiled with
 <li>trainer_count：<strong>必选，默认1</strong>，当前训练任务trainer总个数</li>
 <li>port：<strong>必选，默认7164</strong>，连接到pserver的端口</li>
 <li>ports_num：<strong>必选，默认1</strong>，连接到pserver的端口个数</li>
-<li>ports_num_for_sparse：<strong>必选，默认1</strong>，和pserver之间用于稀疏类型参数通信的端口个数</li>
+<li>ports_num_for_sparse：<strong>必选，默认0</strong>，和pserver之间用于稀疏类型参数通信的端口个数</li>
 <li>num_gradient_servers：<strong>必选，默认1</strong>，当前训练任务pserver总数</li>
 <li>trainer_id：<strong>必选，默认0</strong>，每个trainer的唯一ID，从0开始的整数</li>
 <li>pservers：<strong>必选，默认127.0.0.1</strong>，当前训练任务启动的pserver的IP列表，多个IP使用“,”隔开</li>
