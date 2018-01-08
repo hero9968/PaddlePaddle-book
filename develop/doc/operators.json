@@ -1060,6 +1060,24 @@
  } ], 
  "attrs" : [  ] 
 },{
+ "type" : "reciprocal",
+ "comment" : "\nReciprocal Activation Operator.\n\n$$out = \\frac{1}{x}$$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "Input of Reciprocal operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "Output of Reciprocal operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
  "type" : "softmax",
  "comment" : "\nSoftmax Operator.\n\nThe input of the softmax operator is a 2-D tensor with shape N x K (N is the\nbatch_size, K is the dimension of input feature). The output tensor has the\nsame shape as the input tensor.\n\nFor each row of the input tensor, the softmax operator squashes the\nK-dimensional vector of arbitrary real values to a K-dimensional vector of real\nvalues in the range [0, 1] that add up to 1.\nIt computes the exponential of the given dimension and the sum of exponential\nvalues of all the other dimensions in the K-dimensional vector input.\nThen the ratio of the exponential of the given dimension and the sum of\nexponential values of all the other dimensions is the output of the softmax\noperator.\n\nFor each row $i$ and each column $j$ in Input(X), we have:\n    $$Out[i, j] = \\frac{\\exp(X[i, j])}{\\sum_j(exp(X[i, j])}$$\n\n",
  "inputs" : [ 
@@ -1544,24 +1562,6 @@
    "comment" : "(float, default 0.0) L2 regularization strength.",
    "generated" : 0
  } ] 
-},{
- "type" : "reciprocal",
- "comment" : "\nReciprocal Activation Operator.\n\n$$out = \\frac{1}{x}$$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "Input of Reciprocal operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "Output of Reciprocal operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
 },{
  "type" : "reduce_min",
  "comment" : "\n{ReduceOp} Operator.\n\nThis operator computes the min of input tensor along the given dimension. \nThe result tensor has 1 fewer dimension than the input unless keep_dim is true.\nIf reduce_all is true, just reduce along all dimensions and output a scalar.\n\n",
@@ -2426,6 +2426,29 @@
    "intermediate" : 0
  } ], 
  "attrs" : [  ] 
+},{
+ "type" : "get_places",
+ "comment" : "\nReturns a list of places based on flags. The list will be used for parallel\nexecution.\n",
+ "inputs" : [  ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "vector of Place",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "device_count",
+   "type" : "int",
+   "comment" : "device count",
+   "generated" : 0
+ }, { 
+   "name" : "device_type",
+   "type" : "string",
+   "comment" : "device type must be in [\"CPU\", \"CUDA\"]",
+   "generated" : 0
+ } ] 
 },{
  "type" : "read_from_array",
  "comment" : "\nReadFromArray Operator.\n\nRead a LoDTensor from a LoDTensor Array.\n\nAssume $T$ is LoDTensor, $i$ is the subscript of the array, and $A$ is the array. The\nequation is\n\n$$T = A[i]$$\n\n",
