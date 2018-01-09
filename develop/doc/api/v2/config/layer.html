@@ -518,13 +518,17 @@ please refer to the following explanation and references therein
 what-are-deconvolutional-layers/&gt;`_ .
 The num_channel means input image&#8217;s channel number. It may be 1 or 3 when
 input is raw pixels of image(mono or RGB), or it may be the previous layer&#8217;s
-num_filters * num_group.</p>
+num_filters.</p>
 <p>There are several groups of filters in PaddlePaddle implementation.
-Each group will process some channels of the input. For example, if
-num_channel = 256, group = 4, num_filter=32, the PaddlePaddle will create
-32*4 = 128 filters to process the input. The channels will be split into 4
-pieces. First 256/4 = 64 channels will be processed by first 32 filters. The
-rest channels will be processed by the rest groups of filters.</p>
+If the groups attribute is greater than 1, for example groups=2,
+the input will be splitted into 2 parts along the channel axis, and
+the filters will also be splitted into 2 parts. The first half of the filters
+is only connected to the first half of the input channels, while the second
+half of the filters is only connected to the second half of the input. After
+the computation of convolution for each part of input,
+the output will be obtained by concatenating the two results.</p>
+<p>The details of grouped convolution, please refer to:
+<a class="reference external" href="http://www.cs.toronto.edu/~kriz/imagenet_classification_with_deep_convolutional.pdf">ImageNet Classification with Deep Convolutional Neural Networks</a></p>
 <p>The example usage is:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">conv</span> <span class="o">=</span> <span class="n">img_conv</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">filter_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">filter_size_y</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                       <span class="n">num_channels</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
@@ -548,7 +552,7 @@ the x axis, and the second is used to specify the dimension
 on the y axis when filter_size_y is not provided.</li>
 <li><strong>filter_size_y</strong> (<em>int</em>) &#8211; The dimension of the filter kernel on the y axis. If the parameter
 is not set, it will be set automatically according to filter_size.</li>
-<li><strong>num_filters</strong> &#8211; Each filter group&#8217;s number of filter</li>
+<li><strong>num_filters</strong> (<em>int</em>) &#8211; The number of filters. It is as same as the output image channel.</li>
 <li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type. paddle.v2.activation.Relu is the default activation.</li>
 <li><strong>groups</strong> (<em>int</em>) &#8211; The group number. 1 is the default group number.</li>
 <li><strong>stride</strong> (<em>int | tuple | list</em>) &#8211; The strides. If the parameter is set to one integer, the strides
@@ -2093,7 +2097,7 @@ sequence of a nested sequence, <code class="code docutils literal"><span class="
 
 </div>
 <div class="section" id="api-v2-layer-pooling">
-<span id="id1"></span><h3>pooling<a class="headerlink" href="#api-v2-layer-pooling" title="Permalink to this headline">¶</a></h3>
+<span id="id2"></span><h3>pooling<a class="headerlink" href="#api-v2-layer-pooling" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">pooling</code></dt>
