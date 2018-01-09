@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Design Doc: Operation Graph Based Parameter Server &mdash; PaddlePaddle  文档</title>
+  <title>Design Doc: Parameter Server &mdash; PaddlePaddle  文档</title>
   
 
   
@@ -212,7 +212,7 @@
 <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
       
-    <li>Design Doc: Operation Graph Based Parameter Server</li>
+    <li>Design Doc: Parameter Server</li>
   </ul>
 </div>
       
@@ -221,8 +221,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="design-doc-operation-graph-based-parameter-server">
-<span id="design-doc-operation-graph-based-parameter-server"></span><h1>Design Doc: Operation Graph Based Parameter Server<a class="headerlink" href="#design-doc-operation-graph-based-parameter-server" title="永久链接至标题">¶</a></h1>
+  <div class="section" id="design-doc-parameter-server">
+<span id="design-doc-parameter-server"></span><h1>Design Doc: Parameter Server<a class="headerlink" href="#design-doc-parameter-server" title="永久链接至标题">¶</a></h1>
 <div class="section" id="abstract">
 <span id="abstract"></span><h2>Abstract<a class="headerlink" href="#abstract" title="永久链接至标题">¶</a></h2>
 <p>We propose an approach to implement the parameter server. In this
@@ -233,7 +233,7 @@ different purposes.</p>
 <div class="section" id="background">
 <span id="background"></span><h2>Background<a class="headerlink" href="#background" title="永久链接至标题">¶</a></h2>
 <p>The previous implementations of the parameter server does not run a
-subgraph. parameter initialization, optimizer computation, network
+fluid sub-program. Parameter initialization, optimizer computation, network
 communication and checkpointing are implemented twice on both the
 trainer and the parameter server.</p>
 <p>It would be great if we can write code once and use them on both the
@@ -245,10 +245,10 @@ server becomes a natural extension.</p>
 </div>
 <div class="section" id="design">
 <span id="design"></span><h2>Design<a class="headerlink" href="#design" title="永久链接至标题">¶</a></h2>
-<div class="section" id="graph-converter">
-<span id="graph-converter"></span><h3>Graph Converter<a class="headerlink" href="#graph-converter" title="永久链接至标题">¶</a></h3>
-<p>The <em>graph converter</em> converts the user-defined operation (OP) graph
-into subgraphs to be scheduled on different nodes with the following
+<div class="section" id="distributed-transpiler">
+<span id="distributed-transpiler"></span><h3>Distributed Transpiler<a class="headerlink" href="#distributed-transpiler" title="永久链接至标题">¶</a></h3>
+<p>The <em>Distributed Transpiler</em> converts the user-defined fluid program
+into sub-programs to be scheduled on different nodes with the following
 steps:</p>
 <ol class="simple">
 <li>OP placement: the OPs will be placed on different nodes according
@@ -265,8 +265,8 @@ subgraphs for the trainer and the parameter server:</p>
 <p>After converting:</p>
 <p><img src="src/dist-graph.png" width="700"/></p>
 <ol class="simple">
-<li>The parameter variable W and it&#8217;s optimizer subgraph are placed on the parameter server.</li>
-<li>Operators are added to the subgraphs.<ul>
+<li>The parameter variable W and it&#8217;s optimizer program are placed on the parameter server.</li>
+<li>Operators are added to the program.<ul>
 <li><em>Send</em> sends data to the connected <em>Recv</em> operator.  The
 scheduler on the receive node will only schedule <em>Recv</em> operator
 to run when the <em>Send</em> operator has ran (the <em>Send</em> OP will mark
@@ -284,11 +284,10 @@ tensors.</li>
 <span id="benefits"></span><h3>Benefits<a class="headerlink" href="#benefits" title="永久链接至标题">¶</a></h3>
 <ul class="simple">
 <li>Model parallelism become easier to implement: it&#8217;s an extension to
-the trainer - parameter server approach. we already have the
-communication OPs, but need to extend the graph converter&#8217;s
-placement functionality.</li>
+the trainer - parameter server approach. We can have several &#8220;Transpilers&#8221;
+to achieve different goals.</li>
 <li>User-defined optimizer is easier to add - user can now express it as
-a subgraph.</li>
+a sub-program.</li>
 <li>No more duplication logic inside the trainer and the parameter
 server mentioned in the background section.</li>
 </ul>
@@ -296,24 +295,21 @@ server mentioned in the background section.</li>
 <div class="section" id="challenges">
 <span id="challenges"></span><h3>Challenges<a class="headerlink" href="#challenges" title="永久链接至标题">¶</a></h3>
 <ul class="simple">
-<li>It might be hard for the graph converter to cut a general graph
-(without any hint for which subgraph is the optimizer). We may need
-to label which subgraph inside the OP graph is the optimizer.</li>
 <li>It&#8217;s important to balance the parameter shards of on multiple
 parameter server. If a single parameter is very big (some
 word-embedding, fully connected, softmax layer), we need to
 automatically partition the single parameter onto different
 parameter servers when possible (only element-wise optimizer depends
 on the parameter variable).</li>
+<li>In the &#8220;Aync SGD&#8221; figure, the &#8220;W&#8221; variable on the parameter server
+could be read and wrote concurrently. See
+<a class="reference external" href="https://github.com/PaddlePaddle/Paddle/pull/6394">here</a> for more
+details about concurrent program in fluid.</li>
 </ul>
 </div>
 <div class="section" id="discussion">
 <span id="discussion"></span><h3>Discussion<a class="headerlink" href="#discussion" title="永久链接至标题">¶</a></h3>
 <ul class="simple">
-<li>In the &#8220;Aync SGD&#8221; figure, the &#8220;W&#8221; variable on the parameter server
-could be read and wrote concurrently, what is our locking strategy?
-E.g., each variable have a lock cpp method to be invoked by every
-OP, or, have a lock OP.</li>
 <li>Can the Enqueue OP be implemented under our current tensor design
 (puts the input tensor into the queue tensor)?</li>
 <li><em>Dequeue</em> OP will have variable numbers of output (depends on the
