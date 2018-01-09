@@ -1,0 +1,343 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Error Clip &mdash; PaddlePaddle  documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="PaddlePaddle  documentation" href="../index.html"/> 
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/css/perfect-scrollbar.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/override.css" type="text/css" />
+  <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?b9a314ab40d04d805655aab1deee08ba";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
+
+  
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  
+  <header class="site-header">
+    <div class="site-logo">
+      <a href="/"><img src="../_static/images/PP_w.png"></a>
+    </div>
+    <div class="site-nav-links">
+      <div class="site-menu">
+        <a class="fork-on-github" href="https://github.com/PaddlePaddle/Paddle" target="_blank"><i class="fa fa-github"></i>Fork me on Github</a>
+        <div class="language-switcher dropdown">
+          <a type="button" data-toggle="dropdown">
+            <span>English</span>
+            <i class="fa fa-angle-up"></i>
+            <i class="fa fa-angle-down"></i>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="/doc_cn">中文</a></li>
+            <li><a href="/doc">English</a></li>
+          </ul>
+        </div>
+        <ul class="site-page-links">
+          <li><a href="/">Home</a></li>
+        </ul>
+      </div>
+      <div class="doc-module">
+        
+        <ul>
+<li class="toctree-l1"><a class="reference internal" href="../getstarted/index_en.html">GET STARTED</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howto/index_en.html">HOW TO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index_en.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mobile/index_en.html">MOBILE</a></li>
+</ul>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>        
+      </div>
+    </div>
+  </header>
+  
+  <div class="main-content-wrap">
+
+    
+    <nav class="doc-menu-vertical" role="navigation">
+        
+          
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../getstarted/index_en.html">GET STARTED</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getstarted/build_and_install/index_en.html">Install and Build</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../getstarted/build_and_install/pip_install_en.html">Install Using pip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../getstarted/build_and_install/docker_install_en.html">Run in Docker Containers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/dev/build_en.html">Build using Docker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../getstarted/build_and_install/build_from_source_en.html">Build from Sources</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../howto/index_en.html">HOW TO</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../howto/usage/cmd_parameter/index_en.html">Set Command-line Parameters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cmd_parameter/use_case_en.html">Use Case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cmd_parameter/arguments_en.html">Argument Outline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cmd_parameter/detail_introduction_en.html">Detail Description</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/usage/cluster/cluster_train_en.html">Distributed Training</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cluster/fabric_en.html">fabric</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cluster/openmpi_en.html">openmpi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cluster/k8s_en.html">kubernetes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cluster/k8s_aws_en.html">kubernetes on AWS</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/dev/new_layer_en.html">Write New Layers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/dev/contribute_to_paddle_en.html">Contribute Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/dev/write_docs_en.html">Contribute Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/deep_model/rnn/index_en.html">RNN Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../howto/deep_model/rnn/rnn_config_en.html">RNN Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/optimization/gpu_profiling_en.html">Tune GPU Performance</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index_en.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/v2/model_configs.html">Model Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/activation.html">Activation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/layer.html">Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/evaluators.html">Evaluators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/optimizer.html">Optimizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/pooling.html">Pooling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/networks.html">Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/attr.html">Parameter Attribute</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/v2/data.html">Data Reader Interface and DataSets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/data/data_reader.html">Data Reader Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/data/image.html">Image Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/data/dataset.html">Dataset</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/v2/run_logic.html">Training and Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/v2/fluid.html">Fluid</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/layers.html">Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/data_feeder.html">DataFeeder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/executor.html">Executor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/initializer.html">Initializer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/evaluator.html">Evaluator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/nets.html">Nets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/optimizer.html">Optimizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/param_attr.html">ParamAttr</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/profiler.html">Profiler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/regularizer.html">Regularizer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../mobile/index_en.html">MOBILE</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../mobile/cross_compiling_for_android_en.html">Build PaddlePaddle for Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mobile/cross_compiling_for_ios_en.html">Build PaddlePaddle for iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mobile/cross_compiling_for_raspberry_en.html">Build PaddlePaddle for Raspberry Pi</a></li>
+</ul>
+</li>
+</ul>
+
+        
+    </nav>
+    
+    <section class="doc-content-wrap">
+
+      
+
+ 
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+      
+    <li>Error Clip</li>
+  </ul>
+</div>
+      
+      <div class="wy-nav-content" id="doc-content">
+        <div class="rst-content">
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="error-clip">
+<span id="error-clip"></span><h1>Error Clip<a class="headerlink" href="#error-clip" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<span id="overview"></span><h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>Error clip is widely used in model training to prevent gradient exploding. It takes some specific rules to adjust variables&#8217; gradients and prevent them from being too large. With it, values of a gradient will be checked before they are taken by the next <code class="docutils literal"><span class="pre">grad_op</span></code> and be shrunk if necessary.</p>
+</div>
+<div class="section" id="usage">
+<span id="usage"></span><h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<p>Users are allowed to assign different error clip methods or attributes to different <code class="docutils literal"><span class="pre">Variable</span></code>s. Users can specify it as a parameter of <code class="docutils literal"><span class="pre">Variable</span></code>&#8216;s constructor:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">var</span> <span class="o">=</span> <span class="n">framework</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">error_clip</span><span class="o">=</span><span class="n">myErrorClip</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The default value of <code class="docutils literal"><span class="pre">error_clip</span></code> is <code class="docutils literal"><span class="pre">None</span></code>, which means no error clip is employed. When it&#8217;s not <code class="docutils literal"><span class="pre">None</span></code>, it should take an object of <code class="docutils literal"><span class="pre">BaseErrorClipAttr</span></code>&#8216;s derived class. So far, <code class="docutils literal"><span class="pre">BaseErrorClipAttr</span></code> has only one derived class: <code class="docutils literal"><span class="pre">ErrorClipByValue</span></code>, whose constructor is:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">ErrorClipByValue</span><span class="p">(</span><span class="nb">max</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">max</span></code> and <code class="docutils literal"><span class="pre">min</span></code> represent the maximal and minimal clip threshold respectively. In backward pass, all values of <code class="docutils literal"><span class="pre">var</span></code>&#8216;s gradient greater than <code class="docutils literal"><span class="pre">max</span></code> or less than <code class="docutils literal"><span class="pre">min</span></code> will be clipped to <code class="docutils literal"><span class="pre">max</span></code> and <code class="docutils literal"><span class="pre">min</span></code> respectively. When the <code class="docutils literal"><span class="pre">min</span></code> is None, the minimal threshold will be assigned with <code class="docutils literal"><span class="pre">-max</span></code> automatically.</p>
+<p>So we can enable the error clip with threshold <code class="docutils literal"><span class="pre">[-5.0,</span> <span class="pre">5.0]</span></code> for variable <code class="docutils literal"><span class="pre">var</span></code> by:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">var</span> <span class="o">=</span> <span class="n">framework</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">error_clip</span><span class="o">=</span><span class="n">ErrorClipByValue</span><span class="p">(</span><span class="nb">max</span><span class="o">=</span><span class="mf">5.0</span><span class="p">),</span> <span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="implementation">
+<span id="implementation"></span><h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal"><span class="pre">BaseErrorClipAttr</span></code> and its derived class <code class="docutils literal"><span class="pre">ErrorClipByValue</span></code> are defined in <em>clip.py</em>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">BaseErrorClipAttr</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">append_clip_op</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">,</span> <span class="n">grad_name</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+
+<span class="k">class</span> <span class="nc">ErrorClipByValue</span><span class="p">(</span><span class="n">BaseErrorClipAttr</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">max</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="nb">max</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">max</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">min</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="nb">min</span> <span class="o">=</span> <span class="o">-</span><span class="nb">max</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">min</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">min</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max</span> <span class="o">=</span> <span class="nb">max</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">min</span> <span class="o">=</span> <span class="nb">min</span>
+
+    <span class="k">def</span> <span class="nf">append_clip_op</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">,</span> <span class="n">grad_name</span><span class="p">):</span>
+        <span class="n">block</span><span class="o">.</span><span class="n">append_op</span><span class="p">(</span>
+            <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;clip&quot;</span><span class="p">,</span>
+            <span class="n">inputs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;X&quot;</span><span class="p">:</span> <span class="n">grad_name</span><span class="p">},</span>
+            <span class="n">outputs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Out&quot;</span><span class="p">:</span> <span class="n">grad_name</span><span class="p">},</span>
+            <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;min&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="p">,</span>
+                   <span class="s2">&quot;max&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">BaseErrorClipAttr</span></code> have one main member functions: <code class="docutils literal"><span class="pre">append_clip_op(self,</span> <span class="pre">block,</span> <span class="pre">grad_name)</span></code>.</p>
+<p>This function is used to create a <code class="docutils literal"><span class="pre">clip_op</span></code> and append it to the end of given <code class="docutils literal"><span class="pre">block</span></code>. For different error clip algorithm require different <code class="docutils literal"><span class="pre">clip_op</span></code>, the function is defined as virtual in the base class. All derived classes must implement their own versions of this function.</p>
+<p>These <code class="docutils literal"><span class="pre">clip_op</span></code>s should be inserted after <code class="docutils literal"><span class="pre">grad_op</span></code>s whose output gradients need to be clipped. It is equivalent to appending some <code class="docutils literal"><span class="pre">clip_op</span></code>s to the end of the target block every time a new <code class="docutils literal"><span class="pre">grad_op</span></code> is added.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">op_desc</span> <span class="ow">in</span> <span class="n">grad_op_descs</span><span class="p">:</span>
+        <span class="n">new_op_desc</span> <span class="o">=</span> <span class="n">target_block</span><span class="o">.</span><span class="n">desc</span><span class="o">.</span><span class="n">append_op</span><span class="p">()</span>
+        <span class="n">new_op_desc</span><span class="o">.</span><span class="n">copy_from</span><span class="p">(</span><span class="n">op_desc</span><span class="p">)</span>
+        <span class="n">callback</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">target_block</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">grad_to_var</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Here we employ a callback function to complete this kind of jobs. In <code class="docutils literal"><span class="pre">_append_backward_ops_</span></code> function, each time after a <code class="docutils literal"><span class="pre">grad_op</span></code> is added to the <code class="docutils literal"><span class="pre">target_block</span></code>, a callback function is invoked. The logic of <code class="docutils literal"><span class="pre">clip_op</span></code> appending can be implemented inside the callback function.</p>
+<p>The callback function for <code class="docutils literal"><span class="pre">clip_op</span></code> appending is defined in <em>clip.py</em>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">error_clip_callback</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+    <span class="c1"># the context is a grad_to_var map</span>
+    <span class="n">grad_to_var</span> <span class="o">=</span> <span class="n">context</span>
+    <span class="n">op_desc</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">desc</span><span class="o">.</span><span class="n">op</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">desc</span><span class="o">.</span><span class="n">op_size</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">grad_n</span> <span class="ow">in</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">grad_to_var</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">n</span><span class="p">),</span>
+                         <span class="n">op_desc</span><span class="o">.</span><span class="n">output_arg_names</span><span class="p">()):</span>
+        <span class="n">fwd_var</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">var_recursive</span><span class="p">(</span><span class="n">grad_to_var</span><span class="p">[</span><span class="n">grad_n</span><span class="p">])</span>
+        <span class="n">error_clip</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">fwd_var</span><span class="p">,</span> <span class="s2">&quot;error_clip&quot;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">error_clip</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">error_clip</span><span class="o">.</span><span class="n">append_clip_op</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">grad_n</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This function takes a <code class="docutils literal"><span class="pre">block</span></code> and a <code class="docutils literal"><span class="pre">context</span></code>(which is actually a grad_to_var map) as inputs. It checks each output of the last <code class="docutils literal"><span class="pre">OpDesc</span></code> in the <code class="docutils literal"><span class="pre">block</span></code>. Notice that the last <code class="docutils literal"><span class="pre">OpDesc</span></code> of the <code class="docutils literal"><span class="pre">block</span></code> must be a <code class="docutils literal"><span class="pre">grad_op</span></code> and its outputs must be some forward variables&#8217; gradients. If an output gradient&#8217;s corresponding forward variable has an attribute of <code class="docutils literal"><span class="pre">error_clip</span></code>, <code class="docutils literal"><span class="pre">error_clip_callback</span></code> will call the <code class="docutils literal"><span class="pre">error_clip</span></code>&#8216;s <code class="docutils literal"><span class="pre">append_clip_op</span></code> function to append the required <code class="docutils literal"><span class="pre">clip_op</span></code> into the <code class="docutils literal"><span class="pre">block</span></code>.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, PaddlePaddle developers.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: ".txt",
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+       
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+  
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/js/perfect-scrollbar.jquery.min.js"></script>
+  <script src="../_static/js/paddle_doc_init.js"></script> 
+
+</body>
+</html>
