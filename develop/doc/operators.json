@@ -629,6 +629,45 @@
    "generated" : 0
  } ] 
 },{
+ "type" : "warpctc",
+ "comment" : "\nAn operator integrating the open-source\n[warp-ctc](https://github.com/baidu-research/warp-ctc) library, which is used in\n[Deep Speech 2: End-toEnd Speech Recognition in English and Mandarin](\nhttps://arxiv.org/pdf/1512.02595v1.pdf),\nto compute Connectionist Temporal Classification (CTC) loss.\nIt can be aliased as softmax with ctc, since a native softmax activation is\ninterated to the warp-ctc library, to to normlize values for each row of the\ninput tensor.\n\nMore detail of CTC loss can be found by refering to\n[Connectionist Temporal Classification: Labelling Unsegmented Sequence Data with\nRecurrent Neural Networks](\nhttp://machinelearning.wustl.edu/mlpapers/paper_files/icml2006_GravesFGS06.pdf).\n",
+ "inputs" : [ 
+ { 
+   "name" : "Logits",
+   "comment" : "(LodTensor, default: LoDTensor<float>), the unscaled probabilities of variable-length sequences, which is a 2-D Tensor with LoD information. It's shape is [Lp, num_classes + 1], where Lp is the sum of all input sequences' length and num_classes is the true number of classes (not including the blank label).",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Label",
+   "comment" : "(LodTensor, default: LoDTensor<int>), the ground truth of variable-length sequence, which is a 2-D Tensor with LoD information. It is of the shape [Lg, 1], where Lg is th sum of all labels' length.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "WarpCTCGrad",
+   "comment" : "(Tensor, default: Tensor<float>), a temporary output Tensor to store the gradients of warp-ctc, which is computed with loss together in one call. It is a 3-D Tensor of the shape [max_sequence_length, batch_size, num_classes + 1].",
+   "duplicable" : 0,
+   "intermediate" : 1
+ }, { 
+   "name" : "Loss",
+   "comment" : "(Tensor, default: Tensor<float>), the Connectionist Temporal Classification (CTC) loss, which is a 2-D Tensor of the shape [batch_size, 1]",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "blank",
+   "type" : "int",
+   "comment" : "(int, default: 0), the blank label of Connectionist Temporal Classification (CTC) loss, which is in the half-opened interval [0, num_classes + 1).",
+   "generated" : 0
+ }, { 
+   "name" : "norm_by_times",
+   "type" : "bool",
+   "comment" : "(bool, default: false), whether to normalize the gradients by the number of time-step, which is also the sequence's length.",
+   "generated" : 0
+ } ] 
+},{
  "type" : "cos_sim",
  "comment" : "\nCosine Similarity Operator.\n\n$Out = X^T * Y / (\\sqrt{X^T * X} * \\sqrt{Y^T * Y})$\n\nThe input X and Y must have the same shape, except that the 1st dimension\nof input Y could be just 1 (different from input X), which will be\nbroadcasted to match the shape of input X before computing their cosine\nsimilarity.\n\nBoth the input X and Y can carry the LoD (Level of Details) information,\nor not. But the output only shares the LoD information with input X.\n\n",
  "inputs" : [ 
