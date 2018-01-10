@@ -2485,7 +2485,7 @@
  }, { 
    "name" : "device_type",
    "type" : "string",
-   "comment" : "device type must be in [\"CPU\", \"CUDA\"]",
+   "comment" : "device type",
    "generated" : 0
  } ] 
 },{
