@@ -3133,7 +3133,7 @@
  } ] 
 },{
  "type" : "norm",
- "comment" : "\n       \"Input shape: $(N, C, H, W)$\n        Sclae shape: $(C, 1)$\n        Output shape: $(N, C, H, W)$\n        Where\n        forward\n          $$\n            [\\frac {x_{1}}{\\sqrt{\\sum{x_{i}^{2}}}} \\frac {x_{2}}{\\sqrt{\\sum{x_{i}^{2}}}} \\frac {x_{3}}{\\sqrt{\\sum{x_{i}^{2}}}} \\cdot  \\cdot  \\cdot \\frac {x_{n}}{\\sqrt{\\sum{x_{i}^{2}}}}]\n          $$\n        backward\n          $$\n            \\frac{\\frac{\\mathrm{d}L }{\\mathrm{d}y_{1}} - \\frac {x_{1}\\sum {\\frac{\\mathrm{d} L}{\\mathrm{d} y_{j}}}x_{j}}{\\sum x_{j}^{2}} }{\\sqrt{\\sum{x_{j}^{2}}}}\n          $$\n        ",
+ "comment" : "\n       \"Input shape: $(N, C, H, W)$\n        Scale shape: $(C, 1)$\n        Output shape: $(N, C, H, W)$\n        Where\n        forward\n          $$\n            [\\frac {x_{1}}{\\sqrt{\\sum{x_{i}^{2}}}} \\frac {x_{2}}{\\sqrt{\\sum{x_{i}^{2}}}} \\frac {x_{3}}{\\sqrt{\\sum{x_{i}^{2}}}} \\cdot  \\cdot  \\cdot \\frac {x_{n}}{\\sqrt{\\sum{x_{i}^{2}}}}]\n          $$\n        backward\n          $$\n            \\frac{\\frac{\\mathrm{d}L }{\\mathrm{d}y_{1}} - \\frac {x_{1}\\sum {\\frac{\\mathrm{d} L}{\\mathrm{d} y_{j}}}x_{j}}{\\sum x_{j}^{2}} }{\\sqrt{\\sum{x_{j}^{2}}}}\n          $$\n        ",
  "inputs" : [ 
  { 
    "name" : "X",
