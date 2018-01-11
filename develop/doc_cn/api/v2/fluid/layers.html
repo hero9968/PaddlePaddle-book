@@ -575,32 +575,8 @@ Duplicable: False  Optional: False</li>
 <h2>dropout<a class="headerlink" href="#dropout" title="永久链接至标题">¶</a></h2>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">dropout</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
-<dd><p>Dropout Operator.</p>
-<p>Dropout refers to randomly dropping out units in a nerual network. It is a
-regularization technique for reducing overfitting by preventing neuron
-co-adaption during training. The dropout operator randomly set (according to
-the given dropout probability) the outputs of some units to zero, while others
-are set equal to their corresponding inputs.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>x</strong> &#8211; The input of dropout op.
-Duplicable: False  Optional: False</li>
-<li><strong>dropout_prob</strong> (<em>FLOAT</em>) &#8211; Probability of setting units to zero.</li>
-<li><strong>is_test</strong> (<em>BOOLEAN</em>) &#8211; True if in test phase.</li>
-<li><strong>seed</strong> (<em>INT</em>) &#8211; Dropout random seed.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first last">The output of dropout op.</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">dropout</code><span class="sig-paren">(</span><em>x</em>, <em>dropout_prob</em>, <em>is_test=False</em>, <em>seed=0</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
 
 </div>
 <div class="section" id="reshape">
