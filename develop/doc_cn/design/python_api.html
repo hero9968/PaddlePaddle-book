@@ -472,6 +472,23 @@
 </pre></div>
 </div>
 </div>
+<div class="section" id="return-value-of-layer-functions">
+<span id="return-value-of-layer-functions"></span><h3>Return value of layer functions<a class="headerlink" href="#return-value-of-layer-functions" title="永久链接至标题">¶</a></h3>
+<p>The layer will return a Variable, which is also the output of an operator.  However, outputs of a layer function have more attributes than an operator. There are parameter variables, and their gradient variables need to return. To return them is useful. For example,</p>
+<ol class="simple">
+<li>Users can debug the network by printing parameter gradients.</li>
+<li>Users can append attributes to a parameter, such as, <code class="docutils literal"><span class="pre">param.stop_gradient=True</span></code> will make a parameter stop generate the gradient. We can fix the parameter value during training by using this attribute.</li>
+</ol>
+<p>However, it is good to return a Variable for layers, since all layers and operators use Variables as their parameters. We can just append a <code class="docutils literal"><span class="pre">param</span></code> field and a <code class="docutils literal"><span class="pre">grad</span></code> field for layer function since the Python is dynamic typing.</p>
+<p>The sample usage is</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="n">hidden</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+<span class="o">...</span>
+
+<span class="n">executor</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">fetch_list</span><span class="o">=</span><span class="p">[</span><span class="n">hidden</span><span class="o">.</span><span class="n">param</span><span class="p">,</span> <span class="n">hidden</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">grad</span><span class="p">],</span> <span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
 </div>
 <div class="section" id="optimizer">
 <span id="optimizer"></span><h2>Optimizer<a class="headerlink" href="#optimizer" title="永久链接至标题">¶</a></h2>
