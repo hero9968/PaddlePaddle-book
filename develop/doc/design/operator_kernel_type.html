@@ -212,7 +212,7 @@
 <span id="design-doc-the-keys-of-operator-kernel-type"></span><h1>Design Doc: The Keys of Operator Kernel Type<a class="headerlink" href="#design-doc-the-keys-of-operator-kernel-type" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="problem">
 <span id="problem"></span><h2>Problem<a class="headerlink" href="#problem" title="Permalink to this headline">¶</a></h2>
-<p>An operator can have different kernel implementations, and each operator will have a map to store the related kernels. Fluid uses <code class="docutils literal"><span class="pre">OpKernelType</span></code> as a key to identify a unique Kernel. Before an operator runs, an certain kernel must be chosen by a key of <code class="docutils literal"><span class="pre">OpKernelType</span></code>. Currently, <code class="docutils literal"><span class="pre">OpKernelType</span></code> is defined as follows:</p>
+<p>An operator can have different kernel implementations, and each operator will have a map to store the related kernels. Fluid uses <code class="docutils literal"><span class="pre">OpKernelType</span></code> as a key to identify a unique kernel. Before an operator runs, a certain type of kernel must be chosen via a key of <code class="docutils literal"><span class="pre">OpKernelType</span></code>. Currently, <code class="docutils literal"><span class="pre">OpKernelType</span></code> is defined as follows:</p>
 <div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="k">struct</span> <span class="n">OpKernelType</span> <span class="p">{</span>
   <span class="n">platform</span><span class="o">::</span><span class="n">Place</span> <span class="n">place_</span><span class="p">;</span>
   <span class="n">proto</span><span class="o">::</span><span class="n">DataType</span> <span class="n">data_type_</span><span class="p">;</span>
@@ -220,10 +220,10 @@
 </pre></div>
 </div>
 <p>For more details, please refer to <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/2d5ec16bc8a09fb8e0f62c89b116b0cd1d333907/paddle/framework/operator.h#L348-L374">codes</a> in github.</p>
-<p>It contains two keys, <code class="docutils literal"><span class="pre">Place</span></code> and <code class="docutils literal"><span class="pre">DataType</span></code>. And these two keys will be hashed to a unique key to represent a certain type of kernel. However, these two keys are not enough. We need a more complete representation of <code class="docutils literal"><span class="pre">OpKernelType</span></code>.</p>
-<p>We often implement a kernel of an operator with some computing library in certain device(place). Please remind that computing library and device are not one-to-one corresponding. A device can have a lot of computing libraries and a computing library can also support several devices.</p>
-<p>For example, Eigen library can support Nvidia GPU/AMD GPU/CPU. And MKLDNN library can support Intel CPU/Intel FPGA. Both <code class="docutils literal"><span class="pre">Place</span></code> and <code class="docutils literal"><span class="pre">Library</span></code> should be a key of <code class="docutils literal"><span class="pre">OpKernelType</span></code>.</p>
-<p>It&#8217;s obvious that different DataTypes, like fp64/fp32/int8 will have different kernels. But the data layout of a Tensor will also lead to different implementation. Please refer to the batch norm operator <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/a948fac4d0ad7e0412d373b8aabeb711c2899563/paddle/operators/batch_norm_op.cc#L180-L209">kernels</a>. Data Layout should also be taken into consideration.</p>
+<p>It contains two keys, <code class="docutils literal"><span class="pre">Place</span></code> and <code class="docutils literal"><span class="pre">DataType</span></code>. And these two keys will be hashed to a unique key to represent a certain type of kernel. However, these two keys do not provide enough information. We need a more complete representation of <code class="docutils literal"><span class="pre">OpKernelType</span></code>.</p>
+<p>We often implement a kernel of an operator with some computing library on certain device(place). Please note that computing library and device do not have a one-to-one correspondence. A device can have a lot of computing libraries and a computing library can also support different devices.</p>
+<p>For example, Eigen library supports Nvidia GPU/AMD GPU/CPU and MKLDNN library supports Intel CPU/Intel FPGA. Both <code class="docutils literal"><span class="pre">Place</span></code> and <code class="docutils literal"><span class="pre">Library</span></code> should be a key of <code class="docutils literal"><span class="pre">OpKernelType</span></code>.</p>
+<p>Different DataTypes, such as fp64/fp32/int8, will obviously have different kernels. But different data layout of a Tensor will also lead to different implementations. Please refer to the batch norm operator <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/a948fac4d0ad7e0412d373b8aabeb711c2899563/paddle/operators/batch_norm_op.cc#L180-L209">kernels</a> as an example. Data layout should also be taken into consideration.</p>
 </div>
 <div class="section" id="solution">
 <span id="solution"></span><h2>Solution<a class="headerlink" href="#solution" title="Permalink to this headline">¶</a></h2>
@@ -236,14 +236,14 @@
 <span class="p">};</span>
 </pre></div>
 </div>
-<p>Following is the details:</p>
+<p>The details are as follows:</p>
 <div class="section" id="place">
 <span id="place"></span><h3>Place<a class="headerlink" href="#place" title="Permalink to this headline">¶</a></h3>
-<p><code class="docutils literal"><span class="pre">Place</span></code> is defined as follows:</p>
+<p><code class="docutils literal"><span class="pre">Place</span></code> is defined as:</p>
 <div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="n">boost</span><span class="o">::</span><span class="n">variant</span><span class="o">&lt;</span><span class="n">CUDAPlace</span><span class="p">,</span> <span class="n">ROCmPlace</span><span class="p">,</span> <span class="n">FPGAPlace</span><span class="p">,</span> <span class="n">CPUPlace</span><span class="o">&gt;</span> <span class="n">Place</span><span class="p">;</span>
 </pre></div>
 </div>
-<p><code class="docutils literal"><span class="pre">Place</span></code> is to represent the device memory where data is locating.</p>
+<p><code class="docutils literal"><span class="pre">Place</span></code> represents the device memory where data is located.</p>
 </div>
 <div class="section" id="library">
 <span id="library"></span><h3>Library<a class="headerlink" href="#library" title="Permalink to this headline">¶</a></h3>
@@ -251,9 +251,9 @@
 <div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="k">enum</span> <span class="n">Library</span> <span class="p">{</span> <span class="n">Plain</span><span class="p">,</span> <span class="n">MKLDNN</span><span class="p">,</span> <span class="n">CUDNN</span> <span class="p">};</span>
 </pre></div>
 </div>
-<p>We use <code class="docutils literal"><span class="pre">Plain</span></code> enumerator to represent default library. Since most operators in Fluid are implemented based on <code class="docutils literal"><span class="pre">Eigen</span></code> library, we take <code class="docutils literal"><span class="pre">Eigen</span></code> library as the <code class="docutils literal"><span class="pre">Plain</span></code> enumerator.
-A library usually has a corresponding <code class="docutils literal"><span class="pre">DeviceContext</span></code> which contains some handles needed by computation. Fluid now have two default DeviceContexts in CPU and CUDA, <code class="docutils literal"><span class="pre">CPUDeviceContext</span></code> and <code class="docutils literal"><span class="pre">CUDADeviceContext</span></code>. <code class="docutils literal"><span class="pre">CPUDeviceContext</span></code> contains a Eigen library handle and <code class="docutils literal"><span class="pre">CDUADeviceContext</span></code> contains a Eigen library handle and cuBLAS handle.</p>
-<p>If we want to support new Library, a new enumerator need to be added to <code class="docutils literal"><span class="pre">Library</span></code> and a new corresponding <code class="docutils literal"><span class="pre">LibraryDeviceContext</span></code> will be created.</p>
+<p>We use <code class="docutils literal"><span class="pre">Plain</span></code> enumerator to represent default library. Since most operators in Fluid are implemented based on the <code class="docutils literal"><span class="pre">Eigen</span></code> library, we take <code class="docutils literal"><span class="pre">Eigen</span></code> library as the <code class="docutils literal"><span class="pre">Plain</span></code> enumerator.
+A library usually has a corresponding <code class="docutils literal"><span class="pre">DeviceContext</span></code> which contains some handles needed for computation. Fluid now has two default DeviceContexts for CPU and CUDA, namely, <code class="docutils literal"><span class="pre">CPUDeviceContext</span></code> and <code class="docutils literal"><span class="pre">CUDADeviceContext</span></code>. <code class="docutils literal"><span class="pre">CPUDeviceContext</span></code> contains an Eigen library handle and <code class="docutils literal"><span class="pre">CDUADeviceContext</span></code> contains an Eigen library handle and a cuBLAS handle.</p>
+<p>If we want to support new library, a new enumerator need to be added to <code class="docutils literal"><span class="pre">Library</span></code> and a corresponding new <code class="docutils literal"><span class="pre">LibraryDeviceContext</span></code> need to be created.</p>
 </div>
 <div class="section" id="datatype">
 <span id="datatype"></span><h3>DataType<a class="headerlink" href="#datatype" title="Permalink to this headline">¶</a></h3>
@@ -262,12 +262,12 @@ A library usually has a corresponding <code class="docutils literal"><span class
 <div class="section" id="layout">
 <span id="layout"></span><h3>Layout<a class="headerlink" href="#layout" title="Permalink to this headline">¶</a></h3>
 <p>Actually, a Tensor is a view of a block of memory. Besides a pointer to the memory, we also have to get some other descriptions of this block of memory, such as shape(ddim), stride, and layout.</p>
-<p>Different layout leads to different implementation of operator kernel. There are mainly 4 principles we have to follow to support layout in our fluid framework.</p>
+<p>Different layout leads to different implementation of the operator kernel. There are mainly 4 principles we have to follow to support layout in our Fluid framework.</p>
 <ul class="simple">
-<li>We take layout as a data member of Tensor. Layout is actually a enum variable. If fluid is built with MKLDNN, then, the memory format in MKLDNN will be added into this enum variable too.</li>
-<li>Users have to set layout for input data. And some operators like fill_constant/random, also have to set layout of generating data. Of course, we can have some default layout, like NCHW.</li>
-<li>The inference of Layout is at run-time, not compile-time.</li>
-<li>Every operator have to implement different kernels for different layouts. Let&#8217;s take MKLDNN as an example, if we want to implement a MKLDNN convolution operator, we have to realize all the kernels for different layout, list at <a class="reference external" href="http://01org.github.io/mkl-dnn/structmkldnn_1_1memory.html">here</a>. And we will have a special macro to do registering kernels for MKLDNN operators.</li>
+<li>We take layout as a data member of Tensor. Layout is actually a enum variable. If Fluid is built with MKLDNN, then the memory format in MKLDNN will also be added into this enum variable.</li>
+<li>Users have to set layout for input data. And some operators like fill_constant/random, also have to set layout for generating data. Of course, we can have some default layout, like NCHW.</li>
+<li>The inference of Layout is at run-time, not at compile-time.</li>
+<li>Every operator has to implement different kernels for different layouts. Let&#8217;s take MKLDNN as an example. If we want to implement an MKLDNN convolution operator, we have to implement all the kernels for different layouts, which are listed <a class="reference external" href="http://01org.github.io/mkl-dnn/structmkldnn_1_1memory.html">here</a>. And we will have a special macro to  register kernels for MKLDNN operators.</li>
 </ul>
 <p><code class="docutils literal"><span class="pre">Layout</span></code> is also defined as a enum variable:</p>
 <div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="k">enum</span> <span class="n">Layout</span> <span class="p">{</span>
