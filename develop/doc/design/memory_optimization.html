@@ -214,24 +214,24 @@
 <span id="problem"></span><h2>Problem<a class="headerlink" href="#problem" title="Permalink to this headline">¶</a></h2>
 <p>In a lecture from Andrew Ng, he attributes the recent sucess of AI due to a combination of these:</p>
 <ul class="simple">
-<li>availability of Big Data</li>
-<li>supercomputing power to process this Big Data over very large neural networks</li>
-<li>modern algorithms</li>
+<li>Availability of Big Data</li>
+<li>Supercomputing power to process this Big Data over very large neural networks</li>
+<li>Modern algorithms</li>
 </ul>
 <p>Following graph shows the details:</p>
 <p><img alt="" src="../_images/deep_learning.png" /></p>
-<p>Larger model usually brings better performance. However, GPU memory is certain limited. For example, the memory size of a GTX TITAN X is only 12GB. To train complex and large model, we have to take care of memory using. Besides, memory optimization is also necessary in both online/mobile inference.</p>
+<p>Larger model usually bring better performance. However, GPU memory is limited. For example, the memory size of a GTX TITAN X is only 12GB. To train complex and large models, we have to take care of memory usage. Besides, memory optimization is also necessary in both online/mobile inference.</p>
 </div>
 <div class="section" id="solution">
 <span id="solution"></span><h2>Solution<a class="headerlink" href="#solution" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="basic-strategy">
 <span id="basic-strategy"></span><h3>Basic Strategy<a class="headerlink" href="#basic-strategy" title="Permalink to this headline">¶</a></h3>
-<p>There are some basic strategies to make memory optimization, including in-place operation and memory sharing.</p>
+<p>There are some basic strategies to improve memory usage, including in-place operations and memory sharing.</p>
 <div class="section" id="in-place-operation">
 <span id="in-place-operation"></span><h4>In-place Operation<a class="headerlink" href="#in-place-operation" title="Permalink to this headline">¶</a></h4>
 <p>In a relu activation operator：</p>
 <p>$y = \max(x, 0)$</p>
-<p>If the variable x is not used in any other operator, we can make an in-place operation. In other words, the memory block of variable y and variable x are the same. In-place operation will save 50% memory occupancy immediately.</p>
+<p>If the variable x is not used in any other operator, we can make an in-place operation. In other words, the memory block of variable y and variable x will be the same. In-place operations will save 50% memory occupancy immediately.</p>
 </div>
 <div class="section" id="memory-sharing">
 <span id="memory-sharing"></span><h4>Memory Sharing<a class="headerlink" href="#memory-sharing" title="Permalink to this headline">¶</a></h4>
@@ -242,15 +242,15 @@
 <span class="n">e</span> <span class="o">=</span> <span class="n">op3</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>In this case, variable a is no longer used, and op2 does not support in-place operation. After op2 finished, we can put the memory of variable a to a memory pool. Then, variable e can share the memory of variable a from the pool.</p>
+<p>In this case, variable a is no longer used, and op2 does not support in-place operation. After op2 finishes, we can put the memory of variable a to a memory pool. Then, variable e can share the memory of variable a from the pool.</p>
 </div>
 </div>
 <div class="section" id="live-variable-analysis">
 <span id="live-variable-analysis"></span><h3>Live Variable Analysis<a class="headerlink" href="#live-variable-analysis" title="Permalink to this headline">¶</a></h3>
-<p>It&#8217;s not enough to only have some basic strategies. The prerequisite of memory optimization is to know if a variable is still &#8220;live&#8221; after an operation.</p>
+<p>It&#8217;s not enough to only have some basic strategies. The pre-requisite of memory optimization is to know if a variable is still &#8220;live&#8221; after an operation.</p>
 <p>In our design, the neural network topology is defined as a program. Luckily, <a class="reference external" href="https://en.wikipedia.org/wiki/Live_variable_analysis">live variable analysis</a> is a classic problem in compilers which can be used in many stages, such as register allocation.</p>
-<p>In compilers, the front end of the compilers translates programs into an intermediate language with an unbounded number of temporaries. This program must run on a machine with a bounded number of registers. Two temporaries a and b can fit into the same register, if a and b are never &#8220;in use&#8221; at the same time. Thus, many temporaries can fit in few registers; if they don&#8217;t all fit, the excess temporaries can be kept in memory.</p>
-<p>Therefore, the compiler needs to analyze the intermediate-representation program to determine which temporaries are in use at the same time. We say a variable is &#8220;live&#8221; if it holds a value that may be needed in the future, so this analysis is called liveness analysis.</p>
+<p>In compilers, the front end of the compiler translates programs into an intermediate language with an unbounded number of temporary variables. This program must run on a machine with a bounded number of registers. Two temporary variables a and b can fit into the same register, if a and b are never &#8220;in use&#8221; at the same time. Thus, many temporary variables can fit in few registers; if they don&#8217;t all fit, the excess tempory variables can be kept in memory.</p>
+<p>Therefore, the compiler needs to analyze the intermediate-representation program to determine which temporary variables are in use at the same time. We say a variable is &#8220;live&#8221; if it holds a value that may be needed in the future, so this analysis is called liveness analysis.</p>
 <p>We can leran these techniques from compilers. There are mainly two stages to make live variable analysis:</p>
 <ul class="simple">
 <li>construct a control flow graph</li>
@@ -258,23 +258,23 @@
 </ul>
 <div class="section" id="control-flow-graph">
 <span id="control-flow-graph"></span><h4>Control Flow Graph<a class="headerlink" href="#control-flow-graph" title="Permalink to this headline">¶</a></h4>
-<p>To preform analyses on a program, it is often useful to make a control flow graph. A <a class="reference external" href="https://en.wikipedia.org/wiki/Control_flow_graph">control flow graph</a> (CFG) in computer science is a representation, using graph notation, of all paths that might be traversed through a program during its execution. Each statement in the program is a node in the flow graph; if statemment x can be followed by statement y, there is an egde from x to y.</p>
+<p>To perform analysis on a program, it is often useful to make a control flow graph. A <a class="reference external" href="https://en.wikipedia.org/wiki/Control_flow_graph">control flow graph</a> (CFG) in computer science is a representation, using graph notation, of all paths that might be traversed through a program during its execution. Each statement in the program is a node in the flow graph; if statemment x can be followed by statement y, there is an egde from x to y.</p>
 <p>Following is the flow graph for a simple loop.</p>
 <p><img alt="" src="../_images/control_flow_graph.png" /></p>
 </div>
 <div class="section" id="dataflow-analysis">
 <span id="dataflow-analysis"></span><h4>Dataflow Analysis<a class="headerlink" href="#dataflow-analysis" title="Permalink to this headline">¶</a></h4>
-<p>liveness of variable &#8220;flows&#8221; around the edges of the control flow graph; determining the live range of each variable is an example of a dataflow problem. <a class="reference external" href="https://en.wikipedia.org/wiki/Data-flow_analysis">Dataflow analysis</a> is a technique for gathering information about the possible set of values calculated at various points in a computer program.</p>
+<p>Liveness of variable &#8220;flows&#8221; around the edges of the control flow graph; determining the live range of each variable is an example of a dataflow problem. <a class="reference external" href="https://en.wikipedia.org/wiki/Data-flow_analysis">Dataflow analysis</a> is a technique for gathering information about the possible set of values calculated at various points in a computer program.</p>
 <p>A simple way to perform data-flow analysis of programs is to set up dataflow equations for each node of the control flow graph and solve them by repeatedly calculating the output from the input locally at each node until the whole system stabilizes.</p>
 <ul class="simple">
 <li>Flow Graph Terminology</li>
 </ul>
-<p>A flow graph node has out-edges that lead to sucessor nodes, and in-edges that come from presucessor nodes. The set <em>pred[n]</em> is all the predecessors of node n, and <em>succ[n]</em> is the set of sucessors.
+<p>A flow graph node has out-edges that lead to sucessor nodes, and in-edges that come from predecessor nodes. The set <em>pred[n]</em> is all the predecessors of node n, and <em>succ[n]</em> is the set of sucessors.
 In former control flow graph, the out-edges of node 5 are 5 &#8211;&gt; 6 and 5 &#8211;&gt; 2, and <em>succ[5]</em> = {2, 6}. The in-edges of 2 are 5 &#8211;&gt; 2 and 1 &#8211;&gt; 2, and <em>pred[2]</em> = {1, 5}.</p>
 <ul class="simple">
 <li>Uses and Defs</li>
 </ul>
-<p>An assignmemt to a variable or temporary defines that variable. An occurence of a variable on the right-hand side of an assginment(or in other expressions) uses the variable. We can speak the <em>def</em> of a variable as the set of graph nodes that define it; or the <em>def</em> of a graph node as the set of variables that it defines; and the similarly for the <em>use</em> of a variable or graph node. In former control flow graph, <em>def(3)</em> = {c}, <em>use(3)</em> = {b, c}.</p>
+<p>An assignmemt to a variable or temporary defines that variable. An occurence of a variable on the right-hand side of an assginment(or in other expressions) uses the variable. We can define the <em>def</em> of a variable as the set of graph nodes that define it; or the <em>def</em> of a graph node as the set of variables that it defines; and the similarly for the <em>use</em> of a variable or graph node. In former control flow graph, <em>def(3)</em> = {c}, <em>use(3)</em> = {b, c}.</p>
 <ul class="simple">
 <li>Liveness</li>
 </ul>
@@ -358,8 +358,8 @@ In former control flow graph, the out-edges of node 5 are 5 &#8211;&gt; 6 and 5 
 </div>
 </div>
 <div class="section" id="make-dataflow-analysis">
-<span id="make-dataflow-analysis"></span><h4>make dataflow analysis<a class="headerlink" href="#make-dataflow-analysis" title="Permalink to this headline">¶</a></h4>
-<p>We follow guide from compilers and try to solve the dataflow equation to get liveness of every variable. If the live-in of an operator node is different from the live-out, then we can make memory sharing.</p>
+<span id="make-dataflow-analysis"></span><h4>Make dataflow analysis<a class="headerlink" href="#make-dataflow-analysis" title="Permalink to this headline">¶</a></h4>
+<p>We follow the guide from compilers and try to solve the dataflow equation to get liveness of every variable. If the live-in of an operator node is different from the live-out, then we can make memory sharing.</p>
 <p>For example:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">op1</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">);</span>
 <span class="n">d</span> <span class="o">=</span> <span class="n">op2</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
