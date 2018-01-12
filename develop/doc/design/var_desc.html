@@ -210,13 +210,13 @@
             
   <div class="section" id="background">
 <span id="background"></span><h1>Background<a class="headerlink" href="#background" title="Permalink to this headline">¶</a></h1>
-<p>PaddlePaddle divides the description of neural network computation graph into two stages: compile time and runtime.</p>
-<p>PaddlePaddle use proto message to describe compile time graph because</p>
+<p>PaddlePaddle divides the description of neural network computation into two stages: compile time and runtime. At compile time, the neural network computation is described as a <code class="docutils literal"><span class="pre">ProgramDesc</span></code> whereas at runtime an <code class="docutils literal"><span class="pre">Executor</span></code> interprets the <code class="docutils literal"><span class="pre">ProgramDesc</span></code> to compute the operations.</p>
+<p>PaddlePaddle use proto message to describe compile time program because</p>
 <ol class="simple">
-<li>Computation graph should be able to be saved to a file.</li>
-<li>In distributed training, the graph will be serialized and send to multiple workers.</li>
+<li>The computation program description must be serializable and saved in a file.</li>
+<li>During distributed training, the sreialized program will be sent to multiple workers. It should also be possible to break the program into different components, each of which can be executed on different workers.</li>
 </ol>
-<p>The computation graph is constructed by Data Node and Operation Node. The concept to represent them is in the table below.</p>
+<p>The computation <code class="docutils literal"><span class="pre">Program</span></code> consists of nested <code class="docutils literal"><span class="pre">Blocks</span></code>. Each <code class="docutils literal"><span class="pre">Block</span></code> will consist of data(i.e. <code class="docutils literal"><span class="pre">Variable</span></code>)  and  <code class="docutils literal"><span class="pre">Operations</span></code>. The concept to represent them is in the table below.</p>
 <p>| |compile time|runtime|
 |&#8212;|&#8212;|&#8212;|
 |Data|VarDesc(proto)|Variable(cpp)|

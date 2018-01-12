@@ -406,8 +406,8 @@
 <div class="section" id="the-compilation-of-blocks">
 <span id="the-compilation-of-blocks"></span><h2>The Compilation of Blocks<a class="headerlink" href="#the-compilation-of-blocks" title="永久链接至标题">¶</a></h2>
 <p>During the generation of the Protobuf message, the Block should store VarDesc (the Protobuf message which describes Variable) and OpDesc (the Protobuf message which describes Operator).</p>
-<p>VarDesc in a block should have its name scope to avoid local variables affect parent block&#8217;s name scope.
-Child block&#8217;s name scopes should inherit the parent&#8217;s so that OpDesc in child block can reference a VarDesc that stored in parent block. For example:</p>
+<p>VarDesc in a block should have its name scope to avoid local variables affecting parent block&#8217;s name scope.
+Child block&#8217;s name scopes should inherit the parent&#8217;s so that OpDesc in child block can reference a VarDesc that is stored in the parent block. For example:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">])</span>
 <span class="n">b</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;fc.w&quot;</span><span class="p">,</span> <span class="s2">&quot;fc.b&quot;</span><span class="p">])</span>
 
