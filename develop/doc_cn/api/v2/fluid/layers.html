@@ -488,7 +488,8 @@ flattened. See comments of <cite>x_num_col_dims</cite> for more details.</li>
 <code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">elementwise_add</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Limited Elementwise Add Operator.</p>
 <p>The equation is:</p>
-<p>$Out = X + Y$</p>
+<div class="math">
+\[Out = X + Y\]</div>
 <p>X is a tensor of any dimension and the dimensions of tensor Y must be smaller than
 or equal to the dimensions of X.</p>
 <p>There are two cases for this operator:
@@ -497,14 +498,118 @@ or equal to the dimensions of X.</p>
 <p>For case 2:
 Y will be broadcasted to match the shape of X and axis should be
 the starting dimension index for broadcasting Y onto X.</p>
-<p class="rubric">example</p>
-<p>shape(X) = (2, 3, 4, 5), shape(Y) = (,)
-shape(X) = (2, 3, 4, 5), shape(Y) = (5,)
-shape(X) = (2, 3, 4, 5), shape(Y) = (4, 5)
-shape(X) = (2, 3, 4, 5), shape(Y) = (3, 4), with axis=1
-shape(X) = (2, 3, 4, 5), shape(Y) = (2), with axis=0</p>
-<p>Both the input X and Y can carry the LoD (Level of Details) information,
-or not. But the output only shares the LoD information with input X.</p>
+<dl class="docutils">
+<dt>For example</dt>
+<dd><div class="first last highlight-python"><div class="highlight"><pre><span></span><span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(,)</span>
+<span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">5</span><span class="p">,)</span>
+<span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="k">with</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+<span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="k">with</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p>Either of the inputs X and Y or none can carry the LoD (Level of Details) information. However, the output only shares the LoD information with input X.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> &#8211; (Tensor) The first input tensor of elementwise op
+Duplicable: False  Optional: False</li>
+<li><strong>y</strong> &#8211; (Tensor) The second input tensor of elementwise op
+Duplicable: False  Optional: False</li>
+<li><strong>axis</strong> (<em>INT</em>) &#8211; (int, default -1) The starting dimension index for broadcasting Y onto X</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first last">The output of elementwise op</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="elementwise-sub">
+<h2>elementwise_sub<a class="headerlink" href="#elementwise-sub" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">elementwise_sub</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<dd><p>Limited Elementwise Sub Operator.</p>
+<p>The equation is:</p>
+<div class="math">
+\[Out = X - Y\]</div>
+<p>X is a tensor of any dimension and the dimensions of tensor Y must be smaller than
+or equal to the dimensions of X.</p>
+<p>There are two cases for this operator:
+1. The shape of Y is same with X;
+2. The shape of Y is a subset of X.</p>
+<p>For case 2:
+Y will be broadcasted to match the shape of X and axis should be
+the starting dimension index for broadcasting Y onto X.</p>
+<dl class="docutils">
+<dt>For example</dt>
+<dd><div class="first last highlight-python"><div class="highlight"><pre><span></span><span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(,)</span>
+<span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">5</span><span class="p">,)</span>
+<span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="k">with</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+<span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="k">with</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p>Either of the inputs X and Y or none can carry the LoD (Level of Details) information. However, the output only shares the LoD information with input X.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> &#8211; (Tensor) The first input tensor of elementwise op
+Duplicable: False  Optional: False</li>
+<li><strong>y</strong> &#8211; (Tensor) The second input tensor of elementwise op
+Duplicable: False  Optional: False</li>
+<li><strong>axis</strong> (<em>INT</em>) &#8211; (int, default -1) The starting dimension index for broadcasting Y onto X</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first last">The output of elementwise op</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="elementwise-mul">
+<h2>elementwise_mul<a class="headerlink" href="#elementwise-mul" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">elementwise_mul</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<dd><p>Limited Elementwise Mul Operator.</p>
+<p>The equation is:</p>
+<div class="math">
+\[Out = X \odot\ Y\]</div>
+<p>X is a tensor of any dimension and the dimensions of tensor Y must be smaller than
+or equal to the dimensions of X.</p>
+<p>There are two cases for this operator:
+1. The shape of Y is same with X;
+2. The shape of Y is a subset of X.</p>
+<p>For case 2:
+Y will be broadcasted to match the shape of X and axis should be
+the starting dimension index for broadcasting Y onto X.</p>
+<dl class="docutils">
+<dt>For example</dt>
+<dd><div class="first last highlight-python"><div class="highlight"><pre><span></span><span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(,)</span>
+<span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">5</span><span class="p">,)</span>
+<span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="k">with</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+<span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="k">with</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p>Either of the inputs X and Y or none can carry the LoD (Level of Details) information. However, the output only shares the LoD information with input X.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -533,7 +638,8 @@ Duplicable: False  Optional: False</li>
 <code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">elementwise_div</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Limited Elementwise Div Operator.</p>
 <p>The equation is:</p>
-<p>$Out = X / Y$</p>
+<div class="math">
+\[Out = X / Y\]</div>
 <p>X is a tensor of any dimension and the dimensions of tensor Y must be smaller than
 or equal to the dimensions of X.</p>
 <p>There are two cases for this operator:
@@ -542,14 +648,18 @@ or equal to the dimensions of X.</p>
 <p>For case 2:
 Y will be broadcasted to match the shape of X and axis should be
 the starting dimension index for broadcasting Y onto X.</p>
-<p class="rubric">example</p>
-<p>shape(X) = (2, 3, 4, 5), shape(Y) = (,)
-shape(X) = (2, 3, 4, 5), shape(Y) = (5,)
-shape(X) = (2, 3, 4, 5), shape(Y) = (4, 5)
-shape(X) = (2, 3, 4, 5), shape(Y) = (3, 4), with axis=1
-shape(X) = (2, 3, 4, 5), shape(Y) = (2), with axis=0</p>
-<p>Both the input X and Y can carry the LoD (Level of Details) information,
-or not. But the output only shares the LoD information with input X.</p>
+<dl class="docutils">
+<dt>For example</dt>
+<dd><div class="first last highlight-python"><div class="highlight"><pre><span></span><span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(,)</span>
+<span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">5</span><span class="p">,)</span>
+<span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="k">with</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+<span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="k">with</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p>Either of the inputs X and Y or none can carry the LoD (Level of Details) information. However, the output only shares the LoD information with input X.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
