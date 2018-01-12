@@ -28,6 +28,54 @@
  } ], 
  "attrs" : [  ] 
 },{
+ "type" : "print",
+ "comment" : "\n    Creates a print op that will print when a tensor is accessed.\n\n    Wraps the tensor passed in so that whenever that a tensor is accessed,\n    the message `message` is printed, along with the current value of the\n    tensor `t`.",
+ "inputs" : [ 
+ { 
+   "name" : "input",
+   "comment" : "the tensor that will be displayed.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [  ], 
+ "attrs" : [ 
+ { 
+   "name" : "first_n",
+   "type" : "int",
+   "comment" : "Only log `first_n` number of times.",
+   "generated" : 0
+ }, { 
+   "name" : "message",
+   "type" : "string",
+   "comment" : "A string message to print as a prefix.",
+   "generated" : 0
+ }, { 
+   "name" : "summarize",
+   "type" : "int",
+   "comment" : "Print this number of elements in the tensor.",
+   "generated" : 0
+ }, { 
+   "name" : "print_tensor_name",
+   "type" : "bool",
+   "comment" : "Whether to print the tensor name.",
+   "generated" : 0
+ }, { 
+   "name" : "print_tensor_type",
+   "type" : "bool",
+   "comment" : "Whether to print the tensor's dtype.",
+   "generated" : 0
+ }, { 
+   "name" : "print_tensor_shape",
+   "type" : "bool",
+   "comment" : "Whether to print the tensor's shape.",
+   "generated" : 0
+ }, { 
+   "name" : "print_tensor_lod",
+   "type" : "bool",
+   "comment" : "Whether to print the tensor's lod.",
+   "generated" : 0
+ } ] 
+},{
  "type" : "adagrad",
  "comment" : "\n\nAdaptive Gradient Algorithm (Adagrad).\n\nThe update is done as follows:\n\n$$moment\\_out = moment + grad * grad \\\\\nparam\\_out = param - \\frac{learning\\_rate * grad}{\\sqrt{moment\\_out} + \\epsilon}\n$$\n\nThe original paper(http://www.jmlr.org/papers/volume12/duchi11a/duchi11a.pdf)\ndoes not have the epsilon attribute. It is added here in our implementation\nas also proposed here: http://cs231n.github.io/neural-networks-3/#ada\nfor numerical stability to avoid the division by zero error.\n\n",
  "inputs" : [ 
