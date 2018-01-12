@@ -5137,6 +5137,39 @@
    "generated" : 0
  } ] 
 },{
+ "type" : "assign_value",
+ "comment" : "\nAssignValue operator\n\n$$Out = values$$\n",
+ "inputs" : [  ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(Tensor) Output tensor of assign_value operator.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "shape",
+   "type" : "int array",
+   "comment" : "(vector<int>) Shape of values.",
+   "generated" : 0
+ }, { 
+   "name" : "dtype",
+   "type" : "int",
+   "comment" : "data type of values",
+   "generated" : 0
+ }, { 
+   "name" : "fp32_values",
+   "type" : "float array",
+   "comment" : "store the float values",
+   "generated" : 0
+ }, { 
+   "name" : "int32_values",
+   "type" : "int array",
+   "comment" : "store the int values",
+   "generated" : 0
+ } ] 
+},{
  "type" : "split",
  "comment" : "\nSplit operator\n\nThis operator splits the input tensor into multiple sub-tensors.\n\nExample:\n  Input = [[1,2],\n           [3,4],\n           [5,6]]\n  sections = [2,1]\n  axis = 0\n  Output[0] = [[1,2],\n               [3,4]]\n  Output[1] = [[5,6]]\n\n    ",
  "inputs" : [ 
