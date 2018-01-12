@@ -244,6 +244,15 @@ machine or copy it to the target machine.</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>pip install build/python/dist/*.whl
 </pre></div>
 </div>
+<p>If the machine has installed PaddlePaddle before, there are two methods:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="m">1</span>. uninstall and reinstall
+pip uninstall paddlepaddle
+pip install build/python/dist/*.whl
+
+<span class="m">2</span>. upgrade directly
+pip install build/python/dist/*.whl -U
+</pre></div>
+</div>
 </div>
 <div class="section" id="run-tests">
 <span id="run-test"></span><h2>Run Tests<a class="headerlink" href="#run-tests" title="Permalink to this headline">¶</a></h2>

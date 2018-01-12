@@ -259,6 +259,15 @@ make
 <div class="highlight-bash"><div class="highlight"><pre><span></span>pip install build/python/dist/*.whl
 </pre></div>
 </div>
+<p>如果机器中已经安装过PaddlePaddle，有两种方法：</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="m">1</span>. 先卸载之前的版本，再重新安装
+pip uninstall paddlepaddle
+pip install build/python/dist/*.whl
+
+<span class="m">2</span>. 直接升级到更新的版本
+pip install build/python/dist/*.whl -U
+</pre></div>
+</div>
 </div>
 <div class="section" id="run-test">
 <span id="id4"></span><h2>执行单元测试<a class="headerlink" href="#run-test" title="永久链接至标题">¶</a></h2>
