@@ -120,182 +120,6 @@
    "generated" : 0
  } ] 
 },{
- "type" : "conv3d",
- "comment" : "\nConvolution3D Operator.\n\nThe convolution operation calculates the output based on the input, filter\nand strides, paddings, dilations, groups parameters. The size of each dimension of the\nparameters is checked in the infer-shape.\nInput(Input) and output(Output) are in NCDHW format, where N is batch\nsize, C is the number of channels,D is the depth of the feature, H is the height of\nthe feature, and W is the width of the feature.\nFilters(Input) is MCDHW format, where M is the number of output image channels,\nC is the number of input image channels, D is the depth of the filter,\nH is the height of the filter, and W is the width of the filter.\nParameters(strides, paddings, dilations) are three elements. These three elements\nrepresent depth, height and width, respectively.\nThe input(X) size and output(Out) size may be different.\n\nExample:\n  Input:\n       Input shape: $(N, C_{in}, D_{in}, H_{in}, W_{in})$\n       Filter shape: $(C_{out}, C_{in}, D_f, H_f, W_f)$\n  Output:\n       Output shape: $(N, C_{out}, D_{out}, H_{out}, W_{out})$\n  Where\n  $$\n       D_{out}= \\frac{(D_{in} + 2 * paddings[0] - (dilations[0] * (D_f - 1) + 1))}{ strides[0]}+ 1 \\\\\n       H_{out}= \\frac{(H_{in} + 2 * paddings[1] - (dilations[1] * (H_f - 1) + 1))}{ strides[1]}+ 1 \\\\\n       W_{out}= \\frac{(W_{in} + 2 * paddings[2] - (dilations[2] * (W_f - 1) + 1))}{ strides[2]}+ 1\n  $$\n",
- "inputs" : [ 
- { 
-   "name" : "Input",
-   "comment" : "(Tensor) The input tensor of convolution operator. The format of input tensor is NCDHW. Where N is batch size, C is the number of channels, D is the depth of the feature, H is the height of the feature, and W is the width of the feature.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Filter",
-   "comment" : "(Tensor) The filter tensor of convolution operator. The format of the filter tensor is MCDHW, where M is the number of output image channels, C is the number of input image channels, D is the depth of the filter, H is the height of the filter, and W is the width of the filter.If the groups attribute is greater than 1, C equals the number of input image channels divided by the groups.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Output",
-   "comment" : "(Tensor) The output tensor of convolution operator.The format of output tensor is also NCDHW.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "strides",
-   "type" : "int array",
-   "comment" : "(vector<int>, default:{1, 1, 1}), the strides(d_stride, h_stride, w_stride) of convolution operator.",
-   "generated" : 0
- }, { 
-   "name" : "paddings",
-   "type" : "int array",
-   "comment" : "(vector<int>, default:{0, 0, 0}), the paddings(d_pad, h_pad, w_pad) of convolution operator.",
-   "generated" : 0
- }, { 
-   "name" : "groups",
-   "type" : "int",
-   "comment" : "(int default:1), the groups number of the convolution operator. According to grouped convolution in Alex Krizhevsky's Deep CNN paper: when group=2, the first half of the filters is only connected to the first half of the input channels, while the second half of the filters is only connected to the second half of the input channels.",
-   "generated" : 0
- }, { 
-   "name" : "dilations",
-   "type" : "int array",
-   "comment" : "(vector<int> default:{1, 1, 1}), the dilations(d_dilation, h_dilation, w_dilation) of convolution operator.",
-   "generated" : 0
- } ] 
-},{
- "type" : "conv2d",
- "comment" : "\nConvolution Operator.\n\nThe convolution operation calculates the output based on the input, filter\nand strides, paddings, dilations, groups parameters. The size of each dimension of the\nparameters is checked in the infer-shape.\nInput(Input) and Output(Output) are in NCHW format. Where N is batch\nsize, C is the number of channels, H is the height of the feature, and W is\nthe width of the feature.\nFilters(Input) is MCHW format. Where M is the number of output image channels, C is\nthe number of input image channels, H is the height of the filter, and W\nis the width of the filter.\nParameters(strides, paddings, dilations) are two elements. These two elements represent\nheight and width, respectively.\nThe input(X) size and output(Out) size may be different.\n\nExample:\n  Input:\n       Input shape: $(N, C_{in}, H_{in}, W_{in})$\n       Filter shape: $(C_{out}, C_{in}, H_f, W_f)$\n  Output:\n       Output shape: $(N, C_{out}, H_{out}, W_{out})$\n  Where\n$$\n       H_{out}= \\frac{(H_{in} + 2 * paddings[0] - (dilations[0] * (H_f - 1) + 1))}{strides[0]}+ 1 \\\\\n       W_{out}= \\frac{(W_{in} + 2 * paddings[1] - (dilations[1] * (W_f - 1) + 1))}{strides[1]}+ 1\n$$\n",
- "inputs" : [ 
- { 
-   "name" : "Input",
-   "comment" : "(Tensor) The input tensor of convolution operator. The format of input tensor is NCHW, where N is batch size, C is the number of channels, H is the height of the feature, and W is the width of the feature.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Filter",
-   "comment" : "(Tensor) The filter tensor of convolution operator. The format of the filter tensor is MCHW, where M is the number of output image channels, C is the number of input image channels, H is the height of the filter, and W is the width of the filter. If the groups attribute is greater than 1, C equals the number of input image channels divided by the groups.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Output",
-   "comment" : "(Tensor) The output tensor of convolution operator. The format of output tensor is also NCHW.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "strides",
-   "type" : "int array",
-   "comment" : "(vector<int> default:{1, 1}), the strides(h_stride, w_stride) of convolution operator.",
-   "generated" : 0
- }, { 
-   "name" : "paddings",
-   "type" : "int array",
-   "comment" : "(vector<int> default:{0, 0}), the paddings(h_pad, w_pad) of convolution operator.",
-   "generated" : 0
- }, { 
-   "name" : "groups",
-   "type" : "int",
-   "comment" : "(int default:1), the groups number of the convolution operator. According to grouped convolution in Alex Krizhevsky's Deep CNN paper: when group=2, the first half of the filters is only connected to the first half of the input channels, while the second half of the filters is only connected to the second half of the input channels.",
-   "generated" : 0
- }, { 
-   "name" : "dilations",
-   "type" : "int array",
-   "comment" : "(vector<int> default:{1, 1}), the dilations(h_dilation, w_dilation) of convolution operator.",
-   "generated" : 0
- } ] 
-},{
- "type" : "pool3d",
- "comment" : "\nPool3d Operator.\n\nThe pooling3d operation calculates the output based on\nthe input, pooling_type, ksize, strides, and paddings parameters.\nInput(X) and output(Out) are in NCDHW format, where N is batch\nsize, C is the number of channels, and D, H and W are the depth, height and\nwidth of the feature, respectively. Parameters(ksize, strides, paddings) \nare three elements. These three elements represent depth, height and \nwidth, respectively. The input(X) size and output(Out) size may be different.\n\nExample:\n  Input:\n       X shape: $(N, C, D_{in}, H_{in}, W_{in})$\n  Output:\n       Out shape: $(N, C, D_{out}, H_{out}, W_{out})$\n  Where\n  $$\n       D_{out} = \\frac{(D_{in} - ksize[0] + 2 * paddings[0])}{strides[0]} + 1 \\\\\n       H_{out} = \\frac{(H_{in} - ksize[1] + 2 * paddings[1])}{strides[1]} + 1 \\\\\n       W_{out} = \\frac{(W_{in} - ksize[2] + 2 * paddings[2])}{strides[2]} + 1\n  $$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(Tensor) The input tensor of pooling operator. The format of input tensor is NCDHW, where N is batch size, C is the number of channels, and D, H and W is the depth, height and width of the feature, respectively.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(Tensor) The output tensor of pooling operator.The format of output tensor is also NCDHW, where N is batch size, C is the number of channels, and D, H and W is the depth, height and width of the feature, respectively.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "pooling_type",
-   "type" : "string",
-   "comment" : "(string) Pooling type, can be \"max\" for max-pooling and \"avg\" for average-pooling.",
-   "generated" : 0
- }, { 
-   "name" : "ksize",
-   "type" : "int array",
-   "comment" : "(vector<int>) The pooling window size(depth, height, width) of pooling operator. If global_pooling = true, ksize and paddings will be ignored.",
-   "generated" : 0
- }, { 
-   "name" : "global_pooling",
-   "type" : "bool",
-   "comment" : "(bool, default false) Whether to use the global pooling. If global_pooling = true, ksize and paddings wille be ignored.",
-   "generated" : 0
- }, { 
-   "name" : "strides",
-   "type" : "int array",
-   "comment" : "(vector<int>, default {1,1,1}) Strides(depth, height, width) of the pooling operator.",
-   "generated" : 0
- }, { 
-   "name" : "paddings",
-   "type" : "int array",
-   "comment" : "(vector<int>, default {0,0,0}), paddings(depth, height, width) of pooling operator. If global_pooling = true, ksize and paddings will be ignored.",
-   "generated" : 0
- } ] 
-},{
- "type" : "pool2d",
- "comment" : "\nPool2d Operator.\n\nThe pooling2d operation calculates the output based on\nthe input, pooling_type and ksize, strides, paddings parameters.\nInput(X) and output(Out) are in NCHW format, where N is batch size, C is the\nnumber of channels, H is the height of the feature, and W is the width of the feature.\nParameters(ksize, strides, paddings) are two elements.\nThese two elements represent height and width, respectively.\nThe input(X) size and output(Out) size may be different.\n\nExample:   \n  Input:\n       X shape: $(N, C, H_{in}, W_{in})$\n  Output:\n       Out shape: $(N, C, H_{out}, W_{out})$\n  Where\n       $$ \n       H_{out} = \\frac{(H_{in} - ksize[0] + 2 * paddings[0])}{strides[0]} + 1 \\\\\n       W_{out} = \\frac{(W_{in} - ksize[1] + 2 * paddings[1])}{strides[1]} + 1\n       $$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(Tensor) The input tensor of pooling operator. The format of input tensor is NCHW, where N is batch size, C is the number of channels, H is the height of the feature, and W is the width of the feature.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(Tensor) The output tensor of pooling operator. The format of output tensor is also NCHW, where N is batch size, C is the number of channels, H is the height of the feature, and W is the width of the feature.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "pooling_type",
-   "type" : "string",
-   "comment" : "(string), pooling type, can be \"max\" for max-pooling and \"avg\" for average-pooling.",
-   "generated" : 0
- }, { 
-   "name" : "ksize",
-   "type" : "int array",
-   "comment" : "(vector<int>) The pooling window size(height, width) of the pooling operator. If global_pooling = true, ksize and paddings will be ignored.",
-   "generated" : 0
- }, { 
-   "name" : "global_pooling",
-   "type" : "bool",
-   "comment" : "(bool, default false) Whether to use the global pooling. If global_pooling = true, ksize and paddings will be ignored.",
-   "generated" : 0
- }, { 
-   "name" : "strides",
-   "type" : "int array",
-   "comment" : "(vector<int>, default {1, 1}), strides(height, width) of pooling operator.",
-   "generated" : 0
- }, { 
-   "name" : "paddings",
-   "type" : "int array",
-   "comment" : "(vector<int>, default {0,0}), paddings(height, width) of pooling operator.If global_pooling = true, paddings and ksize will be ignored.",
-   "generated" : 0
- } ] 
-},{
  "type" : "max_pool3d_with_index",
  "comment" : "\nMaxPool3d Operator.\n\nThe maxpooling3d with index operation calculates the output and the mask\nbased on the input and ksize, strides, paddings parameters.\nInput(X) and output(Out, Mask) are in NCDHW format, where N is batch\nsize, C is the number of channels, and D, H and W are the depth, height and\nwidth of the feature, respectively. \nParameters(ksize, strides, paddings) are three elements.\nThese three elements represent depth, height and width, respectively.\nThe input(X) size and output(Out, Mask) size may be different.\n\nExample:\n  Input:\n       X shape: $(N, C, D_{in}, H_{in}, W_{in})$\n  Output:\n       Out shape: $(N, C, D_{out}, H_{out}, W_{out})$\n       Mask shape: $(N, C, D_{out}, H_{out}, W_{out})$\n  Where\n       $$\n       D_{out} = \\frac{(D_{in} - ksize[0] + 2 * paddings[0])}{strides[0]} + 1 \\\\\n       H_{out} = \\frac{(H_{in} - ksize[1] + 2 * paddings[1])}{strides[1]} + 1 \\\\\n       W_{out} = \\frac{(W_{in} - ksize[2] + 2 * paddings[2])}{strides[2]} + 1\n       $$\n\n",
  "inputs" : [ 
@@ -515,45 +339,6 @@
    "generated" : 0
  } ] 
 },{
- "type" : "conv3d_transpose",
- "comment" : "\nConvolution3D Transpose Operator.\n\nThe convolution transpose operation calculates the output based on the input, filter\nand dilations, strides, paddings, groups parameters. The size of each dimension of the\nparameters is checked in the infer-shape.\nInput(Input) and output(Output) are in NCDHW format. Where N is batch size, C is the\nnumber of channels, D is the depth of the feature, H is the height of the feature,\nand W is the width of the feature.\nFilter(Input) is in MCDHW format. Where M is the number of input feature channels,\nC is the number of output feature channels, D is the depth of the filter,H is the\nheight of the filter, and W is the width of the filter.\nParameters(strides, paddings) are three elements. These three elements represent\ndepth, height and width, respectively.\nThe input(X) size and output(Out) size may be different.\n\nExample:   \n  Input:\n       Input shape: $(N, C_{in}, D_{in}, H_{in}, W_{in})$\n       Filter shape: $(C_{in}, C_{out}, D_f, H_f, W_f)$\n  Output:\n       Output shape: $(N, C_{out}, D_{out}, H_{out}, W_{out})$\n  Where\n  $$\n       D_{out} = (D_{in} - 1) * strides[0] - 2 * paddings[0] + D_f \\\\\n       H_{out} = (H_{in} - 1) * strides[1] - 2 * paddings[1] + H_f \\\\\n       W_{out} = (W_{in} - 1) * strides[2] - 2 * paddings[2] + W_f\n  $$\n",
- "inputs" : [ 
- { 
-   "name" : "Input",
-   "comment" : "(Tensor) The input tensor of convolution transpose operator.The format of input tensor is NCDHW. Where N is batch size, C is the number of channels, D is the depth of the feature, H is the height of the feature, and W is the width of the feature.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Filter",
-   "comment" : "(Tensor) The filter tensor of convolution transpose operator.The format of the filter tensor is MCDHW, where M is the number of input feature channels, C is the number of output feature channels, D is the depth of the filter, H is the height of the filter, and W is the width of the filter.We enforce groups number == 1 and padding == 0 in the convolution3d transpose scenario.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Output",
-   "comment" : "(Tensor) The output tensor of convolution transpose operator.The format of output tensor is also NCDHW.Where N is batch size, C is the number of channels, D is the depth of the feature, H is the height of the feature, and W is the width of the feature.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "dilations",
-   "type" : "int array",
-   "comment" : "(vector<int> default:{1, 1, 1}), the dilations(d_dilation,h_dilation, w_dilation) of convolution transpose operator.",
-   "generated" : 0
- }, { 
-   "name" : "strides",
-   "type" : "int array",
-   "comment" : "(vector<int> default:{1, 1, 1}), the strides{d_stride, h_stride, w_stride} of convolution transpose operator.",
-   "generated" : 0
- }, { 
-   "name" : "paddings",
-   "type" : "int array",
-   "comment" : "(vector<int> default:{0, 0, 0}), paddings(d_pad, h_pad, w_pad) of convolution transpose operator.",
-   "generated" : 0
- } ] 
-},{
  "type" : "gru",
  "comment" : "\nGRU Operator implements part calculations of the complete GRU as following:\n\n\\f[\nupdate \\ gate: u_t = actGate(xu_t + W_u * h_{t-1} + b_u) \\\\\nreset \\ gate: r_t = actGate(xr_t + W_r * h_{t-1} + b_r)  \\\\\noutput \\ candidate: {h}_t = actNode(xc_t + W_c * dot(r_t, h_{t-1}) + b_c) \\\\\noutput: h_t = dot((1 - u_t), h_{t-1}) + dot(u_t, {h}_t)\n\\f]\n\n@note To implement the complete GRU, fully-connected operator must be used  \nbefore to feed xu, xr and xc as the Input of GRU operator.\n",
  "inputs" : [ 
@@ -615,65 +400,6 @@
    "name" : "is_reverse",
    "type" : "bool",
    "comment" : "(bool, defalut: False) whether to compute reversed GRU.",
-   "generated" : 0
- } ] 
-},{
- "type" : "recurrent",
- "comment" : "\nStatic Length Recurrent Operator.\n\nThe static length recurrent operator can only operate on fixed size sequence\ndata, i.e. in each mini-batch, the sequence length of all inputs are the same.\n\n",
- "inputs" : [ 
- { 
-   "name" : "inputs",
-   "comment" : "rnn inputs",
-   "duplicable" : 1,
-   "intermediate" : 0
- }, { 
-   "name" : "initial_states",
-   "comment" : "rnn initial states",
-   "duplicable" : 1,
-   "intermediate" : 0
- }, { 
-   "name" : "parameters",
-   "comment" : "Parameters are used by step block as its input. However, the input is not a sequence tensor. Every time step, each operator in step block just use the parameter directly.",
-   "duplicable" : 1,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "outputs",
-   "comment" : "The output sequence of RNN. The sequence length must be same.",
-   "duplicable" : 1,
-   "intermediate" : 0
- }, { 
-   "name" : "step_scopes",
-   "comment" : "StepScopes contain all local variables in each time step.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "ex_states",
-   "type" : "string array",
-   "comment" : "The ex-state variable names.\nThe ex-state means the state value in the ex-timestep or the previous time step\n[ex_states, states, initial_states@GRAD] must be the same order",
-   "generated" : 0
- }, { 
-   "name" : "states",
-   "type" : "string array",
-   "comment" : "The state variable names. [ex_states, states, initial_states@GRAD] must be the same order",
-   "generated" : 0
- }, { 
-   "name" : "sub_block",
-   "type" : "block id",
-   "comment" : "The step block inside RNN",
-   "generated" : 0
- }, { 
-   "name" : "reverse",
-   "type" : "bool",
-   "comment" : "Calculate RNN reversely or not.\nBy default reverse=False\n\nAssume the input data is [A, B, C, D]\n\nif reverse is False:\n  the computation of RNN is like\n      A          B          C         D\n      |          |          |         |\n      v          v          v         v\n     rnn -----> rnn -----> rnn ----> rnn\n      |          |          |         |\n      v          v          v         v\n      o          o          o         o\n\nif reverse is True\n  the computation of RNN is like\n      A          B          C         D\n      |          |          |         |\n      v          v          v         v\n     rnn <----- rnn <----- rnn <---- rnn\n      |          |          |         |\n      v          v          v         v\n      o          o          o         o\n",
-   "generated" : 0
- }, { 
-   "name" : "is_train",
-   "type" : "bool",
-   "comment" : "",
    "generated" : 0
  } ] 
 },{
@@ -749,6 +475,286 @@
  } ], 
  "attrs" : [  ] 
 },{
+ "type" : "conv3d",
+ "comment" : "\nConvolution3D Operator.\n\nThe convolution operation calculates the output based on the input, filter\nand strides, paddings, dilations, groups parameters. The size of each dimension of the\nparameters is checked in the infer-shape.\nInput(Input) and output(Output) are in NCDHW format, where N is batch\nsize, C is the number of channels,D is the depth of the feature, H is the height of\nthe feature, and W is the width of the feature.\nFilters(Input) is MCDHW format, where M is the number of output image channels,\nC is the number of input image channels, D is the depth of the filter,\nH is the height of the filter, and W is the width of the filter.\nParameters(strides, paddings, dilations) are three elements. These three elements\nrepresent depth, height and width, respectively.\nThe input(X) size and output(Out) size may be different.\n\nExample:\n  Input:\n       Input shape: $(N, C_{in}, D_{in}, H_{in}, W_{in})$\n       Filter shape: $(C_{out}, C_{in}, D_f, H_f, W_f)$\n  Output:\n       Output shape: $(N, C_{out}, D_{out}, H_{out}, W_{out})$\n  Where\n  $$\n       D_{out}= \\frac{(D_{in} + 2 * paddings[0] - (dilations[0] * (D_f - 1) + 1))}{ strides[0]}+ 1 \\\\\n       H_{out}= \\frac{(H_{in} + 2 * paddings[1] - (dilations[1] * (H_f - 1) + 1))}{ strides[1]}+ 1 \\\\\n       W_{out}= \\frac{(W_{in} + 2 * paddings[2] - (dilations[2] * (W_f - 1) + 1))}{ strides[2]}+ 1\n  $$\n",
+ "inputs" : [ 
+ { 
+   "name" : "Input",
+   "comment" : "(Tensor) The input tensor of convolution operator. The format of input tensor is NCDHW. Where N is batch size, C is the number of channels, D is the depth of the feature, H is the height of the feature, and W is the width of the feature.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Filter",
+   "comment" : "(Tensor) The filter tensor of convolution operator. The format of the filter tensor is MCDHW, where M is the number of output image channels, C is the number of input image channels, D is the depth of the filter, H is the height of the filter, and W is the width of the filter.If the groups attribute is greater than 1, C equals the number of input image channels divided by the groups.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Output",
+   "comment" : "(Tensor) The output tensor of convolution operator.The format of output tensor is also NCDHW.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "strides",
+   "type" : "int array",
+   "comment" : "(vector<int>, default:{1, 1, 1}), the strides(d_stride, h_stride, w_stride) of convolution operator.",
+   "generated" : 0
+ }, { 
+   "name" : "paddings",
+   "type" : "int array",
+   "comment" : "(vector<int>, default:{0, 0, 0}), the paddings(d_pad, h_pad, w_pad) of convolution operator.",
+   "generated" : 0
+ }, { 
+   "name" : "groups",
+   "type" : "int",
+   "comment" : "(int default:1), the groups number of the convolution operator. According to grouped convolution in Alex Krizhevsky's Deep CNN paper: when group=2, the first half of the filters is only connected to the first half of the input channels, while the second half of the filters is only connected to the second half of the input channels.",
+   "generated" : 0
+ }, { 
+   "name" : "dilations",
+   "type" : "int array",
+   "comment" : "(vector<int> default:{1, 1, 1}), the dilations(d_dilation, h_dilation, w_dilation) of convolution operator.",
+   "generated" : 0
+ }, { 
+   "name" : "use_cudnn",
+   "type" : "bool",
+   "comment" : "(bool, default false) Only used in cudnn kernel, need install cudnn",
+   "generated" : 0
+ }, { 
+   "name" : "data_format",
+   "type" : "string",
+   "comment" : "(string, default NCHW) Only used in An optional string from: \"NHWC\", \"NCHW\". Defaults to \"NHWC\". Specify the data format of the output data, the input will be transformed automatically. ",
+   "generated" : 0
+ }, { 
+   "name" : "workspace_size_MB",
+   "type" : "int",
+   "comment" : "Only used in cudnn kernel. workspace size for cudnn, in MB, workspace is a section of GPU memory which will be allocated/freed each time the operator runs, larger workspace size can increase performance but also requires better hardware. This size should be chosen carefully.",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "conv2d",
+ "comment" : "\nConvolution Operator.\n\nThe convolution operation calculates the output based on the input, filter\nand strides, paddings, dilations, groups parameters. The size of each dimension of the\nparameters is checked in the infer-shape.\nInput(Input) and Output(Output) are in NCHW format. Where N is batch\nsize, C is the number of channels, H is the height of the feature, and W is\nthe width of the feature.\nFilters(Input) is MCHW format. Where M is the number of output image channels, C is\nthe number of input image channels, H is the height of the filter, and W\nis the width of the filter.\nParameters(strides, paddings, dilations) are two elements. These two elements represent\nheight and width, respectively.\nThe input(X) size and output(Out) size may be different.\n\nExample:\n  Input:\n       Input shape: $(N, C_{in}, H_{in}, W_{in})$\n       Filter shape: $(C_{out}, C_{in}, H_f, W_f)$\n  Output:\n       Output shape: $(N, C_{out}, H_{out}, W_{out})$\n  Where\n$$\n       H_{out}= \\frac{(H_{in} + 2 * paddings[0] - (dilations[0] * (H_f - 1) + 1))}{strides[0]}+ 1 \\\\\n       W_{out}= \\frac{(W_{in} + 2 * paddings[1] - (dilations[1] * (W_f - 1) + 1))}{strides[1]}+ 1\n$$\n",
+ "inputs" : [ 
+ { 
+   "name" : "Input",
+   "comment" : "(Tensor) The input tensor of convolution operator. The format of input tensor is NCHW, where N is batch size, C is the number of channels, H is the height of the feature, and W is the width of the feature.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Filter",
+   "comment" : "(Tensor) The filter tensor of convolution operator. The format of the filter tensor is MCHW, where M is the number of output image channels, C is the number of input image channels, H is the height of the filter, and W is the width of the filter. If the groups attribute is greater than 1, C equals the number of input image channels divided by the groups.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Output",
+   "comment" : "(Tensor) The output tensor of convolution operator. The format of output tensor is also NCHW.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "strides",
+   "type" : "int array",
+   "comment" : "(vector<int> default:{1, 1}), the strides(h_stride, w_stride) of convolution operator.",
+   "generated" : 0
+ }, { 
+   "name" : "paddings",
+   "type" : "int array",
+   "comment" : "(vector<int> default:{0, 0}), the paddings(h_pad, w_pad) of convolution operator.",
+   "generated" : 0
+ }, { 
+   "name" : "groups",
+   "type" : "int",
+   "comment" : "(int default:1), the groups number of the convolution operator. According to grouped convolution in Alex Krizhevsky's Deep CNN paper: when group=2, the first half of the filters is only connected to the first half of the input channels, while the second half of the filters is only connected to the second half of the input channels.",
+   "generated" : 0
+ }, { 
+   "name" : "dilations",
+   "type" : "int array",
+   "comment" : "(vector<int> default:{1, 1}), the dilations(h_dilation, w_dilation) of convolution operator.",
+   "generated" : 0
+ }, { 
+   "name" : "use_cudnn",
+   "type" : "bool",
+   "comment" : "(bool, default false) Only used in cudnn kernel, need install cudnn",
+   "generated" : 0
+ }, { 
+   "name" : "data_format",
+   "type" : "string",
+   "comment" : "(string, default NCHW) Only used in An optional string from: \"NHWC\", \"NCHW\". Defaults to \"NHWC\". Specify the data format of the output data, the input will be transformed automatically. ",
+   "generated" : 0
+ }, { 
+   "name" : "workspace_size_MB",
+   "type" : "int",
+   "comment" : "Only used in cudnn kernel. Need set use_cudnn to true.workspace size for cudnn, in MB, workspace is a section of GPU memory which will be allocated/freed each time the operator runs, larger workspace size can increase performance but also requires better hardware. This size should be chosen carefully.",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "pool3d",
+ "comment" : "\nPool3d Operator.\n\nThe pooling3d operation calculates the output based on\nthe input, pooling_type, ksize, strides, and paddings parameters.\nInput(X) and output(Out) are in NCDHW format, where N is batch\nsize, C is the number of channels, and D, H and W are the depth, height and\nwidth of the feature, respectively. Parameters(ksize, strides, paddings) \nare three elements. These three elements represent depth, height and \nwidth, respectively. The input(X) size and output(Out) size may be different.\n\nExample:\n  Input:\n       X shape: $(N, C, D_{in}, H_{in}, W_{in})$\n  Output:\n       Out shape: $(N, C, D_{out}, H_{out}, W_{out})$\n  Where\n  $$\n       D_{out} = \\frac{(D_{in} - ksize[0] + 2 * paddings[0])}{strides[0]} + 1 \\\\\n       H_{out} = \\frac{(H_{in} - ksize[1] + 2 * paddings[1])}{strides[1]} + 1 \\\\\n       W_{out} = \\frac{(W_{in} - ksize[2] + 2 * paddings[2])}{strides[2]} + 1\n  $$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(Tensor) The input tensor of pooling operator. The format of input tensor is NCDHW, where N is batch size, C is the number of channels, and D, H and W is the depth, height and width of the feature, respectively.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(Tensor) The output tensor of pooling operator.The format of output tensor is also NCDHW, where N is batch size, C is the number of channels, and D, H and W is the depth, height and width of the feature, respectively.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "pooling_type",
+   "type" : "string",
+   "comment" : "(string) Pooling type, can be \"max\" for max-pooling and \"avg\" for average-pooling.",
+   "generated" : 0
+ }, { 
+   "name" : "ksize",
+   "type" : "int array",
+   "comment" : "(vector<int>) The pooling window size(depth, height, width) of pooling operator. If global_pooling = true, ksize and paddings will be ignored.",
+   "generated" : 0
+ }, { 
+   "name" : "global_pooling",
+   "type" : "bool",
+   "comment" : "(bool, default false) Whether to use the global pooling. If global_pooling = true, ksize and paddings wille be ignored.",
+   "generated" : 0
+ }, { 
+   "name" : "strides",
+   "type" : "int array",
+   "comment" : "(vector<int>, default {1,1,1}) Strides(depth, height, width) of the pooling operator.",
+   "generated" : 0
+ }, { 
+   "name" : "paddings",
+   "type" : "int array",
+   "comment" : "(vector<int>, default {0,0,0}), paddings(depth, height, width) of pooling operator. If global_pooling = true, ksize and paddings will be ignored.",
+   "generated" : 0
+ }, { 
+   "name" : "use_cudnn",
+   "type" : "bool",
+   "comment" : "(bool, default false) Only used in cudnn kernel, need install cudnn",
+   "generated" : 0
+ }, { 
+   "name" : "data_format",
+   "type" : "string",
+   "comment" : "(string, default NCHW) Only used in An optional string from: \"NHWC\", \"NCHW\". Defaults to \"NHWC\". Specify the data format of the output data, the input will be transformed automatically. ",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "pool2d",
+ "comment" : "\nPool2d Operator.\n\nThe pooling2d operation calculates the output based on\nthe input, pooling_type and ksize, strides, paddings parameters.\nInput(X) and output(Out) are in NCHW format, where N is batch size, C is the\nnumber of channels, H is the height of the feature, and W is the width of the feature.\nParameters(ksize, strides, paddings) are two elements.\nThese two elements represent height and width, respectively.\nThe input(X) size and output(Out) size may be different.\n\nExample:   \n  Input:\n       X shape: $(N, C, H_{in}, W_{in})$\n  Output:\n       Out shape: $(N, C, H_{out}, W_{out})$\n  Where\n       $$ \n       H_{out} = \\frac{(H_{in} - ksize[0] + 2 * paddings[0])}{strides[0]} + 1 \\\\\n       W_{out} = \\frac{(W_{in} - ksize[1] + 2 * paddings[1])}{strides[1]} + 1\n       $$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(Tensor) The input tensor of pooling operator. The format of input tensor is NCHW, where N is batch size, C is the number of channels, H is the height of the feature, and W is the width of the feature.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(Tensor) The output tensor of pooling operator. The format of output tensor is also NCHW, where N is batch size, C is the number of channels, H is the height of the feature, and W is the width of the feature.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "pooling_type",
+   "type" : "string",
+   "comment" : "(string), pooling type, can be \"max\" for max-pooling and \"avg\" for average-pooling.",
+   "generated" : 0
+ }, { 
+   "name" : "ksize",
+   "type" : "int array",
+   "comment" : "(vector<int>) The pooling window size(height, width) of the pooling operator. If global_pooling = true, ksize and paddings will be ignored.",
+   "generated" : 0
+ }, { 
+   "name" : "global_pooling",
+   "type" : "bool",
+   "comment" : "(bool, default false) Whether to use the global pooling. If global_pooling = true, ksize and paddings will be ignored.",
+   "generated" : 0
+ }, { 
+   "name" : "strides",
+   "type" : "int array",
+   "comment" : "(vector<int>, default {1, 1}), strides(height, width) of pooling operator.",
+   "generated" : 0
+ }, { 
+   "name" : "paddings",
+   "type" : "int array",
+   "comment" : "(vector<int>, default {0,0}), paddings(height, width) of pooling operator.If global_pooling = true, paddings and ksize will be ignored.",
+   "generated" : 0
+ }, { 
+   "name" : "use_cudnn",
+   "type" : "bool",
+   "comment" : "(bool, default false) Only used in cudnn kernel, need install cudnn",
+   "generated" : 0
+ }, { 
+   "name" : "data_format",
+   "type" : "string",
+   "comment" : "(string, default NCHW) Only used in An optional string from: \"NHWC\", \"NCHW\". Defaults to \"NHWC\". Specify the data format of the output data, the input will be transformed automatically. ",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "conv3d_transpose",
+ "comment" : "\nConvolution3D Transpose Operator.\n\nThe convolution transpose operation calculates the output based on the input, filter\nand dilations, strides, paddings, groups parameters. The size of each dimension of the\nparameters is checked in the infer-shape.\nInput(Input) and output(Output) are in NCDHW format. Where N is batch size, C is the\nnumber of channels, D is the depth of the feature, H is the height of the feature,\nand W is the width of the feature.\nFilter(Input) is in MCDHW format. Where M is the number of input feature channels,\nC is the number of output feature channels, D is the depth of the filter,H is the\nheight of the filter, and W is the width of the filter.\nParameters(strides, paddings) are three elements. These three elements represent\ndepth, height and width, respectively.\nThe input(X) size and output(Out) size may be different.\n\nExample:   \n  Input:\n       Input shape: $(N, C_{in}, D_{in}, H_{in}, W_{in})$\n       Filter shape: $(C_{in}, C_{out}, D_f, H_f, W_f)$\n  Output:\n       Output shape: $(N, C_{out}, D_{out}, H_{out}, W_{out})$\n  Where\n  $$\n       D_{out} = (D_{in} - 1) * strides[0] - 2 * paddings[0] + D_f \\\\\n       H_{out} = (H_{in} - 1) * strides[1] - 2 * paddings[1] + H_f \\\\\n       W_{out} = (W_{in} - 1) * strides[2] - 2 * paddings[2] + W_f\n  $$\n",
+ "inputs" : [ 
+ { 
+   "name" : "Input",
+   "comment" : "(Tensor) The input tensor of convolution transpose operator.The format of input tensor is NCDHW. Where N is batch size, C is the number of channels, D is the depth of the feature, H is the height of the feature, and W is the width of the feature.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Filter",
+   "comment" : "(Tensor) The filter tensor of convolution transpose operator.The format of the filter tensor is MCDHW, where M is the number of input feature channels, C is the number of output feature channels, D is the depth of the filter, H is the height of the filter, and W is the width of the filter.We enforce groups number == 1 and padding == 0 in the convolution3d transpose scenario.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Output",
+   "comment" : "(Tensor) The output tensor of convolution transpose operator.The format of output tensor is also NCDHW.Where N is batch size, C is the number of channels, D is the depth of the feature, H is the height of the feature, and W is the width of the feature.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "dilations",
+   "type" : "int array",
+   "comment" : "(vector<int> default:{1, 1, 1}), the dilations(d_dilation,h_dilation, w_dilation) of convolution transpose operator.",
+   "generated" : 0
+ }, { 
+   "name" : "strides",
+   "type" : "int array",
+   "comment" : "(vector<int> default:{1, 1, 1}), the strides{d_stride, h_stride, w_stride} of convolution transpose operator.",
+   "generated" : 0
+ }, { 
+   "name" : "paddings",
+   "type" : "int array",
+   "comment" : "(vector<int> default:{0, 0, 0}), paddings(d_pad, h_pad, w_pad) of convolution transpose operator.",
+   "generated" : 0
+ }, { 
+   "name" : "use_cudnn",
+   "type" : "bool",
+   "comment" : "(bool, default false) Only used in cudnn kernel, need install cudnn",
+   "generated" : 0
+ }, { 
+   "name" : "data_format",
+   "type" : "string",
+   "comment" : "(string, default NCHW) Only used in An optional string from: \"NHWC\", \"NCHW\". Defaults to \"NHWC\". Specify the data format of the output data, the input will be transformed automatically. ",
+   "generated" : 0
+ }, { 
+   "name" : "workspace_size_MB",
+   "type" : "int",
+   "comment" : "Used in cudnn kernel only. workspace size for cudnn, in MB, workspace is a section of GPU memory which will be allocated/freed each time the operator runs, larger workspace size can increase performance but also requires better hardward. This size should be carefully setted.",
+   "generated" : 0
+ } ] 
+},{
  "type" : "parallel_do",
  "comment" : "\nParallelDo Operator.\n",
  "inputs" : [ 
@@ -784,6 +790,65 @@
  { 
    "name" : "sub_block",
    "type" : "block id",
+   "comment" : "",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "recurrent",
+ "comment" : "\nStatic Length Recurrent Operator.\n\nThe static length recurrent operator can only operate on fixed size sequence\ndata, i.e. in each mini-batch, the sequence length of all inputs are the same.\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "inputs",
+   "comment" : "rnn inputs",
+   "duplicable" : 1,
+   "intermediate" : 0
+ }, { 
+   "name" : "initial_states",
+   "comment" : "rnn initial states",
+   "duplicable" : 1,
+   "intermediate" : 0
+ }, { 
+   "name" : "parameters",
+   "comment" : "Parameters are used by step block as its input. However, the input is not a sequence tensor. Every time step, each operator in step block just use the parameter directly.",
+   "duplicable" : 1,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "outputs",
+   "comment" : "The output sequence of RNN. The sequence length must be same.",
+   "duplicable" : 1,
+   "intermediate" : 0
+ }, { 
+   "name" : "step_scopes",
+   "comment" : "StepScopes contain all local variables in each time step.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "ex_states",
+   "type" : "string array",
+   "comment" : "The ex-state variable names.\nThe ex-state means the state value in the ex-timestep or the previous time step\n[ex_states, states, initial_states@GRAD] must be the same order",
+   "generated" : 0
+ }, { 
+   "name" : "states",
+   "type" : "string array",
+   "comment" : "The state variable names. [ex_states, states, initial_states@GRAD] must be the same order",
+   "generated" : 0
+ }, { 
+   "name" : "sub_block",
+   "type" : "block id",
+   "comment" : "The step block inside RNN",
+   "generated" : 0
+ }, { 
+   "name" : "reverse",
+   "type" : "bool",
+   "comment" : "Calculate RNN reversely or not.\nBy default reverse=False\n\nAssume the input data is [A, B, C, D]\n\nif reverse is False:\n  the computation of RNN is like\n      A          B          C         D\n      |          |          |         |\n      v          v          v         v\n     rnn -----> rnn -----> rnn ----> rnn\n      |          |          |         |\n      v          v          v         v\n      o          o          o         o\n\nif reverse is True\n  the computation of RNN is like\n      A          B          C         D\n      |          |          |         |\n      v          v          v         v\n     rnn <----- rnn <----- rnn <---- rnn\n      |          |          |         |\n      v          v          v         v\n      o          o          o         o\n",
+   "generated" : 0
+ }, { 
+   "name" : "is_train",
+   "type" : "bool",
    "comment" : "",
    "generated" : 0
  } ] 
@@ -1093,73 +1158,19 @@
    "generated" : 0
  } ] 
 },{
- "type" : "softsign",
- "comment" : "\nSoftsign Activation Operator.\n\n$$out = \\frac{x}{1 + |x|}$$\n\n",
+ "type" : "sqrt",
+ "comment" : "\nSqrt Activation Operator.\n\n$out = \\sqrt{x}$\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
-   "comment" : "Input of Softsign operator",
+   "comment" : "Input of Sqrt operator",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
  "outputs" : [ 
  { 
    "name" : "Out",
-   "comment" : "Output of Softsign operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
- "type" : "square",
- "comment" : "\nSquare Activation Operator.\n\n$out = x^2$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "Input of Square operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "Output of Square operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
- "type" : "log",
- "comment" : "\nLog Activation Operator.\n\n$out = \\ln(x)$\n\nNatural logarithm of x.\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "Input of Log operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "Output of Log operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
- "type" : "reciprocal",
- "comment" : "\nReciprocal Activation Operator.\n\n$$out = \\frac{1}{x}$$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "Input of Reciprocal operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "Output of Reciprocal operator",
+   "comment" : "Output of Sqrt operator",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
@@ -1178,6 +1189,24 @@
  { 
    "name" : "Out",
    "comment" : "The normalized values with the same shape as X.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
+ "type" : "lod_array_length",
+ "comment" : "\nLoDArrayLength Operator.\n\nThis operator obtains the length of lod tensor array:\n\n$$Out = len(X)$$\n\nNOTE: The output is a CPU Tensor since the control variable should be only in\nCPU and the length of LoDTensorArray should be used as control variables.\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(LoDTensorArray) The input tensor array.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(Tensor) 1x1 CPU Tensor of length, int64_t",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
@@ -1378,103 +1407,6 @@
  } ], 
  "attrs" : [  ] 
 },{
- "type" : "pool3d_cudnn",
- "comment" : "\nPool3d Operator.\n\nThe pooling3d operation calculates the output based on\nthe input, pooling_type, ksize, strides, and paddings parameters.\nInput(X) and output(Out) are in NCDHW format, where N is batch\nsize, C is the number of channels, and D, H and W are the depth, height and\nwidth of the feature, respectively. Parameters(ksize, strides, paddings) \nare three elements. These three elements represent depth, height and \nwidth, respectively. The input(X) size and output(Out) size may be different.\n\nExample:\n  Input:\n       X shape: $(N, C, D_{in}, H_{in}, W_{in})$\n  Output:\n       Out shape: $(N, C, D_{out}, H_{out}, W_{out})$\n  Where\n  $$\n       D_{out} = \\frac{(D_{in} - ksize[0] + 2 * paddings[0])}{strides[0]} + 1 \\\\\n       H_{out} = \\frac{(H_{in} - ksize[1] + 2 * paddings[1])}{strides[1]} + 1 \\\\\n       W_{out} = \\frac{(W_{in} - ksize[2] + 2 * paddings[2])}{strides[2]} + 1\n  $$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(Tensor) The input tensor of pooling operator. The format of input tensor is NCDHW, where N is batch size, C is the number of channels, and D, H and W is the depth, height and width of the feature, respectively.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(Tensor) The output tensor of pooling operator.The format of output tensor is also NCDHW, where N is batch size, C is the number of channels, and D, H and W is the depth, height and width of the feature, respectively.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "pooling_type",
-   "type" : "string",
-   "comment" : "(string) Pooling type, can be \"max\" for max-pooling and \"avg\" for average-pooling.",
-   "generated" : 0
- }, { 
-   "name" : "ksize",
-   "type" : "int array",
-   "comment" : "(vector<int>) The pooling window size(depth, height, width) of pooling operator. If global_pooling = true, ksize and paddings will be ignored.",
-   "generated" : 0
- }, { 
-   "name" : "global_pooling",
-   "type" : "bool",
-   "comment" : "(bool, default false) Whether to use the global pooling. If global_pooling = true, ksize and paddings wille be ignored.",
-   "generated" : 0
- }, { 
-   "name" : "strides",
-   "type" : "int array",
-   "comment" : "(vector<int>, default {1,1,1}) Strides(depth, height, width) of the pooling operator.",
-   "generated" : 0
- }, { 
-   "name" : "paddings",
-   "type" : "int array",
-   "comment" : "(vector<int>, default {0,0,0}), paddings(depth, height, width) of pooling operator. If global_pooling = true, ksize and paddings will be ignored.",
-   "generated" : 0
- } ] 
-},{
- "type" : "pow",
- "comment" : "\nPow Activation Operator.\n\n$out = x^{factor}$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "Input of Pow operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "Output of Pow operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "factor",
-   "type" : "float",
-   "comment" : "The exponential factor of Pow",
-   "generated" : 0
- } ] 
-},{
- "type" : "lookup_table",
- "comment" : "\nLookup Table Operator.\n\nThis operator is used to perform lookups on the parameter W,\nthen concatenated into a dense tensor.\n\nThe input Ids can carry the LoD (Level of Details) information,\nor not. And the output only shares the LoD information with input Ids.\n\n",
- "inputs" : [ 
- { 
-   "name" : "W",
-   "comment" : "An input represents embedding tensors, which is a learnable parameter.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Ids",
-   "comment" : "An input with type int32 or int64 contains the ids to be looked up in W. Ids must be a column vector with rank = 2. The 2nd dimension size must be 1.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "The lookup results, which have the same type as W.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "is_sparse",
-   "type" : "bool",
-   "comment" : "(boolean, default false) Sparse update",
-   "generated" : 0
- } ] 
-},{
  "type" : "positive_negative_pair",
  "comment" : "\nPositiveNegativePairOp can be used to evaluate Learning To Rank(LTR) model's\nperformance.\n\nWithin some context, e.g. the \"query\", a LTR model generates scores for a list\nof items, which gives a partial order of the items. PositiveNegativePairOp\ntakes a list of reference rank order (Input(\"Label\")) and the model generated\nscores (Input(Score)) as inputs and counts the pairs that ranked correctly\nand incorrectly.\n",
  "inputs" : [ 
@@ -1650,6 +1582,24 @@
    "generated" : 0
  } ] 
 },{
+ "type" : "reciprocal",
+ "comment" : "\nReciprocal Activation Operator.\n\n$$out = \\frac{1}{x}$$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "Input of Reciprocal operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "Output of Reciprocal operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
  "type" : "reduce_min",
  "comment" : "\n{ReduceOp} Operator.\n\nThis operator computes the min of input tensor along the given dimension. \nThe result tensor has 1 fewer dimension than the input unless keep_dim is true.\nIf reduce_all is true, just reduce along all dimensions and output a scalar.\n\n",
  "inputs" : [ 
@@ -1752,24 +1702,6 @@
    "generated" : 0
  } ] 
 },{
- "type" : "round",
- "comment" : "\nRound Activation Operator.\n\n$out = [x]$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "Input of Round operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "Output of Round operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
  "type" : "norm",
  "comment" : "\n       \"Input shape: $(N, C, H, W)$\n        Scale shape: $(C, 1)$\n        Output shape: $(N, C, H, W)$\n        Where\n        forward\n          $$\n            [\\frac {x_{1}}{\\sqrt{\\sum{x_{i}^{2}}}} \\frac {x_{2}}{\\sqrt{\\sum{x_{i}^{2}}}} \\frac {x_{3}}{\\sqrt{\\sum{x_{i}^{2}}}} \\cdot  \\cdot  \\cdot \\frac {x_{n}}{\\sqrt{\\sum{x_{i}^{2}}}}]\n          $$\n        backward\n          $$\n            \\frac{\\frac{\\mathrm{d}L }{\\mathrm{d}y_{1}} - \\frac {x_{1}\\sum {\\frac{\\mathrm{d} L}{\\mathrm{d} y_{j}}}x_{j}}{\\sum x_{j}^{2}} }{\\sqrt{\\sum{x_{j}^{2}}}}\n          $$\n        ",
  "inputs" : [ 
@@ -1826,35 +1758,6 @@
    "intermediate" : 0
  } ], 
  "attrs" : [  ] 
-},{
- "type" : "elementwise_sub",
- "comment" : "\nLimited Elementwise Sub Operator.\n\nThe equation is:\n\n.. math::\n  Out = X - Y\n\nX is a tensor of any dimension and the dimensions of tensor Y must be smaller than\nor equal to the dimensions of X. \n\nThere are two cases for this operator:\n1. The shape of Y is same with X;\n2. The shape of Y is a subset of X.\n\nFor case 2:\nY will be broadcasted to match the shape of X and axis should be \nthe starting dimension index for broadcasting Y onto X.\n\nFor example\n  .. code-block:: python\n\n    shape(X) = (2, 3, 4, 5), shape(Y) = (,)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (5,)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (4, 5)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (3, 4), with axis=1\n    shape(X) = (2, 3, 4, 5), shape(Y) = (2), with axis=0\n\nEither of the inputs X and Y or none can carry the LoD (Level of Details) information. However, the output only shares the LoD information with input X.\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(Tensor) The first input tensor of elementwise op",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Y",
-   "comment" : "(Tensor) The second input tensor of elementwise op",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "The output of elementwise op",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "axis",
-   "type" : "int",
-   "comment" : "(int, default -1) The starting dimension index for broadcasting Y onto X",
-   "generated" : 0
- } ] 
 },{
  "type" : "rnn_memory_helper",
  "comment" : "",
@@ -1975,55 +1878,6 @@
    "intermediate" : 0
  } ], 
  "attrs" : [  ] 
-},{
- "type" : "conv3d_cudnn",
- "comment" : "\nConvolution3D Operator.\n\nThe convolution operation calculates the output based on the input, filter\nand strides, paddings, dilations, groups parameters. The size of each dimension of the\nparameters is checked in the infer-shape.\nInput(Input) and output(Output) are in NCDHW format, where N is batch\nsize, C is the number of channels,D is the depth of the feature, H is the height of\nthe feature, and W is the width of the feature.\nFilters(Input) is MCDHW format, where M is the number of output image channels,\nC is the number of input image channels, D is the depth of the filter,\nH is the height of the filter, and W is the width of the filter.\nParameters(strides, paddings, dilations) are three elements. These three elements\nrepresent depth, height and width, respectively.\nThe input(X) size and output(Out) size may be different.\n\nExample:\n  Input:\n       Input shape: $(N, C_{in}, D_{in}, H_{in}, W_{in})$\n       Filter shape: $(C_{out}, C_{in}, D_f, H_f, W_f)$\n  Output:\n       Output shape: $(N, C_{out}, D_{out}, H_{out}, W_{out})$\n  Where\n  $$\n       D_{out}= \\frac{(D_{in} + 2 * paddings[0] - (dilations[0] * (D_f - 1) + 1))}{ strides[0]}+ 1 \\\\\n       H_{out}= \\frac{(H_{in} + 2 * paddings[1] - (dilations[1] * (H_f - 1) + 1))}{ strides[1]}+ 1 \\\\\n       W_{out}= \\frac{(W_{in} + 2 * paddings[2] - (dilations[2] * (W_f - 1) + 1))}{ strides[2]}+ 1\n  $$\n",
- "inputs" : [ 
- { 
-   "name" : "Input",
-   "comment" : "(Tensor) The input tensor of convolution operator. The format of input tensor is NCDHW. Where N is batch size, C is the number of channels, D is the depth of the feature, H is the height of the feature, and W is the width of the feature.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Filter",
-   "comment" : "(Tensor) The filter tensor of convolution operator. The format of the filter tensor is MCDHW, where M is the number of output image channels, C is the number of input image channels, D is the depth of the filter, H is the height of the filter, and W is the width of the filter.If the groups attribute is greater than 1, C equals the number of input image channels divided by the groups.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Output",
-   "comment" : "(Tensor) The output tensor of convolution operator.The format of output tensor is also NCDHW.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "strides",
-   "type" : "int array",
-   "comment" : "(vector<int>, default:{1, 1, 1}), the strides(d_stride, h_stride, w_stride) of convolution operator.",
-   "generated" : 0
- }, { 
-   "name" : "paddings",
-   "type" : "int array",
-   "comment" : "(vector<int>, default:{0, 0, 0}), the paddings(d_pad, h_pad, w_pad) of convolution operator.",
-   "generated" : 0
- }, { 
-   "name" : "groups",
-   "type" : "int",
-   "comment" : "(int default:1), the groups number of the convolution operator. According to grouped convolution in Alex Krizhevsky's Deep CNN paper: when group=2, the first half of the filters is only connected to the first half of the input channels, while the second half of the filters is only connected to the second half of the input channels.",
-   "generated" : 0
- }, { 
-   "name" : "dilations",
-   "type" : "int array",
-   "comment" : "(vector<int> default:{1, 1, 1}), the dilations(d_dilation, h_dilation, w_dilation) of convolution operator.",
-   "generated" : 0
- }, { 
-   "name" : "workspace_size_MB",
-   "type" : "int",
-   "comment" : "workspace size for cudnn, in MB, workspace is a section of GPU memory which will be allocated/freed each time the operator runs, larger workspace size can increase performance but also requires better hardware. This size should be chosen carefully.",
-   "generated" : 0
- } ] 
 },{
  "type" : "sequence_expand",
  "comment" : "\nSequence Expand Operator.\n\nThis operator expands input(X) according to LOD of input(Y).\nFollowing are cases to better explain how this works:\nCase 1:\n\nGiven 2-level a LoDTensor input(X)\n    X.lod = [[0,       2, 3],\n             [0, 1,    3, 4]]\n    X.data = [a, b, c, d]\n    X.dims = [4, 1]\nand input(Y)\n    Y.lod = [[0,    2,    4],\n             [0, 3, 6, 7, 8]]\nwith condition len(Y.lod[-1]) -1 == X.dims[0]\nthen we get 2-level LoDTensor\n    Out.lod = [[0,                2,    4],\n               [0,       3,       6, 7, 8]]\n    Out.data = [a, a, a, b, b, b, c, d]\n    Out.dims = [8, 1]\n\nCase 2:\n\nGiven a 0-level LoDTensor input(X)\n    X.data = [a, b, c]\n    X.lod = NULL\n    X.dims = [3, 1]\nand input(Y)\n    Y.lod = [[0, 2, 3, 6]]\nwith condition len(Y.lod[-1]) -1 == X.dims[0]\nthen we get 1-level LoDTensor\n    Out.lod = [[0,    2, 3,      6]]\n    Out.data = [a, a, b, c, c, c]\n    Out.dims = [6, 1]\n\nCase 3:\n\nGiven a 0-level LoDTensor input(X)\n    X.data = [[a, b], [c, d], [e, f]]\n    X.lod = NULL\n    X.dims = [3, 2]\nand input(Y)\n    Y.lod = [[0, 2, 3, 6]]\nwith condition len(Y.lod[-1]) -1 == X.dims[0]\nthen we get 1-level LoDTensor\n    Out.lod = [[0,           2,     3,                     6]]\n    Out.data = [[a,b], [a,b] [c,d], [e, f], [e, f], [e, f]]\n    Out.dims = [6, 2]\n\nCase 4:\n\nGiven 2-level a LoDTensor input(X)\n    X.lod = [[0,       2, 3],\n             [0, 1,    3, 4]]\n    X.data = [a, b, c, d]\n    X.dims = [4, 1]\nand input(Y)\n    Y.lod = [[0,    2,    4],\n             [0, 3, 6, 6, 8]]\nwith condition len(Y.lod[-1]) -1 == X.dims[0]\nthen we get 2-level LoDTensor\n    Out.lod = [[0,                2,    4],\n               [0,       3,       6, 6, 8]]\n    Out.data = [a, a, a, b, b, b, d, d]\n    Out.dims = [8, 1]\n\n\n",
@@ -2382,6 +2236,59 @@
    "generated" : 0
  } ] 
 },{
+ "type" : "log_loss",
+ "comment" : "\nLogLoss Operator.\n\nLog loss is a loss function used for binary classification. Log Loss quantifies\nthe accuracy of a classifier by penalising false classifications. Minimising the\nLog Loss is equivalent to maximising the accuracy of the classifier. We define\nPredicted as the values predicted by our model and Labels as the target ground\ntruth value. Log loss can evaluate how close the predicted values are to the\ntarget. The shapes of Predicted and Labels are both [batch_size, 1].\nThe equation is:\n\n$$\nLoss = - Labels * log(Predicted + \\epsilon) -\n        (1 - Labels) * log(1 - Predicted + \\epsilon)\n$$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "Predicted",
+   "comment" : "The input value (Predicted) of Log loss op.Predicted is a 2-D tensor with shape [batch_size, 1].",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Labels",
+   "comment" : "The target value (Labels) of Log loss op.Labels is a 2-D tensor with shape [batch_size, 1].",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Loss",
+   "comment" : "The output tensor with shape [batch_size, 1] which represents the log loss.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "epsilon",
+   "type" : "float",
+   "comment" : "Epsilon in log loss.",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "pow",
+ "comment" : "\nPow Activation Operator.\n\n$out = x^{factor}$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "Input of Pow operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "Output of Pow operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "factor",
+   "type" : "float",
+   "comment" : "The exponential factor of Pow",
+   "generated" : 0
+ } ] 
+},{
  "type" : "unpool",
  "comment" : "\nInput shape is: $(N, C_{in}, H_{in}, W_{in})$, Output shape is:\n$(N, C_{out}, H_{out}, W_{out})$, where\n$$\nH_{out} = (H_{in}−1) * strides[0] − 2 * paddings[0] + ksize[0] \\\\\nW_{out} = (W_{in}−1) * strides[1] − 2 * paddings[1] + ksize[1]\n$$\nPaper: http://www.matthewzeiler.com/wp-content/uploads/2017/07/iccv2011.pdf\n",
  "inputs" : [ 
@@ -2512,6 +2419,64 @@
  } ], 
  "attrs" : [  ] 
 },{
+ "type" : "lod_reset",
+ "comment" : "LoDReset operator\n\nReset LoD of Input(X) into a new one specified by Input(TargetLoD) or\nAttr(target_lod), or set LoD for Input(X) if it doesn't have one.\nCurrently the lod_reset operator only supports the reset of level 0 LoD.\nAt least one of Input(TargetLoD) and Attr(target_lod) must be set,\nand if both of them are set, Input(TargetLoD) will be chosen as the\ntarget LoD.\n\nAn example:\nGiven a float LoDTensor X with shape (6, 1), its transpose form represents\n\n    [1.0, 2.0, 3.0, 4.0, 5.0, 6.0],\n\nwith LoD = [[0, 2, 5, 6]] and the three (transposed) sequences look like\n\n    [1.0, 2.0], [3.0, 4.0, 5.0], [6.0].\n\nIf target LoD = [0, 4, 6], the lod_reset operator will reset the LoD and\nthe sequences that the LoDTensor Output(Out) contains becomes:\n\n    [1.0, 2.0, 3.0, 4.0], [5.0, 6.0].\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(LoDTensor) The input tensor of lod_reset operator.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "TargetLoD",
+   "comment" : "(Tensor, optional) The target level 0 LoD from Input().",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(LoDTensor) The output tensor of lod_reset operator.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "target_lod",
+   "type" : "int array",
+   "comment" : "The target level 0 LoD from Attr().",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "elementwise_sub",
+ "comment" : "\nLimited Elementwise Sub Operator.\n\nThe equation is:\n\n.. math::\n  Out = X - Y\n\nX is a tensor of any dimension and the dimensions of tensor Y must be smaller than\nor equal to the dimensions of X. \n\nThere are two cases for this operator:\n1. The shape of Y is same with X;\n2. The shape of Y is a subset of X.\n\nFor case 2:\nY will be broadcasted to match the shape of X and axis should be \nthe starting dimension index for broadcasting Y onto X.\n\nFor example\n  .. code-block:: python\n\n    shape(X) = (2, 3, 4, 5), shape(Y) = (,)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (5,)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (4, 5)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (3, 4), with axis=1\n    shape(X) = (2, 3, 4, 5), shape(Y) = (2), with axis=0\n\nEither of the inputs X and Y or none can carry the LoD (Level of Details) information. However, the output only shares the LoD information with input X.\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(Tensor) The first input tensor of elementwise op",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Y",
+   "comment" : "(Tensor) The second input tensor of elementwise op",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "The output of elementwise op",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "axis",
+   "type" : "int",
+   "comment" : "(int, default -1) The starting dimension index for broadcasting Y onto X",
+   "generated" : 0
+ } ] 
+},{
  "type" : "logical_and",
  "comment" : "logical_and Operator\n\nIt operates element-wise on X and Y, and returns the Out. X, Y and Out are N-dim boolean tensors.\nEach element of Out is calculated by $$Out = X \\&\\& Y$$\n",
  "inputs" : [ 
@@ -2571,53 +2536,30 @@
  } ], 
  "attrs" : [  ] 
 },{
- "type" : "softplus",
- "comment" : "\nSoftplus Activation Operator.\n\n$out = \\ln(1 + e^{x})$\n\n",
+ "type" : "square",
+ "comment" : "\nSquare Activation Operator.\n\n$out = x^2$\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
-   "comment" : "Input of Softplus operator",
+   "comment" : "Input of Square operator",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
  "outputs" : [ 
  { 
    "name" : "Out",
-   "comment" : "Output of Softplus operator",
+   "comment" : "Output of Square operator",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
  "attrs" : [  ] 
 },{
- "type" : "get_places",
- "comment" : "\nReturns a list of places based on flags. The list will be used for parallel\nexecution.\n",
- "inputs" : [  ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "vector of Place",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "device_count",
-   "type" : "int",
-   "comment" : "device count",
-   "generated" : 0
- }, { 
-   "name" : "device_type",
-   "type" : "string",
-   "comment" : "device type",
-   "generated" : 0
- } ] 
-},{
- "type" : "read_from_array",
- "comment" : "\nReadFromArray Operator.\n\nRead a LoDTensor from a LoDTensor Array.\n\nAssume $T$ is LoDTensor, $i$ is the subscript of the array, and $A$ is the array. The\nequation is\n\n$$T = A[i]$$\n\n",
+ "type" : "write_to_array",
+ "comment" : "\nWriteToArray Operator.\n\nThis operator writes a LoDTensor to a LoDTensor array.\n\nAssume $T$ is LoDTensor, $i$ is the subscript of the array, and $A$ is the array. The\nequation is\n\n$$A[i] = T$$\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
-   "comment" : "(TensorArray) the array will be read from.",
+   "comment" : "(LoDTensor) the tensor will be written to tensor array",
    "duplicable" : 0,
    "intermediate" : 0
  }, { 
@@ -2629,7 +2571,7 @@
  "outputs" : [ 
  { 
    "name" : "Out",
-   "comment" : "(LoDTensor) the tensor will be read from.",
+   "comment" : "(TensorArray) the tensor array will be written",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
@@ -2686,50 +2628,6 @@
    "name" : "class_number",
    "type" : "int",
    "comment" : "(int) Number of classes to be evaluated.",
-   "generated" : 0
- } ] 
-},{
- "type" : "conv2d_transpose_cudnn",
- "comment" : "\nConvolution2D Transpose Operator.\n\nThe convolution transpose operation calculates the output based on the input, filter\nand dilations, strides, paddings, groups parameters. The size of each dimension of the\nparameters is checked in the infer-shape.\nInput(Input) and output(Output) are in NCHW format. Where N is batchsize, C is the\nnumber of channels, H is the height of the feature, and W is the width of the feature.\nFilter(Input) is in MCHW format. Where M is the number of input feature channels,\nC is the number of output feature channels, H is the height of the filter,\nand W is the width of the filter.\nParameters(strides, paddings) are two elements. These two elements represent height\nand width, respectively.\nThe input(X) size and output(Out) size may be different.\n\nExample:\n  Input:\n       Input shape: $(N, C_{in}, H_{in}, W_{in})$\n       Filter shape: $(C_{in}, C_{out}, H_f, W_f)$\n  Output:\n       Output shape: $(N, C_{out}, H_{out}, W_{out})$\n  Where\n  $$\n       H_{out} = (H_{in} - 1) * strides[0] - 2 * paddings[0] + H_f \\\\\n       W_{out} = (W_{in} - 1) * strides[1] - 2 * paddings[1] + W_f\n  $$\n",
- "inputs" : [ 
- { 
-   "name" : "Input",
-   "comment" : "(Tensor) The input tensor of convolution transpose operator. The format of input tensor is NCHW. Where N is batch size, C is the number of input channels, H is the height of the feature, and W is the width of the feature.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Filter",
-   "comment" : "(Tensor) The filter tensor of convolution transpose operator. The format of the filter tensor is MCHW, where M is the number of input feature channels, C is the number of output feature channels,H is the height of the filter, and W is the width of the filter. We enforce groups number == 1 in the convolution transpose scenario.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Output",
-   "comment" : "(Tensor) The output tensor of convolution transpose operator. The format of output tensor is also NCHW.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "dilations",
-   "type" : "int array",
-   "comment" : "(vector<int> default:{1, 1}), the dilations(h_dilation, w_dilation) of convolution transpose operator.",
-   "generated" : 0
- }, { 
-   "name" : "strides",
-   "type" : "int array",
-   "comment" : "(vector<int> default:{1, 1}), the strides(h_stride, w_stride) of convolution transpose operator.",
-   "generated" : 0
- }, { 
-   "name" : "paddings",
-   "type" : "int array",
-   "comment" : "(vector<int> default:{0, 0}), the paddings(h_pad, w_pad) of convolution transpose operator.",
-   "generated" : 0
- }, { 
-   "name" : "workspace_size_MB",
-   "type" : "int",
-   "comment" : "workspace size for cudnn, in MB, workspace is a section of GPU memory which will be allocated/freed each time the operator runs, larger workspace size can increase performance but also requires better hardward. This size should be carefully setted.",
    "generated" : 0
  } ] 
 },{
@@ -3013,6 +2911,104 @@
    "generated" : 0
  } ] 
 },{
+ "type" : "stanh",
+ "comment" : "\nSTanh Activation Operator.\n\n$$out = b * \\frac{e^{a * x} - e^{-a * x}}{e^{a * x} + e^{-a * x}}$$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "Input of STanh operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "Output of STanh operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "scale_a",
+   "type" : "float",
+   "comment" : "The scale parameter of a for the input",
+   "generated" : 0
+ }, { 
+   "name" : "scale_b",
+   "type" : "float",
+   "comment" : "The scale parameter of b for the input",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "adamax",
+ "comment" : "\nAdamax Optimizer.\n\nWe implement the Adamax optimizer from Section 7 of the Adam\npaper: https://arxiv.org/abs/1412.6980. Adamax is a variant of the\nAdam algorithm based on the infinity norm.\n\nAdamax updates:\n\n$$\nmoment\\_out = \\beta_1 * moment + (1 - \\beta_1) * grad \\\\\ninf\\_norm\\_out = max(\\beta_2 * inf\\_norm + \\epsilon, |grad|) \\\\\nlearning\\_rate = \\frac{learning\\_rate}{1 - \\beta_{1\\_pow}} \\\\\nparam\\_out = param - learning\\_rate * \\frac{moment\\_out}{inf\\_norm\\_out}\n$$\n\nThe original paper does not have an epsilon attribute.\nHowever, it is added here for numerical stability to prevent the\ndivision by 0 error.\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "Param",
+   "comment" : "(Tensor) Input parameter",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Grad",
+   "comment" : "(Tensor) Input gradient",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "LearningRate",
+   "comment" : "(Tensor) Learning rate",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Moment",
+   "comment" : "(Tensor) First moment",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "InfNorm",
+   "comment" : "(Tensor) Input exponentially weighted infinity norm",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Beta1Pow",
+   "comment" : "(Tensor) Input beta1 power accumulator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "ParamOut",
+   "comment" : "(Tensor) Output parameter",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "MomentOut",
+   "comment" : "(Tensor) Output first moment",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "InfNormOut",
+   "comment" : "(Tensor) Output exponentially weighted infinity norm",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "beta1",
+   "type" : "float",
+   "comment" : "(float, default 0.9) Exponential decay rate for the 1st moment estimates.",
+   "generated" : 0
+ }, { 
+   "name" : "beta2",
+   "type" : "float",
+   "comment" : "(float, default 0.999) exponential decay rate for the weighted infinity norm estimates.",
+   "generated" : 0
+ }, { 
+   "name" : "epsilon",
+   "type" : "float",
+   "comment" : "(float, default 1.0e-8) Constant for numerical stability",
+   "generated" : 0
+ } ] 
+},{
  "type" : "tanh_shrink",
  "comment" : "\nTanhShrink Activation Operator.\n\n$$out = x - \\frac{e^{x} - e^{-x}}{e^{x} + e^{-x}}$$\n\n",
  "inputs" : [ 
@@ -3049,47 +3045,32 @@
  } ], 
  "attrs" : [  ] 
 },{
- "type" : "pool2d_cudnn",
- "comment" : "\nPool2d Operator.\n\nThe pooling2d operation calculates the output based on\nthe input, pooling_type and ksize, strides, paddings parameters.\nInput(X) and output(Out) are in NCHW format, where N is batch size, C is the\nnumber of channels, H is the height of the feature, and W is the width of the feature.\nParameters(ksize, strides, paddings) are two elements.\nThese two elements represent height and width, respectively.\nThe input(X) size and output(Out) size may be different.\n\nExample:   \n  Input:\n       X shape: $(N, C, H_{in}, W_{in})$\n  Output:\n       Out shape: $(N, C, H_{out}, W_{out})$\n  Where\n       $$ \n       H_{out} = \\frac{(H_{in} - ksize[0] + 2 * paddings[0])}{strides[0]} + 1 \\\\\n       W_{out} = \\frac{(W_{in} - ksize[1] + 2 * paddings[1])}{strides[1]} + 1\n       $$\n\n",
+ "type" : "lookup_table",
+ "comment" : "\nLookup Table Operator.\n\nThis operator is used to perform lookups on the parameter W,\nthen concatenated into a dense tensor.\n\nThe input Ids can carry the LoD (Level of Details) information,\nor not. And the output only shares the LoD information with input Ids.\n\n",
  "inputs" : [ 
  { 
-   "name" : "X",
-   "comment" : "(Tensor) The input tensor of pooling operator. The format of input tensor is NCHW, where N is batch size, C is the number of channels, H is the height of the feature, and W is the width of the feature.",
+   "name" : "W",
+   "comment" : "An input represents embedding tensors, which is a learnable parameter.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Ids",
+   "comment" : "An input with type int32 or int64 contains the ids to be looked up in W. Ids must be a column vector with rank = 2. The 2nd dimension size must be 1.",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
  "outputs" : [ 
  { 
    "name" : "Out",
-   "comment" : "(Tensor) The output tensor of pooling operator. The format of output tensor is also NCHW, where N is batch size, C is the number of channels, H is the height of the feature, and W is the width of the feature.",
+   "comment" : "The lookup results, which have the same type as W.",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
  "attrs" : [ 
  { 
-   "name" : "pooling_type",
-   "type" : "string",
-   "comment" : "(string), pooling type, can be \"max\" for max-pooling and \"avg\" for average-pooling.",
-   "generated" : 0
- }, { 
-   "name" : "ksize",
-   "type" : "int array",
-   "comment" : "(vector<int>) The pooling window size(height, width) of the pooling operator. If global_pooling = true, ksize and paddings will be ignored.",
-   "generated" : 0
- }, { 
-   "name" : "global_pooling",
+   "name" : "is_sparse",
    "type" : "bool",
-   "comment" : "(bool, default false) Whether to use the global pooling. If global_pooling = true, ksize and paddings will be ignored.",
-   "generated" : 0
- }, { 
-   "name" : "strides",
-   "type" : "int array",
-   "comment" : "(vector<int>, default {1, 1}), strides(height, width) of pooling operator.",
-   "generated" : 0
- }, { 
-   "name" : "paddings",
-   "type" : "int array",
-   "comment" : "(vector<int>, default {0,0}), paddings(height, width) of pooling operator.If global_pooling = true, paddings and ksize will be ignored.",
+   "comment" : "(boolean, default false) Sparse update",
    "generated" : 0
  } ] 
 },{
@@ -3175,6 +3156,21 @@
    "name" : "paddings",
    "type" : "int array",
    "comment" : "(vector<int> default:{0, 0}), the paddings(h_pad, w_pad) of convolution transpose operator.",
+   "generated" : 0
+ }, { 
+   "name" : "use_cudnn",
+   "type" : "bool",
+   "comment" : "(bool, default false) Only used in cudnn kernel, need install cudnn",
+   "generated" : 0
+ }, { 
+   "name" : "data_format",
+   "type" : "string",
+   "comment" : "(string, default NCHW) Only used in An optional string from: \"NHWC\", \"NCHW\". Defaults to \"NHWC\". Specify the data format of the output data, the input will be transformed automatically. ",
+   "generated" : 0
+ }, { 
+   "name" : "workspace_size_MB",
+   "type" : "int",
+   "comment" : "Used in cudnn kernel only. workspace size for cudnn, in MB, workspace is a section of GPU memory which will be allocated/freed each time the operator runs, larger workspace size can increase performance but also requires better hardward. This size should be carefully setted.",
    "generated" : 0
  } ] 
 },{
@@ -3279,123 +3275,6 @@
    "generated" : 0
  } ] 
 },{
- "type" : "log_loss",
- "comment" : "\nLogLoss Operator.\n\nLog loss is a loss function used for binary classification. Log Loss quantifies\nthe accuracy of a classifier by penalising false classifications. Minimising the\nLog Loss is equivalent to maximising the accuracy of the classifier. We define\nPredicted as the values predicted by our model and Labels as the target ground\ntruth value. Log loss can evaluate how close the predicted values are to the\ntarget. The shapes of Predicted and Labels are both [batch_size, 1].\nThe equation is:\n\n$$\nLoss = - Labels * log(Predicted + \\epsilon) -\n        (1 - Labels) * log(1 - Predicted + \\epsilon)\n$$\n\n",
- "inputs" : [ 
- { 
-   "name" : "Predicted",
-   "comment" : "The input value (Predicted) of Log loss op.Predicted is a 2-D tensor with shape [batch_size, 1].",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Labels",
-   "comment" : "The target value (Labels) of Log loss op.Labels is a 2-D tensor with shape [batch_size, 1].",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Loss",
-   "comment" : "The output tensor with shape [batch_size, 1] which represents the log loss.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "epsilon",
-   "type" : "float",
-   "comment" : "Epsilon in log loss.",
-   "generated" : 0
- } ] 
-},{
- "type" : "sqrt",
- "comment" : "\nSqrt Activation Operator.\n\n$out = \\sqrt{x}$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "Input of Sqrt operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "Output of Sqrt operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
- "type" : "lod_reset",
- "comment" : "LoDReset operator\n\nReset LoD of Input(X) into a new one specified by Input(TargetLoD) or\nAttr(target_lod), or set LoD for Input(X) if it doesn't have one.\nCurrently the lod_reset operator only supports the reset of level 0 LoD.\nAt least one of Input(TargetLoD) and Attr(target_lod) must be set,\nand if both of them are set, Input(TargetLoD) will be chosen as the\ntarget LoD.\n\nAn example:\nGiven a float LoDTensor X with shape (6, 1), its transpose form represents\n\n    [1.0, 2.0, 3.0, 4.0, 5.0, 6.0],\n\nwith LoD = [[0, 2, 5, 6]] and the three (transposed) sequences look like\n\n    [1.0, 2.0], [3.0, 4.0, 5.0], [6.0].\n\nIf target LoD = [0, 4, 6], the lod_reset operator will reset the LoD and\nthe sequences that the LoDTensor Output(Out) contains becomes:\n\n    [1.0, 2.0, 3.0, 4.0], [5.0, 6.0].\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(LoDTensor) The input tensor of lod_reset operator.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "TargetLoD",
-   "comment" : "(Tensor, optional) The target level 0 LoD from Input().",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(LoDTensor) The output tensor of lod_reset operator.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "target_lod",
-   "type" : "int array",
-   "comment" : "The target level 0 LoD from Attr().",
-   "generated" : 0
- } ] 
-},{
- "type" : "write_to_array",
- "comment" : "\nWriteToArray Operator.\n\nThis operator writes a LoDTensor to a LoDTensor array.\n\nAssume $T$ is LoDTensor, $i$ is the subscript of the array, and $A$ is the array. The\nequation is\n\n$$A[i] = T$$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(LoDTensor) the tensor will be written to tensor array",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "I",
-   "comment" : "(Tensor) the subscript index in tensor array. The number of element should be 1",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(TensorArray) the tensor array will be written",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
- "type" : "lod_array_length",
- "comment" : "\nLoDArrayLength Operator.\n\nThis operator obtains the length of lod tensor array:\n\n$$Out = len(X)$$\n\nNOTE: The output is a CPU Tensor since the control variable should be only in\nCPU and the length of LoDTensorArray should be used as control variables.\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(LoDTensorArray) The input tensor array.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(Tensor) 1x1 CPU Tensor of length, int64_t",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
  "type" : "edit_distance",
  "comment" : "\n\nEditDistance operator computes the edit distances between a batch of hypothesis\nstrings and their references.\n\nEdit distance, also called Levenshtein distance, measures how dissimilar two strings \nare by counting the minimum number of operations to transform one string into anthor. \nHere the operations include insertion, deletion, and substitution. For example, \ngiven hypothesis string A = \"kitten\" and reference B = \"sitting\", the edit distance \nis 3 for A will be transformed into B at least after two substitutions and one \ninsertion:\n  \n   \"kitten\" -> \"sitten\" -> \"sittin\" -> \"sitting\"\n\nInput(Hyps) is a LoDTensor consisting of all the hypothesis strings with the total \nnumber denoted by `batch_size`, and the separation is specified by the LoD information. \nAnd the `batch_size` reference strings are arranged in order in the same way in the \nLoDTensor Input(Refs).\n\nOutput(Out) contains the `batch_size` results and each stands for the edit stance \nfor a pair of strings respectively. If Attr(normalized) is true, the edit distance \nwill be divided by the length of reference string.\n",
  "inputs" : [ 
@@ -3442,104 +3321,6 @@
    "intermediate" : 0
  } ], 
  "attrs" : [  ] 
-},{
- "type" : "stanh",
- "comment" : "\nSTanh Activation Operator.\n\n$$out = b * \\frac{e^{a * x} - e^{-a * x}}{e^{a * x} + e^{-a * x}}$$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "Input of STanh operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "Output of STanh operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "scale_a",
-   "type" : "float",
-   "comment" : "The scale parameter of a for the input",
-   "generated" : 0
- }, { 
-   "name" : "scale_b",
-   "type" : "float",
-   "comment" : "The scale parameter of b for the input",
-   "generated" : 0
- } ] 
-},{
- "type" : "adamax",
- "comment" : "\nAdamax Optimizer.\n\nWe implement the Adamax optimizer from Section 7 of the Adam\npaper: https://arxiv.org/abs/1412.6980. Adamax is a variant of the\nAdam algorithm based on the infinity norm.\n\nAdamax updates:\n\n$$\nmoment\\_out = \\beta_1 * moment + (1 - \\beta_1) * grad \\\\\ninf\\_norm\\_out = max(\\beta_2 * inf\\_norm + \\epsilon, |grad|) \\\\\nlearning\\_rate = \\frac{learning\\_rate}{1 - \\beta_{1\\_pow}} \\\\\nparam\\_out = param - learning\\_rate * \\frac{moment\\_out}{inf\\_norm\\_out}\n$$\n\nThe original paper does not have an epsilon attribute.\nHowever, it is added here for numerical stability to prevent the\ndivision by 0 error.\n\n",
- "inputs" : [ 
- { 
-   "name" : "Param",
-   "comment" : "(Tensor) Input parameter",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Grad",
-   "comment" : "(Tensor) Input gradient",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "LearningRate",
-   "comment" : "(Tensor) Learning rate",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Moment",
-   "comment" : "(Tensor) First moment",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "InfNorm",
-   "comment" : "(Tensor) Input exponentially weighted infinity norm",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Beta1Pow",
-   "comment" : "(Tensor) Input beta1 power accumulator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "ParamOut",
-   "comment" : "(Tensor) Output parameter",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "MomentOut",
-   "comment" : "(Tensor) Output first moment",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "InfNormOut",
-   "comment" : "(Tensor) Output exponentially weighted infinity norm",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "beta1",
-   "type" : "float",
-   "comment" : "(float, default 0.9) Exponential decay rate for the 1st moment estimates.",
-   "generated" : 0
- }, { 
-   "name" : "beta2",
-   "type" : "float",
-   "comment" : "(float, default 0.999) exponential decay rate for the weighted infinity norm estimates.",
-   "generated" : 0
- }, { 
-   "name" : "epsilon",
-   "type" : "float",
-   "comment" : "(float, default 1.0e-8) Constant for numerical stability",
-   "generated" : 0
- } ] 
 },{
  "type" : "swish",
  "comment" : "\nSwish Activation Operator.\n\n$$out = \\frac{x}{1 + e^{- \\beta x}}$$\n\n",
@@ -4529,50 +4310,6 @@
  } ], 
  "attrs" : [  ] 
 },{
- "type" : "conv3d_transpose_cudnn",
- "comment" : "\nConvolution3D Transpose Operator.\n\nThe convolution transpose operation calculates the output based on the input, filter\nand dilations, strides, paddings, groups parameters. The size of each dimension of the\nparameters is checked in the infer-shape.\nInput(Input) and output(Output) are in NCDHW format. Where N is batch size, C is the\nnumber of channels, D is the depth of the feature, H is the height of the feature,\nand W is the width of the feature.\nFilter(Input) is in MCDHW format. Where M is the number of input feature channels,\nC is the number of output feature channels, D is the depth of the filter,H is the\nheight of the filter, and W is the width of the filter.\nParameters(strides, paddings) are three elements. These three elements represent\ndepth, height and width, respectively.\nThe input(X) size and output(Out) size may be different.\n\nExample:   \n  Input:\n       Input shape: $(N, C_{in}, D_{in}, H_{in}, W_{in})$\n       Filter shape: $(C_{in}, C_{out}, D_f, H_f, W_f)$\n  Output:\n       Output shape: $(N, C_{out}, D_{out}, H_{out}, W_{out})$\n  Where\n  $$\n       D_{out} = (D_{in} - 1) * strides[0] - 2 * paddings[0] + D_f \\\\\n       H_{out} = (H_{in} - 1) * strides[1] - 2 * paddings[1] + H_f \\\\\n       W_{out} = (W_{in} - 1) * strides[2] - 2 * paddings[2] + W_f\n  $$\n",
- "inputs" : [ 
- { 
-   "name" : "Input",
-   "comment" : "(Tensor) The input tensor of convolution transpose operator.The format of input tensor is NCDHW. Where N is batch size, C is the number of channels, D is the depth of the feature, H is the height of the feature, and W is the width of the feature.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Filter",
-   "comment" : "(Tensor) The filter tensor of convolution transpose operator.The format of the filter tensor is MCDHW, where M is the number of input feature channels, C is the number of output feature channels, D is the depth of the filter, H is the height of the filter, and W is the width of the filter.We enforce groups number == 1 and padding == 0 in the convolution3d transpose scenario.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Output",
-   "comment" : "(Tensor) The output tensor of convolution transpose operator.The format of output tensor is also NCDHW.Where N is batch size, C is the number of channels, D is the depth of the feature, H is the height of the feature, and W is the width of the feature.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "dilations",
-   "type" : "int array",
-   "comment" : "(vector<int> default:{1, 1, 1}), the dilations(d_dilation,h_dilation, w_dilation) of convolution transpose operator.",
-   "generated" : 0
- }, { 
-   "name" : "strides",
-   "type" : "int array",
-   "comment" : "(vector<int> default:{1, 1, 1}), the strides{d_stride, h_stride, w_stride} of convolution transpose operator.",
-   "generated" : 0
- }, { 
-   "name" : "paddings",
-   "type" : "int array",
-   "comment" : "(vector<int> default:{0, 0, 0}), paddings(d_pad, h_pad, w_pad) of convolution transpose operator.",
-   "generated" : 0
- }, { 
-   "name" : "workspace_size_MB",
-   "type" : "int",
-   "comment" : "workspace size for cudnn, in MB, workspace is a section of GPU memory which will be allocated/freed each time the operator runs, larger workspace size can increase performance but also requires better hardward. This size should be carefully setted.",
-   "generated" : 0
- } ] 
-},{
  "type" : "conv_shift",
  "comment" : "\nConvShift Operator.\n\nA layer for circular convolution of two vectors,\nas used in the Neural Turing Machine: https://arxiv.org/abs/1410.5401\n\nThe equation is:\n\n$$Out[i] = \\sum_{j=-(N-1)/2}^{(N-1)/2} X_{i+j} * Y_{j}$$\n\nwhere X's index is computed modulo M, and Y's index is computed modulo N.\n\nBoth inputs X and Y can carry LoD (Level of Details) information.\nHowever, the output only shares the LoD information with input X.\n\n",
  "inputs" : [ 
@@ -4595,55 +4332,6 @@
    "intermediate" : 0
  } ], 
  "attrs" : [  ] 
-},{
- "type" : "conv2d_cudnn",
- "comment" : "\nConvolution Operator.\n\nThe convolution operation calculates the output based on the input, filter\nand strides, paddings, dilations, groups parameters. The size of each dimension of the\nparameters is checked in the infer-shape.\nInput(Input) and Output(Output) are in NCHW format. Where N is batch\nsize, C is the number of channels, H is the height of the feature, and W is\nthe width of the feature.\nFilters(Input) is MCHW format. Where M is the number of output image channels, C is\nthe number of input image channels, H is the height of the filter, and W\nis the width of the filter.\nParameters(strides, paddings, dilations) are two elements. These two elements represent\nheight and width, respectively.\nThe input(X) size and output(Out) size may be different.\n\nExample:\n  Input:\n       Input shape: $(N, C_{in}, H_{in}, W_{in})$\n       Filter shape: $(C_{out}, C_{in}, H_f, W_f)$\n  Output:\n       Output shape: $(N, C_{out}, H_{out}, W_{out})$\n  Where\n$$\n       H_{out}= \\frac{(H_{in} + 2 * paddings[0] - (dilations[0] * (H_f - 1) + 1))}{strides[0]}+ 1 \\\\\n       W_{out}= \\frac{(W_{in} + 2 * paddings[1] - (dilations[1] * (W_f - 1) + 1))}{strides[1]}+ 1\n$$\n",
- "inputs" : [ 
- { 
-   "name" : "Input",
-   "comment" : "(Tensor) The input tensor of convolution operator. The format of input tensor is NCHW, where N is batch size, C is the number of channels, H is the height of the feature, and W is the width of the feature.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Filter",
-   "comment" : "(Tensor) The filter tensor of convolution operator. The format of the filter tensor is MCHW, where M is the number of output image channels, C is the number of input image channels, H is the height of the filter, and W is the width of the filter. If the groups attribute is greater than 1, C equals the number of input image channels divided by the groups.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Output",
-   "comment" : "(Tensor) The output tensor of convolution operator. The format of output tensor is also NCHW.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "strides",
-   "type" : "int array",
-   "comment" : "(vector<int> default:{1, 1}), the strides(h_stride, w_stride) of convolution operator.",
-   "generated" : 0
- }, { 
-   "name" : "paddings",
-   "type" : "int array",
-   "comment" : "(vector<int> default:{0, 0}), the paddings(h_pad, w_pad) of convolution operator.",
-   "generated" : 0
- }, { 
-   "name" : "groups",
-   "type" : "int",
-   "comment" : "(int default:1), the groups number of the convolution operator. According to grouped convolution in Alex Krizhevsky's Deep CNN paper: when group=2, the first half of the filters is only connected to the first half of the input channels, while the second half of the filters is only connected to the second half of the input channels.",
-   "generated" : 0
- }, { 
-   "name" : "dilations",
-   "type" : "int array",
-   "comment" : "(vector<int> default:{1, 1}), the dilations(h_dilation, w_dilation) of convolution operator.",
-   "generated" : 0
- }, { 
-   "name" : "workspace_size_MB",
-   "type" : "int",
-   "comment" : "workspace size for cudnn, in MB, workspace is a section of GPU memory which will be allocated/freed each time the operator runs, larger workspace size can increase performance but also requires better hardware. This size should be chosen carefully.",
-   "generated" : 0
- } ] 
 },{
  "type" : "conditional_block",
  "comment" : "Conditional block operator\n\nRun the sub-block if X is not empty. Params is the other inputs and Out is the\noutputs of the sub-block.\n",
@@ -5185,6 +4873,70 @@
    "generated" : 0
  } ] 
 },{
+ "type" : "get_places",
+ "comment" : "\nReturns a list of places based on flags. The list will be used for parallel\nexecution.\n",
+ "inputs" : [  ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "vector of Place",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "device_count",
+   "type" : "int",
+   "comment" : "device count",
+   "generated" : 0
+ }, { 
+   "name" : "device_type",
+   "type" : "string",
+   "comment" : "device type",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "read_from_array",
+ "comment" : "\nReadFromArray Operator.\n\nRead a LoDTensor from a LoDTensor Array.\n\nAssume $T$ is LoDTensor, $i$ is the subscript of the array, and $A$ is the array. The\nequation is\n\n$$T = A[i]$$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(TensorArray) the array will be read from.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "I",
+   "comment" : "(Tensor) the subscript index in tensor array. The number of element should be 1",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(LoDTensor) the tensor will be read from.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
+ "type" : "softplus",
+ "comment" : "\nSoftplus Activation Operator.\n\n$out = \\ln(1 + e^{x})$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "Input of Softplus operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "Output of Softplus operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
  "type" : "assign_value",
  "comment" : "\nAssignValue operator\n\n$$Out = values$$\n",
  "inputs" : [  ], 
@@ -5425,6 +5177,24 @@
    "comment" : "(float, default 1.0e-6) Constant for numerical stability",
    "generated" : 0
  } ] 
+},{
+ "type" : "log",
+ "comment" : "\nLog Activation Operator.\n\n$out = \\ln(x)$\n\nNatural logarithm of x.\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "Input of Log operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "Output of Log operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
 },{
  "type" : "nce",
  "comment" : "\nCompute and return the noise-contrastive estimation training loss.\nSee [Noise-contrastive estimation: A new estimation principle for unnormalized statistical models](http://www.jmlr.org/proceedings/papers/v9/gutmann10a/gutmann10a.pdf).\nBy default this operator uses a uniform distribution for sampling.\n",
@@ -5727,4 +5497,40 @@
    "comment" : "(float, default -0.5f) Learning Rate Power.",
    "generated" : 0
  } ] 
+},{
+ "type" : "round",
+ "comment" : "\nRound Activation Operator.\n\n$out = [x]$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "Input of Round operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "Output of Round operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
+ "type" : "softsign",
+ "comment" : "\nSoftsign Activation Operator.\n\n$$out = \\frac{x}{1 + |x|}$$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "Input of Softsign operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "Output of Softsign operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
 }]
