@@ -628,24 +628,24 @@
 15
 16
 17
-18</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">):</span>
+18</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">hidden_dim</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="n">label_dim</span> <span class="o">=</span> <span class="mi">2</span>
+
+<span class="n">speaker1</span> <span class="o">=</span> <span class="n">data_layer</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;word1&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">dict_dim</span><span class="p">)</span>
+<span class="n">speaker2</span> <span class="o">=</span> <span class="n">data_layer</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;word2&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">dict_dim</span><span class="p">)</span>
+
+<span class="n">emb1</span> <span class="o">=</span> <span class="n">embedding_layer</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">speaker1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">word_dim</span><span class="p">)</span>
+<span class="n">emb2</span> <span class="o">=</span> <span class="n">embedding_layer</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">speaker2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">word_dim</span><span class="p">)</span>
+
+<span class="c1"># This hierachical RNN is designed to be equivalent to the RNN in</span>
+<span class="c1"># sequence_nest_rnn_multi_unequalength_inputs.conf</span>
+
+
+<span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">calrnn</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
         <span class="n">mem</span> <span class="o">=</span> <span class="n">memory</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;rnn_state_&#39;</span> <span class="o">+</span> <span class="n">y</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">hidden_dim</span><span class="p">)</span>
         <span class="n">out</span> <span class="o">=</span> <span class="n">fc_layer</span><span class="p">(</span>
             <span class="nb">input</span><span class="o">=</span><span class="p">[</span><span class="n">y</span><span class="p">,</span> <span class="n">mem</span><span class="p">],</span>
-            <span class="n">size</span><span class="o">=</span><span class="n">hidden_dim</span><span class="p">,</span>
-            <span class="n">act</span><span class="o">=</span><span class="n">TanhActivation</span><span class="p">(),</span>
-            <span class="n">bias_attr</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;rnn_state_&#39;</span> <span class="o">+</span> <span class="n">y</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">out</span>
-
-    <span class="n">encoder1</span> <span class="o">=</span> <span class="n">calrnn</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span>
-    <span class="n">encoder2</span> <span class="o">=</span> <span class="n">calrnn</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">[</span><span class="n">encoder1</span><span class="p">,</span> <span class="n">encoder2</span><span class="p">]</span>
-
-
-<span class="n">encoder1_rep</span><span class="p">,</span> <span class="n">encoder2_rep</span> <span class="o">=</span> <span class="n">recurrent_group</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;stepout&quot;</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="n">step</span><span class="p">,</span> <span class="nb">input</span><span class="o">=</span><span class="p">[</span><span class="n">emb1</span><span class="p">,</span> <span class="n">emb2</span><span class="p">])</span>
 </pre></div>
 </td></tr></table></div>
 <ul class="simple">
