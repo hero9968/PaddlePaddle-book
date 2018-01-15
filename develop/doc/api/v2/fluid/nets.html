@@ -248,9 +248,10 @@
 <dl class="function">
 <dt>
 <code class="descclassname">paddle.v2.fluid.nets.</code><code class="descname">glu</code><span class="sig-paren">(</span><em>input</em>, <em>dim=-1</em><span class="sig-paren">)</span></dt>
-<dd><p>The gated linear unit composed by split and elementwise multiplication.
-Specifically, Split the input into two equal sized parts <span class="math">\(a\)</span> and
-<span class="math">\(b\)</span> along the given dimension and then compute as following:</p>
+<dd><p>The gated linear unit composed by split, sigmoid activation and elementwise
+multiplication. Specifically, Split the input into two equal sized parts
+<span class="math">\(a\)</span> and <span class="math">\(b\)</span> along the given dimension and then compute as
+following:</p>
 <blockquote>
 <div><div class="math">
 \[{GLU}(a, b)= a \otimes \sigma(b)\]</div>
