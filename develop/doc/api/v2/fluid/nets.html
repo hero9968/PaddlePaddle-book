@@ -284,6 +284,55 @@ dimension to split along is <span class="math">\(rank(input) + dim\)</span>.</li
 </dd></dl>
 
 </div>
+<div class="section" id="dot-product-attention">
+<h2>dot_product_attention<a class="headerlink" href="#dot-product-attention" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.nets.</code><code class="descname">dot_product_attention</code><span class="sig-paren">(</span><em>querys</em>, <em>keys</em>, <em>values</em><span class="sig-paren">)</span></dt>
+<dd><p>The dot-product attention.</p>
+<p>Attention mechanism can be seen as mapping a query and a set of key-value
+pairs to an output. The output is computed as a weighted sum of the values,
+where the weight assigned to each value is computed by a compatibility
+function (dot-product here) of the query with the corresponding key.</p>
+<p>The dot-product attention can be implemented through (batch) matrix
+multipication as follows:</p>
+<blockquote>
+<div><div class="math">
+\[Attention(Q, K, V)= softmax(QK^\mathrm{T})V\]</div>
+</div></blockquote>
+<p>Refer to <a class="reference external" href="https://arxiv.org/pdf/1706.03762.pdf">Attention Is All You Need</a>.</p>
+<p>Note that batch data containing sequences with different lengths is not
+supported by this because of the (batch) matrix multipication.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>query</strong> (<em>Variable</em>) &#8211; The input variable which is a Tensor or LoDTensor.</li>
+<li><strong>key</strong> (<em>Variable</em>) &#8211; The input variable which is a Tensor or LoDTensor.</li>
+<li><strong>value</strong> (<em>Variable</em>) &#8211; The input variable which is a Tensor or LoDTensor.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The Tensor variables representing the output and attention scores.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Suppose q, k, v are tensor variables with the following shape:</span>
+<span class="c1"># q: [3, 5, 9], k: [3, 6, 9], v: [3, 6, 10]</span>
+<span class="n">out</span><span class="p">,</span> <span class="n">attn_scores</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">nets</span><span class="o">.</span><span class="n">dot_product_attention</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+<span class="n">out</span><span class="o">.</span><span class="n">shape</span>  <span class="c1"># [3, 5, 10]</span>
+<span class="n">attn_scores</span><span class="o">.</span><span class="n">shape</span>  <span class="c1"># [3, 5, 6]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
 </div>
 
 

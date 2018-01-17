@@ -2500,6 +2500,75 @@ dimension to split along is <span class="math">\(rank(input) + dim\)</span>.</li
 </dd></dl>
 
 </div>
+<div class="section" id="matmul">
+<h2>matmul<a class="headerlink" href="#matmul" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">matmul</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>transpose_x=False</em>, <em>transpose_y=False</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
+<dd><p>Applies matrix multipication to two tensors. Currently only rank 1 to rank
+3 input tensors are supported.</p>
+<p>The actual behavior depends on the shapes of <span class="math">\(x\)</span>, <span class="math">\(y\)</span> and the
+flag values of <code class="xref py py-attr docutils literal"><span class="pre">transpose_x</span></code>, <code class="xref py py-attr docutils literal"><span class="pre">transpose_y</span></code>. Specifically:</p>
+<ul class="simple">
+<li>If a transpose flag is specified, the last two dimensions of the tensor
+are transposed. If the tensor is rank-1 of shape <span class="math">\([D]\)</span>, then for
+<span class="math">\(x\)</span> it is treated as <span class="math">\([1, D]\)</span> in nontransposed form and as
+<span class="math">\([D, 1]\)</span> in transposed form, whereas for <span class="math">\(y\)</span> it is the
+opposite: It is treated as <span class="math">\([D, 1]\)</span> in nontransposed form and as
+<span class="math">\([1, D]\)</span> in transposed form.</li>
+<li>After transpose, the two tensors are 2-D or 3-D and matrix multipication
+performs in the following way.<ul>
+<li>If both are 2-D, they are multiplied like conventional matrices.</li>
+<li>If either is 3-D, it is treated as a stack of matrices residing in the
+last two dimensions and a batched matrix multiply supporting broadcast
+applies on the two tensors.</li>
+</ul>
+</li>
+</ul>
+<p>Also note that if the raw tensor <span class="math">\(x\)</span> or <span class="math">\(y\)</span> is rank-1 and
+nontransposed, the prepended or appended dimension <span class="math">\(1\)</span> will be
+removed after matrix multipication.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> (<em>Variable</em>) &#8211; The input variable which is a Tensor or LoDTensor.</li>
+<li><strong>y</strong> (<em>Variable</em>) &#8211; The input variable which is a Tensor or LoDTensor.</li>
+<li><strong>transpose_x</strong> (<em>bool</em>) &#8211; Whether to transpose <span class="math">\(x\)</span> before multiplication.</li>
+<li><strong>transpose_y</strong> (<em>bool</em>) &#8211; Whether to transpose <span class="math">\(y\)</span> before multiplication.</li>
+<li><strong>name</strong> (<em>str|None</em>) &#8211; A name for this layer(optional). If set None, the layer
+will be named automatically.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">The product Tensor variable.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">Variable</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Examples to clarify shapes of the inputs and output</span>
+<span class="c1"># x: [B, M, K], y: [B, K, N]</span>
+<span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>  <span class="c1"># out: [B, M, N]</span>
+<span class="c1"># x: [B, M, K], y: [K, N]</span>
+<span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>  <span class="c1"># out: [B, M, N]</span>
+<span class="c1"># x: [B, M, K], y: [K]</span>
+<span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>  <span class="c1"># out: [B, M]</span>
+<span class="c1"># x: [M, K], y: [K, N]</span>
+<span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>  <span class="c1"># out: [M, N]</span>
+<span class="c1"># x: [K], y: [K]</span>
+<span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>  <span class="c1"># out: [1]</span>
+<span class="c1"># x: [M], y: [N]</span>
+<span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="bp">True</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>  <span class="c1"># out: [M, N]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
 <div class="section" id="logsigmoid">
 <h2>logsigmoid<a class="headerlink" href="#logsigmoid" title="永久链接至标题">¶</a></h2>
 <dl class="function">
