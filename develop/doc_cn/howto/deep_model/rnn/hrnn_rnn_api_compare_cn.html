@@ -301,8 +301,7 @@
 16
 17
 18
-19</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">hook</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="n">dict_file</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="n">settings</span><span class="o">.</span><span class="n">word_dict</span> <span class="o">=</span> <span class="n">dict_file</span>
+19</pre></div></td><td class="code"><div class="highlight"><pre><span></span>    <span class="n">settings</span><span class="o">.</span><span class="n">word_dict</span> <span class="o">=</span> <span class="n">dict_file</span>
     <span class="n">settings</span><span class="o">.</span><span class="n">input_types</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">integer_value_sequence</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">word_dict</span><span class="p">)),</span> <span class="n">integer_value</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
     <span class="p">]</span>
@@ -320,6 +319,7 @@
                 <span class="n">settings</span><span class="o">.</span><span class="n">word_dict</span><span class="p">[</span><span class="n">w</span><span class="p">]</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">words</span> <span class="k">if</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">settings</span><span class="o">.</span><span class="n">word_dict</span>
             <span class="p">]</span>
             <span class="k">yield</span> <span class="n">words</span><span class="p">,</span> <span class="n">label</span>
+
 </pre></div>
 </td></tr></table></div>
 <ul class="simple">
@@ -360,9 +360,7 @@
 26
 27
 28
-29
-30</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1">## for hierarchical sequence network</span>
-<span class="k">def</span> <span class="nf">hook2</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="n">dict_file</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+29</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">hook2</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="n">dict_file</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="n">settings</span><span class="o">.</span><span class="n">word_dict</span> <span class="o">=</span> <span class="n">dict_file</span>
     <span class="n">settings</span><span class="o">.</span><span class="n">input_types</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">integer_value_sub_sequence</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">word_dict</span><span class="p">)),</span>
@@ -628,24 +626,24 @@
 15
 16
 17
-18</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">hidden_dim</span> <span class="o">=</span> <span class="mi">8</span>
-<span class="n">label_dim</span> <span class="o">=</span> <span class="mi">2</span>
-
-<span class="n">speaker1</span> <span class="o">=</span> <span class="n">data_layer</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;word1&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">dict_dim</span><span class="p">)</span>
-<span class="n">speaker2</span> <span class="o">=</span> <span class="n">data_layer</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;word2&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">dict_dim</span><span class="p">)</span>
-
-<span class="n">emb1</span> <span class="o">=</span> <span class="n">embedding_layer</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">speaker1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">word_dim</span><span class="p">)</span>
-<span class="n">emb2</span> <span class="o">=</span> <span class="n">embedding_layer</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">speaker2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">word_dim</span><span class="p">)</span>
-
-<span class="c1"># This hierachical RNN is designed to be equivalent to the RNN in</span>
-<span class="c1"># sequence_nest_rnn_multi_unequalength_inputs.conf</span>
-
-
-<span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">calrnn</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
+18</pre></div></td><td class="code"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">calrnn</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
         <span class="n">mem</span> <span class="o">=</span> <span class="n">memory</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;rnn_state_&#39;</span> <span class="o">+</span> <span class="n">y</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">hidden_dim</span><span class="p">)</span>
         <span class="n">out</span> <span class="o">=</span> <span class="n">fc_layer</span><span class="p">(</span>
             <span class="nb">input</span><span class="o">=</span><span class="p">[</span><span class="n">y</span><span class="p">,</span> <span class="n">mem</span><span class="p">],</span>
+            <span class="n">size</span><span class="o">=</span><span class="n">hidden_dim</span><span class="p">,</span>
+            <span class="n">act</span><span class="o">=</span><span class="n">TanhActivation</span><span class="p">(),</span>
+            <span class="n">bias_attr</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;rnn_state_&#39;</span> <span class="o">+</span> <span class="n">y</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span>
+
+    <span class="n">encoder1</span> <span class="o">=</span> <span class="n">calrnn</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span>
+    <span class="n">encoder2</span> <span class="o">=</span> <span class="n">calrnn</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">encoder1</span><span class="p">,</span> <span class="n">encoder2</span><span class="p">]</span>
+
+
+<span class="n">encoder1_rep</span><span class="p">,</span> <span class="n">encoder2_rep</span> <span class="o">=</span> <span class="n">recurrent_group</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;stepout&quot;</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="n">step</span><span class="p">,</span> <span class="nb">input</span><span class="o">=</span><span class="p">[</span><span class="n">emb1</span><span class="p">,</span> <span class="n">emb2</span><span class="p">])</span>
+
 </pre></div>
 </td></tr></table></div>
 <ul class="simple">
@@ -690,9 +688,7 @@
 37
 38
 39
-40</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">outer_step</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">):</span>
-    <span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-
+40</pre></div></td><td class="code"><div class="highlight"><pre><span></span>
     <span class="k">def</span> <span class="nf">inner_step</span><span class="p">(</span><span class="n">ipt</span><span class="p">):</span>
         <span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="n">i</span> <span class="o">=</span> <span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -730,6 +726,8 @@
     <span class="n">step</span><span class="o">=</span><span class="n">outer_step</span><span class="p">,</span>
     <span class="nb">input</span><span class="o">=</span><span class="p">[</span><span class="n">SubsequenceInput</span><span class="p">(</span><span class="n">emb1</span><span class="p">),</span> <span class="n">SubsequenceInput</span><span class="p">(</span><span class="n">emb2</span><span class="p">)],</span>
     <span class="n">targetInlink</span><span class="o">=</span><span class="n">emb2</span><span class="p">)</span>
+
+<span class="n">encoder1_last</span> <span class="o">=</span> <span class="n">last_seq</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">encoder1_rep</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <p>在上面代码中，单层和双层序列的使用和示例2中的示例类似，区别是同时处理了两个输入。而对于双层序列，两个输入的子序列长度也并不相同。但是，我们使用了<code class="code docutils literal"><span class="pre">targetInlink</span></code>参数设置了外层<code class="code docutils literal"><span class="pre">recurrent_group</span></code>的输出格式。所以外层输出的序列形状，和<code class="code docutils literal"><span class="pre">emb2</span></code>的序列形状一致。</p>
