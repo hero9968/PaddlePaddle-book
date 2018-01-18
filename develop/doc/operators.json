@@ -1169,6 +1169,24 @@
    "generated" : 0
  } ] 
 },{
+ "type" : "softsign",
+ "comment" : "\nSoftsign Activation Operator.\n\n$$out = \\frac{x}{1 + |x|}$$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "Input of Softsign operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "Output of Softsign operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
  "type" : "sqrt",
  "comment" : "\nSqrt Activation Operator.\n\n$out = \\sqrt{x}$\n\n",
  "inputs" : [ 
@@ -1769,6 +1787,35 @@
    "intermediate" : 0
  } ], 
  "attrs" : [  ] 
+},{
+ "type" : "elementwise_sub",
+ "comment" : "\nLimited Elementwise Sub Operator.\n\nThe equation is:\n\n.. math::\n  Out = X - Y\n\nX is a tensor of any dimension and the dimensions of tensor Y must be smaller than\nor equal to the dimensions of X. \n\nThere are two cases for this operator:\n1. The shape of Y is same with X;\n2. The shape of Y is a subset of X.\n\nFor case 2:\nY will be broadcasted to match the shape of X and axis should be \nthe starting dimension index for broadcasting Y onto X.\n\nFor example\n  .. code-block:: python\n\n    shape(X) = (2, 3, 4, 5), shape(Y) = (,)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (5,)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (4, 5)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (3, 4), with axis=1\n    shape(X) = (2, 3, 4, 5), shape(Y) = (2), with axis=0\n\nEither of the inputs X and Y or none can carry the LoD (Level of Details) information. However, the output only shares the LoD information with input X.\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(Tensor) The first input tensor of elementwise op",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Y",
+   "comment" : "(Tensor) The second input tensor of elementwise op",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "The output of elementwise op",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "axis",
+   "type" : "int",
+   "comment" : "(int, default -1) The starting dimension index for broadcasting Y onto X",
+   "generated" : 0
+ } ] 
 },{
  "type" : "rnn_memory_helper",
  "comment" : "",
@@ -2459,35 +2506,6 @@
    "generated" : 0
  } ] 
 },{
- "type" : "elementwise_sub",
- "comment" : "\nLimited Elementwise Sub Operator.\n\nThe equation is:\n\n.. math::\n  Out = X - Y\n\nX is a tensor of any dimension and the dimensions of tensor Y must be smaller than\nor equal to the dimensions of X. \n\nThere are two cases for this operator:\n1. The shape of Y is same with X;\n2. The shape of Y is a subset of X.\n\nFor case 2:\nY will be broadcasted to match the shape of X and axis should be \nthe starting dimension index for broadcasting Y onto X.\n\nFor example\n  .. code-block:: python\n\n    shape(X) = (2, 3, 4, 5), shape(Y) = (,)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (5,)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (4, 5)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (3, 4), with axis=1\n    shape(X) = (2, 3, 4, 5), shape(Y) = (2), with axis=0\n\nEither of the inputs X and Y or none can carry the LoD (Level of Details) information. However, the output only shares the LoD information with input X.\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(Tensor) The first input tensor of elementwise op",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Y",
-   "comment" : "(Tensor) The second input tensor of elementwise op",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "The output of elementwise op",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "axis",
-   "type" : "int",
-   "comment" : "(int, default -1) The starting dimension index for broadcasting Y onto X",
-   "generated" : 0
- } ] 
-},{
  "type" : "logical_and",
  "comment" : "logical_and Operator\n\nIt operates element-wise on X and Y, and returns the Out. X, Y and Out are N-dim boolean tensors.\nEach element of Out is calculated by $$Out = X \\&\\& Y$$\n",
  "inputs" : [ 
@@ -2583,6 +2601,70 @@
  { 
    "name" : "Out",
    "comment" : "(TensorArray) the tensor array will be written",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
+ "type" : "softplus",
+ "comment" : "\nSoftplus Activation Operator.\n\n$out = \\ln(1 + e^{x})$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "Input of Softplus operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "Output of Softplus operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
+ "type" : "get_places",
+ "comment" : "\nReturns a list of places based on flags. The list will be used for parallel\nexecution.\n",
+ "inputs" : [  ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "vector of Place",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "device_count",
+   "type" : "int",
+   "comment" : "device count",
+   "generated" : 0
+ }, { 
+   "name" : "device_type",
+   "type" : "string",
+   "comment" : "device type",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "read_from_array",
+ "comment" : "\nReadFromArray Operator.\n\nRead a LoDTensor from a LoDTensor Array.\n\nAssume $T$ is LoDTensor, $i$ is the subscript of the array, and $A$ is the array. The\nequation is\n\n$$T = A[i]$$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(TensorArray) the array will be read from.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "I",
+   "comment" : "(Tensor) the subscript index in tensor array. The number of element should be 1",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(LoDTensor) the tensor will be read from.",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
@@ -3262,6 +3344,35 @@
    "generated" : 0
  } ] 
 },{
+ "type" : "elementwise_max",
+ "comment" : "\nLimited Elementwise Max Operator.\n\nThe equation is:\n\n.. math::\n  Out = max(X, Y)\n\nX is a tensor of any dimension and the dimensions of tensor Y must be smaller than\nor equal to the dimensions of X. \n\nThere are two cases for this operator:\n1. The shape of Y is same with X;\n2. The shape of Y is a subset of X.\n\nFor case 2:\nY will be broadcasted to match the shape of X and axis should be \nthe starting dimension index for broadcasting Y onto X.\n\nFor example\n  .. code-block:: python\n\n    shape(X) = (2, 3, 4, 5), shape(Y) = (,)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (5,)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (4, 5)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (3, 4), with axis=1\n    shape(X) = (2, 3, 4, 5), shape(Y) = (2), with axis=0\n\nEither of the inputs X and Y or none can carry the LoD (Level of Details) information. However, the output only shares the LoD information with input X.\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(Tensor) The first input tensor of elementwise op",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Y",
+   "comment" : "(Tensor) The second input tensor of elementwise op",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "The output of elementwise op",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "axis",
+   "type" : "int",
+   "comment" : "(int, default -1) The starting dimension index for broadcasting Y onto X",
+   "generated" : 0
+ } ] 
+},{
  "type" : "reshape",
  "comment" : "\nReshape Operator.\n\nReshape Input(X) into the shape specified by Attr(shape).\n\nAn example:\nGiven a 2-D tensor X with 2 rows and 2 columns\n\n    [[1, 2], [3, 4]]\n\nand target shape = [1, 4], the reshape operator will transform\nthe tensor X into a 2-D tensor:\n\n    [[1, 2, 3, 4]]\n\nOne dimension in the target shape can be set -1, representing that its\nsize is unknown. In this case, the real dimension will be infered from \nthe original shape of Input(X) and other dimensions in the target shape.\n",
  "inputs" : [ 
@@ -3808,6 +3919,35 @@
    "name" : "expand_times",
    "type" : "int array",
    "comment" : "Expand times number for each dimension.",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "elementwise_min",
+ "comment" : "\nLimited Elementwise Max Operator.\n\nThe equation is:\n\n.. math::\n  Out = min(X, Y)\n\nX is a tensor of any dimension and the dimensions of tensor Y must be smaller than\nor equal to the dimensions of X. \n\nThere are two cases for this operator:\n1. The shape of Y is same with X;\n2. The shape of Y is a subset of X.\n\nFor case 2:\nY will be broadcasted to match the shape of X and axis should be \nthe starting dimension index for broadcasting Y onto X.\n\nFor example\n  .. code-block:: python\n\n    shape(X) = (2, 3, 4, 5), shape(Y) = (,)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (5,)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (4, 5)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (3, 4), with axis=1\n    shape(X) = (2, 3, 4, 5), shape(Y) = (2), with axis=0\n\nEither of the inputs X and Y or none can carry the LoD (Level of Details) information. However, the output only shares the LoD information with input X.\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(Tensor) The first input tensor of elementwise op",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Y",
+   "comment" : "(Tensor) The second input tensor of elementwise op",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "The output of elementwise op",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "axis",
+   "type" : "int",
+   "comment" : "(int, default -1) The starting dimension index for broadcasting Y onto X",
    "generated" : 0
  } ] 
 },{
@@ -4884,70 +5024,6 @@
    "generated" : 0
  } ] 
 },{
- "type" : "get_places",
- "comment" : "\nReturns a list of places based on flags. The list will be used for parallel\nexecution.\n",
- "inputs" : [  ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "vector of Place",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "device_count",
-   "type" : "int",
-   "comment" : "device count",
-   "generated" : 0
- }, { 
-   "name" : "device_type",
-   "type" : "string",
-   "comment" : "device type",
-   "generated" : 0
- } ] 
-},{
- "type" : "read_from_array",
- "comment" : "\nReadFromArray Operator.\n\nRead a LoDTensor from a LoDTensor Array.\n\nAssume $T$ is LoDTensor, $i$ is the subscript of the array, and $A$ is the array. The\nequation is\n\n$$T = A[i]$$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(TensorArray) the array will be read from.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "I",
-   "comment" : "(Tensor) the subscript index in tensor array. The number of element should be 1",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(LoDTensor) the tensor will be read from.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
- "type" : "softplus",
- "comment" : "\nSoftplus Activation Operator.\n\n$out = \\ln(1 + e^{x})$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "Input of Softplus operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "Output of Softplus operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
  "type" : "assign_value",
  "comment" : "\nAssignValue operator\n\n$$Out = values$$\n",
  "inputs" : [  ], 
@@ -5522,24 +5598,6 @@
  { 
    "name" : "Out",
    "comment" : "Output of Round operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
- "type" : "softsign",
- "comment" : "\nSoftsign Activation Operator.\n\n$$out = \\frac{x}{1 + |x|}$$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "Input of Softsign operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "Output of Softsign operator",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
