@@ -250,12 +250,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">min</span> <span class="o">=</span> <span class="nb">min</span>
 
     <span class="k">def</span> <span class="nf">append_clip_op</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">,</span> <span class="n">grad_name</span><span class="p">):</span>
-        <span class="n">block</span><span class="o">.</span><span class="n">append_op</span><span class="p">(</span>
-            <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;clip&quot;</span><span class="p">,</span>
-            <span class="n">inputs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;X&quot;</span><span class="p">:</span> <span class="n">grad_name</span><span class="p">},</span>
-            <span class="n">outputs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Out&quot;</span><span class="p">:</span> <span class="n">grad_name</span><span class="p">},</span>
-            <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;min&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="p">,</span>
-                   <span class="s2">&quot;max&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="p">})</span>
+        <span class="n">clip_op_desc</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">desc</span><span class="o">.</span><span class="n">append_op</span><span class="p">()</span>
+        <span class="n">clip_op_desc</span><span class="o">.</span><span class="n">set_type</span><span class="p">(</span><span class="s2">&quot;clip&quot;</span><span class="p">)</span>
+        <span class="n">clip_op_desc</span><span class="o">.</span><span class="n">set_input</span><span class="p">(</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">grad_name</span><span class="p">])</span>
+        <span class="n">clip_op_desc</span><span class="o">.</span><span class="n">set_output</span><span class="p">(</span><span class="s2">&quot;Out&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">grad_name</span><span class="p">])</span>
+        <span class="n">clip_op_desc</span><span class="o">.</span><span class="n">set_attr</span><span class="p">(</span><span class="s2">&quot;min&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="p">)</span>
+        <span class="n">clip_op_desc</span><span class="o">.</span><span class="n">set_attr</span><span class="p">(</span><span class="s2">&quot;max&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The <code class="docutils literal"><span class="pre">BaseErrorClipAttr</span></code> have one main member functions: <code class="docutils literal"><span class="pre">append_clip_op(self,</span> <span class="pre">block,</span> <span class="pre">grad_name)</span></code>.</p>
@@ -277,6 +277,11 @@
                          <span class="n">op_desc</span><span class="o">.</span><span class="n">output_arg_names</span><span class="p">()):</span>
         <span class="n">fwd_var</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">var_recursive</span><span class="p">(</span><span class="n">grad_to_var</span><span class="p">[</span><span class="n">grad_n</span><span class="p">])</span>
         <span class="n">error_clip</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">fwd_var</span><span class="p">,</span> <span class="s2">&quot;error_clip&quot;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">error_clip</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">error_clip</span><span class="p">,</span>
+                                                 <span class="n">BaseErrorClipAttr</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s2">&quot;Variable&#39;s error_clip should be an instance of BaseErrorClipAttr or None.&quot;</span>
+            <span class="p">)</span>
         <span class="k">if</span> <span class="n">error_clip</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">error_clip</span><span class="o">.</span><span class="n">append_clip_op</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">grad_n</span><span class="p">)</span>
 </pre></div>
