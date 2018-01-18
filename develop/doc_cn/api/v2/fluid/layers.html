@@ -1196,7 +1196,7 @@ in the input parameters to the function.</p>
 <h2>conv2d<a class="headerlink" href="#conv2d" title="永久链接至标题">¶</a></h2>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">conv2d</code><span class="sig-paren">(</span><em>input</em>, <em>num_filters</em>, <em>filter_size</em>, <em>stride=None</em>, <em>padding=None</em>, <em>groups=None</em>, <em>param_attr=None</em>, <em>bias_attr=None</em>, <em>act=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">conv2d</code><span class="sig-paren">(</span><em>input</em>, <em>num_filters</em>, <em>filter_size</em>, <em>stride=None</em>, <em>padding=None</em>, <em>groups=None</em>, <em>param_attr=None</em>, <em>bias_attr=None</em>, <em>use_cudnn=True</em>, <em>act=None</em><span class="sig-paren">)</span></dt>
 <dd><p><strong>Convlution2D Layer</strong></p>
 <p>The convolution2D layer calculates the output based on the input, filter
 and strides, paddings, dilations, groups parameters. Input(Input) and Output(Output)
@@ -1256,6 +1256,8 @@ of the input channels, while the second half of the filters is only
 connected to the second half of the input channels. Default: groups=1</li>
 <li><strong>param_attr</strong> (<em>ParamAttr</em>) &#8211; The parameters to the Conv2d Layer. Default: None</li>
 <li><strong>bias_attr</strong> (<em>ParamAttr</em>) &#8211; Bias parameter for the Conv2d layer. Default: None</li>
+<li><strong>use_cudnn</strong> (<em>bool</em>) &#8211; Use cudnn kernel or not, it is valid only when the cudnn
+library is installed. Default: True</li>
 <li><strong>act</strong> (<em>str</em>) &#8211; Activation type. Default: None</li>
 </ul>
 </td>
@@ -1415,7 +1417,7 @@ then output is a Tensor:
 <h2>pool2d<a class="headerlink" href="#pool2d" title="永久链接至标题">¶</a></h2>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">pool2d</code><span class="sig-paren">(</span><em>input</em>, <em>pool_size</em>, <em>pool_type</em>, <em>pool_stride=None</em>, <em>pool_padding=None</em>, <em>global_pooling=False</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">pool2d</code><span class="sig-paren">(</span><em>input</em>, <em>pool_size</em>, <em>pool_type</em>, <em>pool_stride=None</em>, <em>pool_padding=None</em>, <em>global_pooling=False</em>, <em>use_cudnn=True</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
 <dd><p>This function adds the operator for pooling in 2 dimensions, using the
 pooling configurations mentioned in input parameters.</p>
 </dd></dl>
@@ -2003,7 +2005,7 @@ to compute the length.</td>
 <h2>conv2d_transpose<a class="headerlink" href="#conv2d-transpose" title="永久链接至标题">¶</a></h2>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">conv2d_transpose</code><span class="sig-paren">(</span><em>input</em>, <em>num_filters</em>, <em>output_size=None</em>, <em>filter_size=None</em>, <em>padding=None</em>, <em>stride=None</em>, <em>dilation=None</em>, <em>param_attr=None</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">conv2d_transpose</code><span class="sig-paren">(</span><em>input</em>, <em>num_filters</em>, <em>output_size=None</em>, <em>filter_size=None</em>, <em>padding=None</em>, <em>stride=None</em>, <em>dilation=None</em>, <em>param_attr=None</em>, <em>use_cudnn=True</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
 <dd><p>The transpose of conv2d layer.</p>
 <p>This layer is also known as deconvolution layer.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -2031,6 +2033,8 @@ stride_H = stride_W = stride.</li>
 contain two integers, (dilation_H, dilation_W). Otherwise, the
 dilation_H = dilation_W = dilation.</li>
 <li><strong>param_attr</strong> &#8211; Parameter Attribute.</li>
+<li><strong>use_cudnn</strong> (<em>bool</em>) &#8211; Use cudnn kernel or not, it is valid only when the cudnn
+library is installed. Default: True</li>
 <li><strong>name</strong> (<em>str|None</em>) &#8211; A name for this layer(optional). If set None, the layer
 will be named automatically.</li>
 </ul>
