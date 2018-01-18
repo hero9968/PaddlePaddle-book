@@ -1271,7 +1271,7 @@
  } ] 
 },{
  "type" : "clip",
- "comment" : "\nClip Operator.\n\nThe clip operator limits the value of given input within an interval. The interval is\nspecified with arguments 'min' and 'max':\n\n$$\nOut = \\min(\\max(X, min), max)\n$$\n\n",
+ "comment" : "\nClip Operator.\n\nThe clip operator limits the value of given input within an interval. The\ninterval is specified with arguments 'min' and 'max':\n\n$$\nOut = \\min(\\max(X, min), max)\n$$\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
@@ -1789,23 +1789,23 @@
  "attrs" : [  ] 
 },{
  "type" : "elementwise_sub",
- "comment" : "\nLimited Elementwise Sub Operator.\n\nThe equation is:\n\n.. math::\n  Out = X - Y\n\nX is a tensor of any dimension and the dimensions of tensor Y must be smaller than\nor equal to the dimensions of X. \n\nThere are two cases for this operator:\n1. The shape of Y is same with X;\n2. The shape of Y is a subset of X.\n\nFor case 2:\nY will be broadcasted to match the shape of X and axis should be \nthe starting dimension index for broadcasting Y onto X.\n\nFor example\n  .. code-block:: python\n\n    shape(X) = (2, 3, 4, 5), shape(Y) = (,)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (5,)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (4, 5)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (3, 4), with axis=1\n    shape(X) = (2, 3, 4, 5), shape(Y) = (2), with axis=0\n\nEither of the inputs X and Y or none can carry the LoD (Level of Details) information. However, the output only shares the LoD information with input X.\n\n",
+ "comment" : "\nLimited Elementwise Sub Operator.\n\nThe equation is:\n\n$$Out = X - Y$$\n\n$X$ is a tensor of any dimension and the dimensions of tensor $Y$ must be\nsmaller than or equal to the dimensions of $X$.\n\nThere are two cases for this operator:\n1. The shape of $Y$ is same with $X$;\n2. The shape of $Y$ is a subset of $X$.\n\nFor case 2:\n$Y$ will be broadcasted to match the shape of $X$ and axis should be\nset to index of the start dimension to broadcast $Y$ onto $X$.\n\nFor example\n  .. code-block:: python\n\n    shape(X) = (2, 3, 4, 5), shape(Y) = (,)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (5,)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (4, 5)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (3, 4), with axis=1\n    shape(X) = (2, 3, 4, 5), shape(Y) = (2), with axis=0\n\nEither of the inputs $X$ and $Y$ or none can carry the LoD (Level of Details)\ninformation. However, the output only shares the LoD information with input $X$.\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
-   "comment" : "(Tensor) The first input tensor of elementwise op",
+   "comment" : "(Tensor), The first input tensor of elementwise op.",
    "duplicable" : 0,
    "intermediate" : 0
  }, { 
    "name" : "Y",
-   "comment" : "(Tensor) The second input tensor of elementwise op",
+   "comment" : "(Tensor), The second input tensor of elementwise op.",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
  "outputs" : [ 
  { 
    "name" : "Out",
-   "comment" : "The output of elementwise op",
+   "comment" : "The output of elementwise op.",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
@@ -1813,7 +1813,7 @@
  { 
    "name" : "axis",
    "type" : "int",
-   "comment" : "(int, default -1) The starting dimension index for broadcasting Y onto X",
+   "comment" : "(int, default -1). The start dimension index for broadcasting Y onto X.",
    "generated" : 0
  } ] 
 },{
@@ -3345,23 +3345,23 @@
  } ] 
 },{
  "type" : "elementwise_max",
- "comment" : "\nLimited Elementwise Max Operator.\n\nThe equation is:\n\n.. math::\n  Out = max(X, Y)\n\nX is a tensor of any dimension and the dimensions of tensor Y must be smaller than\nor equal to the dimensions of X. \n\nThere are two cases for this operator:\n1. The shape of Y is same with X;\n2. The shape of Y is a subset of X.\n\nFor case 2:\nY will be broadcasted to match the shape of X and axis should be \nthe starting dimension index for broadcasting Y onto X.\n\nFor example\n  .. code-block:: python\n\n    shape(X) = (2, 3, 4, 5), shape(Y) = (,)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (5,)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (4, 5)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (3, 4), with axis=1\n    shape(X) = (2, 3, 4, 5), shape(Y) = (2), with axis=0\n\nEither of the inputs X and Y or none can carry the LoD (Level of Details) information. However, the output only shares the LoD information with input X.\n\n",
+ "comment" : "\nLimited Elementwise Max Operator.\n\nThe equation is:\n\n$$Out = max(X, Y)$$\n\n$X$ is a tensor of any dimension and the dimensions of tensor $Y$ must be\nsmaller than or equal to the dimensions of $X$.\n\nThere are two cases for this operator:\n1. The shape of $Y$ is same with $X$;\n2. The shape of $Y$ is a subset of $X$.\n\nFor case 2:\n$Y$ will be broadcasted to match the shape of $X$ and axis should be\nset to index of the start dimension to broadcast $Y$ onto $X$.\n\nFor example\n  .. code-block:: python\n\n    shape(X) = (2, 3, 4, 5), shape(Y) = (,)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (5,)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (4, 5)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (3, 4), with axis=1\n    shape(X) = (2, 3, 4, 5), shape(Y) = (2), with axis=0\n\nEither of the inputs $X$ and $Y$ or none can carry the LoD (Level of Details)\ninformation. However, the output only shares the LoD information with input $X$.\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
-   "comment" : "(Tensor) The first input tensor of elementwise op",
+   "comment" : "(Tensor), The first input tensor of elementwise op.",
    "duplicable" : 0,
    "intermediate" : 0
  }, { 
    "name" : "Y",
-   "comment" : "(Tensor) The second input tensor of elementwise op",
+   "comment" : "(Tensor), The second input tensor of elementwise op.",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
  "outputs" : [ 
  { 
    "name" : "Out",
-   "comment" : "The output of elementwise op",
+   "comment" : "The output of elementwise op.",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
@@ -3369,7 +3369,7 @@
  { 
    "name" : "axis",
    "type" : "int",
-   "comment" : "(int, default -1) The starting dimension index for broadcasting Y onto X",
+   "comment" : "(int, default -1). The start dimension index for broadcasting Y onto X.",
    "generated" : 0
  } ] 
 },{
@@ -3551,23 +3551,23 @@
  } ] 
 },{
  "type" : "elementwise_mul",
- "comment" : "\nLimited Elementwise Mul Operator.\n\nThe equation is:\n\n.. math::\n  Out = X \\odot\\ Y\n\nX is a tensor of any dimension and the dimensions of tensor Y must be smaller than\nor equal to the dimensions of X. \n\nThere are two cases for this operator:\n1. The shape of Y is same with X;\n2. The shape of Y is a subset of X.\n\nFor case 2:\nY will be broadcasted to match the shape of X and axis should be \nthe starting dimension index for broadcasting Y onto X.\n\nFor example\n  .. code-block:: python\n\n    shape(X) = (2, 3, 4, 5), shape(Y) = (,)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (5,)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (4, 5)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (3, 4), with axis=1\n    shape(X) = (2, 3, 4, 5), shape(Y) = (2), with axis=0\n\nEither of the inputs X and Y or none can carry the LoD (Level of Details) information. However, the output only shares the LoD information with input X.\n\n",
+ "comment" : "\nLimited Elementwise Mul Operator.\n\nThe equation is:\n\n$$Out = X \\odot\\ Y$$\n\n$X$ is a tensor of any dimension and the dimensions of tensor $Y$ must be\nsmaller than or equal to the dimensions of $X$.\n\nThere are two cases for this operator:\n1. The shape of $Y$ is same with $X$;\n2. The shape of $Y$ is a subset of $X$.\n\nFor case 2:\n$Y$ will be broadcasted to match the shape of $X$ and axis should be\nset to index of the start dimension to broadcast $Y$ onto $X$.\n\nFor example\n  .. code-block:: python\n\n    shape(X) = (2, 3, 4, 5), shape(Y) = (,)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (5,)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (4, 5)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (3, 4), with axis=1\n    shape(X) = (2, 3, 4, 5), shape(Y) = (2), with axis=0\n\nEither of the inputs $X$ and $Y$ or none can carry the LoD (Level of Details)\ninformation. However, the output only shares the LoD information with input $X$.\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
-   "comment" : "(Tensor) The first input tensor of elementwise op",
+   "comment" : "(Tensor), The first input tensor of elementwise op.",
    "duplicable" : 0,
    "intermediate" : 0
  }, { 
    "name" : "Y",
-   "comment" : "(Tensor) The second input tensor of elementwise op",
+   "comment" : "(Tensor), The second input tensor of elementwise op.",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
  "outputs" : [ 
  { 
    "name" : "Out",
-   "comment" : "The output of elementwise op",
+   "comment" : "The output of elementwise op.",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
@@ -3575,7 +3575,7 @@
  { 
    "name" : "axis",
    "type" : "int",
-   "comment" : "(int, default -1) The starting dimension index for broadcasting Y onto X",
+   "comment" : "(int, default -1). The start dimension index for broadcasting Y onto X.",
    "generated" : 0
  } ] 
 },{
@@ -3899,18 +3899,18 @@
  } ] 
 },{
  "type" : "expand",
- "comment" : "\nExpand operator tiles the input by given times number. You should set times\nnumber for each dimension by providing attribute 'expand_times'. The rank of X\nshould be in [1, 6]. Please notice that size of 'expand_times' must be same with\nX's rank. Following is a using case:\n\nInput(X) is a 3-D tensor with shape [2, 3, 1]:\n\n        [\n           [[1], [2], [3]],\n           [[4], [5], [6]]\n        ]\n\nAttr(expand_times):  [1, 2, 2]\n\nOutput(Out) is a 3-D tensor with shape [2, 6, 2]:\n\n        [\n            [[1, 1], [2, 2], [3, 3], [1, 1], [2, 2], [3, 3]],\n            [[4, 4], [5, 5], [6, 6], [4, 4], [5, 5], [6, 6]]\n        ]\n\n",
+ "comment" : "\nExpand operator tiles the input by given times number. You should set times\nnumber for each dimension by providing attribute 'expand_times'. The rank of X\nshould be in [1, 6]. Please note that size of 'expand_times' must be the same\nwith X's rank. Following is a using case:\n\nInput(X) is a 3-D tensor with shape [2, 3, 1]:\n\n        [\n           [[1], [2], [3]],\n           [[4], [5], [6]]\n        ]\n\nAttr(expand_times):  [1, 2, 2]\n\nOutput(Out) is a 3-D tensor with shape [2, 6, 2]:\n\n        [\n            [[1, 1], [2, 2], [3, 3], [1, 1], [2, 2], [3, 3]],\n            [[4, 4], [5, 5], [6, 6], [4, 4], [5, 5], [6, 6]]\n        ]\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
-   "comment" : "(Tensor, default Tensor<float>) A tensor with rank in [1, 6].X is the input tensor to be expanded.",
+   "comment" : "(Tensor, default Tensor<float>). A tensor with rank in [1, 6].X is the input to be expanded.",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
  "outputs" : [ 
  { 
    "name" : "Out",
-   "comment" : "(Tensor, default Tensor<float>) A tensor with rank in [1, 6].The rank of Output(Out) is same as Input(X) except that each dimension size of Output(Out) is equal to corresponding dimension size of Input(X) multiplying corresponding value of Attr(expand_times).",
+   "comment" : "(Tensor, default Tensor<float>). A tensor with rank in [1, 6].The rank of Output(Out) have the same with Input(X). After expanding, size of each dimension of Output(Out) is equal to size of the corresponding dimension of Input(X) multiplying the corresponding value given by Attr(expand_times).",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
@@ -3923,23 +3923,23 @@
  } ] 
 },{
  "type" : "elementwise_min",
- "comment" : "\nLimited Elementwise Max Operator.\n\nThe equation is:\n\n.. math::\n  Out = min(X, Y)\n\nX is a tensor of any dimension and the dimensions of tensor Y must be smaller than\nor equal to the dimensions of X. \n\nThere are two cases for this operator:\n1. The shape of Y is same with X;\n2. The shape of Y is a subset of X.\n\nFor case 2:\nY will be broadcasted to match the shape of X and axis should be \nthe starting dimension index for broadcasting Y onto X.\n\nFor example\n  .. code-block:: python\n\n    shape(X) = (2, 3, 4, 5), shape(Y) = (,)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (5,)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (4, 5)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (3, 4), with axis=1\n    shape(X) = (2, 3, 4, 5), shape(Y) = (2), with axis=0\n\nEither of the inputs X and Y or none can carry the LoD (Level of Details) information. However, the output only shares the LoD information with input X.\n\n",
+ "comment" : "\nLimited Elementwise Max Operator.\n\nThe equation is:\n\n$$Out = min(X, Y)$$\n\n$X$ is a tensor of any dimension and the dimensions of tensor $Y$ must be\nsmaller than or equal to the dimensions of $X$.\n\nThere are two cases for this operator:\n1. The shape of $Y$ is same with $X$;\n2. The shape of $Y$ is a subset of $X$.\n\nFor case 2:\n$Y$ will be broadcasted to match the shape of $X$ and axis should be\nset to index of the start dimension to broadcast $Y$ onto $X$.\n\nFor example\n  .. code-block:: python\n\n    shape(X) = (2, 3, 4, 5), shape(Y) = (,)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (5,)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (4, 5)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (3, 4), with axis=1\n    shape(X) = (2, 3, 4, 5), shape(Y) = (2), with axis=0\n\nEither of the inputs $X$ and $Y$ or none can carry the LoD (Level of Details)\ninformation. However, the output only shares the LoD information with input $X$.\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
-   "comment" : "(Tensor) The first input tensor of elementwise op",
+   "comment" : "(Tensor), The first input tensor of elementwise op.",
    "duplicable" : 0,
    "intermediate" : 0
  }, { 
    "name" : "Y",
-   "comment" : "(Tensor) The second input tensor of elementwise op",
+   "comment" : "(Tensor), The second input tensor of elementwise op.",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
  "outputs" : [ 
  { 
    "name" : "Out",
-   "comment" : "The output of elementwise op",
+   "comment" : "The output of elementwise op.",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
@@ -3947,28 +3947,28 @@
  { 
    "name" : "axis",
    "type" : "int",
-   "comment" : "(int, default -1) The starting dimension index for broadcasting Y onto X",
+   "comment" : "(int, default -1). The start dimension index for broadcasting Y onto X.",
    "generated" : 0
  } ] 
 },{
  "type" : "elementwise_div",
- "comment" : "\nLimited Elementwise Div Operator.\n\nThe equation is:\n\n.. math::\n  Out = X / Y\n\nX is a tensor of any dimension and the dimensions of tensor Y must be smaller than\nor equal to the dimensions of X. \n\nThere are two cases for this operator:\n1. The shape of Y is same with X;\n2. The shape of Y is a subset of X.\n\nFor case 2:\nY will be broadcasted to match the shape of X and axis should be \nthe starting dimension index for broadcasting Y onto X.\n\nFor example\n  .. code-block:: python\n\n    shape(X) = (2, 3, 4, 5), shape(Y) = (,)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (5,)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (4, 5)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (3, 4), with axis=1\n    shape(X) = (2, 3, 4, 5), shape(Y) = (2), with axis=0\n\nEither of the inputs X and Y or none can carry the LoD (Level of Details) information. However, the output only shares the LoD information with input X.\n\n",
+ "comment" : "\nLimited Elementwise Div Operator.\n\nThe equation is:\n\n$$Out = X / Y$$\n\n$X$ is a tensor of any dimension and the dimensions of tensor $Y$ must be\nsmaller than or equal to the dimensions of $X$.\n\nThere are two cases for this operator:\n1. The shape of $Y$ is same with $X$;\n2. The shape of $Y$ is a subset of $X$.\n\nFor case 2:\n$Y$ will be broadcasted to match the shape of $X$ and axis should be\nset to index of the start dimension to broadcast $Y$ onto $X$.\n\nFor example\n  .. code-block:: python\n\n    shape(X) = (2, 3, 4, 5), shape(Y) = (,)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (5,)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (4, 5)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (3, 4), with axis=1\n    shape(X) = (2, 3, 4, 5), shape(Y) = (2), with axis=0\n\nEither of the inputs $X$ and $Y$ or none can carry the LoD (Level of Details)\ninformation. However, the output only shares the LoD information with input $X$.\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
-   "comment" : "(Tensor) The first input tensor of elementwise op",
+   "comment" : "(Tensor), The first input tensor of elementwise op.",
    "duplicable" : 0,
    "intermediate" : 0
  }, { 
    "name" : "Y",
-   "comment" : "(Tensor) The second input tensor of elementwise op",
+   "comment" : "(Tensor), The second input tensor of elementwise op.",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
  "outputs" : [ 
  { 
    "name" : "Out",
-   "comment" : "The output of elementwise op",
+   "comment" : "The output of elementwise op.",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
@@ -3976,28 +3976,28 @@
  { 
    "name" : "axis",
    "type" : "int",
-   "comment" : "(int, default -1) The starting dimension index for broadcasting Y onto X",
+   "comment" : "(int, default -1). The start dimension index for broadcasting Y onto X.",
    "generated" : 0
  } ] 
 },{
  "type" : "elementwise_add",
- "comment" : "\nLimited Elementwise Add Operator.\n\nThe equation is:\n\n.. math::\n  Out = X + Y\n\nX is a tensor of any dimension and the dimensions of tensor Y must be smaller than\nor equal to the dimensions of X. \n\nThere are two cases for this operator:\n1. The shape of Y is same with X;\n2. The shape of Y is a subset of X.\n\nFor case 2:\nY will be broadcasted to match the shape of X and axis should be \nthe starting dimension index for broadcasting Y onto X.\n\nFor example\n  .. code-block:: python\n\n    shape(X) = (2, 3, 4, 5), shape(Y) = (,)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (5,)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (4, 5)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (3, 4), with axis=1\n    shape(X) = (2, 3, 4, 5), shape(Y) = (2), with axis=0\n\nEither of the inputs X and Y or none can carry the LoD (Level of Details) information. However, the output only shares the LoD information with input X.\n\n",
+ "comment" : "\nLimited Elementwise Add Operator.\n\nThe equation is:\n\n$$Out = X + Y$$\n\n$X$ is a tensor of any dimension and the dimensions of tensor $Y$ must be\nsmaller than or equal to the dimensions of $X$.\n\nThere are two cases for this operator:\n1. The shape of $Y$ is same with $X$;\n2. The shape of $Y$ is a subset of $X$.\n\nFor case 2:\n$Y$ will be broadcasted to match the shape of $X$ and axis should be\nset to index of the start dimension to broadcast $Y$ onto $X$.\n\nFor example\n  .. code-block:: python\n\n    shape(X) = (2, 3, 4, 5), shape(Y) = (,)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (5,)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (4, 5)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (3, 4), with axis=1\n    shape(X) = (2, 3, 4, 5), shape(Y) = (2), with axis=0\n\nEither of the inputs $X$ and $Y$ or none can carry the LoD (Level of Details)\ninformation. However, the output only shares the LoD information with input $X$.\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
-   "comment" : "(Tensor) The first input tensor of elementwise op",
+   "comment" : "(Tensor), The first input tensor of elementwise op.",
    "duplicable" : 0,
    "intermediate" : 0
  }, { 
    "name" : "Y",
-   "comment" : "(Tensor) The second input tensor of elementwise op",
+   "comment" : "(Tensor), The second input tensor of elementwise op.",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
  "outputs" : [ 
  { 
    "name" : "Out",
-   "comment" : "The output of elementwise op",
+   "comment" : "The output of elementwise op.",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
@@ -4005,7 +4005,7 @@
  { 
    "name" : "axis",
    "type" : "int",
-   "comment" : "(int, default -1) The starting dimension index for broadcasting Y onto X",
+   "comment" : "(int, default -1). The start dimension index for broadcasting Y onto X.",
    "generated" : 0
  } ] 
 },{
