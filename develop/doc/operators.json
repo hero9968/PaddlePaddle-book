@@ -1187,6 +1187,24 @@
  } ], 
  "attrs" : [  ] 
 },{
+ "type" : "square",
+ "comment" : "\nSquare Activation Operator.\n\n$out = x^2$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "Input of Square operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "Output of Square operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
  "type" : "sqrt",
  "comment" : "\nSqrt Activation Operator.\n\n$out = \\sqrt{x}$\n\n",
  "inputs" : [ 
@@ -1218,24 +1236,6 @@
  { 
    "name" : "Out",
    "comment" : "The normalized values with the same shape as X.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
- "type" : "lod_array_length",
- "comment" : "\nLoDArrayLength Operator.\n\nThis operator obtains the length of lod tensor array:\n\n$$Out = len(X)$$\n\nNOTE: The output is a CPU Tensor since the control variable should be only in\nCPU and the length of LoDTensorArray should be used as control variables.\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(LoDTensorArray) The input tensor array.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(Tensor) 1x1 CPU Tensor of length, int64_t",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
@@ -2150,6 +2150,133 @@
  } ], 
  "attrs" : [  ] 
 },{
+ "type" : "split_selected_rows",
+ "comment" : "\nSplit a SelectedRows with a specified rows section.\nheight_sections is only needed when need to split the dims of the original tensor.\n\nExample:\n  Input:\n    X.rows = {0, 7, 5}\n    X.height = 12\n  Attr:\n    rows_sections = {1, 2}\n    height_sections = {}\n  Out:\n    out0.rows = {0}\n    out0.height = 12\n    out1.rows = {7, 5}\n    out2.height = 12\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "The input SelectedRows.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "The outputs of input SelectedRows.",
+   "duplicable" : 1,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "rows_sections",
+   "type" : "int array",
+   "comment" : "Rows section for output.",
+   "generated" : 0
+ }, { 
+   "name" : "height_sections",
+   "type" : "int array",
+   "comment" : "Height for each output SelectedRows.",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "adam",
+ "comment" : "\nAdam Optimizer.\n\nThis implements the Adam optimizer from Section 2 of the Adam\npaper : https://arxiv.org/abs/1412.6980.\nAdam is a first-order gradient-based optimization method based on\nadaptive estimates of lower-order moments.\n\nAdam updates:\n\n$$\nmoment\\_1\\_out = \\beta_1 * moment\\_1 + (1 - \\beta_1) * grad \\\\\nmoment\\_2_\\out = \\beta_2 * moment\\_2 + (1 - \\beta_2) * grad * grad \\\\\nlearning\\_rate = learning\\_rate *\n                  \\frac{\\sqrt{1 - \\beta_{2\\_pow}}}{1 - \\beta_{1\\_pow}} \\\\\nparam\\_out = param - learning\\_rate * \\frac{moment\\_1}{\\sqrt{moment\\_2} + \\epsilon}\n$$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "Param",
+   "comment" : "(Tensor) Input parameter",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Grad",
+   "comment" : "(Tensor) Input gradient",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "LearningRate",
+   "comment" : "(Tensor) Learning rate",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Moment1",
+   "comment" : "(Tensor) Input first moment",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Moment2",
+   "comment" : "(Tensor) Input second moment",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Beta1Pow",
+   "comment" : "(Tensor) Input beta1 power accumulator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Beta2Pow",
+   "comment" : "(Tensor) Input beta2 power accumulator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "ParamOut",
+   "comment" : "(Tensor) Output parameter",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Moment1Out",
+   "comment" : "(Tensor) Output first moment",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Moment2Out",
+   "comment" : "(Tensor) Output second moment",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "beta1",
+   "type" : "float",
+   "comment" : "(float, default 0.9) Exponential decay rate for the first moment estimates.",
+   "generated" : 0
+ }, { 
+   "name" : "beta2",
+   "type" : "float",
+   "comment" : "(float, default 0.999) exponential decay rate for the second moment estimates.",
+   "generated" : 0
+ }, { 
+   "name" : "epsilon",
+   "type" : "float",
+   "comment" : "(float, default 1.0e-8) Constant for numerical stability",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "increment",
+ "comment" : "\nIncrement Operator.\n\nThe equation is: \n$$Out = X + step$$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(Tensor) The input tensor of increment operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(Tensor) The output tensor of increment operator.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "step",
+   "type" : "float",
+   "comment" : "(float, default 1.0) The step size by which the input tensor will be incremented.",
+   "generated" : 0
+ } ] 
+},{
  "type" : "sequence_pool",
  "comment" : "\nSequence Pool Operator.\n\nThe SequencePoolOp pools features of all time-steps of each instance.\nIt supports six pooling types:\n1. AVERAGE: $$Out[i] = \\frac{\\sum_i X_i}{N}$$\n2. SUM:     $$Out[i] = \\sum_jX_{ij}$$\n3. SQRT:    $$Out[i] = \\frac{\\sum_jX_{ij}}{\\sqrt{len(X_i)}}$$\n4. LAST:    Out[i] = last instance in i-th sequence X[i]\n5. FIRST:   Out[i] = first instance in i-th sequence X[i]\n6. MAX:     $$Out[i] = max(X_i)$$\n\nThe following example explains how this works:\nFor a mini-batch of 3 variable-length sentences,\ncontaining 2, 3, and 2 time-steps:\n\nAssume X is a [7,M,N] LoDTensor, and X->lod()[0] = [0, 2, 5, 7], 7=2+3+2.\nBesides, for the sake of simplicity, we assume M=1 and N=1,\nand the value of X = [[1, 3], [2, 4, 6], [5, 1]].\n\nThus, Out is a [3,1,1] Tensor without LoD infomation.\nAnd for different pooltype, the value of Out is as follows:\n\n- AVERAGE: [2, 4, 3], where 2=(1+3)/2, 4=(2+4+6)/3, 3=(5+1)/2\n- SUM: [4, 12, 6], where 4=1+3, 12=2+4+6, 6=5+1\n- SQRT: [2.82, 6.93, 4.24], where 2.82=(1+3)/sqrt(2),\n           6.93=(2+4+6)/sqrt(3), 4.24=(5+1)/sqrt(2)\n- MAX: [3, 6, 5], where 3=max(1,3), 6=max(2,4,6), 5=max(5,1)\n- LAST: [3, 6, 1], where 3=last(1,3), 6=last(2,4,6), 1=last(5,1)\n- FIRST: [1, 2, 5], where 1=first(1,3), 2=first(2,4,6), 5=first(5,1)\n\n    ",
  "inputs" : [ 
@@ -2226,6 +2353,156 @@
  } ], 
  "attrs" : [  ] 
 },{
+ "type" : "reduce_sum",
+ "comment" : "\nReduceSum Operator.\n\nThis operator computes the sum of input tensor along the given dimension. \nThe result tensor has 1 fewer dimension than the input unless keep_dim is true.\nIf reduce_all is true, just reduce along all dimensions and output a scalar.\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(Tensor) The input tensor. Tensors with rank at most 6 are supported.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(Tensor) The result tensor.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "dim",
+   "type" : "int",
+   "comment" : "(int, default 0) The dimension to reduce. Must be in the range [-rank(input), rank(input)). If `dim < 0`, the dim to reduce is `rank + dim`. Note that reducing on the first dim will make the LoD info lost.",
+   "generated" : 0
+ }, { 
+   "name" : "keep_dim",
+   "type" : "bool",
+   "comment" : "(bool, default false) If true, retain the reduced dimension with length 1.",
+   "generated" : 0
+ }, { 
+   "name" : "reduce_all",
+   "type" : "bool",
+   "comment" : "(bool, default false) If true, output a scalar reduced along all dimensions.",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "stanh",
+ "comment" : "\nSTanh Activation Operator.\n\n$$out = b * \\frac{e^{a * x} - e^{-a * x}}{e^{a * x} + e^{-a * x}}$$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "Input of STanh operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "Output of STanh operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "scale_a",
+   "type" : "float",
+   "comment" : "The scale parameter of a for the input",
+   "generated" : 0
+ }, { 
+   "name" : "scale_b",
+   "type" : "float",
+   "comment" : "The scale parameter of b for the input",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "adamax",
+ "comment" : "\nAdamax Optimizer.\n\nWe implement the Adamax optimizer from Section 7 of the Adam\npaper: https://arxiv.org/abs/1412.6980. Adamax is a variant of the\nAdam algorithm based on the infinity norm.\n\nAdamax updates:\n\n$$\nmoment\\_out = \\beta_1 * moment + (1 - \\beta_1) * grad \\\\\ninf\\_norm\\_out = max(\\beta_2 * inf\\_norm + \\epsilon, |grad|) \\\\\nlearning\\_rate = \\frac{learning\\_rate}{1 - \\beta_{1\\_pow}} \\\\\nparam\\_out = param - learning\\_rate * \\frac{moment\\_out}{inf\\_norm\\_out}\n$$\n\nThe original paper does not have an epsilon attribute.\nHowever, it is added here for numerical stability to prevent the\ndivision by 0 error.\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "Param",
+   "comment" : "(Tensor) Input parameter",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Grad",
+   "comment" : "(Tensor) Input gradient",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "LearningRate",
+   "comment" : "(Tensor) Learning rate",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Moment",
+   "comment" : "(Tensor) First moment",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "InfNorm",
+   "comment" : "(Tensor) Input exponentially weighted infinity norm",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Beta1Pow",
+   "comment" : "(Tensor) Input beta1 power accumulator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "ParamOut",
+   "comment" : "(Tensor) Output parameter",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "MomentOut",
+   "comment" : "(Tensor) Output first moment",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "InfNormOut",
+   "comment" : "(Tensor) Output exponentially weighted infinity norm",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "beta1",
+   "type" : "float",
+   "comment" : "(float, default 0.9) Exponential decay rate for the 1st moment estimates.",
+   "generated" : 0
+ }, { 
+   "name" : "beta2",
+   "type" : "float",
+   "comment" : "(float, default 0.999) exponential decay rate for the weighted infinity norm estimates.",
+   "generated" : 0
+ }, { 
+   "name" : "epsilon",
+   "type" : "float",
+   "comment" : "(float, default 1.0e-8) Constant for numerical stability",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "tanh_shrink",
+ "comment" : "\nTanhShrink Activation Operator.\n\n$$out = x - \\frac{e^{x} - e^{-x}}{e^{x} + e^{-x}}$$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "Input of TanhShrink operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "Output of TanhShrink operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
  "type" : "roi_pool",
  "comment" : "\nROIPool operator\n\nROI Pooling for Faster-RCNN. The link below is a further introduction: \nhttps://stackoverflow.com/questions/43430056/what-is-roi-layer-in-fast-rcnn\n    ",
  "inputs" : [ 
@@ -2267,30 +2544,6 @@
    "name" : "pooled_width",
    "type" : "int",
    "comment" : "(int, default 1), The pooled output width.",
-   "generated" : 0
- } ] 
-},{
- "type" : "increment",
- "comment" : "\nIncrement Operator.\n\nThe equation is: \n$$Out = X + step$$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(Tensor) The input tensor of increment operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(Tensor) The output tensor of increment operator.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "step",
-   "type" : "float",
-   "comment" : "(float, default 1.0) The step size by which the input tensor will be incremented.",
    "generated" : 0
  } ] 
 },{
@@ -2449,63 +2702,6 @@
    "generated" : 0
  } ] 
 },{
- "type" : "shrink_rnn_memory",
- "comment" : "\nThis operator is used to shrink output batch of memory defined in dynamic RNN.\n\nDynamic RNN is able to handle variable-length sequences, in which, sequences in\na mini-batch are sorted by their lengths first. After that, the longest sequence\nbecomes the first one in the sorted batch, followed by the second longest, the\nthird longest, and so on. Dynamic RNN then slices a batch input timestep by\ntimestep from the sorted input. Once any sequence in the input batch reaches its\nend, memory defined in dynamicRNN has to shrink its outputs to adapt to the input\nbatch size for the next time step.\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(LoDTensor) The RNN step memory to be shrinked.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "RankTable",
-   "comment" : "(LoDRankTable) The lod_rank_table of dynamic RNN.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "I",
-   "comment" : "(LoDTensor) The step index. The RNN step memory 'X' will be shrinked to match the size of the input of the index'th step.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(LoDTensor) The shrinked RNN step memory.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
- "type" : "lod_reset",
- "comment" : "LoDReset operator\n\nReset LoD of Input(X) into a new one specified by Input(TargetLoD) or\nAttr(target_lod), or set LoD for Input(X) if it doesn't have one.\nCurrently the lod_reset operator only supports the reset of level 0 LoD.\nAt least one of Input(TargetLoD) and Attr(target_lod) must be set,\nand if both of them are set, Input(TargetLoD) will be chosen as the\ntarget LoD.\n\nAn example:\nGiven a float LoDTensor X with shape (6, 1), its transpose form represents\n\n    [1.0, 2.0, 3.0, 4.0, 5.0, 6.0],\n\nwith LoD = [[0, 2, 5, 6]] and the three (transposed) sequences look like\n\n    [1.0, 2.0], [3.0, 4.0, 5.0], [6.0].\n\nIf target LoD = [0, 4, 6], the lod_reset operator will reset the LoD and\nthe sequences that the LoDTensor Output(Out) contains becomes:\n\n    [1.0, 2.0, 3.0, 4.0], [5.0, 6.0].\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(LoDTensor) The input tensor of lod_reset operator.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "TargetLoD",
-   "comment" : "(Tensor, optional) The target level 0 LoD from Input().",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(LoDTensor) The output tensor of lod_reset operator.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "target_lod",
-   "type" : "int array",
-   "comment" : "The target level 0 LoD from Attr().",
-   "generated" : 0
- } ] 
-},{
  "type" : "logical_and",
  "comment" : "logical_and Operator\n\nIt operates element-wise on X and Y, and returns the Out. X, Y and Out are N-dim boolean tensors.\nEach element of Out is calculated by $$Out = X \\&\\& Y$$\n",
  "inputs" : [ 
@@ -2560,47 +2756,6 @@
  { 
    "name" : "Out",
    "comment" : "Output of Abs operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
- "type" : "square",
- "comment" : "\nSquare Activation Operator.\n\n$out = x^2$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "Input of Square operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "Output of Square operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
- "type" : "write_to_array",
- "comment" : "\nWriteToArray Operator.\n\nThis operator writes a LoDTensor to a LoDTensor array.\n\nAssume $T$ is LoDTensor, $i$ is the subscript of the array, and $A$ is the array. The\nequation is\n\n$$A[i] = T$$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(LoDTensor) the tensor will be written to tensor array",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "I",
-   "comment" : "(Tensor) the subscript index in tensor array. The number of element should be 1",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(TensorArray) the tensor array will be written",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
@@ -2665,6 +2820,86 @@
  { 
    "name" : "Out",
    "comment" : "(LoDTensor) the tensor will be read from.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
+ "type" : "shrink_rnn_memory",
+ "comment" : "\nThis operator is used to shrink output batch of memory defined in dynamic RNN.\n\nDynamic RNN is able to handle variable-length sequences, in which, sequences in\na mini-batch are sorted by their lengths first. After that, the longest sequence\nbecomes the first one in the sorted batch, followed by the second longest, the\nthird longest, and so on. Dynamic RNN then slices a batch input timestep by\ntimestep from the sorted input. Once any sequence in the input batch reaches its\nend, memory defined in dynamicRNN has to shrink its outputs to adapt to the input\nbatch size for the next time step.\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(LoDTensor) The RNN step memory to be shrinked.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "RankTable",
+   "comment" : "(LoDRankTable) The lod_rank_table of dynamic RNN.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "I",
+   "comment" : "(LoDTensor) The step index. The RNN step memory 'X' will be shrinked to match the size of the input of the index'th step.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(LoDTensor) The shrinked RNN step memory.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
+ "type" : "lod_reset",
+ "comment" : "LoDReset operator\n\nReset LoD of Input(X) into a new one specified by Input(TargetLoD) or\nAttr(target_lod), or set LoD for Input(X) if it doesn't have one.\nCurrently the lod_reset operator only supports the reset of level 0 LoD.\nAt least one of Input(TargetLoD) and Attr(target_lod) must be set,\nand if both of them are set, Input(TargetLoD) will be chosen as the\ntarget LoD.\n\nAn example:\nGiven a float LoDTensor X with shape (6, 1), its transpose form represents\n\n    [1.0, 2.0, 3.0, 4.0, 5.0, 6.0],\n\nwith LoD = [[0, 2, 5, 6]] and the three (transposed) sequences look like\n\n    [1.0, 2.0], [3.0, 4.0, 5.0], [6.0].\n\nIf target LoD = [0, 4, 6], the lod_reset operator will reset the LoD and\nthe sequences that the LoDTensor Output(Out) contains becomes:\n\n    [1.0, 2.0, 3.0, 4.0], [5.0, 6.0].\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(LoDTensor) The input tensor of lod_reset operator.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "TargetLoD",
+   "comment" : "(Tensor, optional) The target level 0 LoD from Input().",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(LoDTensor) The output tensor of lod_reset operator.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "target_lod",
+   "type" : "int array",
+   "comment" : "The target level 0 LoD from Attr().",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "write_to_array",
+ "comment" : "\nWriteToArray Operator.\n\nThis operator writes a LoDTensor to a LoDTensor array.\n\nAssume $T$ is LoDTensor, $i$ is the subscript of the array, and $A$ is the array. The\nequation is\n\n$$A[i] = T$$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(LoDTensor) the tensor will be written to tensor array",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "I",
+   "comment" : "(Tensor) the subscript index in tensor array. The number of element should be 1",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(TensorArray) the tensor array will be written",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
@@ -2970,156 +3205,6 @@
    "generated" : 0
  } ] 
 },{
- "type" : "reduce_sum",
- "comment" : "\nReduceSum Operator.\n\nThis operator computes the sum of input tensor along the given dimension. \nThe result tensor has 1 fewer dimension than the input unless keep_dim is true.\nIf reduce_all is true, just reduce along all dimensions and output a scalar.\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(Tensor) The input tensor. Tensors with rank at most 6 are supported.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(Tensor) The result tensor.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "dim",
-   "type" : "int",
-   "comment" : "(int, default 0) The dimension to reduce. Must be in the range [-rank(input), rank(input)). If `dim < 0`, the dim to reduce is `rank + dim`. Note that reducing on the first dim will make the LoD info lost.",
-   "generated" : 0
- }, { 
-   "name" : "keep_dim",
-   "type" : "bool",
-   "comment" : "(bool, default false) If true, retain the reduced dimension with length 1.",
-   "generated" : 0
- }, { 
-   "name" : "reduce_all",
-   "type" : "bool",
-   "comment" : "(bool, default false) If true, output a scalar reduced along all dimensions.",
-   "generated" : 0
- } ] 
-},{
- "type" : "stanh",
- "comment" : "\nSTanh Activation Operator.\n\n$$out = b * \\frac{e^{a * x} - e^{-a * x}}{e^{a * x} + e^{-a * x}}$$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "Input of STanh operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "Output of STanh operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "scale_a",
-   "type" : "float",
-   "comment" : "The scale parameter of a for the input",
-   "generated" : 0
- }, { 
-   "name" : "scale_b",
-   "type" : "float",
-   "comment" : "The scale parameter of b for the input",
-   "generated" : 0
- } ] 
-},{
- "type" : "adamax",
- "comment" : "\nAdamax Optimizer.\n\nWe implement the Adamax optimizer from Section 7 of the Adam\npaper: https://arxiv.org/abs/1412.6980. Adamax is a variant of the\nAdam algorithm based on the infinity norm.\n\nAdamax updates:\n\n$$\nmoment\\_out = \\beta_1 * moment + (1 - \\beta_1) * grad \\\\\ninf\\_norm\\_out = max(\\beta_2 * inf\\_norm + \\epsilon, |grad|) \\\\\nlearning\\_rate = \\frac{learning\\_rate}{1 - \\beta_{1\\_pow}} \\\\\nparam\\_out = param - learning\\_rate * \\frac{moment\\_out}{inf\\_norm\\_out}\n$$\n\nThe original paper does not have an epsilon attribute.\nHowever, it is added here for numerical stability to prevent the\ndivision by 0 error.\n\n",
- "inputs" : [ 
- { 
-   "name" : "Param",
-   "comment" : "(Tensor) Input parameter",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Grad",
-   "comment" : "(Tensor) Input gradient",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "LearningRate",
-   "comment" : "(Tensor) Learning rate",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Moment",
-   "comment" : "(Tensor) First moment",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "InfNorm",
-   "comment" : "(Tensor) Input exponentially weighted infinity norm",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Beta1Pow",
-   "comment" : "(Tensor) Input beta1 power accumulator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "ParamOut",
-   "comment" : "(Tensor) Output parameter",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "MomentOut",
-   "comment" : "(Tensor) Output first moment",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "InfNormOut",
-   "comment" : "(Tensor) Output exponentially weighted infinity norm",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "beta1",
-   "type" : "float",
-   "comment" : "(float, default 0.9) Exponential decay rate for the 1st moment estimates.",
-   "generated" : 0
- }, { 
-   "name" : "beta2",
-   "type" : "float",
-   "comment" : "(float, default 0.999) exponential decay rate for the weighted infinity norm estimates.",
-   "generated" : 0
- }, { 
-   "name" : "epsilon",
-   "type" : "float",
-   "comment" : "(float, default 1.0e-8) Constant for numerical stability",
-   "generated" : 0
- } ] 
-},{
- "type" : "tanh_shrink",
- "comment" : "\nTanhShrink Activation Operator.\n\n$$out = x - \\frac{e^{x} - e^{-x}}{e^{x} + e^{-x}}$$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "Input of TanhShrink operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "Output of TanhShrink operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
  "type" : "mean",
  "comment" : "\nMean Operator.\n\nOut is a scalar which is the mean of all elements in X. \n\n",
  "inputs" : [ 
@@ -3396,6 +3481,24 @@
    "comment" : "(vector<int>) Target shape of reshape operator.",
    "generated" : 0
  } ] 
+},{
+ "type" : "lod_array_length",
+ "comment" : "\nLoDArrayLength Operator.\n\nThis operator obtains the length of lod tensor array:\n\n$$Out = len(X)$$\n\nNOTE: The output is a CPU Tensor since the control variable should be only in\nCPU and the length of LoDTensorArray should be used as control variables.\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(LoDTensorArray) The input tensor array.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(Tensor) 1x1 CPU Tensor of length, int64_t",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
 },{
  "type" : "edit_distance",
  "comment" : "\n\nEditDistance operator computes the edit distances between a batch of hypothesis\nstrings and their references.\n\nEdit distance, also called Levenshtein distance, measures how dissimilar two strings \nare by counting the minimum number of operations to transform one string into anthor. \nHere the operations include insertion, deletion, and substitution. For example, \ngiven hypothesis string A = \"kitten\" and reference B = \"sitting\", the edit distance \nis 3 for A will be transformed into B at least after two substitutions and one \ninsertion:\n  \n   \"kitten\" -> \"sitten\" -> \"sittin\" -> \"sitting\"\n\nInput(Hyps) is a LoDTensor consisting of all the hypothesis strings with the total \nnumber denoted by `batch_size`, and the separation is specified by the LoD information. \nAnd the `batch_size` reference strings are arranged in order in the same way in the \nLoDTensor Input(Refs).\n\nOutput(Out) contains the `batch_size` results and each stands for the edit stance \nfor a pair of strings respectively. If Attr(normalized) is true, the edit distance \nwill be divided by the length of reference string.\n",
@@ -5136,80 +5239,6 @@
    "intermediate" : 0
  } ], 
  "attrs" : [  ] 
-},{
- "type" : "adam",
- "comment" : "\nAdam Optimizer.\n\nThis implements the Adam optimizer from Section 2 of the Adam\npaper : https://arxiv.org/abs/1412.6980.\nAdam is a first-order gradient-based optimization method based on\nadaptive estimates of lower-order moments.\n\nAdam updates:\n\n$$\nmoment\\_1\\_out = \\beta_1 * moment\\_1 + (1 - \\beta_1) * grad \\\\\nmoment\\_2_\\out = \\beta_2 * moment\\_2 + (1 - \\beta_2) * grad * grad \\\\\nlearning\\_rate = learning\\_rate *\n                  \\frac{\\sqrt{1 - \\beta_{2\\_pow}}}{1 - \\beta_{1\\_pow}} \\\\\nparam\\_out = param - learning\\_rate * \\frac{moment\\_1}{\\sqrt{moment\\_2} + \\epsilon}\n$$\n\n",
- "inputs" : [ 
- { 
-   "name" : "Param",
-   "comment" : "(Tensor) Input parameter",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Grad",
-   "comment" : "(Tensor) Input gradient",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "LearningRate",
-   "comment" : "(Tensor) Learning rate",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Moment1",
-   "comment" : "(Tensor) Input first moment",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Moment2",
-   "comment" : "(Tensor) Input second moment",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Beta1Pow",
-   "comment" : "(Tensor) Input beta1 power accumulator",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Beta2Pow",
-   "comment" : "(Tensor) Input beta2 power accumulator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "ParamOut",
-   "comment" : "(Tensor) Output parameter",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Moment1Out",
-   "comment" : "(Tensor) Output first moment",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Moment2Out",
-   "comment" : "(Tensor) Output second moment",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "beta1",
-   "type" : "float",
-   "comment" : "(float, default 0.9) Exponential decay rate for the first moment estimates.",
-   "generated" : 0
- }, { 
-   "name" : "beta2",
-   "type" : "float",
-   "comment" : "(float, default 0.999) exponential decay rate for the second moment estimates.",
-   "generated" : 0
- }, { 
-   "name" : "epsilon",
-   "type" : "float",
-   "comment" : "(float, default 1.0e-8) Constant for numerical stability",
-   "generated" : 0
- } ] 
 },{
  "type" : "adadelta",
  "comment" : "\nAdadelta Optimizer.\n\nAdadelta optimizer is implemented as explained in:\nhttps://arxiv.org/abs/1212.5701\nAdadelta is a per-dimension adaptive learning rate method used\nfor gradient descent.\n\nAdadelta updates are as follows:\n\n$$\navg\\_squared\\_grad\\_out = \\rho * avg\\_squared\\_grad + (1 - \\rho) * grad * grad \\\\\nparam\\_update =  - \\sqrt{\\frac{avg\\_squared\\_update + \\epsilon}{avg\\_squared\\_grad\\_out + \\epsilon}} * grad \\\\\navg\\_squared\\_update\\_out = \\rho * avg\\_squared\\_update + (1 - \\rho) * {param\\_update}^2 \\\\\nparam\\_out = param + param\\_update\n$$\n\n",
