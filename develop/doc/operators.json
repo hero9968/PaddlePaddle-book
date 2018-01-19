@@ -3316,7 +3316,7 @@
  { 
    "name" : "scale",
    "type" : "float",
-   "comment" : "(float, default 0)The scaling factor of the scale operator.",
+   "comment" : "(float, default 1.0)The scaling factor of the scale operator.",
    "generated" : 0
  } ] 
 },{
