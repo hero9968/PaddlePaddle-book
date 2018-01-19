@@ -299,9 +299,11 @@
 <span class="o">...</span> <span class="c1">#create executor</span>
 
 <span class="c1"># in pserver, run this</span>
-<span class="n">exe</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">fluid</span><span class="o">.</span><span class="n">default_startup_program</span><span class="p">())</span>
 <span class="c1">#current_endpoint here means current pserver IP:PORT you wish to run on</span>
-<span class="n">exe</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">get_pserver_program</span><span class="p">(</span><span class="n">current_endpoint</span><span class="p">))</span>
+<span class="n">pserver_prog</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">get_pserver_program</span><span class="p">(</span><span class="n">current_endpoint</span><span class="p">)</span>
+<span class="n">pserver_startup</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">get_startup_program</span><span class="p">(</span><span class="n">current_endpoint</span><span class="p">,</span> <span class="n">pserver_prog</span><span class="p">)</span>
+<span class="n">exe</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">pserver_startup</span><span class="p">)</span>
+<span class="n">exe</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">pserver_prog</span><span class="p">)</span>
 
 <span class="c1"># in trainer, run this</span>
 <span class="o">...</span> <span class="c1"># define data reader</span>
