@@ -1141,19 +1141,19 @@
  } ], 
  "attrs" : [  ] 
 },{
- "type" : "sqrt",
- "comment" : "\nSqrt Activation Operator.\n\n$out = \\sqrt{x}$\n\n",
+ "type" : "log",
+ "comment" : "\nLog Activation Operator.\n\n$out = \\ln(x)$\n\nNatural logarithm of x.\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
-   "comment" : "Input of Sqrt operator",
+   "comment" : "Input of Log operator",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
  "outputs" : [ 
  { 
    "name" : "Out",
-   "comment" : "Output of Sqrt operator",
+   "comment" : "Output of Log operator",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
@@ -1753,6 +1753,112 @@
    "generated" : 0
  } ] 
 },{
+ "type" : "logical_or",
+ "comment" : "logical_or Operator\n\nIt operates element-wise on X and Y, and returns the Out. X, Y and Out are N-dim boolean tensors.\nEach element of Out is calculated by $$Out = X || Y$$\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(LoDTensor) Left hand operand of logical_or operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Y",
+   "comment" : "(LoDTensor) Right hand operand of logical_or operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(LoDTensor) n-dim bool tensor. Each element is $$Out = X || Y$$",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
+ "type" : "conv2d_transpose",
+ "comment" : "\nConvolution2D Transpose Operator.\n\nThe convolution transpose operation calculates the output based on the input, filter\nand dilations, strides, paddings, groups parameters. The size of each dimension of the\nparameters is checked in the infer-shape.\nInput(Input) and output(Output) are in NCHW format. Where N is batchsize, C is the\nnumber of channels, H is the height of the feature, and W is the width of the feature.\nFilter(Input) is in MCHW format. Where M is the number of input feature channels,\nC is the number of output feature channels, H is the height of the filter,\nand W is the width of the filter.\nParameters(strides, paddings) are two elements. These two elements represent height\nand width, respectively.\nThe input(X) size and output(Out) size may be different.\n\nExample:\n  Input:\n       Input shape: $(N, C_{in}, H_{in}, W_{in})$\n       Filter shape: $(C_{in}, C_{out}, H_f, W_f)$\n  Output:\n       Output shape: $(N, C_{out}, H_{out}, W_{out})$\n  Where\n  $$\n       H_{out} = (H_{in} - 1) * strides[0] - 2 * paddings[0] + H_f \\\\\n       W_{out} = (W_{in} - 1) * strides[1] - 2 * paddings[1] + W_f\n  $$\n",
+ "inputs" : [ 
+ { 
+   "name" : "Input",
+   "comment" : "(Tensor) The input tensor of convolution transpose operator. The format of input tensor is NCHW. Where N is batch size, C is the number of input channels, H is the height of the feature, and W is the width of the feature.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Filter",
+   "comment" : "(Tensor) The filter tensor of convolution transpose operator. The format of the filter tensor is MCHW, where M is the number of input feature channels, C is the number of output feature channels,H is the height of the filter, and W is the width of the filter. We enforce groups number == 1 in the convolution transpose scenario.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Output",
+   "comment" : "(Tensor) The output tensor of convolution transpose operator. The format of output tensor is also NCHW.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "dilations",
+   "type" : "int array",
+   "comment" : "(vector<int> default:{1, 1}), the dilations(h_dilation, w_dilation) of convolution transpose operator.",
+   "generated" : 0
+ }, { 
+   "name" : "strides",
+   "type" : "int array",
+   "comment" : "(vector<int> default:{1, 1}), the strides(h_stride, w_stride) of convolution transpose operator.",
+   "generated" : 0
+ }, { 
+   "name" : "paddings",
+   "type" : "int array",
+   "comment" : "(vector<int> default:{0, 0}), the paddings(h_pad, w_pad) of convolution transpose operator.",
+   "generated" : 0
+ }, { 
+   "name" : "use_cudnn",
+   "type" : "bool",
+   "comment" : "(bool, default false) Only used in cudnn kernel, need install cudnn",
+   "generated" : 0
+ }, { 
+   "name" : "data_format",
+   "type" : "string",
+   "comment" : "(string, default NCHW) Only used in An optional string from: \"NHWC\", \"NCHW\". Defaults to \"NHWC\". Specify the data format of the output data, the input will be transformed automatically. ",
+   "generated" : 0
+ }, { 
+   "name" : "workspace_size_MB",
+   "type" : "int",
+   "comment" : "Used in cudnn kernel only. workspace size for cudnn, in MB, workspace is a section of GPU memory which will be allocated/freed each time the operator runs, larger workspace size can increase performance but also requires better hardward. This size should be carefully setted.",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "elementwise_max",
+ "comment" : "\nLimited Elementwise Max Operator.\n\nThe equation is:\n\n$$Out = max(X, Y)$$\n\n$X$ is a tensor of any dimension and the dimensions of tensor $Y$ must be\nsmaller than or equal to the dimensions of $X$.\n\nThere are two cases for this operator:\n1. The shape of $Y$ is same with $X$;\n2. The shape of $Y$ is a subset of $X$.\n\nFor case 2:\n$Y$ will be broadcasted to match the shape of $X$ and axis should be\nset to index of the start dimension to broadcast $Y$ onto $X$.\n\nFor example\n  .. code-block:: python\n\n    shape(X) = (2, 3, 4, 5), shape(Y) = (,)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (5,)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (4, 5)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (3, 4), with axis=1\n    shape(X) = (2, 3, 4, 5), shape(Y) = (2), with axis=0\n\nEither of the inputs $X$ and $Y$ or none can carry the LoD (Level of Details)\ninformation. However, the output only shares the LoD information with input $X$.\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(Tensor), The first input tensor of elementwise op.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Y",
+   "comment" : "(Tensor), The second input tensor of elementwise op.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "The output of elementwise op.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "axis",
+   "type" : "int",
+   "comment" : "(int, default -1). The start dimension index for broadcasting Y onto X.",
+   "generated" : 0
+ } ] 
+},{
  "type" : "rnn_memory_helper",
  "comment" : "",
  "inputs" : [ 
@@ -2212,6 +2318,83 @@
    "comment" : "(float, default 1.0) The step size by which the input tensor will be incremented.",
    "generated" : 0
  } ] 
+},{
+ "type" : "gru_unit",
+ "comment" : "\nGRUUnit Operator implements partial calculations of the GRU unit as following:\n\n$$\nupdate \\ gate: u_t = actGate(xu_t + W_u * h_{t-1} + b_u) \\\\\nreset \\ gate: r_t = actGate(xr_t + W_r * h_{t-1} + b_r)  \\\\\noutput \\ candidate: {h}_t = actNode(xc_t + W_c * dot(r_t, h_{t-1}) + b_c) \\\\\noutput: h_t = dot((1 - u_t), h_{t-1}) + dot(u_t, {h}_t)\n$$\n\nwhich is same as one time step of GRU Operator.\n\n@note To implement the complete GRU unit, fully-connected operator must be \nused before to feed xu, xr and xc as the Input of GRUUnit operator.\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "Input",
+   "comment" : "(Tensor) Matrix with shape [batch_size, frame_size * 3] for the input.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "HiddenPrev",
+   "comment" : "(Tensor) Matrix with shape [batch_size, frame_size] for the states of previous time step.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Weight",
+   "comment" : "(Tensor) Weight matrix with shape [frame_size, frame_size * 3]. The elements continuous in memory can be divided into two parts. The first part are weights of the update gate and reset gate with shape [frame_size, frame_size * 2], and the second part are weights of output candidate with shape [frame_size, frame_size].",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Bias",
+   "comment" : "(Tensor) Bias vector with shape [1, frame_size * 3] concatenating bias of the update gate, reset gate and output candidate.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Gate",
+   "comment" : "(Tensor) Matrix with shape [batch_size, frame_size * 3] for the output of update gate, reset gate and output candidate.",
+   "duplicable" : 0,
+   "intermediate" : 1
+ }, { 
+   "name" : "ResetHiddenPrev",
+   "comment" : "(Tensor) Matrix with shape [batch_size, frame_size] for the reseted hidden state of previous time step.",
+   "duplicable" : 0,
+   "intermediate" : 1
+ }, { 
+   "name" : "Hidden",
+   "comment" : "(Tensor) The GRU hidden state of the current time step with shape [batch_size, frame_size].",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "activation",
+   "type" : "int",
+   "comment" : "(enum int, default tanh) The activation type used for output candidate {h}_t.",
+   "generated" : 0
+ }, { 
+   "name" : "gate_activation",
+   "type" : "int",
+   "comment" : "(enum int, default sigmoid) The activation type used in update gate and reset gate.",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "less_than",
+ "comment" : "less_than Operator\n\nIt operates element-wise on X and Y, and returns the Out. Each of them is a\nN-dim tensor. X and Y could be any type.  The each element of the Out tensor is\ncalculated by Out = X < Y\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(LoDTensor) the left hand operand of less_than operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Y",
+   "comment" : "(LoDTensor) the right hand operand of less_than operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(LoDTensor) n-dim bool tensor. Each element is Out = X < Y",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
 },{
  "type" : "sequence_pool",
  "comment" : "\nSequence Pool Operator.\n\nThe SequencePoolOp pools features of all time-steps of each instance.\nIt supports six pooling types:\n1. AVERAGE: $$Out[i] = \\frac{\\sum_i X_i}{N}$$\n2. SUM:     $$Out[i] = \\sum_jX_{ij}$$\n3. SQRT:    $$Out[i] = \\frac{\\sum_jX_{ij}}{\\sqrt{len(X_i)}}$$\n4. LAST:    Out[i] = last instance in i-th sequence X[i]\n5. FIRST:   Out[i] = first instance in i-th sequence X[i]\n6. MAX:     $$Out[i] = max(X_i)$$\n\nThe following example explains how this works:\nFor a mini-batch of 3 variable-length sentences,\ncontaining 2, 3, and 2 time-steps:\n\nAssume X is a [7,M,N] LoDTensor, and X->lod()[0] = [0, 2, 5, 7], 7=2+3+2.\nBesides, for the sake of simplicity, we assume M=1 and N=1,\nand the value of X = [[1, 3], [2, 4, 6], [5, 1]].\n\nThus, Out is a [3,1,1] Tensor without LoD infomation.\nAnd for different pooltype, the value of Out is as follows:\n\n- AVERAGE: [2, 4, 3], where 2=(1+3)/2, 4=(2+4+6)/3, 3=(5+1)/2\n- SUM: [4, 12, 6], where 4=1+3, 12=2+4+6, 6=5+1\n- SQRT: [2.82, 6.93, 4.24], where 2.82=(1+3)/sqrt(2),\n           6.93=(2+4+6)/sqrt(3), 4.24=(5+1)/sqrt(2)\n- MAX: [3, 6, 5], where 3=max(1,3), 6=max(2,4,6), 5=max(5,1)\n- LAST: [3, 6, 1], where 3=last(1,3), 6=last(2,4,6), 1=last(5,1)\n- FIRST: [1, 2, 5], where 1=first(1,3), 2=first(2,4,6), 5=first(5,1)\n\n    ",
@@ -2789,58 +2972,6 @@
  } ], 
  "attrs" : [  ] 
 },{
- "type" : "lod_reset",
- "comment" : "LoDReset operator\n\nReset LoD of Input(X) into a new one specified by Input(TargetLoD) or\nAttr(target_lod), or set LoD for Input(X) if it doesn't have one.\nCurrently the lod_reset operator only supports the reset of level 0 LoD.\nAt least one of Input(TargetLoD) and Attr(target_lod) must be set,\nand if both of them are set, Input(TargetLoD) will be chosen as the\ntarget LoD.\n\nAn example:\nGiven a float LoDTensor X with shape (6, 1), its transpose form represents\n\n    [1.0, 2.0, 3.0, 4.0, 5.0, 6.0],\n\nwith LoD = [[0, 2, 5, 6]] and the three (transposed) sequences look like\n\n    [1.0, 2.0], [3.0, 4.0, 5.0], [6.0].\n\nIf target LoD = [0, 4, 6], the lod_reset operator will reset the LoD and\nthe sequences that the LoDTensor Output(Out) contains becomes:\n\n    [1.0, 2.0, 3.0, 4.0], [5.0, 6.0].\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(LoDTensor) The input tensor of lod_reset operator.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "TargetLoD",
-   "comment" : "(Tensor, optional) The target level 0 LoD from Input().",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(LoDTensor) The output tensor of lod_reset operator.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "target_lod",
-   "type" : "int array",
-   "comment" : "The target level 0 LoD from Attr().",
-   "generated" : 0
- } ] 
-},{
- "type" : "write_to_array",
- "comment" : "\nWriteToArray Operator.\n\nThis operator writes a LoDTensor to a LoDTensor array.\n\nAssume $T$ is LoDTensor, $i$ is the subscript of the array, and $A$ is the array. The\nequation is\n\n$$A[i] = T$$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(LoDTensor) the tensor will be written to tensor array",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "I",
-   "comment" : "(Tensor) the subscript index in tensor array. The number of element should be 1",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(TensorArray) the tensor array will be written",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
  "type" : "precision_recall",
  "comment" : "\nPrecision Recall Operator.\n\nWhen given Input(Indices) and Input(Labels), this operator can be used\nto compute various metrics including:\n1. macro average precision\n2. macro average recall\n3. macro f1 score\n4. micro average precision\n5. micro average recall\n6. micro f1 score\n\nTo compute the above metrics, we need to do statistics for true positives,\nfalse positives and false negatives. Here the count of true negatives is not\nnecessary, but counting it may provide potential usage and the cost is\ntrivial, so the operator also provides the count of true negatives.\n\nWe define state as a 2-D tensor with shape [class_number, 4]. Each row of a\nstate contains statistic variables for corresponding class. Layout of each row\nis: TP(true positives), FP(false positives), TN(true negatives),\nFN(false negatives). If Input(Weights) is provided, TP, FP, TN, FN will be\ncalculated by given weight instead of the instance count.\n\nThis operator also supports metrics computing for cross-batch situation. To\nachieve this, Input(StatesInfo) should be provided. State of current batch\ndata will be accumulated to Input(StatesInfo) and Output(AccumStatesInfo)\nis the accumulation state.\n\nOutput(BatchMetrics) is metrics of current batch data while\nOutput(AccumStatesInfo) is metrics of accumulation data.\n\n",
  "inputs" : [ 
@@ -2934,6 +3065,30 @@
    "generated" : 0
  } ] 
 },{
+ "type" : "reshape",
+ "comment" : "\nReshape Operator.\n\nReshape Input(X) into the shape specified by Attr(shape).\n\nAn example:\nGiven a 2-D tensor X with 2 rows and 2 columns\n\n    [[1, 2], [3, 4]]\n\nand target shape = [1, 4], the reshape operator will transform\nthe tensor X into a 2-D tensor:\n\n    [[1, 2, 3, 4]]\n\nOne dimension in the target shape can be set -1, representing that its\nsize is unknown. In this case, the real dimension will be infered from \nthe original shape of Input(X) and other dimensions in the target shape.\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "The input tensor of reshape operator.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "The output tensor of reshape operator.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "shape",
+   "type" : "int array",
+   "comment" : "(vector<int>) Target shape of reshape operator.",
+   "generated" : 0
+ } ] 
+},{
  "type" : "sigmoid_cross_entropy_with_logits",
  "comment" : "\nSigmoidCrossEntropyWithLogits Operator.\n\nThis measures the element-wise probability error in classification tasks\nin which each class is independent. This can be thought of as predicting labels\nfor a data-point, where labels are not mutually exclusive.\nFor example, a news article can be about politics, technology or sports\nat the same time or none of these.\n\nThe logistic loss is given as follows:\n\n       $$loss = -Labels * \\log(\\sigma(X)) - (1 - Labels) * \\log(1 - \\sigma(X))$$\n\nWe know that $$\\sigma(X) = (1 / (1 + \\exp(-X)))$$. By substituting this we get:\n\n       $$loss = X - X * Labels + \\log(1 + \\exp(-X))$$\n\nFor stability and to prevent overflow of $$\\exp(-X)$$ when X < 0,\nwe reformulate the loss as follows:\n\n       $$loss = \\max(X, 0) - X * Labels + \\log(1 + \\exp(-|X|))$$\n\nBoth the input `X` and `Labels` can carry the LoD (Level of Details) information.\nHowever the output only shares the LoD with input `X`.\n\n",
  "inputs" : [ 
@@ -2987,6 +3142,30 @@
    "name" : "force_cpu",
    "type" : "bool",
    "comment" : "Whether the output tensor must be at CPU memory or not. Default is false.",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "sequence_reshape",
+ "comment" : "\nSequence Reshape Operator.\n\nThis operator will rearrange the input sequences. The new dimension is set by\nattribute and length of each sequence may change longer or shorter which is\ndecided by original length, original dimension and new dimension. The following\nexample will help to illustrate the function of this operator:\n\nx is a LoDTensor:\n    x.lod  = [[0, 2, 6]]\n    x.data = [[1, 2], [3, 4],\n              [5, 6], [7, 8], [9, 10], [11, 12]]\n    x.dims = [6, 2]\n\nset new_dim = 4\n\nthen out is a LoDTensor:\n    out.lod  = [[0, 1, 3]]\n    out.data = [[1, 2, 3, 4],\n                [5, 6, 7, 8], [9, 10, 11, 12]]\n    out.dims = [3, 4]\n\nCurrently, only 1-level LoDTensor is supported and please make sure (original\nlength * original dimension) can be divided by new_dim with no remainder for\neach sequence.\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(LoDTensor, default LoDTensor<float>) A 2-D LoDTensor with shape being [N, M].",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(LoDTensor, default LoDTensor<float>) A 2-D LoDTensor with shape [T, new_dim] where T is calculated based on X.lod, M and new_dim.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "new_dim",
+   "type" : "int",
+   "comment" : "Sequence dimension of the output LoDTensor.",
    "generated" : 0
  } ] 
 },{
@@ -3211,212 +3390,75 @@
  } ], 
  "attrs" : [  ] 
 },{
- "type" : "logical_or",
- "comment" : "logical_or Operator\n\nIt operates element-wise on X and Y, and returns the Out. X, Y and Out are N-dim boolean tensors.\nEach element of Out is calculated by $$Out = X || Y$$\n",
+ "type" : "sqrt",
+ "comment" : "\nSqrt Activation Operator.\n\n$out = \\sqrt{x}$\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
-   "comment" : "(LoDTensor) Left hand operand of logical_or operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Y",
-   "comment" : "(LoDTensor) Right hand operand of logical_or operator",
+   "comment" : "Input of Sqrt operator",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
  "outputs" : [ 
  { 
    "name" : "Out",
-   "comment" : "(LoDTensor) n-dim bool tensor. Each element is $$Out = X || Y$$",
+   "comment" : "Output of Sqrt operator",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
  "attrs" : [  ] 
 },{
- "type" : "conv2d_transpose",
- "comment" : "\nConvolution2D Transpose Operator.\n\nThe convolution transpose operation calculates the output based on the input, filter\nand dilations, strides, paddings, groups parameters. The size of each dimension of the\nparameters is checked in the infer-shape.\nInput(Input) and output(Output) are in NCHW format. Where N is batchsize, C is the\nnumber of channels, H is the height of the feature, and W is the width of the feature.\nFilter(Input) is in MCHW format. Where M is the number of input feature channels,\nC is the number of output feature channels, H is the height of the filter,\nand W is the width of the filter.\nParameters(strides, paddings) are two elements. These two elements represent height\nand width, respectively.\nThe input(X) size and output(Out) size may be different.\n\nExample:\n  Input:\n       Input shape: $(N, C_{in}, H_{in}, W_{in})$\n       Filter shape: $(C_{in}, C_{out}, H_f, W_f)$\n  Output:\n       Output shape: $(N, C_{out}, H_{out}, W_{out})$\n  Where\n  $$\n       H_{out} = (H_{in} - 1) * strides[0] - 2 * paddings[0] + H_f \\\\\n       W_{out} = (W_{in} - 1) * strides[1] - 2 * paddings[1] + W_f\n  $$\n",
- "inputs" : [ 
- { 
-   "name" : "Input",
-   "comment" : "(Tensor) The input tensor of convolution transpose operator. The format of input tensor is NCHW. Where N is batch size, C is the number of input channels, H is the height of the feature, and W is the width of the feature.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Filter",
-   "comment" : "(Tensor) The filter tensor of convolution transpose operator. The format of the filter tensor is MCHW, where M is the number of input feature channels, C is the number of output feature channels,H is the height of the filter, and W is the width of the filter. We enforce groups number == 1 in the convolution transpose scenario.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Output",
-   "comment" : "(Tensor) The output tensor of convolution transpose operator. The format of output tensor is also NCHW.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "dilations",
-   "type" : "int array",
-   "comment" : "(vector<int> default:{1, 1}), the dilations(h_dilation, w_dilation) of convolution transpose operator.",
-   "generated" : 0
- }, { 
-   "name" : "strides",
-   "type" : "int array",
-   "comment" : "(vector<int> default:{1, 1}), the strides(h_stride, w_stride) of convolution transpose operator.",
-   "generated" : 0
- }, { 
-   "name" : "paddings",
-   "type" : "int array",
-   "comment" : "(vector<int> default:{0, 0}), the paddings(h_pad, w_pad) of convolution transpose operator.",
-   "generated" : 0
- }, { 
-   "name" : "use_cudnn",
-   "type" : "bool",
-   "comment" : "(bool, default false) Only used in cudnn kernel, need install cudnn",
-   "generated" : 0
- }, { 
-   "name" : "data_format",
-   "type" : "string",
-   "comment" : "(string, default NCHW) Only used in An optional string from: \"NHWC\", \"NCHW\". Defaults to \"NHWC\". Specify the data format of the output data, the input will be transformed automatically. ",
-   "generated" : 0
- }, { 
-   "name" : "workspace_size_MB",
-   "type" : "int",
-   "comment" : "Used in cudnn kernel only. workspace size for cudnn, in MB, workspace is a section of GPU memory which will be allocated/freed each time the operator runs, larger workspace size can increase performance but also requires better hardward. This size should be carefully setted.",
-   "generated" : 0
- } ] 
-},{
- "type" : "less_than",
- "comment" : "less_than Operator\n\nIt operates element-wise on X and Y, and returns the Out. Each of them is a\nN-dim tensor. X and Y could be any type.  The each element of the Out tensor is\ncalculated by Out = X < Y\n",
+ "type" : "lod_reset",
+ "comment" : "LoDReset operator\n\nReset LoD of Input(X) into a new one specified by Input(TargetLoD) or\nAttr(target_lod), or set LoD for Input(X) if it doesn't have one.\nCurrently the lod_reset operator only supports the reset of level 0 LoD.\nAt least one of Input(TargetLoD) and Attr(target_lod) must be set,\nand if both of them are set, Input(TargetLoD) will be chosen as the\ntarget LoD.\n\nAn example:\nGiven a float LoDTensor X with shape (6, 1), its transpose form represents\n\n    [1.0, 2.0, 3.0, 4.0, 5.0, 6.0],\n\nwith LoD = [[0, 2, 5, 6]] and the three (transposed) sequences look like\n\n    [1.0, 2.0], [3.0, 4.0, 5.0], [6.0].\n\nIf target LoD = [0, 4, 6], the lod_reset operator will reset the LoD and\nthe sequences that the LoDTensor Output(Out) contains becomes:\n\n    [1.0, 2.0, 3.0, 4.0], [5.0, 6.0].\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
-   "comment" : "(LoDTensor) the left hand operand of less_than operator",
+   "comment" : "(LoDTensor) The input tensor of lod_reset operator.",
    "duplicable" : 0,
    "intermediate" : 0
  }, { 
-   "name" : "Y",
-   "comment" : "(LoDTensor) the right hand operand of less_than operator",
+   "name" : "TargetLoD",
+   "comment" : "(Tensor, optional) The target level 0 LoD from Input().",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
  "outputs" : [ 
  { 
    "name" : "Out",
-   "comment" : "(LoDTensor) n-dim bool tensor. Each element is Out = X < Y",
+   "comment" : "(LoDTensor) The output tensor of lod_reset operator.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "target_lod",
+   "type" : "int array",
+   "comment" : "The target level 0 LoD from Attr().",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "write_to_array",
+ "comment" : "\nWriteToArray Operator.\n\nThis operator writes a LoDTensor to a LoDTensor array.\n\nAssume $T$ is LoDTensor, $i$ is the subscript of the array, and $A$ is the array. The\nequation is\n\n$$A[i] = T$$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(LoDTensor) the tensor will be written to tensor array",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "I",
+   "comment" : "(Tensor) the subscript index in tensor array. The number of element should be 1",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(TensorArray) the tensor array will be written",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
  "attrs" : [  ] 
-},{
- "type" : "gru_unit",
- "comment" : "\nGRUUnit Operator implements partial calculations of the GRU unit as following:\n\n$$\nupdate \\ gate: u_t = actGate(xu_t + W_u * h_{t-1} + b_u) \\\\\nreset \\ gate: r_t = actGate(xr_t + W_r * h_{t-1} + b_r)  \\\\\noutput \\ candidate: {h}_t = actNode(xc_t + W_c * dot(r_t, h_{t-1}) + b_c) \\\\\noutput: h_t = dot((1 - u_t), h_{t-1}) + dot(u_t, {h}_t)\n$$\n\nwhich is same as one time step of GRU Operator.\n\n@note To implement the complete GRU unit, fully-connected operator must be \nused before to feed xu, xr and xc as the Input of GRUUnit operator.\n\n",
- "inputs" : [ 
- { 
-   "name" : "Input",
-   "comment" : "(Tensor) Matrix with shape [batch_size, frame_size * 3] for the input.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "HiddenPrev",
-   "comment" : "(Tensor) Matrix with shape [batch_size, frame_size] for the states of previous time step.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Weight",
-   "comment" : "(Tensor) Weight matrix with shape [frame_size, frame_size * 3]. The elements continuous in memory can be divided into two parts. The first part are weights of the update gate and reset gate with shape [frame_size, frame_size * 2], and the second part are weights of output candidate with shape [frame_size, frame_size].",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Bias",
-   "comment" : "(Tensor) Bias vector with shape [1, frame_size * 3] concatenating bias of the update gate, reset gate and output candidate.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Gate",
-   "comment" : "(Tensor) Matrix with shape [batch_size, frame_size * 3] for the output of update gate, reset gate and output candidate.",
-   "duplicable" : 0,
-   "intermediate" : 1
- }, { 
-   "name" : "ResetHiddenPrev",
-   "comment" : "(Tensor) Matrix with shape [batch_size, frame_size] for the reseted hidden state of previous time step.",
-   "duplicable" : 0,
-   "intermediate" : 1
- }, { 
-   "name" : "Hidden",
-   "comment" : "(Tensor) The GRU hidden state of the current time step with shape [batch_size, frame_size].",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "activation",
-   "type" : "int",
-   "comment" : "(enum int, default tanh) The activation type used for output candidate {h}_t.",
-   "generated" : 0
- }, { 
-   "name" : "gate_activation",
-   "type" : "int",
-   "comment" : "(enum int, default sigmoid) The activation type used in update gate and reset gate.",
-   "generated" : 0
- } ] 
-},{
- "type" : "elementwise_max",
- "comment" : "\nLimited Elementwise Max Operator.\n\nThe equation is:\n\n$$Out = max(X, Y)$$\n\n$X$ is a tensor of any dimension and the dimensions of tensor $Y$ must be\nsmaller than or equal to the dimensions of $X$.\n\nThere are two cases for this operator:\n1. The shape of $Y$ is same with $X$;\n2. The shape of $Y$ is a subset of $X$.\n\nFor case 2:\n$Y$ will be broadcasted to match the shape of $X$ and axis should be\nset to index of the start dimension to broadcast $Y$ onto $X$.\n\nFor example\n  .. code-block:: python\n\n    shape(X) = (2, 3, 4, 5), shape(Y) = (,)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (5,)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (4, 5)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (3, 4), with axis=1\n    shape(X) = (2, 3, 4, 5), shape(Y) = (2), with axis=0\n\nEither of the inputs $X$ and $Y$ or none can carry the LoD (Level of Details)\ninformation. However, the output only shares the LoD information with input $X$.\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(Tensor), The first input tensor of elementwise op.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Y",
-   "comment" : "(Tensor), The second input tensor of elementwise op.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "The output of elementwise op.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "axis",
-   "type" : "int",
-   "comment" : "(int, default -1). The start dimension index for broadcasting Y onto X.",
-   "generated" : 0
- } ] 
-},{
- "type" : "reshape",
- "comment" : "\nReshape Operator.\n\nReshape Input(X) into the shape specified by Attr(shape).\n\nAn example:\nGiven a 2-D tensor X with 2 rows and 2 columns\n\n    [[1, 2], [3, 4]]\n\nand target shape = [1, 4], the reshape operator will transform\nthe tensor X into a 2-D tensor:\n\n    [[1, 2, 3, 4]]\n\nOne dimension in the target shape can be set -1, representing that its\nsize is unknown. In this case, the real dimension will be infered from \nthe original shape of Input(X) and other dimensions in the target shape.\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "The input tensor of reshape operator.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "The output tensor of reshape operator.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "shape",
-   "type" : "int array",
-   "comment" : "(vector<int>) Target shape of reshape operator.",
-   "generated" : 0
- } ] 
 },{
  "type" : "lod_array_length",
  "comment" : "\nLoDArrayLength Operator.\n\nThis operator obtains the length of lod tensor array:\n\n$$Out = len(X)$$\n\nNOTE: The output is a CPU Tensor since the control variable should be only in\nCPU and the length of LoDTensorArray should be used as control variables.\n\n",
@@ -5322,24 +5364,6 @@
    "comment" : "(float, default 1.0e-6) Constant for numerical stability",
    "generated" : 0
  } ] 
-},{
- "type" : "log",
- "comment" : "\nLog Activation Operator.\n\n$out = \\ln(x)$\n\nNatural logarithm of x.\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "Input of Log operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "Output of Log operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
 },{
  "type" : "nce",
  "comment" : "\nCompute and return the noise-contrastive estimation training loss.\nSee [Noise-contrastive estimation: A new estimation principle for unnormalized statistical models](http://www.jmlr.org/proceedings/papers/v9/gutmann10a/gutmann10a.pdf).\nBy default this operator uses a uniform distribution for sampling.\n",
