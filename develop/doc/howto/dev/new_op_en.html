@@ -216,7 +216,8 @@
 <li><a class="reference external" href="#implementing-c-types">Implementing C++ Types</a><ul>
 <li><a class="reference external" href="#defining-protomaker">Defining ProtoMaker</a></li>
 <li><a class="reference external" href="#defining-operator">Defining Operator</a></li>
-<li><a class="reference external" href="#registering-operator">Registering Operator</a></li>
+<li><a class="reference external" href="#defining-opkernel">Defining OpKernel</a></li>
+<li><a class="reference external" href="#registering-operator-and-opkernel">Registering Operator and OpKernel</a></li>
 <li><a class="reference external" href="#compilation">Compilation</a></li>
 </ul>
 </li>
@@ -233,19 +234,19 @@
 <span id="background"></span><h2>Background<a class="headerlink" href="#background" title="Permalink to this headline">¶</a></h2>
 <p>Here are the base types needed. For details, please refer to the design docs.</p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">framework::OperatorBase</span></code>: Operator (Op)base class.</li>
-<li><code class="docutils literal"><span class="pre">framework::OpKernel</span></code>: Base class for Op computation.</li>
-<li><code class="docutils literal"><span class="pre">framework::OperatorWithKernel</span></code>: Inherited from OperatorBase, describing an operator with computation.</li>
 <li><code class="docutils literal"><span class="pre">class</span> <span class="pre">OpProtoAndCheckerMaker</span></code>: Describes an Operator&#8217;s input, output, attributes and description, mainly used to interface with Python API.</li>
+<li><code class="docutils literal"><span class="pre">framework::OperatorBase</span></code>: Operator (Op)base class.</li>
+<li><code class="docutils literal"><span class="pre">framework::OpKernel</span></code>: Base class for Op computation kernel.</li>
+<li><code class="docutils literal"><span class="pre">framework::OperatorWithKernel</span></code>: Inherited from OperatorBase, describing an operator with computation kernels.</li>
 </ul>
-<p>An operator can be differentiated by whether in has kernel methods. An operator with kernel inherits from <code class="docutils literal"><span class="pre">OperatorWithKernel</span></code> while the ones without inherit from <code class="docutils literal"><span class="pre">OperatorBase</span></code>. This tutorial focuses on implementing operators with kernels. In short, an operator includes the following information:</p>
+<p>Operators can be categorized into two groups: operator with kernel(s) and operator without kernel(s). An operator with kernel(s) inherits from <code class="docutils literal"><span class="pre">OperatorWithKernel</span></code> while the one without kernel(s) inherits from <code class="docutils literal"><span class="pre">OperatorBase</span></code>. This tutorial focuses on implementing operators with kernels. In short, an operator includes the following information:</p>
 <p>Information           | Where is it defined
 &#8212;&#8212;&#8212;&#8212;&#8211;  | :&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;-
 OpProtoMake definition  | <code class="docutils literal"><span class="pre">.cc</span></code>files, Backward Op does not need an OpProtoMake interface.
 Op definition           | <code class="docutils literal"><span class="pre">.cc</span></code> files
 Kernel implementation       | The kernel methods shared between CPU and CUDA are defined in <code class="docutils literal"><span class="pre">.h</span></code> files. CPU-specific kernels live in <code class="docutils literal"><span class="pre">.cc</span></code> files, while CUDA-specific kernels are implemented in <code class="docutils literal"><span class="pre">.cu</span></code>files.
 Registering the Op           | Ops are registered in <code class="docutils literal"><span class="pre">.cc</span></code> files; For Kernel registration, <code class="docutils literal"><span class="pre">.cc</span></code> files contain the CPU implementation, while <code class="docutils literal"><span class="pre">.cu</span></code> files contain the CUDA implementation.</p>
-<p>New Operator implementations are added to the list <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/tree/develop/paddle/operators">paddle/operators</a>, with file names in the format <code class="docutils literal"><span class="pre">*_op.h</span></code> (if applicable), <code class="docutils literal"><span class="pre">*_op.cc</span></code>, <code class="docutils literal"><span class="pre">*_op.cu</span></code> (if applicable).** The system will use the naming scheme to automatically build operators and their corresponding Python extensions. **</p>
+<p>New Operator implementations are added to the list <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/tree/develop/paddle/operators">paddle/operators</a>, with file names in the format <code class="docutils literal"><span class="pre">*_op.h</span></code> (if applicable), <code class="docutils literal"><span class="pre">*_op.cc</span></code>, <code class="docutils literal"><span class="pre">*_op.cu</span></code> (if applicable).** The system will use the naming scheme to automatically build operators and their corresponding Python extensions.**</p>
 <p>Let&#8217;s take matrix multiplication operator, <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/operators/mul_op.cc">MulOp</a>, as an example to introduce the writing of an Operator with Kernel.</p>
 </div>
 <div class="section" id="implementing-c-types">
@@ -350,7 +351,7 @@ Registering the Op           | Ops are registered in <code class="docutils liter
 </ul>
 <p><code class="docutils literal"><span class="pre">MulKernel</span></code> types need to rewrite the interface for <code class="docutils literal"><span class="pre">Compute</span></code>.</p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">Compute</span></code> takes one input variable <code class="docutils literal"><span class="pre">const</span> <span class="pre">framework::ExecutionContext&amp;</span> <span class="pre">context</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">Compute</span></code> takes one input parameter: <code class="docutils literal"><span class="pre">const</span> <span class="pre">framework::ExecutionContext&amp;</span> <span class="pre">context</span></code>.</li>
 <li>Compared with <code class="docutils literal"><span class="pre">InferShapeContext</span></code>, <code class="docutils literal"><span class="pre">ExecutionContext</span></code> includes device types, and can similarly extract input, output, and attribute variables.</li>
 <li><code class="docutils literal"><span class="pre">Compute</span></code> implements the computation logics of an <code class="docutils literal"><span class="pre">OpKernel</span></code>.</li>
 </ul>
@@ -369,18 +370,19 @@ Registering the Op           | Ops are registered in <code class="docutils liter
 <span class="p">};</span>
 </pre></div>
 </div>
-<p>Note that <strong>different devices (CPU, CUDA)share an Op definition; whether or not they share the same <code class="docutils literal"><span class="pre">OpKernel</span></code> depends on whether <code class="docutils literal"><span class="pre">Compute</span></code> calls functions that support both devices.</strong></p>
+<p>Note that <strong>different devices (CPU, CUDA)share one Op definition; whether or not they share the same <code class="docutils literal"><span class="pre">OpKernel</span></code> depends on whether <code class="docutils literal"><span class="pre">Compute</span></code> calls functions can support both devices.</strong></p>
 <p><code class="docutils literal"><span class="pre">MulOp</span></code>&#8216;s CPU and CUDA share the same <code class="docutils literal"><span class="pre">Kernel</span></code>. A non-sharing  <code class="docutils literal"><span class="pre">OpKernel</span></code> example can be seen in <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/operators/cross_entropy_op.h#L43"><code class="docutils literal"><span class="pre">OnehotCrossEntropyOpKernel</span></code></a>.</p>
 <p>To ease the writing of <code class="docutils literal"><span class="pre">OpKernel</span></code> compute, and for reusing code cross-device, <a class="reference external" href="https://bitbucket.org/eigen/eigen/src/default/unsupported/Eigen/CXX11/src/Tensor/README.md?fileviewer=file-view-default"><code class="docutils literal"><span class="pre">Eigen-unsupported</span> <span class="pre">Tensor</span></code></a> module is used to implement <code class="docutils literal"><span class="pre">Compute</span></code> interface. To learn about how the Eigen library is used in PaddlePaddle, please see <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/doc/howto/dev/use_eigen_cn.md">usage document</a>.</p>
 <p>This concludes the forward implementation of an operator. Next its operation and kernel need to be registered in a <code class="docutils literal"><span class="pre">.cc</span></code> file.</p>
 <p>The definition of its corresponding backward operator, if applicable, is similar to that of an forward operator. <strong>Note that a backward operator does not include a <code class="docutils literal"><span class="pre">ProtoMaker</span></code></strong>.</p>
 </div>
-<div class="section" id="registering-operator">
-<span id="registering-operator"></span><h3>Registering Operator<a class="headerlink" href="#registering-operator" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="registering-operator-and-opkernel">
+<span id="registering-operator-and-opkernel"></span><h3>Registering Operator and OpKernel<a class="headerlink" href="#registering-operator-and-opkernel" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">In <code class="docutils literal"><span class="pre">.cc</span></code> files, register forward and backward operator classes and the CPU kernel.</p>
 <div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="k">namespace</span> <span class="n">ops</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">::</span><span class="n">operators</span><span class="p">;</span>
 <span class="n">REGISTER_OP</span><span class="p">(</span><span class="n">mul</span><span class="p">,</span> <span class="n">ops</span><span class="o">::</span><span class="n">MulOp</span><span class="p">,</span> <span class="n">ops</span><span class="o">::</span><span class="n">MulOpMaker</span><span class="p">,</span> <span class="n">mul_grad</span><span class="p">,</span> <span class="n">ops</span><span class="o">::</span><span class="n">MulOpGrad</span><span class="p">);</span>
+
 <span class="n">REGISTER_OP_CPU_KERNEL</span><span class="p">(</span><span class="n">mul</span><span class="p">,</span> <span class="n">ops</span><span class="o">::</span><span class="n">MulKernel</span><span class="o">&lt;</span><span class="n">paddle</span><span class="o">::</span><span class="n">platform</span><span class="o">::</span><span class="n">CPUDeviceContext</span><span class="p">,</span> <span class="kt">float</span><span class="o">&gt;</span><span class="p">);</span>
 <span class="n">REGISTER_OP_CPU_KERNEL</span><span class="p">(</span><span class="n">mul_grad</span><span class="p">,</span>
               <span class="n">ops</span><span class="o">::</span><span class="n">MulGradKernel</span><span class="o">&lt;</span><span class="n">paddle</span><span class="o">::</span><span class="n">platform</span><span class="o">::</span><span class="n">CPUDeviceContext</span><span class="p">,</span> <span class="kt">float</span><span class="o">&gt;</span><span class="p">);</span>
@@ -414,7 +416,8 @@ Registering the Op           | Ops are registered in <code class="docutils liter
 <div class="section" id="compilation">
 <span id="compilation"></span><h3>Compilation<a class="headerlink" href="#compilation" title="Permalink to this headline">¶</a></h3>
 <p>Run the following commands to compile.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">mul_op</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># maybe you need to rerun cmake</span>
+<span class="n">make</span> <span class="n">mul_op</span>
 </pre></div>
 </div>
 </div>
