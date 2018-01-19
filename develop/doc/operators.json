@@ -286,7 +286,7 @@
    "intermediate" : 0
  }, { 
    "name" : "C0",
-   "comment" : "(Tensor, optional) the initial cell state is an optional input. This is a tensor with shape (N x D), where N is the batch size. `H0` and `C0` can be NULL but only at the same time",
+   "comment" : "(Tensor, optional) the initial cell state is an optional input. This is a tensor with shape (N x D), where N is the batch size. `H0` and `C0` can be NULL but only at the same time.",
    "duplicable" : 0,
    "intermediate" : 0
  }, { 
