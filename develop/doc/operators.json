@@ -350,70 +350,6 @@
    "generated" : 0
  } ] 
 },{
- "type" : "gru",
- "comment" : "\nGRU Operator implements part calculations of the complete GRU as following:\n\n\\f[\nupdate \\ gate: u_t = actGate(xu_t + W_u * h_{t-1} + b_u) \\\\\nreset \\ gate: r_t = actGate(xr_t + W_r * h_{t-1} + b_r)  \\\\\noutput \\ candidate: {h}_t = actNode(xc_t + W_c * dot(r_t, h_{t-1}) + b_c) \\\\\noutput: h_t = dot((1 - u_t), h_{t-1}) + dot(u_t, {h}_t)\n\\f]\n\n@note To implement the complete GRU, fully-connected operator must be used  \nbefore to feed xu, xr and xc as the Input of GRU operator.\n",
- "inputs" : [ 
- { 
-   "name" : "Input",
-   "comment" : "(LoDTensor) The first input is a LodTensor, which supports variable-time length input sequence. The underlying tensor in this LoDTenosr is a matrix with shape (T X 3D), where, T is the total time steps in this mini-batch, D is the hidden size.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "H0",
-   "comment" : "(Tensor, optional) The initial hidden state is an optional input. This is a tensor with shape (N x D), where N is the batch size, D is the hidden size.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Weight",
-   "comment" : "(Tensor) The learnable hidden-hidden weight matrix with shape (D x 3D), where D is the hidden size. The elements continuous in memory can be divided into two parts. The first part are weights of the update gate and reset gate with shape (D x 2D), and the second part are weights of output candidate with shape (D x D).",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Bias",
-   "comment" : "(Tensor, optional) Bias vector with shape (1 x 3D) concating bias of the update gate, reset gate and output candidate.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "BatchGate",
-   "comment" : "(LoDTensor) To compute with batches, sequence data will be reorganized into several successive batches each containing data from the same time step. The LoDTensor BatchGate contains the update gate, reset gate and output candidate values organized in batches. The LoD size is 2. The first LoD contains the batch offsets and the second LoD contains the indexes in the raw sequence data.",
-   "duplicable" : 0,
-   "intermediate" : 1
- }, { 
-   "name" : "BatchResetHiddenPrev",
-   "comment" : "(LoDTensor) The reseted hidden state LoDTensor organized in batches. This LoDTensor is a matrix with shape (T X D) and has the same LoD with `BatchGate`.",
-   "duplicable" : 0,
-   "intermediate" : 1
- }, { 
-   "name" : "BatchHidden",
-   "comment" : "(LoDTensor) The hidden state LoDTensor organized in batches.  This LoDTensor is a matrix with shape (T X D) and has the same LoD with `BatchGate`.",
-   "duplicable" : 0,
-   "intermediate" : 1
- }, { 
-   "name" : "Hidden",
-   "comment" : "(LoDTensor) the hidden state LoDTensor organized in sequences. This LoDTensor is a matrix with shape (T X D) and has the same LoD with `BatchGate`.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "activation",
-   "type" : "string",
-   "comment" : "(string, default tanh) The activation type used for output candidate {h}_t.",
-   "generated" : 0
- }, { 
-   "name" : "gate_activation",
-   "type" : "string",
-   "comment" : "(string, default sigmoid) The activation type used in update gate and reset gate.",
-   "generated" : 0
- }, { 
-   "name" : "is_reverse",
-   "type" : "bool",
-   "comment" : "(bool, defalut: False) whether to compute reversed GRU.",
-   "generated" : 0
- } ] 
-},{
  "type" : "warpctc",
  "comment" : "\nAn operator integrating the open-source\n[warp-ctc](https://github.com/baidu-research/warp-ctc) library, which is used in\n[Deep Speech 2: End-toEnd Speech Recognition in English and Mandarin](\nhttps://arxiv.org/pdf/1512.02595v1.pdf),\nto compute Connectionist Temporal Classification (CTC) loss.\nIt can be aliased as softmax with ctc, since a native softmax activation is\ninterated to the warp-ctc library, to to normlize values for each row of the\ninput tensor.\n\nMore detail of CTC loss can be found by refering to\n[Connectionist Temporal Classification: Labelling Unsegmented Sequence Data with\nRecurrent Neural Networks](\nhttp://machinelearning.wustl.edu/mlpapers/paper_files/icml2006_GravesFGS06.pdf).\n",
  "inputs" : [ 
@@ -1938,7 +1874,7 @@
  "attrs" : [  ] 
 },{
  "type" : "sequence_expand",
- "comment" : "\nSequence Expand Operator.\n\nThis operator expands input(X) according to LOD of input(Y).\nFollowing are cases to better explain how this works:\nCase 1:\n\nGiven 2-level a LoDTensor input(X)\n    X.lod = [[0,       2, 3],\n             [0, 1,    3, 4]]\n    X.data = [a, b, c, d]\n    X.dims = [4, 1]\nand input(Y)\n    Y.lod = [[0,    2,    4],\n             [0, 3, 6, 7, 8]]\nwith condition len(Y.lod[-1]) -1 == X.dims[0]\nthen we get 2-level LoDTensor\n    Out.lod = [[0,                2,    4],\n               [0,       3,       6, 7, 8]]\n    Out.data = [a, a, a, b, b, b, c, d]\n    Out.dims = [8, 1]\n\nCase 2:\n\nGiven a 0-level LoDTensor input(X)\n    X.data = [a, b, c]\n    X.lod = NULL\n    X.dims = [3, 1]\nand input(Y)\n    Y.lod = [[0, 2, 3, 6]]\nwith condition len(Y.lod[-1]) -1 == X.dims[0]\nthen we get 1-level LoDTensor\n    Out.lod = [[0,    2, 3,      6]]\n    Out.data = [a, a, b, c, c, c]\n    Out.dims = [6, 1]\n\nCase 3:\n\nGiven a 0-level LoDTensor input(X)\n    X.data = [[a, b], [c, d], [e, f]]\n    X.lod = NULL\n    X.dims = [3, 2]\nand input(Y)\n    Y.lod = [[0, 2, 3, 6]]\nwith condition len(Y.lod[-1]) -1 == X.dims[0]\nthen we get 1-level LoDTensor\n    Out.lod = [[0,           2,     3,                     6]]\n    Out.data = [[a,b], [a,b] [c,d], [e, f], [e, f], [e, f]]\n    Out.dims = [6, 2]\n\nCase 4:\n\nGiven 2-level a LoDTensor input(X)\n    X.lod = [[0,       2, 3],\n             [0, 1,    3, 4]]\n    X.data = [a, b, c, d]\n    X.dims = [4, 1]\nand input(Y)\n    Y.lod = [[0,    2,    4],\n             [0, 3, 6, 6, 8]]\nwith condition len(Y.lod[-1]) -1 == X.dims[0]\nthen we get 2-level LoDTensor\n    Out.lod = [[0,                2,    4],\n               [0,       3,       6, 6, 8]]\n    Out.data = [a, a, a, b, b, b, d, d]\n    Out.dims = [8, 1]\n\n\n",
+ "comment" : "\nSequence Expand Operator.\n\nThis operator expands input(X) according to LOD of input(Y).\nFollowing are cases to better explain how this works:\nCase 1:\n\nGiven a 2-level LoDTensor input(X)\n    X.lod = [[0,       2, 3],\n             [0, 1,    3, 4]]\n    X.data = [a, b, c, d]\n    X.dims = [4, 1]\nand input(Y)\n    Y.lod = [[0,    2,    4],\n             [0, 3, 6, 7, 8]]\nwith condition len(Y.lod[-1]) -1 == X.dims[0]\nthen we get 2-level LoDTensor\n    Out.lod = [[0,                2,    4],\n               [0,       3,       6, 7, 8]]\n    Out.data = [a, a, a, b, b, b, c, d]\n    Out.dims = [8, 1]\n\nCase 2:\n\nGiven a common Tensor input(X)\n    X.data = [a, b, c]\n    X.dims = [3, 1]\nand input(Y)\n    Y.lod = [[0, 2, 3, 6]]\nwith condition len(Y.lod[-1]) -1 == X.dims[0]\nthen we get 1-level LoDTensor\n    Out.lod = [[0,    2, 3,      6]]\n    Out.data = [a, a, b, c, c, c]\n    Out.dims = [6, 1]\n\nCase 3:\n\nGiven a common Tensor input(X)\n    X.data = [[a, b], [c, d], [e, f]]\n    X.dims = [3, 2]\nand input(Y)\n    Y.lod = [[0, 2, 3, 6]]\nwith condition len(Y.lod[-1]) -1 == X.dims[0]\nthen we get 1-level LoDTensor\n    Out.lod = [[0,           2,     3,                     6]]\n    Out.data = [[a,b], [a,b] [c,d], [e, f], [e, f], [e, f]]\n    Out.dims = [6, 2]\n\nCase 4:\n\nGiven 2-level a LoDTensor input(X)\n    X.lod = [[0,       2, 3],\n             [0, 1,    3, 4]]\n    X.data = [a, b, c, d]\n    X.dims = [4, 1]\nand input(Y)\n    Y.lod = [[0,    2,    4],\n             [0, 3, 6, 6, 8]]\nwith condition len(Y.lod[-1]) -1 == X.dims[0]\nthen we get 2-level LoDTensor\n    Out.lod = [[0,                2,    4],\n               [0,       3,       6, 6, 8]]\n    Out.data = [a, a, a, b, b, b, d, d]\n    Out.dims = [8, 1]\n\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
@@ -4364,6 +4300,99 @@
    "name" : "epsilon",
    "type" : "float",
    "comment" : "(float, default 1.0e-6) Constant for numerical stability",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "gru",
+ "comment" : "\nGRU Operator implements part calculations of the complete GRU as following:\n\n\\f[\nupdate \\ gate: u_t = actGate(xu_t + W_u * h_{t-1} + b_u) \\\\\nreset \\ gate: r_t = actGate(xr_t + W_r * h_{t-1} + b_r)  \\\\\noutput \\ candidate: {h}_t = actNode(xc_t + W_c * dot(r_t, h_{t-1}) + b_c) \\\\\noutput: h_t = dot((1 - u_t), h_{t-1}) + dot(u_t, {h}_t)\n\\f]\n\n@note To implement the complete GRU, fully-connected operator must be used  \nbefore to feed xu, xr and xc as the Input of GRU operator.\n",
+ "inputs" : [ 
+ { 
+   "name" : "Input",
+   "comment" : "(LoDTensor) The first input is a LodTensor, which supports variable-time length input sequence. The underlying tensor in this LoDTenosr is a matrix with shape (T X 3D), where, T is the total time steps in this mini-batch, D is the hidden size.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "H0",
+   "comment" : "(Tensor, optional) The initial hidden state is an optional input. This is a tensor with shape (N x D), where N is the batch size, D is the hidden size.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Weight",
+   "comment" : "(Tensor) The learnable hidden-hidden weight matrix with shape (D x 3D), where D is the hidden size. The elements continuous in memory can be divided into two parts. The first part are weights of the update gate and reset gate with shape (D x 2D), and the second part are weights of output candidate with shape (D x D).",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Bias",
+   "comment" : "(Tensor, optional) Bias vector with shape (1 x 3D) concating bias of the update gate, reset gate and output candidate.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "BatchGate",
+   "comment" : "(LoDTensor) To compute with batches, sequence data will be reorganized into several successive batches each containing data from the same time step. The LoDTensor BatchGate contains the update gate, reset gate and output candidate values organized in batches. The LoD size is 2. The first LoD contains the batch offsets and the second LoD contains the indexes in the raw sequence data.",
+   "duplicable" : 0,
+   "intermediate" : 1
+ }, { 
+   "name" : "BatchResetHiddenPrev",
+   "comment" : "(LoDTensor) The reseted hidden state LoDTensor organized in batches. This LoDTensor is a matrix with shape (T X D) and has the same LoD with `BatchGate`.",
+   "duplicable" : 0,
+   "intermediate" : 1
+ }, { 
+   "name" : "BatchHidden",
+   "comment" : "(LoDTensor) The hidden state LoDTensor organized in batches.  This LoDTensor is a matrix with shape (T X D) and has the same LoD with `BatchGate`.",
+   "duplicable" : 0,
+   "intermediate" : 1
+ }, { 
+   "name" : "Hidden",
+   "comment" : "(LoDTensor) the hidden state LoDTensor organized in sequences. This LoDTensor is a matrix with shape (T X D) and has the same LoD with `BatchGate`.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "activation",
+   "type" : "string",
+   "comment" : "(string, default tanh) The activation type used for output candidate {h}_t.",
+   "generated" : 0
+ }, { 
+   "name" : "gate_activation",
+   "type" : "string",
+   "comment" : "(string, default sigmoid) The activation type used in update gate and reset gate.",
+   "generated" : 0
+ }, { 
+   "name" : "is_reverse",
+   "type" : "bool",
+   "comment" : "(bool, defalut: False) whether to compute reversed GRU.",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "ctc_align",
+ "comment" : "\nCTCAlign op is used to merge repeated elements between two blanks\nand then delete all blanks in sequence.\n\nGiven:\n    Input.data = [0, 1, 2, 2, 0, 4, 0, 4, 5, 0, 6,\n                  6, 0, 0, 7, 7, 7, 0]\n    Input.dims = {18, 1}\n    Input.LoD = [[0, 11, 18]]\n\nAnd:\n    blank = 0\n    merge_repeated = True\n\nThen:\n    Output.data = [1, 2, 4, 4, 5, 6,\n                   6, 7]\n    Output.dims = {8, 1}\n    Output.LoD = [[0, 6, 8]]\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "Input",
+   "comment" : "(LodTensor, default: LoDTensor<int>), Its shape is [Lp, 1], where Lp is the sum of all input sequences' length.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Output",
+   "comment" : "(Tensor, default: Tensor<int>), The align result.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "blank",
+   "type" : "int",
+   "comment" : "(int, default: 0), the blank label setted in Connectionist Temporal Classification (CTC) op.",
+   "generated" : 0
+ }, { 
+   "name" : "merge_repeated",
+   "type" : "bool",
+   "comment" : "(bool, default: true), whether to merge repeated elements between two blanks. ",
    "generated" : 0
  } ] 
 },{
