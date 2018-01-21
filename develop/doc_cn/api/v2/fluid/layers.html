@@ -2620,8 +2620,9 @@ will be named automatically.</li>
 <dl class="function">
 <dt>
 <code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">matmul</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>transpose_x=False</em>, <em>transpose_y=False</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
-<dd><p>Applies matrix multipication to two tensors. Currently only rank 1 to rank
-3 input tensors are supported.</p>
+<dd><p>Applies matrix multiplication to two tensors. Currently, the input
+tensors&#8217; rank can be any, but when the rank of anyone inputs is
+bigger than 3, this two inputs&#8217; rank should be equal.</p>
 <p>The actual behavior depends on the shapes of <span class="math">\(x\)</span>, <span class="math">\(y\)</span> and the
 flag values of <code class="xref py py-attr docutils literal"><span class="pre">transpose_x</span></code>, <code class="xref py py-attr docutils literal"><span class="pre">transpose_y</span></code>. Specifically:</p>
 <ul class="simple">
@@ -2631,10 +2632,10 @@ are transposed. If the tensor is rank-1 of shape <span class="math">\([D]\)</spa
 <span class="math">\([D, 1]\)</span> in transposed form, whereas for <span class="math">\(y\)</span> it is the
 opposite: It is treated as <span class="math">\([D, 1]\)</span> in nontransposed form and as
 <span class="math">\([1, D]\)</span> in transposed form.</li>
-<li>After transpose, the two tensors are 2-D or 3-D and matrix multipication
+<li>After transpose, the two tensors are 2-D or n-D and matrix multiplication
 performs in the following way.<ul>
 <li>If both are 2-D, they are multiplied like conventional matrices.</li>
-<li>If either is 3-D, it is treated as a stack of matrices residing in the
+<li>If either is n-D, it is treated as a stack of matrices residing in the
 last two dimensions and a batched matrix multiply supporting broadcast
 applies on the two tensors.</li>
 </ul>
@@ -2642,7 +2643,7 @@ applies on the two tensors.</li>
 </ul>
 <p>Also note that if the raw tensor <span class="math">\(x\)</span> or <span class="math">\(y\)</span> is rank-1 and
 nontransposed, the prepended or appended dimension <span class="math">\(1\)</span> will be
-removed after matrix multipication.</p>
+removed after matrix multiplication.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -2667,6 +2668,8 @@ will be named automatically.</li>
 </table>
 <p class="rubric">Examples</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Examples to clarify shapes of the inputs and output</span>
+<span class="c1"># x: [B, ..., M, K], y: [B, ..., K, N]</span>
+<span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>  <span class="c1"># out: [B, ..., M, N]</span>
 <span class="c1"># x: [B, M, K], y: [B, K, N]</span>
 <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>  <span class="c1"># out: [B, M, N]</span>
 <span class="c1"># x: [B, M, K], y: [K, N]</span>
