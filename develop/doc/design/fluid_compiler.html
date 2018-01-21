@@ -1,0 +1,369 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>PaddlePaddle Fluid: Towards a Compiled Programming Language &mdash; PaddlePaddle  documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="PaddlePaddle  documentation" href="../index.html"/> 
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/css/perfect-scrollbar.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/override.css" type="text/css" />
+  <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?b9a314ab40d04d805655aab1deee08ba";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
+
+  
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  
+  <header class="site-header">
+    <div class="site-logo">
+      <a href="/"><img src="../_static/images/PP_w.png"></a>
+    </div>
+    <div class="site-nav-links">
+      <div class="site-menu">
+        <a class="fork-on-github" href="https://github.com/PaddlePaddle/Paddle" target="_blank"><i class="fa fa-github"></i>Fork me on Github</a>
+        <div class="language-switcher dropdown">
+          <a type="button" data-toggle="dropdown">
+            <span>English</span>
+            <i class="fa fa-angle-up"></i>
+            <i class="fa fa-angle-down"></i>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="/doc_cn">中文</a></li>
+            <li><a href="/doc">English</a></li>
+          </ul>
+        </div>
+        <ul class="site-page-links">
+          <li><a href="/">Home</a></li>
+        </ul>
+      </div>
+      <div class="doc-module">
+        
+        <ul>
+<li class="toctree-l1"><a class="reference internal" href="../getstarted/index_en.html">GET STARTED</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howto/index_en.html">HOW TO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index_en.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mobile/index_en.html">MOBILE</a></li>
+</ul>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>        
+      </div>
+    </div>
+  </header>
+  
+  <div class="main-content-wrap">
+
+    
+    <nav class="doc-menu-vertical" role="navigation">
+        
+          
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../getstarted/index_en.html">GET STARTED</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getstarted/build_and_install/index_en.html">Install and Build</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../getstarted/build_and_install/pip_install_en.html">Install Using pip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../getstarted/build_and_install/docker_install_en.html">Run in Docker Containers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/dev/build_en.html">Build using Docker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../getstarted/build_and_install/build_from_source_en.html">Build from Sources</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../howto/index_en.html">HOW TO</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../howto/usage/cmd_parameter/index_en.html">Set Command-line Parameters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cmd_parameter/use_case_en.html">Use Case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cmd_parameter/arguments_en.html">Argument Outline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cmd_parameter/detail_introduction_en.html">Detail Description</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/usage/cluster/cluster_train_en.html">Distributed Training</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cluster/fabric_en.html">fabric</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cluster/openmpi_en.html">openmpi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cluster/k8s_en.html">kubernetes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cluster/k8s_aws_en.html">kubernetes on AWS</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/dev/new_layer_en.html">Write New Layers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/dev/contribute_to_paddle_en.html">Contribute Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/dev/write_docs_en.html">Contribute Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/deep_model/rnn/index_en.html">RNN Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../howto/deep_model/rnn/rnn_config_en.html">RNN Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/optimization/gpu_profiling_en.html">Tune GPU Performance</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index_en.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/v2/model_configs.html">Model Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/activation.html">Activation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/layer.html">Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/evaluators.html">Evaluators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/optimizer.html">Optimizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/pooling.html">Pooling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/networks.html">Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/attr.html">Parameter Attribute</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/v2/data.html">Data Reader Interface and DataSets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/data/data_reader.html">Data Reader Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/data/image.html">Image Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/data/dataset.html">Dataset</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/v2/run_logic.html">Training and Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/v2/fluid.html">Fluid</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/layers.html">Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/data_feeder.html">DataFeeder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/executor.html">Executor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/initializer.html">Initializer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/evaluator.html">Evaluator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/nets.html">Nets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/optimizer.html">Optimizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/param_attr.html">ParamAttr</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/profiler.html">Profiler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/regularizer.html">Regularizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/io.html">IO</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../mobile/index_en.html">MOBILE</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../mobile/cross_compiling_for_android_en.html">Build PaddlePaddle for Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mobile/cross_compiling_for_ios_en.html">Build PaddlePaddle for iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mobile/cross_compiling_for_raspberry_en.html">Build PaddlePaddle for Raspberry Pi</a></li>
+</ul>
+</li>
+</ul>
+
+        
+    </nav>
+    
+    <section class="doc-content-wrap">
+
+      
+
+ 
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+      
+    <li>PaddlePaddle Fluid: Towards a Compiled Programming Language</li>
+  </ul>
+</div>
+      
+      <div class="wy-nav-content" id="doc-content">
+        <div class="rst-content">
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="paddlepaddle-fluid-towards-a-compiled-programming-language">
+<span id="paddlepaddle-fluid-towards-a-compiled-programming-language"></span><h1>PaddlePaddle Fluid: Towards a Compiled Programming Language<a class="headerlink" href="#paddlepaddle-fluid-towards-a-compiled-programming-language" title="Permalink to this headline">¶</a></h1>
+<p>As described in <a class="reference internal" href="fluid.html"><span class="doc">fluid.md</span></a>, when a Fluid application program
+runs, it generates a <code class="docutils literal"><span class="pre">ProgramDesc</span></code> protobuf message as an intermediate
+representation of itself.  The C++ class <code class="docutils literal"><span class="pre">Executor</span></code> can run this
+protobuf message as an interpreter.  This article describes the Fluid
+compiler.</p>
+<p><img alt="" src="../_images/fluid-compiler.png" /></p>
+<div class="section" id="programdesc">
+<span id="programdesc"></span><h2>ProgramDesc<a class="headerlink" href="#programdesc" title="Permalink to this headline">¶</a></h2>
+<p>Before we go deeper into the idea of compiled language, let us take a
+look at a simple example Fluid application.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="s2">&quot;fluid&quot;</span>
+
+<span class="n">func</span> <span class="n">paddlepaddle</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">X</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+  <span class="n">W</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+  <span class="n">Y</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">mult</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">W</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This program consists of a <a class="reference internal" href="block.html"><span class="doc">block</span></a> of three operators &#8211;
+<code class="docutils literal"><span class="pre">read</span></code>, <code class="docutils literal"><span class="pre">assign</span></code>, and <code class="docutils literal"><span class="pre">mult</span></code>.  Its <code class="docutils literal"><span class="pre">ProgramDesc</span></code> message looks like
+the following</p>
+<div class="highlight-protobuf"><div class="highlight"><pre><span></span><span class="kd">message</span> <span class="nc">ProgramDesc</span> <span class="p">{</span>
+  <span class="n">block</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">Block</span> <span class="p">{</span>
+    <span class="na">vars</span> <span class="o">=</span> <span class="p">[</span><span class="n">X</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">Y</span><span class="p">],</span>
+    <span class="na">ops</span> <span class="o">=</span> <span class="p">[</span>
+      <span class="n">read</span><span class="p">(</span><span class="na">output</span> <span class="o">=</span> <span class="n">X</span><span class="p">)</span>
+      <span class="n">assign</span><span class="p">(</span><span class="na">input</span> <span class="o">=</span> <span class="o">...</span><span class="p">,</span> <span class="na">output</span> <span class="o">=</span> <span class="n">W</span><span class="p">)</span>
+      <span class="n">mult</span><span class="p">(</span><span class="na">input</span> <span class="o">=</span> <span class="p">{</span><span class="n">X</span><span class="p">,</span> <span class="n">W</span><span class="p">},</span> <span class="na">output</span> <span class="o">=</span> <span class="n">Y</span><span class="p">)</span>
+    <span class="p">],</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="transpilers">
+<span id="transpilers"></span><h2>Transpilers<a class="headerlink" href="#transpilers" title="Permalink to this headline">¶</a></h2>
+<p>We can write a transpiler program that takes a <code class="docutils literal"><span class="pre">ProgramDesc</span></code>, e.g.,
+the above one, and outputs another <code class="docutils literal"><span class="pre">ProgramDesc</span></code>.  Let us take some
+examples:</p>
+<ol class="simple">
+<li><em>Memory optimization transpiler</em>: We can write a transpiler that
+inserts some <code class="docutils literal"><span class="pre">FreeMemoryOp</span></code>s in the above example <code class="docutils literal"><span class="pre">ProgramDesc</span></code> so
+to free memory early, before the end of an iteration, so to keep a
+small memory footprint.</li>
+<li><em>Distributed training transpiler</em>: We can write a transpiler that
+converts a<code class="docutils literal"><span class="pre">ProgramDesc</span></code> into its distributed version of two
+<code class="docutils literal"><span class="pre">ProgramDesc</span></code>s &#8211; one for running by the trainer processes and the
+other for the parameter server.</li>
+</ol>
+<p>In the rest of this article, we talk about a special kind of
+transpiler, <em>Native code generator</em>, which takes a <code class="docutils literal"><span class="pre">ProgramDesc</span></code> and
+generates a <code class="docutils literal"><span class="pre">.cu</span></code> (or <code class="docutils literal"><span class="pre">.cc</span></code>) file, which could be built by C++
+compilers (gcc, nvcc, icc) into binaries.</p>
+</div>
+<div class="section" id="native-code-generator">
+<span id="native-code-generator"></span><h2>Native Code Generator<a class="headerlink" href="#native-code-generator" title="Permalink to this headline">¶</a></h2>
+<p>For the above example, the native code generator transpiler, say, the
+CUDA code generator, should generate a <code class="docutils literal"><span class="pre">main</span></code> function:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">auto</span> <span class="n">X</span> <span class="o">=</span> <span class="n">fluid_cuda_read</span><span class="p">(...);</span>
+  <span class="k">auto</span> <span class="n">W</span> <span class="o">=</span> <span class="n">fluid_cuda_create_tensor</span><span class="p">(...);</span>
+  <span class="k">auto</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">fluid_cuda_mult</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">W</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>and the definitions of functions <code class="docutils literal"><span class="pre">fluid_cuda_read</span></code>,
+<code class="docutils literal"><span class="pre">fluid_cuda_create_tensor</span></code>, and <code class="docutils literal"><span class="pre">fluid_cuda_mult</span></code>.  Please be aware
+that each function could just define a C++ instance of an operator and
+run it.  For example</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">paddle</span><span class="o">::</span><span class="n">Tensor</span> <span class="n">fluid_cuda_read</span><span class="p">(...)</span> <span class="p">{</span>
+  <span class="n">paddle</span><span class="o">::</span><span class="n">Tensor</span> <span class="n">t</span><span class="p">;</span>
+  <span class="n">paddle</span><span class="o">::</span><span class="k">operator</span><span class="o">::</span><span class="n">Read</span> <span class="n">r</span><span class="p">(</span><span class="o">&amp;</span><span class="n">t</span><span class="p">,</span> <span class="p">...);</span>
+  <span class="n">r</span><span class="p">.</span><span class="n">Run</span><span class="p">();</span>
+  <span class="k">return</span> <span class="n">t</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>For computational operators that have multiple <em>kernels</em>, each for a
+specific hardware platform, for example, the <code class="docutils literal"><span class="pre">mult</span></code> operator, the
+generated code should call its CUDA kernel:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">paddle</span><span class="o">::</span><span class="n">Tensor</span> <span class="n">fluid_cuda_mult</span><span class="p">(</span><span class="k">const</span> <span class="n">paddle</span><span class="o">::</span><span class="n">Tensor</span><span class="o">&amp;</span> <span class="n">a</span><span class="p">,</span> 
+                               <span class="k">const</span> <span class="n">paddle</span><span class="o">::</span><span class="n">Tensor</span><span class="o">&amp;</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">paddle</span><span class="o">::</span><span class="n">Tensor</span> <span class="n">t</span><span class="p">;</span>
+  <span class="n">paddle</span><span class="o">::</span><span class="k">operator</span><span class="o">::</span><span class="n">Mult</span> <span class="n">m</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="p">...);</span>
+  <span class="n">Mult</span><span class="p">.</span><span class="n">Run</span><span class="p">(</span><span class="n">cuda_context</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal"><span class="pre">cuda_context</span></code> could be a global variable of type
+<code class="docutils literal"><span class="pre">paddle::CUDADeviceContext</span></code>.</p>
+</div>
+<div class="section" id="multi-block-code-generation">
+<span id="multi-block-code-generation"></span><h2>Multi-Block Code Generation<a class="headerlink" href="#multi-block-code-generation" title="Permalink to this headline">¶</a></h2>
+<p>Most Fluid application programs may have more than one blocks.  To
+execute them, we need to trace <a class="reference internal" href="scope.html"><span class="doc">scopes</span></a>.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, PaddlePaddle developers.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: ".txt",
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+       
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+  
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/js/perfect-scrollbar.jquery.min.js"></script>
+  <script src="../_static/js/paddle_doc_init.js"></script> 
+
+</body>
+</html>
