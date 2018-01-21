@@ -282,19 +282,20 @@
 </div>
 <div class="section" id="dataprovider">
 <h3><a class="toc-backref" href="#id14">dataprovider的使用</a><a class="headerlink" href="#dataprovider" title="永久链接至标题">¶</a></h3>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1">#  Copyright (c) 2018 PaddlePaddle Authors. All Rights Reserve.</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1">#   Copyright (c) 2018 PaddlePaddle Authors. All Rights Reserve.</span>
 <span class="c1">#</span>
-<span class="c1">#Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
-<span class="c1">#you may not use this file except in compliance with the License.</span>
-<span class="c1">#You may obtain a copy of the License at</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
 <span class="c1">#</span>
-<span class="c1">#    http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
 <span class="c1">#</span>
-<span class="c1">#Unless required by applicable law or agreed to in writing, software</span>
-<span class="c1">#distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
-<span class="c1">#WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
-<span class="c1">#See the License for the specific language governing permissions and</span>
-<span class="c1">#limitations under the License.</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+
 <span class="kn">from</span> <span class="nn">paddle.trainer.PyDataProvider2</span> <span class="k">import</span> <span class="o">*</span>
 
 
@@ -327,8 +328,8 @@
 <li><p class="first">其次，定义一个Python的 <a class="reference external" href="http://www.learnpython.org/en/Decorators">Decorator</a> <a class="reference internal" href="#provider">&#64;provider</a> 。用于将下一行的数据输入函数标记成一个PyDataProvider2，同时设置它的input_types属性。</p>
 <ul>
 <li><p class="first"><a class="reference internal" href="#input-types">input_types</a>：设置这个PyDataProvider2返回什么样的数据。本例根据网络配置中 <code class="docutils literal"><span class="pre">data_layer</span></code> 的名字，显式指定返回的是一个28*28维的稠密浮点数向量和一个[0-9]的10维整数标签。</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1">#Unless required by applicable law or agreed to in writing, software</span>
-<span class="c1">#distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
 </pre></div>
 </div>
 </li>
@@ -356,13 +357,13 @@
 <div class="section" id="id2">
 <h3><a class="toc-backref" href="#id15">网络配置中的调用</a><a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h3>
 <p>在网络配置里，只需要一行代码就可以调用这个PyDataProvider2，如，</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1">#  Copyright (c) 2018 PaddlePaddle Authors. All Rights Reserve.</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1">#   Copyright (c) 2018 PaddlePaddle Authors. All Rights Reserve.</span>
 <span class="c1">#</span>
-<span class="c1">#Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
-<span class="c1">#you may not use this file except in compliance with the License.</span>
-<span class="c1">#You may obtain a copy of the License at</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
 <span class="c1">#</span>
-<span class="c1">#    http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
 </pre></div>
 </div>
 <p>训练数据是 <code class="docutils literal"><span class="pre">train.list</span></code> ，没有测试数据，调用的PyDataProvider2是 <code class="docutils literal"><span class="pre">mnist_provider</span></code> 模块中的 <code class="docutils literal"><span class="pre">process</span></code> 函数。</p>
@@ -399,19 +400,20 @@
 <li>其中 <code class="docutils literal"><span class="pre">input_types</span></code> 和在 <a class="reference internal" href="#provider">&#64;provider</a> 中配置的效果一致。本例中的输入特征是词ID的序列，因此使用 <code class="docutils literal"><span class="pre">integer_value_sequence</span></code> 类型来设置。</li>
 <li>将 <code class="docutils literal"><span class="pre">dictionary</span></code> 存入settings对象，在 <code class="docutils literal"><span class="pre">process</span></code> 函数中使用。 dictionary是从网络配置中传入的dict对象，即一个将单词字符串映射到单词ID的字典。</li>
 </ul>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1">#  Copyright (c) 2018 PaddlePaddle Authors. All Rights Reserve.</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1">#   Copyright (c) 2018 PaddlePaddle Authors. All Rights Reserve.</span>
 <span class="c1">#</span>
-<span class="c1">#Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
-<span class="c1">#you may not use this file except in compliance with the License.</span>
-<span class="c1">#You may obtain a copy of the License at</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
 <span class="c1">#</span>
-<span class="c1">#    http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
 <span class="c1">#</span>
-<span class="c1">#Unless required by applicable law or agreed to in writing, software</span>
-<span class="c1">#distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
-<span class="c1">#WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
-<span class="c1">#See the License for the specific language governing permissions and</span>
-<span class="c1">#limitations under the License.</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+
 <span class="kn">from</span> <span class="nn">paddle.trainer.PyDataProvider2</span> <span class="k">import</span> <span class="o">*</span>
 
 
@@ -465,21 +467,22 @@
 <li>在配置中需要读取外部字典。</li>
 <li>在声明DataProvider的时候传入dictionary作为参数。</li>
 </ul>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1">#  Copyright (c) 2018 PaddlePaddle Authors. All Rights Reserve.</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1">#   Copyright (c) 2018 PaddlePaddle Authors. All Rights Reserve.</span>
 <span class="c1">#</span>
-<span class="c1">#Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
-<span class="c1">#you may not use this file except in compliance with the License.</span>
-<span class="c1">#You may obtain a copy of the License at</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
 <span class="c1">#</span>
-<span class="c1">#    http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
 <span class="c1">#</span>
-<span class="c1">#Unless required by applicable law or agreed to in writing, software</span>
-<span class="c1">#distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
-<span class="c1">#WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
-<span class="hll"><span class="c1">#See the License for the specific language governing permissions and</span>
-</span><span class="hll"><span class="c1">#limitations under the License.</span>
-</span><span class="hll"><span class="kn">from</span> <span class="nn">paddle.trainer_config_helpers</span> <span class="k">import</span> <span class="o">*</span>
-</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="hll"><span class="c1"># See the License for the specific language governing permissions and</span>
+</span><span class="hll"><span class="c1"># limitations under the License.</span>
+</span><span class="hll">
+</span><span class="kn">from</span> <span class="nn">paddle.trainer_config_helpers</span> <span class="k">import</span> <span class="o">*</span>
+
 <span class="n">dictionary</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
 <span class="o">...</span>  <span class="c1">#  read dictionary from outside</span>
 
