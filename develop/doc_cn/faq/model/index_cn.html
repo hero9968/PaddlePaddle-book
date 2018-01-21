@@ -243,6 +243,8 @@
 <li><a class="reference internal" href="#paddle-layer-memory-name" id="id4">2. <code class="code docutils literal"><span class="pre">paddle.layer.memory</span></code> 的参数 <code class="code docutils literal"><span class="pre">name</span></code> 如何使用</a></li>
 <li><a class="reference internal" href="#drop-out" id="id5">3. 两种使用 drop_out 的方法有何区别</a></li>
 <li><a class="reference internal" href="#recurrent-layer" id="id6">4. 不同的 recurrent layer 的区别</a></li>
+<li><a class="reference internal" href="#paddlepaddlesoftmax" id="id7">5. PaddlePaddle的softmax能否指定计算的维度</a></li>
+<li><a class="reference internal" href="#paddlepaddle" id="id8">6. PaddlePaddle是否支持维数可变的数据输入</a></li>
 </ul>
 </li>
 </ul>
@@ -320,6 +322,15 @@
 <li><code class="code docutils literal"><span class="pre">paddle.networks.lstmemory_unit</span></code> 只能在recurrent_group中作为step function使用；</li>
 </ul>
 </div></blockquote>
+</div>
+<div class="section" id="paddlepaddlesoftmax">
+<h2><a class="toc-backref" href="#id7">5. PaddlePaddle的softmax能否指定计算的维度</a><a class="headerlink" href="#paddlepaddlesoftmax" title="永久链接至标题">¶</a></h2>
+<p>PaddlePaddle的softmax不能指定计算维度，只能按行计算。
+在图像任务中，对于NCHW，如果需要在C维度计算softmax，可以先使用 <code class="code docutils literal"><span class="pre">paddle.layer.switch_order</span></code> 改变维度顺序，即将NCHW转换成NHWC，再做一定的reshape，最后计算softmax。</p>
+</div>
+<div class="section" id="paddlepaddle">
+<h2><a class="toc-backref" href="#id8">6. PaddlePaddle是否支持维数可变的数据输入</a><a class="headerlink" href="#paddlepaddle" title="永久链接至标题">¶</a></h2>
+<p>PaddlePaddle提供的 <code class="code docutils literal"><span class="pre">paddle.data_type.dense_array</span></code> 支持维数可变的数据输入。在使用时，将对应数据层的维数设置成一个大于输入数据维数的值用于占位即可。</p>
 </div>
 </div>
 
