@@ -213,25 +213,25 @@
 <span id="fluid-distributed-training"></span><h1>Fluid Distributed Training<a class="headerlink" href="#fluid-distributed-training" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="introduction">
 <span id="introduction"></span><h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
-<p>In this article, we&#8217;ll explain how to config and run distributed training jobs with PaddlePaddle Fluid in a bare metal cluster.</p>
+<p>In this article, we&#8217;ll explain how to configure and run distributed training jobs with PaddlePaddle Fluid in a bare metal cluster.</p>
 </div>
 <div class="section" id="preparations">
 <span id="preparations"></span><h2>Preparations<a class="headerlink" href="#preparations" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="get-your-cluster-ready">
-<span id="get-your-cluster-ready"></span><h3>Get your cluster ready<a class="headerlink" href="#get-your-cluster-ready" title="Permalink to this headline">¶</a></h3>
-<p>Prepare your computer nodes in the cluster. Nodes in this cluster can be of any specification that runs PaddlePaddle, and with a unique IP address assigned to it. Make sure they can communicate with each other.</p>
+<div class="section" id="getting-the-cluster-ready">
+<span id="getting-the-cluster-ready"></span><h3>Getting the cluster ready<a class="headerlink" href="#getting-the-cluster-ready" title="Permalink to this headline">¶</a></h3>
+<p>Prepare the compute nodes in the cluster. Nodes in this cluster can be of any specification that runs PaddlePaddle, and with a unique IP address assigned to it. Make sure they can communicate to each other.</p>
 </div>
 <div class="section" id="have-paddlepaddle-installed">
 <span id="have-paddlepaddle-installed"></span><h3>Have PaddlePaddle installed<a class="headerlink" href="#have-paddlepaddle-installed" title="Permalink to this headline">¶</a></h3>
 <p>PaddlePaddle must be installed on all nodes. If you have GPU cards on your nodes, be sure to properly install drivers and CUDA libraries.</p>
-<p>PaddlePaddle build and installation guide can be found from <a class="reference external" href="http://www.paddlepaddle.org/docs/develop/documentation/en/getstarted/build_and_install/index_en.html">here</a>.</p>
+<p>PaddlePaddle build and installation guide can be found  <a class="reference external" href="http://www.paddlepaddle.org/docs/develop/documentation/en/getstarted/build_and_install/index_en.html">here</a>.</p>
 </div>
-<div class="section" id="update-training-script">
-<span id="update-training-script"></span><h3>Update training script<a class="headerlink" href="#update-training-script" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="update-the-training-script">
+<span id="update-the-training-script"></span><h3>Update the training script<a class="headerlink" href="#update-the-training-script" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="non-cluster-training-script">
 <span id="non-cluster-training-script"></span><h4>Non-cluster training script<a class="headerlink" href="#non-cluster-training-script" title="Permalink to this headline">¶</a></h4>
 <p>Let&#8217;s take <a class="reference external" href="http://www.paddlepaddle.org/docs/develop/book/01.fit_a_line/index.html">Deep Learning 101</a>&#8216;s first chapter: &#8220;fit a line&#8221; as an example.</p>
-<p>This demo&#8217;s non-cluster version with fluid API is as follows:</p>
+<p>The non-cluster version of this demo with fluid API is as follows:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">paddle.v2</span> <span class="kn">as</span> <span class="nn">paddle</span>
 <span class="kn">import</span> <span class="nn">paddle.v2.fluid</span> <span class="kn">as</span> <span class="nn">fluid</span>
 
@@ -272,29 +272,29 @@
 <span class="nb">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>We created a simple fully connected neural networks training program and handed it to the fluid executor to run for 100 passes.</p>
-<p>Now let&#8217;s try to convert it to a distributed version to run in a cluster.</p>
+<p>We created a simple fully-connected neural network training program and handed it to the fluid executor to run for 100 passes.</p>
+<p>Now let&#8217;s try to convert it to a distributed version to run on a cluster.</p>
 </div>
 <div class="section" id="introducing-parameter-server">
 <span id="introducing-parameter-server"></span><h4>Introducing parameter server<a class="headerlink" href="#introducing-parameter-server" title="Permalink to this headline">¶</a></h4>
-<p>As you see from the non-cluster version of training script, there is only one role in it: the trainer, who does the computing as well as holding parameters. In cluster training, since multi-trainers are working on the same task, they need one centralized place to hold and distribute parameters. This centralized place is called the Parameter Server in PaddlePaddle.</p>
-<p><img alt="parameter server architect" src="../../../_images/trainer.png" /></p>
-<p>Parameter Server in fluid does not only hold parameters but is also assigned with a part of the program. Trainers communicate with parameter servers via send/receive OPs. For more tech detail, please refer to this <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/doc/design/dist_refactor/distributed_architecture.md">document</a>.</p>
-<p>Now we need to create program for both trainers and parameter servers, the question is how?</p>
+<p>As we can see from the non-cluster version of training script, there is only one role in the script: the trainer, that performs the computing as well as holds the parameters. In cluster training, since multi-trainers are working on the same task, they need one centralized place to hold and distribute parameters. This centralized place is called the Parameter Server in PaddlePaddle.</p>
+<p><img alt="parameter server architecture" src="../../../_images/trainer.png" /></p>
+<p>Parameter Server in fluid not only holds the parameters but is also assigned with a part of the program. Trainers communicate with parameter servers via send/receive OPs. For more technical details, please refer to  <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/doc/design/dist_refactor/distributed_architecture.md">this document</a>.</p>
+<p>Now we need to create programs for both: trainers and parameter servers, the question is how?</p>
 </div>
 <div class="section" id="slice-the-program">
 <span id="slice-the-program"></span><h4>Slice the program<a class="headerlink" href="#slice-the-program" title="Permalink to this headline">¶</a></h4>
-<p>Fluid provides a tool called &#8220;Distribute Transpiler&#8221; to automatically convert the non-cluster program into cluster program.</p>
-<p>The idea behind this tool is to find optimize OPs and gradient parameters, slice the program into 2 pieces and connect them with send/receive OP.</p>
+<p>Fluid provides a tool called &#8220;Distributed Transpiler&#8221; that automatically converts the non-cluster program into cluster program.</p>
+<p>The idea behind this tool is to find the optimize OPs and gradient parameters, slice the program into 2 pieces and connect them with send/receive OP.</p>
 <p>Optimize OPs and gradient parameters can be found from the return values of optimizer&#8217;s minimize function.</p>
 <p>To put them together:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">...</span> <span class="c1">#define the program, cost, and create sgd optimizer</span>
 
 <span class="n">optimize_ops</span><span class="p">,</span> <span class="n">params_grads</span> <span class="o">=</span> <span class="n">sgd_optimizer</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="n">avg_cost</span><span class="p">)</span> <span class="c1">#get optimize OPs and gradient parameters</span>
 
-<span class="n">t</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">DistributeTranspiler</span><span class="p">()</span> <span class="c1"># create transpiler instance</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">DistributeTranspiler</span><span class="p">()</span> <span class="c1"># create the transpiler instance</span>
 <span class="c1"># slice the program into 2 pieces with optimizer_ops and gradient parameters list, as well as pserver_endpoints, which is a comma separated list of [IP:PORT] and number of trainers</span>
-<span class="n">t</span><span class="o">.</span><span class="n">transpile</span><span class="p">(</span><span class="n">optimize_ops</span><span class="p">,</span> <span class="n">params_grads</span><span class="p">,</span> <span class="n">pservers</span><span class="o">=</span><span class="n">pserver_endpoints</span><span class="p">,</span> <span class="n">trainers</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> 
+<span class="n">t</span><span class="o">.</span><span class="n">transpile</span><span class="p">(</span><span class="n">optimize_ops</span><span class="p">,</span> <span class="n">params_grads</span><span class="p">,</span> <span class="n">pservers</span><span class="o">=</span><span class="n">pserver_endpoints</span><span class="p">,</span> <span class="n">trainers</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
 <span class="o">...</span> <span class="c1">#create executor</span>
 
@@ -319,17 +319,17 @@
 </div>
 <div class="section" id="e2e-demo">
 <span id="e2e-demo"></span><h3>E2E demo<a class="headerlink" href="#e2e-demo" title="Permalink to this headline">¶</a></h3>
-<p>Please find the complete demo from <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/python/paddle/v2/fluid/tests/book_distribute/notest_dist_fit_a_line.py">here</a>. In parameter server node run this in the command line:</p>
+<p>Please find the complete demo from <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/python/paddle/v2/fluid/tests/book_distribute/notest_dist_fit_a_line.py">here</a>. In parameter server node run the following in the command line:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nv">PSERVERS</span><span class="o">=</span><span class="m">192</span>.168.1.2:6174 <span class="nv">SERVER_ENDPOINT</span><span class="o">=</span><span class="m">192</span>.168.1.2:6174 <span class="nv">TRAINING_ROLE</span><span class="o">=</span>PSERVER python notest_dist_fit_a_line.py
 </pre></div>
 </div>
 <p><em>please note we assume that your parameter server runs at 192.168.1.2:6174</em></p>
 <p>Wait until the prompt <code class="docutils literal"><span class="pre">Server</span> <span class="pre">listening</span> <span class="pre">on</span> <span class="pre">192.168.1.2:6174</span></code></p>
-<p>Then in 2 of your trainer node run this:</p>
+<p>Then in 2 of your trainer nodes run this:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nv">PSERVERS</span><span class="o">=</span><span class="m">192</span>.168.1.2:6174 <span class="nv">SERVER_ENDPOINT</span><span class="o">=</span><span class="m">192</span>.168.1.2:6174 <span class="nv">TRAINING_ROLE</span><span class="o">=</span>TRAINER python notest_dist_fit_a_line.py
 </pre></div>
 </div>
-<p><em>the reason you need to run this command twice in 2 nodes is: in the script we set the trainer count to be 2. You can change this setting on line 50</em></p>
+<p><em>the reason you need to run this command twice in 2 nodes is because: in the script we set the trainer count to be 2. You can change this setting on line 50</em></p>
 <p>Now you have 2 trainers and 1 parameter server up and running.</p>
 </div>
 </div>
