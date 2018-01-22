@@ -1141,24 +1141,6 @@
  } ], 
  "attrs" : [  ] 
 },{
- "type" : "log",
- "comment" : "\nLog Activation Operator.\n\n$out = \\ln(x)$\n\nNatural logarithm of x.\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "Input of Log operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "Output of Log operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
  "type" : "softmax",
  "comment" : "\nSoftmax Operator.\n\nThe input of the softmax operator is a 2-D tensor with shape N x K (N is the\nbatch_size, K is the dimension of input feature). The output tensor has the\nsame shape as the input tensor.\n\nFor each row of the input tensor, the softmax operator squashes the\nK-dimensional vector of arbitrary real values to a K-dimensional vector of real\nvalues in the range [0, 1] that add up to 1.\nIt computes the exponential of the given dimension and the sum of exponential\nvalues of all the other dimensions in the K-dimensional vector input.\nThen the ratio of the exponential of the given dimension and the sum of\nexponential values of all the other dimensions is the output of the softmax\noperator.\n\nFor each row $i$ and each column $j$ in Input(X), we have:\n    $$Out[i, j] = \\frac{\\exp(X[i, j])}{\\sum_j(exp(X[i, j])}$$\n\n",
  "inputs" : [ 
@@ -1546,6 +1528,34 @@
    "comment" : "(float, default 0.0) L2 regularization strength.",
    "generated" : 0
  } ] 
+},{
+ "type" : "rank_loss",
+ "comment" : "\nRankLoss Operator.\n\nRankLoss operator for RankNet\n(http://icml.cc/2015/wp-content/uploads/2015/06/icml_ranking.pdf). \nRankNet is a pairwise ranking model with\none training sample consisting of a pair of doc A and B, and the label P\nindicating that A is ranked higher than B or not:\n\nP = {0, 1} or {0, 0.5, 1}, where 0.5 means no information about the rank of\nthe input pair.\n\nThe RankLoss operator takes three inputs: Left (o_i), Right (o_j) and Label\n(P_{i,j}), which represent the output score of RankNet for the two docs and \nthe label respectively, and yields the rank loss C_{i,j} using the following \nequation:\n\n$$\n  C_{i,j} = -\\tilde{P_{ij}} * o_{i,j} + \\log(1 + e^{o_{i,j}}) \\\\\n  o_{i,j} =  o_i - o_j  \\\\\n  \\tilde{P_{i,j}} = \\left \\{0, 0.5, 1 \\right \\} \\ or \\ \\left \\{0, 1 \\right \\}\n$$\n\nThe operator can take batch inputs with size batch_size (batch_size >= 1).\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "Label",
+   "comment" : "(2-D Tensor with shape [batch_size x 1]) The label indicating A ranked higher than B or not.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Left",
+   "comment" : "(2-D Tensor with shape [batch_size x 1]) The output of RankNet for doc A.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Right",
+   "comment" : "(2-D Tensor with shape [batch_size x 1]) The output of RankNet for doc B.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(2-D Tensor with shape [batch_size x 1]) The output loss of RankLoss operator.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
 },{
  "type" : "reciprocal",
  "comment" : "\nReciprocal Activation Operator.\n\n$$out = \\frac{1}{x}$$\n\n",
@@ -2389,7 +2399,13 @@
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
- "attrs" : [  ] 
+ "attrs" : [ 
+ { 
+   "name" : "axis",
+   "type" : "int",
+   "comment" : "(int, default -1). The start dimension index for broadcasting Y onto X.",
+   "generated" : 0
+ } ] 
 },{
  "type" : "sequence_pool",
  "comment" : "\nSequence Pool Operator.\n\nThe SequencePoolOp pools features of all time-steps of each instance.\nIt supports six pooling types:\n1. AVERAGE: $$Out[i] = \\frac{\\sum_i X_i}{N}$$\n2. SUM:     $$Out[i] = \\sum_jX_{ij}$$\n3. SQRT:    $$Out[i] = \\frac{\\sum_jX_{ij}}{\\sqrt{len(X_i)}}$$\n4. LAST:    Out[i] = last instance in i-th sequence X[i]\n5. FIRST:   Out[i] = first instance in i-th sequence X[i]\n6. MAX:     $$Out[i] = max(X_i)$$\n\nThe following example explains how this works:\nFor a mini-batch of 3 variable-length sentences,\ncontaining 2, 3, and 2 time-steps:\n\nAssume X is a [7,M,N] LoDTensor, and X->lod()[0] = [0, 2, 5, 7], 7=2+3+2.\nBesides, for the sake of simplicity, we assume M=1 and N=1,\nand the value of X = [[1, 3], [2, 4, 6], [5, 1]].\n\nThus, Out is a [3,1,1] Tensor without LoD infomation.\nAnd for different pooltype, the value of Out is as follows:\n\n- AVERAGE: [2, 4, 3], where 2=(1+3)/2, 4=(2+4+6)/3, 3=(5+1)/2\n- SUM: [4, 12, 6], where 4=1+3, 12=2+4+6, 6=5+1\n- SQRT: [2.82, 6.93, 4.24], where 2.82=(1+3)/sqrt(2),\n           6.93=(2+4+6)/sqrt(3), 4.24=(5+1)/sqrt(2)\n- MAX: [3, 6, 5], where 3=max(1,3), 6=max(2,4,6), 5=max(5,1)\n- LAST: [3, 6, 1], where 3=last(1,3), 6=last(2,4,6), 1=last(5,1)\n- FIRST: [1, 2, 5], where 1=first(1,3), 2=first(2,4,6), 5=first(5,1)\n\n    ",
@@ -3197,57 +3213,6 @@
    "comment" : "Hyper parameter in huber loss.",
    "generated" : 0
  } ] 
-},{
- "type" : "rank_loss",
- "comment" : "\nRankLoss Operator.\n\nRankLoss operator for RankNet\n(http://icml.cc/2015/wp-content/uploads/2015/06/icml_ranking.pdf). \nRankNet is a pairwise ranking model with\none training sample consisting of a pair of doc A and B, and the label P\nindicating that A is ranked higher than B or not:\n\nP = {0, 1} or {0, 0.5, 1}, where 0.5 means no information about the rank of\nthe input pair.\n\nThe RankLoss operator takes three inputs: Left (o_i), Right (o_j) and Label\n(P_{i,j}), which represent the output score of RankNet for the two docs and \nthe label respectively, and yields the rank loss C_{i,j} using the following \nequation:\n\n$$\n  C_{i,j} = -\\tilde{P_{ij}} * o_{i,j} + \\log(1 + e^{o_{i,j}}) \\\\\n  o_{i,j} =  o_i - o_j  \\\\\n  \\tilde{P_{i,j}} = \\left \\{0, 0.5, 1 \\right \\} \\ or \\ \\left \\{0, 1 \\right \\}\n$$\n\nThe operator can take batch inputs with size batch_size (batch_size >= 1).\n\n",
- "inputs" : [ 
- { 
-   "name" : "Label",
-   "comment" : "(2-D Tensor with shape [batch_size x 1]) The label indicating A ranked higher than B or not.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Left",
-   "comment" : "(2-D Tensor with shape [batch_size x 1]) The output of RankNet for doc A.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Right",
-   "comment" : "(2-D Tensor with shape [batch_size x 1]) The output of RankNet for doc B.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(2-D Tensor with shape [batch_size x 1]) The output loss of RankLoss operator.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
- "type" : "greater_than",
- "comment" : "greater_than Operator\n\nIt operates element-wise on X and Y, and returns the Out. Each of them is a\nN-dim tensor. X and Y could be any type.  The each element of the Out tensor is\ncalculated by Out = X > Y\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(LoDTensor) the left hand operand of greater_than operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Y",
-   "comment" : "(LoDTensor) the right hand operand of greater_than operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(LoDTensor) n-dim bool tensor. Each element is Out = X > Y",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
 },{
  "type" : "sequence_softmax",
  "comment" : "\nSequence Softmax Operator.\n\nSequenceSoftmaxOp computes the softmax activation among all time-steps for each\nsequence. The dimension of each time-step should be 1. Thus, the shape of\ninput Tensor can be either [N, 1] or [N], where N is the sum of the length\nof all sequences.\n\nThe algorithm works as follows:\n\n    for i-th sequence in a mini-batch:\n\n$$\nOut(X[lod[i]:lod[i+1]], :) = \\\n\\frac{\\exp(X[lod[i]:lod[i+1], :])} \\\n{\\sum(\\exp(X[lod[i]:lod[i+1], :]))}\n$$\n\nFor example, for a mini-batch of 3 sequences with variable-length,\neach containing 2, 3, 2 time-steps, the lod of which is [0, 2, 5, 7],\nthen softmax will be computed among X[0:2, :], X[2:5, :], X[5:7, :]\nand N turns out to be 7.\n\n",
@@ -4516,29 +4481,6 @@
    "generated" : 0
  } ] 
 },{
- "type" : "greater_equal",
- "comment" : "greater_equal Operator\n\nIt operates element-wise on X and Y, and returns the Out. Each of them is a\nN-dim tensor. X and Y could be any type.  The each element of the Out tensor is\ncalculated by Out = X >= Y\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(LoDTensor) the left hand operand of greater_equal operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Y",
-   "comment" : "(LoDTensor) the right hand operand of greater_equal operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(LoDTensor) n-dim bool tensor. Each element is Out = X >= Y",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
  "type" : "crop",
  "comment" : "\nCrop Operator.\n\nCrop input into output, as specified by offsets and shape.\n\nThere are two ways to set shape:\n1. reference input: crop input X into the same shape as reference input.\n                    The dimension of reference input should\n                    be the same as the dimension of input X.\n2. shape list: crop input X into the shape described by a list<int>.\n               The size of shape list should be the same as\n               the dimension size of input X.\n\nThe input should be a k-D tensor(k > 0 and k < 7). As an example:\n\nCase 1:\nGiven\n\n    X = [[0, 1, 2, 0, 0]\n         [0, 3, 4, 0, 0]\n         [0, 0, 0, 0, 0]],\n\nand\n\n    offsets = [0, 1],\n\nand\n\n    shape = [2, 2],\n\nwe get:\n\n    Out = [[1, 2],\n           [3, 4]].\n\n\nCase 2:\nGiven\n\n    X = [[0, 1, 2, 5, 0]\n         [0, 3, 4, 6, 0]\n         [0, 0, 0, 0, 0]],\n\nand\n\n    offsets = [0, 1],\n\nand\n\n    Y = [[0, 0, 0]\n         [0, 0, 0]],\n\nwe get:\n\n    Out = [[1, 2, 5],\n           [3, 4, 6]].\n",
  "inputs" : [ 
@@ -4750,7 +4692,13 @@
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
- "attrs" : [  ] 
+ "attrs" : [ 
+ { 
+   "name" : "axis",
+   "type" : "int",
+   "comment" : "(int, default -1). The start dimension index for broadcasting Y onto X.",
+   "generated" : 0
+ } ] 
 },{
  "type" : "equal",
  "comment" : "equal Operator\n\nIt operates element-wise on X and Y, and returns the Out. Each of them is a\nN-dim tensor. X and Y could be any type.  The each element of the Out tensor is\ncalculated by Out = X == Y\n",
@@ -4773,7 +4721,13 @@
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
- "attrs" : [  ] 
+ "attrs" : [ 
+ { 
+   "name" : "axis",
+   "type" : "int",
+   "comment" : "(int, default -1). The start dimension index for broadcasting Y onto X.",
+   "generated" : 0
+ } ] 
 },{
  "type" : "gather",
  "comment" : "\nGather Operator.\n\n$Out = X[Index]$\n\nOut is obtained by gathering entries of the outer-most dimension \nof X indexed by Index and concatenate them together.\n\nExample:\n\nX = [[1, 2],\n     [3, 4],\n     [5, 6]]\n\nIndex = [[1, 2]]\n\nThen:\n\nOut = [[3, 4],\n       [5, 6]]\n\n",
@@ -5359,6 +5313,24 @@
    "comment" : "(float, default 1.0e-6) Constant for numerical stability",
    "generated" : 0
  } ] 
+},{
+ "type" : "log",
+ "comment" : "\nLog Activation Operator.\n\n$out = \\ln(x)$\n\nNatural logarithm of x.\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "Input of Log operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "Output of Log operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
 },{
  "type" : "nce",
  "comment" : "\nCompute and return the noise-contrastive estimation training loss.\nSee [Noise-contrastive estimation: A new estimation principle for unnormalized statistical models](http://www.jmlr.org/proceedings/papers/v9/gutmann10a/gutmann10a.pdf).\nBy default this operator uses a uniform distribution for sampling.\n",

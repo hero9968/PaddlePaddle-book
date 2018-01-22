@@ -239,118 +239,18 @@
 <h1>Nets<a class="headerlink" href="#nets" title="永久链接至标题">¶</a></h1>
 <div class="section" id="simple-img-conv-pool">
 <h2>simple_img_conv_pool<a class="headerlink" href="#simple-img-conv-pool" title="永久链接至标题">¶</a></h2>
-<dl class="function">
-<dt>
-<code class="descclassname">paddle.v2.fluid.nets.</code><code class="descname">simple_img_conv_pool</code><span class="sig-paren">(</span><em>input</em>, <em>num_filters</em>, <em>filter_size</em>, <em>pool_size</em>, <em>pool_stride</em>, <em>act</em>, <em>param_attr=None</em>, <em>pool_type='max'</em>, <em>use_cudnn=True</em><span class="sig-paren">)</span></dt>
-<dd></dd></dl>
-
 </div>
 <div class="section" id="img-conv-group">
 <h2>img_conv_group<a class="headerlink" href="#img-conv-group" title="永久链接至标题">¶</a></h2>
-<dl class="function">
-<dt>
-<code class="descclassname">paddle.v2.fluid.nets.</code><code class="descname">img_conv_group</code><span class="sig-paren">(</span><em>input</em>, <em>conv_num_filter</em>, <em>pool_size</em>, <em>conv_padding=1</em>, <em>conv_filter_size=3</em>, <em>conv_act=None</em>, <em>param_attr=None</em>, <em>conv_with_batchnorm=False</em>, <em>conv_batchnorm_drop_rate=None</em>, <em>pool_stride=1</em>, <em>pool_type=None</em>, <em>use_cudnn=True</em><span class="sig-paren">)</span></dt>
-<dd><p>Image Convolution Group, Used for vgg net.</p>
-</dd></dl>
-
 </div>
 <div class="section" id="sequence-conv-pool">
 <h2>sequence_conv_pool<a class="headerlink" href="#sequence-conv-pool" title="永久链接至标题">¶</a></h2>
-<dl class="function">
-<dt>
-<code class="descclassname">paddle.v2.fluid.nets.</code><code class="descname">sequence_conv_pool</code><span class="sig-paren">(</span><em>input</em>, <em>num_filters</em>, <em>filter_size</em>, <em>param_attr=None</em>, <em>act='sigmoid'</em>, <em>pool_type='max'</em><span class="sig-paren">)</span></dt>
-<dd></dd></dl>
-
 </div>
 <div class="section" id="glu">
 <h2>glu<a class="headerlink" href="#glu" title="永久链接至标题">¶</a></h2>
-<dl class="function">
-<dt>
-<code class="descclassname">paddle.v2.fluid.nets.</code><code class="descname">glu</code><span class="sig-paren">(</span><em>input</em>, <em>dim=-1</em><span class="sig-paren">)</span></dt>
-<dd><p>The gated linear unit composed by split, sigmoid activation and elementwise
-multiplication. Specifically, Split the input into two equal sized parts
-<span class="math">\(a\)</span> and <span class="math">\(b\)</span> along the given dimension and then compute as
-following:</p>
-<blockquote>
-<div><div class="math">
-\[{GLU}(a, b)= a \otimes \sigma(b)\]</div>
-</div></blockquote>
-<p>Refer to <a class="reference external" href="https://arxiv.org/pdf/1612.08083.pdf">Language Modeling with Gated Convolutional Networks</a>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>input</strong> (<em>Variable</em>) &#8211; The input variable which is a Tensor or LoDTensor.</li>
-<li><strong>dim</strong> (<em>int</em>) &#8211; The dimension along which to split. If <span class="math">\(dim &lt; 0\)</span>, the
-dimension to split along is <span class="math">\(rank(input) + dim\)</span>.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">The Tensor variable with half the size of input.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">Variable</p>
-</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Examples</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># x is a Tensor variable with shape [3, 6, 9]</span>
-<span class="n">fluid</span><span class="o">.</span><span class="n">nets</span><span class="o">.</span><span class="n">glu</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># shape of output: [3, 3, 9]</span>
-</pre></div>
-</div>
-</dd></dl>
-
 </div>
 <div class="section" id="dot-product-attention">
 <h2>dot_product_attention<a class="headerlink" href="#dot-product-attention" title="永久链接至标题">¶</a></h2>
-<dl class="function">
-<dt>
-<code class="descclassname">paddle.v2.fluid.nets.</code><code class="descname">dot_product_attention</code><span class="sig-paren">(</span><em>querys</em>, <em>keys</em>, <em>values</em><span class="sig-paren">)</span></dt>
-<dd><p>The dot-product attention.</p>
-<p>Attention mechanism can be seen as mapping a query and a set of key-value
-pairs to an output. The output is computed as a weighted sum of the values,
-where the weight assigned to each value is computed by a compatibility
-function (dot-product here) of the query with the corresponding key.</p>
-<p>The dot-product attention can be implemented through (batch) matrix
-multipication as follows:</p>
-<blockquote>
-<div><div class="math">
-\[Attention(Q, K, V)= softmax(QK^\mathrm{T})V\]</div>
-</div></blockquote>
-<p>Refer to <a class="reference external" href="https://arxiv.org/pdf/1706.03762.pdf">Attention Is All You Need</a>.</p>
-<p>Note that batch data containing sequences with different lengths is not
-supported by this because of the (batch) matrix multipication.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>query</strong> (<em>Variable</em>) &#8211; The input variable which is a Tensor or LoDTensor.</li>
-<li><strong>key</strong> (<em>Variable</em>) &#8211; The input variable which is a Tensor or LoDTensor.</li>
-<li><strong>value</strong> (<em>Variable</em>) &#8211; The input variable which is a Tensor or LoDTensor.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">The Tensor variables representing the output and attention scores.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">tuple</p>
-</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Examples</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Suppose q, k, v are tensor variables with the following shape:</span>
-<span class="c1"># q: [3, 5, 9], k: [3, 6, 9], v: [3, 6, 10]</span>
-<span class="n">out</span><span class="p">,</span> <span class="n">attn_scores</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">nets</span><span class="o">.</span><span class="n">dot_product_attention</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
-<span class="n">out</span><span class="o">.</span><span class="n">shape</span>  <span class="c1"># [3, 5, 10]</span>
-<span class="n">attn_scores</span><span class="o">.</span><span class="n">shape</span>  <span class="c1"># [3, 5, 6]</span>
-</pre></div>
-</div>
-</dd></dl>
-
 </div>
 </div>
 

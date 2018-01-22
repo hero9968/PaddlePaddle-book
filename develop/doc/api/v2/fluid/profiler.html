@@ -220,35 +220,6 @@
 <h1>Profiler<a class="headerlink" href="#profiler" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="id1">
 <h2>Profiler<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt>
-<code class="descclassname">paddle.v2.fluid.profiler.</code><code class="descname">cuda_profiler</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwds</em><span class="sig-paren">)</span></dt>
-<dd><p>The CUDA profiler.
-This fuctions is used to profile CUDA program by CUDA runtime application
-programming interface. The profiling result will be written into
-<cite>output_file</cite> with Key-Value pair format or Comma separated values format.
-The user can set the output mode by <cite>output_mode</cite> argument and set the
-counters/options for profiling by <cite>config</cite> argument. The default config
-is [&#8216;gpustarttimestamp&#8217;, &#8216;gpustarttimestamp&#8217;, &#8216;gridsize3d&#8217;,
-&#8216;threadblocksize&#8217;, &#8216;streamid&#8217;, &#8216;enableonstart 0&#8217;, &#8216;conckerneltrace&#8217;].</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>output_file</strong> (<em>string</em>) &#8211; The output file name, the result will be
-written into this file.</li>
-<li><strong>output_mode</strong> (<em>string</em>) &#8211; The output mode has Key-Value pair format and
-Comma separated values format. It should be &#8216;kvp&#8217; or &#8216;csv&#8217;.</li>
-<li><strong>config</strong> (<em>list of string</em>) &#8211; The profiler options and counters can refer
-to &#8220;Compute Command Line Profiler User Guide&#8221;.</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
 </div>
 </div>
 
