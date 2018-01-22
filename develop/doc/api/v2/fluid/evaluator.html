@@ -220,6 +220,75 @@
 <h1>Evaluator<a class="headerlink" href="#evaluator" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="id1">
 <h2>Evaluator<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">paddle.v2.fluid.evaluator.</code><code class="descname">Evaluator</code><span class="sig-paren">(</span><em>name</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
+<dd><p>Base Class for all evaluators</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> (<em>str</em>) &#8211; The name of evaluator. such as, &#8220;accuracy&#8221;. Used for generate
+temporary variable name.</li>
+<li><strong>main_program</strong> (<em>Program</em><em>, </em><em>optional</em>) &#8211; The evaluator should be added to this
+main_program. Default default_main_program()</li>
+<li><strong>startup_program</strong> (<em>Program</em><em>, </em><em>optional</em>) &#8211; The parameter should be added to this
+startup_program. Default default_startup_program()</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="paddle.v2.fluid.evaluator.Evaluator.states">
+<code class="descname">states</code><a class="headerlink" href="#paddle.v2.fluid.evaluator.Evaluator.states" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>list</em> &#8211; The list of state variables. states will be reset to zero
+when <cite>reset</cite> is invoked.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="paddle.v2.fluid.evaluator.Evaluator.metrics">
+<code class="descname">metrics</code><a class="headerlink" href="#paddle.v2.fluid.evaluator.Evaluator.metrics" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>list</em> &#8211; The list of metrics variables. They will be calculate
+every mini-batch</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">reset</code><span class="sig-paren">(</span><em>executor</em>, <em>reset_program=None</em><span class="sig-paren">)</span></dt>
+<dd><p>reset metric states at the begin of each pass/user specified batch</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">eval</code><span class="sig-paren">(</span><em>executor</em>, <em>eval_program=None</em><span class="sig-paren">)</span></dt>
+<dd><p>Evaluate the statistics merged by multiple mini-batches.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">create_state</code><span class="sig-paren">(</span><em>suffix</em>, <em>dtype</em>, <em>shape</em><span class="sig-paren">)</span></dt>
+<dd><p>Create state variable.</p>
+<p>NOTE: It is not a public API.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>suffix</strong> (<em>str</em>) &#8211; the state suffix.</li>
+<li><strong>dtype</strong> (<em>str|core.DataType</em>) &#8211; the state data type</li>
+<li><strong>shape</strong> (<em>tuple|list</em>) &#8211; the shape of state</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns: State variable</p>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 </div>
 

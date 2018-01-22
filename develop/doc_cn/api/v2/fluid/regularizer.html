@@ -239,12 +239,36 @@
 <h1>Regularizer<a class="headerlink" href="#regularizer" title="永久链接至标题">¶</a></h1>
 <div class="section" id="weightdecayregularizer">
 <h2>WeightDecayRegularizer<a class="headerlink" href="#weightdecayregularizer" title="永久链接至标题">¶</a></h2>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">paddle.v2.fluid.regularizer.</code><code class="descname">WeightDecayRegularizer</code></dt>
+<dd><p>Base class for weight decay regularizers</p>
+<p>Defines the common interface of weight-decay regularizers.
+Weight-decay regularizers are added only during the backward
+pass for faster regularization. They add operations to the network
+that correspond to gradient of the regularization function.
+Users should not use this class directly, but need to use one
+of its implementations</p>
+</dd></dl>
+
 </div>
 <div class="section" id="l2decayregularizer">
 <h2>L2DecayRegularizer<a class="headerlink" href="#l2decayregularizer" title="永久链接至标题">¶</a></h2>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">paddle.v2.fluid.regularizer.</code><code class="descname">L2DecayRegularizer</code><span class="sig-paren">(</span><em>regularization_coeff=0.0</em><span class="sig-paren">)</span></dt>
+<dd><p>Implements the L2 Weight Decay Regularization</p>
+</dd></dl>
+
 </div>
-<div class="section" id="l1decayregularizer">
-<h2>L1DecayRegularizer<a class="headerlink" href="#l1decayregularizer" title="永久链接至标题">¶</a></h2>
+<div class="section" id="module-paddle.v2.fluid.regularizer">
+<span id="l1decayregularizer"></span><h2>L1DecayRegularizer<a class="headerlink" href="#module-paddle.v2.fluid.regularizer" title="永久链接至标题">¶</a></h2>
+<dl class="class">
+<dt id="paddle.v2.fluid.regularizer.L1DecayRegularizer">
+<em class="property">class </em><code class="descclassname">paddle.v2.fluid.regularizer.</code><code class="descname">L1DecayRegularizer</code><span class="sig-paren">(</span><em>regularization_coeff=0.0</em><span class="sig-paren">)</span><a class="headerlink" href="#paddle.v2.fluid.regularizer.L1DecayRegularizer" title="永久链接至目标">¶</a></dt>
+<dd><p>Implements the L1 Weight Decay Regularization</p>
+</dd></dl>
+
 </div>
 </div>
 
