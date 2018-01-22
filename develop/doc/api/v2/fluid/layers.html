@@ -3300,6 +3300,68 @@ Duplicable: False  Optional: False</li>
 </dd></dl>
 
 </div>
+<div class="section" id="edit-distance">
+<h2>edit_distance<a class="headerlink" href="#edit-distance" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="ctc-greedy-decoder">
+<h2>ctc_greedy_decoder<a class="headerlink" href="#ctc-greedy-decoder" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">ctc_greedy_decoder</code><span class="sig-paren">(</span><em>input</em>, <em>blank</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
+<dd><p>This op is used to decode sequences by greedy policy by below steps:
+1. Get the indexes of max value for each row in input. a.k.a. numpy.argmax(input, axis=0).
+2. For each sequence in result of step1, merge repeated tokens between two blanks and delete all blanks.</p>
+<p>A simple example as below:</p>
+<div class="highlight-text"><div class="highlight"><pre><span></span>Given:
+
+input.data = [[0.6, 0.1, 0.3, 0.1],
+              [0.3, 0.2, 0.4, 0.1],
+              [0.1, 0.5, 0.1, 0.3],
+              [0.5, 0.1, 0.3, 0.1],
+
+              [0.5, 0.1, 0.3, 0.1],
+              [0.2, 0.2, 0.2, 0.4],
+              [0.2, 0.2, 0.1, 0.5],
+              [0.5, 0.1, 0.3, 0.1]]
+
+input.lod = [[0, 4, 8]]
+
+Then:
+
+output.data = [[2],
+               [1],
+               [3]]
+
+output.lod = [[0, 2, 3]]
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>input</strong> (<em>Variable</em>) &#8211; (LoDTensor&lt;float&gt;), the probabilities of variable-length sequences, which is a 2-D Tensor with LoD information. It&#8217;s shape is [Lp, num_classes + 1], where Lp is the sum of all input sequences&#8217; length and num_classes is the true number of classes. (not including the blank label).</li>
+<li><strong>blank</strong> (<em>int</em>) &#8211; the blank label index of Connectionist Temporal Classification (CTC) loss, which is in thehalf-opened interval [0, num_classes + 1).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">CTC greedy decode result.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">Variable</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">8</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+
+<span class="n">cost</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">ctc_greedy_decoder</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
 <div class="section" id="l2-normalize">
 <h2>l2_normalize<a class="headerlink" href="#l2-normalize" title="Permalink to this headline">¶</a></h2>
 <dl class="function">

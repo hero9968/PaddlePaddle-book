@@ -3454,6 +3454,11 @@
  } ], 
  "outputs" : [ 
  { 
+   "name" : "SequenceNum",
+   "comment" : "The sequence count of current batch",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
    "name" : "Out",
    "comment" : "(2-D Tensor with shape [`batch_size` x 1]) The output edit distances of EditDistance operator.",
    "duplicable" : 0,
