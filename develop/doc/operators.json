@@ -2193,7 +2193,7 @@
  "attrs" : [  ] 
 },{
  "type" : "split_selected_rows",
- "comment" : "\nSplit a SelectedRows with a specified rows section.\nheight_sections is only needed when need to split the dims of the original tensor.\n\nExample:\n  Input:\n    X.rows = {0, 7, 5}\n    X.height = 12\n  Attr:\n    rows_sections = {1, 2}\n    height_sections = {}\n  Out:\n    out0.rows = {0}\n    out0.height = 12\n    out1.rows = {7, 5}\n    out2.height = 12\n\n",
+ "comment" : "\nSplit a SelectedRows with a specified rows section.\nheight_sections is only needed when need to split the dims of the original tensor.\n\nExample:\n  Input:\n    X.rows = {7, 5}\n    X.height = 12\n  Attr:\n    height_sections = {4, 8}\n  Out:\n    out0.rows = {}\n    out0.height = 4\n\n    out1.rows = {5, 7}\n    out2.height = 8\n\n",
  "inputs" : [ 
  { 
    "name" : "X",
@@ -2210,11 +2210,6 @@
  } ], 
  "attrs" : [ 
  { 
-   "name" : "rows_sections",
-   "type" : "int array",
-   "comment" : "Rows section for output.",
-   "generated" : 0
- }, { 
    "name" : "height_sections",
    "type" : "int array",
    "comment" : "Height for each output SelectedRows.",
