@@ -1516,6 +1516,80 @@
  } ], 
  "attrs" : [  ] 
 },{
+ "type" : "prior_box",
+ "comment" : "\nPrior box operator\nGenerate prior boxes for SSD(Single Shot MultiBox Detector) algorithm.\nEach position of the input produce N prior boxes, N is determined by\n the count of min_sizes, max_sizes and aspect_ratios, The size of the\n box is in range(min_size, max_size) interval, which is generated in\n sequence according to the aspect_ratios.\n\nPlease get more information from the following papers:\nhttps://arxiv.org/abs/1512.02325.\n",
+ "inputs" : [ 
+ { 
+   "name" : "Input",
+   "comment" : "(Tensor, default Tensor<float>), the input feature data of PriorBoxOp, The layout is NCHW.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Image",
+   "comment" : "(Tensor, default Tensor<float>), the input image data of PriorBoxOp, The layout is NCHW.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Boxes",
+   "comment" : "(Tensor, default Tensor<float>), the output prior boxes of PriorBoxOp. The layout is [H, W, num_priors, 4]. H is the height of input, W is the width of input, num_priors is the box count of each position.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Variances",
+   "comment" : "(Tensor, default Tensor<float>), the expanded variances of PriorBoxOp. The layout is [H, W, num_priors, 4]. H is the height of input, W is the width of input, num_priors is the box count of each position.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "min_sizes",
+   "type" : "int array",
+   "comment" : "(vector<int>) ",
+   "generated" : 1
+ }, { 
+   "name" : "max_sizes",
+   "type" : "int array",
+   "comment" : "(vector<int>) ",
+   "generated" : 1
+ }, { 
+   "name" : "aspect_ratios",
+   "type" : "float array",
+   "comment" : "(vector<float>) ",
+   "generated" : 1
+ }, { 
+   "name" : "variances",
+   "type" : "float array",
+   "comment" : "(vector<float>) ",
+   "generated" : 1
+ }, { 
+   "name" : "flip",
+   "type" : "bool",
+   "comment" : "(bool) ",
+   "generated" : 1
+ }, { 
+   "name" : "clip",
+   "type" : "bool",
+   "comment" : "(bool) ",
+   "generated" : 1
+ }, { 
+   "name" : "step_w",
+   "type" : "float",
+   "comment" : "Prior boxes step across width, 0 for auto calculation.",
+   "generated" : 0
+ }, { 
+   "name" : "step_h",
+   "type" : "float",
+   "comment" : "Prior boxes step across height, 0 for auto calculation.",
+   "generated" : 0
+ }, { 
+   "name" : "offset",
+   "type" : "float",
+   "comment" : "(float) Prior boxes center offset.",
+   "generated" : 0
+ } ] 
+},{
  "type" : "proximal_adagrad",
  "comment" : "\nProximal Adagrad Optimizer.\n\nOptimizer that implements the proximal adagrad algorithm:\n\n$$\nmoment = moment + grad * grad \\\\\nprox\\_param = param - learning\\_rate * grad * (1 / \\sqrt{moment}) \\\\\nparam = sign(prox\\_param) / (1 + learning\\_rate * l2) *\n        \\max(|prox\\_param| - learning\\_rate * l1 , 0)\n$$\n\nThe paper that proposed Proximal GD: \n(http://papers.nips.cc/paper/3793-efficient-learning-using-forward-backward-splitting.pdf)\nHere, we use the adagrad learning rate as specified here: \n(http://www.jmlr.org/papers/volume12/duchi11a/duchi11a.pdf)\n\n",
  "inputs" : [ 
@@ -2729,35 +2803,6 @@
    "generated" : 0
  } ] 
 },{
- "type" : "log_loss",
- "comment" : "\nLogLoss Operator.\n\nLog loss is a loss function used for binary classification. Log Loss quantifies\nthe accuracy of a classifier by penalising false classifications. Minimising the\nLog Loss is equivalent to maximising the accuracy of the classifier. We define\nPredicted as the values predicted by our model and Labels as the target ground\ntruth value. Log loss can evaluate how close the predicted values are to the\ntarget. The shapes of Predicted and Labels are both [batch_size, 1].\nThe equation is:\n\n$$\nLoss = - Labels * log(Predicted + \\epsilon) -\n        (1 - Labels) * log(1 - Predicted + \\epsilon)\n$$\n\n",
- "inputs" : [ 
- { 
-   "name" : "Predicted",
-   "comment" : "The input value (Predicted) of Log loss op.Predicted is a 2-D tensor with shape [batch_size, 1].",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Labels",
-   "comment" : "The target value (Labels) of Log loss op.Labels is a 2-D tensor with shape [batch_size, 1].",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Loss",
-   "comment" : "The output tensor with shape [batch_size, 1] which represents the log loss.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "epsilon",
-   "type" : "float",
-   "comment" : "Epsilon in log loss.",
-   "generated" : 0
- } ] 
-},{
  "type" : "pow",
  "comment" : "\nPow Activation Operator.\n\n$out = x^{factor}$\n\n",
  "inputs" : [ 
@@ -3401,6 +3446,35 @@
    "intermediate" : 0
  } ], 
  "attrs" : [  ] 
+},{
+ "type" : "log_loss",
+ "comment" : "\nLogLoss Operator.\n\nLog loss is a loss function used for binary classification. Log Loss quantifies\nthe accuracy of a classifier by penalising false classifications. Minimising the\nLog Loss is equivalent to maximising the accuracy of the classifier. We define\nPredicted as the values predicted by our model and Labels as the target ground\ntruth value. Log loss can evaluate how close the predicted values are to the\ntarget. The shapes of Predicted and Labels are both [batch_size, 1].\nThe equation is:\n\n$$\nLoss = - Labels * log(Predicted + \\epsilon) -\n        (1 - Labels) * log(1 - Predicted + \\epsilon)\n$$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "Predicted",
+   "comment" : "The input value (Predicted) of Log loss op.Predicted is a 2-D tensor with shape [batch_size, 1].",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Labels",
+   "comment" : "The target value (Labels) of Log loss op.Labels is a 2-D tensor with shape [batch_size, 1].",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Loss",
+   "comment" : "The output tensor with shape [batch_size, 1] which represents the log loss.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "epsilon",
+   "type" : "float",
+   "comment" : "Epsilon in log loss.",
+   "generated" : 0
+ } ] 
 },{
  "type" : "sqrt",
  "comment" : "\nSqrt Activation Operator.\n\n$out = \\sqrt{x}$\n\n",
