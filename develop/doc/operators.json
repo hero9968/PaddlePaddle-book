@@ -1141,6 +1141,24 @@
  } ], 
  "attrs" : [  ] 
 },{
+ "type" : "log",
+ "comment" : "\nLog Activation Operator.\n\n$out = \\ln(x)$\n\nNatural logarithm of x.\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "Input of Log operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "Output of Log operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
  "type" : "softmax",
  "comment" : "\nSoftmax Operator.\n\nThe input of the softmax operator is a 2-D tensor with shape N x K (N is the\nbatch_size, K is the dimension of input feature). The output tensor has the\nsame shape as the input tensor.\n\nFor each row of the input tensor, the softmax operator squashes the\nK-dimensional vector of arbitrary real values to a K-dimensional vector of real\nvalues in the range [0, 1] that add up to 1.\nIt computes the exponential of the given dimension and the sum of exponential\nvalues of all the other dimensions in the K-dimensional vector input.\nThen the ratio of the exponential of the given dimension and the sum of\nexponential values of all the other dimensions is the output of the softmax\noperator.\n\nFor each row $i$ and each column $j$ in Input(X), we have:\n    $$Out[i, j] = \\frac{\\exp(X[i, j])}{\\sum_j(exp(X[i, j])}$$\n\n",
  "inputs" : [ 
@@ -2514,6 +2532,40 @@
    "name" : "reduce_all",
    "type" : "bool",
    "comment" : "(bool, default false) If true, output a scalar reduced along all dimensions.",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "im2sequence",
+ "comment" : "\nThis op uses kernels to scan images and converts these images to sequences.\nAfter expanding, The number of time steps are output_height * output_width\nand the dimension of each time step is kernel_height * kernel_width * channels,\nin which:\n\noutput_height =\n    1 + (padding_height + padding_down + img_height - kernel_height + stride_height - 1) /\n            stride_height;\noutput_width =\n    1 + (padding_left + padding+right + img_width - kernel_width + stride_width - 1) /\n            stride_width;\n\nThis op can be used after convolution neural network, and before recurrent neural network.\n\nGiven:\n\nx = [[[[ 6.  2.  1.]\n       [ 8.  3.  5.]\n       [ 0.  2.  6.]]\n\n      [[ 2.  4.  4.]\n       [ 6.  3.  0.]\n       [ 6.  4.  7.]]]\n\n     [[[ 6.  7.  1.]\n       [ 5.  7.  9.]\n       [ 2.  4.  8.]]\n\n      [[ 1.  2.  1.]\n       [ 1.  3.  5.]\n       [ 9.  0.  8.]]]]\nx.dims = {2, 2, 3, 3}\n\nAnd:\n\nkernels = [2, 2]\nstrides = [1, 1]\npaddings = [0, 0, 0, 0]\n\nThen:\n\noutput.data = [[ 6.  2.  8.  3.  2.  4.  6.  3.]\n               [ 2.  1.  3.  5.  4.  4.  3.  0.]\n               [ 8.  3.  0.  2.  6.  3.  6.  4.]\n               [ 3.  5.  2.  6.  3.  0.  4.  7.]\n               [ 6.  7.  5.  7.  1.  2.  1.  3.]\n               [ 7.  1.  7.  9.  2.  1.  3.  5.]\n               [ 5.  7.  2.  4.  1.  3.  9.  0.]\n               [ 7.  9.  4.  8.  3.  5.  0.  8.]]\noutput.dims = {8, 9}\noutput.lod = [[0, 4, 8]]\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(Tensor) The input tensor has NCHW format.N: batch sizeC: channelsH: heightW: width",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(LodTensor) The output data of im2sequence op,",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "kernels",
+   "type" : "int array",
+   "comment" : "(vector<int>), the kernels(kernel_height, kernel_width)",
+   "generated" : 0
+ }, { 
+   "name" : "strides",
+   "type" : "int array",
+   "comment" : "(vector<int> default:{1, 1}), the strides(h_stride, w_stride)",
+   "generated" : 0
+ }, { 
+   "name" : "paddings",
+   "type" : "int array",
+   "comment" : "(vector<int> default:{0, 0, 0, 0}), the paddings(up_pad, left_pad, down_pad, right_pad)",
    "generated" : 0
  } ] 
 },{
@@ -5318,24 +5370,6 @@
    "comment" : "(float, default 1.0e-6) Constant for numerical stability",
    "generated" : 0
  } ] 
-},{
- "type" : "log",
- "comment" : "\nLog Activation Operator.\n\n$out = \\ln(x)$\n\nNatural logarithm of x.\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "Input of Log operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "Output of Log operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
 },{
  "type" : "nce",
  "comment" : "\nCompute and return the noise-contrastive estimation training loss.\nSee [Noise-contrastive estimation: A new estimation principle for unnormalized statistical models](http://www.jmlr.org/proceedings/papers/v9/gutmann10a/gutmann10a.pdf).\nBy default this operator uses a uniform distribution for sampling.\n",
