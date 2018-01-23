@@ -1159,24 +1159,6 @@
  } ], 
  "attrs" : [  ] 
 },{
- "type" : "reciprocal",
- "comment" : "\nReciprocal Activation Operator.\n\n$$out = \\frac{1}{x}$$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "Input of Reciprocal operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "Output of Reciprocal operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
  "type" : "softmax",
  "comment" : "\nSoftmax Operator.\n\nThe input of the softmax operator is a 2-D tensor with shape N x K (N is the\nbatch_size, K is the dimension of input feature). The output tensor has the\nsame shape as the input tensor.\n\nFor each row of the input tensor, the softmax operator squashes the\nK-dimensional vector of arbitrary real values to a K-dimensional vector of real\nvalues in the range [0, 1] that add up to 1.\nIt computes the exponential of the given dimension and the sum of exponential\nvalues of all the other dimensions in the K-dimensional vector input.\nThen the ratio of the exponential of the given dimension and the sum of\nexponential values of all the other dimensions is the output of the softmax\noperator.\n\nFor each row $i$ and each column $j$ in Input(X), we have:\n    $$Out[i, j] = \\frac{\\exp(X[i, j])}{\\sum_j(exp(X[i, j])}$$\n\n",
  "inputs" : [ 
@@ -1588,6 +1570,24 @@
  { 
    "name" : "Out",
    "comment" : "(2-D Tensor with shape [batch_size x 1]) The output loss of RankLoss operator.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
+ "type" : "reciprocal",
+ "comment" : "\nReciprocal Activation Operator.\n\n$$out = \\frac{1}{x}$$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "Input of Reciprocal operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "Output of Reciprocal operator",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
@@ -5004,29 +5004,6 @@
  { 
    "name" : "Out",
    "comment" : "Output of Ceil operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
- "type" : "bipartite_match",
- "comment" : "\nThis operator is a greedy bipartite matching algorithm, which is used to\nobtain the matching with the maximum distance based on the input\ndistance matrix. For input 2D matrix, the bipartite matching algorithm can\nfind the matched column for each row, also can find the matched row for\neach column. And this operator only calculate matched indices from column\nto row. For each instance, the number of matched indices is the number of\nof columns of the input ditance matrix.\n\nThere are two outputs to save matched indices and distance.\nA simple description, this algothrim matched the best (maximum distance)\nrow entity to the column entity and the matched indices are not duplicated\nin each row of ColToRowMatchIndices. If the column entity is not matched\nany row entity, set -1 in ColToRowMatchIndices.\n\nPlease note that the input DistMat can be LoDTensor (with LoD) or Tensor.\nIf LoDTensor with LoD, the height of ColToRowMatchIndices is batch size.\nIf Tensor, the height of ColToRowMatchIndices is 1.\n\n",
- "inputs" : [ 
- { 
-   "name" : "DistMat",
-   "comment" : "(LoDTensor or Tensor) this input is a 2-D LoDTensor with shape [K, M]. It is pair-wise distance matrix between the entities represented by each row and each column. For example, assumed one entity is A with shape [K], another entity is B with shape [M]. The DistMat[i][j] is the distance between A[i] and B[j]. The bigger the distance is, the better macthing the pairs are. Please note, This tensor can contain LoD information to represent a batch of inputs. One instance of this batch can contain different numbers of entities.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "ColToRowMatchIndices",
-   "comment" : "(Tensor) A 2-D Tensor with shape [N, M] in int type. N is the batch size. If ColToRowMatchIndices[i][j] is -1, it means B[j] does not match any entity in i-th instance. Otherwise, it means B[j] is matched to row ColToRowMatchIndices[i][j] in i-th instance. The row number of i-th instance is saved in ColToRowMatchIndices[i][j].",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "ColToRowMatchDis",
-   "comment" : "(Tensor) A 2-D Tensor with shape [N, M] in float type. N is batch size. If ColToRowMatchIndices[i][j] is -1, ColToRowMatchDis[i][j] is also -1.0. Otherwise, assumed ColToRowMatchIndices[i][j] = d, and the row offsets of each instance are called LoD. Then ColToRowMatchDis[i][j] = DistMat[d+LoD[i]][j]",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
