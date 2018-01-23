@@ -469,6 +469,74 @@ default &#8220;tanh&#8221;.</li>
 </dd></dl>
 
 </div>
+<div class="section" id="dynamic-gru">
+<h2>dynamic_gru<a class="headerlink" href="#dynamic-gru" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">dynamic_gru</code><span class="sig-paren">(</span><em>input</em>, <em>size</em>, <em>param_attr=None</em>, <em>bias_attr=None</em>, <em>is_reverse=False</em>, <em>gate_activation='sigmoid'</em>, <em>candidate_activation='tanh'</em>, <em>h_0=None</em><span class="sig-paren">)</span></dt>
+<dd><p><strong>Dynamic GRU Layer</strong></p>
+<p>Refer to <a class="reference external" href="https://arxiv.org/abs/1412.3555">Empirical Evaluation of Gated Recurrent Neural Networks on
+Sequence Modeling</a></p>
+<p>The formula is as follows:</p>
+<div class="math">
+\[ \begin{align}\begin{aligned}u_t &amp; = act_g(W_{ux}x_{t} + W_{uh}h_{t-1} + b_u)\\r_t &amp; = act_g(W_{rx}x_{t} + W_{rh}h_{t-1} + b_r)\\\tilde{h_t} &amp; = act_c(W_{cx}x_{t} + W_{ch}(r_t \odot h_{t-1}) + b_c)\\h_t &amp; = (1-u_t) \odot h_{t-1} + u_t \odot \tilde{h_t}\end{aligned}\end{align} \]</div>
+<p>The <span class="math">\(\odot\)</span> is the element-wise product of the vectors. <span class="math">\(act_g\)</span>
+is the update gate and reset gate activation function and <span class="math">\(sigmoid\)</span>
+is usually used for it. <span class="math">\(act_c\)</span> is the activation function for
+candidate hidden state and <span class="math">\(tanh\)</span> is usually used for it.</p>
+<p>Note that these <span class="math">\(W_{ux}x_{t}, W_{rx}x_{t}, W_{cx}x_{t}\)</span> operations on
+the input <span class="math">\(x_{t}\)</span> are NOT included in this operator. Users can choose
+to use fully-connect layer before GRU layer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
+<li><strong>input</strong> (<em>Variable</em>) &#8211; The input of dynamic_gru layer, which supports
+variable-time length input sequence. The underlying tensor in this
+Variable is a matrix with shape <span class="math">\((T \times 3D)\)</span>, where
+<span class="math">\(T\)</span> is the total time steps in this mini-batch, <span class="math">\(D\)</span>
+is the hidden size.</li>
+<li><strong>size</strong> (<em>int</em>) &#8211; The dimension of the gru cell.</li>
+<li><strong>param_attr</strong> (<em>ParamAttr|None</em>) &#8211; <p>The parameter attribute for the learnable
+hidden-hidden weight matrix. Note:</p>
+<ul>
+<li>The shape of the weight matrix is <span class="math">\((T \times 3D)\)</span>, where
+<span class="math">\(D\)</span> is the hidden size.</li>
+<li>All elements in the weight matrix can be divided into two parts.
+The first part are weights of the update gate and reset gate with
+shape <span class="math">\((D \times 2D)\)</span>, and the second part are weights for
+candidate hidden state with shape <span class="math">\((D \times D)\)</span>.</li>
+</ul>
+</li>
+<li><strong>bias_attr</strong> (<em>ParamAttr</em>) &#8211; The parameter attribute for learnable the
+hidden-hidden bias.</li>
+<li><strong>is_reverse</strong> (<em>bool</em>) &#8211; Whether to compute reversed GRU, default
+<code class="xref py py-attr docutils literal"><span class="pre">False</span></code>.</li>
+<li><strong>gate_activation</strong> (<em>str</em>) &#8211; The activation for update gate and reset gate.
+Choices = [&#8220;sigmoid&#8221;, &#8220;tanh&#8221;, &#8220;relu&#8221;, &#8220;identity&#8221;], default &#8220;sigmoid&#8221;.</li>
+<li><strong>activation</strong> (<em>str</em>) &#8211; The activation for candidate hidden state.
+Choices = [&#8220;sigmoid&#8221;, &#8220;tanh&#8221;, &#8220;relu&#8221;, &#8220;identity&#8221;], default &#8220;tanh&#8221;.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">The hidden state of GRU. The shape is (T times D), and lod             is the same with the input.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">Variable</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">hidden_dim</span> <span class="o">=</span> <span class="mi">512</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">hidden_dim</span> <span class="o">*</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">hidden</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">dynamic_gru</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="n">hidden_dim</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
 <div class="section" id="data">
 <h2>data<a class="headerlink" href="#data" title="永久链接至标题">¶</a></h2>
 <dl class="function">
