@@ -247,7 +247,7 @@ the selected candidate&#8217;s IDs in each time step can be stored in a <code cl
 <p>The current <code class="docutils literal"><span class="pre">LoDTensor</span></code> is designed to store levels of variable-length sequences. It stores several arrays of integers where each represents a level.</p>
 <p>The integers in each level represent the begin and end (not inclusive) offset of a sequence <strong>in the underlying tensor</strong>,
 let&#8217;s call this format the <strong>absolute-offset LoD</strong> for clarity.</p>
-<p>The relative-offset LoD can retrieve any sequence very quickly but fails to represent empty sequences, for example, a two-level LoD is as follows</p>
+<p>The absolute-offset LoD can retrieve any sequence very quickly but fails to represent empty sequences, for example, a two-level LoD is as follows</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">]</span>
  <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">]]</span>
 </pre></div>
@@ -334,7 +334,7 @@ It is easy to find out the second sequence in the first-level LoD has two empty 
         <span class="n">encoder_ctx_expanded</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">lod_expand</span><span class="p">(</span><span class="n">encoder_ctx</span><span class="p">,</span> <span class="n">target_word</span><span class="p">)</span>
         <span class="n">decoder_input</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span>
             <span class="n">act</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">activation</span><span class="o">.</span><span class="n">Linear</span><span class="p">(),</span>
-            <span class="nb">input</span><span class="o">=</span><span class="p">[</span><span class="n">target_word</span><span class="p">,</span> <span class="n">encoder_ctx</span><span class="p">],</span>
+            <span class="nb">input</span><span class="o">=</span><span class="p">[</span><span class="n">target_word</span><span class="p">,</span> <span class="n">encoder_ctx_expanded</span><span class="p">],</span>
             <span class="n">size</span><span class="o">=</span><span class="mi">3</span> <span class="o">*</span> <span class="n">decoder_dim</span><span class="p">)</span>
         <span class="n">gru_out</span><span class="p">,</span> <span class="n">cur_mem</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">gru_step</span><span class="p">(</span>
             <span class="n">decoder_input</span><span class="p">,</span> <span class="n">mem</span><span class="o">=</span><span class="n">decoder_mem</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">decoder_dim</span><span class="p">)</span>
