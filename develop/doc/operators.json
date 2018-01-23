@@ -1769,6 +1769,24 @@
    "generated" : 0
  } ] 
 },{
+ "type" : "round",
+ "comment" : "\nRound Activation Operator.\n\n$out = [x]$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "Input of Round operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "Output of Round operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
  "type" : "norm",
  "comment" : "\n       \"Input shape: $(N, C, H, W)$\n        Scale shape: $(C, 1)$\n        Output shape: $(N, C, H, W)$\n        Where\n        forward\n          $$\n            [\\frac {x_{1}}{\\sqrt{\\sum{x_{i}^{2}}}} \\frac {x_{2}}{\\sqrt{\\sum{x_{i}^{2}}}} \\frac {x_{3}}{\\sqrt{\\sum{x_{i}^{2}}}} \\cdot  \\cdot  \\cdot \\frac {x_{n}}{\\sqrt{\\sum{x_{i}^{2}}}}]\n          $$\n        backward\n          $$\n            \\frac{\\frac{\\mathrm{d}L }{\\mathrm{d}y_{1}} - \\frac {x_{1}\\sum {\\frac{\\mathrm{d} L}{\\mathrm{d} y_{j}}}x_{j}}{\\sum x_{j}^{2}} }{\\sqrt{\\sum{x_{j}^{2}}}}\n          $$\n        ",
  "inputs" : [ 
@@ -3658,6 +3676,63 @@
  } ], 
  "attrs" : [  ] 
 },{
+ "type" : "iou_similarity",
+ "comment" : "\nIOU Similarity Operator.\nComputes intersection-over-union (IOU) between two box lists.\n Box list 'X' should be a LoDTensor and 'Y' is a common Tensor,\n boxes in 'Y' are shared by all instance of the batched inputs of X.\n Given two boxes A and B, the calculation of IOU is as follows:\n\n$$\nIOU(A, B) = \n\\frac{area(A\\cap B)}{area(A)+area(B)-area(A\\cap B)}\n$$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(LoDTensor, default LoDTensor<float>) Box list X is a 2-D LoDTensor with shape [N, 4] holds N boxes, each box is represented as [xmin, ymin, xmax, ymax], the shape of X is [N, 4]. [xmin, ymin] is the left top coordinate of the box if the input is image feature map, they are close to the origin of the coordinate system. [xmax, ymax] is the right bottom coordinate of the box. This tensor can contain LoD information to represent a batch of inputs. One instance of this batch can contain different numbers of entities.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Y",
+   "comment" : "(Tensor, default Tensor<float>) Box list Y holds M boxes, each box is represented as [xmin, ymin, xmax, ymax], the shape of X is [N, 4]. [xmin, ymin] is the left top coordinate of the box if the input is image feature map, and [xmax, ymax] is the right bottom coordinate of the box.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(LoDTensor, the lod is same as input X) The output of iou_similarity op, a tensor with shape [N, M] representing pairwise iou scores.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
+ "type" : "conditional_block",
+ "comment" : "Conditional block operator\n\nRun the sub-block if X is not empty. Params is the other inputs and Out is the\noutputs of the sub-block.\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "The conditional variable of this operator. If X is empty, the whole sub-block will not be executed.",
+   "duplicable" : 1,
+   "intermediate" : 0
+ }, { 
+   "name" : "Params",
+   "comment" : "The input variables of the sub-block.",
+   "duplicable" : 1,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "The output variables of the sub-block.",
+   "duplicable" : 1,
+   "intermediate" : 0
+ }, { 
+   "name" : "Scope",
+   "comment" : "(std::vector<Scope*>) The step scope of conditional block. To unify the conditional block, rnn and while op, the type of scope is std::vector<Scope*>",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "sub_block",
+   "type" : "block id",
+   "comment" : "The step block of conditional block operator",
+   "generated" : 0
+ } ] 
+},{
  "type" : "rmsprop",
  "comment" : "\nRmsprop Optimizer. \n\n$$\nMeanSquareOut = decay * MeanSquare + (1 - decay) * Grad * Grad \\\\\nMomentOut = momentum * Moment +\n            \\frac{LearningRate * Grad}{\\sqrt{MeanSquareOut + epsilon}} \\\\\nParamOut = Param -  MomentOut\n$$\n\nThe original slides that proposed Rmsprop: Slide 29 of\nhttp://www.cs.toronto.edu/~tijmen/csc321/slides/lecture_slides_lec6.pdf)\n\n",
  "inputs" : [ 
@@ -4726,40 +4801,6 @@
  } ], 
  "attrs" : [  ] 
 },{
- "type" : "conditional_block",
- "comment" : "Conditional block operator\n\nRun the sub-block if X is not empty. Params is the other inputs and Out is the\noutputs of the sub-block.\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "The conditional variable of this operator. If X is empty, the whole sub-block will not be executed.",
-   "duplicable" : 1,
-   "intermediate" : 0
- }, { 
-   "name" : "Params",
-   "comment" : "The input variables of the sub-block.",
-   "duplicable" : 1,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "The output variables of the sub-block.",
-   "duplicable" : 1,
-   "intermediate" : 0
- }, { 
-   "name" : "Scope",
-   "comment" : "(std::vector<Scope*>) The step scope of conditional block. To unify the conditional block, rnn and while op, the type of scope is std::vector<Scope*>",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "sub_block",
-   "type" : "block id",
-   "comment" : "The step block of conditional block operator",
-   "generated" : 0
- } ] 
-},{
  "type" : "sum",
  "comment" : "\nSum operator.\n\nThis operators sums the input tensors. All the inputs can carry the\nLoD (Level of Details) information. However, the output only shares\nthe LoD information with the first input.\n",
  "inputs" : [ 
@@ -5769,22 +5810,4 @@
    "comment" : "(float, default -0.5f) Learning Rate Power.",
    "generated" : 0
  } ] 
-},{
- "type" : "round",
- "comment" : "\nRound Activation Operator.\n\n$out = [x]$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "Input of Round operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "Output of Round operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
 }]
