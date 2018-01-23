@@ -244,14 +244,14 @@
 <code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">fc</code><span class="sig-paren">(</span><em>input</em>, <em>size</em>, <em>num_flatten_dims=1</em>, <em>param_attr=None</em>, <em>bias_attr=None</em>, <em>act=None</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
 <dd><p><strong>Fully Connected Layer</strong></p>
 <p>The fully connected layer can take multiple tensors as its inputs. It
-creates a variable (one for each input tensor) called weights for each input
-tensor, which represents a fully connected weight matrix from each input
-unit to each output unit. The fully connected layer multiplies each input
-tensor with its coresponding weight to produce an output Tensor. If
-multiple input tensors are given, the results of multiple multiplications
-will be sumed up. If bias_attr is not None, a biases variable will be
-created and added to the output. Finally, if activation is not None,
-it will be applied to the output as well.</p>
+creates a variable (one for each input tensor) called weights for each
+input tensor, which represents a fully connected weight matrix from
+each input unit to each output unit. The fully connected layer
+multiplies each input tensor with its coresponding weight to produce
+an output Tensor. If multiple input tensors are given, the results of
+multiple multiplications will be sumed up. If bias_attr is not None,
+a biases variable will be created and added to the output. Finally,
+if activation is not None, it will be applied to the output as well.</p>
 <p>This process can be formulated as follows:</p>
 <div class="math">
 \[Out = Act({\sum_{i=0}^{N-1}W_iX_i + b})\]</div>
@@ -881,51 +881,34 @@ Duplicable: False  Optional: False</li>
 <h2>transpose<a class="headerlink" href="#transpose" title="永久链接至标题">¶</a></h2>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">transpose</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
-<dd><p>Transpose Operator.</p>
-<p>The input tensor will be permuted according to the axis values given.
-The op functions is similar to how numpy.transpose works in python.</p>
-<p>For example:</p>
-<blockquote>
-<div><div class="highlight-text"><div class="highlight"><pre><span></span>input = numpy.arange(6).reshape((2,3))
-
-the input is:
-
-array([[0, 1, 2],
-       [3, 4, 5]])
-
-given axis is:
-
-[1, 0]
-
-output = input.transpose(axis)
-
-then the output is:
-
-array([[0, 3],
-       [1, 4],
-       [2, 5]])
-</pre></div>
-</div>
-</div></blockquote>
-<p>So, given a input tensor of shape(N, C, H, W) and the axis is {0, 2, 3, 1},
-the output tensor shape will be (N, H, W, C)</p>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">transpose</code><span class="sig-paren">(</span><em>x</em>, <em>perm</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
+<dd><p><strong>transpose Layer</strong></p>
+<p>Permute the dimensions of <cite>input</cite> according to <cite>perm</cite>.</p>
+<p>The <cite>i</cite>-th dimension  of the returned tensor will correspond to the
+perm[i]-th dimension of <cite>input</cite>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>x</strong> &#8211; (Tensor)The input tensor, tensors with rank at most 6 are supported
-Duplicable: False  Optional: False</li>
-<li><strong>axis</strong> (<em>INTS</em>) &#8211; (vector&lt;int&gt;)A list of values, and the size of the list should be the same with the input tensor rank, the tensor will permute the axes according the the values given</li>
+<li><strong>input</strong> (<em>Variable</em>) &#8211; (Tensor), A Tensor.</li>
+<li><strong>perm</strong> (<em>list</em>) &#8211; A permutation of the dimensions of <cite>input</cite>.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first last">(Tensor)The output tensor</p>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">A transposed Tensor.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">Variable</p>
 </td>
 </tr>
 </tbody>
 </table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+<span class="n">x_transposed</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">perm</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </div>
