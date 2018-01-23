@@ -3440,6 +3440,11 @@
    "type" : "bool",
    "comment" : "(boolean, default false) Sparse update",
    "generated" : 0
+ }, { 
+   "name" : "padding_idx",
+   "type" : "long",
+   "comment" : "(int64, default -1) If the value is -1, it makes no effect to lookup. Otherwise the given value indicates padding the output with zeros whenever lookup encounters it in Ids.",
+   "generated" : 0
  } ] 
 },{
  "type" : "lod_tensor_to_array",
