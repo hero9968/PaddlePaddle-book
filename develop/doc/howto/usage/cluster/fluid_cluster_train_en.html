@@ -225,6 +225,10 @@
 <span id="have-paddlepaddle-installed"></span><h3>Have PaddlePaddle installed<a class="headerlink" href="#have-paddlepaddle-installed" title="Permalink to this headline">¶</a></h3>
 <p>PaddlePaddle must be installed on all nodes. If you have GPU cards on your nodes, be sure to properly install drivers and CUDA libraries.</p>
 <p>PaddlePaddle build and installation guide can be found  <a class="reference external" href="http://www.paddlepaddle.org/docs/develop/documentation/en/getstarted/build_and_install/index_en.html">here</a>.</p>
+<p>In addition to above, the <code class="docutils literal"><span class="pre">cmake</span></code> command should be run with the option <code class="docutils literal"><span class="pre">WITH_DISTRIBUTE</span></code> set to on. An example bare minimum <code class="docutils literal"><span class="pre">cmake</span></code> command would look as follows:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>cmake .. -DWITH_DOC<span class="o">=</span>OFF -DWITH_GPU<span class="o">=</span>OFF -DWITH_DISTRIBUTE<span class="o">=</span>ON -DWITH_SWIG_PY<span class="o">=</span>ON -DWITH_PYTHON<span class="o">=</span>ON
+</pre></div>
+</div>
 </div>
 <div class="section" id="update-the-training-script">
 <span id="update-the-training-script"></span><h3>Update the training script<a class="headerlink" href="#update-the-training-script" title="Permalink to this headline">¶</a></h3>
@@ -319,7 +323,12 @@
 </div>
 <div class="section" id="e2e-demo">
 <span id="e2e-demo"></span><h3>E2E demo<a class="headerlink" href="#e2e-demo" title="Permalink to this headline">¶</a></h3>
-<p>Please find the complete demo from <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/python/paddle/v2/fluid/tests/book_distribute/notest_dist_fit_a_line.py">here</a>. In parameter server node run the following in the command line:</p>
+<p>Please find the complete demo from <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/python/paddle/v2/fluid/tests/book_distribute/notest_dist_fit_a_line.py">here</a>.
+First <code class="docutils literal"><span class="pre">cd</span></code> into the folder that contains the <code class="docutils literal"><span class="pre">python</span></code> files. In this case:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">cd</span> /paddle/python/paddle/v2/fluid/tests/book_distribute
+</pre></div>
+</div>
+<p>In parameter server node run the following in the command line:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nv">PSERVERS</span><span class="o">=</span><span class="m">192</span>.168.1.2:6174 <span class="nv">SERVER_ENDPOINT</span><span class="o">=</span><span class="m">192</span>.168.1.2:6174 <span class="nv">TRAINING_ROLE</span><span class="o">=</span>PSERVER python notest_dist_fit_a_line.py
 </pre></div>
 </div>
