@@ -344,11 +344,11 @@ log printing.</p>
 </div>
 <p><code class="docutils literal"><span class="pre">JobDesc</span></code> object describe the distributed job resource specification to run on
 Cluster environment.</p>
-<p><img src="src/remote_executor.png"/></p>
+<p><img src="src/remote_executor.png" width="500" align="center" /></p>
 <p><code class="docutils literal"><span class="pre">RemoteExecutor.run</span></code> sends the <code class="docutils literal"><span class="pre">ProgramDesc</span></code> and
 <a class="reference external" href="https://github.com/PaddlePaddle/cloud/blob/develop/doc/autoscale/README.md#training-job-resource">TrainingJob</a>
 to a server in the cluster which executes <code class="docutils literal"><span class="pre">RemoteExecutor.listen</span></code>. This server is responsible
-to start the final Kubernetes Jobs to run the different role of <code class="docutils literal"><span class="pre">ProgramDesc</span></code>.</p>
+to start the final Kubernetes Jobs to run the different role of <code class="docutils literal"><span class="pre">ProgramDesc</span></code> from <code class="docutils literal"><span class="pre">ConfigMap</span></code>.</p>
 </div>
 <div class="section" id="placement-algorithm">
 <span id="placement-algorithm"></span><h3>Placement Algorithm<a class="headerlink" href="#placement-algorithm" title="Permalink to this headline">¶</a></h3>
