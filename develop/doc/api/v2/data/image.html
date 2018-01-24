@@ -409,7 +409,7 @@ according the order (2,0,1).</p>
 
 <dl class="function">
 <dt id="paddle.v2.image.left_right_flip">
-<code class="descclassname">paddle.v2.image.</code><code class="descname">left_right_flip</code><span class="sig-paren">(</span><em>im</em><span class="sig-paren">)</span><a class="headerlink" href="#paddle.v2.image.left_right_flip" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">paddle.v2.image.</code><code class="descname">left_right_flip</code><span class="sig-paren">(</span><em>im</em>, <em>is_color=True</em><span class="sig-paren">)</span><a class="headerlink" href="#paddle.v2.image.left_right_flip" title="Permalink to this definition">¶</a></dt>
 <dd><p>Flip an image along the horizontal direction.
 Return the flipped image.</p>
 <p>Example usage:</p>
@@ -420,7 +420,11 @@ Return the flipped image.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Paam im:</th><td class="field-body">input image with HWC layout</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>im</strong> (<em>ndarray</em>) &#8211; input image with HWC layout or HW layout for gray image</li>
+<li><strong>is_color</strong> (<em>bool</em>) &#8211; whether input image is color or not</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
