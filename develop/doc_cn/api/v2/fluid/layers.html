@@ -277,16 +277,17 @@ multidimensional tensor will first be flattened
 into a 2-dimensional matrix. The parameter
 <cite>num_flatten_dims</cite> determines how the input tensor
 is flattened: the first <cite>num_flatten_dims</cite>
-dimensions will be flatten to form the first
-dimension of the final matrix (height of the
-matrix), and the rest <cite>rank(X) - num_flatten_dims</cite>
-dimensions are flattened to form the second
-dimension of the final matrix (width of the matrix).
-For example, suppose <cite>X</cite> is a 6-dimensional tensor
-with a shape [2, 3, 4, 5, 6], and
-<cite>num_flatten_dims</cite> = 3. Then, the flattened matrix
-will have a shape [2 x 3 x 4, 5 x 6] = [24, 30].
-By default, <cite>num_flatten_dims</cite> is set to 1.</li>
+(inclusive, index starts from 1) dimensions will
+be flatten to form the first dimension of the
+final matrix (height of the matrix), and the rest
+<cite>rank(X) - num_flatten_dims</cite> dimensions are
+flattened to form the second dimension of the
+final matrix (width of the matrix). For example,
+suppose <cite>X</cite> is a 6-dimensional tensor with a shape
+[2, 3, 4, 5, 6], and <cite>num_flatten_dims</cite> = 3. Then,
+the flattened matrix will have a shape
+[2 x 3 x 4, 5 x 6] = [24, 30]. By default,
+<cite>num_flatten_dims</cite> is set to 1.</li>
 <li><strong>param_attr</strong> (<em>ParamAttr|list</em>) &#8211; The parameter attribute for learnable
 parameters/weights of the fully connected
 layer.</li>
@@ -877,13 +878,9 @@ Duplicable: False  Optional: False</li>
 <dd><p>Reshape Operator.</p>
 <p>Reshape Input(X) into the shape specified by Attr(shape).</p>
 <p>An example:
-Given a 2-D tensor X with 2 rows and 2 columns</p>
-<blockquote>
-<div>[[1, 2], [3, 4]]</div></blockquote>
+Given a 2-D tensor X with 2 rows and 2 columns : [[1, 2], [3, 4]]</p>
 <p>and target shape = [1, 4], the reshape operator will transform
-the tensor X into a 2-D tensor:</p>
-<blockquote>
-<div>[[1, 2, 3, 4]]</div></blockquote>
+the tensor X into a 2-D tensor: [[1, 2, 3, 4]]</p>
 <p>One dimension in the target shape can be set -1, representing that its
 size is unknown. In this case, the real dimension will be infered from
 the original shape of Input(X) and other dimensions in the target shape.</p>
@@ -1225,8 +1222,9 @@ X and Y and returns that as the output.</p>
 <dt>
 <code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">cross_entropy</code><span class="sig-paren">(</span><em>input</em>, <em>label</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p><strong>Cross Entropy Layer</strong></p>
-<p>This layer computes the cross entropy between <cite>input</cite> and <cite>label</cite>. It supports
-both standard cross-entropy and soft-label cross-entropy loss computation.</p>
+<p>This layer computes the cross entropy between <cite>input</cite> and <cite>label</cite>. It
+supports both standard cross-entropy and soft-label cross-entropy loss
+computation.</p>
 <ol class="arabic">
 <li><dl class="first docutils">
 <dt>One-hot cross-entropy:</dt>
@@ -1262,22 +1260,33 @@ to a one-hot cross-entropy with one-hot label representation.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>Variable|list</em>) &#8211; a 2-D tensor with shape [N x D], where N is the
-batch size and D is the number of classes. This input is a probability
-computed by the previous operator, which is almost always the result
-of a softmax operator.</li>
+batch size and D is the number of classes. This
+input is a probability computed by the previous
+operator, which is almost always the result of
+a softmax operator.</li>
 <li><strong>label</strong> (<em>Variable|list</em>) &#8211; the ground truth which is a 2-D tensor. When
-<cite>soft_label</cite> is set to <cite>False</cite>, <cite>label</cite> is a tensor&lt;int64&gt; with shape
-[N x 1]. When <cite>soft_label</cite> is set to <cite>True</cite>, <cite>label</cite> is a
+<cite>soft_label</cite> is set to <cite>False</cite>, <cite>label</cite> is a
+tensor&lt;int64&gt; with shape [N x 1]. When
+<cite>soft_label</cite> is set to <cite>True</cite>, <cite>label</cite> is a
 tensor&lt;float/double&gt; with shape [N x D].</li>
-<li><strong>soft_label</strong> (bool, via <cite>**kwargs</cite>) &#8211; a flag indicating whether to interpretate
-the given labels as soft labels, default <cite>False</cite>.</li>
+<li><strong>soft_label</strong> (bool, via <cite>**kwargs</cite>) &#8211; a flag indicating whether to
+interpretate the given labels as soft
+labels, default <cite>False</cite>.</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">A 2-D tensor with shape [N x 1], the cross entropy loss.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><cite>ValueError</cite> &#8211; 1) the 1st dimension of <cite>input</cite> and <cite>label</cite> are not equal; 2) when               <cite>soft_label == True</cite>, and the 2nd dimension of <cite>input</cite> and <cite>label</cite> are not                equal; 3) when <cite>soft_label == False</cite>, and the 2nd dimension of <cite>label</cite> is not 1.</p>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><cite>ValueError</cite> &#8211; 1) the 1st dimension of <cite>input</cite> and <cite>label</cite> are not equal.
+2) when <cite>soft_label == True</cite>, and the 2nd dimension of</p>
+<blockquote>
+<div><p><cite>input</cite> and <cite>label</cite> are not equal.</p>
+</div></blockquote>
+<ol class="last arabic simple" start="3">
+<li>when <cite>soft_label == False</cite>, and the 2nd dimension of
+<cite>label</cite> is not 1.</li>
+</ol>
 </td>
 </tr>
 </tbody>
@@ -1296,8 +1305,9 @@ the given labels as soft labels, default <cite>False</cite>.</li>
 <dt>
 <code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">square_error_cost</code><span class="sig-paren">(</span><em>input</em>, <em>label</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p><strong>Square error cost layer</strong></p>
-<p>This layer accepts input predictions and target label and returns the squared error cost.
-For predictions, <span class="math">\(X\)</span>, and target labels, <span class="math">\(Y\)</span>, the equation is:</p>
+<p>This layer accepts input predictions and target label and returns the
+squared error cost.</p>
+<p>For predictions, <span class="math">\(X\)</span>, and target labels, <span class="math">\(Y\)</span>, the equation is:</p>
 <div class="math">
 \[Out = (X - Y)^2\]</div>
 <p>In the above equation:</p>
@@ -1318,7 +1328,12 @@ For predictions, <span class="math">\(X\)</span>, and target labels, <span class
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">The tensor variable storing the element-wise squared error difference                   of input and label.</p>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first"><dl class="docutils">
+<dt>The tensor variable storing the element-wise squared error</dt>
+<dd><p class="first last">difference of input and label.</p>
+</dd>
+</dl>
+</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">Variable</p>
@@ -1363,12 +1378,13 @@ in the input parameters to the function.</p>
 <code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">conv2d</code><span class="sig-paren">(</span><em>input</em>, <em>num_filters</em>, <em>filter_size</em>, <em>stride=None</em>, <em>padding=None</em>, <em>groups=None</em>, <em>param_attr=None</em>, <em>bias_attr=None</em>, <em>use_cudnn=True</em>, <em>act=None</em><span class="sig-paren">)</span></dt>
 <dd><p><strong>Convlution2D Layer</strong></p>
 <p>The convolution2D layer calculates the output based on the input, filter
-and strides, paddings, dilations, groups parameters. Input(Input) and Output(Output)
-are in NCHW format. Where N is batch size, C is the number of channels, H is the height
-of the feature, and W is the width of the feature.
+and strides, paddings, dilations, groups parameters. Input(Input) and
+Output(Output) are in NCHW format. Where N is batch size, C is the number of
+channels, H is the height of the feature, and W is the width of the feature.
 The details of convolution layer, please refer UFLDL&#8217;s <a class="reference external" href="http://ufldl.stanford.edu/tutorial/supervised/FeatureExtractionUsingConvolution/">convolution,</a> .
-If bias attribution and activation type are provided, bias is added to the output of the convolution,
-and the corresponding activation function is applied to the final result.</p>
+If bias attribution and activation type are provided, bias is added to the
+output of the convolution, and the corresponding activation function is
+applied to the final result.</p>
 <p>For each input <span class="math">\(X\)</span>, the equation is:</p>
 <div class="math">
 \[Out = \sigma (W \ast X + b)\]</div>
@@ -1379,7 +1395,11 @@ and the corresponding activation function is applied to the final result.</p>
 <li><span class="math">\(\ast\)</span>: Convolution operation.</li>
 <li><span class="math">\(b\)</span>: Bias value, a 2-D tensor with shape [M, 1].</li>
 <li><span class="math">\(\sigma\)</span>: Activation function.</li>
-<li><span class="math">\(Out\)</span>: Output value, the shape of <span class="math">\(Out\)</span> and <span class="math">\(X\)</span> may be different.</li>
+<li><dl class="first docutils">
+<dt><span class="math">\(Out\)</span>: Output value, the shape of <span class="math">\(Out\)</span> and <span class="math">\(X\)</span> may be</dt>
+<dd>different.</dd>
+</dl>
+</li>
 </ul>
 <p class="rubric">Example</p>
 <ul>
@@ -1426,20 +1446,28 @@ library is installed. Default: True</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">The tensor variable storing the convolution and                   non-linearity activation result.</p>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first"><dl class="docutils">
+<dt>The tensor variable storing the convolution and</dt>
+<dd><p class="first last">non-linearity activation result.</p>
+</dd>
+</dl>
+</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first">Variable</p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">ValueError</span></code> &#8211; If the shapes of input, filter_size, stride, padding and groups mismatch.</p>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">ValueError</span></code> &#8211; If the shapes of input, filter_size, stride, padding and
+groups mismatch.</p>
 </td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Examples</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
-<span class="n">conv2d</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">conv2d</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">num_filters</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">filter_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">act</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">data</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+<span class="n">conv2d</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">conv2d</span><span class="p">(</span>
+    <span class="nb">input</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">num_filters</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">filter_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">act</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -2177,7 +2205,8 @@ are in NCHW format. Where N is batch size, C is the number of channels,
 H is the height of the feature, and W is the width of the feature.
 Parameters(dilations, strides, paddings) are two elements. These two elements
 represent height and width, respectively. The details of convolution transpose
-layer, please refer to the following explanation and references <a class="reference external" href="http://www.matthewzeiler.com/wp-content/uploads/2017/07/cvpr2010.pdf">therein</a>.</p>
+layer, please refer to the following explanation and references
+<a class="reference external" href="http://www.matthewzeiler.com/wp-content/uploads/2017/07/cvpr2010.pdf">therein</a>.</p>
 <p>For each input <span class="math">\(X\)</span>, the equation is:</p>
 <div class="math">
 \[Out = W \ast X\]</div>
@@ -2186,7 +2215,11 @@ layer, please refer to the following explanation and references <a class="refere
 <li><span class="math">\(X\)</span>: Input value, a tensor with NCHW format.</li>
 <li><span class="math">\(W\)</span>: Filter value, a tensor with MCHW format.</li>
 <li><span class="math">\(\ast\)</span> : Convolution transpose operation.</li>
-<li><span class="math">\(Out\)</span>: Output value, the shape of <span class="math">\(Out\)</span> and <span class="math">\(X\)</span> may be different.</li>
+<li><dl class="first docutils">
+<dt><span class="math">\(Out\)</span>: Output value, the shape of <span class="math">\(Out\)</span> and <span class="math">\(X\)</span> may be</dt>
+<dd>different.</dd>
+</dl>
+</li>
 </ul>
 <p class="rubric">Example</p>
 <ul>
@@ -2226,7 +2259,8 @@ stride_H = stride_W = stride. Default: stride = 1.</li>
 <li><strong>dilation</strong> (<em>int|tuple</em>) &#8211; The dilation size. If dilation is a tuple, it must
 contain two integers, (dilation_H, dilation_W). Otherwise, the
 dilation_H = dilation_W = dilation. Default: dilation = 1.</li>
-<li><strong>param_attr</strong> (<em>ParamAttr</em>) &#8211; The parameters to the Conv2d_transpose Layer. Default: None</li>
+<li><strong>param_attr</strong> (<em>ParamAttr</em>) &#8211; The parameters to the Conv2d_transpose Layer.
+Default: None</li>
 <li><strong>use_cudnn</strong> (<em>bool</em>) &#8211; Use cudnn kernel or not, it is valid only when the cudnn
 library is installed. Default: True</li>
 <li><strong>name</strong> (<em>str|None</em>) &#8211; A name for this layer(optional). If set None, the layer
@@ -2240,14 +2274,17 @@ will be named automatically.</li>
 <tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first">Variable</p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">ValueError</span></code> &#8211; If the shapes of input, filter_size, stride, padding and groups mismatch.</p>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">ValueError</span></code> &#8211; If the shapes of input, filter_size, stride, padding and
+groups mismatch.</p>
 </td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Examples</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
-<span class="n">conv2d_transpose</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">conv2d_transpose</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">num_filters</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">filter_size</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">data</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+<span class="n">conv2d_transpose</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">conv2d_transpose</span><span class="p">(</span>
+    <span class="nb">input</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">num_filters</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">filter_size</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -2356,8 +2393,10 @@ and concatenation of <span class="math">\(u_t\)</span>, <span class="math">\(r_t
 <li><strong>size</strong> (<em>integer</em>) &#8211; The input dimension value.</li>
 <li><strong>weight</strong> (<em>ParamAttr</em>) &#8211; The weight parameters for gru unit. Default: None</li>
 <li><strong>bias</strong> (<em>ParamAttr</em>) &#8211; The bias parameters for gru unit. Default: None</li>
-<li><strong>activation</strong> (<em>string</em>) &#8211; The activation type for cell (actNode). Default: &#8216;tanh&#8217;</li>
-<li><strong>gate_activation</strong> (<em>string</em>) &#8211; The activation type for gates (actGate). Default: &#8216;sigmoid&#8217;</li>
+<li><strong>activation</strong> (<em>string</em>) &#8211; The activation type for cell (actNode).
+Default: &#8216;tanh&#8217;</li>
+<li><strong>gate_activation</strong> (<em>string</em>) &#8211; The activation type for gates (actGate).
+Default: &#8216;sigmoid&#8217;</li>
 </ul>
 </td>
 </tr>
@@ -2433,7 +2472,10 @@ will be named automatically.</li>
 <tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first">tuple</p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">ValueError</span></code> &#8211; The ranks of <strong>x_t</strong>, <strong>hidden_t_prev</strong> and <strong>cell_t_prev</strong>                not be 2 or the 1st dimensions of <strong>x_t</strong>, <strong>hidden_t_prev</strong>                 and <strong>cell_t_prev</strong> not be the same or the 2nd dimensions of                 <strong>hidden_t_prev</strong> and <strong>cell_t_prev</strong> not be the same.</p>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">ValueError</span></code> &#8211; The ranks of <strong>x_t</strong>, <strong>hidden_t_prev</strong> and <strong>cell_t_prev</strong>
+not be 2 or the 1st dimensions of <strong>x_t</strong>, <strong>hidden_t_prev</strong>
+and <strong>cell_t_prev</strong> not be the same or the 2nd dimensions of
+<strong>hidden_t_prev</strong> and <strong>cell_t_prev</strong> not be the same.</p>
 </td>
 </tr>
 </tbody>
@@ -2725,9 +2767,9 @@ will be named automatically.</li>
 <dl class="function">
 <dt>
 <code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">matmul</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>transpose_x=False</em>, <em>transpose_y=False</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
-<dd><p>Applies matrix multiplication to two tensors. Currently, the input
-tensors&#8217; rank can be any, but when the rank of anyone inputs is
-bigger than 3, this two inputs&#8217; rank should be equal.</p>
+<dd><p>Applies matrix multiplication to two tensors.</p>
+<p>Currently, the input tensors&#8217; rank can be any, but when the rank of any
+inputs is bigger than 3, this two inputs&#8217; rank should be equal.</p>
 <p>The actual behavior depends on the shapes of <span class="math">\(x\)</span>, <span class="math">\(y\)</span> and the
 flag values of <code class="xref py py-attr docutils literal"><span class="pre">transpose_x</span></code>, <code class="xref py py-attr docutils literal"><span class="pre">transpose_y</span></code>. Specifically:</p>
 <ul class="simple">
@@ -2775,18 +2817,23 @@ will be named automatically.</li>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Examples to clarify shapes of the inputs and output</span>
 <span class="c1"># x: [B, ..., M, K], y: [B, ..., K, N]</span>
 <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>  <span class="c1"># out: [B, ..., M, N]</span>
+
 <span class="c1"># x: [B, M, K], y: [B, K, N]</span>
 <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>  <span class="c1"># out: [B, M, N]</span>
+
 <span class="c1"># x: [B, M, K], y: [K, N]</span>
 <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>  <span class="c1"># out: [B, M, N]</span>
-<span class="c1"># x: [B, M, K], y: [K]</span>
-<span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>  <span class="c1"># out: [B, M]</span>
+
 <span class="c1"># x: [M, K], y: [K, N]</span>
 <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>  <span class="c1"># out: [M, N]</span>
+
+<span class="c1"># x: [B, M, K], y: [K]</span>
+<span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>  <span class="c1"># out: [B, M]</span>
+
 <span class="c1"># x: [K], y: [K]</span>
 <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>  <span class="c1"># out: [1]</span>
-<span class="c1"># x: [M], y: [N]</span>
 
+<span class="c1"># x: [M], y: [N]</span>
 <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="bp">True</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>  <span class="c1"># out: [M, N]</span>
 </pre></div>
 </div>
@@ -3521,7 +3568,8 @@ output.lod = [[0, 4, 8]]
 </pre></div>
 </div>
 <p>The simple usage is:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">output</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">im2sequence</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">layer</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">filter_size</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">output</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">im2sequence</span><span class="p">(</span>
+    <span class="nb">input</span><span class="o">=</span><span class="n">layer</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">filter_size</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
 </pre></div>
 </div>
 </div></blockquote>
@@ -3537,8 +3585,13 @@ output.lod = [[0, 4, 8]]
 <dt>
 <code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">ctc_greedy_decoder</code><span class="sig-paren">(</span><em>input</em>, <em>blank</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
 <dd><p>This op is used to decode sequences by greedy policy by below steps:
-1. Get the indexes of max value for each row in input. a.k.a. numpy.argmax(input, axis=0).
-2. For each sequence in result of step1, merge repeated tokens between two blanks and delete all blanks.</p>
+1. Get the indexes of max value for each row in input. a.k.a.</p>
+<blockquote>
+<div>numpy.argmax(input, axis=0).</div></blockquote>
+<ol class="arabic simple" start="2">
+<li>For each sequence in result of step1, merge repeated tokens between two
+blanks and delete all blanks.</li>
+</ol>
 <p>A simple example as below:</p>
 <div class="highlight-text"><div class="highlight"><pre><span></span>Given:
 
@@ -3568,8 +3621,15 @@ output.lod = [[0, 2, 3]]
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>input</strong> (<em>Variable</em>) &#8211; (LoDTensor&lt;float&gt;), the probabilities of variable-length sequences, which is a 2-D Tensor with LoD information. It&#8217;s shape is [Lp, num_classes + 1], where Lp is the sum of all input sequences&#8217; length and num_classes is the true number of classes. (not including the blank label).</li>
-<li><strong>blank</strong> (<em>int</em>) &#8211; the blank label index of Connectionist Temporal Classification (CTC) loss, which is in thehalf-opened interval [0, num_classes + 1).</li>
+<li><strong>input</strong> (<em>Variable</em>) &#8211; (LoDTensor&lt;float&gt;), the probabilities of
+variable-length sequences, which is a 2-D Tensor with
+LoD information. It&#8217;s shape is [Lp, num_classes + 1],
+where Lp is the sum of all input sequences&#8217; length and
+num_classes is the true number of classes. (not
+including the blank label).</li>
+<li><strong>blank</strong> (<em>int</em>) &#8211; the blank label index of Connectionist Temporal
+Classification (CTC) loss, which is in thehalf-opened
+interval [0, num_classes + 1).</li>
 </ul>
 </td>
 </tr>
@@ -3628,7 +3688,7 @@ will be named automatically.</li>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;data&quot;</span><span class="p">,</span>
                          <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">13</span><span class="p">),</span>
                          <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
-<span class="n">fc</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">l2_normalize</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">normed</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">l2_normalize</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
