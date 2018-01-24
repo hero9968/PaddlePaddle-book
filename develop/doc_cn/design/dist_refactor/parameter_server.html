@@ -239,15 +239,15 @@ different purposes.</p>
 </div>
 <div class="section" id="background">
 <span id="background"></span><h2>Background<a class="headerlink" href="#background" title="永久链接至标题">¶</a></h2>
-<p>The previous implementations of the parameter server does not run a
+<p>The previous implementations of the parameter server do not run a
 fluid sub-program. Parameter initialization, optimizer computation, network
 communication and checkpointing are implemented twice on both the
-trainer and the parameter server.</p>
-<p>It would be great if we can write code once and use them on both the
-trainer and the parameter server: reduces code duplication and
-improves extensibility. Given that after the current refactor, we are
-representing everything as a computing graph on the
-trainer. Representing everything as a computing graph on the parameter
+trainer as well as the parameter server.</p>
+<p>It would be great if we can write code once and use them on both: the
+trainer and the parameter server, since this reduces code duplication and
+improves extensibility. Given that after the current refactoring, we are
+representing everything as a computation graph on the
+trainer. Representing everything as a computation graph on the parameter
 server becomes a natural extension.</p>
 </div>
 <div class="section" id="design">
@@ -259,9 +259,9 @@ into sub-programs to be scheduled on different nodes with the following
 steps:</p>
 <ol class="simple">
 <li>OP placement: the OPs will be placed on different nodes according
-to heuristic that minimizes estimated total computation
+to a heuristic that minimizes the estimated total computation
 time. Currently we will use a simple heuristic that puts parameter
-varable on parameter server workers and everything else on trainer
+variable on parameter server workers and everything else on trainer
 workers.</li>
 <li>Add communication OPs to enable the communication between nodes.</li>
 </ol>
@@ -272,16 +272,16 @@ subgraphs for the trainer and the parameter server:</p>
 <p>After converting:</p>
 <p><img src="src/dist-graph.png" width="700"/></p>
 <ol class="simple">
-<li>The parameter variable W and it&#8217;s optimizer program are placed on the parameter server.</li>
+<li>The parameter variable W and its optimizer program are placed on the parameter server.</li>
 <li>Operators are added to the program.<ul>
 <li><em>Send</em> sends data to the connected <em>Recv</em> operator.  The
 scheduler on the receive node will only schedule <em>Recv</em> operator
 to run when the <em>Send</em> operator has ran (the <em>Send</em> OP will mark
 the <em>Recv</em> OP runnable automatically).</li>
-<li><em>Enueue</em> enqueues the input variable, it can block until space
+<li><em>Enqueue</em> enqueues the input variable, it can block until space
 become available in the queue.</li>
 <li><em>Dequeue</em> outputs configurable numbers of tensors from the
-queue. It will block until the queue have the required number of
+queue. It will block until the queue has the required number of
 tensors.</li>
 </ul>
 </li>
@@ -290,7 +290,7 @@ tensors.</li>
 <div class="section" id="benefits">
 <span id="benefits"></span><h3>Benefits<a class="headerlink" href="#benefits" title="永久链接至标题">¶</a></h3>
 <ul class="simple">
-<li>Model parallelism become easier to implement: it&#8217;s an extension to
+<li>Model parallelism becomes easier to implement: it is an extension to
 the trainer - parameter server approach. We can have several &#8220;Transpilers&#8221;
 to achieve different goals.</li>
 <li>User-defined optimizer is easier to add - user can now express it as
@@ -302,24 +302,24 @@ server mentioned in the background section.</li>
 <div class="section" id="challenges">
 <span id="challenges"></span><h3>Challenges<a class="headerlink" href="#challenges" title="永久链接至标题">¶</a></h3>
 <ul class="simple">
-<li>It&#8217;s important to balance the parameter shards of on multiple
-parameter server. If a single parameter is very big (some
+<li>It is important to balance the parameter shards on multiple
+parameter servers. If a single parameter is very big (for example: some
 word-embedding, fully connected, softmax layer), we need to
 automatically partition the single parameter onto different
 parameter servers when possible (only element-wise optimizer depends
 on the parameter variable).</li>
-<li>In the &#8220;Aync SGD&#8221; figure, the &#8220;W&#8221; variable on the parameter server
-could be read and wrote concurrently. See
+<li>In the &#8220;Async SGD&#8221; figure, the &#8220;W&#8221; variable on the parameter server
+could be read and written concurrently. See
 <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/pull/6394">here</a> for more
-details about concurrent program in fluid.</li>
+details about concurrent program in Fluid.</li>
 </ul>
 </div>
 <div class="section" id="discussion">
 <span id="discussion"></span><h3>Discussion<a class="headerlink" href="#discussion" title="永久链接至标题">¶</a></h3>
 <ul class="simple">
 <li>Can the Enqueue OP be implemented under our current tensor design
-(puts the input tensor into the queue tensor)?</li>
-<li><em>Dequeue</em> OP will have variable numbers of output (depends on the
+(put the input tensor into the queue tensor)?</li>
+<li><em>Dequeue</em> OP will have variable numbers of output (depending on the
 <code class="docutils literal"><span class="pre">min_count</span></code> attribute), does our current design support it? (similar
 question for the <em>Add</em> OP)</li>
 </ul>
