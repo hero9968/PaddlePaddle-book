@@ -3671,6 +3671,57 @@ with shape being [N, M] where M for dimension.</li>
 </dd></dl>
 
 </div>
+<div class="section" id="row-conv">
+<h2>row_conv<a class="headerlink" href="#row-conv" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">row_conv</code><span class="sig-paren">(</span><em>input</em>, <em>future_context_size</em>, <em>param_attr=None</em>, <em>act=None</em><span class="sig-paren">)</span></dt>
+<dd><p>Row Conv Operator. This layer will apply lookahead convolution to
+<strong>input</strong>. The input variable should be a 2D LoDTensor with shape [T, D].
+Parameters with shape [future_context_size + 1, D] will be created. The math
+equation of row convolution is as follows:</p>
+<div class="math">
+\[Out_{i} = \sum_{j = i} ^ {i + \tau} X_{j} \odot W_{i - j}\]</div>
+<p>In the above equation:</p>
+<ul class="simple">
+<li><span class="math">\(Out_{i}\)</span>: The i-th row of output variable with shape [1, D].</li>
+<li><span class="math">\(\tau\)</span>: Future context size.</li>
+<li><span class="math">\(X_{j}\)</span>: The j-th row of input variable with shape [1, D].</li>
+<li><span class="math">\(W_{i-j}\)</span>: The (i-j)-th row of parameters with shape [1, D].</li>
+</ul>
+<p>More details about row_conv please refer to the paper     (<a class="reference external" href="http://www.cs.cmu.edu/~dyogatam/papers/wang+etal.iclrworkshop2016.pdf">http://www.cs.cmu.edu/~dyogatam/papers/wang+etal.iclrworkshop2016.pdf</a>) and
+the design document     (<a class="reference external" href="https://github.com/PaddlePaddle/Paddle/issues/2228#issuecomment-303903645">https://github.com/PaddlePaddle/Paddle/issues/2228#issuecomment-303903645</a>).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>input</strong> (<em>Variable</em>) &#8211; Input variable, a 2D LoDTensor with shape [T, D].</li>
+<li><strong>future_context_size</strong> (<em>int</em>) &#8211; Future context size. Please note, the shape
+of convolution kernel is [future_context_size + 1, D].</li>
+<li><strong>param_attr</strong> (<em>ParamAttr</em>) &#8211; Attributes of parameters, including
+name, initializer etc.</li>
+<li><strong>act</strong> (<em>str</em>) &#8211; Non-linear activation to be applied to output variable.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The output tensor with same shape as input tensor.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">Variable</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">16</span><span class="p">],</span>
+                <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">,</span> <span class="n">lod_level</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">out</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">row_conv</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">future_context_size</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
 </div>
 
 
