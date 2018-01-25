@@ -3782,6 +3782,57 @@ name, initializer etc.</li>
 </dd></dl>
 
 </div>
+<div class="section" id="multiplex">
+<h2>multiplex<a class="headerlink" href="#multiplex" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">multiplex</code><span class="sig-paren">(</span><em>inputs</em>, <em>index</em><span class="sig-paren">)</span></dt>
+<dd><p><strong>Multiplex Layer</strong></p>
+<p>Referring to the given index variable, this layer selects rows from the
+input variables to construct a multiplex variable. Assuming that there are
+<span class="math">\(m\)</span> input variables and <span class="math">\(I_i\)</span> represents the i-th input
+variable and <span class="math">\(i\)</span> is in [0, <span class="math">\(m\)</span>). All input variables are
+tensors with same shape [<span class="math">\(d_0\)</span>, <span class="math">\(d_1\)</span>, ..., <span class="math">\(d_R\)</span>].
+Please note that rank of the input tensor should be at least 2. Each input
+variable will be treated as a 2-D matrix with shape [<span class="math">\(M\)</span>, <span class="math">\(N\)</span>]
+where <span class="math">\(M\)</span> for <span class="math">\(d_0\)</span> and <span class="math">\(N\)</span> for <span class="math">\(d_1\)</span> * <span class="math">\(d_2\)</span>
+* ... * <span class="math">\(d_R\)</span>. Let <span class="math">\(I_i[j]\)</span> be the j-th row of the i-th input
+variable. The given index variable should be a 2-D tensor with shape
+[<span class="math">\(M\)</span>, 1]. Let <cite>ID[i]</cite> be the i-th index value of the index variable.
+Then the output variable will be a tensor with shape [<span class="math">\(d_0\)</span>,
+<span class="math">\(d_1\)</span>, ..., <span class="math">\(d_R\)</span>]. If we treat the output tensor as a 2-D
+matrix with shape [<span class="math">\(M\)</span>, <span class="math">\(N\)</span>] and let <span class="math">\(O[i]\)</span> be the i-th
+row of the matrix, then <cite>O[i]</cite> is equal to <span class="math">\(I_{ID[i]}[i]\)</span>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>inputs</strong> (<em>list</em>) &#8211; A list of variables to gather from. All variables have the
+same shape and the rank is at least 2.</li>
+<li><strong>index</strong> (<em>Variable</em>) &#8211; Tensor&lt;int32&gt;, index variable which is a 2-D tensor
+with shape [M, 1] where M is the batch size.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Multiplex variable gathered from input variables.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">Variable</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">x1</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+<span class="n">x2</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;x2&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;index&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;int32&#39;</span><span class="p">)</span>
+<span class="n">out</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">multiplex</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
 </div>
 
 
