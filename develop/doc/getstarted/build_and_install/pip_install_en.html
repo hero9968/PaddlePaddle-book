@@ -243,8 +243,8 @@ the below links, log in as guest, then click at the &#8220;Artifact&#8221;
 tab, you&#8217;ll find the download link of whl packages.</p>
 <p>If the links below shows up the login form, just click &#8220;Log in as guest&#8221; to start the download:</p>
 <a class="reference internal image-reference" href="../../_images/paddleci.png"><img alt="../../_images/paddleci.png" class="align-center" src="../../_images/paddleci.png" style="width: 398.0px; height: 224.5px;" /></a>
-<table border="1" class="colwidths-given docutils" id="id11">
-<caption><span class="caption-text">whl package of each version</span><a class="headerlink" href="#id11" title="Permalink to this table">¶</a></caption>
+<table border="1" class="colwidths-given docutils" id="id13">
+<caption><span class="caption-text">whl package of each version</span><a class="headerlink" href="#id13" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="10%" />
 <col width="30%" />
@@ -269,17 +269,22 @@ tab, you&#8217;ll find the download link of whl packages.</p>
 <td><a class="reference external" href="https://guest:&#64;paddleci.ngrok.io/repository/download/Manylinux1_CpuAvxOpenblas/.lastSuccessful/paddlepaddle-0.11.0-cp27-cp27m-linux_x86_64.whl">paddlepaddle-0.11.0-cp27-cp27m-linux_x86_64.whl</a></td>
 <td>Not Available</td>
 </tr>
-<tr class="row-even"><td>cuda7.5_cudnn5_avx_mkl</td>
+<tr class="row-even"><td>cpu_noavx_openblas</td>
+<td><a class="reference external" href="https://guest:&#64;paddleci.ngrok.io/repository/download/Manylinux1_CpuNoavxOpenblas/.lastSuccessful/paddlepaddle-0.11.0-cp27-cp27mu-linux_x86_64.whl">paddlepaddle-0.11.0-cp27-cp27mu-linux_x86_64.whl</a></td>
+<td><a class="reference external" href="https://guest:&#64;paddleci.ngrok.io/repository/download/Manylinux1_CpuNoavxOpenblas/.lastSuccessful/paddlepaddle-0.11.0-cp27-cp27m-linux_x86_64.whl">paddlepaddle-0.11.0-cp27-cp27m-linux_x86_64.whl</a></td>
+<td>Not Available</td>
+</tr>
+<tr class="row-odd"><td>cuda7.5_cudnn5_avx_mkl</td>
 <td><a class="reference external" href="https://guest:&#64;paddleci.ngrok.io/repository/download/Manylinux1_Cuda75cudnn5cp27cp27mu/.lastSuccessful/paddlepaddle_gpu-0.11.0-cp27-cp27mu-linux_x86_64.whl">paddlepaddle_gpu-0.11.0-cp27-cp27mu-linux_x86_64.whl</a></td>
 <td><a class="reference external" href="https://guest:&#64;paddleci.ngrok.io/repository/download/Manylinux1_Cuda75cudnn5cp27cp27mu/.lastSuccessful/paddlepaddle_gpu-0.11.0-cp27-cp27m-linux_x86_64.whl">paddlepaddle_gpu-0.11.0-cp27-cp27m-linux_x86_64.whl</a></td>
 <td><a class="reference external" href="https://guest:&#64;paddleci.ngrok.io/repository/download/Manylinux1_Cuda75cudnn5cp27cp27mu/.lastSuccessful/paddle.tgz">paddle.tgz</a></td>
 </tr>
-<tr class="row-odd"><td>cuda8.0_cudnn5_avx_mkl</td>
+<tr class="row-even"><td>cuda8.0_cudnn5_avx_mkl</td>
 <td><a class="reference external" href="https://guest:&#64;paddleci.ngrok.io/repository/download/Manylinux1_Cuda80cudnn5cp27cp27mu/.lastSuccessful/paddlepaddle_gpu-0.11.0-cp27-cp27mu-linux_x86_64.whl">paddlepaddle_gpu-0.11.0-cp27-cp27mu-linux_x86_64.whl</a></td>
 <td><a class="reference external" href="https://guest:&#64;paddleci.ngrok.io/repository/download/Manylinux1_Cuda80cudnn5cp27cp27mu/.lastSuccessful/paddlepaddle_gpu-0.11.0-cp27-cp27m-linux_x86_64.whl">paddlepaddle_gpu-0.11.0-cp27-cp27m-linux_x86_64.whl</a></td>
 <td><a class="reference external" href="https://guest:&#64;paddleci.ngrok.io/repository/download/Manylinux1_Cuda80cudnn5cp27cp27mu/.lastSuccessful/paddle.tgz">paddle.tgz</a></td>
 </tr>
-<tr class="row-even"><td>cuda8.0_cudnn7_avx_mkl</td>
+<tr class="row-odd"><td>cuda8.0_cudnn7_avx_mkl</td>
 <td><a class="reference external" href="https://guest:&#64;paddleci.ngrok.io/repository/download/Manylinux1_Cuda8cudnn7cp27cp27mu/.lastSuccessful/paddlepaddle_gpu-0.11.0-cp27-cp27mu-linux_x86_64.whl">paddlepaddle_gpu-0.11.0-cp27-cp27mu-linux_x86_64.whl</a></td>
 <td><a class="reference external" href="https://guest:&#64;paddleci.ngrok.io/repository/download/Manylinux1_Cuda8cudnn7cp27cp27mu/.lastSuccessful/paddlepaddle_gpu-0.11.0-cp27-cp27m-linux_x86_64.whl">paddlepaddle_gpu-0.11.0-cp27-cp27m-linux_x86_64.whl</a></td>
 <td><a class="reference external" href="https://guest:&#64;paddleci.ngrok.io/repository/download/Manylinux1_Cuda8cudnn7cp27cp27mu/.lastSuccessful/paddle.tgz">paddle.tgz</a></td>
@@ -298,8 +303,8 @@ and MacOS 10.12.</p>
 standard, which uses CentOS 5 as default build environment. But CUDA libraries
 seems only run on CentOS 6 at least, also, CentOS 5 is about to end its lifetime,
 so we use CentOS 6 as default build environment.</p>
-<table border="1" class="colwidths-given docutils" id="id12">
-<caption><span class="caption-text">PaddlePaddle Runtime Deps</span><a class="headerlink" href="#id12" title="Permalink to this table">¶</a></caption>
+<table border="1" class="colwidths-given docutils" id="id14">
+<caption><span class="caption-text">PaddlePaddle Runtime Deps</span><a class="headerlink" href="#id14" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="18%" />
 <col width="27%" />

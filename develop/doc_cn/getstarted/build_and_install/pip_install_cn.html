@@ -258,8 +258,8 @@
 您可以从下面的表格中找到需要的版本：</p>
 <p>如果在点击下面链接时出现如下登陆界面，点击“Log in as guest”即可开始下载：</p>
 <a class="reference internal image-reference" href="../../_images/paddleci.png"><img alt="../../_images/paddleci.png" class="align-center" src="../../_images/paddleci.png" style="width: 398.0px; height: 224.5px;" /></a>
-<table border="1" class="colwidths-given docutils" id="id15">
-<caption><span class="caption-text">各个版本最新的whl包</span><a class="headerlink" href="#id15" title="永久链接至表格">¶</a></caption>
+<table border="1" class="colwidths-given docutils" id="id17">
+<caption><span class="caption-text">各个版本最新的whl包</span><a class="headerlink" href="#id17" title="永久链接至表格">¶</a></caption>
 <colgroup>
 <col width="10%" />
 <col width="30%" />
@@ -284,17 +284,22 @@
 <td><a class="reference external" href="https://guest:&#64;paddleci.ngrok.io/repository/download/Manylinux1_CpuAvxOpenblas/.lastSuccessful/paddlepaddle-0.11.0-cp27-cp27m-linux_x86_64.whl">paddlepaddle-0.11.0-cp27-cp27m-linux_x86_64.whl</a></td>
 <td>暂无</td>
 </tr>
-<tr class="row-even"><td>cuda7.5_cudnn5_avx_mkl</td>
+<tr class="row-even"><td>cpu_noavx_openblas</td>
+<td><a class="reference external" href="https://guest:&#64;paddleci.ngrok.io/repository/download/Manylinux1_CpuNoavxOpenblas/.lastSuccessful/paddlepaddle-0.11.0-cp27-cp27mu-linux_x86_64.whl">paddlepaddle-0.11.0-cp27-cp27mu-linux_x86_64.whl</a></td>
+<td><a class="reference external" href="https://guest:&#64;paddleci.ngrok.io/repository/download/Manylinux1_CpuNoavxOpenblas/.lastSuccessful/paddlepaddle-0.11.0-cp27-cp27m-linux_x86_64.whl">paddlepaddle-0.11.0-cp27-cp27m-linux_x86_64.whl</a></td>
+<td>暂无</td>
+</tr>
+<tr class="row-odd"><td>cuda7.5_cudnn5_avx_mkl</td>
 <td><a class="reference external" href="https://guest:&#64;paddleci.ngrok.io/repository/download/Manylinux1_Cuda75cudnn5cp27cp27mu/.lastSuccessful/paddlepaddle_gpu-0.11.0-cp27-cp27mu-linux_x86_64.whl">paddlepaddle_gpu-0.11.0-cp27-cp27mu-linux_x86_64.whl</a></td>
 <td><a class="reference external" href="https://guest:&#64;paddleci.ngrok.io/repository/download/Manylinux1_Cuda75cudnn5cp27cp27mu/.lastSuccessful/paddlepaddle_gpu-0.11.0-cp27-cp27m-linux_x86_64.whl">paddlepaddle_gpu-0.11.0-cp27-cp27m-linux_x86_64.whl</a></td>
 <td><a class="reference external" href="https://guest:&#64;paddleci.ngrok.io/repository/download/Manylinux1_Cuda75cudnn5cp27cp27mu/.lastSuccessful/paddle.tgz">paddle.tgz</a></td>
 </tr>
-<tr class="row-odd"><td>cuda8.0_cudnn5_avx_mkl</td>
+<tr class="row-even"><td>cuda8.0_cudnn5_avx_mkl</td>
 <td><a class="reference external" href="https://guest:&#64;paddleci.ngrok.io/repository/download/Manylinux1_Cuda80cudnn5cp27cp27mu/.lastSuccessful/paddlepaddle_gpu-0.11.0-cp27-cp27mu-linux_x86_64.whl">paddlepaddle_gpu-0.11.0-cp27-cp27mu-linux_x86_64.whl</a></td>
 <td><a class="reference external" href="https://guest:&#64;paddleci.ngrok.io/repository/download/Manylinux1_Cuda80cudnn5cp27cp27mu/.lastSuccessful/paddlepaddle_gpu-0.11.0-cp27-cp27m-linux_x86_64.whl">paddlepaddle_gpu-0.11.0-cp27-cp27m-linux_x86_64.whl</a></td>
 <td><a class="reference external" href="https://guest:&#64;paddleci.ngrok.io/repository/download/Manylinux1_Cuda80cudnn5cp27cp27mu/.lastSuccessful/paddle.tgz">paddle.tgz</a></td>
 </tr>
-<tr class="row-even"><td>cuda8.0_cudnn7_avx_mkl</td>
+<tr class="row-odd"><td>cuda8.0_cudnn7_avx_mkl</td>
 <td><a class="reference external" href="https://guest:&#64;paddleci.ngrok.io/repository/download/Manylinux1_Cuda8cudnn7cp27cp27mu/.lastSuccessful/paddlepaddle_gpu-0.11.0-cp27-cp27mu-linux_x86_64.whl">paddlepaddle_gpu-0.11.0-cp27-cp27mu-linux_x86_64.whl</a></td>
 <td><a class="reference external" href="https://guest:&#64;paddleci.ngrok.io/repository/download/Manylinux1_Cuda8cudnn7cp27cp27mu/.lastSuccessful/paddlepaddle_gpu-0.11.0-cp27-cp27m-linux_x86_64.whl">paddlepaddle_gpu-0.11.0-cp27-cp27m-linux_x86_64.whl</a></td>
 <td><a class="reference external" href="https://guest:&#64;paddleci.ngrok.io/repository/download/Manylinux1_Cuda8cudnn7cp27cp27mu/.lastSuccessful/paddle.tgz">paddle.tgz</a></td>
@@ -303,11 +308,11 @@
 </table>
 </div>
 <div class="section" id="pip-dependency">
-<span id="id12"></span><h2>运行环境依赖<a class="headerlink" href="#pip-dependency" title="永久链接至标题">¶</a></h2>
+<span id="id14"></span><h2>运行环境依赖<a class="headerlink" href="#pip-dependency" title="永久链接至标题">¶</a></h2>
 <p>PaddlePaddle安装包由于不仅仅包含.py程序，而且包含了C++编写的部分，所以我们确保发布的二进制包可以支持主流的Linux操作系统，比如CentOS 6以上，Ubuntu 14.04以上，MacOS 10.12以上。</p>
 <p>PaddlePaddle发布的安装包会尽量对齐 <a class="reference external" href="https://www.python.org/dev/peps/pep-0513/#the-manylinux1-policy">manylinux1</a> 标准，通常使用CentOS 5作为编译环境。但由于CUDA库通常需要CentOS 6以上，而且CentOS 5即将停止维护，所以我们默认使用CentOS 6作为标准编译环境。</p>
-<table border="1" class="colwidths-given docutils" id="id16">
-<caption><span class="caption-text">PaddlePaddle环境依赖</span><a class="headerlink" href="#id16" title="永久链接至表格">¶</a></caption>
+<table border="1" class="colwidths-given docutils" id="id18">
+<caption><span class="caption-text">PaddlePaddle环境依赖</span><a class="headerlink" href="#id18" title="永久链接至表格">¶</a></caption>
 <colgroup>
 <col width="18%" />
 <col width="27%" />
@@ -344,7 +349,7 @@
 </table>
 </div>
 <div class="section" id="pip-faq">
-<span id="id13"></span><h2>安装常见问题和解决方法<a class="headerlink" href="#pip-faq" title="永久链接至标题">¶</a></h2>
+<span id="id15"></span><h2>安装常见问题和解决方法<a class="headerlink" href="#pip-faq" title="永久链接至标题">¶</a></h2>
 <ul>
 <li><p class="first">paddlepaddle*.whl is not a supported wheel on this platform.</p>
 <p>出现这个问题的主要原因是，没有找到和当前系统匹配的paddlepaddle安装包。请检查Python版本是否为2.7系列。另外最新的pip官方源中的安装包默认是manylinux1标准，需要使用最新的pip (&gt;9.0.0) 才可以安装。可以使用下面的命令更新您的pip：</p>
