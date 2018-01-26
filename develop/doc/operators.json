@@ -1349,6 +1349,34 @@
  } ], 
  "attrs" : [  ] 
 },{
+ "type" : "scatter",
+ "comment" : "\nScatter Operator.\n\nThis operator obtains output by updating the input on selected indices on the first axis:\n\n$$\nOut = Ref \\\\\nOut[Index] = Ref[Index] + Updates\n$$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "Ref",
+   "comment" : "The source input of scatter op",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Index",
+   "comment" : "The index input of scatter op where Ref will be updated",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Updates",
+   "comment" : "The updated value of updates op",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "The output of add op",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
  "type" : "max_sequence_len",
  "comment" : "Calculate the max sequence length through lod_rank_table.",
  "inputs" : [ 
@@ -1389,70 +1417,6 @@
    "intermediate" : 0
  } ], 
  "attrs" : [  ] 
-},{
- "type" : "positive_negative_pair",
- "comment" : "\nPositiveNegativePairOp can be used to evaluate Learning To Rank(LTR) model's\nperformance.\n\nWithin some context, e.g. the \"query\", a LTR model generates scores for a list\nof items, which gives a partial order of the items. PositiveNegativePairOp\ntakes a list of reference rank order (Input(\"Label\")) and the model generated\nscores (Input(Score)) as inputs and counts the pairs that ranked correctly\nand incorrectly.\n",
- "inputs" : [ 
- { 
-   "name" : "Score",
-   "comment" : "(Tensor, float) Model Score on an item (with respect to QueryID). It's a 2-D tensor with shape [batch_size, depth], where the column specified by the attribute \"column\" is used as item score.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Label",
-   "comment" : "(Tensor, float) Label of an item (with repsect to QueryId). It's a 2-D tensor with shape [batch_size, 1].",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "QueryID",
-   "comment" : "(Tensor, int64) Query ID that indicates the context. Its shape should be the same as Label.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "AccumulatePositivePair",
-   "comment" : "(float) Optional. The accumulated number of positive pairs over a stream of data. If provided, the output PositivePair will be initialized with this number rather than 0. it won't be modified in place.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "AccumulateNegativePair",
-   "comment" : "(float) Optional. The accumulated number of negative pairs over a stream of data. If provided, the output NegativePair will be initialized with this number rather than 0. it won't be modified in place.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "AccumulateNeutralPair",
-   "comment" : "(float) Optional. The accumulated number of neutral pairs over a stream of data. If provided, the output NeutralPair will be initialized with this number rather than 0. it won't be modified in place.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Weight",
-   "comment" : "(float) Optional. Weight of current item. If specified, its shape should be the same as Label, and the meaning of the output changes from numbers of pairs to the total sum of pairs' weights. Weight of a pair of items is the average of their weights.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "PositivePair",
-   "comment" : "(float) Number of positive pairs, i.e. the pairs of items that are ranked correctly.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "NegativePair",
-   "comment" : "(float) Number of negative pairs, i.e. the pairs of items that are ranked incorrectly.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "NeutralPair",
-   "comment" : "(float) Number of neutral pairs, i.e. the pairs of items that have the same score.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "column",
-   "type" : "int",
-   "comment" : "(int, default -1) The column position of Score used to rank items in descending order. It must be in the range of [-rank(Score), rank(Score)). If `dim < 0`, the dim to reduce is `rank + dim`. Noting that reducing on the first dim will make the LoD info lost.",
-   "generated" : 0
- } ] 
 },{
  "type" : "proximal_gd",
  "comment" : "\nProximalGD Operator.\n\nOptimizer that implements the proximal gradient descent algorithm:\n\n$$\nprox\\_param = param - learning\\_rate * grad \\\\\nparam = sign(prox\\_param) / (1 + learning\\_rate * l2) *\n        \\max(|prox\\_param| - learning\\_rate * l1, 0)\n$$        \n\nThe paper that proposed Proximal Gradient Descent:\n(http://papers.nips.cc/paper/3793-efficient-learning-using-forward-backward-splitting.pdf)\n\n",
@@ -2171,34 +2135,6 @@
    "generated" : 0
  } ] 
 },{
- "type" : "scatter",
- "comment" : "\nScatter Operator.\n\nThis operator obtains output by updating the input on selected indices on the first axis:\n\n$$\nOut = Ref \\\\\nOut[Index] = Ref[Index] + Updates\n$$\n\n",
- "inputs" : [ 
- { 
-   "name" : "Ref",
-   "comment" : "The source input of scatter op",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Index",
-   "comment" : "The index input of scatter op where Ref will be updated",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Updates",
-   "comment" : "The updated value of updates op",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "The output of add op",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
  "type" : "uniform_random",
  "comment" : "\nUniform random operator.\n\nThis operator initializes a tensor with random values sampled from a \nuniform distribution.\n\n",
  "inputs" : [  ], 
@@ -2754,6 +2690,117 @@
  } ], 
  "attrs" : [  ] 
 },{
+ "type" : "positive_negative_pair",
+ "comment" : "\nPositiveNegativePairOp can be used to evaluate Learning To Rank(LTR) model's\nperformance.\n\nWithin some context, e.g. the \"query\", a LTR model generates scores for a list\nof items, which gives a partial order of the items. PositiveNegativePairOp\ntakes a list of reference rank order (Input(\"Label\")) and the model generated\nscores (Input(Score)) as inputs and counts the pairs that ranked correctly\nand incorrectly.\n",
+ "inputs" : [ 
+ { 
+   "name" : "Score",
+   "comment" : "(Tensor, float) Model Score on an item (with respect to QueryID). It's a 2-D tensor with shape [batch_size, depth], where the column specified by the attribute \"column\" is used as item score.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Label",
+   "comment" : "(Tensor, float) Label of an item (with repsect to QueryId). It's a 2-D tensor with shape [batch_size, 1].",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "QueryID",
+   "comment" : "(Tensor, int64) Query ID that indicates the context. Its shape should be the same as Label.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "AccumulatePositivePair",
+   "comment" : "(float) Optional. The accumulated number of positive pairs over a stream of data. If provided, the output PositivePair will be initialized with this number rather than 0. it won't be modified in place.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "AccumulateNegativePair",
+   "comment" : "(float) Optional. The accumulated number of negative pairs over a stream of data. If provided, the output NegativePair will be initialized with this number rather than 0. it won't be modified in place.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "AccumulateNeutralPair",
+   "comment" : "(float) Optional. The accumulated number of neutral pairs over a stream of data. If provided, the output NeutralPair will be initialized with this number rather than 0. it won't be modified in place.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Weight",
+   "comment" : "(float) Optional. Weight of current item. If specified, its shape should be the same as Label, and the meaning of the output changes from numbers of pairs to the total sum of pairs' weights. Weight of a pair of items is the average of their weights.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "PositivePair",
+   "comment" : "(float) Number of positive pairs, i.e. the pairs of items that are ranked correctly.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "NegativePair",
+   "comment" : "(float) Number of negative pairs, i.e. the pairs of items that are ranked incorrectly.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "NeutralPair",
+   "comment" : "(float) Number of neutral pairs, i.e. the pairs of items that have the same score.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "column",
+   "type" : "int",
+   "comment" : "(int, default -1) The column position of Score used to rank items in descending order. It must be in the range of [-rank(Score), rank(Score)). If `dim < 0`, the dim to reduce is `rank + dim`. Noting that reducing on the first dim will make the LoD info lost.",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "one_hot",
+ "comment" : "\nOne Hot Operator. This operator creates the one-hot representations for input\nindex values. The following example will help to explain the function of this\noperator:\n\nX is a LoDTensor:\n  X.lod = [[0, 1, 4]]\n  X.shape = [4, 1]\n  X.data = [[1], [1], [3], [0]]\n\nset depth = 4\n\nOut is a LoDTensor:\n  Out.lod = [[0, 1, 4]]\n  Out.shape = [4, 4]\n  Out.data = [[0., 1., 0., 0.],\n              [0., 1., 0., 0.],\n              [0., 0., 0., 1.],\n              [1., 0., 0., 0.]]\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(LoDTensor, LoDTensor<int>) Input variable with rank at least 2. The last dimension of X should be 1. Each value of X is an index to indicate the position.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(Tensor, Tensor<float>) Output tensor with same rank as X. The tensor consists of one-hot representations of values in X.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "depth",
+   "type" : "int",
+   "comment" : "A positive integer to specify the length of one-hot vector.",
+   "generated" : 0
+ }, { 
+   "name" : "dtype",
+   "type" : "int",
+   "comment" : "An integer to specify the data type of one-hot vector. The default value is FP32.",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "l1_norm",
+ "comment" : "\nL1 Norm Operator.\n\nComputes the L1 norm of a tensor.\n\n$$Out = \\sum{|X|}$$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(Tensor) The input of l1_norm op.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(Scalar) The output of l1_norm op.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
  "type" : "roi_pool",
  "comment" : "\nROIPool operator\n\nROI Pooling for Faster-RCNN. The link below is a further introduction: \nhttps://stackoverflow.com/questions/43430056/what-is-roi-layer-in-fast-rcnn\n    ",
  "inputs" : [ 
@@ -2957,65 +3004,6 @@
    "comment" : "(int, default 5 (FP32)) Output data type",
    "generated" : 0
  } ] 
-},{
- "type" : "logical_and",
- "comment" : "logical_and Operator\n\nIt operates element-wise on X and Y, and returns the Out. X, Y and Out are N-dim boolean tensors.\nEach element of Out is calculated by $$Out = X \\&\\& Y$$\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(LoDTensor) Left hand operand of logical_and operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Y",
-   "comment" : "(LoDTensor) Right hand operand of logical_and operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(LoDTensor) n-dim bool tensor. Each element is $$Out = X \\&\\& Y$$",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
- "type" : "logical_not",
- "comment" : "logical_not Operator\n\nIt operates element-wise on X, and returns the Out. X and Out are N-dim boolean tensors.\nEach element of Out is calculated by $$Out = !X$$\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(LoDTensor) Operand of logical_not operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(LoDTensor) n-dim bool tensor. Each element is $$Out = !X$$",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
- "type" : "abs",
- "comment" : "\nAbs Activation Operator.\n\n$out = |x|$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "Input of Abs operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "Output of Abs operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
 },{
  "type" : "softplus",
  "comment" : "\nSoftplus Activation Operator.\n\n$out = \\ln(1 + e^{x})$\n\n",
@@ -3546,6 +3534,65 @@
  } ], 
  "attrs" : [  ] 
 },{
+ "type" : "logical_and",
+ "comment" : "logical_and Operator\n\nIt operates element-wise on X and Y, and returns the Out. X, Y and Out are N-dim boolean tensors.\nEach element of Out is calculated by $$Out = X \\&\\& Y$$\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(LoDTensor) Left hand operand of logical_and operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Y",
+   "comment" : "(LoDTensor) Right hand operand of logical_and operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(LoDTensor) n-dim bool tensor. Each element is $$Out = X \\&\\& Y$$",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
+ "type" : "logical_not",
+ "comment" : "logical_not Operator\n\nIt operates element-wise on X, and returns the Out. X and Out are N-dim boolean tensors.\nEach element of Out is calculated by $$Out = !X$$\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(LoDTensor) Operand of logical_not operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(LoDTensor) n-dim bool tensor. Each element is $$Out = !X$$",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
+ "type" : "abs",
+ "comment" : "\nAbs Activation Operator.\n\n$out = |x|$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "Input of Abs operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "Output of Abs operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
  "type" : "logical_xor",
  "comment" : "logical_xor Operator\n\nIt operates element-wise on X and Y, and returns the Out. X, Y and Out are N-dim boolean tensors.\nEach element of Out is calculated by $$Out = (X || Y) \\, \\&\\& \\, !(X \\&\\& Y)$$\n",
  "inputs" : [ 
@@ -3719,24 +3766,6 @@
    "comment" : "(bool, default false) Indicated whether to normalize the edit distance by the length of reference string.",
    "generated" : 0
  } ] 
-},{
- "type" : "l1_norm",
- "comment" : "\nL1 Norm Operator.\n\nComputes the L1 norm of a tensor.\n\n$$Out = \\sum{|X|}$$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(Tensor) The input of l1_norm op.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(Scalar) The output of l1_norm op.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
 },{
  "type" : "swish",
  "comment" : "\nSwish Activation Operator.\n\n$$out = \\frac{x}{1 + e^{- \\beta x}}$$\n\n",
