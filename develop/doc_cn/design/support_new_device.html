@@ -232,8 +232,8 @@
 <span id="design-doc-supporting-new-device-library"></span><h1>Design Doc: Supporting new Device/Library<a class="headerlink" href="#design-doc-supporting-new-device-library" title="永久链接至标题">¶</a></h1>
 <div class="section" id="background">
 <span id="background"></span><h2>Background<a class="headerlink" href="#background" title="永久链接至标题">¶</a></h2>
-<p>Deep learning has a high demand for computing resources. New high-performance devices and computing libraries are appearing very frequently. Deep learning frameworks have to integrate these high-performance devices and computing libraries flexibly and efficiently.</p>
-<p>On one hand, hardware and computing libraries usually do not have a one-to-one correspondence. For example,Intel CPUs support Eigen and MKL computing libraries while Nvidia GPUs support Eigen and cuDNN computing libraries. We have to implement operator specific kernels for each computing library.</p>
+<p>Deep learning has a high demand for computing resources. New high-performance devices and computing libraries are appearing very frequently. Deep learning frameworks have to integrate these high-performance devices and computing libraries in a flexible and efficient manner.</p>
+<p>On one hand, hardware and computing libraries usually do not have a one-to-one correspondence. For example, Intel CPUs support Eigen and MKL computing libraries while Nvidia GPUs support Eigen and cuDNN computing libraries. We have to implement operator specific kernels for each computing library.</p>
 <p>On the other hand, users usually do not want to care about the low-level hardware and computing libraries when writing a neural network configuration. In Fluid, <code class="docutils literal"><span class="pre">Layer</span></code> is exposed in <code class="docutils literal"><span class="pre">Python</span></code>, and <code class="docutils literal"><span class="pre">Operator</span></code> is exposed in <code class="docutils literal"><span class="pre">C++</span></code>. Both <code class="docutils literal"><span class="pre">Layer</span></code> and <code class="docutils literal"><span class="pre">Operator</span></code> are hardware independent.</p>
 <p>So, how to support a new Device/Library in Fluid becomes a challenge.</p>
 </div>
@@ -242,16 +242,16 @@
 <p>For a general overview of fluid, please refer to the <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/doc/howto/read_source.md">overview doc</a>.</p>
 <p>There are mainly three parts that we have to consider while integrating a new device/library:</p>
 <ul class="simple">
-<li>Place and DeviceContext: indicates the device id and manages hardware resources</li>
+<li>Place and DeviceContext: indicate the device id and manage hardware resources</li>
 <li>Memory and Tensor: malloc/free data on certain device</li>
 <li>Math Functor and OpKernel: implement computing unit on certain devices/libraries</li>
 </ul>
 <div class="section" id="place-and-devicecontext">
 <span id="place-and-devicecontext"></span><h3>Place and DeviceContext<a class="headerlink" href="#place-and-devicecontext" title="永久链接至标题">¶</a></h3>
-<p>Please remind that device and computing library are not one-to-one corresponding. A device can have a lot of computing libraries and a computing library can also support several devices.</p>
+<p>Please note that device and computing library are not one-to-one corresponding. A device can have a lot of computing libraries and a computing library can also support several devices.</p>
 <div class="section" id="place">
 <span id="place"></span><h4>Place<a class="headerlink" href="#place" title="永久链接至标题">¶</a></h4>
-<p>Fluid uses class <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/platform/place.h#L55">Place</a> to represent the device memory where data is located. If we add another device, we have to add corresponding <code class="docutils literal"><span class="pre">DevicePlace</span></code>.</p>
+<p>Fluid uses class <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/platform/place.h#L55">Place</a> to represent the device memory where data is located. If we add another device, we have to add the corresponding <code class="docutils literal"><span class="pre">DevicePlace</span></code>.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>        <span class="o">|</span>   <span class="n">CPUPlace</span>
 <span class="n">Place</span> <span class="o">--|</span>   <span class="n">CUDAPlace</span>
         <span class="o">|</span>   <span class="n">FPGAPlace</span>
@@ -353,7 +353,7 @@
 <span class="p">};</span>
 </pre></div>
 </div>
-<p><code class="docutils literal"><span class="pre">Placeholder</span></code> is used to delay memory allocation; that is, we can first define a tensor, using <code class="docutils literal"><span class="pre">Resize</span></code> to configure its shape, and then call <code class="docutils literal"><span class="pre">mutuable_data</span></code> to allocate the actual memory.</p>
+<p><code class="docutils literal"><span class="pre">Placeholder</span></code> is used to delay memory allocation; that is, we can first define a tensor, using <code class="docutils literal"><span class="pre">Resize</span></code> to configurate its shape, and then call <code class="docutils literal"><span class="pre">mutuable_data</span></code> to allocate the actual memory.</p>
 <div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="n">paddle</span><span class="o">::</span><span class="n">framework</span><span class="o">::</span><span class="n">Tensor</span> <span class="n">t</span><span class="p">;</span>
 <span class="n">paddle</span><span class="o">::</span><span class="n">platform</span><span class="o">::</span><span class="n">CPUPlace</span> <span class="n">place</span><span class="p">;</span>
 <span class="c1">// set size first</span>
@@ -368,7 +368,7 @@
 <span id="math-functor-and-opkernel"></span><h3>Math Functor and OpKernel<a class="headerlink" href="#math-functor-and-opkernel" title="永久链接至标题">¶</a></h3>
 <p>Fluid implements computing units based on different DeviceContexts. Some computing units are shared between operators. This common part will be put in operators/math directory as basic Functors.</p>
 <p>Let&#8217;s take <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/operators/math/maxouting.h#L27">MaxOutFunctor</a> as an example:</p>
-<p>The interface is defined in header file.</p>
+<p>The interface is defined in the header file.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">template</span> <span class="o">&lt;</span><span class="n">typename</span> <span class="n">DeviceContext</span><span class="p">,</span> <span class="n">typename</span> <span class="n">T</span><span class="o">&gt;</span>
 <span class="k">class</span> <span class="nc">MaxOutFunctor</span> <span class="p">{</span>
  <span class="n">public</span><span class="p">:</span>
@@ -401,7 +401,7 @@
 <span class="p">};</span>                  
 </pre></div>
 </div>
-<p>We get computing handle from a concrete DeviceContext, and make compution on tensors.</p>
+<p>We first obtain the computing handle from a concrete DeviceContext, and then compute on tensors.</p>
 <p>The implemention of <code class="docutils literal"><span class="pre">OpKernel</span></code> is similar to math functors, the extra thing we need to do is to register the OpKernel in a global map.</p>
 <p>Fluid provides different register interfaces in op_registry.h</p>
 <p>Let&#8217;s take <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/operators/crop_op.cc#L134">Crop</a> operator as an example:</p>
@@ -421,7 +421,7 @@
 </div>
 <div class="section" id="advanced-topics-how-to-switch-between-different-device-library">
 <span id="advanced-topics-how-to-switch-between-different-device-library"></span><h2>Advanced topics: How to switch between different Device/Library<a class="headerlink" href="#advanced-topics-how-to-switch-between-different-device-library" title="永久链接至标题">¶</a></h2>
-<p>Generally, we will impelement OpKernel for all Device/Library of an Operator. We can easily train a Convolutional Neural Network in GPU. However, some OpKernel is not sutibale on a specific Device. For example, crf operator can only run on CPU, whereas most other operators can run at GPU. To achieve high performance in such circumstance, we have to switch between different Device/Library.</p>
+<p>Generally, we will implement OpKernel for all Device/Library of an Operator. We can easily train a Convolutional Neural Network in GPU. However, some OpKernel is not suitable on a specific Device. For example, crf operator can only run on CPU, whereas most other operators can run on GPU. To achieve high performance in such circumstance, we have to switch between different Device/Library.</p>
 <p>For more details, please refer to following docs:</p>
 <ul class="simple">
 <li>operator kernel type <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/doc/design/operator_kernel_type.md">doc</a></li>
