@@ -377,7 +377,7 @@ with zeros whenever lookup encounters it in <code class="xref py py-attr docutil
 <h2>dynamic_lstm<a class="headerlink" href="#dynamic-lstm" title="永久链接至标题">¶</a></h2>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">dynamic_lstm</code><span class="sig-paren">(</span><em>input</em>, <em>size</em>, <em>param_attr=None</em>, <em>bias_attr=None</em>, <em>use_peepholes=True</em>, <em>is_reverse=False</em>, <em>gate_activation='sigmoid'</em>, <em>cell_activation='tanh'</em>, <em>candidate_activation='tanh'</em>, <em>dtype='float32'</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">dynamic_lstm</code><span class="sig-paren">(</span><em>input</em>, <em>size</em>, <em>param_attr=None</em>, <em>bias_attr=None</em>, <em>use_peepholes=True</em>, <em>is_reverse=False</em>, <em>gate_activation='sigmoid'</em>, <em>cell_activation='tanh'</em>, <em>candidate_activation='tanh'</em>, <em>dtype='float32'</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
 <dd><p><strong>Dynamic LSTM Layer</strong></p>
 <p>The defalut implementation is diagonal/peephole connection
 (<a class="reference external" href="https://arxiv.org/pdf/1402.1128.pdf">https://arxiv.org/pdf/1402.1128.pdf</a>), the formula is as follows:</p>
@@ -387,7 +387,7 @@ with zeros whenever lookup encounters it in <code class="xref py py-attr docutil
 the matrix of weights from the input gate to the input), <span class="math">\(W_{ic},     W_{fc}, W_{oc}\)</span> are diagonal weight matrices for peephole connections. In
 our implementation, we use vectors to reprenset these diagonal weight
 matrices. The <span class="math">\(b\)</span> terms denote bias vectors (<span class="math">\(b_i\)</span> is the input
-gate bias vector), <span class="math">\(\sigma\)</span> is the non-line activations, such as
+gate bias vector), <span class="math">\(\sigma\)</span> is the non-linear activations, such as
 logistic sigmoid function, and <span class="math">\(i, f, o\)</span> and <span class="math">\(c\)</span> are the input
 gate, forget gate, output gate, and cell activation vectors, respectively,
 all of which have the same size as the cell output activation vector <span class="math">\(h\)</span>.</p>
@@ -413,15 +413,15 @@ tensor in this Variable is a matrix with shape
 (T X 4D), where T is the total time steps in this
 mini-batch, D is the hidden size.</li>
 <li><strong>size</strong> (<em>int</em>) &#8211; 4 * hidden size.</li>
-<li><strong>param_attr</strong> (<em>ParamAttr</em>) &#8211; <p>The parameter attribute for the learnable
+<li><strong>param_attr</strong> (<em>ParamAttr|None</em>) &#8211; <p>The parameter attribute for the learnable
 hidden-hidden weights.</p>
 <ul>
+<li>Weights = {<span class="math">\(W_{ch}, W_{ih},                                                 W_{fh}, W_{oh}\)</span>}</li>
 <li>The shape is (D x 4D), where D is the hidden
 size.</li>
-<li>Weights = {<span class="math">\(W_{ch}, W_{ih},                                                 W_{fh}, W_{oh}\)</span>}</li>
 </ul>
 </li>
-<li><strong>bias_attr</strong> (<em>ParamAttr</em>) &#8211; <p>The bias attribute for the learnable bias
+<li><strong>bias_attr</strong> (<em>ParamAttr|None</em>) &#8211; <p>The bias attribute for the learnable bias
 weights, which contains two parts, input-hidden
 bias weights and peephole connections weights if
 setting <cite>use_peepholes</cite> to <cite>True</cite>.</p>
@@ -430,8 +430,8 @@ setting <cite>use_peepholes</cite> to <cite>True</cite>.</p>
 </ol>
 <blockquote>
 <div><ul>
-<li>The shape is (1 x 4D).</li>
 <li>Biases = {<span class="math">\(b_c, b_i, b_f, b_o\)</span>}.</li>
+<li>The shape is (1 x 4D).</li>
 </ul>
 </div></blockquote>
 <ol class="arabic" start="2">
@@ -439,8 +439,8 @@ setting <cite>use_peepholes</cite> to <cite>True</cite>.</p>
 </ol>
 <blockquote>
 <div><ul>
-<li>The shape is (1 x 7D).</li>
 <li>Biases = { <span class="math">\(b_c, b_i, b_f, b_o, W_{ic},                                                  W_{fc}, W_{oc}\)</span>}.</li>
+<li>The shape is (1 x 7D).</li>
 </ul>
 </div></blockquote>
 </li>
@@ -456,6 +456,8 @@ output gate. Choices = [&#8220;sigmoid&#8221;, &#8220;tanh&#8221;, &#8220;relu&#
 Choices = [&#8220;sigmoid&#8221;, &#8220;tanh&#8221;, &#8220;relu&#8221;, &#8220;identity&#8221;],
 default &#8220;tanh&#8221;.</li>
 <li><strong>dtype</strong> (<em>str</em>) &#8211; Data type. Choices = [&#8220;float32&#8221;, &#8220;float64&#8221;], default &#8220;float32&#8221;.</li>
+<li><strong>name</strong> (<em>str|None</em>) &#8211; A name for this layer(optional). If set None, the layer
+will be named automatically.</li>
 </ul>
 </td>
 </tr>
@@ -473,6 +475,131 @@ default &#8220;tanh&#8221;.</li>
                                <span class="n">act</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">bias_attr</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
 <span class="n">forward</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">dynamic_lstm</span><span class="p">(</span>
     <span class="nb">input</span><span class="o">=</span><span class="n">forward_proj</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">hidden_dim</span> <span class="o">*</span> <span class="mi">4</span><span class="p">,</span> <span class="n">use_peepholes</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="dynamic-lstmp">
+<h2>dynamic_lstmp<a class="headerlink" href="#dynamic-lstmp" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">dynamic_lstmp</code><span class="sig-paren">(</span><em>input</em>, <em>size</em>, <em>proj_size</em>, <em>param_attr=None</em>, <em>bias_attr=None</em>, <em>use_peepholes=True</em>, <em>is_reverse=False</em>, <em>gate_activation='sigmoid'</em>, <em>cell_activation='tanh'</em>, <em>candidate_activation='tanh'</em>, <em>proj_activation='tanh'</em>, <em>dtype='float32'</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
+<dd><p><strong>Dynamic LSTMP Layer</strong></p>
+<p>LSTMP (LSTM with recurrent projection) layer has a separate projection
+layer after the LSTM layer, projecting the original hidden state to a
+lower-dimensional one, which is proposed to reduce the number of total
+parameters and furthermore computational complexity for the LSTM,
+espeacially for the case that the size of output units is relative
+large (<a class="reference external" href="https://research.google.com/pubs/archive/43905.pdf">https://research.google.com/pubs/archive/43905.pdf</a>).</p>
+<p>The formula is as follows:</p>
+<div class="math">
+\[ \begin{align}\begin{aligned}i_t &amp; = \sigma(W_{ix}x_{t} + W_{ir}r_{t-1} + W_{ic}c_{t-1} + b_i)\\f_t &amp; = \sigma(W_{fx}x_{t} + W_{fr}r_{t-1} + W_{fc}c_{t-1} + b_f)\\\tilde{c_t} &amp; = act_g(W_{cx}x_t + W_{cr}r_{t-1} + b_c)\\o_t &amp; = \sigma(W_{ox}x_{t} + W_{or}r_{t-1} + W_{oc}c_t + b_o)\\c_t &amp; = f_t \odot c_{t-1} + i_t \odot \tilde{c_t}\\h_t &amp; = o_t \odot act_h(c_t)\\r_t &amp; = \overline{act_h}(W_{rh}h_t)\end{aligned}\end{align} \]</div>
+<p>In the above formula:</p>
+<ul class="simple">
+<li><span class="math">\(W\)</span>: Denotes weight matrices (e.g. <span class="math">\(W_{xi}\)</span> is           the matrix of weights from the input gate to the input).</li>
+<li><span class="math">\(W_{ic}\)</span>, <span class="math">\(W_{fc}\)</span>, <span class="math">\(W_{oc}\)</span>: Diagonal weight           matrices for peephole connections. In our implementation,           we use vectors to reprenset these diagonal weight matrices.</li>
+<li><span class="math">\(b\)</span>: Denotes bias vectors (e.g. <span class="math">\(b_i\)</span> is the input gate           bias vector).</li>
+<li><span class="math">\(\sigma\)</span>: The activation, such as logistic sigmoid function.</li>
+<li><span class="math">\(i, f, o\)</span> and <span class="math">\(c\)</span>: The input gate, forget gate, output           gate, and cell activation vectors, respectively, all of which have           the same size as the cell output activation vector <span class="math">\(h\)</span>.</li>
+<li><span class="math">\(h\)</span>: The hidden state.</li>
+<li><span class="math">\(r\)</span>: The recurrent projection of the hidden state.</li>
+<li><span class="math">\(\tilde{c_t}\)</span>: The candidate hidden state, whose           computation is based on the current input and previous hidden state.</li>
+<li><span class="math">\(\odot\)</span>: The element-wise product of the vectors.</li>
+<li><span class="math">\(act_g\)</span> and <span class="math">\(act_h\)</span>: The cell input and cell output           activation functions and <cite>tanh</cite> is usually used for them.</li>
+<li><span class="math">\(\overline{act_h}\)</span>: The activation function for the projection           output, usually using <cite>identity</cite> or same as <span class="math">\(act_h\)</span>.</li>
+</ul>
+<p>Set <cite>use_peepholes</cite> to <cite>False</cite> to disable peephole connection. The formula
+is omitted here, please refer to the paper
+<a class="reference external" href="http://www.bioinf.jku.at/publications/older/2604.pdf">http://www.bioinf.jku.at/publications/older/2604.pdf</a> for details.</p>
+<p>Note that these <span class="math">\(W_{xi}x_{t}, W_{xf}x_{t}, W_{xc}x_{t}, W_{xo}x_{t}\)</span>
+operations on the input <span class="math">\(x_{t}\)</span> are NOT included in this operator.
+Users can choose to use fully-connected layer before LSTMP layer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
+<li><strong>input</strong> (<em>Variable</em>) &#8211; The input of dynamic_lstmp layer, which supports
+variable-time length input sequence. The underlying
+tensor in this Variable is a matrix with shape
+(T X 4D), where T is the total time steps in this
+mini-batch, D is the hidden size.</li>
+<li><strong>size</strong> (<em>int</em>) &#8211; 4 * hidden size.</li>
+<li><strong>proj_size</strong> (<em>int</em>) &#8211; The size of projection output.</li>
+<li><strong>param_attr</strong> (<em>ParamAttr|None</em>) &#8211; <p>The parameter attribute for the learnable
+hidden-hidden weight and projection weight.</p>
+<ul>
+<li>Hidden-hidden weight = {<span class="math">\(W_{ch}, W_{ih},                                                 W_{fh}, W_{oh}\)</span>}.</li>
+<li>The shape of hidden-hidden weight is (P x 4D),
+where P is the projection size and D the hidden
+size.</li>
+<li>Projection weight = {<span class="math">\(W_{rh}\)</span>}.</li>
+<li>The shape of projection weight is (D x P).</li>
+</ul>
+</li>
+<li><strong>bias_attr</strong> (<em>ParamAttr|None</em>) &#8211; <p>The bias attribute for the learnable bias
+weights, which contains two parts, input-hidden
+bias weights and peephole connections weights if
+setting <cite>use_peepholes</cite> to <cite>True</cite>.</p>
+<ol class="arabic">
+<li><cite>use_peepholes = False</cite></li>
+</ol>
+<blockquote>
+<div><ul>
+<li>Biases = {<span class="math">\(b_c, b_i, b_f, b_o\)</span>}.</li>
+<li>The shape is (1 x 4D).</li>
+</ul>
+</div></blockquote>
+<ol class="arabic" start="2">
+<li><cite>use_peepholes = True</cite></li>
+</ol>
+<blockquote>
+<div><ul>
+<li>Biases = { <span class="math">\(b_c, b_i, b_f, b_o, W_{ic},                                                  W_{fc}, W_{oc}\)</span>}.</li>
+<li>The shape is (1 x 7D).</li>
+</ul>
+</div></blockquote>
+</li>
+<li><strong>use_peepholes</strong> (<em>bool</em>) &#8211; Whether to enable diagonal/peephole connections,
+default <cite>True</cite>.</li>
+<li><strong>is_reverse</strong> (<em>bool</em>) &#8211; Whether to compute reversed LSTM, default <cite>False</cite>.</li>
+<li><strong>gate_activation</strong> (<em>str</em>) &#8211; The activation for input gate, forget gate and
+output gate. Choices = [&#8220;sigmoid&#8221;, &#8220;tanh&#8221;, &#8220;relu&#8221;,
+&#8220;identity&#8221;], default &#8220;sigmoid&#8221;.</li>
+<li><strong>cell_activation</strong> (<em>str</em>) &#8211; The activation for cell output. Choices = [&#8220;sigmoid&#8221;,
+&#8220;tanh&#8221;, &#8220;relu&#8221;, &#8220;identity&#8221;], default &#8220;tanh&#8221;.</li>
+<li><strong>candidate_activation</strong> (<em>str</em>) &#8211; The activation for candidate hidden state.
+Choices = [&#8220;sigmoid&#8221;, &#8220;tanh&#8221;, &#8220;relu&#8221;, &#8220;identity&#8221;],
+default &#8220;tanh&#8221;.</li>
+<li><strong>proj_activation</strong> (<em>str</em>) &#8211; The activation for projection output.
+Choices = [&#8220;sigmoid&#8221;, &#8220;tanh&#8221;, &#8220;relu&#8221;, &#8220;identity&#8221;],
+default &#8220;tanh&#8221;.</li>
+<li><strong>dtype</strong> (<em>str</em>) &#8211; Data type. Choices = [&#8220;float32&#8221;, &#8220;float64&#8221;], default &#8220;float32&#8221;.</li>
+<li><strong>name</strong> (<em>str|None</em>) &#8211; A name for this layer(optional). If set None, the layer
+will be named automatically.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">The projection of hidden state, and cell state of LSTMP. The                shape of projection is (T x P), for the cell state which is                (T x D), and both LoD is the same with the <cite>input</cite>.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">tuple</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">hidden_dim</span><span class="p">,</span> <span class="n">proj_dim</span> <span class="o">=</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">256</span>
+<span class="n">fc_out</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">input_seq</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">hidden_dim</span> <span class="o">*</span> <span class="mi">4</span><span class="p">,</span>
+                         <span class="n">act</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">bias_attr</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+<span class="n">proj_out</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">dynamic_lstmp</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">fc_out</span><span class="p">,</span>
+                                         <span class="n">size</span><span class="o">=</span><span class="n">hidden_dim</span> <span class="o">*</span> <span class="mi">4</span><span class="p">,</span>
+                                         <span class="n">proj_size</span><span class="o">=</span><span class="n">proj_dim</span><span class="p">,</span>
+                                         <span class="n">use_peepholes</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                                         <span class="n">is_reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                                         <span class="n">cell_activation</span><span class="o">=</span><span class="s2">&quot;tanh&quot;</span><span class="p">,</span>
+                                         <span class="n">proj_activation</span><span class="o">=</span><span class="s2">&quot;tanh&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
