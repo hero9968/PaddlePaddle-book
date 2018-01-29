@@ -377,7 +377,7 @@
 <span class="p">};</span>
 </pre></div>
 </div>
-<p>CPU implemention is in .cc file</p>
+<p>CPU implementation is in .cc file</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">template</span> <span class="o">&lt;</span><span class="n">typename</span> <span class="n">T</span><span class="o">&gt;</span>
 <span class="k">class</span> <span class="nc">MaxOutFunctor</span><span class="o">&lt;</span><span class="n">platform</span><span class="p">::</span><span class="n">CPUDeviceContext</span><span class="p">,</span> <span class="n">T</span><span class="o">&gt;</span> <span class="p">{</span>
   <span class="n">public</span><span class="p">:</span>
@@ -389,7 +389,7 @@
 <span class="p">};</span>
 </pre></div>
 </div>
-<p>CUDA implemention is in .cu file</p>
+<p>CUDA implementation is in .cu file</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">template</span> <span class="o">&lt;</span><span class="n">typename</span> <span class="n">T</span><span class="o">&gt;</span>
 <span class="k">class</span> <span class="nc">MaxOutFunctor</span><span class="o">&lt;</span><span class="n">platform</span><span class="p">::</span><span class="n">CUDADeviceContext</span><span class="p">,</span> <span class="n">T</span><span class="o">&gt;</span> <span class="p">{</span>
  <span class="n">public</span><span class="p">:</span>
@@ -401,8 +401,8 @@
 <span class="p">};</span>                  
 </pre></div>
 </div>
-<p>We first obtain the computing handle from a concrete DeviceContext, and then compute on tensors.</p>
-<p>The implemention of <code class="docutils literal"><span class="pre">OpKernel</span></code> is similar to math functors, the extra thing we need to do is to register the OpKernel in a global map.</p>
+<p>We first obtain the computing handle from a concrete DeviceContext and then compute on tensors.</p>
+<p>The implementation of <code class="docutils literal"><span class="pre">OpKernel</span></code> is similar to math functors, the extra thing we need to do is to register the OpKernel in a global map.</p>
 <p>Fluid provides different register interfaces in op_registry.h</p>
 <p>Let&#8217;s take <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/operators/crop_op.cc#L134">Crop</a> operator as an example:</p>
 <p>In .cc file:</p>
