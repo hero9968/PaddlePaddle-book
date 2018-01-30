@@ -1448,6 +1448,34 @@
  } ], 
  "attrs" : [  ] 
 },{
+ "type" : "scatter",
+ "comment" : "\nScatter Operator.\n\nThis operator obtains output by updating the input on selected indices on the first axis:\n\n$$\nOut = Ref \\\\\nOut[Index] = Ref[Index] + Updates\n$$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "Ref",
+   "comment" : "The source input of scatter op",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Index",
+   "comment" : "The index input of scatter op where Ref will be updated",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Updates",
+   "comment" : "The updated value of updates op",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "The output of add op",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
  "type" : "max_sequence_len",
  "comment" : "Calculate the max sequence length through lod_rank_table.",
  "inputs" : [ 
@@ -2205,34 +2233,6 @@
    "comment" : "(bool, default false) Use Nesterov Momentum",
    "generated" : 0
  } ] 
-},{
- "type" : "scatter",
- "comment" : "\nScatter Operator.\n\nThis operator obtains output by updating the input on selected indices on the first axis:\n\n$$\nOut = Ref \\\\\nOut[Index] = Ref[Index] + Updates\n$$\n\n",
- "inputs" : [ 
- { 
-   "name" : "Ref",
-   "comment" : "The source input of scatter op",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Index",
-   "comment" : "The index input of scatter op where Ref will be updated",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Updates",
-   "comment" : "The updated value of updates op",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "The output of add op",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
 },{
  "type" : "uniform_random",
  "comment" : "\nUniform random operator.\n\nThis operator initializes a tensor with random values sampled from a \nuniform distribution.\n\n",
@@ -3767,6 +3767,83 @@
    "generated" : 0
  } ] 
 },{
+ "type" : "lrn",
+ "comment" : "\nLocal Response Normalization Operator.\n\nThis operator comes from the paper:\n<<ImageNet Classification with Deep Convolutional Neural Networks>>.\n\nThe original formula is:\n\n$$\nOutput(i, x, y) = Input(i, x, y) / \\left(\nk + \\alpha \\sum\\limits^{\\min(C, c + n/2)}_{j = \\max(0, c - n/2)}\n(Input(j, x, y))^2\n\\right)^{\\beta}\n$$\n\nFunction implementation:\n\nInputs and outpus are in NCHW format, while input.shape.ndims() equals 4.\nAnd dimensions 0 ~ 3 represent batch size, feature maps, rows,\nand columns, respectively.\n\nInput and Output in the formula above is for each map(i) of one image, and\nInput(i, x, y), Output(i, x, y) represents an element in an image.\n\nC is the number of feature maps of one image. n is a hyper-parameter\nconfigured when operator is initialized. The sum in the denominator\nis the sum of the same positions in the neighboring maps.\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(Tensor) The input of LRN operator. It must be a 4D tenor with NCHW format.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(Tensor) The output of LRN operator, which is also the 4D tensor with NCHW format.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "MidOut",
+   "comment" : "(Tensor) Middle result of LRN operator. It's computed in forward process and also used in backward process.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "n",
+   "type" : "int",
+   "comment" : "(int default 5) n is the \"adjacent\" kernel that maps at the same spatial position.",
+   "generated" : 0
+ }, { 
+   "name" : "k",
+   "type" : "float",
+   "comment" : "(float, default 2.0) k is the bias.",
+   "generated" : 0
+ }, { 
+   "name" : "alpha",
+   "type" : "float",
+   "comment" : "(float, default 0.0001) alpha is the scale number.",
+   "generated" : 0
+ }, { 
+   "name" : "beta",
+   "type" : "float",
+   "comment" : "(float, default 0.75) beta is the power number.",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "bilinear_tensor_product",
+ "comment" : "\nBilinear Tensor Product operator.\nGiven input X and Y, a 3D tensor Weight and a Bias. Each column of the\nOutput is computed by one slice $i = 1, . . . , k$ of the tensor:\n\n$$\nM =  (X W_i) * Y \\\\\nOut_i = \\sum_j {M_j} + Bias_i\n$$\n\nWhere $W_i$ is the $i$-th slice of Input(Weight);\n      $M_j$ is the $j$-th column of $M$;\n      $Out_i$ is the $i$-th column of Output(Out);\n      $Bias_i$ is a column vector, each element of it is equal to\n        the $i$-th element of $Bias$;\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "The first input of bilinear_tensor_product operator.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Y",
+   "comment" : "The second input of bilinear_tensor_product operator.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Weight",
+   "comment" : "The learnable parameters of bilinear_tensor_product operator.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Bias",
+   "comment" : "The learnable bias of bilinear_tensor_product operator.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "The output of bilinear_tensor_product operator.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
  "type" : "swish",
  "comment" : "\nSwish Activation Operator.\n\n$$out = \\frac{x}{1 + e^{- \\beta x}}$$\n\n",
  "inputs" : [ 
@@ -4278,6 +4355,35 @@
    "generated" : 0
  } ] 
 },{
+ "type" : "label_smooth",
+ "comment" : "\nLabelSmooth Operator.\n\nLabel smoothing is a mechanism to regularize the classifier layer. In machine \nlearning, optimizing the log-likelihood of the correct label directly may \ncause two problems. First, it may result in overfitting: if the model learns \nto assign full probability to the ground-truth label for each training example,\nit is not guaranteed to generalize. Second, it encourages the differences \nbetween the largest logit and all others to become large, reducing the ability \nof the model to adapt. Label smoothing is proposed to encourage the model to \nbe less confident, which replaces the ground-truth label $y$ with the weighted \nsum of itself and some fixed distribution $\\mu$, i.e.\n\n$$\n    \\tilde{y} = (1 - \\epsilon) * y + \\epsilon * \\mu,\n$$\n\nwhere $(1 - \\epsilon)$ and $\\epsilon$ are the weights respectively, and \n$\\tilde{y}$ is the smoothed label. Usually uniform distribution is used for \n$\\mu$. This change in the ground-truth label is called label-smoothing \nregularization or LSR.\n\nSee more details about label smoothing in https://arxiv.org/abs/1512.00567.\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(LoDTensor) The input labels of LabelSmooth operator. This input can be batched labels in one-hot encoding or output from softmax, with shape [N x K], where N is the batch size and K is the number of classes",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "PriorDist",
+   "comment" : "(Tensor, optional)The prior distribution to be added to the smoothed label. It is fixed during training and the number of elements should be equal to the dimension K of each label. Default is uniform distribution and each element will be set to 1/K if not provided in input.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(loDTensor) The smoothed label of LabelSmooth operator. It hasthe same shape and LoD with the Input(LoDTensor).",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "epsilon",
+   "type" : "float",
+   "comment" : "(float, default 0.0f)The smoothing parameter of LabelSmooth operator.",
+   "generated" : 0
+ } ] 
+},{
  "type" : "expand",
  "comment" : "\nExpand operator tiles the input by given times number. You should set times\nnumber for each dimension by providing attribute 'expand_times'. The rank of X\nshould be in [1, 6]. Please note that size of 'expand_times' must be the same\nwith X's rank. Following is a using case:\n\nInput(X) is a 3-D tensor with shape [2, 3, 1]:\n\n        [\n           [[1], [2], [3]],\n           [[4], [5], [6]]\n        ]\n\nAttr(expand_times):  [1, 2, 2]\n\nOutput(Out) is a 3-D tensor with shape [2, 6, 2]:\n\n        [\n            [[1, 1], [2, 2], [3, 3], [1, 1], [2, 2], [3, 3]],\n            [[4, 4], [5, 5], [6, 6], [4, 4], [5, 5], [6, 6]]\n        ]\n\n",
  "inputs" : [ 
@@ -4483,6 +4589,11 @@
    "name" : "is_test",
    "type" : "bool",
    "comment" : "True if in test phase.",
+   "generated" : 0
+ }, { 
+   "name" : "fix_seed",
+   "type" : "bool",
+   "comment" : "A flag indicating whether to use a fixed seed to generate random mask. NOTE: DO NOT set this flag to true in training. Setting this flag to true is only useful in unittest or for debug that always the same output units will be dropped.",
    "generated" : 0
  }, { 
    "name" : "seed",
@@ -5163,6 +5274,24 @@
  } ], 
  "attrs" : [  ] 
 },{
+ "type" : "floor",
+ "comment" : "\nFloor Activation Operator.\n\n$out = floor(x)$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "Input of Floor operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "Output of Floor operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
  "type" : "sequence_concat",
  "comment" : "\nThe sequence_concat operator concatenates multiple LoDTensors.\nIt only supports sequence (LoD Tensor with level number is 1)\nor a nested sequence (LoD tensor with level number is 2) as its input.\n- Case1:\n  If the axis is other than 0(here, axis is 1 and level is 1),\n  each input should have the same LoD information and the LoD\n  information of the output keeps the same as the input.\n\n  LoD(x0) = {{0,2,4}, {0,1,2,3,4}}; Dims(x0) = (4,3,4)\n  LoD(x1) = {{0,2,4}, {0,1,2,3,4}}; Dims(x1) = (4,4,4)\n  LoD(Out) = {{0,2,4}, {0,1,2,3,4}}; Dims(Out) = (4,7,4)\n\n- Case2:\n  If the axis is 0(here, leve is 0), the inputs are concatenated along\n  time steps, the LoD information of the output need to re-compute.\n  The LoD information of level-1 should be same.\n\n  LoD(x0) = {{0,2,4}, {0,1,2,3,4}}; Dims(x0) = (4,3,4)\n  LoD(x1) = {{0,2,4}, {0,1,3,5,7}}; Dims(x1) = (7,3,4)\n  LoD(Out) = {{0,2,4}, {0,2,5,8,11}}; Dims(Out) = (11,3,4)\n\n- Case3:\n  If the axis is 0(here, level is 1).\n\n  LoD(x0) = {{0,2,4}, {0,1,2,3,4}}; Dims(x0) = (4,3,4)\n  LoD(x1) = {{0,3,4}, {0,1,3,5,7}}; Dims(x1) = (7,3,4)\n  LoD(Out) = {{0,5,8}, {0,1,2,3,5,7,8,9,11}}; Dims(Out) = (11,3,4)\n\n- Case4:\n  If the LoD number is 1, axis is 0, level is 0\n\n  LoD(x0) = {{0,1,2,3,4}}; Dims(x0) = (4,3,4)\n  LoD(x1) = {{0,1,3,5,7}}; Dims(x1) = (7,3,4)\n  LoD(Out) = {{0,2,5,8,11}}; Dims(Out) = (11,3,4)\n\nNOTE: The levels of all the inputs should be the same.\n    ",
  "inputs" : [ 
@@ -5191,24 +5320,6 @@
    "comment" : "(int, default 0) The level at which the inputs will be joined. If the level is 0, the inputs will be joined at the nested sequence level. If the level is 1, the inputs will be joined at the sequence level. The level should be less than the level number of inputs.",
    "generated" : 0
  } ] 
-},{
- "type" : "floor",
- "comment" : "\nFloor Activation Operator.\n\n$out = floor(x)$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "Input of Floor operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "Output of Floor operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
 },{
  "type" : "cast",
  "comment" : "\nCast Operator.\n\nThis Operator casts the input tensor to another data type and\nreturns tha Output Tensor.\n\n",
@@ -5275,83 +5386,6 @@
  }, { 
    "name" : "ColToRowMatchDis",
    "comment" : "(Tensor) A 2-D Tensor with shape [N, M] in float type. N is batch size. If ColToRowMatchIndices[i][j] is -1, ColToRowMatchDis[i][j] is also -1.0. Otherwise, assumed ColToRowMatchIndices[i][j] = d, and the row offsets of each instance are called LoD. Then ColToRowMatchDis[i][j] = DistMat[d+LoD[i]][j]",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
- "type" : "lrn",
- "comment" : "\nLocal Response Normalization Operator.\n\nThis operator comes from the paper:\n<<ImageNet Classification with Deep Convolutional Neural Networks>>.\n\nThe original formula is:\n\n$$\nOutput(i, x, y) = Input(i, x, y) / \\left(\nk + \\alpha \\sum\\limits^{\\min(C, c + n/2)}_{j = \\max(0, c - n/2)}\n(Input(j, x, y))^2\n\\right)^{\\beta}\n$$\n\nFunction implementation:\n\nInputs and outpus are in NCHW format, while input.shape.ndims() equals 4.\nAnd dimensions 0 ~ 3 represent batch size, feature maps, rows,\nand columns, respectively.\n\nInput and Output in the formula above is for each map(i) of one image, and\nInput(i, x, y), Output(i, x, y) represents an element in an image.\n\nC is the number of feature maps of one image. n is a hyper-parameter\nconfigured when operator is initialized. The sum in the denominator\nis the sum of the same positions in the neighboring maps.\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(Tensor) The input of LRN operator. It must be a 4D tenor with NCHW format.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(Tensor) The output of LRN operator, which is also the 4D tensor with NCHW format.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "MidOut",
-   "comment" : "(Tensor) Middle result of LRN operator. It's computed in forward process and also used in backward process.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "n",
-   "type" : "int",
-   "comment" : "(int default 5) n is the \"adjacent\" kernel that maps at the same spatial position.",
-   "generated" : 0
- }, { 
-   "name" : "k",
-   "type" : "float",
-   "comment" : "(float, default 2.0) k is the bias.",
-   "generated" : 0
- }, { 
-   "name" : "alpha",
-   "type" : "float",
-   "comment" : "(float, default 0.0001) alpha is the scale number.",
-   "generated" : 0
- }, { 
-   "name" : "beta",
-   "type" : "float",
-   "comment" : "(float, default 0.75) beta is the power number.",
-   "generated" : 0
- } ] 
-},{
- "type" : "bilinear_tensor_product",
- "comment" : "\nBilinear Tensor Product operator.\nGiven input X and Y, a 3D tensor Weight and a Bias. Each column of the\nOutput is computed by one slice $i = 1, . . . , k$ of the tensor:\n\n$$\nM =  (X W_i) * Y \\\\\nOut_i = \\sum_j {M_j} + Bias_i\n$$\n\nWhere $W_i$ is the $i$-th slice of Input(Weight);\n      $M_j$ is the $j$-th column of $M$;\n      $Out_i$ is the $i$-th column of Output(Out);\n      $Bias_i$ is a column vector, each element of it is equal to\n        the $i$-th element of $Bias$;\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "The first input of bilinear_tensor_product operator.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Y",
-   "comment" : "The second input of bilinear_tensor_product operator.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Weight",
-   "comment" : "The learnable parameters of bilinear_tensor_product operator.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Bias",
-   "comment" : "The learnable bias of bilinear_tensor_product operator.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "The output of bilinear_tensor_product operator.",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
