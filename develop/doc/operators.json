@@ -940,6 +940,24 @@
    "generated" : 0
  } ] 
 },{
+ "type" : "load_combine",
+ "comment" : "\nLoadCombine Operator.\n\nLoadCombine operator loads LoDTensor variables from a file. The file should \ncontain one or more LoDTensors serialized using the SaveCombine operator. The \nLoadCombine operator applies a deserialization strategy to appropriately load \nthe LodTensors, and this strategy complements the serialization strategy used \nin the SaveCombine operator. Hence, the LoadCombine operator is tightly coupled\nwith the SaveCombine operator, and can only deserialize one or more LoDTensors \nthat were saved using the SaveCombine operator.\n\n",
+ "inputs" : [  ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(vector) The output LoDTensors that will be read from the input file.",
+   "duplicable" : 1,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "file_path",
+   "type" : "string",
+   "comment" : "(string) LoDTensors will be loaded from \"file_path\".",
+   "generated" : 0
+ } ] 
+},{
  "type" : "accuracy",
  "comment" : "\nAccuracy Operator. \n\nIt will print accuracy rate for classification.\nThe accuracy is calculated as follows:\n\n$$accuracy = \\frac{NumOfCorrectPredicts}{NumOfAllSamples}$$\n\nBoth the input Out and Label can carry the LoD (Level of Details)\ninformation, or not. But the output only shares the LoD information \nwith the input Out(Inference).\n\n",
  "inputs" : [ 
@@ -1177,6 +1195,29 @@
    "name" : "alpha",
    "type" : "float",
    "comment" : "The alpha value of ELU",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "save_combine",
+ "comment" : "\nSaveCombine operator\n\nThis operator will serialize and write a list of input LoDTensor variables \nto a file on disk.\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(vector) Input LoDTensors that need to be saved together in a file.",
+   "duplicable" : 1,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [  ], 
+ "attrs" : [ 
+ { 
+   "name" : "overwrite",
+   "type" : "bool",
+   "comment" : "(boolean, default true)Overwrite the output file if it exists.",
+   "generated" : 0
+ }, { 
+   "name" : "file_path",
+   "type" : "string",
+   "comment" : "(string)The \"file_path\" where the LoDTensor variables will be saved.",
    "generated" : 0
  } ] 
 },{
