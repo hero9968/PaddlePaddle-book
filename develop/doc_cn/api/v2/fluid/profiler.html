@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Profiler &mdash; PaddlePaddle  文档</title>
+  <title>profiler &mdash; PaddlePaddle  文档</title>
   
 
   
@@ -34,8 +34,8 @@
         <link rel="search" title="搜索" href="../../../search.html"/>
     <link rel="top" title="PaddlePaddle  文档" href="../../../index.html"/>
         <link rel="up" title="Fluid" href="../fluid.html"/>
-        <link rel="next" title="Regularizer" href="regularizer.html"/>
-        <link rel="prev" title="ParamAttr" href="param_attr.html"/> 
+        <link rel="next" title="regularizer" href="regularizer.html"/>
+        <link rel="prev" title="param_attr" href="param_attr.html"/> 
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/css/perfect-scrollbar.min.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/css/override.css" type="text/css" />
@@ -173,17 +173,17 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../run_logic.html">训练与应用</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../fluid.html">Fluid</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="layers.html">Layers</a></li>
-<li class="toctree-l3"><a class="reference internal" href="data_feeder.html">DataFeeder</a></li>
-<li class="toctree-l3"><a class="reference internal" href="executor.html">Executor</a></li>
-<li class="toctree-l3"><a class="reference internal" href="initializer.html">Initializer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="evaluator.html">Evaluator</a></li>
-<li class="toctree-l3"><a class="reference internal" href="nets.html">Nets</a></li>
-<li class="toctree-l3"><a class="reference internal" href="optimizer.html">Optimizer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="param_attr.html">ParamAttr</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Profiler</a></li>
-<li class="toctree-l3"><a class="reference internal" href="regularizer.html">Regularizer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="io.html">IO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="layers.html">layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_feeder.html">data_feeder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="executor.html">executor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="initializer.html">initializer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="evaluator.html">evaluator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nets.html">nets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optimizer.html">optimizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="param_attr.html">param_attr</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">profiler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="regularizer.html">regularizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="io.html">io</a></li>
 </ul>
 </li>
 </ul>
@@ -226,7 +226,7 @@
       
         <li><a href="../fluid.html">Fluid</a> > </li>
       
-    <li>Profiler</li>
+    <li>profiler</li>
   </ul>
 </div>
       
@@ -236,9 +236,9 @@
            <div itemprop="articleBody">
             
   <div class="section" id="profiler">
-<h1>Profiler<a class="headerlink" href="#profiler" title="永久链接至标题">¶</a></h1>
-<div class="section" id="id1">
-<h2>Profiler<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<h1>profiler<a class="headerlink" href="#profiler" title="永久链接至标题">¶</a></h1>
+<div class="section" id="cuda-profiler">
+<h2>cuda_profiler<a class="headerlink" href="#cuda-profiler" title="永久链接至标题">¶</a></h2>
 <dl class="function">
 <dt>
 <code class="descclassname">paddle.v2.fluid.profiler.</code><code class="descname">cuda_profiler</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwds</em><span class="sig-paren">)</span></dt>
@@ -269,6 +269,53 @@ to &#8220;Compute Command Line Profiler User Guide&#8221;.</li>
 </dd></dl>
 
 </div>
+<div class="section" id="reset-profiler">
+<h2>reset_profiler<a class="headerlink" href="#reset-profiler" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.profiler.</code><code class="descname">reset_profiler</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>The profiler clear interface.
+reset_profiler will clear the previous time record.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="id1">
+<h2>profiler<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.profiler.</code><code class="descname">profiler</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwds</em><span class="sig-paren">)</span></dt>
+<dd><p>The profiler interface.
+Different from cuda_profiler, this profiler can be used to profile both CPU
+and GPU program. By defalut, it records the CPU and GPU operator kernels,
+if you want to profile other program, you can refer the profiling tutorial
+to add more records.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first last simple">
+<li><strong>state</strong> (<em>string</em>) &#8211; The profiling state, which should be &#8216;CPU&#8217; or &#8216;GPU&#8217;,
+telling the profiler to use CPU timer or GPU timer for profiling.
+Although users may have already specified the execution place
+(CPUPlace/CUDAPlace) in the begining, for flexibility the profiler
+would not inherit this place.</li>
+<li><strong>sorted_key</strong> (<em>string</em>) &#8211; If None, the profiling results will be printed
+in the order of first end time of events. Otherwise, the profiling
+results will be sorted by the this flag. This flag should be one
+of &#8216;calls&#8217;, &#8216;total&#8217;, &#8216;max&#8217;, &#8216;min&#8217; or &#8216;ave&#8217;.
+The <cite>calls</cite> means sorting by the number of calls.
+The <cite>total</cite> means sorting by the total execution time.
+The <cite>max</cite> means sorting by the maximum execution time.
+The <cite>min</cite> means sorting by the minimum execution time.
+The <cite>ave</cite> means sorting by the average execution time.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
 </div>
 
 
@@ -278,10 +325,10 @@ to &#8220;Compute Command Line Profiler User Guide&#8221;.</li>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="regularizer.html" class="btn btn-neutral float-right" title="Regularizer" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="regularizer.html" class="btn btn-neutral float-right" title="regularizer" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="param_attr.html" class="btn btn-neutral" title="ParamAttr" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="param_attr.html" class="btn btn-neutral" title="param_attr" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

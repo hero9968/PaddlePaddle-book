@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>IO &mdash; PaddlePaddle  documentation</title>
+  <title>io &mdash; PaddlePaddle  documentation</title>
   
 
   
@@ -35,7 +35,7 @@
     <link rel="top" title="PaddlePaddle  documentation" href="../../../index.html"/>
         <link rel="up" title="Fluid" href="../fluid.html"/>
         <link rel="next" title="MOBILE" href="../../../mobile/index_en.html"/>
-        <link rel="prev" title="Regularizer" href="regularizer.html"/> 
+        <link rel="prev" title="regularizer" href="regularizer.html"/> 
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/css/perfect-scrollbar.min.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/css/override.css" type="text/css" />
@@ -162,17 +162,17 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../run_logic.html">Training and Inference</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../fluid.html">Fluid</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="layers.html">Layers</a></li>
-<li class="toctree-l3"><a class="reference internal" href="data_feeder.html">DataFeeder</a></li>
-<li class="toctree-l3"><a class="reference internal" href="executor.html">Executor</a></li>
-<li class="toctree-l3"><a class="reference internal" href="initializer.html">Initializer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="evaluator.html">Evaluator</a></li>
-<li class="toctree-l3"><a class="reference internal" href="nets.html">Nets</a></li>
-<li class="toctree-l3"><a class="reference internal" href="optimizer.html">Optimizer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="param_attr.html">ParamAttr</a></li>
-<li class="toctree-l3"><a class="reference internal" href="profiler.html">Profiler</a></li>
-<li class="toctree-l3"><a class="reference internal" href="regularizer.html">Regularizer</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">IO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="layers.html">layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_feeder.html">data_feeder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="executor.html">executor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="initializer.html">initializer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="evaluator.html">evaluator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nets.html">nets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optimizer.html">optimizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="param_attr.html">param_attr</a></li>
+<li class="toctree-l3"><a class="reference internal" href="profiler.html">profiler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="regularizer.html">regularizer</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">io</a></li>
 </ul>
 </li>
 </ul>
@@ -207,7 +207,7 @@
       
         <li><a href="../fluid.html">Fluid</a> > </li>
       
-    <li>IO</li>
+    <li>io</li>
   </ul>
 </div>
       
@@ -217,25 +217,161 @@
            <div itemprop="articleBody">
             
   <div class="section" id="io">
-<h1>IO<a class="headerlink" href="#io" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="is-parameter">
-<h2>is_parameter<a class="headerlink" href="#is-parameter" title="Permalink to this headline">¶</a></h2>
+<h1>io<a class="headerlink" href="#io" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="save-vars">
+<h2>save_vars<a class="headerlink" href="#save-vars" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.io.</code><code class="descname">is_parameter</code><span class="sig-paren">(</span><em>var</em><span class="sig-paren">)</span></dt>
-<dd><p>Check whether the variable is a Parameter.</p>
-<p>This function checks whether the input variable is a Parameter.</p>
+<code class="descclassname">paddle.v2.fluid.io.</code><code class="descname">save_vars</code><span class="sig-paren">(</span><em>executor</em>, <em>dirname</em>, <em>main_program=None</em>, <em>vars=None</em>, <em>predicate=None</em><span class="sig-paren">)</span></dt>
+<dd><p>Save variables to directory by executor.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>var</strong> &#8211; The input variable.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>executor</strong> &#8211; executor that save variable</li>
+<li><strong>dirname</strong> &#8211; directory path</li>
+<li><strong>main_program</strong> &#8211; program. If vars is None, then filter all variables in this</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">boolean result whether the variable is a Parameter.</td>
+</tbody>
+</table>
+<p>program which fit <cite>predicate</cite>. Default default_main_program.
+:param predicate: The Predicate describes a callable that returns a variable
+as a bool. If it returns true, the variables will be saved.
+:param vars: variables need to be saved. If specify vars, program &amp; predicate
+will be ignored
+:return: None</p>
+</dd></dl>
+
+</div>
+<div class="section" id="save-params">
+<h2>save_params<a class="headerlink" href="#save-params" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.io.</code><code class="descname">save_params</code><span class="sig-paren">(</span><em>executor</em>, <em>dirname</em>, <em>main_program=None</em><span class="sig-paren">)</span></dt>
+<dd><p>Save all parameters to directory with executor.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="save-persistables">
+<h2>save_persistables<a class="headerlink" href="#save-persistables" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.io.</code><code class="descname">save_persistables</code><span class="sig-paren">(</span><em>executor</em>, <em>dirname</em>, <em>main_program=None</em><span class="sig-paren">)</span></dt>
+<dd><p>Save all persistables to directory with executor.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="load-vars">
+<h2>load_vars<a class="headerlink" href="#load-vars" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.io.</code><code class="descname">load_vars</code><span class="sig-paren">(</span><em>executor</em>, <em>dirname</em>, <em>main_program=None</em>, <em>vars=None</em>, <em>predicate=None</em><span class="sig-paren">)</span></dt>
+<dd><p>Load variables from directory by executor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>executor</strong> &#8211; executor that save variable</li>
+<li><strong>dirname</strong> &#8211; directory path</li>
+<li><strong>main_program</strong> &#8211; program. If vars is None, then filter all variables in this</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>program which fit <cite>predicate</cite>. Default default_main_program().
+:param predicate: The Predicate describes a callable that returns a variable
+as a bool. If it returns true, the variables will be loaded.
+:param vars: variables need to be loaded. If specify vars, program &amp;
+predicate will be ignored
+:return: None</p>
+</dd></dl>
+
+</div>
+<div class="section" id="load-params">
+<h2>load_params<a class="headerlink" href="#load-params" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.io.</code><code class="descname">load_params</code><span class="sig-paren">(</span><em>executor</em>, <em>dirname</em>, <em>main_program=None</em><span class="sig-paren">)</span></dt>
+<dd><p>load all parameters from directory by executor.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="load-persistables">
+<h2>load_persistables<a class="headerlink" href="#load-persistables" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.io.</code><code class="descname">load_persistables</code><span class="sig-paren">(</span><em>executor</em>, <em>dirname</em>, <em>main_program=None</em><span class="sig-paren">)</span></dt>
+<dd><p>load all persistables from directory by executor.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="save-inference-model">
+<h2>save_inference_model<a class="headerlink" href="#save-inference-model" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.io.</code><code class="descname">save_inference_model</code><span class="sig-paren">(</span><em>dirname</em>, <em>feeded_var_names</em>, <em>target_vars</em>, <em>executor</em>, <em>main_program=None</em><span class="sig-paren">)</span></dt>
+<dd><p>Build a model especially for inference,
+and save it to directory by the executor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>dirname</strong> &#8211; directory path</li>
+<li><strong>feeded_var_names</strong> &#8211; Names of variables that need to be feeded data during inference</li>
+<li><strong>target_vars</strong> &#8211; Variables from which we can get inference results.</li>
+<li><strong>executor</strong> &#8211; executor that save inference model</li>
+<li><strong>main_program</strong> &#8211; original program, which will be pruned to build the inference model.
+Default default_main_program().</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">None</p>
+</td>
 </tr>
 </tbody>
 </table>
 </dd></dl>
+
+</div>
+<div class="section" id="load-inference-model">
+<h2>load_inference_model<a class="headerlink" href="#load-inference-model" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.io.</code><code class="descname">load_inference_model</code><span class="sig-paren">(</span><em>dirname</em>, <em>executor</em><span class="sig-paren">)</span></dt>
+<dd><p>Load inference model from a directory</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>dirname</strong> &#8211; directory path</li>
+<li><strong>executor</strong> &#8211; executor that load inference model</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">[program, feed_target_names, fetch_targets]
+program: program especially for inference.
+feed_target_names: Names of variables that need to feed data
+fetch_targets: Variables from which we can get inference results.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="get-inference-program">
+<h2>get_inference_program<a class="headerlink" href="#get-inference-program" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.io.</code><code class="descname">get_inference_program</code><span class="sig-paren">(</span><em>target_vars</em>, <em>main_program=None</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
 
 </div>
 </div>
@@ -250,7 +386,7 @@
         <a href="../../../mobile/index_en.html" class="btn btn-neutral float-right" title="MOBILE" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="regularizer.html" class="btn btn-neutral" title="Regularizer" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="regularizer.html" class="btn btn-neutral" title="regularizer" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

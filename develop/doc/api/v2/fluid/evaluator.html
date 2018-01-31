@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Evaluator &mdash; PaddlePaddle  documentation</title>
+  <title>evaluator &mdash; PaddlePaddle  documentation</title>
   
 
   
@@ -34,8 +34,8 @@
         <link rel="search" title="Search" href="../../../search.html"/>
     <link rel="top" title="PaddlePaddle  documentation" href="../../../index.html"/>
         <link rel="up" title="Fluid" href="../fluid.html"/>
-        <link rel="next" title="Nets" href="nets.html"/>
-        <link rel="prev" title="Initializer" href="initializer.html"/> 
+        <link rel="next" title="nets" href="nets.html"/>
+        <link rel="prev" title="initializer" href="initializer.html"/> 
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/css/perfect-scrollbar.min.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/css/override.css" type="text/css" />
@@ -162,17 +162,17 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../run_logic.html">Training and Inference</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../fluid.html">Fluid</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="layers.html">Layers</a></li>
-<li class="toctree-l3"><a class="reference internal" href="data_feeder.html">DataFeeder</a></li>
-<li class="toctree-l3"><a class="reference internal" href="executor.html">Executor</a></li>
-<li class="toctree-l3"><a class="reference internal" href="initializer.html">Initializer</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Evaluator</a></li>
-<li class="toctree-l3"><a class="reference internal" href="nets.html">Nets</a></li>
-<li class="toctree-l3"><a class="reference internal" href="optimizer.html">Optimizer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="param_attr.html">ParamAttr</a></li>
-<li class="toctree-l3"><a class="reference internal" href="profiler.html">Profiler</a></li>
-<li class="toctree-l3"><a class="reference internal" href="regularizer.html">Regularizer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="io.html">IO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="layers.html">layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_feeder.html">data_feeder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="executor.html">executor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="initializer.html">initializer</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">evaluator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nets.html">nets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optimizer.html">optimizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="param_attr.html">param_attr</a></li>
+<li class="toctree-l3"><a class="reference internal" href="profiler.html">profiler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="regularizer.html">regularizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="io.html">io</a></li>
 </ul>
 </li>
 </ul>
@@ -207,7 +207,7 @@
       
         <li><a href="../fluid.html">Fluid</a> > </li>
       
-    <li>Evaluator</li>
+    <li>evaluator</li>
   </ul>
 </div>
       
@@ -217,76 +217,24 @@
            <div itemprop="articleBody">
             
   <div class="section" id="evaluator">
-<h1>Evaluator<a class="headerlink" href="#evaluator" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="id1">
-<h2>Evaluator<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<h1>evaluator<a class="headerlink" href="#evaluator" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="accuracy">
+<h2>Accuracy<a class="headerlink" href="#accuracy" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt>
-<em class="property">class </em><code class="descclassname">paddle.v2.fluid.evaluator.</code><code class="descname">Evaluator</code><span class="sig-paren">(</span><em>name</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
-<dd><p>Base Class for all evaluators</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>name</strong> (<em>str</em>) &#8211; The name of evaluator. such as, &#8220;accuracy&#8221;. Used for generate
-temporary variable name.</li>
-<li><strong>main_program</strong> (<em>Program</em><em>, </em><em>optional</em>) &#8211; The evaluator should be added to this
-main_program. Default default_main_program()</li>
-<li><strong>startup_program</strong> (<em>Program</em><em>, </em><em>optional</em>) &#8211; The parameter should be added to this
-startup_program. Default default_startup_program()</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-<dl class="attribute">
-<dt id="paddle.v2.fluid.evaluator.Evaluator.states">
-<code class="descname">states</code><a class="headerlink" href="#paddle.v2.fluid.evaluator.Evaluator.states" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>list</em> &#8211; The list of state variables. states will be reset to zero
-when <cite>reset</cite> is invoked.</p>
+<em class="property">class </em><code class="descclassname">paddle.v2.fluid.evaluator.</code><code class="descname">Accuracy</code><span class="sig-paren">(</span><em>input</em>, <em>label</em>, <em>k=1</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
+<dd><p>Average Accuracy for multiple mini-batches.</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="paddle.v2.fluid.evaluator.Evaluator.metrics">
-<code class="descname">metrics</code><a class="headerlink" href="#paddle.v2.fluid.evaluator.Evaluator.metrics" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>list</em> &#8211; The list of metrics variables. They will be calculate
-every mini-batch</p>
-</dd></dl>
-
-<dl class="method">
+</div>
+<div class="section" id="chunkevaluator">
+<h2>ChunkEvaluator<a class="headerlink" href="#chunkevaluator" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
 <dt>
-<code class="descname">reset</code><span class="sig-paren">(</span><em>executor</em>, <em>reset_program=None</em><span class="sig-paren">)</span></dt>
-<dd><p>reset metric states at the begin of each pass/user specified batch</p>
-</dd></dl>
-
-<dl class="method">
-<dt>
-<code class="descname">eval</code><span class="sig-paren">(</span><em>executor</em>, <em>eval_program=None</em><span class="sig-paren">)</span></dt>
-<dd><p>Evaluate the statistics merged by multiple mini-batches.</p>
-</dd></dl>
-
-<dl class="method">
-<dt>
-<code class="descname">create_state</code><span class="sig-paren">(</span><em>suffix</em>, <em>dtype</em>, <em>shape</em><span class="sig-paren">)</span></dt>
-<dd><p>Create state variable.</p>
-<p>NOTE: It is not a public API.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>suffix</strong> (<em>str</em>) &#8211; the state suffix.</li>
-<li><strong>dtype</strong> (<em>str|core.DataType</em>) &#8211; the state data type</li>
-<li><strong>shape</strong> (<em>tuple|list</em>) &#8211; the shape of state</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-<p>Returns: State variable</p>
-</dd></dl>
-
+<em class="property">class </em><code class="descclassname">paddle.v2.fluid.evaluator.</code><code class="descname">ChunkEvaluator</code><span class="sig-paren">(</span><em>input</em>, <em>label</em>, <em>chunk_scheme</em>, <em>num_chunk_types</em>, <em>excluded_chunk_types=None</em><span class="sig-paren">)</span></dt>
+<dd><p>Accumulate counter numbers output by chunk_eval from mini-batches and
+compute the precision recall and F1-score using the accumulated counter
+numbers.</p>
 </dd></dl>
 
 </div>
@@ -299,10 +247,10 @@ every mini-batch</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="nets.html" class="btn btn-neutral float-right" title="Nets" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="nets.html" class="btn btn-neutral float-right" title="nets" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="initializer.html" class="btn btn-neutral" title="Initializer" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="initializer.html" class="btn btn-neutral" title="initializer" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Regularizer &mdash; PaddlePaddle  文档</title>
+  <title>regularizer &mdash; PaddlePaddle  文档</title>
   
 
   
@@ -34,8 +34,8 @@
         <link rel="search" title="搜索" href="../../../search.html"/>
     <link rel="top" title="PaddlePaddle  文档" href="../../../index.html"/>
         <link rel="up" title="Fluid" href="../fluid.html"/>
-        <link rel="next" title="IO" href="io.html"/>
-        <link rel="prev" title="Profiler" href="profiler.html"/> 
+        <link rel="next" title="io" href="io.html"/>
+        <link rel="prev" title="profiler" href="profiler.html"/> 
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/css/perfect-scrollbar.min.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/css/override.css" type="text/css" />
@@ -173,17 +173,17 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../run_logic.html">训练与应用</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../fluid.html">Fluid</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="layers.html">Layers</a></li>
-<li class="toctree-l3"><a class="reference internal" href="data_feeder.html">DataFeeder</a></li>
-<li class="toctree-l3"><a class="reference internal" href="executor.html">Executor</a></li>
-<li class="toctree-l3"><a class="reference internal" href="initializer.html">Initializer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="evaluator.html">Evaluator</a></li>
-<li class="toctree-l3"><a class="reference internal" href="nets.html">Nets</a></li>
-<li class="toctree-l3"><a class="reference internal" href="optimizer.html">Optimizer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="param_attr.html">ParamAttr</a></li>
-<li class="toctree-l3"><a class="reference internal" href="profiler.html">Profiler</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Regularizer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="io.html">IO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="layers.html">layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_feeder.html">data_feeder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="executor.html">executor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="initializer.html">initializer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="evaluator.html">evaluator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nets.html">nets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optimizer.html">optimizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="param_attr.html">param_attr</a></li>
+<li class="toctree-l3"><a class="reference internal" href="profiler.html">profiler</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">regularizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="io.html">io</a></li>
 </ul>
 </li>
 </ul>
@@ -226,7 +226,7 @@
       
         <li><a href="../fluid.html">Fluid</a> > </li>
       
-    <li>Regularizer</li>
+    <li>regularizer</li>
   </ul>
 </div>
       
@@ -236,37 +236,55 @@
            <div itemprop="articleBody">
             
   <div class="section" id="regularizer">
-<h1>Regularizer<a class="headerlink" href="#regularizer" title="永久链接至标题">¶</a></h1>
-<div class="section" id="weightdecayregularizer">
-<h2>WeightDecayRegularizer<a class="headerlink" href="#weightdecayregularizer" title="永久链接至标题">¶</a></h2>
-<dl class="class">
+<h1>regularizer<a class="headerlink" href="#regularizer" title="永久链接至标题">¶</a></h1>
+<div class="section" id="append-regularization-ops">
+<h2>append_regularization_ops<a class="headerlink" href="#append-regularization-ops" title="永久链接至标题">¶</a></h2>
+<dl class="function">
 <dt>
-<em class="property">class </em><code class="descclassname">paddle.v2.fluid.regularizer.</code><code class="descname">WeightDecayRegularizer</code></dt>
-<dd><p>Base class for weight decay regularizers</p>
-<p>Defines the common interface of weight-decay regularizers.
-Weight-decay regularizers are added only during the backward
-pass for faster regularization. They add operations to the network
-that correspond to gradient of the regularization function.
-Users should not use this class directly, but need to use one
-of its implementations</p>
+<code class="descclassname">paddle.v2.fluid.regularizer.</code><code class="descname">append_regularization_ops</code><span class="sig-paren">(</span><em>parameters_and_grads</em>, <em>regularization=None</em><span class="sig-paren">)</span></dt>
+<dd><p>Create and add backward regularization Operators</p>
+<p>Creates and adds backward regularization operators in the BlockDesc.
+This will add gradients of the regularizer function to the gradients
+of the parameters and return these modified gradients. This is the
+same as implementing weight decay in optimizers for regularization.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
+<li><strong>parameters_and_grads</strong> &#8211; A list of (parameters, gradients) pairs
+that need to be regularized.</li>
+<li><strong>regularization</strong> &#8211; A global regularizer. If the parameter is not
+set. It will be applied with regularizer.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">list of (parameters, gradients) pair with the regularized gradient</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">Exception</span></code> &#8211; Unknown regularization type</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>
-<div class="section" id="l2decayregularizer">
-<h2>L2DecayRegularizer<a class="headerlink" href="#l2decayregularizer" title="永久链接至标题">¶</a></h2>
-<dl class="class">
+<div class="section" id="l1decay">
+<h2>L1Decay<a class="headerlink" href="#l1decay" title="永久链接至标题">¶</a></h2>
+<dl class="attribute">
 <dt>
-<em class="property">class </em><code class="descclassname">paddle.v2.fluid.regularizer.</code><code class="descname">L2DecayRegularizer</code><span class="sig-paren">(</span><em>regularization_coeff=0.0</em><span class="sig-paren">)</span></dt>
-<dd><p>Implements the L2 Weight Decay Regularization</p>
+<code class="descclassname">paddle.v2.fluid.regularizer.</code><code class="descname">L1Decay</code></dt>
+<dd><p><code class="xref py py-class docutils literal"><span class="pre">L1DecayRegularizer</span></code> 的别名</p>
 </dd></dl>
 
 </div>
-<div class="section" id="module-paddle.v2.fluid.regularizer">
-<span id="l1decayregularizer"></span><h2>L1DecayRegularizer<a class="headerlink" href="#module-paddle.v2.fluid.regularizer" title="永久链接至标题">¶</a></h2>
-<dl class="class">
-<dt id="paddle.v2.fluid.regularizer.L1DecayRegularizer">
-<em class="property">class </em><code class="descclassname">paddle.v2.fluid.regularizer.</code><code class="descname">L1DecayRegularizer</code><span class="sig-paren">(</span><em>regularization_coeff=0.0</em><span class="sig-paren">)</span><a class="headerlink" href="#paddle.v2.fluid.regularizer.L1DecayRegularizer" title="永久链接至目标">¶</a></dt>
-<dd><p>Implements the L1 Weight Decay Regularization</p>
+<div class="section" id="l2decay">
+<h2>L2Decay<a class="headerlink" href="#l2decay" title="永久链接至标题">¶</a></h2>
+<dl class="attribute">
+<dt>
+<code class="descclassname">paddle.v2.fluid.regularizer.</code><code class="descname">L2Decay</code></dt>
+<dd><p><code class="xref py py-class docutils literal"><span class="pre">L2DecayRegularizer</span></code> 的别名</p>
 </dd></dl>
 
 </div>
@@ -279,10 +297,10 @@ of its implementations</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="io.html" class="btn btn-neutral float-right" title="IO" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="io.html" class="btn btn-neutral float-right" title="io" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="profiler.html" class="btn btn-neutral" title="Profiler" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="profiler.html" class="btn btn-neutral" title="profiler" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ParamAttr &mdash; PaddlePaddle  documentation</title>
+  <title>param_attr &mdash; PaddlePaddle  documentation</title>
   
 
   
@@ -34,8 +34,8 @@
         <link rel="search" title="Search" href="../../../search.html"/>
     <link rel="top" title="PaddlePaddle  documentation" href="../../../index.html"/>
         <link rel="up" title="Fluid" href="../fluid.html"/>
-        <link rel="next" title="Profiler" href="profiler.html"/>
-        <link rel="prev" title="Optimizer" href="optimizer.html"/> 
+        <link rel="next" title="profiler" href="profiler.html"/>
+        <link rel="prev" title="optimizer" href="optimizer.html"/> 
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/css/perfect-scrollbar.min.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/css/override.css" type="text/css" />
@@ -162,17 +162,17 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../run_logic.html">Training and Inference</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../fluid.html">Fluid</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="layers.html">Layers</a></li>
-<li class="toctree-l3"><a class="reference internal" href="data_feeder.html">DataFeeder</a></li>
-<li class="toctree-l3"><a class="reference internal" href="executor.html">Executor</a></li>
-<li class="toctree-l3"><a class="reference internal" href="initializer.html">Initializer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="evaluator.html">Evaluator</a></li>
-<li class="toctree-l3"><a class="reference internal" href="nets.html">Nets</a></li>
-<li class="toctree-l3"><a class="reference internal" href="optimizer.html">Optimizer</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">ParamAttr</a></li>
-<li class="toctree-l3"><a class="reference internal" href="profiler.html">Profiler</a></li>
-<li class="toctree-l3"><a class="reference internal" href="regularizer.html">Regularizer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="io.html">IO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="layers.html">layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data_feeder.html">data_feeder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="executor.html">executor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="initializer.html">initializer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="evaluator.html">evaluator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nets.html">nets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optimizer.html">optimizer</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">param_attr</a></li>
+<li class="toctree-l3"><a class="reference internal" href="profiler.html">profiler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="regularizer.html">regularizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="io.html">io</a></li>
 </ul>
 </li>
 </ul>
@@ -207,7 +207,7 @@
       
         <li><a href="../fluid.html">Fluid</a> > </li>
       
-    <li>ParamAttr</li>
+    <li>param_attr</li>
   </ul>
 </div>
       
@@ -216,10 +216,26 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="paramattr">
-<h1>ParamAttr<a class="headerlink" href="#paramattr" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="id1">
-<h2>ParamAttr<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+  <div class="section" id="param-attr">
+<h1>param_attr<a class="headerlink" href="#param-attr" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="paramattr">
+<h2>ParamAttr<a class="headerlink" href="#paramattr" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">paddle.v2.fluid.param_attr.</code><code class="descname">ParamAttr</code><span class="sig-paren">(</span><em>name=None</em>, <em>initializer=None</em>, <em>learning_rate=1.0</em>, <em>regularizer=None</em>, <em>trainable=True</em>, <em>gradient_clip=None</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="weightnormparamattr">
+<h2>WeightNormParamAttr<a class="headerlink" href="#weightnormparamattr" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">paddle.v2.fluid.param_attr.</code><code class="descname">WeightNormParamAttr</code><span class="sig-paren">(</span><em>dim=None</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
+<dd><p>Used for weight normalization. Any field in ParamAttr can also be set here.
+Besides, an extra field dim can be set to indicate the dimension except
+which to normalize.</p>
+</dd></dl>
+
 </div>
 </div>
 
@@ -230,10 +246,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="profiler.html" class="btn btn-neutral float-right" title="Profiler" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="profiler.html" class="btn btn-neutral float-right" title="profiler" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="optimizer.html" class="btn btn-neutral" title="Optimizer" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="optimizer.html" class="btn btn-neutral" title="optimizer" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
