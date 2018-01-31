@@ -1335,6 +1335,24 @@
  } ], 
  "attrs" : [  ] 
 },{
+ "type" : "abs",
+ "comment" : "\nAbs Activation Operator.\n\n$out = |x|$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "Input of Abs operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "Output of Abs operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
  "type" : "softmax",
  "comment" : "\nSoftmax Operator.\n\nThe input of the softmax operator is a 2-D tensor with shape N x K (N is the\nbatch_size, K is the dimension of input feature). The output tensor has the\nsame shape as the input tensor.\n\nFor each row of the input tensor, the softmax operator squashes the\nK-dimensional vector of arbitrary real values to a K-dimensional vector of real\nvalues in the range [0, 1] that add up to 1.\nIt computes the exponential of the given dimension and the sum of exponential\nvalues of all the other dimensions in the K-dimensional vector input.\nThen the ratio of the exponential of the given dimension and the sum of\nexponential values of all the other dimensions is the output of the softmax\noperator.\n\nFor each row $i$ and each column $j$ in Input(X), we have:\n    $$Out[i, j] = \\frac{\\exp(X[i, j])}{\\sum_j(exp(X[i, j])}$$\n\n",
  "inputs" : [ 
@@ -1575,6 +1593,35 @@
    "intermediate" : 0
  } ], 
  "attrs" : [  ] 
+},{
+ "type" : "elementwise_pow",
+ "comment" : "\nLimited Elementwise Pow Operator.\n\nThe equation is:\n\n$$Out = X ^ Y$$\n\n$X$ is a tensor of any dimension and the dimensions of tensor $Y$ must be\nsmaller than or equal to the dimensions of $X$.\n\nThere are two cases for this operator:\n1. The shape of $Y$ is same with $X$;\n2. The shape of $Y$ is a subset of $X$.\n\nFor case 2:\n$Y$ will be broadcasted to match the shape of $X$ and axis should be\nset to index of the start dimension to broadcast $Y$ onto $X$.\n\nFor example\n  .. code-block:: python\n\n    shape(X) = (2, 3, 4, 5), shape(Y) = (,)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (5,)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (4, 5)\n    shape(X) = (2, 3, 4, 5), shape(Y) = (3, 4), with axis=1\n    shape(X) = (2, 3, 4, 5), shape(Y) = (2), with axis=0\n\nEither of the inputs $X$ and $Y$ or none can carry the LoD (Level of Details)\ninformation. However, the output only shares the LoD information with input $X$.\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(Tensor), The first input tensor of elementwise op.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Y",
+   "comment" : "(Tensor), The second input tensor of elementwise op.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "The output of elementwise op.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "axis",
+   "type" : "int",
+   "comment" : "(int, default -1). The start dimension index for broadcasting Y onto X.",
+   "generated" : 0
+ } ] 
 },{
  "type" : "proximal_gd",
  "comment" : "\nProximalGD Operator.\n\nOptimizer that implements the proximal gradient descent algorithm:\n\n$$\nprox\\_param = param - learning\\_rate * grad \\\\\nparam = sign(prox\\_param) / (1 + learning\\_rate * l2) *\n        \\max(|prox\\_param| - learning\\_rate * l1, 0)\n$$        \n\nThe paper that proposed Proximal Gradient Descent:\n(http://papers.nips.cc/paper/3793-efficient-learning-using-forward-backward-splitting.pdf)\n\n",
@@ -3188,24 +3235,6 @@
  { 
    "name" : "Out",
    "comment" : "(LoDTensor) n-dim bool tensor. Each element is $$Out = !X$$",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
- "type" : "abs",
- "comment" : "\nAbs Activation Operator.\n\n$out = |x|$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "Input of Abs operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "Output of Abs operator",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 

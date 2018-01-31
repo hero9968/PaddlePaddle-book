@@ -222,11 +222,18 @@
 <h2>Optimizer<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt>
-<em class="property">class </em><code class="descclassname">paddle.v2.fluid.optimizer.</code><code class="descname">Optimizer</code><span class="sig-paren">(</span><em>global_step=None</em>, <em>regularization=None</em><span class="sig-paren">)</span></dt>
+<em class="property">class </em><code class="descclassname">paddle.v2.fluid.optimizer.</code><code class="descname">Optimizer</code><span class="sig-paren">(</span><em>learning_rate</em>, <em>global_step=None</em>, <em>regularization=None</em><span class="sig-paren">)</span></dt>
 <dd><p>Optimizer Base class.</p>
 <p>Define the common interface of an optimizer.
 User should not use this class directly,
 but need to use one of it&#8217;s implementation.</p>
+<dl class="attribute">
+<dt>
+<code class="descname">global_learning_rate</code></dt>
+<dd><p>get global decayed learning rate
+:return:</p>
+</dd></dl>
+
 <dl class="method">
 <dt>
 <code class="descname">create_optimization_pass</code><span class="sig-paren">(</span><em>parameters_and_grads</em>, <em>loss</em>, <em>startup_program=None</em><span class="sig-paren">)</span></dt>
