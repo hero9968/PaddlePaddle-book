@@ -1317,6 +1317,24 @@
  } ], 
  "attrs" : [  ] 
 },{
+ "type" : "ceil",
+ "comment" : "\nCeil Activation Operator.\n\n$out = ceil(x)$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "Input of Ceil operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "Output of Ceil operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
  "type" : "softmax",
  "comment" : "\nSoftmax Operator.\n\nThe input of the softmax operator is a 2-D tensor with shape N x K (N is the\nbatch_size, K is the dimension of input feature). The output tensor has the\nsame shape as the input tensor.\n\nFor each row of the input tensor, the softmax operator squashes the\nK-dimensional vector of arbitrary real values to a K-dimensional vector of real\nvalues in the range [0, 1] that add up to 1.\nIt computes the exponential of the given dimension and the sum of exponential\nvalues of all the other dimensions in the K-dimensional vector input.\nThen the ratio of the exponential of the given dimension and the sum of\nexponential values of all the other dimensions is the output of the softmax\noperator.\n\nFor each row $i$ and each column $j$ in Input(X), we have:\n    $$Out[i, j] = \\frac{\\exp(X[i, j])}{\\sum_j(exp(X[i, j])}$$\n\n",
  "inputs" : [ 
@@ -3808,6 +3826,93 @@
    "generated" : 0
  } ] 
 },{
+ "type" : "layer_norm",
+ "comment" : "\nLayer Normalization.\n\nLayer Norm has been implemented as discussed in the paper:\nhttps://arxiv.org/abs/1607.06450\n...\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(LoDTensor) The input tensor.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Scale",
+   "comment" : "(Tensor, optional) Scale is a 1-dimensional tensor of size H(`begin_norm_axis` splits the tensor(`X`) to a matrix [N,H]).It is applied to the output.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Bias",
+   "comment" : "(Tensor, optional) Bias is a 1-dimensional tensor of size H(`begin_norm_axis` splits the tensor(`X`) to a matrix [N,H]).It is applied to the output.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Y",
+   "comment" : "(LoDTensor) Result after normalization.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Mean",
+   "comment" : "(Tensor) Mean of the current mini batch.",
+   "duplicable" : 0,
+   "intermediate" : 1
+ }, { 
+   "name" : "Variance",
+   "comment" : "(Tensor) Variance of the current mini batch.",
+   "duplicable" : 0,
+   "intermediate" : 1
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "epsilon",
+   "type" : "float",
+   "comment" : "(float, default 1e-5) Constant for numerical stability",
+   "generated" : 0
+ }, { 
+   "name" : "begin_norm_axis",
+   "type" : "int",
+   "comment" : "(int default:1), the axis of `begin_norm_axis ... Rank(X) - 1` will be normalized. `begin_norm_axis` splits the tensor(`X`) to a matrix [N,H].",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "gaussian_random",
+ "comment" : "\nGaussianRandom Operator.\n\nUsed to initialize tensors with gaussian random generator.\n\n",
+ "inputs" : [  ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "Output matrix of gaussian random op",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "shape",
+   "type" : "int array",
+   "comment" : "(vector<int>) The dimension of random tensor.",
+   "generated" : 0
+ }, { 
+   "name" : "mean",
+   "type" : "float",
+   "comment" : "(float, default 0.0) mean of random tensor.",
+   "generated" : 0
+ }, { 
+   "name" : "std",
+   "type" : "float",
+   "comment" : "(float, default 1.0) std of random tensor.",
+   "generated" : 0
+ }, { 
+   "name" : "seed",
+   "type" : "int",
+   "comment" : "(int, default 0) Random seed of generator.0 means use system wide seed.",
+   "generated" : 0
+ }, { 
+   "name" : "dtype",
+   "type" : "int",
+   "comment" : "(int, default 5(FP32)) Output data type.",
+   "generated" : 0
+ } ] 
+},{
  "type" : "lrn",
  "comment" : "\nLocal Response Normalization Operator.\n\nThis operator comes from the paper:\n<<ImageNet Classification with Deep Convolutional Neural Networks>>.\n\nThe original formula is:\n\n$$\nOutput(i, x, y) = Input(i, x, y) / \\left(\nk + \\alpha \\sum\\limits^{\\min(C, c + n/2)}_{j = \\max(0, c - n/2)}\n(Input(j, x, y))^2\n\\right)^{\\beta}\n$$\n\nFunction implementation:\n\nInputs and outpus are in NCHW format, while input.shape.ndims() equals 4.\nAnd dimensions 0 ~ 3 represent batch size, feature maps, rows,\nand columns, respectively.\n\nInput and Output in the formula above is for each map(i) of one image, and\nInput(i, x, y), Output(i, x, y) represents an element in an image.\n\nC is the number of feature maps of one image. n is a hyper-parameter\nconfigured when operator is initialized. The sum in the denominator\nis the sum of the same positions in the neighboring maps.\n\n",
  "inputs" : [ 
@@ -4127,44 +4232,6 @@
    "intermediate" : 0
  } ], 
  "attrs" : [  ] 
-},{
- "type" : "gaussian_random",
- "comment" : "\nGaussianRandom Operator.\n\nUsed to initialize tensors with gaussian random generator.\n\n",
- "inputs" : [  ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "Output matrix of gaussian random op",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "shape",
-   "type" : "int array",
-   "comment" : "(vector<int>) The dimension of random tensor.",
-   "generated" : 0
- }, { 
-   "name" : "mean",
-   "type" : "float",
-   "comment" : "(float, default 0.0) mean of random tensor.",
-   "generated" : 0
- }, { 
-   "name" : "std",
-   "type" : "float",
-   "comment" : "(float, default 1.0) std of random tensor.",
-   "generated" : 0
- }, { 
-   "name" : "seed",
-   "type" : "int",
-   "comment" : "(int, default 0) Random seed of generator.0 means use system wide seed.",
-   "generated" : 0
- }, { 
-   "name" : "dtype",
-   "type" : "int",
-   "comment" : "(int, default 5(FP32)) Output data type.",
-   "generated" : 0
- } ] 
 },{
  "type" : "fill_constant",
  "comment" : "\nFillConstantBatchSizeLike Operator.\n\nFill up a variable with specified constant value.\n\n",
@@ -5063,6 +5130,94 @@
  } ], 
  "attrs" : [  ] 
 },{
+ "type" : "maxout",
+ "comment" : "\nMaxOut Operator.\n\nAssumed the input shape is (N, Ci, H, W).\nThe output shape is (N, Co, H, W).\nThen $Co = Ci / groups$ and the operator formula is as follows:\n\n$$\ny_{si+j} = \\max_k x_{gsi + sk + j} \\\\\ng = groups \\\\\ns = \\frac{input.size}{num\\_channels} \\\\\n0 \\le i < \\frac{num\\_channels}{groups} \\\\\n0 \\le j < s \\\\\n0 \\le k < groups\n$$\n\nPlease refer to Paper:\n  - Maxout Networks: http://www.jmlr.org/proceedings/papers/v28/goodfellow13.pdf\n  - Multi-digit Number Recognition from Street View \\\n    Imagery using Deep Convolutional Neural Networks: \\\n    https://arxiv.org/pdf/1312.6082v4.pdf\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(Tensor) The input tensor of maxout operator. The format of input tensor is NCHW. Where N is batch size, C is the number of channels, H and W is the height and width of feature.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(Tensor) The output tensor of maxout operator.The format of output tensor is also NCHW.Where N is batch size, C is the number of channels, H and W is the height and width of feature.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "groups",
+   "type" : "int",
+   "comment" : "\"Specifies how many groups the input tensor will be split\"\n        \"in the channel dimension. And the number of output channel is \"\n        \"the number of channels divided by groups..\"\n        ",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "ftrl",
+ "comment" : "\nFTRL (Follow The Regularized Leader) Operator.\n\nOptimizer that implements the FTRL algorithm:\n\n$$\nnew\\_accum = squared\\_accum + grad^2 \\\\\nif (lr\\_power == -0.5) {\n   linear\\_accum += grad - (\\surd(new\\_accum) - \\surd(squared\\_accum)) /\n                   (learning\\_rate * param) \\\\\n} else {\n   linear\\_accum += grad -\n                  (new\\_accum^{-lr\\_power} - accum^{-lr\\_power}) /\n                  (learning\\_rate * param) \\\\\n}\n\nx = (l1 * sign(linear\\_accum) - linear\\_accum)\nif (lr\\_power == -0.5) {\n   y = \\frac{\\surd(new\\_accum)}{learning\\_rate} + (2 * l2) \\\\\n   pre\\_shrink = \\frac{x}{y} \\\\\n   param = (abs(linear\\_accum) > l1).select(pre\\_shrink, 0.0) \\\\\n} else {\n   y = \\frac{new\\_accum^{-lr\\_power}}{learning\\_rate} + (2 * l2) \\\\\n   pre\\_shrink = \\frac{x}{y} \\\\\n   param = (abs(linear\\_accum) > l1).select(pre\\_shrink, 0.0) \\\\\n}\nsquared\\_accum += grad^2;\n$$\n\nThe paper that proposed Follow The Regularized Leader (FTRL):\n(https://www.eecs.tufts.edu/~dsculley/papers/ad-click-prediction.pdf)\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "Param",
+   "comment" : "(Tensor, default Tensor<float>) Input parameter value that has to be updated.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "SquaredAccumulator",
+   "comment" : "(Tensor, default Tensor<float>) Accumulator that accumulates squared gradients.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "LinearAccumulator",
+   "comment" : "(Tensor, default Tensor<float>) Accumulator that accumulates linear gradients.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Grad",
+   "comment" : "(Tensor, default Tensor<float>) Input gradient of the parameter.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "LearningRate",
+   "comment" : "(Tensor, default Tensor<float>) The learning rate should be a tensor of size 1.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "ParamOut",
+   "comment" : "(Tensor) Output updated parameter value.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "SquaredAccumOut",
+   "comment" : "(Tensor) Output accumulated squared gradients.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "LinearAccumOut",
+   "comment" : "(Tensor) Output accumulated linear gradients.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "l1",
+   "type" : "float",
+   "comment" : "(float, default 0.0) L1 regularization strength.",
+   "generated" : 0
+ }, { 
+   "name" : "l2",
+   "type" : "float",
+   "comment" : "(float, default 0.0) L2 regularization strength.",
+   "generated" : 0
+ }, { 
+   "name" : "lr_power",
+   "type" : "float",
+   "comment" : "(float, default -0.5f) Learning Rate Power.",
+   "generated" : 0
+ } ] 
+},{
  "type" : "conv_shift",
  "comment" : "\nConvShift Operator.\n\nA layer for circular convolution of two vectors,\nas used in the Neural Turing Machine: https://arxiv.org/abs/1410.5401\n\nThe equation is:\n\n$$Out[i] = \\sum_{j=-(N-1)/2}^{(N-1)/2} X_{i+j} * Y_{j}$$\n\nwhere X's index is computed modulo M, and Y's index is computed modulo N.\n\nBoth inputs X and Y can carry LoD (Level of Details) information.\nHowever, the output only shares the LoD information with input X.\n\n",
  "inputs" : [ 
@@ -5390,24 +5545,6 @@
    "comment" : "input data type",
    "generated" : 0
  } ] 
-},{
- "type" : "ceil",
- "comment" : "\nCeil Activation Operator.\n\n$out = ceil(x)$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "Input of Ceil operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "Output of Ceil operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
 },{
  "type" : "bipartite_match",
  "comment" : "\nThis operator is a greedy bipartite matching algorithm, which is used to\nobtain the matching with the maximum distance based on the input\ndistance matrix. For input 2D matrix, the bipartite matching algorithm can\nfind the matched column for each row, also can find the matched row for\neach column. And this operator only calculate matched indices from column\nto row. For each instance, the number of matched indices is the number of\nof columns of the input ditance matrix.\n\nThere are two outputs to save matched indices and distance.\nA simple description, this algothrim matched the best (maximum distance)\nrow entity to the column entity and the matched indices are not duplicated\nin each row of ColToRowMatchIndices. If the column entity is not matched\nany row entity, set -1 in ColToRowMatchIndices.\n\nPlease note that the input DistMat can be LoDTensor (with LoD) or Tensor.\nIf LoDTensor with LoD, the height of ColToRowMatchIndices is batch size.\nIf Tensor, the height of ColToRowMatchIndices is 1.\n\n",
@@ -5928,94 +6065,6 @@
    "name" : "lambda",
    "type" : "float",
    "comment" : "non-negative offset",
-   "generated" : 0
- } ] 
-},{
- "type" : "maxout",
- "comment" : "\nMaxOut Operator.\n\nAssumed the input shape is (N, Ci, H, W).\nThe output shape is (N, Co, H, W).\nThen $Co = Ci / groups$ and the operator formula is as follows:\n\n$$\ny_{si+j} = \\max_k x_{gsi + sk + j} \\\\\ng = groups \\\\\ns = \\frac{input.size}{num\\_channels} \\\\\n0 \\le i < \\frac{num\\_channels}{groups} \\\\\n0 \\le j < s \\\\\n0 \\le k < groups\n$$\n\nPlease refer to Paper:\n  - Maxout Networks: http://www.jmlr.org/proceedings/papers/v28/goodfellow13.pdf\n  - Multi-digit Number Recognition from Street View \\\n    Imagery using Deep Convolutional Neural Networks: \\\n    https://arxiv.org/pdf/1312.6082v4.pdf\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(Tensor) The input tensor of maxout operator. The format of input tensor is NCHW. Where N is batch size, C is the number of channels, H and W is the height and width of feature.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(Tensor) The output tensor of maxout operator.The format of output tensor is also NCHW.Where N is batch size, C is the number of channels, H and W is the height and width of feature.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "groups",
-   "type" : "int",
-   "comment" : "\"Specifies how many groups the input tensor will be split\"\n        \"in the channel dimension. And the number of output channel is \"\n        \"the number of channels divided by groups..\"\n        ",
-   "generated" : 0
- } ] 
-},{
- "type" : "ftrl",
- "comment" : "\nFTRL (Follow The Regularized Leader) Operator.\n\nOptimizer that implements the FTRL algorithm:\n\n$$\nnew\\_accum = squared\\_accum + grad^2 \\\\\nif (lr\\_power == -0.5) {\n   linear\\_accum += grad - (\\surd(new\\_accum) - \\surd(squared\\_accum)) /\n                   (learning\\_rate * param) \\\\\n} else {\n   linear\\_accum += grad -\n                  (new\\_accum^{-lr\\_power} - accum^{-lr\\_power}) /\n                  (learning\\_rate * param) \\\\\n}\n\nx = (l1 * sign(linear\\_accum) - linear\\_accum)\nif (lr\\_power == -0.5) {\n   y = \\frac{\\surd(new\\_accum)}{learning\\_rate} + (2 * l2) \\\\\n   pre\\_shrink = \\frac{x}{y} \\\\\n   param = (abs(linear\\_accum) > l1).select(pre\\_shrink, 0.0) \\\\\n} else {\n   y = \\frac{new\\_accum^{-lr\\_power}}{learning\\_rate} + (2 * l2) \\\\\n   pre\\_shrink = \\frac{x}{y} \\\\\n   param = (abs(linear\\_accum) > l1).select(pre\\_shrink, 0.0) \\\\\n}\nsquared\\_accum += grad^2;\n$$\n\nThe paper that proposed Follow The Regularized Leader (FTRL):\n(https://www.eecs.tufts.edu/~dsculley/papers/ad-click-prediction.pdf)\n\n",
- "inputs" : [ 
- { 
-   "name" : "Param",
-   "comment" : "(Tensor, default Tensor<float>) Input parameter value that has to be updated.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "SquaredAccumulator",
-   "comment" : "(Tensor, default Tensor<float>) Accumulator that accumulates squared gradients.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "LinearAccumulator",
-   "comment" : "(Tensor, default Tensor<float>) Accumulator that accumulates linear gradients.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Grad",
-   "comment" : "(Tensor, default Tensor<float>) Input gradient of the parameter.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "LearningRate",
-   "comment" : "(Tensor, default Tensor<float>) The learning rate should be a tensor of size 1.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "ParamOut",
-   "comment" : "(Tensor) Output updated parameter value.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "SquaredAccumOut",
-   "comment" : "(Tensor) Output accumulated squared gradients.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "LinearAccumOut",
-   "comment" : "(Tensor) Output accumulated linear gradients.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "l1",
-   "type" : "float",
-   "comment" : "(float, default 0.0) L1 regularization strength.",
-   "generated" : 0
- }, { 
-   "name" : "l2",
-   "type" : "float",
-   "comment" : "(float, default 0.0) L2 regularization strength.",
-   "generated" : 0
- }, { 
-   "name" : "lr_power",
-   "type" : "float",
-   "comment" : "(float, default -0.5f) Learning Rate Power.",
    "generated" : 0
  } ] 
 }]
