@@ -222,7 +222,7 @@
 <h2>save_vars<a class="headerlink" href="#save-vars" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.io.</code><code class="descname">save_vars</code><span class="sig-paren">(</span><em>executor</em>, <em>dirname</em>, <em>main_program=None</em>, <em>vars=None</em>, <em>predicate=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.v2.fluid.io.</code><code class="descname">save_vars</code><span class="sig-paren">(</span><em>executor</em>, <em>dirname</em>, <em>main_program=None</em>, <em>vars=None</em>, <em>predicate=None</em>, <em>save_file_name=None</em><span class="sig-paren">)</span></dt>
 <dd><p>Save variables to directory by executor.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -239,10 +239,19 @@
 </table>
 <p>program which fit <cite>predicate</cite>. Default default_main_program.
 :param predicate: The Predicate describes a callable that returns a variable
-as a bool. If it returns true, the variables will be saved.
-:param vars: variables need to be saved. If specify vars, program &amp; predicate
+as a bool. If it returns true, the corresponding input variable will be saved.
+:param vars: variables need to be saved. If vars is specified, program &amp; predicate
 will be ignored
-:return: None</p>
+:param save_file_name: The name of a single file that all vars are saved to.
+If it is None, save variables to separate files.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>
@@ -250,7 +259,7 @@ will be ignored
 <h2>save_params<a class="headerlink" href="#save-params" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.io.</code><code class="descname">save_params</code><span class="sig-paren">(</span><em>executor</em>, <em>dirname</em>, <em>main_program=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.v2.fluid.io.</code><code class="descname">save_params</code><span class="sig-paren">(</span><em>executor</em>, <em>dirname</em>, <em>main_program=None</em>, <em>save_file_name=None</em><span class="sig-paren">)</span></dt>
 <dd><p>Save all parameters to directory with executor.</p>
 </dd></dl>
 
@@ -259,7 +268,7 @@ will be ignored
 <h2>save_persistables<a class="headerlink" href="#save-persistables" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.io.</code><code class="descname">save_persistables</code><span class="sig-paren">(</span><em>executor</em>, <em>dirname</em>, <em>main_program=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.v2.fluid.io.</code><code class="descname">save_persistables</code><span class="sig-paren">(</span><em>executor</em>, <em>dirname</em>, <em>main_program=None</em>, <em>save_file_name=None</em><span class="sig-paren">)</span></dt>
 <dd><p>Save all persistables to directory with executor.</p>
 </dd></dl>
 
@@ -268,14 +277,14 @@ will be ignored
 <h2>load_vars<a class="headerlink" href="#load-vars" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.io.</code><code class="descname">load_vars</code><span class="sig-paren">(</span><em>executor</em>, <em>dirname</em>, <em>main_program=None</em>, <em>vars=None</em>, <em>predicate=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.v2.fluid.io.</code><code class="descname">load_vars</code><span class="sig-paren">(</span><em>executor</em>, <em>dirname</em>, <em>main_program=None</em>, <em>vars=None</em>, <em>predicate=None</em>, <em>load_file_name=None</em><span class="sig-paren">)</span></dt>
 <dd><p>Load variables from directory by executor.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>executor</strong> &#8211; executor that save variable</li>
+<li><strong>executor</strong> &#8211; executor that load variable</li>
 <li><strong>dirname</strong> &#8211; directory path</li>
 <li><strong>main_program</strong> &#8211; program. If vars is None, then filter all variables in this</li>
 </ul>
@@ -285,10 +294,19 @@ will be ignored
 </table>
 <p>program which fit <cite>predicate</cite>. Default default_main_program().
 :param predicate: The Predicate describes a callable that returns a variable
-as a bool. If it returns true, the variables will be loaded.
-:param vars: variables need to be loaded. If specify vars, program &amp;
+as a bool. If it returns true, the corresponding input variable will be loaded.
+:param vars: variables need to be loaded. If vars is specified, program &amp;
 predicate will be ignored
-:return: None</p>
+:param load_file_name: The name of the single file that all vars are loaded from.
+If it is None, load variables from separate files.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>
@@ -296,7 +314,7 @@ predicate will be ignored
 <h2>load_params<a class="headerlink" href="#load-params" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.io.</code><code class="descname">load_params</code><span class="sig-paren">(</span><em>executor</em>, <em>dirname</em>, <em>main_program=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.v2.fluid.io.</code><code class="descname">load_params</code><span class="sig-paren">(</span><em>executor</em>, <em>dirname</em>, <em>main_program=None</em>, <em>load_file_name=None</em><span class="sig-paren">)</span></dt>
 <dd><p>load all parameters from directory by executor.</p>
 </dd></dl>
 
@@ -305,7 +323,7 @@ predicate will be ignored
 <h2>load_persistables<a class="headerlink" href="#load-persistables" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.io.</code><code class="descname">load_persistables</code><span class="sig-paren">(</span><em>executor</em>, <em>dirname</em>, <em>main_program=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.v2.fluid.io.</code><code class="descname">load_persistables</code><span class="sig-paren">(</span><em>executor</em>, <em>dirname</em>, <em>main_program=None</em>, <em>load_file_name=None</em><span class="sig-paren">)</span></dt>
 <dd><p>load all persistables from directory by executor.</p>
 </dd></dl>
 
@@ -314,25 +332,32 @@ predicate will be ignored
 <h2>save_inference_model<a class="headerlink" href="#save-inference-model" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.io.</code><code class="descname">save_inference_model</code><span class="sig-paren">(</span><em>dirname</em>, <em>feeded_var_names</em>, <em>target_vars</em>, <em>executor</em>, <em>main_program=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.v2.fluid.io.</code><code class="descname">save_inference_model</code><span class="sig-paren">(</span><em>dirname</em>, <em>feeded_var_names</em>, <em>target_vars</em>, <em>executor</em>, <em>main_program=None</em>, <em>save_file_name=None</em><span class="sig-paren">)</span></dt>
 <dd><p>Build a model especially for inference,
 and save it to directory by the executor.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>dirname</strong> &#8211; directory path</li>
 <li><strong>feeded_var_names</strong> &#8211; Names of variables that need to be feeded data during inference</li>
 <li><strong>target_vars</strong> &#8211; Variables from which we can get inference results.</li>
 <li><strong>executor</strong> &#8211; executor that save inference model</li>
 <li><strong>main_program</strong> &#8211; original program, which will be pruned to build the inference model.
 Default default_main_program().</li>
+<li><strong>save_file_name</strong> &#8211; The name of a single file that all parameters are saved to.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">None</p>
-</td>
+</tbody>
+</table>
+<p>If it is None, save parameters to separate files.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None</td>
 </tr>
 </tbody>
 </table>
@@ -343,23 +368,30 @@ Default default_main_program().</li>
 <h2>load_inference_model<a class="headerlink" href="#load-inference-model" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.io.</code><code class="descname">load_inference_model</code><span class="sig-paren">(</span><em>dirname</em>, <em>executor</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.v2.fluid.io.</code><code class="descname">load_inference_model</code><span class="sig-paren">(</span><em>dirname</em>, <em>executor</em>, <em>load_file_name=None</em><span class="sig-paren">)</span></dt>
 <dd><p>Load inference model from a directory</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>dirname</strong> &#8211; directory path</li>
 <li><strong>executor</strong> &#8211; executor that load inference model</li>
+<li><strong>load_file_name</strong> &#8211; The name of the single file that all parameters are loaded from.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">[program, feed_target_names, fetch_targets]
+</tbody>
+</table>
+<p>If it is None, load parameters from separate files.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">[program, feed_target_names, fetch_targets]
 program: program especially for inference.
 feed_target_names: Names of variables that need to feed data
-fetch_targets: Variables from which we can get inference results.</p>
-</td>
+fetch_targets: Variables from which we can get inference results.</td>
 </tr>
 </tbody>
 </table>
