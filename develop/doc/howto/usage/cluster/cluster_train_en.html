@@ -301,11 +301,11 @@ python train.py
 <p>Parameter Description</p>
 <ul class="simple">
 <li>use_gpu: <strong>optional, default False</strong>, set to &#8220;True&#8221; to enable GPU training.</li>
-<li>trainer_count: <strong>required, default 1</strong>, total count of trainers in the training job.</li>
+<li>trainer_count: <strong>required, default 1</strong>, number of threads in current trainer.</li>
 <li>port: <strong>required, default 7164</strong>, port to connect to parameter server.</li>
 <li>ports_num: <strong>required, default 1</strong>, number of ports for communication.</li>
 <li>ports_num_for_sparse: <strong>required, default 0</strong>, number of ports for sparse type caculation.</li>
-<li>num_gradient_servers: <strong>required, default 1</strong>, total number of gradient server.</li>
+<li>num_gradient_servers: <strong>required, default 1</strong>, number of trainers in current job.</li>
 <li>trainer_id: <strong>required, default 0</strong>, ID for every trainer, start from 0.</li>
 <li>pservers: <strong>required, default 127.0.0.1</strong>, list of IPs of parameter servers, separated by &#8221;,&#8221;.</li>
 </ul>
