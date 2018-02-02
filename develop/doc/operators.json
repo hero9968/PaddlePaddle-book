@@ -1502,6 +1502,107 @@
    "generated" : 0
  } ] 
 },{
+ "type" : "mine_hard_examples",
+ "comment" : "\nMine hard examples Operator.\nThis operator implements hard example mining to select a subset of negative box indices.\nFor each image, selects the box with highest losses. subject to the condition that the \nbox cannot have an Matcht > neg_dist_threshold when mining_type is max_negative. \nThe selected number is min(sample_size, max_negative_box_number) when mining_type is \nhard_example, or min(neg_pos_ratio * positive_box_number, max_negative_box_number) \nwhen mining_type is max_negative, where the max_negative_box_number is the count of \nMatchIndices elements with value -1.\n",
+ "inputs" : [ 
+ { 
+   "name" : "ClsLoss",
+   "comment" : "(Tensor, default Tensor<float>), The classification loss with shape [N, Np], N is the batch size and Np is the number of prior box.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "LocLoss",
+   "comment" : "(Tensor, optional, default Tensor<float>), The localization loss with shape [N, Np], N is the batch size and Np is the number of prior box.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "MatchIndices",
+   "comment" : "(Tensor, Tensor<int>), Matched indices with shape [N, Np], N is the batch size and Np is the number of prior box. MatchIndices[i][j] equal -1 means the j-th prior box in i-th instance does not match any entity, otherwise means it is matched to row.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "MatchDist",
+   "comment" : "(Tensor, default Tensor<float>) Matched indices with shape [N, Np], N is the batch size and Np is the number of prior box.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "NegIndices",
+   "comment" : "(LoDTensor<int>) The output of negative example indices. a LoDTensor with shape [Neg, 1]. The size of lod[0] minus 1 is batch size, and each element is the prior box index. For example, the batch size is 2, the lod is [[0, 1, 2]], the sample 0's box 1(MatchIndices[0][1]) is selected, and sample 1's box 0 is selected. The output NegIndices is [[1], [0]].",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "UpdatedMatchIndices",
+   "comment" : "(Tensor<int>) The output of updated MatchIndices, a tensor with shape [N, Np]. Only update when mining_type is hard_example. The input MatchIndices elements will be update to -1 when it is not in the candidate high loss list of negative examples.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "neg_pos_ratio",
+   "type" : "float",
+   "comment" : "(float) The ratio of the negative box to the positive box. Use only when mining_type is max_negative.",
+   "generated" : 0
+ }, { 
+   "name" : "neg_dist_threshold",
+   "type" : "float",
+   "comment" : "(float) The negative overlap upper bound for the unmatched predictions. Use only when mining_type is max_negative.",
+   "generated" : 0
+ }, { 
+   "name" : "sample_size",
+   "type" : "int",
+   "comment" : "(float) The max sample size of negative box. Use only when mining_type is hard_example.",
+   "generated" : 0
+ }, { 
+   "name" : "mining_type",
+   "type" : "string",
+   "comment" : "(float) The mining algorithm name, the value is hard_example or max_negative.",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "swish",
+ "comment" : "\nSwish Activation Operator.\n\n$$out = \\frac{x}{1 + e^{- \\beta x}}$$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "Input of Swish operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "Output of Swish operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "beta",
+   "type" : "float",
+   "comment" : "Constant beta of swish operator",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "is_empty",
+ "comment" : "\nIsEmpty Operator which checks whether a tensor is empty.\n\nIt will just return product(tensor.ddims()) > 0;\n              ",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(Tensor) Tensor which is to be checked.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(Tensor) a boolean Tensor that indicate empty or not.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
  "type" : "minus",
  "comment" : "\nMinus Operator.\n\nEquation:\n\n    $Out = X - Y$\n\nBoth the input `X` and `Y` can carry the LoD (Level of Details) information,\nor not. But the output only shares the LoD information with input `X`.\n\n",
  "inputs" : [ 
@@ -2377,29 +2478,6 @@
    "comment" : "(int, default 5(FP32)) Output tensor data type",
    "generated" : 0
  } ] 
-},{
- "type" : "logical_xor",
- "comment" : "logical_xor Operator\n\nIt operates element-wise on X and Y, and returns the Out. X, Y and Out are N-dim boolean tensors.\nEach element of Out is calculated by $$Out = (X || Y) \\, \\&\\& \\, !(X \\&\\& Y)$$\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(LoDTensor) Left hand operand of logical_xor operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Y",
-   "comment" : "(LoDTensor) Right hand operand of logical_xor operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(LoDTensor) n-dim bool tensor. Each element is $$Out = (X || Y) \\, \\&\\& \\, !(X \\&\\& Y)$$",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
 },{
  "type" : "pad",
  "comment" : "\nPad Operator.\n\nPad input into output, as specified by paddings and pad_value. \nThe input should be a k-D tensor(k > 0 and k < 7). As an example:\n\nGiven:\n\nX = [[1, 2],\n     [3, 4]],\n\npaddings = [0, 1, 1, 2],\n\nand\n\npad_value = 0,\n\nwe have:\n\nOut = [[0, 1, 2, 0, 0]\n       [0, 3, 4, 0, 0]\n       [0, 0, 0, 0, 0]]\n\n",
@@ -3704,6 +3782,29 @@
  } ], 
  "attrs" : [  ] 
 },{
+ "type" : "logical_xor",
+ "comment" : "logical_xor Operator\n\nIt operates element-wise on X and Y, and returns the Out. X, Y and Out are N-dim boolean tensors.\nEach element of Out is calculated by $$Out = (X || Y) \\, \\&\\& \\, !(X \\&\\& Y)$$\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(LoDTensor) Left hand operand of logical_xor operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Y",
+   "comment" : "(LoDTensor) Right hand operand of logical_xor operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(LoDTensor) n-dim bool tensor. Each element is $$Out = (X || Y) \\, \\&\\& \\, !(X \\&\\& Y)$$",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
  "type" : "log_loss",
  "comment" : "\nLogLoss Operator.\n\nLog loss is a loss function used for binary classification. Log Loss quantifies\nthe accuracy of a classifier by penalising false classifications. Minimising the\nLog Loss is equivalent to maximising the accuracy of the classifier. We define\nPredicted as the values predicted by our model and Labels as the target ground\ntruth value. Log loss can evaluate how close the predicted values are to the\ntarget. The shapes of Predicted and Labels are both [batch_size, 1].\nThe equation is:\n\n$$\nLoss = - Labels * log(Predicted + \\epsilon) -\n        (1 - Labels) * log(1 - Predicted + \\epsilon)\n$$\n\n",
  "inputs" : [ 
@@ -4014,48 +4115,6 @@
  { 
    "name" : "Out",
    "comment" : "The output of bilinear_tensor_product operator.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
- "type" : "swish",
- "comment" : "\nSwish Activation Operator.\n\n$$out = \\frac{x}{1 + e^{- \\beta x}}$$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "Input of Swish operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "Output of Swish operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "beta",
-   "type" : "float",
-   "comment" : "Constant beta of swish operator",
-   "generated" : 0
- } ] 
-},{
- "type" : "is_empty",
- "comment" : "\nIsEmpty Operator which checks whether a tensor is empty.\n\nIt will just return product(tensor.ddims()) > 0;\n              ",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(Tensor) Tensor which is to be checked.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(Tensor) a boolean Tensor that indicate empty or not.",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
@@ -5417,70 +5476,6 @@
    "generated" : 0
  } ] 
 },{
- "type" : "chunk_eval",
- "comment" : "\nFor some basics of chunking, please refer to\n‘Chunking with Support Vector Machines <https://aclanthology.info/pdf/N/N01/N01-1025.pdf>’.\n\n\nCheckEvalOp computes the precision, recall, and F1-score of chunk detection,\nand supports IOB, IOE, IOBES and IO (also known as plain) tagging schemes.\nHere is a NER example of labeling for these tagging schemes:\n\n \t     Li     Ming    works  at  Agricultural   Bank   of    China  in  Beijing.\n  IO:    I-PER  I-PER   O      O   I-ORG          I-ORG  I-ORG I-ORG  O   I-LOC\n  IOB:   B-PER  I-PER   O      O   B-ORG          I-ORG  I-ORG I-ORG  O   B-LOC\n  IOE:   I-PER  E-PER   O      O   I-ORG          I-ORG  I-ORG E-ORG  O   E-LOC\n  IOBES: B-PER  E-PER   O      O   I-ORG          I-ORG  I-ORG E-ORG  O   S-LOC\n\nThere are three chunk types(named entity types) including PER(person), ORG(organization)\nand LOC(LOCATION), and we can see that the labels have the form <tag type>-<chunk type>.\n\nSince the calculations actually use label ids rather than labels, extra attention\nshould be paid when mapping labels to ids to make CheckEvalOp work. The key point\nis that the listed equations are satisfied by ids.\n\n    tag_type = label % num_tag_type\n    chunk_type = label / num_tag_type\n\nwhere `num_tag_type` is the num of tag types in the tagging scheme, `num_chunk_type`\nis the num of chunk types, and `tag_type` get its value from the following table.\n\n    Scheme Begin Inside End   Single\n     plain   0     -      -     -\n     IOB     0     1      -     -\n     IOE     -     0      1     -\n     IOBES   0     1      2     3\n\nStill use NER as example, assuming the tagging scheme is IOB while chunk types are ORG,\nPER and LOC. To satisfy the above equations, the label map can be like this:\n\n    B-ORG  0\n    I-ORG  1\n    B-PER  2\n    I-PER  3\n    B-LOC  4\n    I-LOC  5\n    O      6\n\nIt’s not hard to verify the equations noting that the num of chunk types\nis 3 and the num of tag types in IOB scheme is 2. For example, the label\nid of I-LOC is 5, the tag type id of I-LOC is 1, and the chunk type id of\nI-LOC is 2, which consistent with the results from the equations.\n",
- "inputs" : [ 
- { 
-   "name" : "Inference",
-   "comment" : "(Tensor, default: Tensor<int64_t>). Predictions from the network.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Label",
-   "comment" : "(Tensor, default: Tensor<int64_t>). The true tag sequences.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Precision",
-   "comment" : "(float). The evaluated precision (called positive predictive value) of chunks on the given mini-batch.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Recall",
-   "comment" : "(float). The evaluated recall (true positive rate or sensitivity) of chunks on the given mini-batch.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "F1-Score",
-   "comment" : "(float). The evaluated F1-Score on the given mini-batch.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "NumInferChunks",
-   "comment" : "(int64_t). The number of chunks in Inference on the given mini-batch.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "NumLabelChunks",
-   "comment" : "(int64_t). The number of chunks in Label on the given mini-batch.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "NumCorrectChunks",
-   "comment" : "(int64_t). The number of chunks both in Inference and Label on the given mini-batch.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "num_chunk_types",
-   "type" : "int",
-   "comment" : "(int). The number of chunk type. See below for details.",
-   "generated" : 0
- }, { 
-   "name" : "chunk_scheme",
-   "type" : "string",
-   "comment" : "(string, default IOB). The labeling scheme indicating how to encode the chunks. Must be IOB, IOE, IOBES or plain. See below for details.",
-   "generated" : 0
- }, { 
-   "name" : "excluded_chunk_types",
-   "type" : "int array",
-   "comment" : "(list<int>) A list including chunk type ids indicating chunk types that are not counted. See below for details.",
-   "generated" : 0
- } ] 
-},{
  "type" : "sigmoid",
  "comment" : "\nSigmoid Activation Operator\n\n$$out = \\frac{1}{1 + e^{-x}}$$\n\n",
  "inputs" : [ 
@@ -5572,6 +5567,104 @@
    "name" : "in_dtype",
    "type" : "int",
    "comment" : "input data type",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "chunk_eval",
+ "comment" : "\nFor some basics of chunking, please refer to\n‘Chunking with Support Vector Machines <https://aclanthology.info/pdf/N/N01/N01-1025.pdf>’.\n\n\nCheckEvalOp computes the precision, recall, and F1-score of chunk detection,\nand supports IOB, IOE, IOBES and IO (also known as plain) tagging schemes.\nHere is a NER example of labeling for these tagging schemes:\n\n \t     Li     Ming    works  at  Agricultural   Bank   of    China  in  Beijing.\n  IO:    I-PER  I-PER   O      O   I-ORG          I-ORG  I-ORG I-ORG  O   I-LOC\n  IOB:   B-PER  I-PER   O      O   B-ORG          I-ORG  I-ORG I-ORG  O   B-LOC\n  IOE:   I-PER  E-PER   O      O   I-ORG          I-ORG  I-ORG E-ORG  O   E-LOC\n  IOBES: B-PER  E-PER   O      O   I-ORG          I-ORG  I-ORG E-ORG  O   S-LOC\n\nThere are three chunk types(named entity types) including PER(person), ORG(organization)\nand LOC(LOCATION), and we can see that the labels have the form <tag type>-<chunk type>.\n\nSince the calculations actually use label ids rather than labels, extra attention\nshould be paid when mapping labels to ids to make CheckEvalOp work. The key point\nis that the listed equations are satisfied by ids.\n\n    tag_type = label % num_tag_type\n    chunk_type = label / num_tag_type\n\nwhere `num_tag_type` is the num of tag types in the tagging scheme, `num_chunk_type`\nis the num of chunk types, and `tag_type` get its value from the following table.\n\n    Scheme Begin Inside End   Single\n     plain   0     -      -     -\n     IOB     0     1      -     -\n     IOE     -     0      1     -\n     IOBES   0     1      2     3\n\nStill use NER as example, assuming the tagging scheme is IOB while chunk types are ORG,\nPER and LOC. To satisfy the above equations, the label map can be like this:\n\n    B-ORG  0\n    I-ORG  1\n    B-PER  2\n    I-PER  3\n    B-LOC  4\n    I-LOC  5\n    O      6\n\nIt’s not hard to verify the equations noting that the num of chunk types\nis 3 and the num of tag types in IOB scheme is 2. For example, the label\nid of I-LOC is 5, the tag type id of I-LOC is 1, and the chunk type id of\nI-LOC is 2, which consistent with the results from the equations.\n",
+ "inputs" : [ 
+ { 
+   "name" : "Inference",
+   "comment" : "(Tensor, default: Tensor<int64_t>). Predictions from the network.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Label",
+   "comment" : "(Tensor, default: Tensor<int64_t>). The true tag sequences.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Precision",
+   "comment" : "(float). The evaluated precision (called positive predictive value) of chunks on the given mini-batch.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Recall",
+   "comment" : "(float). The evaluated recall (true positive rate or sensitivity) of chunks on the given mini-batch.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "F1-Score",
+   "comment" : "(float). The evaluated F1-Score on the given mini-batch.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "NumInferChunks",
+   "comment" : "(int64_t). The number of chunks in Inference on the given mini-batch.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "NumLabelChunks",
+   "comment" : "(int64_t). The number of chunks in Label on the given mini-batch.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "NumCorrectChunks",
+   "comment" : "(int64_t). The number of chunks both in Inference and Label on the given mini-batch.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "num_chunk_types",
+   "type" : "int",
+   "comment" : "(int). The number of chunk type. See below for details.",
+   "generated" : 0
+ }, { 
+   "name" : "chunk_scheme",
+   "type" : "string",
+   "comment" : "(string, default IOB). The labeling scheme indicating how to encode the chunks. Must be IOB, IOE, IOBES or plain. See below for details.",
+   "generated" : 0
+ }, { 
+   "name" : "excluded_chunk_types",
+   "type" : "int array",
+   "comment" : "(list<int>) A list including chunk type ids indicating chunk types that are not counted. See below for details.",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "box_coder",
+ "comment" : "\nBounding Box Coder Operator.\nEncode/Decode the target bounding box with the priorbox information.\nThe Encoding schema described below:\nox = (tx - px) / pw / pxv\noy = (ty - py) / ph / pyv\now = log(abs(tw / pw)) / pwv \noh = log(abs(th / ph)) / phv \nThe Decoding schema described below:\nox = (pw * pxv * tx * + px) - tw / 2\noy = (ph * pyv * ty * + py) - th / 2\now = exp(pwv * tw) * pw + tw / 2\noh = exp(phv * th) * ph + th / 2\nwhere tx, ty, tw, th denote the target box's center coordinates, width and\nheight respectively. Similarly, px, py, pw, ph denote the priorbox's(anchor)\ncenter coordinates, width and height. pxv, pyv, pwv, phv denote the variance\nof the priorbox and ox, oy, ow, oh denote the encoded/decoded coordinates,\nwidth and height.\n",
+ "inputs" : [ 
+ { 
+   "name" : "PriorBox",
+   "comment" : "(Tensor, default Tensor<float>) Box list PriorBox is a 2-D Tensor with shape [M, 4] holds M boxes, each box is represented as [xmin, ymin, xmax, ymax], [xmin, ymin] is the left top coordinate of the anchor box, if the input is image feature map, they are close to the origin of the coordinate system. [xmax, ymax] is the right bottom coordinate of the anchor box.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "PriorBoxVar",
+   "comment" : "(Tensor, default Tensor<float>) PriorBoxVar is a 2-D Tensor with shape [M, 4] holds M group of variance.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "TargetBox",
+   "comment" : "(LoDTensor or Tensor) this input is a 2-D LoDTensor with shape [N, 4], each box is represented as [xmin, ymin, xmax, ymax], [xmin, ymin] is the left top coordinate of the box if the input is image feature map, they are close to the origin of the coordinate system. [xmax, ymax] is the right bottom coordinate of the box. This tensor can contain LoD information to represent a batch of inputs. One instance of this batch can contain different numbers of entities.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "OutputBox",
+   "comment" : "(LoDTensor or Tensor) (Tensor) The output of box_coder_op, a tensor with shape [N, M, 4] representing the result of N target boxes encoded/decoded with M Prior boxes and variances.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "code_type",
+   "type" : "string",
+   "comment" : "(string, default encode_center_size) the code type used with the target box",
    "generated" : 0
  } ] 
 },{

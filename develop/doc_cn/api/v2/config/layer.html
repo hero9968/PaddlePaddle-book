@@ -931,6 +931,73 @@ feature map.</p>
 </dd></dl>
 
 </div>
+<div class="section" id="pad">
+<h3>pad<a class="headerlink" href="#pad" title="永久链接至标题">¶</a></h3>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">pad</code></dt>
+<dd><p>This operation pads zeros to the input data according to pad_c,pad_h
+and pad_w. pad_c, pad_h, pad_w specify the size in the corresponding
+dimension. And the input data shape is NCHW.</p>
+<p>For example, pad_c=[2,3] means padding 2 zeros before the input data
+and 3 zeros after the input data in the channel dimension. pad_h means
+padding zeros in the height dimension. pad_w means padding zeros in the
+width dimension.</p>
+<p>For example,</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="nb">input</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>  <span class="o">=</span> <span class="p">[</span>
+                    <span class="p">[</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]],</span>
+                      <span class="p">[[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">]]</span> <span class="p">],</span>
+                    <span class="p">[</span> <span class="p">[[</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">7</span><span class="p">]],</span>
+                      <span class="p">[[</span><span class="mi">3</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">]]</span> <span class="p">]</span>
+                  <span class="p">]</span>
+
+<span class="n">pad_c</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">pad_h</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">pad_w</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">output</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="p">[</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]],</span>
+                      <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]],</span>
+                      <span class="p">[[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">]],</span>
+                      <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]]</span> <span class="p">],</span>
+                    <span class="p">[</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]],</span>
+                      <span class="p">[[</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">7</span><span class="p">]],</span>
+                      <span class="p">[[</span><span class="mi">3</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">]],</span>
+                      <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]]</span> <span class="p">]</span>
+                  <span class="p">]</span>
+</pre></div>
+</div>
+<p>The simply usage is:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">pad</span> <span class="o">=</span> <span class="n">pad</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">ipt</span><span class="p">,</span>
+                <span class="n">pad_c</span><span class="o">=</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span>
+                <span class="n">pad_h</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+                <span class="n">pad_w</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
+<li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer.</li>
+<li><strong>pad_c</strong> (<em>list | None</em>) &#8211; The padding size in the channel dimension.</li>
+<li><strong>pad_h</strong> (<em>list | None</em>) &#8211; The padding size in the height dimension.</li>
+<li><strong>pad_w</strong> (<em>list | None</em>) &#8211; The padding size in the width dimension.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">paddle.v2.config_base.Layer object.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">paddle.v2.config_base.Layer</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
 </div>
 <div class="section" id="norm-layer">
 <h2>Norm Layer<a class="headerlink" href="#norm-layer" title="永久链接至标题">¶</a></h2>
@@ -1321,6 +1388,62 @@ whose type is not paddle.v2.attr.ParameterAttribute, no bias is defined. If the
 parameter is set to True, the bias is initialized to zero.</li>
 <li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The parameter attribute. See paddle.v2.attr.ParameterAttribute for details.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute | None</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
+details.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">paddle.v2.config_base.Layer object.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">paddle.v2.config_base.Layer</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="gated-unit">
+<h3>gated_unit<a class="headerlink" href="#gated-unit" title="永久链接至标题">¶</a></h3>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">gated_unit</code></dt>
+<dd><p>The gated unit layer implements a simple gating mechanism over the input.
+The input <span class="math">\(X\)</span> is first projected into a new space <span class="math">\(X'\)</span>, and
+it is also used to produce a gate weight <span class="math">\(\sigma\)</span>. Element-wise
+product between <span class="math">\(X'\)</span> and <span class="math">\(\sigma\)</span> is finally returned.</p>
+<dl class="docutils">
+<dt>Reference:</dt>
+<dd><a class="reference external" href="https://arxiv.org/abs/1612.08083">Language Modeling with Gated Convolutional Networks</a></dd>
+</dl>
+<div class="math">
+\[y=\text{act}(X \cdot W + b)\otimes \sigma(X \cdot V + c)\]</div>
+<p>The example usage is:</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
+<li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer.</li>
+<li><strong>size</strong> (<em>int</em>) &#8211; The dimension of this layer&#8217;s output.</li>
+<li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type of the projection. paddle.v2.activation.Linear is the default
+activation.</li>
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
+<li><strong>gate_attr</strong> (<em>paddle.v2.attr.ExtraAttribute | None</em>) &#8211; The extra layer attribute of the gate. See paddle.v2.attr.ExtraAttribute for
+details.</li>
+<li><strong>gate_param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The parameter attribute of the gate. See paddle.v2.attr.ParameterAttribute
+for details.</li>
+<li><strong>gate_bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | bool | None | Any</em>) &#8211; The bias attribute of the gate. If this parameter is set to False or
+an object whose type is not paddle.v2.attr.ParameterAttribute, no bias is defined.
+If this parameter is set to True, the bias is initialized to zero.</li>
+<li><strong>inproj_attr</strong> (<em>paddle.v2.attr.ExtraAttribute | None</em>) &#8211; Extra layer attributes of the projection. See paddle.v2.attr.ExtraAttribute for
+details.</li>
+<li><strong>inproj_param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The parameter attribute of the projection. See paddle.v2.attr.ParameterAttribute
+for details.</li>
+<li><strong>inproj_bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | bool | None | Any</em>) &#8211; The bias attribute of the projection. If this parameter is set to False
+or an object whose type is not paddle.v2.attr.ParameterAttribute, no bias is defined.
+If this parameter is set to True, the bias is initialized to zero.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute | None</em>) &#8211; Extra layer attribute of the product. See paddle.v2.attr.ExtraAttribute for
 details.</li>
 </ul>
 </td>
@@ -2896,6 +3019,37 @@ details.</li>
 </dd></dl>
 
 </div>
+<div class="section" id="dropout">
+<h3>dropout<a class="headerlink" href="#dropout" title="永久链接至标题">¶</a></h3>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">dropout</code></dt>
+<dd><p>The example usage is:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">dropout</span> <span class="o">=</span> <span class="n">dropout</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="nb">input</span><span class="p">,</span> <span class="n">dropout_rate</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
+<li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer.</li>
+<li><strong>dropout_rate</strong> (<em>float</em>) &#8211; The probability of dropout.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">paddle.v2.config_base.Layer object.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">paddle.v2.config_base.Layer</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
 <div class="section" id="dot-prod">
 <h3>dot_prod<a class="headerlink" href="#dot-prod" title="永久链接至标题">¶</a></h3>
 <dl class="class">
@@ -3364,6 +3518,54 @@ parameter is set to True, the bias is initialized to zero.</li>
 </dd></dl>
 
 </div>
+<div class="section" id="factorization-machine">
+<h3>factorization_machine<a class="headerlink" href="#factorization-machine" title="永久链接至标题">¶</a></h3>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">factorization_machine</code></dt>
+<dd><p>The Factorization Machine models pairwise feature interactions as inner
+product of the learned latent vectors corresponding to each input feature.
+The Factorization Machine can effectively capture feature interactions
+especially when the input is sparse.</p>
+<p>This implementation only consider the 2-order feature interactions using
+Factorization Machine with the formula:</p>
+<div class="math">
+\[y = \sum_{i=1}^{n-1}\sum_{j=i+1}^n\langle v_i, v_j \rangle x_i x_j\]</div>
+<div class="admonition note">
+<p class="first admonition-title">注解</p>
+<p class="last">X is the input vector with size n. V is the factor matrix. Each row of V
+is the latent vector corresponding to each input dimesion. The size of
+each latent vector is k.</p>
+</div>
+<p>For details of Factorization Machine, please refer to the paper:
+Factorization machines.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
+<li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input layer. Supported input types: all input data types
+on CPU, and only dense input types on GPU.</li>
+<li><strong>factor_size</strong> &#8211; The hyperparameter that defines the dimensionality of
+the latent vector size.</li>
+<li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation Type. Default is linear activation.</li>
+<li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The parameter attribute. See paddle.v2.attr.ParameterAttribute for
+details.</li>
+<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttributeNone</em>) &#8211; Extra Layer config.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">paddle.v2.config_base.Layer object.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">paddle.v2.config_base.Layer</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
 </div>
 <div class="section" id="sampling-layers">
 <h2>Sampling Layers<a class="headerlink" href="#sampling-layers" title="永久链接至标题">¶</a></h2>
@@ -3466,127 +3668,6 @@ the same to the i-th row of the (index[i] + 1)-th layer.</p>
 <li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
 details.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">paddle.v2.config_base.Layer object.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">paddle.v2.config_base.Layer</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</div>
-</div>
-<div class="section" id="factorization-machine-layer">
-<h2>Factorization Machine Layer<a class="headerlink" href="#factorization-machine-layer" title="永久链接至标题">¶</a></h2>
-<div class="section" id="factorization-machine">
-<h3>factorization_machine<a class="headerlink" href="#factorization-machine" title="永久链接至标题">¶</a></h3>
-<dl class="class">
-<dt>
-<em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">factorization_machine</code></dt>
-<dd><p>The Factorization Machine models pairwise feature interactions as inner
-product of the learned latent vectors corresponding to each input feature.
-The Factorization Machine can effectively capture feature interactions
-especially when the input is sparse.</p>
-<p>This implementation only consider the 2-order feature interactions using
-Factorization Machine with the formula:</p>
-<div class="math">
-\[y = \sum_{i=1}^{n-1}\sum_{j=i+1}^n\langle v_i, v_j \rangle x_i x_j\]</div>
-<div class="admonition note">
-<p class="first admonition-title">注解</p>
-<p class="last">X is the input vector with size n. V is the factor matrix. Each row of V
-is the latent vector corresponding to each input dimesion. The size of
-each latent vector is k.</p>
-</div>
-<p>For details of Factorization Machine, please refer to the paper:
-Factorization machines.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input layer. Supported input types: all input data types
-on CPU, and only dense input types on GPU.</li>
-<li><strong>factor_size</strong> &#8211; The hyperparameter that defines the dimensionality of
-the latent vector size.</li>
-<li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation Type. Default is linear activation.</li>
-<li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The parameter attribute. See paddle.v2.attr.ParameterAttribute for
-details.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttributeNone</em>) &#8211; Extra Layer config.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">paddle.v2.config_base.Layer object.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">paddle.v2.config_base.Layer</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</div>
-</div>
-<div class="section" id="slicing-and-joining-layers">
-<h2>Slicing and Joining Layers<a class="headerlink" href="#slicing-and-joining-layers" title="永久链接至标题">¶</a></h2>
-<div class="section" id="pad">
-<h3>pad<a class="headerlink" href="#pad" title="永久链接至标题">¶</a></h3>
-<dl class="class">
-<dt>
-<em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">pad</code></dt>
-<dd><p>This operation pads zeros to the input data according to pad_c,pad_h
-and pad_w. pad_c, pad_h, pad_w specify the size in the corresponding
-dimension. And the input data shape is NCHW.</p>
-<p>For example, pad_c=[2,3] means padding 2 zeros before the input data
-and 3 zeros after the input data in the channel dimension. pad_h means
-padding zeros in the height dimension. pad_w means padding zeros in the
-width dimension.</p>
-<p>For example,</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="nb">input</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>  <span class="o">=</span> <span class="p">[</span>
-                    <span class="p">[</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]],</span>
-                      <span class="p">[[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">]]</span> <span class="p">],</span>
-                    <span class="p">[</span> <span class="p">[[</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">7</span><span class="p">]],</span>
-                      <span class="p">[[</span><span class="mi">3</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">]]</span> <span class="p">]</span>
-                  <span class="p">]</span>
-
-<span class="n">pad_c</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">pad_h</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">pad_w</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
-
-<span class="n">output</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span> <span class="o">=</span> <span class="p">[</span>
-                    <span class="p">[</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]],</span>
-                      <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]],</span>
-                      <span class="p">[[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">]],</span>
-                      <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]]</span> <span class="p">],</span>
-                    <span class="p">[</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]],</span>
-                      <span class="p">[[</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">7</span><span class="p">]],</span>
-                      <span class="p">[[</span><span class="mi">3</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">]],</span>
-                      <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]]</span> <span class="p">]</span>
-                  <span class="p">]</span>
-</pre></div>
-</div>
-<p>The simply usage is:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">pad</span> <span class="o">=</span> <span class="n">pad</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">ipt</span><span class="p">,</span>
-                <span class="n">pad_c</span><span class="o">=</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span>
-                <span class="n">pad_h</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
-                <span class="n">pad_w</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer.</li>
-<li><strong>pad_c</strong> (<em>list | None</em>) &#8211; The padding size in the channel dimension.</li>
-<li><strong>pad_h</strong> (<em>list | None</em>) &#8211; The padding size in the height dimension.</li>
-<li><strong>pad_w</strong> (<em>list | None</em>) &#8211; The padding size in the width dimension.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
-details.</li>
-<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
 </ul>
 </td>
 </tr>
@@ -4365,6 +4446,43 @@ the positive bounding box.</li>
 </dd></dl>
 
 </div>
+<div class="section" id="detection-output">
+<h3>detection_output<a class="headerlink" href="#detection-output" title="永久链接至标题">¶</a></h3>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">detection_output</code></dt>
+<dd><p>Apply the NMS to the output of network and compute the predict bounding
+box location. The output&#8217;s shape of this layer could be zero if there is
+no valid bounding box.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
+<li><strong>input_loc</strong> (<em>paddle.v2.config_base.Layer | List of paddle.v2.config_base.Layer.</em>) &#8211; The input predict locations.</li>
+<li><strong>input_conf</strong> (<em>paddle.v2.config_base.Layer | List of paddle.v2.config_base.Layer.</em>) &#8211; The input priorbox confidence.</li>
+<li><strong>priorbox</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input priorbox location and the variance.</li>
+<li><strong>num_classes</strong> (<em>int</em>) &#8211; The number of the classes.</li>
+<li><strong>nms_threshold</strong> (<em>float</em>) &#8211; The Non-maximum suppression threshold.</li>
+<li><strong>nms_top_k</strong> (<em>int</em>) &#8211; The bounding boxes number kept of the NMS&#8217;s output.</li>
+<li><strong>keep_top_k</strong> (<em>int</em>) &#8211; The bounding boxes number kept of the layer&#8217;s output.</li>
+<li><strong>confidence_threshold</strong> (<em>float</em>) &#8211; The classification confidence threshold.</li>
+<li><strong>background_id</strong> (<em>int</em>) &#8211; The background class index.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">paddle.v2.config_base.Layer object.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">paddle.v2.config_base.Layer</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
 </div>
 <div class="section" id="check-layer">
 <h2>Check Layer<a class="headerlink" href="#check-layer" title="永久链接至标题">¶</a></h2>
@@ -4406,42 +4524,8 @@ details.</li>
 
 </div>
 </div>
-<div class="section" id="miscs">
-<h2>Miscs<a class="headerlink" href="#miscs" title="永久链接至标题">¶</a></h2>
-<div class="section" id="dropout">
-<h3>dropout<a class="headerlink" href="#dropout" title="永久链接至标题">¶</a></h3>
-<dl class="class">
-<dt>
-<em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">dropout</code></dt>
-<dd><p>The example usage is:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">dropout</span> <span class="o">=</span> <span class="n">dropout</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="nb">input</span><span class="p">,</span> <span class="n">dropout_rate</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
-<li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer.</li>
-<li><strong>dropout_rate</strong> (<em>float</em>) &#8211; The probability of dropout.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">paddle.v2.config_base.Layer object.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">paddle.v2.config_base.Layer</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</div>
-</div>
-<div class="section" id="activation-with-learnable-parameter">
-<h2>Activation with learnable parameter<a class="headerlink" href="#activation-with-learnable-parameter" title="永久链接至标题">¶</a></h2>
+<div class="section" id="activation">
+<h2>Activation<a class="headerlink" href="#activation" title="永久链接至标题">¶</a></h2>
 <div class="section" id="prelu">
 <h3>prelu<a class="headerlink" href="#prelu" title="永久链接至标题">¶</a></h3>
 <dl class="class">
@@ -4484,102 +4568,6 @@ a_i * z_i  &amp;\quad \mathrm{otherwise}\end{split}\]</div>
 <li><strong>param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The parameter attribute. See paddle.v2.attr.ParameterAttribute for details.</li>
 <li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute | None</em>) &#8211; The extra layer attribute. See paddle.v2.attr.ExtraAttribute for
 details.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">paddle.v2.config_base.Layer object.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">paddle.v2.config_base.Layer</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</div>
-<div class="section" id="gated-unit">
-<h3>gated_unit<a class="headerlink" href="#gated-unit" title="永久链接至标题">¶</a></h3>
-<dl class="class">
-<dt>
-<em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">gated_unit</code></dt>
-<dd><p>The gated unit layer implements a simple gating mechanism over the input.
-The input <span class="math">\(X\)</span> is first projected into a new space <span class="math">\(X'\)</span>, and
-it is also used to produce a gate weight <span class="math">\(\sigma\)</span>. Element-wise
-product between <span class="math">\(X'\)</span> and <span class="math">\(\sigma\)</span> is finally returned.</p>
-<dl class="docutils">
-<dt>Reference:</dt>
-<dd><a class="reference external" href="https://arxiv.org/abs/1612.08083">Language Modeling with Gated Convolutional Networks</a></dd>
-</dl>
-<div class="math">
-\[y=\text{act}(X \cdot W + b)\otimes \sigma(X \cdot V + c)\]</div>
-<p>The example usage is:</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>input</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input of this layer.</li>
-<li><strong>size</strong> (<em>int</em>) &#8211; The dimension of this layer&#8217;s output.</li>
-<li><strong>act</strong> (<em>paddle.v2.activation.Base</em>) &#8211; Activation type of the projection. paddle.v2.activation.Linear is the default
-activation.</li>
-<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
-<li><strong>gate_attr</strong> (<em>paddle.v2.attr.ExtraAttribute | None</em>) &#8211; The extra layer attribute of the gate. See paddle.v2.attr.ExtraAttribute for
-details.</li>
-<li><strong>gate_param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The parameter attribute of the gate. See paddle.v2.attr.ParameterAttribute
-for details.</li>
-<li><strong>gate_bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | bool | None | Any</em>) &#8211; The bias attribute of the gate. If this parameter is set to False or
-an object whose type is not paddle.v2.attr.ParameterAttribute, no bias is defined.
-If this parameter is set to True, the bias is initialized to zero.</li>
-<li><strong>inproj_attr</strong> (<em>paddle.v2.attr.ExtraAttribute | None</em>) &#8211; Extra layer attributes of the projection. See paddle.v2.attr.ExtraAttribute for
-details.</li>
-<li><strong>inproj_param_attr</strong> (<em>paddle.v2.attr.ParameterAttribute</em>) &#8211; The parameter attribute of the projection. See paddle.v2.attr.ParameterAttribute
-for details.</li>
-<li><strong>inproj_bias_attr</strong> (<em>paddle.v2.attr.ParameterAttribute | bool | None | Any</em>) &#8211; The bias attribute of the projection. If this parameter is set to False
-or an object whose type is not paddle.v2.attr.ParameterAttribute, no bias is defined.
-If this parameter is set to True, the bias is initialized to zero.</li>
-<li><strong>layer_attr</strong> (<em>paddle.v2.attr.ExtraAttribute | None</em>) &#8211; Extra layer attribute of the product. See paddle.v2.attr.ExtraAttribute for
-details.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">paddle.v2.config_base.Layer object.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">paddle.v2.config_base.Layer</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</div>
-</div>
-<div class="section" id="detection-output-layer">
-<h2>Detection output Layer<a class="headerlink" href="#detection-output-layer" title="永久链接至标题">¶</a></h2>
-<div class="section" id="detection-output">
-<h3>detection_output<a class="headerlink" href="#detection-output" title="永久链接至标题">¶</a></h3>
-<dl class="class">
-<dt>
-<em class="property">class </em><code class="descclassname">paddle.v2.layer.</code><code class="descname">detection_output</code></dt>
-<dd><p>Apply the NMS to the output of network and compute the predict bounding
-box location. The output&#8217;s shape of this layer could be zero if there is
-no valid bounding box.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<em>basestring</em>) &#8211; The name of this layer. It is optional.</li>
-<li><strong>input_loc</strong> (<em>paddle.v2.config_base.Layer | List of paddle.v2.config_base.Layer.</em>) &#8211; The input predict locations.</li>
-<li><strong>input_conf</strong> (<em>paddle.v2.config_base.Layer | List of paddle.v2.config_base.Layer.</em>) &#8211; The input priorbox confidence.</li>
-<li><strong>priorbox</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; The input priorbox location and the variance.</li>
-<li><strong>num_classes</strong> (<em>int</em>) &#8211; The number of the classes.</li>
-<li><strong>nms_threshold</strong> (<em>float</em>) &#8211; The Non-maximum suppression threshold.</li>
-<li><strong>nms_top_k</strong> (<em>int</em>) &#8211; The bounding boxes number kept of the NMS&#8217;s output.</li>
-<li><strong>keep_top_k</strong> (<em>int</em>) &#8211; The bounding boxes number kept of the layer&#8217;s output.</li>
-<li><strong>confidence_threshold</strong> (<em>float</em>) &#8211; The classification confidence threshold.</li>
-<li><strong>background_id</strong> (<em>int</em>) &#8211; The background class index.</li>
 </ul>
 </td>
 </tr>

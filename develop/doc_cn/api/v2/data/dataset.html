@@ -749,6 +749,191 @@ sequence.</p>
 </dd></dl>
 
 </div>
+<div class="section" id="wmt16">
+<h2>wmt16<a class="headerlink" href="#wmt16" title="永久链接至标题">¶</a></h2>
+<p>ACL2016 Multimodal Machine Translation. Please see this website for more
+details: <a class="reference external" href="http://www.statmt.org/wmt16/multimodal-task.html#task1">http://www.statmt.org/wmt16/multimodal-task.html#task1</a></p>
+<p>If you use the dataset created for your task, please cite the following paper:
+Multi30K: Multilingual English-German Image Descriptions.</p>
+<dl class="docutils">
+<dt>&#64;article{elliott-EtAl:2016:VL16,</dt>
+<dd>author    = {{Elliott}, D. and {Frank}, S. and {Sima&#8221;an}, K. and {Specia}, L.},
+title     = {Multi30K: Multilingual English-German Image Descriptions},
+booktitle = {Proceedings of the 6th Workshop on Vision and Language},
+year      = {2016},
+pages     = {70&#8211;74},
+year      = 2016</dd>
+</dl>
+<p>}</p>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.dataset.wmt16.</code><code class="descname">train</code><span class="sig-paren">(</span><em>src_dict_size</em>, <em>trg_dict_size</em>, <em>src_lang='en'</em><span class="sig-paren">)</span></dt>
+<dd><p>WMT16 train set reader.</p>
+<p>This function returns the reader for train data. Each sample the reader
+returns is made up of three fields: the source language word index sequence,
+target language word index sequence and next word index sequence.</p>
+<p>NOTE:
+The original like for training data is:
+<a class="reference external" href="http://www.quest.dcs.shef.ac.uk/wmt16_files_mmt/training.tar.gz">http://www.quest.dcs.shef.ac.uk/wmt16_files_mmt/training.tar.gz</a></p>
+<p>paddle.dataset.wmt16 provides a tokenized version of the original dataset by
+using moses&#8217;s tokenization script:
+<a class="reference external" href="https://github.com/moses-smt/mosesdecoder/blob/master/scripts/tokenizer/tokenizer.perl">https://github.com/moses-smt/mosesdecoder/blob/master/scripts/tokenizer/tokenizer.perl</a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
+<li><strong>src_dict_size</strong> (<em>int</em>) &#8211; Size of the source language dictionary. Three
+special tokens will be added into the dictionary:
+&lt;s&gt; for start mark, &lt;e&gt; for end mark, and &lt;unk&gt; for
+unknown word.</li>
+<li><strong>trg_dict_size</strong> (<em>int</em>) &#8211; Size of the target language dictionary. Three
+special tokens will be added into the dictionary:
+&lt;s&gt; for start mark, &lt;e&gt; for end mark, and &lt;unk&gt; for
+unknown word.</li>
+<li><strong>src_lang</strong> (<em>string</em>) &#8211; A string indicating which language is the source
+language. Available options are: &#8220;en&#8221; for English
+and &#8220;de&#8221; for Germany.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">The train reader.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">callable</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.dataset.wmt16.</code><code class="descname">test</code><span class="sig-paren">(</span><em>src_dict_size</em>, <em>trg_dict_size</em>, <em>src_lang='en'</em><span class="sig-paren">)</span></dt>
+<dd><p>WMT16 test set reader.</p>
+<p>This function returns the reader for test data. Each sample the reader
+returns is made up of three fields: the source language word index sequence,
+target language word index sequence and next word index sequence.</p>
+<p>NOTE:
+The original like for test data is:
+<a class="reference external" href="http://www.quest.dcs.shef.ac.uk/wmt16_files_mmt/mmt16_task1_test.tar.gz">http://www.quest.dcs.shef.ac.uk/wmt16_files_mmt/mmt16_task1_test.tar.gz</a></p>
+<p>paddle.dataset.wmt16 provides a tokenized version of the original dataset by
+using moses&#8217;s tokenization script:
+<a class="reference external" href="https://github.com/moses-smt/mosesdecoder/blob/master/scripts/tokenizer/tokenizer.perl">https://github.com/moses-smt/mosesdecoder/blob/master/scripts/tokenizer/tokenizer.perl</a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
+<li><strong>src_dict_size</strong> (<em>int</em>) &#8211; Size of the source language dictionary. Three
+special tokens will be added into the dictionary:
+&lt;s&gt; for start mark, &lt;e&gt; for end mark, and &lt;unk&gt; for
+unknown word.</li>
+<li><strong>trg_dict_size</strong> (<em>int</em>) &#8211; Size of the target language dictionary. Three
+special tokens will be added into the dictionary:
+&lt;s&gt; for start mark, &lt;e&gt; for end mark, and &lt;unk&gt; for
+unknown word.</li>
+<li><strong>src_lang</strong> (<em>string</em>) &#8211; A string indicating which language is the source
+language. Available options are: &#8220;en&#8221; for English
+and &#8220;de&#8221; for Germany.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">The test reader.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">callable</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.dataset.wmt16.</code><code class="descname">validation</code><span class="sig-paren">(</span><em>src_dict_size</em>, <em>trg_dict_size</em>, <em>src_lang='en'</em><span class="sig-paren">)</span></dt>
+<dd><p>WMT16 validation set reader.</p>
+<p>This function returns the reader for validation data. Each sample the reader
+returns is made up of three fields: the source language word index sequence,
+target language word index sequence and next word index sequence.</p>
+<p>NOTE:
+The original like for validation data is:
+<a class="reference external" href="http://www.quest.dcs.shef.ac.uk/wmt16_files_mmt/validation.tar.gz">http://www.quest.dcs.shef.ac.uk/wmt16_files_mmt/validation.tar.gz</a></p>
+<p>paddle.dataset.wmt16 provides a tokenized version of the original dataset by
+using moses&#8217;s tokenization script:
+<a class="reference external" href="https://github.com/moses-smt/mosesdecoder/blob/master/scripts/tokenizer/tokenizer.perl">https://github.com/moses-smt/mosesdecoder/blob/master/scripts/tokenizer/tokenizer.perl</a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
+<li><strong>src_dict_size</strong> (<em>int</em>) &#8211; Size of the source language dictionary. Three
+special tokens will be added into the dictionary:
+&lt;s&gt; for start mark, &lt;e&gt; for end mark, and &lt;unk&gt; for
+unknown word.</li>
+<li><strong>trg_dict_size</strong> (<em>int</em>) &#8211; Size of the target language dictionary. Three
+special tokens will be added into the dictionary:
+&lt;s&gt; for start mark, &lt;e&gt; for end mark, and &lt;unk&gt; for
+unknown word.</li>
+<li><strong>src_lang</strong> (<em>string</em>) &#8211; A string indicating which language is the source
+language. Available options are: &#8220;en&#8221; for English
+and &#8220;de&#8221; for Germany.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">The validation reader.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">callable</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.dataset.wmt16.</code><code class="descname">get_dict</code><span class="sig-paren">(</span><em>lang</em>, <em>dict_size</em>, <em>reverse=False</em><span class="sig-paren">)</span></dt>
+<dd><p>return the word dictionary for the specified language.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
+<li><strong>lang</strong> (<em>string</em>) &#8211; A string indicating which language is the source
+language. Available options are: &#8220;en&#8221; for English
+and &#8220;de&#8221; for Germany.</li>
+<li><strong>dict_size</strong> (<em>int</em>) &#8211; Size of the specified language dictionary.</li>
+<li><strong>reverse</strong> (<em>bool</em>) &#8211; If reverse is set to False, the returned python
+dictionary will use word as key and use index as value.
+If reverse is set to True, the returned python
+dictionary will use index as key and word as value.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">The word dictionary for the specific language.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">dict</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.dataset.wmt16.</code><code class="descname">fetch</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>download the entire dataset.</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.dataset.wmt16.</code><code class="descname">convert</code><span class="sig-paren">(</span><em>path</em>, <em>src_dict_size</em>, <em>trg_dict_size</em>, <em>src_lang</em><span class="sig-paren">)</span></dt>
+<dd><p>Converts dataset to recordio format.</p>
+</dd></dl>
+
+</div>
 </div>
 
 
