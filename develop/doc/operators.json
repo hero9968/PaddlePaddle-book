@@ -1916,33 +1916,33 @@
  { 
    "name" : "min_sizes",
    "type" : "int array",
-   "comment" : "(vector<int>) ",
-   "generated" : 1
+   "comment" : "(vector<int>) List of min sizes of generated prior boxes.",
+   "generated" : 0
  }, { 
    "name" : "max_sizes",
    "type" : "int array",
-   "comment" : "(vector<int>) ",
-   "generated" : 1
+   "comment" : "(vector<int>) List of max sizes of generated prior boxes.",
+   "generated" : 0
  }, { 
    "name" : "aspect_ratios",
    "type" : "float array",
-   "comment" : "(vector<float>) ",
-   "generated" : 1
+   "comment" : "(vector<float>) List of aspect ratios of generated prior boxes.",
+   "generated" : 0
  }, { 
    "name" : "variances",
    "type" : "float array",
-   "comment" : "(vector<float>) ",
-   "generated" : 1
+   "comment" : "(vector<float>) List of variances to be encoded in prior boxes.",
+   "generated" : 0
  }, { 
    "name" : "flip",
    "type" : "bool",
-   "comment" : "(bool) ",
-   "generated" : 1
+   "comment" : "(bool) Whether to flip aspect ratios.",
+   "generated" : 0
  }, { 
    "name" : "clip",
    "type" : "bool",
-   "comment" : "(bool) ",
-   "generated" : 1
+   "comment" : "(bool) Whether to clip out-of-boundary boxes.",
+   "generated" : 0
  }, { 
    "name" : "step_w",
    "type" : "float",
