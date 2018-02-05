@@ -1,0 +1,279 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>initializer &mdash; PaddlePaddle  documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="PaddlePaddle  documentation" href="../../index.html"/>
+        <link rel="up" title="Fluid" href="../fluid.html"/>
+        <link rel="next" title="evaluator" href="evaluator.html"/>
+        <link rel="prev" title="executor" href="executor.html"/> 
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/css/perfect-scrollbar.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/override.css" type="text/css" />
+  <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?b9a314ab40d04d805655aab1deee08ba";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
+
+  
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  
+  <header class="site-header">
+    <div class="site-logo">
+      <a href="/"><img src="../../_static/images/PP_w.png"></a>
+    </div>
+    <div class="site-nav-links">
+      <div class="site-menu">
+        <a class="fork-on-github" href="https://github.com/PaddlePaddle/Paddle" target="_blank"><i class="fa fa-github"></i>Fork me on Github</a>
+        <div class="language-switcher dropdown">
+          <a type="button" data-toggle="dropdown">
+            <span>English</span>
+            <i class="fa fa-angle-up"></i>
+            <i class="fa fa-angle-down"></i>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="/doc_cn">中文</a></li>
+            <li><a href="/doc">English</a></li>
+          </ul>
+        </div>
+        <ul class="site-page-links">
+          <li><a href="/">Home</a></li>
+        </ul>
+      </div>
+      <div class="doc-module">
+        
+        <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../model_configs.html">Model Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../data.html">Data Reader Interface and DataSets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../run_logic.html">Training and Inference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../fluid.html">Fluid</a></li>
+</ul>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>        
+      </div>
+    </div>
+  </header>
+  
+  <div class="main-content-wrap">
+
+    
+    <nav class="doc-menu-vertical" role="navigation">
+        
+          
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../model_configs.html">Model Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../config/activation.html">Activation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../config/layer.html">Layers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../config/evaluators.html">Evaluators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../config/optimizer.html">Optimizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../config/pooling.html">Pooling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../config/networks.html">Networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../config/attr.html">Parameter Attribute</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../data.html">Data Reader Interface and DataSets</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../data/data_reader.html">Data Reader Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data/image.html">Image Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data/dataset.html">Dataset</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../run_logic.html">Training and Inference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../fluid.html">Fluid</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="layers.html">layers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_feeder.html">data_feeder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="executor.html">executor</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">initializer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="evaluator.html">evaluator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nets.html">nets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optimizer.html">optimizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="param_attr.html">param_attr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="profiler.html">profiler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="regularizer.html">regularizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="io.html">io</a></li>
+</ul>
+</li>
+</ul>
+
+        
+    </nav>
+    
+    <section class="doc-content-wrap">
+
+      
+
+ 
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+      
+        <li><a href="../fluid.html">Fluid</a> > </li>
+      
+    <li>initializer</li>
+  </ul>
+</div>
+      
+      <div class="wy-nav-content" id="doc-content">
+        <div class="rst-content">
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="initializer">
+<h1>initializer<a class="headerlink" href="#initializer" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="constant">
+<h2>Constant<a class="headerlink" href="#constant" title="Permalink to this headline">¶</a></h2>
+<dl class="attribute">
+<dt>
+<code class="descclassname">paddle.v2.fluid.initializer.</code><code class="descname">Constant</code></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">ConstantInitializer</span></code></p>
+</dd></dl>
+
+</div>
+<div class="section" id="uniform">
+<h2>Uniform<a class="headerlink" href="#uniform" title="Permalink to this headline">¶</a></h2>
+<dl class="attribute">
+<dt>
+<code class="descclassname">paddle.v2.fluid.initializer.</code><code class="descname">Uniform</code></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">UniformInitializer</span></code></p>
+</dd></dl>
+
+</div>
+<div class="section" id="normal">
+<h2>Normal<a class="headerlink" href="#normal" title="Permalink to this headline">¶</a></h2>
+<dl class="attribute">
+<dt>
+<code class="descclassname">paddle.v2.fluid.initializer.</code><code class="descname">Normal</code></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">NormalInitializer</span></code></p>
+</dd></dl>
+
+</div>
+<div class="section" id="xavier">
+<h2>Xavier<a class="headerlink" href="#xavier" title="Permalink to this headline">¶</a></h2>
+<dl class="attribute">
+<dt>
+<code class="descclassname">paddle.v2.fluid.initializer.</code><code class="descname">Xavier</code></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">XavierInitializer</span></code></p>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="evaluator.html" class="btn btn-neutral float-right" title="evaluator" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="executor.html" class="btn btn-neutral" title="executor" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, PaddlePaddle developers.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: ".txt",
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+       
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+  
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/js/perfect-scrollbar.jquery.min.js"></script>
+  <script src="../../_static/js/paddle_doc_init.js"></script> 
+
+</body>
+</html>
