@@ -265,12 +265,12 @@
 </pre></div>
 </div>
 <p>In Fluid, we should be able to do the same:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">ch</span>  <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">make_chan</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">INT</span><span class="p">)</span>
-<span class="n">ch1</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">make_chan</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">INT</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">ch</span>  <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">make_channel</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">INT</span><span class="p">)</span>
+<span class="n">ch1</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">make_channel</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">INT</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>In addition to that, we want channels that can hold more complex element types, e.g., Tensors of float16:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">ch</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">make_chan</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">etype</span><span class="o">=</span><span class="n">float16</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">ch</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">make_channel</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">etype</span><span class="o">=</span><span class="n">float16</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>or Tensors of Tensors of float16 etc.</p>
@@ -278,6 +278,66 @@
 </div>
 <div class="section" id="send-and-recv">
 <span id="send-and-recv"></span><h3>Send and Recv<a class="headerlink" href="#send-and-recv" title="Permalink to this headline">¶</a></h3>
+<p>In Go, we first create a channel as explained in the section above and then perform read and write operations on top of the channels.</p>
+<div class="highlight-go"><div class="highlight"><pre><span></span><span class="nx">ch1</span>  <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kt">int</span><span class="p">)</span>       
+<span class="nx">ch2</span>  <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kt">int</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To write (or perform a <code class="docutils literal"><span class="pre">Send</span></code> operation) the value of a variable <code class="docutils literal"><span class="pre">x</span></code>, to channel <code class="docutils literal"><span class="pre">ch1</span></code> above, we perform the following:</p>
+<div class="highlight-go"><div class="highlight"><pre><span></span><span class="nx">ch1</span> <span class="o">&lt;-</span> <span class="nx">x</span>
+<span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Written to the channel&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now to read (or perform a <code class="docutils literal"><span class="pre">Recv</span></code> operation) the value stored in <code class="docutils literal"><span class="pre">ch2</span></code> into a variable <code class="docutils literal"><span class="pre">y</span></code>, we perform the following:</p>
+<div class="highlight-go"><div class="highlight"><pre><span></span><span class="nx">y</span> <span class="o">&lt;-</span> <span class="nx">ch2</span>
+<span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Received from channel&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In Fluid, we should be able to perform the above operations on the channel objects as well. As of now, we support two different kinds of channels : <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/framework/details/buffered_channel.h">Buffered Channel</a> and <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/framework/details/unbuffered_channel.h">UnBuffered Channel</a></p>
+<p>Send and Receive can be performed as following on a buffered channel:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">threading</span>
+
+<span class="k">def</span> <span class="nf">send_to_channel</span><span class="p">(</span><span class="n">channel</span><span class="p">,</span> <span class="n">num_time</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">num_time</span><span class="p">):</span>
+    <span class="n">channel</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+<span class="c1"># Create a buffered channel of capacity 10</span>
+<span class="n">buffer_size</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+<span class="n">ch</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">make_channel</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">INT</span><span class="p">,</span> <span class="n">buffer_size</span><span class="p">)</span>
+
+<span class="c1"># Now write three elements to the channel</span>
+<span class="n">thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">send_to_channel</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">ch</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">))</span>
+<span class="n">thread</span><span class="o">.</span><span class="n">daemon</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="n">thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+<span class="c1"># Read all the data from the channel</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+  <span class="n">y</span> <span class="o">=</span> <span class="n">ch</span><span class="o">.</span><span class="n">recv</span><span class="p">()</span>
+
+<span class="c1"># Done receiving , now close the channel</span>
+<span class="n">ch</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The send and receive operations will be similar for unbuffered channel as well, except for the fact that there is no buffer in an unbuffered channel, so the operations are completely synchronized. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">threading</span>
+
+<span class="k">def</span> <span class="nf">send_to_channel</span><span class="p">(</span><span class="n">channel</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+  <span class="n">channel</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="c1"># Create an unbuffered channel</span>
+<span class="n">ch</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">make_channel</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">INT</span><span class="p">)</span>
+
+<span class="c1"># Writes and Reads are synchronous otherwise the calls will block.</span>
+<span class="n">thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">send_to_channel</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">ch</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="p">))</span>
+<span class="n">thread</span><span class="o">.</span><span class="n">daemon</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="n">thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="n">ch</span><span class="o">.</span><span class="n">recv</span><span class="p">()</span>
+
+<span class="c1"># Done receiving , now close the channel</span>
+<span class="n">ch</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="select">
 <span id="select"></span><h3>Select<a class="headerlink" href="#select" title="Permalink to this headline">¶</a></h3>
