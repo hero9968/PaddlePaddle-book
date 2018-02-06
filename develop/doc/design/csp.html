@@ -241,7 +241,7 @@
 <p>We also need Python wrappers for the above components.</p>
 <p>The type <em>channel</em> is conceptually the blocking queue.  In Go, its implemented is a <a class="reference external" href="https://github.com/golang/go/blob/68ce117cf17b8debf5754bfd476345779b5b6616/src/runtime/chan.go#L31-L50">blocking circular queue</a>, which supports send and recv.</p>
 <p>The <code class="docutils literal"><span class="pre">select</span></code> operation has been in OS kernels long before Go language.  All Unix kernels implement system calls <em>poll</em> and <em>select</em>.  They monitor multiple file descriptors to see if I/O is possible on any of them.  This takes O(N) time.  Since Linux 2.6, a new system call, <em>epoll</em>, can do the same in O(1) time.  In BSD systems, there is a similar system call <em>kqueue</em>.  Go&#8217;s Linux implementation uses epoll.</p>
-<p>It might be a good idea to implement Fluid&#8217;s select using epoll too.  In this design doc, we start from the O(N) way, so we could focus on Python binding and the syntax.</p>
+<p>It might be a good idea to implement Fluid&#8217;s select using epoll too.  In this design doc, we start from the O(N) way so that we could focus on Python binding and the syntax.</p>
 <div class="section" id="type-channel">
 <span id="type-channel"></span><h3>Type Channel<a class="headerlink" href="#type-channel" title="Permalink to this headline">¶</a></h3>
 <p>Fluid supports many data types:</p>
@@ -278,70 +278,76 @@
 </div>
 <div class="section" id="send-and-recv">
 <span id="send-and-recv"></span><h3>Send and Recv<a class="headerlink" href="#send-and-recv" title="Permalink to this headline">¶</a></h3>
-<p>In Go, we first create a channel as explained in the section above and then perform read and write operations on top of the channels.</p>
-<div class="highlight-go"><div class="highlight"><pre><span></span><span class="nx">ch1</span>  <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kt">int</span><span class="p">)</span>       
-<span class="nx">ch2</span>  <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kt">int</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<p>Go&#8217;s CSP implementation depends on data type <em>channel</em>. There are two types of channels:</p>
+<ol class="simple">
+<li>The unblocked channel, or buffered channel, is a blocking queue with a non-zero sized buffer. The sending to buffered channel blocks if the buffer is full, and the receive operation blocks if the buffer is empty.</li>
+<li>blocked channel, or unbuffered channel, is a blocking queue with no buffer.  Both sending and receiving block with unbuffered channels.</li>
+</ol>
+<p>There are four types of actions with a channel:</p>
+<ol>
+<li><p class="first">Create a channel</p>
+<div class="highlight-go"><div class="highlight"><pre><span></span><span class="nx">ch</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kt">int</span><span class="p">)</span> <span class="c1">// this is an unbuffered channel</span>
+<span class="nx">ch</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kt">int</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span> <span class="c1">// this is a buffered channel of 100 ints.</span>
 </pre></div>
 </div>
-<p>To write (or perform a <code class="docutils literal"><span class="pre">Send</span></code> operation) the value of a variable <code class="docutils literal"><span class="pre">x</span></code>, to channel <code class="docutils literal"><span class="pre">ch1</span></code> above, we perform the following:</p>
-<div class="highlight-go"><div class="highlight"><pre><span></span><span class="nx">ch1</span> <span class="o">&lt;-</span> <span class="nx">x</span>
-<span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Written to the channel&quot;</span><span class="p">)</span>
+</li>
+<li><p class="first">Send</p>
+<div class="highlight-go"><div class="highlight"><pre><span></span><span class="nx">ch</span> <span class="o">&lt;-</span> <span class="mi">111</span>
 </pre></div>
 </div>
-<p>Now to read (or perform a <code class="docutils literal"><span class="pre">Recv</span></code> operation) the value stored in <code class="docutils literal"><span class="pre">ch2</span></code> into a variable <code class="docutils literal"><span class="pre">y</span></code>, we perform the following:</p>
-<div class="highlight-go"><div class="highlight"><pre><span></span><span class="nx">y</span> <span class="o">&lt;-</span> <span class="nx">ch2</span>
-<span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Received from channel&quot;</span><span class="p">)</span>
+</li>
+<li><p class="first">Recv</p>
+<div class="highlight-go"><div class="highlight"><pre><span></span><span class="nx">y</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">&lt;-</span> <span class="nx">ch</span>
 </pre></div>
 </div>
-<p>In Fluid, we should be able to perform the above operations on the channel objects as well. As of now, we support two different kinds of channels : <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/framework/details/buffered_channel.h">Buffered Channel</a> and <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/framework/details/unbuffered_channel.h">UnBuffered Channel</a></p>
-<p>Send and Receive can be performed as following on a buffered channel:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">threading</span>
+</li>
+<li><p class="first">Close</p>
+<div class="highlight-go"><div class="highlight"><pre><span></span><span class="nb">close</span><span class="p">(</span><span class="nx">ch</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Please be aware that a closed channel is not a nil channel, which is <code class="docutils literal"><span class="pre">var</span> <span class="pre">ch</span> <span class="pre">chan</span> <span class="pre">int</span></code>.</p>
+</li>
+</ol>
+<p>There are some <a class="reference external" href="https://dave.cheney.net/2014/03/19/channel-axioms">axioms with channels</a>:</p>
+<ol class="simple">
+<li>A send to a nil channel blocks forever</li>
+<li>A receive from a nil channel blocks forever</li>
+<li>A send to a closed channel panics</li>
+<li>A receive from a closed channel returns the residual values and then zeros.</li>
+</ol>
+<p>In Fluid, we have <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/framework/details/buffered_channel.h">buffered channels</a> and <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/framework/details/unbuffered_channel.h">unbuffered channels</a></p>
+<p>The following program illustrates the Python syntax for accessing Fluid buffers.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">fluid</span>
 
-<span class="k">def</span> <span class="nf">send_to_channel</span><span class="p">(</span><span class="n">channel</span><span class="p">,</span> <span class="n">num_time</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">num_time</span><span class="p">):</span>
-    <span class="n">channel</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-
-<span class="c1"># Create a buffered channel of capacity 10</span>
-<span class="n">buffer_size</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+<span class="n">buffer_size</span> <span class="o">=</span> <span class="mi">10</span>
 <span class="n">ch</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">make_channel</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">INT</span><span class="p">,</span> <span class="n">buffer_size</span><span class="p">)</span>
 
 <span class="c1"># Now write three elements to the channel</span>
-<span class="n">thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">send_to_channel</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">ch</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">))</span>
-<span class="n">thread</span><span class="o">.</span><span class="n">daemon</span> <span class="o">=</span> <span class="bp">True</span>
-<span class="n">thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
-
-<span class="c1"># Read all the data from the channel</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
-  <span class="n">y</span> <span class="o">=</span> <span class="n">ch</span><span class="o">.</span><span class="n">recv</span><span class="p">()</span>
-
-<span class="c1"># Done receiving , now close the channel</span>
-<span class="n">ch</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="k">with</span> <span class="n">fluid</span><span class="o">.</span><span class="k">while</span><span class="p">(</span><span class="n">steps</span><span class="o">=</span><span class="n">buffer_size</span><span class="p">):</span>
+  <span class="n">fluid</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">ch</span><span class="p">,</span> <span class="n">step</span><span class="p">)</span>
+  <span class="n">fluid</span><span class="o">.</span><span class="n">close_channel</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span>
+  
+<span class="k">with</span> <span class="n">fluid</span><span class="o">.</span><span class="k">while</span><span class="p">(</span><span class="n">steps</span><span class="o">=</span><span class="n">buffer_size</span><span class="p">):</span>
+  <span class="n">fluid</span><span class="o">.</span><span class="k">print</span><span class="p">(</span><span class="n">fluid</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="n">ch</span><span class="p">))</span>
 </pre></div>
 </div>
-<p>The send and receive operations will be similar for unbuffered channel as well, except for the fact that there is no buffer in an unbuffered channel, so the operations are completely synchronized. For example:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">threading</span>
+<p>The following example shows that to avoid the always-blocking behavior of unbuffered channels, we need to use Fluid&#8217;s goroutines.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">fluid</span>
 
-<span class="k">def</span> <span class="nf">send_to_channel</span><span class="p">(</span><span class="n">channel</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-  <span class="n">channel</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-
-<span class="c1"># Create an unbuffered channel</span>
 <span class="n">ch</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">make_channel</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">INT</span><span class="p">)</span>
 
-<span class="c1"># Writes and Reads are synchronous otherwise the calls will block.</span>
-<span class="n">thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">send_to_channel</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">ch</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="p">))</span>
-<span class="n">thread</span><span class="o">.</span><span class="n">daemon</span> <span class="o">=</span> <span class="bp">True</span>
-<span class="n">thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+<span class="k">with</span> <span class="n">fluid</span><span class="o">.</span><span class="n">go</span><span class="p">():</span>
+  <span class="n">fluid</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span>
 
-<span class="n">y</span> <span class="o">=</span> <span class="n">ch</span><span class="o">.</span><span class="n">recv</span><span class="p">()</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span>
 
-<span class="c1"># Done receiving , now close the channel</span>
-<span class="n">ch</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="n">fluid</span><span class="o">.</span><span class="n">close_channel</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="select">
 <span id="select"></span><h3>Select<a class="headerlink" href="#select" title="Permalink to this headline">¶</a></h3>
-<p>In Go, the <code class="docutils literal"><span class="pre">select</span></code> statement lets a goroutine wait on multiple communication operations. A <code class="docutils literal"><span class="pre">select</span></code> blocks untill one of its cases can run, then it executes that case. It chooses one at random if multiple are ready.</p>
+<p>In Go, the <code class="docutils literal"><span class="pre">select</span></code> statement lets a goroutine wait on multiple communication operations. A <code class="docutils literal"><span class="pre">select</span></code> blocks until one of its cases can run, then it executes that case. It chooses one at random if multiple are ready.</p>
 <div class="highlight-go"><div class="highlight"><pre><span></span><span class="nx">ch1</span>  <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kt">int</span><span class="p">)</span>       
 <span class="nx">ch2</span>  <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kt">int</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
 
@@ -378,8 +384,8 @@
 </div>
 <p>In the above code snippet, <code class="docutils literal"><span class="pre">X</span></code> and <code class="docutils literal"><span class="pre">Y</span></code> are variables. Now let us look at each of these statements one by one.</p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">sel.case(ch1,</span> <span class="pre">'w',</span> <span class="pre">X)</span></code> : This specifies that we are writing to <code class="docutils literal"><span class="pre">ch1</span></code> and we want to write the integer in variable <code class="docutils literal"><span class="pre">X</span></code> to the channel. The character <code class="docutils literal"><span class="pre">w</span></code> is used here to make the syntax familar to write syntax in Python I/O.</li>
-<li><code class="docutils literal"><span class="pre">sel.case(ch2,</span> <span class="pre">'r',</span> <span class="pre">Y)</span></code> : This specifies that we would like to read the result from <code class="docutils literal"><span class="pre">ch2</span></code> into variable <code class="docutils literal"><span class="pre">Y</span></code>. The character <code class="docutils literal"><span class="pre">r</span></code> is used here to make the syntax familar to read syntax in Python I/O.</li>
+<li><code class="docutils literal"><span class="pre">sel.case(ch1,</span> <span class="pre">'w',</span> <span class="pre">X)</span></code> : This specifies that we are writing to <code class="docutils literal"><span class="pre">ch1</span></code> and we want to write the integer in variable <code class="docutils literal"><span class="pre">X</span></code> to the channel. The character <code class="docutils literal"><span class="pre">w</span></code> is used here to make the syntax familiar to write syntax in Python I/O.</li>
+<li><code class="docutils literal"><span class="pre">sel.case(ch2,</span> <span class="pre">'r',</span> <span class="pre">Y)</span></code> : This specifies that we would like to read the result from <code class="docutils literal"><span class="pre">ch2</span></code> into variable <code class="docutils literal"><span class="pre">Y</span></code>. The character <code class="docutils literal"><span class="pre">r</span></code> is used here to make the syntax familiar to read syntax in Python I/O.</li>
 <li><code class="docutils literal"><span class="pre">sel.default()</span></code> : This is equivalent to the default in Go <code class="docutils literal"><span class="pre">select</span></code>. If none of the channels are ready for read or write, then the fluid code in the default block will be executed.</li>
 </ul>
 </div>
