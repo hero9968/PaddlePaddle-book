@@ -325,8 +325,9 @@
 <span class="c1"># Now write three elements to the channel</span>
 <span class="k">with</span> <span class="n">fluid</span><span class="o">.</span><span class="k">while</span><span class="p">(</span><span class="n">steps</span><span class="o">=</span><span class="n">buffer_size</span><span class="p">):</span>
   <span class="n">fluid</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">ch</span><span class="p">,</span> <span class="n">step</span><span class="p">)</span>
-  <span class="n">fluid</span><span class="o">.</span><span class="n">close_channel</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span>
-  
+
+<span class="n">fluid</span><span class="o">.</span><span class="n">close_channel</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span>
+
 <span class="k">with</span> <span class="n">fluid</span><span class="o">.</span><span class="k">while</span><span class="p">(</span><span class="n">steps</span><span class="o">=</span><span class="n">buffer_size</span><span class="p">):</span>
   <span class="n">fluid</span><span class="o">.</span><span class="k">print</span><span class="p">(</span><span class="n">fluid</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="n">ch</span><span class="p">))</span>
 </pre></div>
