@@ -231,8 +231,7 @@
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 <span class="n">b</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
-<span class="n">switch</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">switch</span><span class="p">()</span>
-<span class="k">with</span> <span class="n">switch</span><span class="o">.</span><span class="n">block</span><span class="p">():</span>
+<span class="k">with</span> <span class="n">switch</span><span class="p">()</span> <span class="k">as</span> <span class="n">switch</span><span class="p">:</span>
     <span class="k">with</span> <span class="n">switch</span><span class="o">.</span><span class="n">case</span><span class="p">(</span><span class="n">fluid</span><span class="o">.</span><span class="n">less_equal</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">10</span><span class="p">)):</span>
         <span class="n">fluid</span><span class="o">.</span><span class="k">print</span><span class="p">(</span><span class="s2">&quot;Case 1&quot;</span><span class="p">)</span>
     <span class="k">with</span> <span class="n">switch</span><span class="o">.</span><span class="n">case</span><span class="p">(</span><span class="n">fluid</span><span class="o">.</span><span class="n">larger</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">0</span><span class="p">)):</span>

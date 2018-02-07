@@ -4288,6 +4288,11 @@
    "type" : "block id",
    "comment" : "The step block of conditional block operator",
    "generated" : 0
+ }, { 
+   "name" : "is_scalar_condition",
+   "type" : "bool",
+   "comment" : "the input X is used as scalar condition",
+   "generated" : 0
  } ] 
 },{
  "type" : "rmsprop",
