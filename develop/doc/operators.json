@@ -350,105 +350,6 @@
    "generated" : 0
  } ] 
 },{
- "type" : "lstmp",
- "comment" : "\nLong-Short Term Memory with recurrent Projection layer (LSTMP) Operator.\n\nLSTMP has a separate projection layer after the LSTM layer, projecting the \noriginal hidden state to a lower-dimensional one, which is proposed to reduce \nthe number of total parameters and furthermore computational complexity for \nthe LSTM, espeacially for the case that the size of output units is relative \nlarge (https://research.google.com/pubs/archive/43905.pdf). \n\nThe formula is as follows:\n\n$$\ni_t = \\sigma(W_{ix}x_{t} + W_{ir}r_{t-1} + W_{ic}c_{t-1} + b_i) \\\\\n\nf_t = \\sigma(W_{fx}x_{t} + W_{fr}r_{t-1} + W_{fc}c_{t-1} + b_f) \\\\\n\n\\tilde{c_t} = act_g(W_{cx}x_t + W_{cr}r_{t-1} + b_c) \\\\\n\no_t = \\sigma(W_{ox}x_{t} + W_{or}r_{t-1} + W_{oc}c_t + b_o) \\\\\n\nc_t = f_t \\odot c_{t-1} + i_t \\odot \\tilde{c_t} \\\\\n\nh_t = o_t \\odot act_h(c_t) \\\\\n\nr_t = \\overline{act_h}(W_{rh}h_t)\n$$\n\nwhere the W terms denote weight matrices (e.g. $W_{xi}$ is the matrix\nof weights from the input gate to the input), $W_{ic}, W_{fc}, W_{oc}$\nare diagonal weight matrices for peephole connections. In our implementation,\nwe use vectors to reprenset these diagonal weight matrices. The b terms\ndenote bias vectors ($b_i$ is the input gate bias vector), $\\sigma$\nis the activation, such as logistic sigmoid function, and\n$i, f, o$ and $c$ are the input gate, forget gate, output gate,\nand cell activation vectors, respectively, all of which have the same size as\nthe cell output activation vector $h$. Here $h$ is usually called the hidden \nstate and $r$ denotes its recurrent projection. And $\\tilde{c_t}$ is also \ncalled the candidate hidden state, whose computation is based on the current \ninput and previous hidden state.\n\nThe $\\odot$ is the element-wise product of the vectors. $act_g$ and $act_h$\nare the cell input and cell output activation functions and `tanh` is usually\nused for them. $\\overline{act_h}$ is the activation function for the \nprojection output, usually using `identity` or same as $act_h$.\n\nNote that these $W_{xi}x_{t}, W_{xf}x_{t}, W_{xc}x_{t}, W_{xo}x_{t}$\noperations on the input $x_{t}$ are NOT included in this operator.\nUsers can choose to use fully-connected operator before LSTMP operator.\n\n",
- "inputs" : [ 
- { 
-   "name" : "Input",
-   "comment" : "(LoDTensor) the input for sequence data, which supports variable-time length input sequence. The underlying tensor in this LoDTensor is a matrix with shape (T X 4D), where T is the total time steps in this mini-batch, D is the hidden size.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "H0",
-   "comment" : "(Tensor, optional) the initial hidden state is an optional input. This is a tensor with shape (N x D), where N is the batch size and D is the hidden size.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "C0",
-   "comment" : "(Tensor, optional) the initial cell state is an optional input. This is a tensor with shape (N x D), where N is the batch size. `C0` should not be null if `H0` provided.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Weight",
-   "comment" : "(Tensor) the learnable hidden-hidden weights. - The shape is (P x 4D), where P is the projection layer size and  D is the hidden size. - Weight = {W_cr, W_ir, W_fr, W_or}",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "ProjWeight",
-   "comment" : "(Tensor) the learnable weight of the projection layer. - The shape is (D x P), where P is the recurrent projection layer size and  D is the hidden size. - ProjWeight = {W_rh}",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Bias",
-   "comment" : "(Tensor) the learnable biases, which contains two parts: input-hidden biases and peephole connections weights if setting `use_peepholes` to `True`. 1. `use_peepholes = False`  - The shape is (1 x 4D).  - Bias = {b_c, b_i, b_f, b_o}.2. `use_peepholes = True`  - The shape is (1 x 7D).  - Bias = {b_c, b_i, b_f, b_o, W_ic, W_fc, W_oc}.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Projection",
-   "comment" : "(LoDTensor) the projection of the hidden state of LSTMP operator. The shape is (T x P), and LoD is the same with the `Input`.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Cell",
-   "comment" : "(LoDTensor) the cell state of LSTMP operator. The shape is (T x D), and lod is the same with the `Input`.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "BatchGate",
-   "comment" : "(LoDTensor) This LoDTensor contains input gate, forget gate and output gate after the activations. This LoDTensor has the same shape as the reorganized input, which is also be called batch input. The LoD size is 2. The first-level LoD is the batch offsets and the second contains the indices, which denotes the position of reorganized sequence in the raw input.",
-   "duplicable" : 0,
-   "intermediate" : 1
- }, { 
-   "name" : "BatchCellPreAct",
-   "comment" : "(LoDTensor) the pre-activation cell state reorganized in batch. This LoDTensor is obtained in the forward and used in the backward.",
-   "duplicable" : 0,
-   "intermediate" : 1
- }, { 
-   "name" : "BatchHidden",
-   "comment" : "(LoDTensor) the hidden state reorganized in batch. This LoDTensor is obtained in the forward and used in the backward.",
-   "duplicable" : 0,
-   "intermediate" : 1
- }, { 
-   "name" : "OrderedP0",
-   "comment" : "(Tensor) the projection of the initial hidden state H0. This is a tensor with shape (N x P), where N is the batch size and P is the hidden size.",
-   "duplicable" : 0,
-   "intermediate" : 1
- } ], 
- "attrs" : [ 
- { 
-   "name" : "use_peepholes",
-   "type" : "bool",
-   "comment" : "(bool, defalut: True) whether to enable diagonal/peephole connections.",
-   "generated" : 0
- }, { 
-   "name" : "is_reverse",
-   "type" : "bool",
-   "comment" : "(bool, defalut: False) whether to compute reversed LSTMP.",
-   "generated" : 0
- }, { 
-   "name" : "gate_activation",
-   "type" : "string",
-   "comment" : "(string, default: sigmoid)The activation for input gate, forget gate and output gate, `sigmoid` by default.",
-   "generated" : 0
- }, { 
-   "name" : "cell_activation",
-   "type" : "string",
-   "comment" : "(string, default: tanh)The activation for cell output, `tanh` by defalut.",
-   "generated" : 0
- }, { 
-   "name" : "candidate_activation",
-   "type" : "string",
-   "comment" : "(string, default: tanh)The activation for candidate hidden state, `tanh` by default.",
-   "generated" : 0
- }, { 
-   "name" : "proj_activation",
-   "type" : "string",
-   "comment" : "(string, default: tanh)The activation for projection output, `tanh` by defalut.",
-   "generated" : 0
- } ] 
-},{
  "type" : "warpctc",
  "comment" : "\nAn operator integrating the open-source\n[warp-ctc](https://github.com/baidu-research/warp-ctc) library, which is used in\n[Deep Speech 2: End-toEnd Speech Recognition in English and Mandarin](\nhttps://arxiv.org/pdf/1512.02595v1.pdf),\nto compute Connectionist Temporal Classification (CTC) loss.\nIt can be aliased as softmax with ctc, since a native softmax activation is\ninterated to the warp-ctc library, to to normlize values for each row of the\ninput tensor.\n\nMore detail of CTC loss can be found by refering to\n[Connectionist Temporal Classification: Labelling Unsegmented Sequence Data with\nRecurrent Neural Networks](\nhttp://machinelearning.wustl.edu/mlpapers/paper_files/icml2006_GravesFGS06.pdf).\n",
  "inputs" : [ 
@@ -1809,47 +1710,6 @@
  } ], 
  "attrs" : [  ] 
 },{
- "type" : "logical_and",
- "comment" : "logical_and Operator\n\nIt operates element-wise on X and Y, and returns the Out. X, Y and Out are N-dim boolean tensors.\nEach element of Out is calculated by $$Out = X \\&\\& Y$$\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(LoDTensor) Left hand operand of logical_and operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Y",
-   "comment" : "(LoDTensor) Right hand operand of logical_and operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(LoDTensor) n-dim bool tensor. Each element is $$Out = X \\&\\& Y$$",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
- "type" : "logical_not",
- "comment" : "logical_not Operator\n\nIt operates element-wise on X, and returns the Out. X and Out are N-dim boolean tensors.\nEach element of Out is calculated by $$Out = !X$$\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(LoDTensor) Operand of logical_not operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(LoDTensor) n-dim bool tensor. Each element is $$Out = !X$$",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
  "type" : "max_sequence_len",
  "comment" : "Calculate the max sequence length through lod_rank_table.",
  "inputs" : [ 
@@ -2422,30 +2282,6 @@
    "generated" : 0
  } ] 
 },{
- "type" : "rnn_memory_helper",
- "comment" : "",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "dtype",
-   "type" : "int",
-   "comment" : "(int, default 5 (FP32)) Output data type",
-   "generated" : 0
- } ] 
-},{
  "type" : "smooth_l1_loss",
  "comment" : "\nSmooth L1 Loss Operator.\n\nThis operator computes the smooth l1 loss for X and Y.\nThe operator takes the first dimension of X and Y as batch size.\nFor each instance, it computes the smooth l1 loss element by element first\nand then sums all the losses. So the shape of Out is [batch_size, 1].\n\nThe equation is:\n$$\nOut_{\\sigma}(X, Y)_i = \\begin{cases}\n0.5 * (\\sigma * (X_i - Y_i)) ^ 2\n\\quad |X_i - Y_i| \\lt \\frac{1} {{\\sigma} ^ 2} \\\\\n\\frac{|X_i - Y_i| - 0.5}{{\\sigma}^2},\n\\quad otherwise\n\\end{cases}\n$$\n\nIn the above equation, $Out_{\\sigma}(X, Y)_i$, $X_i$ and $Y_i$ represent the ith\nelement of Out, X and Y.\n\n",
  "inputs" : [ 
@@ -2487,6 +2323,58 @@
    "name" : "sigma",
    "type" : "float",
    "comment" : "Hyper parameter of smooth l1 loss op.A float scalar with default value 3.0.",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "reorder_lod_tensor_by_rank",
+ "comment" : "ReorderLoDTensorByRankTable operator.\n\nInput(X) is a batch of sequences. Input(RankTable) stores new orders of the\ninput sequence batch. The reorder_lod_tensor_by_rank operator reorders the\nInput(X) according to the information provided by Input(RankTable).\n\nFor example:\n\nIf the indices stored in the Input(RankTable) are [3, 0, 2, 1], the\nInput(X) will be reordered that the fourth sequence in Input(X) will become the\nfirst one, and then followed by the original first, third, and the second one.\n\nThis is:\nX = [Seq0, Seq1, Seq2, Seq3]. The indices in RankTable are [3, 0, 2, 1].\nOut =  [Seq3, Seq0, Seq2, Seq1] with a new LoD information.\n\nIf the LoD information of Input(X) is empty, this means Input(X) is not sequence\ndata. This is also identical to a batch of sequences where each sequence has a\nfixed length 1. In this case, the reorder_lod_tensor_by_rank operator reorders\neach slice of Input(X) along the first axis according to Input(RankTable).\n\nThis is:\nX = [Slice0, Slice1, Slice2, Slice3] and its LoD information is empty. The\nindices in RankTable are [3, 0, 2, 1].\nOut = [Slice3, Slice0, Slice2, Slice1] with no LoD information is appended.\n\nNOTE: This operator sorts Input(X) according to a given LoDRankTable which does\nnot need to be calculated according to Input(X). It can be calculated according\nto another different sequence, and then this operator sorts Input(X) according\nto the given LoDRankTable.\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(LoDTensor), the input lod tensor to be reordered according to Input(RankTable).",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "RankTable",
+   "comment" : "(LoDRankTable), the rank table according to which Input(X) is reordered.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(LoDTensor), the reordered lod tensor.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
+ "type" : "pad",
+ "comment" : "\nPad Operator.\n\nPad input into output, as specified by paddings and pad_value. \nThe input should be a k-D tensor(k > 0 and k < 7). As an example:\n\nGiven:\n\nX = [[1, 2],\n     [3, 4]],\n\npaddings = [0, 1, 1, 2],\n\nand\n\npad_value = 0,\n\nwe have:\n\nOut = [[0, 1, 2, 0, 0]\n       [0, 3, 4, 0, 0]\n       [0, 0, 0, 0, 0]]\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "The input of pad op. The input should be a k-D tensor(k > 0 and k < 7)",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "The output of pad op. A tensor with the same shape as X.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "paddings",
+   "type" : "int array",
+   "comment" : "(vector<int>) A list<int> to describe the padding rules for each dimension. For 2-D image tensor, paddings=[0, 1, 2, 3] means padding 0 row to top, 1 row to bottom, 2 columns to left and 3 columns to right. Size of paddings should be equal to 2 * dimension size of the input tensor.",
+   "generated" : 0
+ }, { 
+   "name" : "pad_value",
+   "type" : "float",
+   "comment" : "(float, default 0.0) The value to fill the padded areas.",
    "generated" : 0
  } ] 
 },{
@@ -2651,58 +2539,6 @@
    "comment" : "(int, default 5(FP32)) Output tensor data type",
    "generated" : 0
  } ] 
-},{
- "type" : "pad",
- "comment" : "\nPad Operator.\n\nPad input into output, as specified by paddings and pad_value. \nThe input should be a k-D tensor(k > 0 and k < 7). As an example:\n\nGiven:\n\nX = [[1, 2],\n     [3, 4]],\n\npaddings = [0, 1, 1, 2],\n\nand\n\npad_value = 0,\n\nwe have:\n\nOut = [[0, 1, 2, 0, 0]\n       [0, 3, 4, 0, 0]\n       [0, 0, 0, 0, 0]]\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "The input of pad op. The input should be a k-D tensor(k > 0 and k < 7)",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "The output of pad op. A tensor with the same shape as X.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "paddings",
-   "type" : "int array",
-   "comment" : "(vector<int>) A list<int> to describe the padding rules for each dimension. For 2-D image tensor, paddings=[0, 1, 2, 3] means padding 0 row to top, 1 row to bottom, 2 columns to left and 3 columns to right. Size of paddings should be equal to 2 * dimension size of the input tensor.",
-   "generated" : 0
- }, { 
-   "name" : "pad_value",
-   "type" : "float",
-   "comment" : "(float, default 0.0) The value to fill the padded areas.",
-   "generated" : 0
- } ] 
-},{
- "type" : "reorder_lod_tensor_by_rank",
- "comment" : "ReorderLoDTensorByRankTable operator.\n\nInput(X) is a batch of sequences. Input(RankTable) stores new orders of the\ninput sequence batch. The reorder_lod_tensor_by_rank operator reorders the\nInput(X) according to the information provided by Input(RankTable).\n\nFor example:\n\nIf the indices stored in the Input(RankTable) are [3, 0, 2, 1], the\nInput(X) will be reordered that the fourth sequence in Input(X) will become the\nfirst one, and then followed by the original first, third, and the second one.\n\nThis is:\nX = [Seq0, Seq1, Seq2, Seq3]. The indices in RankTable are [3, 0, 2, 1].\nOut =  [Seq3, Seq0, Seq2, Seq1] with a new LoD information.\n\nIf the LoD information of Input(X) is empty, this means Input(X) is not sequence\ndata. This is also identical to a batch of sequences where each sequence has a\nfixed length 1. In this case, the reorder_lod_tensor_by_rank operator reorders\neach slice of Input(X) along the first axis according to Input(RankTable).\n\nThis is:\nX = [Slice0, Slice1, Slice2, Slice3] and its LoD information is empty. The\nindices in RankTable are [3, 0, 2, 1].\nOut = [Slice3, Slice0, Slice2, Slice1] with no LoD information is appended.\n\nNOTE: This operator sorts Input(X) according to a given LoDRankTable which does\nnot need to be calculated according to Input(X). It can be calculated according\nto another different sequence, and then this operator sorts Input(X) according\nto the given LoDRankTable.\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(LoDTensor), the input lod tensor to be reordered according to Input(RankTable).",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "RankTable",
-   "comment" : "(LoDRankTable), the rank table according to which Input(X) is reordered.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(LoDTensor), the reordered lod tensor.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
 },{
  "type" : "split_selected_rows",
  "comment" : "\nSplit a SelectedRows with a specified rows section.\nheight_sections is only needed when need to split the dims of the original tensor.\n\nExample:\n  Input:\n    X.rows = {7, 5}\n    X.height = 12\n  Attr:\n    height_sections = {4, 8}\n  Out:\n    out0.rows = {}\n    out0.height = 4\n\n    out1.rows = {5, 7}\n    out2.height = 8\n\n",
@@ -3483,6 +3319,231 @@
    "generated" : 0
  } ] 
 },{
+ "type" : "lstmp",
+ "comment" : "\nLong-Short Term Memory with recurrent Projection layer (LSTMP) Operator.\n\nLSTMP has a separate projection layer after the LSTM layer, projecting the \noriginal hidden state to a lower-dimensional one, which is proposed to reduce \nthe number of total parameters and furthermore computational complexity for \nthe LSTM, espeacially for the case that the size of output units is relative \nlarge (https://research.google.com/pubs/archive/43905.pdf). \n\nThe formula is as follows:\n\n$$\ni_t = \\sigma(W_{ix}x_{t} + W_{ir}r_{t-1} + W_{ic}c_{t-1} + b_i) \\\\\n\nf_t = \\sigma(W_{fx}x_{t} + W_{fr}r_{t-1} + W_{fc}c_{t-1} + b_f) \\\\\n\n\\tilde{c_t} = act_g(W_{cx}x_t + W_{cr}r_{t-1} + b_c) \\\\\n\no_t = \\sigma(W_{ox}x_{t} + W_{or}r_{t-1} + W_{oc}c_t + b_o) \\\\\n\nc_t = f_t \\odot c_{t-1} + i_t \\odot \\tilde{c_t} \\\\\n\nh_t = o_t \\odot act_h(c_t) \\\\\n\nr_t = \\overline{act_h}(W_{rh}h_t)\n$$\n\nwhere the W terms denote weight matrices (e.g. $W_{xi}$ is the matrix\nof weights from the input gate to the input), $W_{ic}, W_{fc}, W_{oc}$\nare diagonal weight matrices for peephole connections. In our implementation,\nwe use vectors to reprenset these diagonal weight matrices. The b terms\ndenote bias vectors ($b_i$ is the input gate bias vector), $\\sigma$\nis the activation, such as logistic sigmoid function, and\n$i, f, o$ and $c$ are the input gate, forget gate, output gate,\nand cell activation vectors, respectively, all of which have the same size as\nthe cell output activation vector $h$. Here $h$ is usually called the hidden \nstate and $r$ denotes its recurrent projection. And $\\tilde{c_t}$ is also \ncalled the candidate hidden state, whose computation is based on the current \ninput and previous hidden state.\n\nThe $\\odot$ is the element-wise product of the vectors. $act_g$ and $act_h$\nare the cell input and cell output activation functions and `tanh` is usually\nused for them. $\\overline{act_h}$ is the activation function for the \nprojection output, usually using `identity` or same as $act_h$.\n\nNote that these $W_{xi}x_{t}, W_{xf}x_{t}, W_{xc}x_{t}, W_{xo}x_{t}$\noperations on the input $x_{t}$ are NOT included in this operator.\nUsers can choose to use fully-connected operator before LSTMP operator.\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "Input",
+   "comment" : "(LoDTensor) the input for sequence data, which supports variable-time length input sequence. The underlying tensor in this LoDTensor is a matrix with shape (T X 4D), where T is the total time steps in this mini-batch, D is the hidden size.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "H0",
+   "comment" : "(Tensor, optional) the initial hidden state is an optional input. This is a tensor with shape (N x D), where N is the batch size and D is the hidden size.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "C0",
+   "comment" : "(Tensor, optional) the initial cell state is an optional input. This is a tensor with shape (N x D), where N is the batch size. `C0` should not be null if `H0` provided.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Weight",
+   "comment" : "(Tensor) the learnable hidden-hidden weights. - The shape is (P x 4D), where P is the projection layer size and  D is the hidden size. - Weight = {W_cr, W_ir, W_fr, W_or}",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "ProjWeight",
+   "comment" : "(Tensor) the learnable weight of the projection layer. - The shape is (D x P), where P is the recurrent projection layer size and  D is the hidden size. - ProjWeight = {W_rh}",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Bias",
+   "comment" : "(Tensor) the learnable biases, which contains two parts: input-hidden biases and peephole connections weights if setting `use_peepholes` to `True`. 1. `use_peepholes = False`  - The shape is (1 x 4D).  - Bias = {b_c, b_i, b_f, b_o}.2. `use_peepholes = True`  - The shape is (1 x 7D).  - Bias = {b_c, b_i, b_f, b_o, W_ic, W_fc, W_oc}.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Projection",
+   "comment" : "(LoDTensor) the projection of the hidden state of LSTMP operator. The shape is (T x P), and LoD is the same with the `Input`.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Cell",
+   "comment" : "(LoDTensor) the cell state of LSTMP operator. The shape is (T x D), and lod is the same with the `Input`.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "BatchGate",
+   "comment" : "(LoDTensor) This LoDTensor contains input gate, forget gate and output gate after the activations. This LoDTensor has the same shape as the reorganized input, which is also be called batch input. The LoD size is 2. The first-level LoD is the batch offsets and the second contains the indices, which denotes the position of reorganized sequence in the raw input.",
+   "duplicable" : 0,
+   "intermediate" : 1
+ }, { 
+   "name" : "BatchCellPreAct",
+   "comment" : "(LoDTensor) the pre-activation cell state reorganized in batch. This LoDTensor is obtained in the forward and used in the backward.",
+   "duplicable" : 0,
+   "intermediate" : 1
+ }, { 
+   "name" : "BatchHidden",
+   "comment" : "(LoDTensor) the hidden state reorganized in batch. This LoDTensor is obtained in the forward and used in the backward.",
+   "duplicable" : 0,
+   "intermediate" : 1
+ }, { 
+   "name" : "OrderedP0",
+   "comment" : "(Tensor) the projection of the initial hidden state H0. This is a tensor with shape (N x P), where N is the batch size and P is the hidden size.",
+   "duplicable" : 0,
+   "intermediate" : 1
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "use_peepholes",
+   "type" : "bool",
+   "comment" : "(bool, defalut: True) whether to enable diagonal/peephole connections.",
+   "generated" : 0
+ }, { 
+   "name" : "is_reverse",
+   "type" : "bool",
+   "comment" : "(bool, defalut: False) whether to compute reversed LSTMP.",
+   "generated" : 0
+ }, { 
+   "name" : "gate_activation",
+   "type" : "string",
+   "comment" : "(string, default: sigmoid)The activation for input gate, forget gate and output gate, `sigmoid` by default.",
+   "generated" : 0
+ }, { 
+   "name" : "cell_activation",
+   "type" : "string",
+   "comment" : "(string, default: tanh)The activation for cell output, `tanh` by defalut.",
+   "generated" : 0
+ }, { 
+   "name" : "candidate_activation",
+   "type" : "string",
+   "comment" : "(string, default: tanh)The activation for candidate hidden state, `tanh` by default.",
+   "generated" : 0
+ }, { 
+   "name" : "proj_activation",
+   "type" : "string",
+   "comment" : "(string, default: tanh)The activation for projection output, `tanh` by defalut.",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "target_assign",
+ "comment" : "\nThis operator is, for given the encoded boxes between prior boxes and\nground-truth boxes and ground-truth class labels, to assign classification\nand regression targets to each prior box as well as weights to each\nprior box. The weights is used to specify which prior box would not contribute\nto training loss.\n\nFor each instance, the output `PredBBoxLabel`, `PredBBoxWeight`,\n`PredScoreLabel` and `PredScoreWeight` are assigned based on `MatchIndices`.\nAssumed that the row offset for each instance in `EncodedGTBBox` is called lod,\nthis operato assigns classification/regression targets by performing the\nfollowing steps:\n\n1. Assigning all outpts based on `MatchIndices`:\n\nIf id = MatchIndices[i][j] > 0,\n\n    PredBBoxLabel[i][j] = EncodedGTBBox[lod[i] + id][j]\n    PredBBoxWeight[i][j] = 1.\n    PredScoreLabel[i][j] = GTScoreLabel[lod[i] + id]\n    PredScoreWeight[i][j] = 1.\n\nOtherwise, \n\n    PredBBoxLabel[j][j] = [0., 0., 0., 0.]\n    PredBBoxWeight[i][j] = 0.\n    PredScoreLabel[i][j] = background_label\n    PredScoreWeight[i][j] = 0.\n\n2. Assigning PredScoreWeight based on `NegIndices`:\n\nAssumed that the row offset for each instance in `NegIndices` is caleed neg_lod,\nfor i-th instance and all ids of NegIndices in this instance:\n\n    PredScoreLabel[i][id] = background_label\n    PredScoreWeight[i][id] = 1.0\n\n    ",
+ "inputs" : [ 
+ { 
+   "name" : "EncodedGTBBox",
+   "comment" : "(LoDTensor), The encoded ground-truth bounding boxes with shape [Ng, Np, 4], where Ng is the total number of ground-truth boxes in this mini-batch, Np the number of predictions, 4 is the number of coordinate in [xmin, ymin, xmax, ymax] layout.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "GTScoreLabel",
+   "comment" : "(LoDTensor, default LoDTensor<int>),  The input ground-truth labels with shape [Ng, 1], where the Ng is the same as it in the input of EncodedGTBBox.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "MatchIndices",
+   "comment" : "(Tensor, default Tensor<int>), The input matched indices with shape [N, Np], where N is the batch size, Np is the same as it in the input of EncodedGTBBox. If MatchIndices[i][j] is -1, the j-th prior box is not matched to any ground-truh box in i-th instance.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "NegIndices",
+   "comment" : "(LoDTensor, default LoDTensor<int>), The input negative example indices with shape [Neg, 1], where is the total number of negative example indices.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "PredBBoxLabel",
+   "comment" : "(Tensor), The output encoded ground-truth labels with shape [N, Np, 4], N is the batch size and Np, 4 is the same as they in input of EncodedGTBBox. If MatchIndices[i][j] is -1, the PredBBoxLabel[i][j][:] is the encoded ground-truth box for background_label in i-th instance.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "PredBBoxWeight",
+   "comment" : "(Tensor), The weight for PredBBoxLabel with the shape of [N, Np, 1]",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "PredScoreLabel",
+   "comment" : "(Tensor, default Tensor<int>), The output score labels for each predictions with shape [N, Np, 1]. If MatchIndices[i][j] is -1, PredScoreLabel[i][j] = background_label.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "PredScoreWeight",
+   "comment" : "(Tensor), The weight for PredScoreLabel with the shape of [N, Np, 1]",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "background_label",
+   "type" : "int",
+   "comment" : "(int, default 0), Label index of background class.",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "mean",
+ "comment" : "\nMean Operator.\n\nOut is a scalar which is the mean of all elements in X. \n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "The input of mean op",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "The output of mean op",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
+ "type" : "precision_recall",
+ "comment" : "\nPrecision Recall Operator.\n\nWhen given Input(Indices) and Input(Labels), this operator can be used\nto compute various metrics including:\n1. macro average precision\n2. macro average recall\n3. macro f1 score\n4. micro average precision\n5. micro average recall\n6. micro f1 score\n\nTo compute the above metrics, we need to do statistics for true positives,\nfalse positives and false negatives. Here the count of true negatives is not\nnecessary, but counting it may provide potential usage and the cost is\ntrivial, so the operator also provides the count of true negatives.\n\nWe define state as a 2-D tensor with shape [class_number, 4]. Each row of a\nstate contains statistic variables for corresponding class. Layout of each row\nis: TP(true positives), FP(false positives), TN(true negatives),\nFN(false negatives). If Input(Weights) is provided, TP, FP, TN, FN will be\ncalculated by given weight instead of the instance count.\n\nThis operator also supports metrics computing for cross-batch situation. To\nachieve this, Input(StatesInfo) should be provided. State of current batch\ndata will be accumulated to Input(StatesInfo) and Output(AccumStatesInfo)\nis the accumulation state.\n\nOutput(BatchMetrics) is metrics of current batch data while\nOutput(AccumStatesInfo) is metrics of accumulation data.\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "MaxProbs",
+   "comment" : "(Tensor, default Tensor<float>) A 2-D tensor with shape N x 1, where N is the batch size. Each row contains the max probability of an instance which computed by the previous top_k (k=1) operator.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Indices",
+   "comment" : "(Tensor, default Tensor<int>) A 2-D tensor with shape N x 1, where N is the batch size. Each row contains the corresponding index which computed by the previous top_k (k=1) operator.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Labels",
+   "comment" : "(Tensor, default Tensor<int>) A 2-D tensor with shape N x 1, where N is the batch size. Each element is a label and the value should be in [0, class_number - 1].",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Weights",
+   "comment" : "(Tensor, default Tensor<float>) A 2-D tensor with shape N x 1, where N is the batch size. This input is optional. If provided, weight of instance would be considered when computing metrics.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "StatesInfo",
+   "comment" : "(Tensor, default Tensor<int>) A 2-D tensor with shape D x 4, where D is the number of classes. This input is optional. If provided, current state will be accumulated to this state and the accumulation state will be the output state.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "BatchMetrics",
+   "comment" : "(Tensor, default Tensor<float>) A 1-D tensor with shape {6}. This output tensor contains metrics for current batch data. The layout is [macro average precision, macro average recall, macro f1 score, micro average precision, micro average recall, micro f1 score].",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "AccumMetrics",
+   "comment" : "(Tensor, default Tensor<float>) A 1-D tensor with shape {6}. This output tensor contains metrics for accumulated data. The layout is [macro average precision, macro average recall, macro f1 score, micro average precision, micro average recall, micro f1 score].",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "AccumStatesInfo",
+   "comment" : "(Tensor, default Tensor<float>) A 2-D tensor with shape D x 4, where D is equal to class number. This output tensor contains accumulated state variables used to compute metrics. The layout for each class is [true positives, false positives, true negatives, false negatives].",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "class_number",
+   "type" : "int",
+   "comment" : "(int) Number of classes to be evaluated.",
+   "generated" : 0
+ } ] 
+},{
  "type" : "softplus",
  "comment" : "\nSoftplus Activation Operator.\n\n$out = \\ln(1 + e^{x})$\n\n",
  "inputs" : [ 
@@ -3547,6 +3608,30 @@
  } ], 
  "attrs" : [  ] 
 },{
+ "type" : "rnn_memory_helper",
+ "comment" : "",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "dtype",
+   "type" : "int",
+   "comment" : "(int, default 5 (FP32)) Output data type",
+   "generated" : 0
+ } ] 
+},{
  "type" : "shrink_rnn_memory",
  "comment" : "\nThis operator is used to shrink output batch of memory defined in dynamic RNN.\n\nDynamic RNN is able to handle variable-length sequences, in which, sequences in\na mini-batch are sorted by their lengths first. After that, the longest sequence\nbecomes the first one in the sorted batch, followed by the second longest, the\nthird longest, and so on. Dynamic RNN then slices a batch input timestep by\ntimestep from the sorted input. Once any sequence in the input batch reaches its\nend, memory defined in dynamicRNN has to shrink its outputs to adapt to the input\nbatch size for the next time step.\n",
  "inputs" : [ 
@@ -3574,60 +3659,6 @@
    "intermediate" : 0
  } ], 
  "attrs" : [  ] 
-},{
- "type" : "precision_recall",
- "comment" : "\nPrecision Recall Operator.\n\nWhen given Input(Indices) and Input(Labels), this operator can be used\nto compute various metrics including:\n1. macro average precision\n2. macro average recall\n3. macro f1 score\n4. micro average precision\n5. micro average recall\n6. micro f1 score\n\nTo compute the above metrics, we need to do statistics for true positives,\nfalse positives and false negatives. Here the count of true negatives is not\nnecessary, but counting it may provide potential usage and the cost is\ntrivial, so the operator also provides the count of true negatives.\n\nWe define state as a 2-D tensor with shape [class_number, 4]. Each row of a\nstate contains statistic variables for corresponding class. Layout of each row\nis: TP(true positives), FP(false positives), TN(true negatives),\nFN(false negatives). If Input(Weights) is provided, TP, FP, TN, FN will be\ncalculated by given weight instead of the instance count.\n\nThis operator also supports metrics computing for cross-batch situation. To\nachieve this, Input(StatesInfo) should be provided. State of current batch\ndata will be accumulated to Input(StatesInfo) and Output(AccumStatesInfo)\nis the accumulation state.\n\nOutput(BatchMetrics) is metrics of current batch data while\nOutput(AccumStatesInfo) is metrics of accumulation data.\n\n",
- "inputs" : [ 
- { 
-   "name" : "MaxProbs",
-   "comment" : "(Tensor, default Tensor<float>) A 2-D tensor with shape N x 1, where N is the batch size. Each row contains the max probability of an instance which computed by the previous top_k (k=1) operator.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Indices",
-   "comment" : "(Tensor, default Tensor<int>) A 2-D tensor with shape N x 1, where N is the batch size. Each row contains the corresponding index which computed by the previous top_k (k=1) operator.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Labels",
-   "comment" : "(Tensor, default Tensor<int>) A 2-D tensor with shape N x 1, where N is the batch size. Each element is a label and the value should be in [0, class_number - 1].",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Weights",
-   "comment" : "(Tensor, default Tensor<float>) A 2-D tensor with shape N x 1, where N is the batch size. This input is optional. If provided, weight of instance would be considered when computing metrics.",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "StatesInfo",
-   "comment" : "(Tensor, default Tensor<int>) A 2-D tensor with shape D x 4, where D is the number of classes. This input is optional. If provided, current state will be accumulated to this state and the accumulation state will be the output state.",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "BatchMetrics",
-   "comment" : "(Tensor, default Tensor<float>) A 1-D tensor with shape {6}. This output tensor contains metrics for current batch data. The layout is [macro average precision, macro average recall, macro f1 score, micro average precision, micro average recall, micro f1 score].",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "AccumMetrics",
-   "comment" : "(Tensor, default Tensor<float>) A 1-D tensor with shape {6}. This output tensor contains metrics for accumulated data. The layout is [macro average precision, macro average recall, macro f1 score, micro average precision, micro average recall, micro f1 score].",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "AccumStatesInfo",
-   "comment" : "(Tensor, default Tensor<float>) A 2-D tensor with shape D x 4, where D is equal to class number. This output tensor contains accumulated state variables used to compute metrics. The layout for each class is [true positives, false positives, true negatives, false negatives].",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "class_number",
-   "type" : "int",
-   "comment" : "(int) Number of classes to be evaluated.",
-   "generated" : 0
- } ] 
 },{
  "type" : "merge_lod_tensor",
  "comment" : "\n        Merge True and False branches of LoDTensor into a single Output,\n        with a mask at certain lod level. X is used to obtain complete\n        lod information. Please refer to SplitLoDTensorOp.",
@@ -3926,24 +3957,6 @@
    "generated" : 0
  } ] 
 },{
- "type" : "mean",
- "comment" : "\nMean Operator.\n\nOut is a scalar which is the mean of all elements in X. \n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "The input of mean op",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "The output of mean op",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
-},{
  "type" : "lookup_table",
  "comment" : "\nLookup Table Operator.\n\nThis operator is used to perform lookups on the parameter W,\nthen concatenated into a dense tensor.\n\nThe input Ids can carry the LoD (Level of Details) information,\nor not. And the output only shares the LoD information with input Ids.\n\n",
  "inputs" : [ 
@@ -3996,6 +4009,47 @@
  { 
    "name" : "Out",
    "comment" : "",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
+ "type" : "logical_not",
+ "comment" : "logical_not Operator\n\nIt operates element-wise on X, and returns the Out. X and Out are N-dim boolean tensors.\nEach element of Out is calculated by $$Out = !X$$\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(LoDTensor) Operand of logical_not operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(LoDTensor) n-dim bool tensor. Each element is $$Out = !X$$",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
+ "type" : "logical_and",
+ "comment" : "logical_and Operator\n\nIt operates element-wise on X and Y, and returns the Out. X, Y and Out are N-dim boolean tensors.\nEach element of Out is calculated by $$Out = X \\&\\& Y$$\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(LoDTensor) Left hand operand of logical_and operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Y",
+   "comment" : "(LoDTensor) Right hand operand of logical_and operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(LoDTensor) n-dim bool tensor. Each element is $$Out = X \\&\\& Y$$",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
