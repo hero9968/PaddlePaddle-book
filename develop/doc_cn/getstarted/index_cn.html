@@ -33,7 +33,7 @@
               href="../genindex.html"/>
         <link rel="search" title="搜索" href="../search.html"/>
     <link rel="top" title="PaddlePaddle  文档" href="../index.html"/>
-        <link rel="next" title="安装与编译" href="build_and_install/index_cn.html"/>
+        <link rel="next" title="快速开始" href="quickstart_cn.html"/>
         <link rel="prev" title="PaddlePaddle 文档" href="../index_cn.html"/> 
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/css/perfect-scrollbar.min.css" type="text/css" />
@@ -84,7 +84,9 @@
         
         <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">新手入门</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../howto/index_cn.html">进阶指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../build_and_install/index_cn.html">安装与编译</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howto/index_cn.html">进阶使用</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev/index_cn.html">开发标准</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api/index_cn.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../faq/index_cn.html">FAQ</a></li>
 </ul>
@@ -109,47 +111,57 @@
           
           <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">新手入门</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="build_and_install/index_cn.html">安装与编译</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="build_and_install/pip_install_cn.html">使用pip安装</a></li>
-<li class="toctree-l3"><a class="reference internal" href="build_and_install/docker_install_cn.html">使用Docker安装运行</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../howto/dev/build_cn.html">用Docker编译和测试PaddlePaddle</a></li>
-<li class="toctree-l3"><a class="reference internal" href="build_and_install/build_from_source_cn.html">从源码编译</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart_cn.html">快速开始</a></li>
 <li class="toctree-l2"><a class="reference internal" href="concepts/use_concepts_cn.html">基本使用概念</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../howto/index_cn.html">进阶指南</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../howto/usage/cmd_parameter/index_cn.html">设置命令行参数</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cmd_parameter/use_case_cn.html">使用案例</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cmd_parameter/arguments_cn.html">参数概述</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cmd_parameter/detail_introduction_cn.html">细节描述</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../build_and_install/index_cn.html">安装与编译</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../build_and_install/pip_install_cn.html">使用pip安装</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../build_and_install/docker_install_cn.html">使用Docker安装运行</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../build_and_install/build_cn.html">用Docker编译和测试PaddlePaddle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../build_and_install/build_from_source_cn.html">从源码编译</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../howto/usage/cluster/cluster_train_cn.html">分布式训练</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cluster/fabric_cn.html">fabric集群</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cluster/openmpi_cn.html">openmpi集群</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cluster/k8s_cn.html">kubernetes单机</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cluster/k8s_distributed_cn.html">kubernetes distributed分布式</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cluster/k8s_aws_cn.html">AWS上运行kubernetes集群训练</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howto/index_cn.html">进阶使用</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../howto/cmd_parameter/index_cn.html">命令行参数设置</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../howto/cmd_parameter/use_case_cn.html">使用案例</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/cmd_parameter/arguments_cn.html">参数概述</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/cmd_parameter/detail_introduction_cn.html">细节描述</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../howto/usage/capi/index_cn.html">PaddlePaddle C-API</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../howto/usage/capi/compile_paddle_lib_cn.html">编译 PaddlePaddle 预测库</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../howto/usage/capi/organization_of_the_inputs_cn.html">输入/输出数据组织</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../howto/usage/capi/workflow_of_capi_cn.html">C-API 使用流程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/cluster/index_cn.html">分布式训练</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../howto/cluster/introduction_cn.html">概述</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/cluster/preparations_cn.html">环境准备</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/cluster/cmd_argument_cn.html">启动参数说明</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/cluster/multi_cluster/index_cn.html">在不同集群中运行</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../howto/cluster/multi_cluster/fabric_cn.html">使用fabric启动集群训练</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../howto/cluster/multi_cluster/openmpi_cn.html">在OpenMPI集群中提交训练作业</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../howto/cluster/multi_cluster/k8s_cn.html">Kubernetes单机训练</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../howto/cluster/multi_cluster/k8s_distributed_cn.html">Kubernetes分布式训练</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../howto/cluster/multi_cluster/k8s_aws_cn.html">Distributed PaddlePaddle Training on AWS with Kubernetes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../howto/dev/contribute_to_paddle_cn.html">如何贡献代码</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../howto/dev/write_docs_cn.html">如何贡献/修改文档</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../howto/deep_model/rnn/index_cn.html">RNN相关模型</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../howto/deep_model/rnn/rnn_config_cn.html">RNN配置</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../howto/deep_model/rnn/recurrent_group_cn.html">Recurrent Group教程</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../howto/deep_model/rnn/hierarchical_layer_cn.html">支持双层序列作为输入的Layer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../howto/deep_model/rnn/hrnn_rnn_api_compare_cn.html">单双层RNN API对比介绍</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../howto/optimization/gpu_profiling_cn.html">GPU性能分析与调优</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/capi/index_cn.html">C-API预测库</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../howto/capi/compile_paddle_lib_cn.html">安装与编译C-API预测库</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/capi/organization_of_the_inputs_cn.html">输入/输出数据组织</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/capi/workflow_of_capi_cn.html">C-API使用流程</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/rnn/index_cn.html">RNN相关模型</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../howto/rnn/rnn_config_cn.html">RNN配置</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/rnn/recurrent_group_cn.html">Recurrent Group教程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/rnn/hierarchical_layer_cn.html">支持双层序列作为输入的Layer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/rnn/hrnn_rnn_api_compare_cn.html">单双层RNN API对比介绍</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/optimization/gpu_profiling_cn.html">GPU性能调优</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../dev/index_cn.html">开发标准</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../dev/contribute_to_paddle_cn.html">如何贡献代码</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dev/write_docs_cn.html">如何贡献文档</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../api/index_cn.html">API</a><ul>
@@ -225,58 +237,11 @@
             
   <div class="section" id="id1">
 <h1>新手入门<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
-<div class="section" id="quick-install">
-<span id="id2"></span><h2>快速安装<a class="headerlink" href="#quick-install" title="永久链接至标题">¶</a></h2>
-<p>PaddlePaddle支持使用pip快速安装，目前支持CentOS 6以上, Ubuntu 14.04以及MacOS 10.12，并安装有Python2.7。
-执行下面的命令完成快速安装，版本为cpu_avx_openblas：</p>
-<blockquote>
-<div><div class="highlight-bash"><div class="highlight"><pre><span></span>pip install paddlepaddle
-</pre></div>
-</div>
-</div></blockquote>
-<p>如果需要安装支持GPU的版本（cuda7.5_cudnn5_avx_openblas），需要执行：</p>
-<blockquote>
-<div><div class="highlight-bash"><div class="highlight"><pre><span></span>pip install paddlepaddle-gpu
-</pre></div>
-</div>
-</div></blockquote>
-<p>更详细的安装和编译方法参考：</p>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="build_and_install/index_cn.html">安装与编译</a></li>
-</ul>
-</div>
-</div>
-<div class="section" id="quick-start">
-<span id="id3"></span><h2>快速开始<a class="headerlink" href="#quick-start" title="永久链接至标题">¶</a></h2>
-<p>创建一个 housing.py 并粘贴此Python代码：</p>
-<blockquote>
-<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">paddle.v2</span> <span class="kn">as</span> <span class="nn">paddle</span>
-
-<span class="c1"># Initialize PaddlePaddle.</span>
-<span class="n">paddle</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">use_gpu</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">trainer_count</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-
-<span class="c1"># Configure the neural network.</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">paddle</span><span class="o">.</span><span class="n">data_type</span><span class="o">.</span><span class="n">dense_vector</span><span class="p">(</span><span class="mi">13</span><span class="p">))</span>
-<span class="n">y_predict</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">act</span><span class="o">=</span><span class="n">paddle</span><span class="o">.</span><span class="n">activation</span><span class="o">.</span><span class="n">Linear</span><span class="p">())</span>
-
-<span class="c1"># Infer using provided test data.</span>
-<span class="n">probs</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">infer</span><span class="p">(</span>
-    <span class="n">output_layer</span><span class="o">=</span><span class="n">y_predict</span><span class="p">,</span>
-    <span class="n">parameters</span><span class="o">=</span><span class="n">paddle</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">uci_housing</span><span class="o">.</span><span class="n">model</span><span class="p">(),</span>
-    <span class="nb">input</span><span class="o">=</span><span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">paddle</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">uci_housing</span><span class="o">.</span><span class="n">test</span><span class="p">()()])</span>
-
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">probs</span><span class="p">)):</span>
-    <span class="k">print</span> <span class="s1">&#39;Predicted price: ${:,.2f}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">probs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span>
-</pre></div>
-</div>
-</div></blockquote>
-<p>执行 <code class="code docutils literal"><span class="pre">python</span> <span class="pre">housing.py</span></code> 瞧！ 它应该打印出预测住房数据的清单。</p>
-<div class="toctree-wrapper compound">
-<ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart_cn.html">快速开始</a></li>
 <li class="toctree-l1"><a class="reference internal" href="concepts/use_concepts_cn.html">基本使用概念</a></li>
 </ul>
-</div>
 </div>
 </div>
 
@@ -287,7 +252,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="build_and_install/index_cn.html" class="btn btn-neutral float-right" title="安装与编译" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="quickstart_cn.html" class="btn btn-neutral float-right" title="快速开始" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="../index_cn.html" class="btn btn-neutral" title="PaddlePaddle 文档" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>

@@ -1,0 +1,335 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Cluster Training Using Fabric &mdash; PaddlePaddle  documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+  
+        <link rel="index" title="Index"
+              href="../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="PaddlePaddle  documentation" href="../../../index.html"/>
+        <link rel="up" title="Use different clusters" href="index_en.html"/>
+        <link rel="next" title="Cluster Training Using OpenMPI" href="openmpi_en.html"/>
+        <link rel="prev" title="Use different clusters" href="index_en.html"/> 
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/css/perfect-scrollbar.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/override.css" type="text/css" />
+  <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?b9a314ab40d04d805655aab1deee08ba";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
+
+  
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  
+  <header class="site-header">
+    <div class="site-logo">
+      <a href="/"><img src="../../../_static/images/PP_w.png"></a>
+    </div>
+    <div class="site-nav-links">
+      <div class="site-menu">
+        <a class="fork-on-github" href="https://github.com/PaddlePaddle/Paddle" target="_blank"><i class="fa fa-github"></i>Fork me on Github</a>
+        <div class="language-switcher dropdown">
+          <a type="button" data-toggle="dropdown">
+            <span>English</span>
+            <i class="fa fa-angle-up"></i>
+            <i class="fa fa-angle-down"></i>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="/doc_cn">中文</a></li>
+            <li><a href="/doc">English</a></li>
+          </ul>
+        </div>
+        <ul class="site-page-links">
+          <li><a href="/">Home</a></li>
+        </ul>
+      </div>
+      <div class="doc-module">
+        
+        <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../getstarted/index_en.html">GET STARTED</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../build_and_install/index_en.html">Install and Build</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index_en.html">HOW TO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/index_en.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/index_en.html">API</a></li>
+</ul>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>        
+      </div>
+    </div>
+  </header>
+  
+  <div class="main-content-wrap">
+
+    
+    <nav class="doc-menu-vertical" role="navigation">
+        
+          
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../getstarted/index_en.html">GET STARTED</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../getstarted/quickstart_en.html">Quick Start</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../build_and_install/index_en.html">Install and Build</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../build_and_install/pip_install_en.html">Install Using pip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../build_and_install/docker_install_en.html">Run in Docker Containers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../build_and_install/build_en.html">Build using Docker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../build_and_install/build_from_source_en.html">Build from Sources</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index_en.html">HOW TO</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../cmd_parameter/index_en.html">Set Command-line Parameters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../cmd_parameter/use_case_en.html">Use Case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../cmd_parameter/arguments_en.html">Argument Outline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../cmd_parameter/detail_introduction_en.html">Detail Description</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index_en.html">Distributed Training</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../introduction_en.html">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../preparations_en.html">Preparations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cmd_argument_en.html">Command-line arguments</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index_en.html">Use different clusters</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Cluster Training Using Fabric</a></li>
+<li class="toctree-l4"><a class="reference internal" href="openmpi_en.html">Cluster Training Using OpenMPI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="k8s_en.html">PaddlePaddle On Kubernetes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="k8s_aws_en.html">Distributed PaddlePaddle Training on AWS with Kubernetes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../rnn/index_en.html">RNN Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../rnn/rnn_config_en.html">RNN Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../optimization/gpu_profiling_en.html">Tune GPU Performance</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/index_en.html">Development</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../dev/new_layer_en.html">Write New Layers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../dev/contribute_to_paddle_en.html">Contribute Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../dev/write_docs_en.html">Contribute Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/index_en.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/v2/model_configs.html">Model Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/v2/config/activation.html">Activation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/v2/config/layer.html">Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/v2/config/evaluators.html">Evaluators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/v2/config/optimizer.html">Optimizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/v2/config/pooling.html">Pooling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/v2/config/networks.html">Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/v2/config/attr.html">Parameter Attribute</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/v2/data.html">Data Reader Interface and DataSets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/v2/data/data_reader.html">Data Reader Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/v2/data/image.html">Image Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/v2/data/dataset.html">Dataset</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/v2/run_logic.html">Training and Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/v2/fluid.html">Fluid</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/v2/fluid/layers.html">layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/v2/fluid/data_feeder.html">data_feeder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/v2/fluid/executor.html">executor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/v2/fluid/initializer.html">initializer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/v2/fluid/evaluator.html">evaluator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/v2/fluid/nets.html">nets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/v2/fluid/optimizer.html">optimizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/v2/fluid/param_attr.html">param_attr</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/v2/fluid/profiler.html">profiler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/v2/fluid/regularizer.html">regularizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/v2/fluid/io.html">io</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        
+    </nav>
+    
+    <section class="doc-content-wrap">
+
+      
+
+ 
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+      
+        <li><a href="../../index_en.html">HOW TO</a> > </li>
+      
+        <li><a href="../index_en.html">Distributed Training</a> > </li>
+      
+        <li><a href="index_en.html">Use different clusters</a> > </li>
+      
+    <li>Cluster Training Using Fabric</li>
+  </ul>
+</div>
+      
+      <div class="wy-nav-content" id="doc-content">
+        <div class="rst-content">
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="cluster-training-using-fabric">
+<span id="cluster-training-using-fabric"></span><h1>Cluster Training Using Fabric<a class="headerlink" href="#cluster-training-using-fabric" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="prepare-a-linux-cluster">
+<span id="prepare-a-linux-cluster"></span><h2>Prepare a Linux cluster<a class="headerlink" href="#prepare-a-linux-cluster" title="Permalink to this headline">¶</a></h2>
+<p>Run <code class="docutils literal"><span class="pre">kubectl</span> <span class="pre">-f</span> <span class="pre">ssh_servers.yaml</span></code> under the directory:  <code class="docutils literal"><span class="pre">paddle/scripts/cluster_train_v2/fabric/docker_cluster</span></code> will launch a demo cluster. Run <code class="docutils literal"><span class="pre">kubectl</span> <span class="pre">get</span> <span class="pre">po</span> <span class="pre">-o</span> <span class="pre">wide</span></code> to get IP addresses of these nodes.</p>
+</div>
+<div class="section" id="launching-cluster-job">
+<span id="launching-cluster-job"></span><h2>Launching Cluster Job<a class="headerlink" href="#launching-cluster-job" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">paddle.py</span></code> provides automatical scripts to start all PaddlePaddle cluster processes in different nodes. By default, all command line options can be set as <code class="docutils literal"><span class="pre">paddle.py</span></code> command options and <code class="docutils literal"><span class="pre">paddle.py</span></code> will transparently and automatically set these options to PaddlePaddle lower level processes.</p>
+<p><code class="docutils literal"><span class="pre">paddle.py</span></code>provides two distinguished command option for easy job launching.</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">job_dispatch_package</span></code> set it with local <code class="docutils literal"><span class="pre">workspace</span></code> directory, it will be dispatched to all nodes which is set in <code class="docutils literal"><span class="pre">conf.py</span></code>. It could be helpful for frequently manipulating workspace files. otherwise, frequent multi-nodes workspace deployment is very annoying.</li>
+<li><code class="docutils literal"><span class="pre">job_workspace</span></code>  set it with already deployed workspace directory, <code class="docutils literal"><span class="pre">paddle.py</span></code> will skip dispatch stage to directly launch cluster job with all nodes. It could help to reduce heavy
+dispatch latency.</li>
+</ul>
+<p><code class="docutils literal"><span class="pre">cluster_train/run.sh</span></code> provides command line sample to run <code class="docutils literal"><span class="pre">demo/recommendation</span></code> cluster job, just modify <code class="docutils literal"><span class="pre">job_dispatch_package</span></code> and <code class="docutils literal"><span class="pre">job_workspace</span></code> with your defined directory, then:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sh</span> <span class="n">run</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+<p>The cluster Job will start in several seconds.</p>
+</div>
+<div class="section" id="kill-cluster-job">
+<span id="kill-cluster-job"></span><h2>Kill Cluster Job<a class="headerlink" href="#kill-cluster-job" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">paddle.py</span></code> can capture <code class="docutils literal"><span class="pre">Ctrl</span> <span class="pre">+</span> <span class="pre">C</span></code> SIGINT signal to automatically kill all processes launched by it. So just stop <code class="docutils literal"><span class="pre">paddle.py</span></code> to kill cluster job. You should manually kill the job if the program crashed.</p>
+</div>
+<div class="section" id="check-cluster-training-result">
+<span id="check-cluster-training-result"></span><h2>Check Cluster Training Result<a class="headerlink" href="#check-cluster-training-result" title="Permalink to this headline">¶</a></h2>
+<p>Check log in $workspace/log for details, each node owns same log structure.</p>
+<p><code class="docutils literal"><span class="pre">paddle_trainer.INFO</span></code>
+It provides almost all internal output log for training,  same as local training. Check runtime model convergence here.</p>
+<p><code class="docutils literal"><span class="pre">paddle_pserver2.INFO</span></code>
+It provides parameter server running log, which could help to diagnose distributed error.</p>
+<p><code class="docutils literal"><span class="pre">server.log</span></code>
+It provides stderr and stdout of parameter server process. Check error log if training crashes.</p>
+<p><code class="docutils literal"><span class="pre">train.log</span></code>
+It provides stderr and stdout of trainer process. Check error log if training crashes.</p>
+</div>
+<div class="section" id="check-model-output">
+<span id="check-model-output"></span><h2>Check Model Output<a class="headerlink" href="#check-model-output" title="Permalink to this headline">¶</a></h2>
+<p>After one pass finished, model files will be written in <code class="docutils literal"><span class="pre">output</span></code> directory in node 0.
+<code class="docutils literal"><span class="pre">nodefile</span></code> in workspace indicates the node id of current cluster job.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="openmpi_en.html" class="btn btn-neutral float-right" title="Cluster Training Using OpenMPI" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index_en.html" class="btn btn-neutral" title="Use different clusters" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, PaddlePaddle developers.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: ".txt",
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+       
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+  
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/js/perfect-scrollbar.jquery.min.js"></script>
+  <script src="../../../_static/js/paddle_doc_init.js"></script> 
+
+</body>
+</html>

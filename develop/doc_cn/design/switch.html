@@ -82,7 +82,9 @@
         
         <ul>
 <li class="toctree-l1"><a class="reference internal" href="../getstarted/index_cn.html">新手入门</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../howto/index_cn.html">进阶指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../build_and_install/index_cn.html">安装与编译</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howto/index_cn.html">进阶使用</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev/index_cn.html">开发标准</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api/index_cn.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../faq/index_cn.html">FAQ</a></li>
 </ul>
@@ -107,47 +109,57 @@
           
           <ul>
 <li class="toctree-l1"><a class="reference internal" href="../getstarted/index_cn.html">新手入门</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../getstarted/build_and_install/index_cn.html">安装与编译</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../getstarted/build_and_install/pip_install_cn.html">使用pip安装</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../getstarted/build_and_install/docker_install_cn.html">使用Docker安装运行</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../howto/dev/build_cn.html">用Docker编译和测试PaddlePaddle</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../getstarted/build_and_install/build_from_source_cn.html">从源码编译</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="../getstarted/quickstart_cn.html">快速开始</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../getstarted/concepts/use_concepts_cn.html">基本使用概念</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../howto/index_cn.html">进阶指南</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../howto/usage/cmd_parameter/index_cn.html">设置命令行参数</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cmd_parameter/use_case_cn.html">使用案例</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cmd_parameter/arguments_cn.html">参数概述</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cmd_parameter/detail_introduction_cn.html">细节描述</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../build_and_install/index_cn.html">安装与编译</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../build_and_install/pip_install_cn.html">使用pip安装</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../build_and_install/docker_install_cn.html">使用Docker安装运行</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../build_and_install/build_cn.html">用Docker编译和测试PaddlePaddle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../build_and_install/build_from_source_cn.html">从源码编译</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../howto/usage/cluster/cluster_train_cn.html">分布式训练</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cluster/fabric_cn.html">fabric集群</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cluster/openmpi_cn.html">openmpi集群</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cluster/k8s_cn.html">kubernetes单机</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cluster/k8s_distributed_cn.html">kubernetes distributed分布式</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cluster/k8s_aws_cn.html">AWS上运行kubernetes集群训练</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howto/index_cn.html">进阶使用</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../howto/cmd_parameter/index_cn.html">命令行参数设置</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../howto/cmd_parameter/use_case_cn.html">使用案例</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/cmd_parameter/arguments_cn.html">参数概述</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/cmd_parameter/detail_introduction_cn.html">细节描述</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../howto/usage/capi/index_cn.html">PaddlePaddle C-API</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../howto/usage/capi/compile_paddle_lib_cn.html">编译 PaddlePaddle 预测库</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../howto/usage/capi/organization_of_the_inputs_cn.html">输入/输出数据组织</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../howto/usage/capi/workflow_of_capi_cn.html">C-API 使用流程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/cluster/index_cn.html">分布式训练</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../howto/cluster/introduction_cn.html">概述</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/cluster/preparations_cn.html">环境准备</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/cluster/cmd_argument_cn.html">启动参数说明</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/cluster/multi_cluster/index_cn.html">在不同集群中运行</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../howto/cluster/multi_cluster/fabric_cn.html">使用fabric启动集群训练</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../howto/cluster/multi_cluster/openmpi_cn.html">在OpenMPI集群中提交训练作业</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../howto/cluster/multi_cluster/k8s_cn.html">Kubernetes单机训练</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../howto/cluster/multi_cluster/k8s_distributed_cn.html">Kubernetes分布式训练</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../howto/cluster/multi_cluster/k8s_aws_cn.html">Distributed PaddlePaddle Training on AWS with Kubernetes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../howto/dev/contribute_to_paddle_cn.html">如何贡献代码</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../howto/dev/write_docs_cn.html">如何贡献/修改文档</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../howto/deep_model/rnn/index_cn.html">RNN相关模型</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../howto/deep_model/rnn/rnn_config_cn.html">RNN配置</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../howto/deep_model/rnn/recurrent_group_cn.html">Recurrent Group教程</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../howto/deep_model/rnn/hierarchical_layer_cn.html">支持双层序列作为输入的Layer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../howto/deep_model/rnn/hrnn_rnn_api_compare_cn.html">单双层RNN API对比介绍</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../howto/optimization/gpu_profiling_cn.html">GPU性能分析与调优</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/capi/index_cn.html">C-API预测库</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../howto/capi/compile_paddle_lib_cn.html">安装与编译C-API预测库</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/capi/organization_of_the_inputs_cn.html">输入/输出数据组织</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/capi/workflow_of_capi_cn.html">C-API使用流程</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/rnn/index_cn.html">RNN相关模型</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../howto/rnn/rnn_config_cn.html">RNN配置</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/rnn/recurrent_group_cn.html">Recurrent Group教程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/rnn/hierarchical_layer_cn.html">支持双层序列作为输入的Layer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/rnn/hrnn_rnn_api_compare_cn.html">单双层RNN API对比介绍</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/optimization/gpu_profiling_cn.html">GPU性能调优</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../dev/index_cn.html">开发标准</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../dev/contribute_to_paddle_cn.html">如何贡献代码</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dev/write_docs_cn.html">如何贡献文档</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../api/index_cn.html">API</a><ul>
