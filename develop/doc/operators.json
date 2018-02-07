@@ -958,6 +958,30 @@
    "generated" : 0
  } ] 
 },{
+ "type" : "create_shuffle_reader",
+ "comment" : "\n      CreateShuffleReader Operator\n\n      A shuffle reader takes another reader as its 'underlying reader'\n      and yields the underlying reader's outputs in a shuffled order. \n    ",
+ "inputs" : [ 
+ { 
+   "name" : "UnderlyingReader",
+   "comment" : "(ReaderHolder) The underlying reader for creating a shuffle reader.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(ReaderHolder) The created shuffle reader.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "buffer_size",
+   "type" : "int",
+   "comment" : "The shuffle buffer size.",
+   "generated" : 0
+ } ] 
+},{
  "type" : "save",
  "comment" : "\nSave operator\n\nThis operator will serialize and write a tensor variable to file on disk.\n",
  "inputs" : [ 
@@ -1209,6 +1233,30 @@
    "generated" : 0
  } ] 
 },{
+ "type" : "create_batch_reader",
+ "comment" : "\n      CreateBatchReader Operator\n\n      A batch reader takes another reader as its 'underlying reader', \n      gathers the underlying reader's outputs and then yields them in batches. \n    ",
+ "inputs" : [ 
+ { 
+   "name" : "UnderlyingReader",
+   "comment" : "(ReaderHolder) The underlying reader for creating a batch reader.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(ReaderHolder) The created batch reader.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "batch_size",
+   "type" : "int",
+   "comment" : "How many instances the batch reader yields each time.",
+   "generated" : 0
+ } ] 
+},{
  "type" : "relu6",
  "comment" : "\nRelu6 Activation Operator.\n\n$out = \\min(\\max(0, x), 6)$\n\n",
  "inputs" : [ 
@@ -1411,6 +1459,54 @@
    "intermediate" : 0
  } ], 
  "attrs" : [  ] 
+},{
+ "type" : "soft_relu",
+ "comment" : "\nSoftRelu Activation Operator.\n\n$out = \\ln(1 + \\exp(\\max(\\min(x, threshold), threshold))$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "Input of SoftRelu operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "Output of SoftRelu operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "threshold",
+   "type" : "float",
+   "comment" : "The threshold value of SoftRelu",
+   "generated" : 0
+ } ] 
+},{
+ "type" : "softshrink",
+ "comment" : "\nSoftshrink Activation Operator.\n\n$$\nout = \\begin{cases} \n    x - \\lambda, \\text{if } x > \\lambda \\\\\n    x + \\lambda, \\text{if } x < -\\lambda \\\\\n    0,  \\text{otherwise}\n    \\end{cases}\n$$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "Input of Softshrink operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "Output of Softshrink operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "lambda",
+   "type" : "float",
+   "comment" : "non-negative offset",
+   "generated" : 0
+ } ] 
 },{
  "type" : "softmax",
  "comment" : "\nSoftmax Operator.\n\nThe input of the softmax operator is a 2-D tensor with shape N x K (N is the\nbatch_size, K is the dimension of input feature). The output tensor has the\nsame shape as the input tensor.\n\nFor each row of the input tensor, the softmax operator squashes the\nK-dimensional vector of arbitrary real values to a K-dimensional vector of real\nvalues in the range [0, 1] that add up to 1.\nIt computes the exponential of the given dimension and the sum of exponential\nvalues of all the other dimensions in the K-dimensional vector input.\nThen the ratio of the exponential of the given dimension and the sum of\nexponential values of all the other dimensions is the output of the softmax\noperator.\n\nFor each row $i$ and each column $j$ in Input(X), we have:\n    $$Out[i, j] = \\frac{\\exp(X[i, j])}{\\sum_j(exp(X[i, j])}$$\n\n",
@@ -2242,29 +2338,6 @@
    "comment" : "(int, default -1). The start dimension index for broadcasting Y onto X.",
    "generated" : 0
  } ] 
-},{
- "type" : "logical_or",
- "comment" : "logical_or Operator\n\nIt operates element-wise on X and Y, and returns the Out. X, Y and Out are N-dim boolean tensors.\nEach element of Out is calculated by $$Out = X || Y$$\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "(LoDTensor) Left hand operand of logical_or operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- }, { 
-   "name" : "Y",
-   "comment" : "(LoDTensor) Right hand operand of logical_or operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "(LoDTensor) n-dim bool tensor. Each element is $$Out = X || Y$$",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
 },{
  "type" : "conv2d_transpose",
  "comment" : "\nConvolution2D Transpose Operator.\n\nThe convolution transpose operation calculates the output based on the input, filter\nand dilations, strides, paddings, groups parameters. The size of each dimension of the\nparameters is checked in the infer-shape.\nInput(Input) and output(Output) are in NCHW format. Where N is batchsize, C is the\nnumber of channels, H is the height of the feature, and W is the width of the feature.\nFilter(Input) is in MCHW format. Where M is the number of input feature channels,\nC is the number of output feature channels, H is the height of the filter,\nand W is the width of the filter.\nParameters(strides, paddings) are two elements. These two elements represent height\nand width, respectively.\nThe input(X) size and output(Out) size may be different.\n\nExample:\n  Input:\n       Input shape: $(N, C_{in}, H_{in}, W_{in})$\n       Filter shape: $(C_{in}, C_{out}, H_f, W_f)$\n  Output:\n       Output shape: $(N, C_{out}, H_{out}, W_{out})$\n  Where\n  $$\n       H_{out} = (H_{in} - 1) * strides[0] - 2 * paddings[0] + dilations[0] * (H_f - 1) + 1 \\\\\n       W_{out} = (W_{in} - 1) * strides[1] - 2 * paddings[1] + dilations[1] * (W_f - 1) + 1\n  $$\n",
@@ -3207,6 +3280,39 @@
  } ], 
  "attrs" : [  ] 
 },{
+ "type" : "create_random_data_generator",
+ "comment" : "\n      CreateRandomDataGenerator Operator\n\n      This Op creates a random reader. \n      The reader generates random data instead of really reading from files.\n      Generated data follow an uniform distribution between 'min' and 'max'.\n    ",
+ "inputs" : [  ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(ReaderHolder) The created random reader.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "shape_concat",
+   "type" : "int array",
+   "comment" : "The concat of all data's shapes.",
+   "generated" : 0
+ }, { 
+   "name" : "ranks",
+   "type" : "int array",
+   "comment" : "The ranks of each data.e.g.shape_concat = [2,3,4,5,6]ranks = [3,2]It means the reader will generate two data each time,whose shapes are [2,3,4] and [5,6] respectively.",
+   "generated" : 0
+ }, { 
+   "name" : "min",
+   "type" : "float",
+   "comment" : "The lower bound of reader's uniform distribution.",
+   "generated" : 0
+ }, { 
+   "name" : "max",
+   "type" : "float",
+   "comment" : "The upper bound of reader's uniform distribution.",
+   "generated" : 0
+ } ] 
+},{
  "type" : "roi_pool",
  "comment" : "\nROIPool operator\n\nROI Pooling for Faster-RCNN. The link below is a further introduction: \nhttps://stackoverflow.com/questions/43430056/what-is-roi-layer-in-fast-rcnn\n    ",
  "inputs" : [ 
@@ -3890,6 +3996,29 @@
  { 
    "name" : "Out",
    "comment" : "",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
+ "type" : "logical_or",
+ "comment" : "logical_or Operator\n\nIt operates element-wise on X and Y, and returns the Out. X, Y and Out are N-dim boolean tensors.\nEach element of Out is calculated by $$Out = X || Y$$\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "(LoDTensor) Left hand operand of logical_or operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ }, { 
+   "name" : "Y",
+   "comment" : "(LoDTensor) Right hand operand of logical_or operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(LoDTensor) n-dim bool tensor. Each element is $$Out = X || Y$$",
    "duplicable" : 0,
    "intermediate" : 0
  } ], 
@@ -5245,6 +5374,24 @@
    "generated" : 0
  } ] 
 },{
+ "type" : "read",
+ "comment" : "\n      Read Operator\n\n      Execute a given reader once and output data.\n    ",
+ "inputs" : [ 
+ { 
+   "name" : "Reader",
+   "comment" : "(ReaderHolder) The executed reader.",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "(LoDTensor) The output data.",
+   "duplicable" : 1,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
  "type" : "crop",
  "comment" : "\nCrop Operator.\n\nCrop input into output, as specified by offsets and shape.\n\nThere are two ways to set shape:\n1. reference input: crop input X into the same shape as reference input.\n                    The dimension of reference input should\n                    be the same as the dimension of input X.\n2. shape list: crop input X into the shape described by a list<int>.\n               The size of shape list should be the same as\n               the dimension size of input X.\n\nThe input should be a k-D tensor(k > 0 and k < 7). As an example:\n\nCase 1:\nGiven\n\n    X = [[0, 1, 2, 0, 0]\n         [0, 3, 4, 0, 0]\n         [0, 0, 0, 0, 0]],\n\nand\n\n    offsets = [0, 1],\n\nand\n\n    shape = [2, 2],\n\nwe get:\n\n    Out = [[1, 2],\n           [3, 4]].\n\n\nCase 2:\nGiven\n\n    X = [[0, 1, 2, 5, 0]\n         [0, 3, 4, 6, 0]\n         [0, 0, 0, 0, 0]],\n\nand\n\n    offsets = [0, 1],\n\nand\n\n    Y = [[0, 0, 0]\n         [0, 0, 0]],\n\nwe get:\n\n    Out = [[1, 2, 5],\n           [3, 4, 6]].\n",
  "inputs" : [ 
@@ -6259,52 +6406,4 @@
    "intermediate" : 0
  } ], 
  "attrs" : [  ] 
-},{
- "type" : "soft_relu",
- "comment" : "\nSoftRelu Activation Operator.\n\n$out = \\ln(1 + \\exp(\\max(\\min(x, threshold), threshold))$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "Input of SoftRelu operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "Output of SoftRelu operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "threshold",
-   "type" : "float",
-   "comment" : "The threshold value of SoftRelu",
-   "generated" : 0
- } ] 
-},{
- "type" : "softshrink",
- "comment" : "\nSoftshrink Activation Operator.\n\n$$\nout = \\begin{cases} \n    x - \\lambda, \\text{if } x > \\lambda \\\\\n    x + \\lambda, \\text{if } x < -\\lambda \\\\\n    0,  \\text{otherwise}\n    \\end{cases}\n$$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "Input of Softshrink operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "Output of Softshrink operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [ 
- { 
-   "name" : "lambda",
-   "type" : "float",
-   "comment" : "non-negative offset",
-   "generated" : 0
- } ] 
 }]
