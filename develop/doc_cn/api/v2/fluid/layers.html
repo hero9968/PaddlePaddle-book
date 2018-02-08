@@ -2625,7 +2625,8 @@ interval [0, num_classes + 1).</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">CTC greedy decode result.</p>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">CTC greedy decode result. If all the sequences in result were
+empty, the result LoDTensor will be [-1] with LoD [[0]] and dims [1, 1].</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">Variable</p>
