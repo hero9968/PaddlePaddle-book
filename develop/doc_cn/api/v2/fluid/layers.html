@@ -1523,7 +1523,7 @@ Choices = [&#8220;sigmoid&#8221;, &#8220;tanh&#8221;, &#8220;relu&#8221;, &#8220
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">The hidden state of GRU. The shape is (T times D), and lod             is the same with the input.</p>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">The hidden state of GRU. The shape is <span class="math">\((T \times D)\)</span>,             and lod is the same with the input.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">Variable</p>
@@ -1733,12 +1733,7 @@ squared error cost.</p>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first"><dl class="docutils">
-<dt>The tensor variable storing the element-wise squared error</dt>
-<dd><p class="first last">difference of input and label.</p>
-</dd>
-</dl>
-</p>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">The tensor variable storing the element-wise squared error                   difference of input and label.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">Variable</p>
@@ -1861,12 +1856,7 @@ library is installed. Default: True</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first"><dl class="docutils">
-<dt>The tensor variable storing the convolution and</dt>
-<dd><p class="first last">non-linearity activation result.</p>
-</dd>
-</dl>
-</p>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">The tensor variable storing the convolution and                   non-linearity activation result.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first">Variable</p>
@@ -1965,6 +1955,61 @@ pooling configurations mentioned in input parameters.</p>
 <code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">batch_norm</code><span class="sig-paren">(</span><em>input</em>, <em>act=None</em>, <em>is_test=False</em>, <em>momentum=0.9</em>, <em>epsilon=1e-05</em>, <em>param_attr=None</em>, <em>bias_attr=None</em>, <em>data_layout='NCHW'</em>, <em>name=None</em>, <em>moving_mean_name=None</em>, <em>moving_variance_name=None</em><span class="sig-paren">)</span></dt>
 <dd><p>This function helps create an operator to implement
 the BatchNorm layer using the configurations from the input parameters.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="layer-norm">
+<h3>layer_norm<a class="headerlink" href="#layer-norm" title="永久链接至标题">¶</a></h3>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">layer_norm</code><span class="sig-paren">(</span><em>input</em>, <em>scale=True</em>, <em>shift=True</em>, <em>begin_norm_axis=1</em>, <em>epsilon=1e-05</em>, <em>param_attr=None</em>, <em>bias_attr=None</em>, <em>act=None</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
+<dd><p><strong>Layer Normalization</strong></p>
+<p>Assume feature vectors exist on dimensions
+<code class="xref py py-attr docutils literal"><span class="pre">begin_norm_axis</span> <span class="pre">...</span> <span class="pre">rank(input)</span></code> and calculate the moment statistics
+along these dimensions for each feature vector <span class="math">\(a\)</span> with size
+<span class="math">\(H\)</span>, then normalize each feature vector using the corresponding
+statistics. After that, apply learnable gain and bias on the normalized
+tensor to scale and shift if <code class="xref py py-attr docutils literal"><span class="pre">scale</span></code> and <code class="xref py py-attr docutils literal"><span class="pre">shift</span></code> are set.</p>
+<p>Refer to <a class="reference external" href="https://arxiv.org/pdf/1607.06450v1.pdf">Layer Normalization</a></p>
+<p>The formula is as follows:</p>
+<div class="math">
+\[ \begin{align}\begin{aligned}\mu &amp; = \frac{1}{H}\sum_{i=1}^{H} a_i\\\sigma &amp; = \sqrt{\frac{1}{H}\sum_{i=1}^{H}(a_i - \mu)^2}\\h &amp; = f(\frac{g}{\sigma}(a - \mu) + b)\end{aligned}\end{align} \]</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
+<li><strong>input</strong> (<em>Variable</em>) &#8211; The input tensor variable.</li>
+<li><strong>scale</strong> (<em>bool</em>) &#8211; Whether to learn the adaptive gain <span class="math">\(g\)</span> after
+normalization.</li>
+<li><strong>shift</strong> (<em>bool</em>) &#8211; Whether to learn the adaptive bias <span class="math">\(b\)</span> after
+normalization.</li>
+<li><strong>begin_norm_axis</strong> (<em>bool</em>) &#8211; The normalization will be performed along
+dimensions from <code class="xref py py-attr docutils literal"><span class="pre">begin_norm_axis</span></code> to <code class="xref py py-attr docutils literal"><span class="pre">rank(input)</span></code>.</li>
+<li><strong>epsilon</strong> (<em>float</em>) &#8211; The small value added to the variance to prevent
+division by zero.</li>
+<li><strong>param_attr</strong> (<em>ParamAttr|None</em>) &#8211; The parameter attribute for the learnable
+gain <span class="math">\(g\)</span>.</li>
+<li><strong>bias_attr</strong> (<em>ParamAttr|None</em>) &#8211; The parameter attribute for the learnable
+bias <span class="math">\(b\)</span>.</li>
+<li><strong>act</strong> (<em>str</em>) &#8211; Activation to be applied to the output of layer normalizaiton.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">A tensor variable with the same shape as the input.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">Variable</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">data</span><span class="p">(</span>
+  <span class="n">name</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">layer_norm</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">begin_norm_axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </div>
