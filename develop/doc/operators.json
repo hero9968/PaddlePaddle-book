@@ -4253,7 +4253,7 @@
  } ] 
 },{
  "type" : "layer_norm",
- "comment" : "\nLayer Normalization.\n\nLayer Norm has been implemented as discussed in the paper:\nhttps://arxiv.org/abs/1607.06450\n...\n",
+ "comment" : "\nLayer Normalization.\nLayer Norm has been implemented as discussed in the paper:\nhttps://arxiv.org/abs/1607.06450\n...\n",
  "inputs" : [ 
  { 
    "name" : "X",
