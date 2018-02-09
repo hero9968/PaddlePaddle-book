@@ -1409,6 +1409,24 @@
    "generated" : 0
  } ] 
 },{
+ "type" : "tanh_shrink",
+ "comment" : "\nTanhShrink Activation Operator.\n\n$$out = x - \\frac{e^{x} - e^{-x}}{e^{x} + e^{-x}}$$\n\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "Input of TanhShrink operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "Output of TanhShrink operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [  ] 
+},{
  "type" : "softmax",
  "comment" : "\nSoftmax Operator.\n\nThe input of the softmax operator is a 2-D tensor with shape N x K (N is the\nbatch_size, K is the dimension of input feature). The output tensor has the\nsame shape as the input tensor.\n\nFor each row of the input tensor, the softmax operator squashes the\nK-dimensional vector of arbitrary real values to a K-dimensional vector of real\nvalues in the range [0, 1] that add up to 1.\nIt computes the exponential of the given dimension and the sum of exponential\nvalues of all the other dimensions in the K-dimensional vector input.\nThen the ratio of the exponential of the given dimension and the sum of\nexponential values of all the other dimensions is the output of the softmax\noperator.\n\nFor each row $i$ and each column $j$ in Input(X), we have:\n    $$Out[i, j] = \\frac{\\exp(X[i, j])}{\\sum_j(exp(X[i, j])}$$\n\n",
  "inputs" : [ 
@@ -1992,6 +2010,40 @@
    "intermediate" : 0
  } ], 
  "attrs" : [  ] 
+},{
+ "type" : "cumsum",
+ "comment" : "\nThe cumulative sum of the elements along a given axis.\nBy default, the first element of the result is the same of the first element of\nthe input. If exlusive is true, the first element of the result is 0.\n",
+ "inputs" : [ 
+ { 
+   "name" : "X",
+   "comment" : "Input of Cumsum operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "outputs" : [ 
+ { 
+   "name" : "Out",
+   "comment" : "Output of Cumsum operator",
+   "duplicable" : 0,
+   "intermediate" : 0
+ } ], 
+ "attrs" : [ 
+ { 
+   "name" : "axis",
+   "type" : "int",
+   "comment" : "(int, default -1). The dimenstion to accumulate along. -1 means the last dimenstion",
+   "generated" : 0
+ }, { 
+   "name" : "exclusive",
+   "type" : "bool",
+   "comment" : "bool, default false). Whether to perform exclusive cumsum",
+   "generated" : 0
+ }, { 
+   "name" : "reverse",
+   "type" : "bool",
+   "comment" : "bool, default false). If true, the cumsum is performed in the reversed direction",
+   "generated" : 0
+ } ] 
 },{
  "type" : "reduce_min",
  "comment" : "\nReduceMin Operator.\n\nThis operator computes the min of input tensor along the given dimension. \nThe result tensor has 1 fewer dimension than the input unless keep_dim is true.\nIf reduce_all is true, just reduce along all dimensions and output a scalar.\n\n",
@@ -2986,24 +3038,6 @@
    "comment" : "(float, default 1.0e-8) Constant for numerical stability",
    "generated" : 0
  } ] 
-},{
- "type" : "tanh_shrink",
- "comment" : "\nTanhShrink Activation Operator.\n\n$$out = x - \\frac{e^{x} - e^{-x}}{e^{x} + e^{-x}}$$\n\n",
- "inputs" : [ 
- { 
-   "name" : "X",
-   "comment" : "Input of TanhShrink operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "outputs" : [ 
- { 
-   "name" : "Out",
-   "comment" : "Output of TanhShrink operator",
-   "duplicable" : 0,
-   "intermediate" : 0
- } ], 
- "attrs" : [  ] 
 },{
  "type" : "positive_negative_pair",
  "comment" : "\nPositiveNegativePairOp can be used to evaluate Learning To Rank(LTR) model's\nperformance.\n\nWithin some context, e.g. the \"query\", a LTR model generates scores for a list\nof items, which gives a partial order of the items. PositiveNegativePairOp\ntakes a list of reference rank order (Input(\"Label\")) and the model generated\nscores (Input(Score)) as inputs and counts the pairs that ranked correctly\nand incorrectly.\n",
