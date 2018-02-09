@@ -4539,8 +4539,29 @@ Xavier() will be used.</div></blockquote>
 <h3>create_global_var<a class="headerlink" href="#create-global-var" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">create_global_var</code><span class="sig-paren">(</span><em>shape</em>, <em>value</em>, <em>dtype</em>, <em>persistable=False</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
-<dd></dd></dl>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">create_global_var</code><span class="sig-paren">(</span><em>shape</em>, <em>value</em>, <em>dtype</em>, <em>persistable=False</em>, <em>force_cpu=False</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
+<dd><p>Create a global variable. such as global_step
+:param shape: shape of the variable
+:type shape: list[int]
+:param value: the value of the variable
+:type value: float
+:param dtype: element type of the parameter
+:type dtype: string
+:param persistable: if this variable is persistable
+:type persistable: bool
+:param force_cpu: force this variable to be on CPU
+:type force_cpu: bool</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the created Variable</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">Variable</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </div>
 <div class="section" id="cast">
@@ -4698,6 +4719,7 @@ initializes it with a constant specifed by <cite>value</cite>.</p>
 <li><strong>dtype</strong> (<em>np.dtype|core.DataType|str</em>) &#8211; Data type of the output tensor.</li>
 <li><strong>value</strong> (<em>float</em>) &#8211; The constant value used to initialize the output tensor.</li>
 <li><strong>out</strong> (<em>Variable</em>) &#8211; The output tensor.</li>
+<li><strong>force_cpu</strong> (<em>True|False</em>) &#8211; data should be on CPU if set true.</li>
 </ul>
 </td>
 </tr>
