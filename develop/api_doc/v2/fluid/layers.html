@@ -1547,7 +1547,7 @@ Default: &#8216;sigmoid&#8217;</li>
 <h3>cos_sim<a class="headerlink" href="#cos-sim" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">cos_sim</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">cos_sim</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em><span class="sig-paren">)</span></dt>
 <dd><p>This function performs the cosine similarity between two tensors
 X and Y and returns that as the output.</p>
 </dd></dl>
@@ -1557,7 +1557,7 @@ X and Y and returns that as the output.</p>
 <h3>cross_entropy<a class="headerlink" href="#cross-entropy" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">cross_entropy</code><span class="sig-paren">(</span><em>input</em>, <em>label</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">cross_entropy</code><span class="sig-paren">(</span><em>input</em>, <em>label</em>, <em>soft_label=False</em><span class="sig-paren">)</span></dt>
 <dd><p><strong>Cross Entropy Layer</strong></p>
 <p>This layer computes the cross entropy between <cite>input</cite> and <cite>label</cite>. It
 supports both standard cross-entropy and soft-label cross-entropy loss
@@ -1606,7 +1606,7 @@ a softmax operator.</li>
 tensor&lt;int64&gt; with shape [N x 1]. When
 <cite>soft_label</cite> is set to <cite>True</cite>, <cite>label</cite> is a
 tensor&lt;float/double&gt; with shape [N x D].</li>
-<li><strong>soft_label</strong> (bool, via <cite>**kwargs</cite>) &#8211; a flag indicating whether to
+<li><strong>soft_label</strong> (<em>bool</em>) &#8211; a flag indicating whether to
 interpretate the given labels as soft
 labels, default <cite>False</cite>.</li>
 </ul>
@@ -1640,7 +1640,7 @@ labels, default <cite>False</cite>.</li>
 <h3>square_error_cost<a class="headerlink" href="#square-error-cost" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">square_error_cost</code><span class="sig-paren">(</span><em>input</em>, <em>label</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">square_error_cost</code><span class="sig-paren">(</span><em>input</em>, <em>label</em><span class="sig-paren">)</span></dt>
 <dd><p><strong>Square error cost layer</strong></p>
 <p>This layer accepts input predictions and target label and returns the
 squared error cost.</p>
@@ -1686,7 +1686,7 @@ squared error cost.</p>
 <h3>accuracy<a class="headerlink" href="#accuracy" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">accuracy</code><span class="sig-paren">(</span><em>input</em>, <em>label</em>, <em>k=1</em>, <em>correct=None</em>, <em>total=None</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">accuracy</code><span class="sig-paren">(</span><em>input</em>, <em>label</em>, <em>k=1</em>, <em>correct=None</em>, <em>total=None</em><span class="sig-paren">)</span></dt>
 <dd><p>This function computes the accuracy using the input and label.
 The output is the top_k inputs and their indices.</p>
 </dd></dl>
@@ -1696,7 +1696,7 @@ The output is the top_k inputs and their indices.</p>
 <h3>chunk_eval<a class="headerlink" href="#chunk-eval" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">chunk_eval</code><span class="sig-paren">(</span><em>input</em>, <em>label</em>, <em>chunk_scheme</em>, <em>num_chunk_types</em>, <em>excluded_chunk_types=None</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">chunk_eval</code><span class="sig-paren">(</span><em>input</em>, <em>label</em>, <em>chunk_scheme</em>, <em>num_chunk_types</em>, <em>excluded_chunk_types=None</em><span class="sig-paren">)</span></dt>
 <dd><p>This function computes and outputs the precision, recall and
 F1-score of chunk detection.</p>
 </dd></dl>
@@ -1814,7 +1814,7 @@ groups mismatch.</p>
 <h3>sequence_pool<a class="headerlink" href="#sequence-pool" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">sequence_pool</code><span class="sig-paren">(</span><em>input</em>, <em>pool_type</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">sequence_pool</code><span class="sig-paren">(</span><em>input</em>, <em>pool_type</em><span class="sig-paren">)</span></dt>
 <dd><p>This function add the operator for sequence pooling.
 It pools features of all time-steps of each instance, and is applied
 on top of the input using pool_type mentioned in the parameters.</p>
@@ -2389,7 +2389,7 @@ will be named automatically.</li>
 <h3>sequence_first_step<a class="headerlink" href="#sequence-first-step" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">sequence_first_step</code><span class="sig-paren">(</span><em>input</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">sequence_first_step</code><span class="sig-paren">(</span><em>input</em><span class="sig-paren">)</span></dt>
 <dd><p>This funciton get the first step of sequence.</p>
 <div class="highlight-text"><div class="highlight"><pre><span></span>x is a 1-level LoDTensor:
   x.lod = [[0, 2, 5, 7]]
@@ -2425,7 +2425,7 @@ then output is a Tensor:
 <h3>sequence_last_step<a class="headerlink" href="#sequence-last-step" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">sequence_last_step</code><span class="sig-paren">(</span><em>input</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">sequence_last_step</code><span class="sig-paren">(</span><em>input</em><span class="sig-paren">)</span></dt>
 <dd><p>This funciton get the last step of sequence.</p>
 <div class="highlight-text"><div class="highlight"><pre><span></span>x is a 1-level LoDTensor:
   x.lod = [[0, 2, 5, 7]]
@@ -2461,7 +2461,7 @@ then output is a Tensor:
 <h3>dropout<a class="headerlink" href="#dropout" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">dropout</code><span class="sig-paren">(</span><em>x</em>, <em>dropout_prob</em>, <em>is_test=False</em>, <em>seed=None</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">dropout</code><span class="sig-paren">(</span><em>x</em>, <em>dropout_prob</em>, <em>is_test=False</em>, <em>seed=None</em><span class="sig-paren">)</span></dt>
 <dd><p>Computes dropout.</p>
 <p>Drop or keep each element of <cite>x</cite> independently. Dropout is a regularization
 technique for reducing overfitting by preventing neuron co-adaption during
@@ -2798,7 +2798,7 @@ will be named automatically.</li>
 <h3>warpctc<a class="headerlink" href="#warpctc" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">warpctc</code><span class="sig-paren">(</span><em>input</em>, <em>label</em>, <em>blank=0</em>, <em>norm_by_times=False</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">warpctc</code><span class="sig-paren">(</span><em>input</em>, <em>label</em>, <em>blank=0</em>, <em>norm_by_times=False</em><span class="sig-paren">)</span></dt>
 <dd><p>An operator integrating the open source Warp-CTC library
 (<a class="reference external" href="https://github.com/baidu-research/warp-ctc">https://github.com/baidu-research/warp-ctc</a>)
 to compute Connectionist Temporal Classification (CTC) loss.
