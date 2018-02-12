@@ -35,7 +35,7 @@
     <link rel="top" title="PaddlePaddle  文档" href="../index.html"/>
         <link rel="up" title="安装与编译" href="index_cn.html"/>
         <link rel="next" title="进阶使用" href="../howto/index_cn.html"/>
-        <link rel="prev" title="用Docker编译和测试PaddlePaddle" href="build_cn.html"/> 
+        <link rel="prev" title="使用Docker安装运行" href="docker_install_cn.html"/> 
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/css/perfect-scrollbar.min.css" type="text/css" />
   <link rel="stylesheet" href="../_static/css/override.css" type="text/css" />
@@ -118,7 +118,6 @@
 <li class="toctree-l1 current"><a class="reference internal" href="index_cn.html">安装与编译</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="pip_install_cn.html">使用pip安装</a></li>
 <li class="toctree-l2"><a class="reference internal" href="docker_install_cn.html">使用Docker安装运行</a></li>
-<li class="toctree-l2"><a class="reference internal" href="build_cn.html">用Docker编译和测试PaddlePaddle</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">从源码编译</a></li>
 </ul>
 </li>
@@ -204,24 +203,34 @@
             
   <div class="section" id="id1">
 <h1>从源码编译<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<div class="section" id="requirements">
+<span id="id2"></span><h2>需要的软硬件<a class="headerlink" href="#requirements" title="永久链接至标题">¶</a></h2>
+<p>为了编译PaddlePaddle，我们需要</p>
+<p>1. 一台电脑，可以装的是 Linux, Windows 或者 MacOS 操作系统
+1. Docker</p>
+<p>不需要依赖其他任何软件了。即便是 Python 和 GCC 都不需要，因为我们会把所有编译工具都安装进一个 Docker 镜像里。</p>
+</div>
 <div class="section" id="build-step">
-<span id="id2"></span><h2>编译方法<a class="headerlink" href="#build-step" title="永久链接至标题">¶</a></h2>
-<p>PaddlePaddle主要使用 <a class="reference external" href="https://cmake.org">CMake</a> 以及GCC, G++作为编译工具。
-我们推荐您使用PaddlePaddle Docker编译环境镜像完成编译，这样可以免去单独安装编译依赖的步骤，可选的不同编译环境Docker镜像
-可以在 <a class="reference external" href="https://hub.docker.com/r/paddlepaddle/paddle_manylinux_devel/tags/">这里</a> 找到。</p>
-<p>如果您选择不使用Docker镜像，则需要在本机安装下面章节列出的 <a class="reference internal" href="#id5">编译依赖</a> 之后才能开始编译的步骤。</p>
+<span id="id3"></span><h2>编译方法<a class="headerlink" href="#build-step" title="永久链接至标题">¶</a></h2>
+<p>PaddlePaddle需要使用Docker环境完成编译，这样可以免去单独安装编译依赖的步骤，可选的不同编译环境Docker镜像
+可以在 <a class="reference external" href="https://hub.docker.com/r/paddlepaddle/paddle_manylinux_devel/tags/">这里</a> 找到。或者
+参考下述可选步骤，从源码中构建用于编译PaddlePaddle的Docker镜像。</p>
+<p>如果您选择不使用Docker镜像，则需要在本机安装下面章节列出的 <a href="#id22"><span class="problematic" id="id23">`编译依赖`_</span></a> 之后才能开始编译的步骤。</p>
 <p>编译PaddlePaddle，需要执行：</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>git clone https://github.com/PaddlePaddle/Paddle.git
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># 1. 获取源码</span>
+git clone https://github.com/PaddlePaddle/Paddle.git
 <span class="nb">cd</span> Paddle
-<span class="c1"># 如果使用Docker编译环境，执行下面的命令编译CPU-Only的二进制</span>
+<span class="c1"># 2. 可选步骤：源码中构建用于编译PaddlePaddle的Docker镜像</span>
+docker build -t paddle:dev .
+<span class="c1"># 3. 执行下面的命令编译CPU-Only的二进制</span>
 docker run -it -v <span class="nv">$PWD</span>:/paddle -e <span class="s2">&quot;WITH_GPU=OFF&quot;</span> -e <span class="s2">&quot;WITH_TESTING=OFF&quot;</span> paddlepaddle/paddle_manylinux_devel:cuda8.0_cudnn5 bash -x /paddle/paddle/scripts/docker/build.sh
-<span class="c1"># 如果不使用Docker编译环境，执行下面的命令</span>
-mkdir build
-<span class="nb">cd</span> build
-cmake -DWITH_GPU<span class="o">=</span>OFF -DWITH_TESTING<span class="o">=</span>OFF ..
-make
+<span class="c1"># 4. 或者也可以使用为上述可选步骤构建的镜像（必须先执行第2步）</span>
+docker run -it -v <span class="nv">$PWD</span>:/paddle -e <span class="s2">&quot;WITH_GPU=OFF&quot;</span> -e <span class="s2">&quot;WITH_TESTING=OFF&quot;</span> paddle:dev
 </pre></div>
 </div>
+<p>注：上述命令把当前目录（源码树根目录）映射为 container 里的 <code class="code docutils literal"><span class="pre">/paddle</span></code> 目录。如果使用自行
+构建的镜像（上述第4步）会执行 <code class="code docutils literal"><span class="pre">Dockerfile</span></code> 描述的默认入口程序 <code class="code docutils literal"><span class="pre">build.sh</span></code> 可以省略步骤3中
+最后的执行脚本的命令。</p>
 <p>编译完成后会在build/python/dist目录下生成输出的whl包，可以选在在当前机器安装也可以拷贝到目标机器安装：</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>pip install build/python/dist/*.whl
 </pre></div>
@@ -237,29 +246,71 @@ pip install build/python/dist/*.whl -U
 </div>
 </div>
 <div class="section" id="run-test">
-<span id="id4"></span><h2>执行单元测试<a class="headerlink" href="#run-test" title="永久链接至标题">¶</a></h2>
+<span id="id5"></span><h2>执行单元测试<a class="headerlink" href="#run-test" title="永久链接至标题">¶</a></h2>
 <p>如果您期望在编译完成后立即执行所有的单元测试，可以按照下面的方法：</p>
-<p>使用Docker的情况下，设置 <code class="code docutils literal"><span class="pre">RUN_TEST=ON</span></code> 和 <code class="code docutils literal"><span class="pre">WITH_TESTING=ON</span></code> 就会在完成编译之后，立即执行单元测试。
+<p>设置 <code class="code docutils literal"><span class="pre">RUN_TEST=ON</span></code> 和 <code class="code docutils literal"><span class="pre">WITH_TESTING=ON</span></code> 就会在完成编译之后，立即执行单元测试。
 开启 <code class="code docutils literal"><span class="pre">WITH_GPU=ON</span></code> 可以指定同时执行GPU上的单元测试。</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>docker run -it -v <span class="nv">$PWD</span>:/paddle -e <span class="s2">&quot;WITH_GPU=OFF&quot;</span> -e <span class="s2">&quot;WITH_TESTING=ON&quot;</span> -e <span class="s2">&quot;RUN_TEST=ON&quot;</span> paddlepaddle/paddle_manylinux_devel:cuda8.0_cudnn5 bash -x /paddle/paddle/scripts/docker/build.sh
 </pre></div>
 </div>
-<p>如果不使用Docker，可以执行ctest命令即可：</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>mkdir build
-<span class="nb">cd</span> build
-cmake -DWITH_GPU<span class="o">=</span>OFF -DWITH_TESTING<span class="o">=</span>OFF ..
-make
-ctest
-<span class="c1"># 指定执行其中一个单元测试 test_mul_op</span>
-ctest -R test_mul_op
+<p>如果期望执行其中一个单元测试，（比如 <code class="code docutils literal"><span class="pre">test_sum_op</span></code> ）：</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>docker run -it -v <span class="nv">$PWD</span>:/paddle -e <span class="s2">&quot;WITH_GPU=OFF&quot;</span> -e <span class="s2">&quot;WITH_TESTING=ON&quot;</span> -e <span class="s2">&quot;RUN_TEST=OFF&quot;</span> paddlepaddle/paddle_manylinux_devel:cuda8.0_cudnn5 /bin/bash
+bash /paddle/paddle/scripts/docker/build.sh
+<span class="nb">cd</span> /paddle/build
+ctest -R test_sum_op -V
 </pre></div>
 </div>
 </div>
+<div class="section" id="faq-docker">
+<span id="id6"></span><h2>常见问题<a class="headerlink" href="#faq-docker" title="永久链接至标题">¶</a></h2>
+<ul>
+<li><p class="first">什么是 Docker?</p>
+<p>如果您没有听说 Docker，可以把它想象为一个类似 virtualenv 的系统，但是虚拟的不仅仅是 Python 的运行环境。</p>
+</li>
+<li><p class="first">Docker 还是虚拟机？</p>
+<p>有人用虚拟机来类比 Docker。需要强调的是：Docker 不会虚拟任何硬件，Docker container 里运行的编译工具实际上都是在本机的 CPU 和操作系统上直接运行的，性能和把编译工具安装在本机运行一样。</p>
+</li>
+<li><p class="first">为什么用 Docker?</p>
+<p>把工具和配置都安装在一个 Docker image 里可以标准化编译环境。这样如果遇到问题，其他人可以复现问题以便帮助。</p>
+<p>另外，对于习惯使用Windows和MacOS的开发者来说，使用Docker就不用配置交叉编译环境了。</p>
+</li>
+<li><p class="first">我可以选择不用Docker吗？</p>
+<p>当然可以。大家可以用把开发工具安装进入 Docker image 一样的方式，把这些工具安装到本机。这篇文档介绍基于 Docker 的开发流程，是因为这个流程比其他方法都更简便。</p>
+</li>
+<li><p class="first">学习 Docker 有多难？</p>
+<p>理解 Docker 并不难，大概花十分钟看一下[这篇文章](<a class="reference external" href="https://zhuanlan.zhihu.com/p/19902938">https://zhuanlan.zhihu.com/p/19902938</a>)。这可以帮您省掉花一小时安装和配置各种开发工具，以及切换机器时需要新安装的辛苦。别忘了 PaddlePaddle 更新可能导致需要新的开发工具。更别提简化问题复现带来的好处了。</p>
+</li>
+<li><p class="first">我可以用 IDE 吗？</p>
+<p>当然可以，因为源码就在本机上。IDE 默认调用 make 之类的程序来编译源码，我们只需要配置 IDE 来调用 Docker 命令编译源码即可。</p>
+<p>很多 PaddlePaddle 开发者使用 Emacs。他们在自己的 <cite>~/.emacs</cite> 配置文件里加两行</p>
+<p><a href="#id7"><span class="problematic" id="id8">``</span></a><a href="#id9"><span class="problematic" id="id10">`</span></a>emacs
+(global-set-key &#8220;C-cc&#8221; &#8216;compile)
+(setq compile-command</p>
+<blockquote>
+<div><p>&#8220;docker run &#8211;rm -it -v $(git rev-parse &#8211;show-toplevel):/paddle paddle:dev&#8221;)</p>
+</div></blockquote>
+<p><a href="#id11"><span class="problematic" id="id12">``</span></a><a href="#id13"><span class="problematic" id="id14">`</span></a></p>
+<p>就可以按 <cite>Ctrl-C</cite> 和 <cite>c</cite> 键来启动编译了。</p>
+</li>
+<li><p class="first">可以并行编译吗？</p>
+<p>是的。我们的 Docker image 运行一个 [Bash 脚本](<a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/scripts/docker/build.sh">https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/scripts/docker/build.sh</a>)。这个脚本调用 <cite>make -j$(nproc)</cite> 来启动和 CPU 核一样多的进程来并行编译。</p>
+</li>
+<li><p class="first">Docker 需要 sudo</p>
+<p>如果用自己的电脑开发，自然也就有管理员权限（sudo）了。如果用公用的电脑开发，需要请管理员安装和配置好 Docker。此外，PaddlePaddle 项目在努力开始支持其他不需要 sudo 的集装箱技术，比如 rkt。</p>
+</li>
+<li><p class="first">在 Windows/MacOS 上编译很慢</p>
+<p>Docker 在 Windows 和 MacOS 都可以运行。不过实际上是运行在一个 Linux 虚拟机上。可能需要注意给这个虚拟机多分配一些 CPU 和内存，以保证编译高效。具体做法请参考[这个issue](<a class="reference external" href="https://github.com/PaddlePaddle/Paddle/issues/627">https://github.com/PaddlePaddle/Paddle/issues/627</a>)。</p>
+</li>
+<li><p class="first">磁盘不够</p>
+<p>本文中的例子里，<cite>docker run</cite> 命令里都用了 <cite>&#8211;rm</cite> 参数，这样保证运行结束之后的 containers 不会保留在磁盘上。可以用 <cite>docker ps -a</cite> 命令看到停止后但是没有删除的 containers。<cite>docker build</cite> 命令有时候会产生一些中间结果，是没有名字的 images，也会占用磁盘。可以参考[这篇文章](<a class="reference external" href="https://zaiste.net/posts/removing_docker_containers/">https://zaiste.net/posts/removing_docker_containers/</a>)来清理这些内容。</p>
+</li>
+</ul>
+</div>
 <div class="section" id="compile-deps">
-<span id="id5"></span><h2>编译依赖<a class="headerlink" href="#compile-deps" title="永久链接至标题">¶</a></h2>
+<span id="id15"></span><h2>附录：编译依赖<a class="headerlink" href="#compile-deps" title="永久链接至标题">¶</a></h2>
 <p>PaddlePaddle编译需要使用到下面的依赖（包含但不限于），其他的依赖软件，会自动在编译时下载。</p>
-<table border="1" class="colwidths-given docutils" id="id10">
-<caption><span class="caption-text">PaddlePaddle编译依赖</span><a class="headerlink" href="#id10" title="永久链接至表格">¶</a></caption>
+<table border="1" class="colwidths-given docutils" id="id20">
+<caption><span class="caption-text">PaddlePaddle编译依赖</span><a class="headerlink" href="#id20" title="永久链接至表格">¶</a></caption>
 <colgroup>
 <col width="18%" />
 <col width="27%" />
@@ -304,7 +355,7 @@ ctest -R test_mul_op
 </table>
 </div>
 <div class="section" id="build-options">
-<span id="id6"></span><h2>编译选项<a class="headerlink" href="#build-options" title="永久链接至标题">¶</a></h2>
+<span id="id16"></span><h2>附录：编译选项<a class="headerlink" href="#build-options" title="永久链接至标题">¶</a></h2>
 <p>PaddlePaddle的编译选项，包括生成CPU/GPU二进制文件、链接何种BLAS库等。
 用户可在调用cmake的时候设置它们，详细的cmake使用方法可以参考
 <a class="reference external" href="https://cmake.org/cmake-tutorial">官方文档</a> 。</p>
@@ -312,8 +363,8 @@ ctest -R test_mul_op
 <div class="highlight-bash"><div class="highlight"><pre><span></span>cmake .. -DWITH_GPU<span class="o">=</span>OFF
 </pre></div>
 </div>
-<table border="1" class="colwidths-given docutils" id="id11">
-<caption><span class="caption-text">编译选项说明</span><a class="headerlink" href="#id11" title="永久链接至表格">¶</a></caption>
+<table border="1" class="colwidths-given docutils" id="id21">
+<caption><span class="caption-text">编译选项说明</span><a class="headerlink" href="#id21" title="永久链接至表格">¶</a></caption>
 <colgroup>
 <col width="10%" />
 <col width="70%" />
@@ -390,8 +441,8 @@ ctest -R test_mul_op
 <p>PaddlePaddle可以使用cuDNN v5.1之后的任何一个版本来编译运行，但尽量请保持编译和运行使用的cuDNN是同一个版本。
 我们推荐使用最新版本的cuDNN。</p>
 </div>
-<div class="section" id="id9">
-<h3>编译选项的设置<a class="headerlink" href="#id9" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id19">
+<h3>编译选项的设置<a class="headerlink" href="#id19" title="永久链接至标题">¶</a></h3>
 <p>PaddePaddle通过编译时指定路径来实现引用各种BLAS/CUDA/cuDNN库。cmake编译时，首先在系统路径（ <code class="code docutils literal"><span class="pre">/usr/lib:/usr/local/lib</span></code> ）中搜索这几个库，同时也会读取相关路径变量来进行搜索。 通过使用 <code class="docutils literal"><span class="pre">-D</span></code> 命令可以设置，例如</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>cmake .. -DWITH_GPU<span class="o">=</span>ON -DWITH_TESTING<span class="o">=</span>OFF -DCUDNN_ROOT<span class="o">=</span>/opt/cudnnv5
 </pre></div>
@@ -411,7 +462,7 @@ ctest -R test_mul_op
         <a href="../howto/index_cn.html" class="btn btn-neutral float-right" title="进阶使用" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="build_cn.html" class="btn btn-neutral" title="用Docker编译和测试PaddlePaddle" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="docker_install_cn.html" class="btn btn-neutral" title="使用Docker安装运行" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
