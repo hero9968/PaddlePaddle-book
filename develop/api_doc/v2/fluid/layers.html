@@ -887,7 +887,7 @@ all if left is negative.</li>
 <li><strong>print_tensor_type</strong> (<em>bool</em>) &#8211; Print the tensor type.</li>
 <li><strong>print_tensor_shape</strong> (<em>bool</em>) &#8211; Print the tensor shape.</li>
 <li><strong>print_tensor_lod</strong> (<em>bool</em>) &#8211; Print the tensor lod.</li>
-<li><strong>print_phase</strong> (<em>bool</em>) &#8211; Which phase to displace, including &#8216;forward&#8217;,
+<li><strong>print_phase</strong> (<em>str</em>) &#8211; Which phase to displace, including &#8216;forward&#8217;,
 &#8216;backward&#8217; and &#8216;both&#8217;. If set to &#8216;backward&#8217; or &#8216;both&#8217;, will
 print the gradients of input tensor.</li>
 </ul>
@@ -2214,7 +2214,7 @@ and <strong>cell_t_prev</strong> not be the same or the 2nd dimensions of
 Tensor variable with a single element, otherwise must be in the
 range <span class="math">\([-rank(input), rank(input))\)</span>. If <span class="math">\(dim &lt; 0\)</span>,
 the dimension to reduce is <span class="math">\(rank + dim\)</span>.</li>
-<li><strong>keep_dim</strong> (<em>bool</em>) &#8211; Whether to reserve the reduced dimension in the
+<li><strong>keep_dim</strong> (<em>bool|False</em>) &#8211; Whether to reserve the reduced dimension in the
 output Tensor. The result tensor will have one fewer dimension
 than the <code class="xref py py-attr docutils literal"><span class="pre">input</span></code> unless <code class="xref py py-attr docutils literal"><span class="pre">keep_dim</span></code> is true.</li>
 <li><strong>name</strong> (<em>str|None</em>) &#8211; A name for this layer(optional). If set None, the layer
