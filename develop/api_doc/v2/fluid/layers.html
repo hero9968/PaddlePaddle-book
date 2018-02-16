@@ -1151,7 +1151,7 @@ with zeros whenever lookup encounters it in <code class="xref py py-attr docutil
 <span class="math">\(padding_idx &lt; 0\)</span>, the padding_idx to use in lookup is
 <span class="math">\(size[0] + dim\)</span>.</li>
 <li><strong>param_attr</strong> (<em>ParamAttr</em>) &#8211; Parameters for this layer</li>
-<li><strong>dtype</strong> (<em>np.dtype|core.DataType|str</em>) &#8211; The type of data : float32, float_16, int etc</li>
+<li><strong>dtype</strong> (<em>np.dtype|core.VarDesc.VarType|str</em>) &#8211; The type of data : float32, float_16, int etc</li>
 </ul>
 </td>
 </tr>
@@ -4678,7 +4678,7 @@ obtained from the <cite>input</cite> tensor.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>input</strong> (<em>Variable</em>) &#8211; Tensor whose dimensions will be used to get batch size</li>
 <li><strong>shape</strong> (<em>tuple|list|None</em>) &#8211; Shape of output tensor</li>
-<li><strong>dtype</strong> (<em>np.dtype|core.DataType|str</em>) &#8211; Data type of output tensor</li>
+<li><strong>dtype</strong> (<em>np.dtype|core.VarDesc.VarType|str</em>) &#8211; Data type of output tensor</li>
 <li><strong>value</strong> (<em>float</em>) &#8211; Constant value to initialize the output tensor</li>
 <li><strong>input_dim_idx</strong> (<em>int</em>) &#8211; Index of input&#8217;s batch size dimension</li>
 <li><strong>output_dim_idx</strong> (<em>int</em>) &#8211; Index of output&#8217;s batch size dimension</li>
@@ -4716,7 +4716,7 @@ initializes it with a constant specifed by <cite>value</cite>.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>shape</strong> (<em>tuple|list|None</em>) &#8211; Shape of the output tensor.</li>
-<li><strong>dtype</strong> (<em>np.dtype|core.DataType|str</em>) &#8211; Data type of the output tensor.</li>
+<li><strong>dtype</strong> (<em>np.dtype|core.VarDesc.VarType|str</em>) &#8211; Data type of the output tensor.</li>
 <li><strong>value</strong> (<em>float</em>) &#8211; The constant value used to initialize the output tensor.</li>
 <li><strong>out</strong> (<em>Variable</em>) &#8211; The output tensor.</li>
 <li><strong>force_cpu</strong> (<em>True|False</em>) &#8211; data should be on CPU if set true.</li>
@@ -4753,7 +4753,7 @@ initializes it with a constant specifed by <cite>value</cite>.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>shape</strong> (<em>tuple|list|None</em>) &#8211; Shape of output tensor</li>
-<li><strong>dtype</strong> (<em>np.dtype|core.DataType|str</em>) &#8211; Data type of output tensor</li>
+<li><strong>dtype</strong> (<em>np.dtype|core.VarDesc.VarType|str</em>) &#8211; Data type of output tensor</li>
 </ul>
 </td>
 </tr>
@@ -4787,7 +4787,7 @@ initializes it with a constant specifed by <cite>value</cite>.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>shape</strong> (<em>tuple|list|None</em>) &#8211; Shape of output tensor</li>
-<li><strong>dtype</strong> (<em>np.dtype|core.DataType|str</em>) &#8211; Data type of output tensor</li>
+<li><strong>dtype</strong> (<em>np.dtype|core.VarDesc.VarType|str</em>) &#8211; Data type of output tensor</li>
 </ul>
 </td>
 </tr>
