@@ -180,10 +180,10 @@
   <div class="section" id="background">
 <span id="background"></span><h1>Background<a class="headerlink" href="#background" title="Permalink to this headline">¶</a></h1>
 <p>PaddlePaddle divides the description of neural network computation into two stages: compile time and runtime. At compile time, the neural network computation is described as a <code class="docutils literal"><span class="pre">ProgramDesc</span></code> whereas at runtime an <code class="docutils literal"><span class="pre">Executor</span></code> interprets the <code class="docutils literal"><span class="pre">ProgramDesc</span></code> to compute the operations.</p>
-<p>PaddlePaddle use proto message to describe compile time program because</p>
+<p>PaddlePaddle uses proto message to describe compile time program because :</p>
 <ol class="simple">
 <li>The computation program description must be serializable and saved in a file.</li>
-<li>During distributed training, the sreialized program will be sent to multiple workers. It should also be possible to break the program into different components, each of which can be executed on different workers.</li>
+<li>During distributed training, the serialized program will be sent to multiple workers. It should also be possible to break the program into different components, each of which can be executed on a different worker.</li>
 </ol>
 <p>The computation <code class="docutils literal"><span class="pre">Program</span></code> consists of nested <code class="docutils literal"><span class="pre">Blocks</span></code>. Each <code class="docutils literal"><span class="pre">Block</span></code> will consist of data(i.e. <code class="docutils literal"><span class="pre">Variable</span></code>)  and  <code class="docutils literal"><span class="pre">Operations</span></code>. The concept to represent them is in the table below.</p>
 <p>| |compile time|runtime|
@@ -191,26 +191,29 @@
 |Data|VarDesc(proto)|Variable(cpp)|
 |Operation|OpDesc(proto)|Operator(cpp)|</p>
 </div>
-<div class="section" id="definition-of-vardesc">
-<span id="definition-of-vardesc"></span><h1>Definition of VarDesc<a class="headerlink" href="#definition-of-vardesc" title="Permalink to this headline">¶</a></h1>
-<p>A VarDesc should have a name, and value. The are two kinds of variable type in compile time, they are <code class="docutils literal"><span class="pre">LoDTensor</span></code> and <code class="docutils literal"><span class="pre">SelectedRows</span></code>.</p>
+<div class="section" id="definition-of-vartype">
+<span id="definition-of-vartype"></span><h1>Definition of VarType<a class="headerlink" href="#definition-of-vartype" title="Permalink to this headline">¶</a></h1>
+<p>A VarDesc should have a name, type and whether or not it is persistable. The are different kinds of variable types supported in PaddlePaddle, apart from the POD_Types like: <code class="docutils literal"><span class="pre">LOD_TENSOR</span></code>, <code class="docutils literal"><span class="pre">SELECTED_ROWS</span></code>, <code class="docutils literal"><span class="pre">FEED_MINIBATCH</span></code>, <code class="docutils literal"><span class="pre">FETCH_LIST</span></code>, <code class="docutils literal"><span class="pre">STEP_SCOPES</span></code>, <code class="docutils literal"><span class="pre">LOD_RANK_TABLE</span></code>, <code class="docutils literal"><span class="pre">LOD_TENSOR_ARRAY</span></code>, <code class="docutils literal"><span class="pre">PLACE_LIST</span></code>, <code class="docutils literal"><span class="pre">READER</span></code> and <code class="docutils literal"><span class="pre">CHANNEL</span></code>. These are declared inside <code class="docutils literal"><span class="pre">VarType</span></code>. A <code class="docutils literal"><span class="pre">VarDesc</span></code> then looks as the following:</p>
 <div class="highlight-proto"><div class="highlight"><pre><span></span><span class="kd">message</span> <span class="nc">VarDesc</span> <span class="p">{</span>
   <span class="k">required</span> <span class="kt">string</span> <span class="na">name</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-  <span class="kd">enum</span> <span class="n">VarType</span> <span class="p">{</span>
-    <span class="na">LOD_TENSOR</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="na">SELECTED_ROWS</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-  <span class="p">}</span>
   <span class="k">required</span> <span class="n">VarType</span> <span class="na">type</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
-  <span class="k">optional</span> <span class="n">LoDTensorDesc</span> <span class="na">lod_desc</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
-  <span class="k">optional</span> <span class="n">TensorDesc</span> <span class="na">selected_rows_desc</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
-  <span class="k">optional</span> <span class="kt">bool</span> <span class="na">persistable</span> <span class="o">=</span> <span class="mi">5</span> <span class="p">[</span> <span class="k">default</span> <span class="o">=</span> <span class="kc">false</span> <span class="p">];</span>
+  <span class="k">optional</span> <span class="kt">bool</span> <span class="na">persistable</span> <span class="o">=</span> <span class="mi">3</span> <span class="p">[</span> <span class="k">default</span> <span class="o">=</span> <span class="kc">false</span> <span class="p">];</span>
 <span class="p">}</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="definition-of-tensordesc">
 <span id="definition-of-tensordesc"></span><h1>Definition of TensorDesc<a class="headerlink" href="#definition-of-tensordesc" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-proto"><div class="highlight"><pre><span></span><span class="kd">enum</span> <span class="n">DataType</span> <span class="p">{</span>
+<div class="highlight-proto"><div class="highlight"><pre><span></span><span class="kd">message</span> <span class="nc">TensorDesc</span> <span class="p">{</span>
+  <span class="c1">// Should only be PODType. Is enforced in C++</span>
+  <span class="k">required</span> <span class="n">Type</span> <span class="na">data_type</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="k">repeated</span> <span class="kt">int64</span> <span class="na">dims</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">// [UNK, 640, 480] is saved as [-1, 640, 480]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">Type</span></code> here comes from the enum defined inside of <code class="docutils literal"><span class="pre">VarType</span></code> :</p>
+<div class="highlight-proto"><div class="highlight"><pre><span></span><span class="kd">enum</span> <span class="n">Type</span> <span class="p">{</span>
+  <span class="c1">// Pod Types</span>
   <span class="na">BOOL</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
   <span class="na">INT16</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
   <span class="na">INT32</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
@@ -218,11 +221,18 @@
   <span class="na">FP16</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
   <span class="na">FP32</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
   <span class="na">FP64</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span>
-<span class="p">}</span>
 
-<span class="kd">message</span> <span class="nc">TensorDesc</span> <span class="p">{</span>
-  <span class="k">required</span> <span class="n">DataType</span> <span class="na">data_type</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-  <span class="k">repeated</span> <span class="kt">int64</span> <span class="na">dims</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">// [UNK, 640, 480] is saved as [-1, 640, 480]</span>
+  <span class="c1">// Other types that may need additional descriptions</span>
+  <span class="na">LOD_TENSOR</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span>
+  <span class="na">SELECTED_ROWS</span> <span class="o">=</span> <span class="mi">8</span><span class="p">;</span>
+  <span class="na">FEED_MINIBATCH</span> <span class="o">=</span> <span class="mi">9</span><span class="p">;</span>
+  <span class="na">FETCH_LIST</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+  <span class="na">STEP_SCOPES</span> <span class="o">=</span> <span class="mi">11</span><span class="p">;</span>
+  <span class="na">LOD_RANK_TABLE</span> <span class="o">=</span> <span class="mi">12</span><span class="p">;</span>
+  <span class="na">LOD_TENSOR_ARRAY</span> <span class="o">=</span> <span class="mi">13</span><span class="p">;</span>
+  <span class="na">PLACE_LIST</span> <span class="o">=</span> <span class="mi">14</span><span class="p">;</span>
+  <span class="na">READER</span> <span class="o">=</span> <span class="mi">15</span><span class="p">;</span>
+  <span class="na">CHANNEL</span> <span class="o">=</span> <span class="mi">16</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -232,7 +242,7 @@
 <span id="definition-of-lodtensordesc"></span><h1>Definition of LodTensorDesc<a class="headerlink" href="#definition-of-lodtensordesc" title="Permalink to this headline">¶</a></h1>
 <div class="highlight-proto"><div class="highlight"><pre><span></span><span class="kd">message</span> <span class="nc">LoDTensorDesc</span> <span class="p">{</span>
   <span class="k">required</span> <span class="n">TensorDesc</span> <span class="na">tensor</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-  <span class="k">optional</span> <span class="n">int</span> <span class="na">lod_level</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+  <span class="k">optional</span> <span class="kt">int32</span> <span class="na">lod_level</span> <span class="o">=</span> <span class="mi">2</span> <span class="p">[</span> <span class="k">default</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">];</span>
 <span class="p">}</span>
 </pre></div>
 </div>
