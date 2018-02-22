@@ -198,7 +198,7 @@
 <code class="docutils literal"><span class="pre">||||</span></code> means multiple threads)</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="n">the</span> <span class="n">forward</span> <span class="k">pass</span>
   <span class="o">|</span>      <span class="n">Split</span> <span class="nb">input</span> <span class="n">onto</span> <span class="n">different</span> <span class="n">devices</span>
-  <span class="o">|</span>      <span class="n">Copy</span> <span class="n">parameter</span> <span class="n">to</span> <span class="n">onto</span> <span class="n">different</span> <span class="n">devices</span>
+  <span class="o">|</span>      <span class="n">Copy</span> <span class="n">parameter</span> <span class="n">onto</span> <span class="n">different</span> <span class="n">devices</span>
   <span class="o">||||</span>   <span class="n">Compute</span> <span class="n">forward</span> <span class="k">pass</span> <span class="ow">in</span> <span class="n">parallel</span>
   <span class="o">|</span>      <span class="n">Merge</span> <span class="n">output</span> <span class="kn">from</span> <span class="nn">different</span> <span class="n">devices</span>
 
@@ -258,8 +258,8 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="proformance-imporvement">
-<span id="proformance-imporvement"></span><h2>Proformance Imporvement<a class="headerlink" href="#proformance-imporvement" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="performance-imporvement">
+<span id="performance-imporvement"></span><h2>Performance Imporvement<a class="headerlink" href="#performance-imporvement" title="Permalink to this headline">¶</a></h2>
 <p>There are serial places we can make this parallel_do faster.</p>
 <div class="section" id="forward-split-input-onto-different-devices">
 <span id="forward-split-input-onto-different-devices"></span><h3>forward: split input onto different devices<a class="headerlink" href="#forward-split-input-onto-different-devices" title="Permalink to this headline">¶</a></h3>
