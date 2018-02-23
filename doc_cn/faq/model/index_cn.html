@@ -1,0 +1,368 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>模型配置 &mdash; PaddlePaddle  文档</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+  
+        <link rel="index" title="索引"
+              href="../../genindex.html"/>
+        <link rel="search" title="搜索" href="../../search.html"/>
+    <link rel="top" title="PaddlePaddle  文档" href="../../index.html"/>
+        <link rel="up" title="FAQ" href="../index_cn.html"/>
+        <link rel="next" title="参数设置" href="../parameter/index_cn.html"/>
+        <link rel="prev" title="编译安装与单元测试" href="../build_and_install/index_cn.html"/> 
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/css/perfect-scrollbar.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/override.css" type="text/css" />
+  <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?b9a314ab40d04d805655aab1deee08ba";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
+
+  
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  
+  <header class="site-header">
+    <div class="site-logo">
+      <a href="/"><img src="../../_static/images/PP_w.png"></a>
+    </div>
+    <div class="site-nav-links">
+      <div class="site-menu">
+        <a class="fork-on-github" href="https://github.com/PaddlePaddle/Paddle" target="_blank"><i class="fa fa-github"></i>Fork me on Github</a>
+        <div class="language-switcher dropdown">
+          <a type="button" data-toggle="dropdown">
+            <span>English</span>
+            <i class="fa fa-angle-up"></i>
+            <i class="fa fa-angle-down"></i>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="/doc_cn">中文</a></li>
+            <li><a href="/doc">English</a></li>
+          </ul>
+        </div>
+        <ul class="site-page-links">
+          <li><a href="/">Home</a></li>
+        </ul>
+      </div>
+      <div class="doc-module">
+        
+        <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../getstarted/index_cn.html">新手入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howto/index_cn.html">进阶指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index_cn.html">API</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index_cn.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mobile/index_cn.html">MOBILE</a></li>
+</ul>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>        
+      </div>
+    </div>
+  </header>
+  
+  <div class="main-content-wrap">
+
+    
+    <nav class="doc-menu-vertical" role="navigation">
+        
+          
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../getstarted/index_cn.html">新手入门</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getstarted/build_and_install/index_cn.html">安装与编译</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../getstarted/build_and_install/pip_install_cn.html">使用pip安装</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../getstarted/build_and_install/docker_install_cn.html">使用Docker安装运行</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/dev/build_cn.html">用Docker编译和测试PaddlePaddle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../getstarted/build_and_install/build_from_source_cn.html">从源码编译</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../getstarted/concepts/use_concepts_cn.html">基本使用概念</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../howto/index_cn.html">进阶指南</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/usage/cmd_parameter/index_cn.html">设置命令行参数</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/usage/cmd_parameter/use_case_cn.html">使用案例</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/usage/cmd_parameter/arguments_cn.html">参数概述</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/usage/cmd_parameter/detail_introduction_cn.html">细节描述</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/usage/cluster/cluster_train_cn.html">PaddlePaddle分布式训练</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/usage/k8s/k8s_basis_cn.html">Kubernetes 简介</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/usage/k8s/k8s_cn.html">Kubernetes单机训练</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/usage/k8s/k8s_distributed_cn.html">Kubernetes分布式训练</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/dev/contribute_to_paddle_cn.html">如何贡献代码</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/dev/write_docs_cn.html">如何贡献/修改文档</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/deep_model/rnn/index_cn.html">RNN相关模型</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/deep_model/rnn/rnn_config_cn.html">RNN配置</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/deep_model/rnn/recurrent_group_cn.html">Recurrent Group教程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/deep_model/rnn/hierarchical_layer_cn.html">支持双层序列作为输入的Layer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/deep_model/rnn/hrnn_rnn_api_compare_cn.html">单双层RNN API对比介绍</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/optimization/gpu_profiling_cn.html">GPU性能分析与调优</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index_cn.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/v2/model_configs.html">模型配置</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/activation.html">Activation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/layer.html">Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/evaluators.html">Evaluators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/optimizer.html">Optimizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/pooling.html">Pooling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/networks.html">Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/attr.html">Parameter Attribute</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/v2/data.html">数据访问</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/data/data_reader.html">Data Reader Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/data/image.html">Image Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/data/dataset.html">Dataset</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/v2/run_logic.html">训练与应用</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index_cn.html">FAQ</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../build_and_install/index_cn.html">编译安装与单元测试</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">模型配置</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../parameter/index_cn.html">参数设置</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../local/index_cn.html">本地训练与预测</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cluster/index_cn.html">集群训练与预测</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../mobile/index_cn.html">MOBILE</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../mobile/cross_compiling_for_android_cn.html">Android平台编译指南</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mobile/cross_compiling_for_ios_cn.html">iOS平台编译指南</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mobile/cross_compiling_for_raspberry_cn.html">Raspberry Pi平台编译指南</a></li>
+</ul>
+</li>
+</ul>
+
+        
+    </nav>
+    
+    <section class="doc-content-wrap">
+
+      
+
+ 
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+      
+        <li><a href="../index_cn.html">FAQ</a> > </li>
+      
+    <li>模型配置</li>
+  </ul>
+</div>
+      
+      <div class="wy-nav-content" id="doc-content">
+        <div class="rst-content">
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1><a class="toc-backref" href="#id2">模型配置</a><a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#id1" id="id2">模型配置</a><ul>
+<li><a class="reference internal" href="#duplicated-layer-name" id="id3">1. 出现 <code class="code docutils literal"><span class="pre">Duplicated</span> <span class="pre">layer</span> <span class="pre">name</span></code> 错误怎么办</a></li>
+<li><a class="reference internal" href="#paddle-layer-memory-name" id="id4">2. <code class="code docutils literal"><span class="pre">paddle.layer.memory</span></code> 的参数 <code class="code docutils literal"><span class="pre">name</span></code> 如何使用</a></li>
+<li><a class="reference internal" href="#drop-out" id="id5">3. 两种使用 drop_out 的方法有何区别</a></li>
+<li><a class="reference internal" href="#recurrent-layer" id="id6">4. 不同的 recurrent layer 的区别</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="duplicated-layer-name">
+<h2><a class="toc-backref" href="#id3">1. 出现 <code class="code docutils literal"><span class="pre">Duplicated</span> <span class="pre">layer</span> <span class="pre">name</span></code> 错误怎么办</a><a class="headerlink" href="#duplicated-layer-name" title="永久链接至标题">¶</a></h2>
+<p>出现该错误的原因一般是用户对不同layer的参数 <code class="code docutils literal"><span class="pre">name</span></code> 设置了相同的取值。遇到该错误时，先找出参数 <code class="code docutils literal"><span class="pre">name</span></code> 取值相同的layer，然后将这些layer的参数 <code class="code docutils literal"><span class="pre">name</span></code> 设置为不同的值。</p>
+</div>
+<div class="section" id="paddle-layer-memory-name">
+<h2><a class="toc-backref" href="#id4">2. <code class="code docutils literal"><span class="pre">paddle.layer.memory</span></code> 的参数 <code class="code docutils literal"><span class="pre">name</span></code> 如何使用</a><a class="headerlink" href="#paddle-layer-memory-name" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li><code class="code docutils literal"><span class="pre">paddle.layer.memory</span></code> 用于获取特定layer上一时间步的输出，该layer是通过参数 <code class="code docutils literal"><span class="pre">name</span></code> 指定，即，<code class="code docutils literal"><span class="pre">paddle.layer.memory</span></code> 会关联参数 <code class="code docutils literal"><span class="pre">name</span></code> 取值相同的layer，并将该layer上一时间步的输出作为自身当前时间步的输出。</li>
+<li>PaddlePaddle的所有layer都有唯一的name，用户通过参数 <code class="code docutils literal"><span class="pre">name</span></code> 设定，当用户没有显式设定时，PaddlePaddle会自动设定。而 <code class="code docutils literal"><span class="pre">paddle.layer.memory</span></code> 不是真正的layer，其name由参数 <code class="code docutils literal"><span class="pre">memory_name</span></code> 设定，当用户没有显式设定时，PaddlePaddle会自动设定。<code class="code docutils literal"><span class="pre">paddle.layer.memory</span></code> 的参数 <code class="code docutils literal"><span class="pre">name</span></code> 用于指定其要关联的layer，需要用户显式设定。</li>
+</ul>
+</div>
+<div class="section" id="drop-out">
+<h2><a class="toc-backref" href="#id5">3. 两种使用 drop_out 的方法有何区别</a><a class="headerlink" href="#drop-out" title="永久链接至标题">¶</a></h2>
+<ul>
+<li><p class="first">在PaddlePaddle中使用dropout有两种方式</p>
+<ul class="simple">
+<li>在相应layer的 <code class="code docutils literal"><span class="pre">layer_atter</span></code> 设置 <code class="code docutils literal"><span class="pre">drop_rate</span></code>，以 <code class="code docutils literal"><span class="pre">paddle.layer.fc</span></code> 为例，代码如下：</li>
+</ul>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">fc</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="nb">input</span><span class="p">,</span> <span class="n">layer_attr</span><span class="o">=</span><span class="n">paddle</span><span class="o">.</span><span class="n">attr</span><span class="o">.</span><span class="n">ExtraLayerAttribute</span><span class="p">(</span><span class="n">drop_rate</span><span class="o">=</span><span class="mf">0.5</span><span class="p">))</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>使用 <code class="code docutils literal"><span class="pre">paddle.layer.dropout</span></code>，以 <code class="code docutils literal"><span class="pre">paddle.layer.fc</span></code> 为例，代码如下：</li>
+</ul>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">fc</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="nb">input</span><span class="p">)</span>
+<span class="n">drop_fc</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">dropout</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">fc</span><span class="p">,</span> <span class="n">dropout_rate</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first"><code class="code docutils literal"><span class="pre">paddle.layer.dropout</span></code> 实际上使用了 <code class="code docutils literal"><span class="pre">paddle.layer.add_to</span></code>，并在该layer里采用第一种方式设置 <code class="code docutils literal"><span class="pre">drop_rate</span></code> 来使用dropout的。这种方式对内存消耗较大。</p>
+</li>
+<li><p class="first">PaddlePaddle在激活函数里实现dropout，而不是在layer里实现。</p>
+</li>
+<li><p class="first"><code class="code docutils literal"><span class="pre">paddle.layer.lstmemory</span></code>、<code class="code docutils literal"><span class="pre">paddle.layer.grumemory</span></code>、<code class="code docutils literal"><span class="pre">paddle.layer.recurrent</span></code> 不是通过一般的方式来实现对输出的激活，所以不能采用第一种方式在这几个layer里设置 <code class="code docutils literal"><span class="pre">drop_rate</span></code> 来使用dropout。若要对这几个layer使用dropout，可采用第二种方式，即使用 <code class="code docutils literal"><span class="pre">paddle.layer.dropout</span></code>。</p>
+</li>
+</ul>
+</div>
+<div class="section" id="recurrent-layer">
+<h2><a class="toc-backref" href="#id6">4. 不同的 recurrent layer 的区别</a><a class="headerlink" href="#recurrent-layer" title="永久链接至标题">¶</a></h2>
+<p>以LSTM为例，在PaddlePaddle中包含以下 recurrent layer：</p>
+<ul class="simple">
+<li><code class="code docutils literal"><span class="pre">paddle.layer.lstmemory</span></code></li>
+<li><code class="code docutils literal"><span class="pre">paddle.networks.simple_lstm</span></code></li>
+<li><code class="code docutils literal"><span class="pre">paddle.networks.lstmemory_group</span></code></li>
+<li><code class="code docutils literal"><span class="pre">paddle.networks.bidirectional_lstm</span></code></li>
+</ul>
+<p>按照具体实现方式可以归纳为2类：</p>
+<ol class="arabic simple">
+<li>由 recurrent_group 实现的 recurrent layer：</li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li>用户在使用这一类recurrent layer时，可以访问由recurrent unit在一个时间步内计算得到的中间值（例如：hidden states, memory cells等）；</li>
+<li>上述的 <code class="code docutils literal"><span class="pre">paddle.networks.lstmemory_group</span></code> 是这一类的 recurrent layer ；</li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li>将recurrent layer作为一个整体来实现：</li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li>用户在使用这一类recurrent layer，只能访问它们的输出值；</li>
+<li>上述的 <code class="code docutils literal"><span class="pre">paddle.networks.lstmemory_group</span></code> 、 <code class="code docutils literal"><span class="pre">paddle.networks.simple_lstm</span></code> 和 <code class="code docutils literal"><span class="pre">paddle.networks.bidirectional_lstm</span></code> 属于这一类的实现；</li>
+</ul>
+</div></blockquote>
+<p>将recurrent layer作为一个整体来实现， 能够针对CPU和GPU的计算做更多优化， 所以相比于recurrent group的实现方式， 第二类 recurrent layer 计算效率更高。 在实际应用中，如果用户不需要访问LSTM的中间变量，而只需要获得recurrent layer计算的输出，我们建议使用第二类实现。</p>
+<p>此外，关于LSTM, PaddlePaddle中还包含 <code class="code docutils literal"><span class="pre">paddle.networks.lstmemory_unit</span></code> 这一计算单元：</p>
+<blockquote>
+<div><ul class="simple">
+<li>不同于上述介绍的recurrent layer , <code class="code docutils literal"><span class="pre">paddle.networks.lstmemory_unit</span></code> 定义了LSTM单元在一个时间步内的计算过程，它并不是一个完整的recurrent layer，也不能接收序列数据作为输入；</li>
+<li><code class="code docutils literal"><span class="pre">paddle.networks.lstmemory_unit</span></code> 只能在recurrent_group中作为step function使用；</li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../parameter/index_cn.html" class="btn btn-neutral float-right" title="参数设置" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../build_and_install/index_cn.html" class="btn btn-neutral" title="编译安装与单元测试" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, PaddlePaddle developers.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: ".txt",
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../_static/translations.js"></script>
+      <script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+       
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+  
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/js/perfect-scrollbar.jquery.min.js"></script>
+  <script src="../../_static/js/paddle_doc_init.js"></script> 
+
+</body>
+</html>

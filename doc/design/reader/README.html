@@ -62,7 +62,7 @@
     </div>
     <div class="site-nav-links">
       <div class="site-menu">
-        <a class="fork-on-github" href="https://github.com/PaddlePaddle/Paddle" target="_blank"><i class="fa fa-github"></i>Folk me on Github</a>
+        <a class="fork-on-github" href="https://github.com/PaddlePaddle/Paddle" target="_blank"><i class="fa fa-github"></i>Fork me on Github</a>
         <div class="language-switcher dropdown">
           <a type="button" data-toggle="dropdown">
             <span>English</span>
@@ -84,7 +84,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../getstarted/index_en.html">GET STARTED</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../howto/index_en.html">HOW TO</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/index_en.html">API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../about/index_en.html">ABOUT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mobile/index_en.html">MOBILE</a></li>
 </ul>
 
         
@@ -108,9 +108,10 @@
           <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../getstarted/index_en.html">GET STARTED</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../getstarted/build_and_install/index_en.html">Install and Build</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../getstarted/build_and_install/docker_install_en.html">PaddlePaddle in Docker Containers</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../getstarted/build_and_install/ubuntu_install_en.html">Debian Package installation guide</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../getstarted/build_and_install/build_from_source_en.html">Installing from Sources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../getstarted/build_and_install/pip_install_en.html">Install Using pip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../getstarted/build_and_install/docker_install_en.html">Run in Docker Containers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/dev/build_en.html">Build using Docker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../getstarted/build_and_install/build_from_source_en.html">Build from Sources</a></li>
 </ul>
 </li>
 </ul>
@@ -122,12 +123,16 @@
 <li class="toctree-l3"><a class="reference internal" href="../../howto/usage/cmd_parameter/detail_introduction_en.html">Detail Description</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../howto/usage/cluster/cluster_train_en.html">Run Distributed Training</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/usage/cluster/cluster_train_en.html">PaddlePaddle Distributed Training</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../howto/usage/k8s/k8s_en.html">Paddle On Kubernetes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../howto/usage/k8s/k8s_aws_en.html">Distributed PaddlePaddle Training on AWS with Kubernetes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../howto/dev/new_layer_en.html">Write New Layers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../howto/dev/contribute_to_paddle_en.html">Contribute Code</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../howto/deep_model/rnn/index_en.html">RNN Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/dev/write_docs_en.html">Contribute Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/deep_model/rnn/index_en.html">RNN Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/deep_model/rnn/rnn_config_en.html">RNN Configuration</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../howto/optimization/gpu_profiling_en.html">Tune GPU Performance</a></li>
 </ul>
 </li>
@@ -135,17 +140,40 @@
 <li class="toctree-l2"><a class="reference internal" href="../../api/v2/model_configs.html">Model Configuration</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/activation.html">Activation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/layer.html">Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/evaluators.html">Evaluators</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/optimizer.html">Optimizer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/pooling.html">Pooling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/networks.html">Networks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/attr.html">Parameter Attribute</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/v2/data.html">Data Reader Interface and DataSets</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/v2/run_logic.html">Training and Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/v2/data.html">Data Reader Interface and DataSets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/data/data_reader.html">Data Reader Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/data/image.html">Image Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/data/dataset.html">Dataset</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../about/index_en.html">ABOUT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/v2/run_logic.html">Training and Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/v2/fluid.html">Fluid</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/layers.html">Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/data_feeder.html">DataFeeder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/executor.html">Executor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/initializer.html">Initializer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/evaluator.html">Evaluator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/nets.html">Nets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/optimizer.html">Optimizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/param_attr.html">ParamAttr</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/profiler.html">Profiler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/regularizer.html">Regularizer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../mobile/index_en.html">MOBILE</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../mobile/cross_compiling_for_android_en.html">Build PaddlePaddle for Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mobile/cross_compiling_for_raspberry_en.html">Build PaddlePaddle for Raspberry Pi</a></li>
+</ul>
+</li>
 </ul>
 
         
@@ -177,22 +205,22 @@
             
   <div class="section" id="python-data-reader-design-doc">
 <span id="python-data-reader-design-doc"></span><h1>Python Data Reader Design Doc<a class="headerlink" href="#python-data-reader-design-doc" title="Permalink to this headline">¶</a></h1>
-<p>At training and testing time, PaddlePaddle programs need to read data. To ease the users&#8217; work to write data reading code, we define that</p>
+<p>During the training and testing phases, PaddlePaddle programs need to read data. To help the users write code that performs reading input data, we define the following:</p>
 <ul class="simple">
-<li>A <em>reader</em> is a function that reads data (from file, network, random number generator, etc) and yields data items.</li>
-<li>A <em>reader creator</em> is a function that returns a reader function.</li>
-<li>A <em>reader decorator</em> is a function, which accepts one or more readers, and returns a reader.</li>
-<li>A <em>batch reader</em> is a function that reads data (from <em>reader</em>, file, network, random number generator, etc) and yields a batch of data items.</li>
+<li>A <em>reader</em>: A function that reads data (from file, network, random number generator, etc) and yields the data items.</li>
+<li>A <em>reader creator</em>: A function that returns a reader function.</li>
+<li>A <em>reader decorator</em>: A function, which takes in one or more readers, and returns a reader.</li>
+<li>A <em>batch reader</em>: A function that reads data (from <em>reader</em>, file, network, random number generator, etc) and yields a batch of data items.</li>
 </ul>
-<p>and provide function which converts reader to batch reader, frequently used reader creators and reader decorators.</p>
+<p>and also provide a function which can convert a reader to a batch reader, frequently used reader creators and reader decorators.</p>
 <div class="section" id="data-reader-interface">
 <span id="data-reader-interface"></span><h2>Data Reader Interface<a class="headerlink" href="#data-reader-interface" title="Permalink to this headline">¶</a></h2>
-<p>Indeed, <em>data reader</em> doesn&#8217;t have to be a function that reads and yields data items. It can be any function with no parameter that creates a iterable (anything can be used in <code class="docutils literal"><span class="pre">for</span> <span class="pre">x</span> <span class="pre">in</span> <span class="pre">iterable</span></code>):</p>
+<p><em>Data reader</em> doesn&#8217;t have to be a function that reads and yields data items. It can just be any function without any parameters that creates an iterable (anything can be used in <code class="docutils literal"><span class="pre">for</span> <span class="pre">x</span> <span class="pre">in</span> <span class="pre">iterable</span></code>) as follows:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">iterable</span> <span class="o">=</span> <span class="n">data_reader</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>Element produced from the iterable should be a <strong>single</strong> entry of data, <strong>not</strong> a mini batch. That entry of data could be a single item, or a tuple of items. Item should be of <a class="reference external" href="http://www.paddlepaddle.org/doc/ui/data_provider/pydataprovider2.html?highlight=dense_vector#input-types">supported type</a> (e.g., numpy 1d array of float32, int, list of int)</p>
-<p>An example implementation for single item data reader creator:</p>
+<p>The item produced from the iterable should be a <strong>single</strong> entry of data and <strong>not</strong> a mini batch. The entry of data could be a single item or a tuple of items. Item should be of one of the <a class="reference external" href="http://www.paddlepaddle.org/doc/ui/data_provider/pydataprovider2.html?highlight=dense_vector#input-types">supported types</a> (e.g., numpy 1d array of float32, int, list of int etc.)</p>
+<p>An example implementation for single item data reader creator is as follows:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">reader_creator_random_image</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">reader</span><span class="p">():</span>
         <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
@@ -200,7 +228,7 @@
     <span class="k">return</span> <span class="n">reader</span>
 </pre></div>
 </div>
-<p>An example implementation for multiple item data reader creator:</p>
+<p>An example implementation for multiple item data reader creator is as follows:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">reader_creator_random_image_and_label</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">reader</span><span class="p">():</span>
         <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
@@ -211,8 +239,8 @@
 </div>
 <div class="section" id="batch-reader-interface">
 <span id="batch-reader-interface"></span><h2>Batch Reader Interface<a class="headerlink" href="#batch-reader-interface" title="Permalink to this headline">¶</a></h2>
-<p><em>batch reader</em> can be any function with no parameter that creates a iterable (anything can be used in <code class="docutils literal"><span class="pre">for</span> <span class="pre">x</span> <span class="pre">in</span> <span class="pre">iterable</span></code>). The output of the iterable should be a batch (list) of data items. Each item inside the list must be a tuple.</p>
-<p>Here are valid outputs:</p>
+<p><em>Batch reader</em> can be any function without any parameters that creates an iterable (anything can be used in <code class="docutils literal"><span class="pre">for</span> <span class="pre">x</span> <span class="pre">in</span> <span class="pre">iterable</span></code>). The output of the iterable should be a batch (list) of data items. Each item inside the list should be a tuple.</p>
+<p>Here are some valid outputs:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># a mini batch of three data items. Each data item consist three columns of data, each of which is 1.</span>
 <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
 <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
@@ -221,24 +249,24 @@
 <span class="c1"># a mini batch of three data items, each data item is a list (single column).</span>
 <span class="p">[([</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],),</span>
 <span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">],),</span>
-<span class="p">([</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">],),</span>
+<span class="p">([</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">],)]</span>
 </pre></div>
 </div>
 <p>Please note that each item inside the list must be a tuple, below is an invalid output:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span> <span class="c1"># wrong, [1,1,1] needs to be inside a tuple: ([1,1,1],).</span>
- <span class="c1"># Otherwise it&#39;s ambiguous whether [1,1,1] means a single column of data [1, 1, 1],</span>
- <span class="c1"># or three column of datas, each of which is 1.</span>
+ <span class="c1"># Otherwise it is ambiguous whether [1,1,1] means a single column of data [1, 1, 1],</span>
+ <span class="c1"># or three columns of data, each of which is 1.</span>
 <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
 <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span>
 <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">]]</span>
 </pre></div>
 </div>
-<p>It&#8217;s easy to convert from reader to batch reader:</p>
+<p>It is easy to convert from a reader to a batch reader:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">mnist_train</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">mnist</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
 <span class="n">mnist_train_batch_reader</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="n">mnist_train</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Also easy to create custom batch reader:</p>
+<p>It is also straight forward to create a custom batch reader:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">custom_batch_reader</span><span class="p">():</span>
     <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
         <span class="n">batch</span> <span class="o">=</span> <span class="p">[]</span>
@@ -252,7 +280,8 @@
 </div>
 <div class="section" id="usage">
 <span id="usage"></span><h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
-<p>batch reader, mapping from item(s) read to data layer, batch size and number of total pass will be passed into <code class="docutils literal"><span class="pre">paddle.train</span></code>:</p>
+<p>Following is how we can use the reader with PaddlePaddle:
+The batch reader, a mapping from item(s) to data layer, the batch size and the number of total passes will be passed into <code class="docutils literal"><span class="pre">paddle.train</span></code> as follows:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># two data layer is created:</span>
 <span class="n">image_layer</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="s2">&quot;image&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
 <span class="n">label_layer</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
@@ -265,11 +294,11 @@
 </div>
 <div class="section" id="data-reader-decorator">
 <span id="data-reader-decorator"></span><h2>Data Reader Decorator<a class="headerlink" href="#data-reader-decorator" title="Permalink to this headline">¶</a></h2>
-<p><em>Data reader decorator</em> takes a single or multiple data reader, returns a new data reader. It is similar to a <a class="reference external" href="https://wiki.python.org/moin/PythonDecorators">python decorator</a>, but it does not use <code class="docutils literal"><span class="pre">&#64;</span></code> syntax.</p>
-<p>Since we have a strict interface for data readers (no parameter, return a single data item). Data reader can be used flexiable via data reader decorators. Following are a few examples:</p>
+<p>The <em>Data reader decorator</em> takes in a single reader or multiple data readers and returns a new data reader. It is similar to a <a class="reference external" href="https://wiki.python.org/moin/PythonDecorators">python decorator</a>, but it does not use <code class="docutils literal"><span class="pre">&#64;</span></code> in the syntax.</p>
+<p>Since we have a strict interface for data readers (no parameters and return a single data item), a data reader can be used in a flexible way using data reader decorators. Following are a few examples:</p>
 <div class="section" id="prefetch-data">
 <span id="prefetch-data"></span><h3>Prefetch Data<a class="headerlink" href="#prefetch-data" title="Permalink to this headline">¶</a></h3>
-<p>Since reading data may take time and training can not proceed without data. It is generally a good idea to prefetch data.</p>
+<p>Since reading data may take some time and training can not proceed without data, it is generally a good idea to prefetch the data.</p>
 <p>Use <code class="docutils literal"><span class="pre">paddle.reader.buffered</span></code> to prefetch data:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">buffered_reader</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">buffered</span><span class="p">(</span><span class="n">paddle</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">mnist</span><span class="o">.</span><span class="n">train</span><span class="p">(),</span> <span class="mi">100</span><span class="p">)</span>
 </pre></div>
@@ -278,8 +307,8 @@
 </div>
 <div class="section" id="compose-multiple-data-readers">
 <span id="compose-multiple-data-readers"></span><h3>Compose Multiple Data Readers<a class="headerlink" href="#compose-multiple-data-readers" title="Permalink to this headline">¶</a></h3>
-<p>For example, we want to use a source of real images (reusing mnist dataset), and a source of random images as input for <a class="reference external" href="https://arxiv.org/abs/1406.2661">Generative Adversarial Networks</a>.</p>
-<p>We can do:</p>
+<p>For example, if we want to use a source of real images (say reusing mnist dataset), and a source of random images as input for <a class="reference external" href="https://arxiv.org/abs/1406.2661">Generative Adversarial Networks</a>.</p>
+<p>We can do the following :</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">reader_creator_random_image</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">reader</span><span class="p">():</span>
         <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
@@ -297,14 +326,14 @@
 
 <span class="n">reader</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">paddle</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">mnist</span><span class="o">.</span><span class="n">train</span><span class="p">(),</span> <span class="n">data_reader_creator_random_image</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="n">true_reader</span><span class="p">,</span> <span class="n">false_reader</span><span class="p">)</span>
 <span class="c1"># Skipped 1 because paddle.dataset.mnist.train() produces two items per data entry.</span>
-<span class="c1"># And we don&#39;t care second item at this time.</span>
+<span class="c1"># And we don&#39;t care about the second item at this time.</span>
 <span class="n">paddle</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">paddle</span><span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="n">reader</span><span class="p">,</span> <span class="mi">128</span><span class="p">),</span> <span class="p">{</span><span class="s2">&quot;true_image&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;fake_image&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;true_label&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;false_label&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">},</span> <span class="o">...</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="shuffle">
 <span id="shuffle"></span><h3>Shuffle<a class="headerlink" href="#shuffle" title="Permalink to this headline">¶</a></h3>
-<p>Given shuffle buffer size <code class="docutils literal"><span class="pre">n</span></code>, <code class="docutils literal"><span class="pre">paddle.reader.shuffle</span></code> will return a data reader that buffers <code class="docutils literal"><span class="pre">n</span></code> data entries and shuffle them before a data entry is read.</p>
+<p>Given the shuffle buffer size <code class="docutils literal"><span class="pre">n</span></code>, <code class="docutils literal"><span class="pre">paddle.reader.shuffle</span></code> returns a data reader that buffers <code class="docutils literal"><span class="pre">n</span></code> data entries and shuffles them before a data entry is read.</p>
 <p>Example:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">reader</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">paddle</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">mnist</span><span class="o">.</span><span class="n">train</span><span class="p">(),</span> <span class="mi">512</span><span class="p">)</span>
 </pre></div>
@@ -313,21 +342,21 @@
 </div>
 <div class="section" id="q-a">
 <span id="q-a"></span><h2>Q &amp; A<a class="headerlink" href="#q-a" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="why-reader-return-only-a-single-entry-but-not-a-mini-batch">
-<span id="why-reader-return-only-a-single-entry-but-not-a-mini-batch"></span><h3>Why reader return only a single entry, but not a mini batch?<a class="headerlink" href="#why-reader-return-only-a-single-entry-but-not-a-mini-batch" title="Permalink to this headline">¶</a></h3>
-<p>Always returning a single entry make reusing existing data readers much easier (e.g., if existing reader return not a single entry but 3 entries, training code will be more complex because it need to handle cases like batch size 2).</p>
-<p>We provide function <code class="docutils literal"><span class="pre">paddle.batch</span></code> to turn (single entry) reader into batch reader.</p>
+<div class="section" id="why-does-a-reader-return-only-a-single-entry-and-not-a-mini-batch">
+<span id="why-does-a-reader-return-only-a-single-entry-and-not-a-mini-batch"></span><h3>Why does a reader return only a single entry, and not a mini batch?<a class="headerlink" href="#why-does-a-reader-return-only-a-single-entry-and-not-a-mini-batch" title="Permalink to this headline">¶</a></h3>
+<p>Returning a single entry makes reusing existing data readers much easier (for example, if an existing reader returns 3 entries instead if a single entry, the training code will be more complicated because it need to handle cases like a batch size 2).</p>
+<p>We provide a function: <code class="docutils literal"><span class="pre">paddle.batch</span></code> to turn (a single entry) reader into a batch reader.</p>
 </div>
-<div class="section" id="why-do-we-need-batch-reader-isn-t-train-take-reader-and-batch-size-as-arguments-sufficient">
-<span id="why-do-we-need-batch-reader-isn-t-train-take-reader-and-batch-size-as-arguments-sufficient"></span><h3>Why do we need batch reader, isn&#8217;t train take reader and batch_size as arguments sufficient?<a class="headerlink" href="#why-do-we-need-batch-reader-isn-t-train-take-reader-and-batch-size-as-arguments-sufficient" title="Permalink to this headline">¶</a></h3>
-<p>In most of the case, train taking reader and batch_size as arguments would be sufficent. However sometimes user want to customize order of data entries inside a mini batch. Or even change batch size dynamically.</p>
+<div class="section" id="why-do-we-need-a-batch-reader-isn-t-is-sufficient-to-give-the-reader-and-batch-size-as-arguments-during-training">
+<span id="why-do-we-need-a-batch-reader-isn-t-is-sufficient-to-give-the-reader-and-batch-size-as-arguments-during-training"></span><h3>Why do we need a batch reader, isn&#8217;t is sufficient to give the reader and batch_size as arguments during training ?<a class="headerlink" href="#why-do-we-need-a-batch-reader-isn-t-is-sufficient-to-give-the-reader-and-batch-size-as-arguments-during-training" title="Permalink to this headline">¶</a></h3>
+<p>In most of the cases, it would be sufficient to give the reader and batch_size as arguments to the train method. However sometimes the user wants to customize the order of data entries inside a mini batch, or even change the batch size dynamically. For these cases using a batch reader is very efficient and helpful.</p>
 </div>
-<div class="section" id="why-use-a-dictionary-but-not-a-list-to-provide-mapping">
-<span id="why-use-a-dictionary-but-not-a-list-to-provide-mapping"></span><h3>Why use a dictionary but not a list to provide mapping?<a class="headerlink" href="#why-use-a-dictionary-but-not-a-list-to-provide-mapping" title="Permalink to this headline">¶</a></h3>
-<p>We decided to use dictionary (<code class="docutils literal"><span class="pre">{&quot;image&quot;:0,</span> <span class="pre">&quot;label&quot;:1}</span></code>) instead of list (<code class="docutils literal"><span class="pre">[&quot;image&quot;,</span> <span class="pre">&quot;label&quot;]</span></code>) is because that user can easily resue item (e.g., using <code class="docutils literal"><span class="pre">{&quot;image_a&quot;:0,</span> <span class="pre">&quot;image_b&quot;:0,</span> <span class="pre">&quot;label&quot;:1}</span></code>) or skip item (e.g., using <code class="docutils literal"><span class="pre">{&quot;image_a&quot;:0,</span> <span class="pre">&quot;label&quot;:2}</span></code>).</p>
+<div class="section" id="why-use-a-dictionary-instead-of-a-list-to-provide-mapping">
+<span id="why-use-a-dictionary-instead-of-a-list-to-provide-mapping"></span><h3>Why use a dictionary instead of a list to provide mapping?<a class="headerlink" href="#why-use-a-dictionary-instead-of-a-list-to-provide-mapping" title="Permalink to this headline">¶</a></h3>
+<p>Using a dictionary (<code class="docutils literal"><span class="pre">{&quot;image&quot;:0,</span> <span class="pre">&quot;label&quot;:1}</span></code>) instead of a list (<code class="docutils literal"><span class="pre">[&quot;image&quot;,</span> <span class="pre">&quot;label&quot;]</span></code>) gives the advantage that the user can easily reuse the items (e.g., using <code class="docutils literal"><span class="pre">{&quot;image_a&quot;:0,</span> <span class="pre">&quot;image_b&quot;:0,</span> <span class="pre">&quot;label&quot;:1}</span></code>) or even skip an item (e.g., using <code class="docutils literal"><span class="pre">{&quot;image_a&quot;:0,</span> <span class="pre">&quot;label&quot;:2}</span></code>).</p>
 </div>
-<div class="section" id="how-to-create-custom-data-reader-creator">
-<span id="how-to-create-custom-data-reader-creator"></span><h3>How to create custom data reader creator<a class="headerlink" href="#how-to-create-custom-data-reader-creator" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="how-to-create-a-custom-data-reader-creator">
+<span id="how-to-create-a-custom-data-reader-creator"></span><h3>How to create a custom data reader creator ?<a class="headerlink" href="#how-to-create-a-custom-data-reader-creator" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">image_reader_creator</span><span class="p">(</span><span class="n">image_path</span><span class="p">,</span> <span class="n">label_path</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">reader</span><span class="p">():</span>
         <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">image_path</span><span class="p">)</span>
@@ -350,7 +379,7 @@
 </div>
 <div class="section" id="how-is-paddle-train-implemented">
 <span id="how-is-paddle-train-implemented"></span><h3>How is <code class="docutils literal"><span class="pre">paddle.train</span></code> implemented<a class="headerlink" href="#how-is-paddle-train-implemented" title="Permalink to this headline">¶</a></h3>
-<p>An example implementation of paddle.train could be:</p>
+<p>An example implementation of paddle.train is:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="n">batch_reader</span><span class="p">,</span> <span class="n">mapping</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">total_pass</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">pass_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">total_pass</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">mini_batch</span> <span class="ow">in</span> <span class="n">batch_reader</span><span class="p">():</span> <span class="c1"># this loop will never end in online learning.</span>

@@ -1,0 +1,547 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Image Interface &mdash; PaddlePaddle  documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+  
+        <link rel="index" title="Index"
+              href="../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="PaddlePaddle  documentation" href="../../../index.html"/>
+        <link rel="up" title="Data Reader Interface and DataSets" href="../data.html"/>
+        <link rel="next" title="Dataset" href="dataset.html"/>
+        <link rel="prev" title="Data Reader Interface" href="data_reader.html"/> 
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/css/perfect-scrollbar.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/override.css" type="text/css" />
+  <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?b9a314ab40d04d805655aab1deee08ba";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
+
+  
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  
+  <header class="site-header">
+    <div class="site-logo">
+      <a href="/"><img src="../../../_static/images/PP_w.png"></a>
+    </div>
+    <div class="site-nav-links">
+      <div class="site-menu">
+        <a class="fork-on-github" href="https://github.com/PaddlePaddle/Paddle" target="_blank"><i class="fa fa-github"></i>Fork me on Github</a>
+        <div class="language-switcher dropdown">
+          <a type="button" data-toggle="dropdown">
+            <span>English</span>
+            <i class="fa fa-angle-up"></i>
+            <i class="fa fa-angle-down"></i>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="/doc_cn">中文</a></li>
+            <li><a href="/doc">English</a></li>
+          </ul>
+        </div>
+        <ul class="site-page-links">
+          <li><a href="/">Home</a></li>
+        </ul>
+      </div>
+      <div class="doc-module">
+        
+        <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../getstarted/index_en.html">GET STARTED</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howto/index_en.html">HOW TO</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index_en.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mobile/index_en.html">MOBILE</a></li>
+</ul>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>        
+      </div>
+    </div>
+  </header>
+  
+  <div class="main-content-wrap">
+
+    
+    <nav class="doc-menu-vertical" role="navigation">
+        
+          
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../getstarted/index_en.html">GET STARTED</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../getstarted/build_and_install/index_en.html">Install and Build</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../getstarted/build_and_install/pip_install_en.html">Install Using pip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../getstarted/build_and_install/docker_install_en.html">Run in Docker Containers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../howto/dev/build_en.html">Build using Docker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../getstarted/build_and_install/build_from_source_en.html">Build from Sources</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howto/index_en.html">HOW TO</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../howto/usage/cmd_parameter/index_en.html">Set Command-line Parameters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../howto/usage/cmd_parameter/use_case_en.html">Use Case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../howto/usage/cmd_parameter/arguments_en.html">Argument Outline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../howto/usage/cmd_parameter/detail_introduction_en.html">Detail Description</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../howto/usage/cluster/cluster_train_en.html">PaddlePaddle Distributed Training</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../howto/usage/k8s/k8s_en.html">Paddle On Kubernetes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../howto/usage/k8s/k8s_aws_en.html">Distributed PaddlePaddle Training on AWS with Kubernetes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../howto/dev/new_layer_en.html">Write New Layers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../howto/dev/contribute_to_paddle_en.html">Contribute Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../howto/dev/write_docs_en.html">Contribute Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../howto/deep_model/rnn/index_en.html">RNN Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../howto/deep_model/rnn/rnn_config_en.html">RNN Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../howto/optimization/gpu_profiling_en.html">Tune GPU Performance</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index_en.html">API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../model_configs.html">Model Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../config/activation.html">Activation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../config/layer.html">Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../config/evaluators.html">Evaluators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../config/optimizer.html">Optimizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../config/pooling.html">Pooling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../config/networks.html">Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../config/attr.html">Parameter Attribute</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="reference internal" href="../data.html">Data Reader Interface and DataSets</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="data_reader.html">Data Reader Interface</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Image Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dataset.html">Dataset</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../run_logic.html">Training and Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fluid.html">Fluid</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../fluid/layers.html">Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fluid/data_feeder.html">DataFeeder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fluid/executor.html">Executor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fluid/initializer.html">Initializer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fluid/evaluator.html">Evaluator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fluid/nets.html">Nets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fluid/optimizer.html">Optimizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fluid/param_attr.html">ParamAttr</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fluid/profiler.html">Profiler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fluid/regularizer.html">Regularizer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mobile/index_en.html">MOBILE</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../mobile/cross_compiling_for_android_en.html">Build PaddlePaddle for Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../mobile/cross_compiling_for_raspberry_en.html">Build PaddlePaddle for Raspberry Pi</a></li>
+</ul>
+</li>
+</ul>
+
+        
+    </nav>
+    
+    <section class="doc-content-wrap">
+
+      
+
+ 
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+      
+        <li><a href="../../index_en.html">API</a> > </li>
+      
+        <li><a href="../data.html">Data Reader Interface and DataSets</a> > </li>
+      
+    <li>Image Interface</li>
+  </ul>
+</div>
+      
+      <div class="wy-nav-content" id="doc-content">
+        <div class="rst-content">
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-paddle.v2.image">
+<span id="image-interface"></span><h1>Image Interface<a class="headerlink" href="#module-paddle.v2.image" title="Permalink to this headline">¶</a></h1>
+<p>This file contains some common interfaces for image preprocess.
+Many users are confused about the image layout. We introduce
+the image layout as follows.</p>
+<ul>
+<li><p class="first">CHW Layout</p>
+<ul class="simple">
+<li>The abbreviations: C=channel, H=Height, W=Width</li>
+<li>The default layout of image opened by cv2 or PIL is HWC.
+PaddlePaddle only supports the CHW layout. And CHW is simply
+a transpose of HWC. It must transpose the input image.</li>
+</ul>
+</li>
+<li><p class="first">Color format: RGB or BGR</p>
+<p>OpenCV use BGR color format. PIL use RGB color format. Both
+formats can be used for training. Noted that, the format should
+be keep consistent between the training and inference peroid.</p>
+</li>
+</ul>
+<dl class="function">
+<dt id="paddle.v2.image.batch_images_from_tar">
+<code class="descclassname">paddle.v2.image.</code><code class="descname">batch_images_from_tar</code><span class="sig-paren">(</span><em>data_file</em>, <em>dataset_name</em>, <em>img2label</em>, <em>num_per_batch=1024</em><span class="sig-paren">)</span><a class="headerlink" href="#paddle.v2.image.batch_images_from_tar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read images from tar file and batch them into batch file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>data_file</strong> (<em>string</em>) &#8211; path of image tar file</li>
+<li><strong>dataset_name</strong> (<em>string</em>) &#8211; &#8216;train&#8217;,&#8217;test&#8217; or &#8216;valid&#8217;</li>
+<li><strong>img2label</strong> (<em>dic</em>) &#8211; a dic with image file name as key
+and image&#8217;s label as value</li>
+<li><strong>num_per_batch</strong> (<em>int</em>) &#8211; image number per batch file</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">path of list file containing paths of batch file</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="paddle.v2.image.load_image_bytes">
+<code class="descclassname">paddle.v2.image.</code><code class="descname">load_image_bytes</code><span class="sig-paren">(</span><em>bytes</em>, <em>is_color=True</em><span class="sig-paren">)</span><a class="headerlink" href="#paddle.v2.image.load_image_bytes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load an color or gray image from bytes array.</p>
+<p>Example usage:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;cat.jpg&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">im</span> <span class="o">=</span> <span class="n">load_image_bytes</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>bytes</strong> (<em>str</em>) &#8211; the input image bytes array.</li>
+<li><strong>is_color</strong> (<em>bool</em>) &#8211; If set is_color True, it will load and
+return a color image. Otherwise, it will
+load and return a gray image.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="paddle.v2.image.load_image">
+<code class="descclassname">paddle.v2.image.</code><code class="descname">load_image</code><span class="sig-paren">(</span><em>file</em>, <em>is_color=True</em><span class="sig-paren">)</span><a class="headerlink" href="#paddle.v2.image.load_image" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load an color or gray image from the file path.</p>
+<p>Example usage:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">im</span> <span class="o">=</span> <span class="n">load_image</span><span class="p">(</span><span class="s1">&#39;cat.jpg&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>file</strong> (<em>string</em>) &#8211; the input image path.</li>
+<li><strong>is_color</strong> (<em>bool</em>) &#8211; If set is_color True, it will load and
+return a color image. Otherwise, it will
+load and return a gray image.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="paddle.v2.image.resize_short">
+<code class="descclassname">paddle.v2.image.</code><code class="descname">resize_short</code><span class="sig-paren">(</span><em>im</em>, <em>size</em><span class="sig-paren">)</span><a class="headerlink" href="#paddle.v2.image.resize_short" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resize an image so that the length of shorter edge is size.</p>
+<p>Example usage:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">im</span> <span class="o">=</span> <span class="n">load_image</span><span class="p">(</span><span class="s1">&#39;cat.jpg&#39;</span><span class="p">)</span>
+<span class="n">im</span> <span class="o">=</span> <span class="n">resize_short</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>im</strong> (<em>ndarray</em>) &#8211; the input image with HWC layout.</li>
+<li><strong>size</strong> (<em>int</em>) &#8211; the shorter edge size of image after resizing.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="paddle.v2.image.to_chw">
+<code class="descclassname">paddle.v2.image.</code><code class="descname">to_chw</code><span class="sig-paren">(</span><em>im</em>, <em>order=(2</em>, <em>0</em>, <em>1)</em><span class="sig-paren">)</span><a class="headerlink" href="#paddle.v2.image.to_chw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transpose the input image order. The image layout is HWC format
+opened by cv2 or PIL. Transpose the input image to CHW layout
+according the order (2,0,1).</p>
+<p>Example usage:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">im</span> <span class="o">=</span> <span class="n">load_image</span><span class="p">(</span><span class="s1">&#39;cat.jpg&#39;</span><span class="p">)</span>
+<span class="n">im</span> <span class="o">=</span> <span class="n">resize_short</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>
+<span class="n">im</span> <span class="o">=</span> <span class="n">to_chw</span><span class="p">(</span><span class="n">im</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>im</strong> (<em>ndarray</em>) &#8211; the input image with HWC layout.</li>
+<li><strong>order</strong> (<em>tuple|list</em>) &#8211; the transposed order.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="paddle.v2.image.center_crop">
+<code class="descclassname">paddle.v2.image.</code><code class="descname">center_crop</code><span class="sig-paren">(</span><em>im</em>, <em>size</em>, <em>is_color=True</em><span class="sig-paren">)</span><a class="headerlink" href="#paddle.v2.image.center_crop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Crop the center of image with size.</p>
+<p>Example usage:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">im</span> <span class="o">=</span> <span class="n">center_crop</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="mi">224</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>im</strong> (<em>ndarray</em>) &#8211; the input image with HWC layout.</li>
+<li><strong>size</strong> (<em>int</em>) &#8211; the cropping size.</li>
+<li><strong>is_color</strong> (<em>bool</em>) &#8211; whether the image is color or not.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="paddle.v2.image.random_crop">
+<code class="descclassname">paddle.v2.image.</code><code class="descname">random_crop</code><span class="sig-paren">(</span><em>im</em>, <em>size</em>, <em>is_color=True</em><span class="sig-paren">)</span><a class="headerlink" href="#paddle.v2.image.random_crop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Randomly crop input image with size.</p>
+<p>Example usage:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">im</span> <span class="o">=</span> <span class="n">random_crop</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="mi">224</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>im</strong> (<em>ndarray</em>) &#8211; the input image with HWC layout.</li>
+<li><strong>size</strong> (<em>int</em>) &#8211; the cropping size.</li>
+<li><strong>is_color</strong> (<em>bool</em>) &#8211; whether the image is color or not.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="paddle.v2.image.left_right_flip">
+<code class="descclassname">paddle.v2.image.</code><code class="descname">left_right_flip</code><span class="sig-paren">(</span><em>im</em><span class="sig-paren">)</span><a class="headerlink" href="#paddle.v2.image.left_right_flip" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flip an image along the horizontal direction.
+Return the flipped image.</p>
+<p>Example usage:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">im</span> <span class="o">=</span> <span class="n">left_right_flip</span><span class="p">(</span><span class="n">im</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paam im:</th><td class="field-body">input image with HWC layout</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="paddle.v2.image.simple_transform">
+<code class="descclassname">paddle.v2.image.</code><code class="descname">simple_transform</code><span class="sig-paren">(</span><em>im</em>, <em>resize_size</em>, <em>crop_size</em>, <em>is_train</em>, <em>is_color=True</em>, <em>mean=None</em><span class="sig-paren">)</span><a class="headerlink" href="#paddle.v2.image.simple_transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simply data argumentation for training. These operations include
+resizing, croping and flipping.</p>
+<p>Example usage:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">im</span> <span class="o">=</span> <span class="n">simple_transform</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>im</strong> (<em>ndarray</em>) &#8211; The input image with HWC layout.</li>
+<li><strong>resize_size</strong> (<em>int</em>) &#8211; The shorter edge length of the resized image.</li>
+<li><strong>crop_size</strong> (<em>int</em>) &#8211; The cropping size.</li>
+<li><strong>is_train</strong> (<em>bool</em>) &#8211; Whether it is training or not.</li>
+<li><strong>is_color</strong> (<em>bool</em>) &#8211; whether the image is color or not.</li>
+<li><strong>mean</strong> (<em>numpy array | list</em>) &#8211; the mean values, which can be element-wise mean values or
+mean values per channel.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="paddle.v2.image.load_and_transform">
+<code class="descclassname">paddle.v2.image.</code><code class="descname">load_and_transform</code><span class="sig-paren">(</span><em>filename</em>, <em>resize_size</em>, <em>crop_size</em>, <em>is_train</em>, <em>is_color=True</em>, <em>mean=None</em><span class="sig-paren">)</span><a class="headerlink" href="#paddle.v2.image.load_and_transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load image from the input file <cite>filename</cite> and transform image for
+data argumentation. Please refer to the <cite>simple_transform</cite> interface
+for the transform operations.</p>
+<p>Example usage:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">im</span> <span class="o">=</span> <span class="n">load_and_transform</span><span class="p">(</span><span class="s1">&#39;cat.jpg&#39;</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>filename</strong> (<em>string</em>) &#8211; The file name of input image.</li>
+<li><strong>resize_size</strong> (<em>int</em>) &#8211; The shorter edge length of the resized image.</li>
+<li><strong>crop_size</strong> (<em>int</em>) &#8211; The cropping size.</li>
+<li><strong>is_train</strong> (<em>bool</em>) &#8211; Whether it is training or not.</li>
+<li><strong>is_color</strong> (<em>bool</em>) &#8211; whether the image is color or not.</li>
+<li><strong>mean</strong> (<em>numpy array | list</em>) &#8211; the mean values, which can be element-wise mean values or
+mean values per channel.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="dataset.html" class="btn btn-neutral float-right" title="Dataset" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="data_reader.html" class="btn btn-neutral" title="Data Reader Interface" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, PaddlePaddle developers.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: ".txt",
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+       
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+  
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/js/perfect-scrollbar.jquery.min.js"></script>
+  <script src="../../../_static/js/paddle_doc_init.js"></script> 
+
+</body>
+</html>

@@ -1,0 +1,1124 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Layers &mdash; PaddlePaddle  文档</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+  
+        <link rel="index" title="索引"
+              href="../../../genindex.html"/>
+        <link rel="search" title="搜索" href="../../../search.html"/>
+    <link rel="top" title="PaddlePaddle  文档" href="../../../index.html"/> 
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/css/perfect-scrollbar.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/override.css" type="text/css" />
+  <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?b9a314ab40d04d805655aab1deee08ba";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
+
+  
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  
+  <header class="site-header">
+    <div class="site-logo">
+      <a href="/"><img src="../../../_static/images/PP_w.png"></a>
+    </div>
+    <div class="site-nav-links">
+      <div class="site-menu">
+        <a class="fork-on-github" href="https://github.com/PaddlePaddle/Paddle" target="_blank"><i class="fa fa-github"></i>Fork me on Github</a>
+        <div class="language-switcher dropdown">
+          <a type="button" data-toggle="dropdown">
+            <span>English</span>
+            <i class="fa fa-angle-up"></i>
+            <i class="fa fa-angle-down"></i>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="/doc_cn">中文</a></li>
+            <li><a href="/doc">English</a></li>
+          </ul>
+        </div>
+        <ul class="site-page-links">
+          <li><a href="/">Home</a></li>
+        </ul>
+      </div>
+      <div class="doc-module">
+        
+        <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../getstarted/index_cn.html">新手入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howto/index_cn.html">进阶指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index_cn.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq/index_cn.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mobile/index_cn.html">MOBILE</a></li>
+</ul>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>        
+      </div>
+    </div>
+  </header>
+  
+  <div class="main-content-wrap">
+
+    
+    <nav class="doc-menu-vertical" role="navigation">
+        
+          
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../getstarted/index_cn.html">新手入门</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../getstarted/build_and_install/index_cn.html">安装与编译</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../getstarted/build_and_install/pip_install_cn.html">使用pip安装</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../getstarted/build_and_install/docker_install_cn.html">使用Docker安装运行</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../howto/dev/build_cn.html">用Docker编译和测试PaddlePaddle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../getstarted/build_and_install/build_from_source_cn.html">从源码编译</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../getstarted/concepts/use_concepts_cn.html">基本使用概念</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howto/index_cn.html">进阶指南</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../howto/usage/cmd_parameter/index_cn.html">设置命令行参数</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../howto/usage/cmd_parameter/use_case_cn.html">使用案例</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../howto/usage/cmd_parameter/arguments_cn.html">参数概述</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../howto/usage/cmd_parameter/detail_introduction_cn.html">细节描述</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../howto/usage/cluster/cluster_train_cn.html">PaddlePaddle分布式训练</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../howto/usage/k8s/k8s_basis_cn.html">Kubernetes 简介</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../howto/usage/k8s/k8s_cn.html">Kubernetes单机训练</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../howto/usage/k8s/k8s_distributed_cn.html">Kubernetes分布式训练</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../howto/dev/contribute_to_paddle_cn.html">如何贡献代码</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../howto/dev/write_docs_cn.html">如何贡献/修改文档</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../howto/deep_model/rnn/index_cn.html">RNN相关模型</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../howto/deep_model/rnn/rnn_config_cn.html">RNN配置</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../howto/deep_model/rnn/recurrent_group_cn.html">Recurrent Group教程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../howto/deep_model/rnn/hierarchical_layer_cn.html">支持双层序列作为输入的Layer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../howto/deep_model/rnn/hrnn_rnn_api_compare_cn.html">单双层RNN API对比介绍</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../howto/optimization/gpu_profiling_cn.html">GPU性能分析与调优</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../index_cn.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../model_configs.html">模型配置</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../config/activation.html">Activation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../config/layer.html">Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../config/evaluators.html">Evaluators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../config/optimizer.html">Optimizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../config/pooling.html">Pooling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../config/networks.html">Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../config/attr.html">Parameter Attribute</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../data.html">数据访问</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../data/data_reader.html">Data Reader Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../data/image.html">Image Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../data/dataset.html">Dataset</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../run_logic.html">训练与应用</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq/index_cn.html">FAQ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../faq/build_and_install/index_cn.html">编译安装与单元测试</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../faq/model/index_cn.html">模型配置</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../faq/parameter/index_cn.html">参数设置</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../faq/local/index_cn.html">本地训练与预测</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../faq/cluster/index_cn.html">集群训练与预测</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mobile/index_cn.html">MOBILE</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../mobile/cross_compiling_for_android_cn.html">Android平台编译指南</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../mobile/cross_compiling_for_ios_cn.html">iOS平台编译指南</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../mobile/cross_compiling_for_raspberry_cn.html">Raspberry Pi平台编译指南</a></li>
+</ul>
+</li>
+</ul>
+
+        
+    </nav>
+    
+    <section class="doc-content-wrap">
+
+      
+
+ 
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+      
+    <li>Layers</li>
+  </ul>
+</div>
+      
+      <div class="wy-nav-content" id="doc-content">
+        <div class="rst-content">
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="layers">
+<h1>Layers<a class="headerlink" href="#layers" title="永久链接至标题">¶</a></h1>
+<div class="section" id="fc">
+<h2>fc<a class="headerlink" href="#fc" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">fc</code><span class="sig-paren">(</span><em>input</em>, <em>size</em>, <em>num_flatten_dims=1</em>, <em>param_attr=None</em>, <em>bias_attr=None</em>, <em>act=None</em>, <em>name=None</em>, <em>main_program=None</em>, <em>startup_program=None</em><span class="sig-paren">)</span></dt>
+<dd><p>Fully Connected Layer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first last simple">
+<li><strong>input</strong> &#8211; The input tensor to the function</li>
+<li><strong>size</strong> &#8211; The size of the layer</li>
+<li><strong>num_flatten_dims</strong> &#8211; Number of columns in input</li>
+<li><strong>param_attr</strong> &#8211; The parameters/weights to the FC Layer</li>
+<li><strong>param_initializer</strong> &#8211; Initializer used for the weight/parameter. If None, XavierInitializer() is used</li>
+<li><strong>bias_attr</strong> &#8211; The bias parameter for the FC layer</li>
+<li><strong>bias_initializer</strong> &#8211; Initializer used for the bias. If None, then ConstantInitializer() is used</li>
+<li><strong>act</strong> &#8211; Activation to be applied to the output of FC layer</li>
+<li><strong>name</strong> &#8211; Name/alias of the function</li>
+<li><strong>main_program</strong> &#8211; Name of the main program that calls this</li>
+<li><strong>startup_program</strong> &#8211; Name of the startup program</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This function can take in multiple inputs and performs the Fully Connected
+function (linear transformation) on top of each of them.
+So for input x, the output will be : Wx + b. Where W is the parameter,
+b the bias and x is the input.</p>
+<p>The function also applies an activation (non-linearity) on top of the
+output, if activation is passed in the input.</p>
+<p>All the input variables of this function are passed in as local variables
+to the LayerHelper constructor.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="embedding">
+<h2>embedding<a class="headerlink" href="#embedding" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">embedding</code><span class="sig-paren">(</span><em>input</em>, <em>size</em>, <em>is_sparse=False</em>, <em>param_attr=None</em>, <em>dtype='float32'</em>, <em>main_program=None</em>, <em>startup_program=None</em><span class="sig-paren">)</span></dt>
+<dd><p>Embedding Layer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first last simple">
+<li><strong>param_initializer</strong> &#8211; </li>
+<li><strong>input</strong> &#8211; The input to the function</li>
+<li><strong>size</strong> &#8211; The size of the layer</li>
+<li><strong>is_sparse</strong> &#8211; A flag that decleares whether the input is sparse</li>
+<li><strong>param_attr</strong> &#8211; Parameters for this layer</li>
+<li><strong>dtype</strong> &#8211; The type of data : float32, float_16, int etc</li>
+<li><strong>main_program</strong> &#8211; Name of the main program that calls this</li>
+<li><strong>startup_program</strong> &#8211; Name of the startup program</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This function can take in the input (which is a vector of IDs) and
+performs a lookup in the lookup_table using these IDs, to result into
+the embedding of each ID in the input.</p>
+<p>All the input variables of this function are passed in as local variables
+to the LayerHelper constructor.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="dynamic-lstm">
+<h2>dynamic_lstm<a class="headerlink" href="#dynamic-lstm" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">dynamic_lstm</code><span class="sig-paren">(</span><em>input</em>, <em>size</em>, <em>param_attr=None</em>, <em>bias_attr=None</em>, <em>use_peepholes=True</em>, <em>is_reverse=False</em>, <em>gate_activation='sigmoid'</em>, <em>cell_activation='tanh'</em>, <em>candidate_activation='tanh'</em>, <em>dtype='float32'</em>, <em>main_program=None</em>, <em>startup_program=None</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="data">
+<h2>data<a class="headerlink" href="#data" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">data</code><span class="sig-paren">(</span><em>name</em>, <em>shape</em>, <em>append_batch_size=True</em>, <em>dtype='float32'</em>, <em>lod_level=0</em>, <em>type=VarType.LOD_TENSOR</em>, <em>main_program=None</em>, <em>startup_program=None</em>, <em>stop_gradient=True</em><span class="sig-paren">)</span></dt>
+<dd><p>Data Layer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> &#8211; The name/alias of the function</li>
+<li><strong>shape</strong> &#8211; Tuple declaring the shape.</li>
+<li><strong>append_batch_size</strong> &#8211; Whether or not to append the data as a batch.</li>
+<li><strong>dtype</strong> &#8211; The type of data : float32, float_16, int etc</li>
+<li><strong>type</strong> &#8211; The output type. By default it is LOD_TENSOR.</li>
+<li><strong>lod_level</strong> (<em>int</em>) &#8211; The LoD Level. 0 means the input data is not a sequence.</li>
+<li><strong>main_program</strong> &#8211; Name of the main program that calls this</li>
+<li><strong>startup_program</strong> &#8211; Name of the startup program</li>
+<li><strong>stop_gradient</strong> &#8211; A boolean that mentions whether gradient should flow.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This function takes in input and based on whether data has
+to be returned back as a minibatch, it creates the global variable using
+the helper functions. The global variables can be accessed by all the
+following operations and layers in the graph.</p>
+<p>All the input variables of this function are passed in as local variables
+to the LayerHelper constructor.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="mean">
+<h2>mean<a class="headerlink" href="#mean" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">mean</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<dd><p>Mean Operator.</p>
+<p>Out is a scalar which is the mean of all elements in X.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><strong>x</strong> &#8211; The input of mean op
+Duplicable: False  Optional: False</td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body">The output of mean op</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="mul">
+<h2>mul<a class="headerlink" href="#mul" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">mul</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<dd><p>Mul Operator.</p>
+<p>This operator is used to perform matrix multiplication for input X and Y.</p>
+<p>The equation is:</p>
+<blockquote>
+<div>$$Out = X * Y$$</div></blockquote>
+<p>Both the input <cite>X</cite> and <cite>Y</cite> can carry the LoD (Level of Details) information,
+or not. But the output only shares the LoD information with input <cite>X</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> &#8211; The first input of mul op
+Duplicable: False  Optional: False</li>
+<li><strong>y</strong> &#8211; The second input of mul op
+Duplicable: False  Optional: False</li>
+<li><strong>x_num_col_dims</strong> (<em>INT</em>) &#8211; (int, default 1) mul_op can take tensors with more than two dimensions as input <cite>X</cite>,
+in that case, tensors will be reshaped to a matrix. The matrix&#8217;s first
+dimension(column length) will be the product of tensor&#8217;s last
+<cite>num_col_dims</cite> dimensions, and the matrix&#8217;s second dimension(row length)
+will be the product of tensor&#8217;s first <cite>rank - num_col_dims</cite> dimensions.</li>
+<li><strong>y_num_col_dims</strong> (<em>INT</em>) &#8211; (int, default 1) mul_op can take tensors with more than two dimensions as input <cite>Y</cite>,
+in that case, tensors will be reshaped to a matrix. Just like input <cite>X</cite>.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first last">The output of mul op</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="elementwise-add">
+<h2>elementwise_add<a class="headerlink" href="#elementwise-add" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">elementwise_add</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<dd><p>Limited Elementwise Add Operator.</p>
+<p>The equation is:</p>
+<p>$Out = X + Y$</p>
+<p>X is a tensor of any dimension and the dimensions of tensor Y must be smaller than
+or equal to the dimensions of X.</p>
+<p>There are two cases for this operator:
+1. The shape of Y is same with X;
+2. The shape of Y is a subset of X.</p>
+<p>For case 2:
+Y will be broadcasted to match the shape of X and axis should be
+the starting dimension index for broadcasting Y onto X.</p>
+<p class="rubric">example</p>
+<p>shape(X) = (2, 3, 4, 5), shape(Y) = (,)
+shape(X) = (2, 3, 4, 5), shape(Y) = (5,)
+shape(X) = (2, 3, 4, 5), shape(Y) = (4, 5)
+shape(X) = (2, 3, 4, 5), shape(Y) = (3, 4), with axis=1
+shape(X) = (2, 3, 4, 5), shape(Y) = (2), with axis=0</p>
+<p>Both the input X and Y can carry the LoD (Level of Details) information,
+or not. But the output only shares the LoD information with input X.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> &#8211; (Tensor) The first input tensor of elementwise op
+Duplicable: False  Optional: False</li>
+<li><strong>y</strong> &#8211; (Tensor) The second input tensor of elementwise op
+Duplicable: False  Optional: False</li>
+<li><strong>axis</strong> (<em>INT</em>) &#8211; (int, default -1) The starting dimension index for broadcasting Y onto X</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first last">The output of elementwise op</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="elementwise-div">
+<h2>elementwise_div<a class="headerlink" href="#elementwise-div" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">elementwise_div</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<dd><p>Limited Elementwise Div Operator.</p>
+<p>The equation is:</p>
+<p>$Out = X / Y$</p>
+<p>X is a tensor of any dimension and the dimensions of tensor Y must be smaller than
+or equal to the dimensions of X.</p>
+<p>There are two cases for this operator:
+1. The shape of Y is same with X;
+2. The shape of Y is a subset of X.</p>
+<p>For case 2:
+Y will be broadcasted to match the shape of X and axis should be
+the starting dimension index for broadcasting Y onto X.</p>
+<p class="rubric">example</p>
+<p>shape(X) = (2, 3, 4, 5), shape(Y) = (,)
+shape(X) = (2, 3, 4, 5), shape(Y) = (5,)
+shape(X) = (2, 3, 4, 5), shape(Y) = (4, 5)
+shape(X) = (2, 3, 4, 5), shape(Y) = (3, 4), with axis=1
+shape(X) = (2, 3, 4, 5), shape(Y) = (2), with axis=0</p>
+<p>Both the input X and Y can carry the LoD (Level of Details) information,
+or not. But the output only shares the LoD information with input X.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> &#8211; (Tensor) The first input tensor of elementwise op
+Duplicable: False  Optional: False</li>
+<li><strong>y</strong> &#8211; (Tensor) The second input tensor of elementwise op
+Duplicable: False  Optional: False</li>
+<li><strong>axis</strong> (<em>INT</em>) &#8211; (int, default -1) The starting dimension index for broadcasting Y onto X</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first last">The output of elementwise op</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="dropout">
+<h2>dropout<a class="headerlink" href="#dropout" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">dropout</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<dd><p>Dropout Operator.</p>
+<p>Dropout refers to randomly dropping out units in a nerual network. It is a
+regularization technique for reducing overfitting by preventing neuron
+co-adaption during training. The dropout operator randomly set (according to
+the given dropout probability) the outputs of some units to zero, while others
+are set equal to their corresponding inputs.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> &#8211; The input of dropout op.
+Duplicable: False  Optional: False</li>
+<li><strong>dropout_prob</strong> (<em>FLOAT</em>) &#8211; Probability of setting units to zero.</li>
+<li><strong>is_test</strong> (<em>BOOLEAN</em>) &#8211; True if in test phase.</li>
+<li><strong>seed</strong> (<em>INT</em>) &#8211; Dropout random seed.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first last">The output of dropout op.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="reshape">
+<h2>reshape<a class="headerlink" href="#reshape" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">reshape</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<dd><p>Reshape Operator.</p>
+<p>Reshape Input(X) into the shape specified by Attr(shape).</p>
+<p>An example:
+Given a 2-D tensor X with 2 rows and 2 columns</p>
+<blockquote>
+<div>[[1, 2], [3, 4]]</div></blockquote>
+<p>and target shape = [1, 4], the reshape operator will transform
+the tensor X into a 1-D tensor:</p>
+<blockquote>
+<div>[1, 2, 3, 4]</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> &#8211; The input tensor of reshape operator.
+Duplicable: False  Optional: False</li>
+<li><strong>shape</strong> (<em>INTS</em>) &#8211; (vector&lt;int&gt;) Target shape of reshape operator.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first last">The output tensor of reshape operator.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="sigmoid">
+<h2>sigmoid<a class="headerlink" href="#sigmoid" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">sigmoid</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<dd><p>Sigmoid Activation Operator</p>
+<p>$$y = frac{1}{1 + e^{-x}}$$</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><strong>x</strong> &#8211; Input of Sigmoid operator
+Duplicable: False  Optional: False</td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body">Output of Sigmoid operator</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="scale">
+<h2>scale<a class="headerlink" href="#scale" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">scale</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<dd><p>Scale operator</p>
+<p>$$Out = scale*X$$</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> &#8211; (Tensor) Input tensor of scale operator.
+Duplicable: False  Optional: False</li>
+<li><strong>scale</strong> (<em>FLOAT</em>) &#8211; (float, default 0)The scaling factor of the scale operator.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first last">(Tensor) Output tensor of scale operator.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="id1">
+<h2>reshape<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">reshape</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<dd><p>Reshape Operator.</p>
+<p>Reshape Input(X) into the shape specified by Attr(shape).</p>
+<p>An example:
+Given a 2-D tensor X with 2 rows and 2 columns</p>
+<blockquote>
+<div>[[1, 2], [3, 4]]</div></blockquote>
+<p>and target shape = [1, 4], the reshape operator will transform
+the tensor X into a 1-D tensor:</p>
+<blockquote>
+<div>[1, 2, 3, 4]</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> &#8211; The input tensor of reshape operator.
+Duplicable: False  Optional: False</li>
+<li><strong>shape</strong> (<em>INTS</em>) &#8211; (vector&lt;int&gt;) Target shape of reshape operator.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first last">The output tensor of reshape operator.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="transpose">
+<h2>transpose<a class="headerlink" href="#transpose" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">transpose</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<dd><p>Transpose Operator.</p>
+<p>The input tensor will be permuted according to the axis values given.
+The op functions similar to how numpy.transpose works in python.
+For example:</p>
+<blockquote>
+<div><p>&gt;&gt; input = numpy.arange(6).reshape((2,3))
+&gt;&gt; input
+array([[0, 1, 2],</p>
+<blockquote>
+<div>[3, 4, 5]])</div></blockquote>
+<p>&gt;&gt; axis = [1, 0]
+&gt;&gt; output = input.transpose(axis)
+&gt;&gt; output
+array([[0, 3],</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>[1, 4],</dt>
+<dd>[2, 5]])</dd>
+</dl>
+</div></blockquote>
+</div></blockquote>
+<p>So, given a input tensor of shape(N, C, H, W) and the axis is {0, 2, 3, 1},
+the output tensor shape will be (N, H, W, C)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> &#8211; (Tensor)The input tensor, tensors with rank at most 6 are supported
+Duplicable: False  Optional: False</li>
+<li><strong>axis</strong> (<em>INTS</em>) &#8211; (vector&lt;int&gt;)A list of values, and the size of the list should be the same with the input tensor rank, the tensor will permute the axes according the the values given</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first last">(Tensor)The output tensor</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="sigmoid-cross-entropy-with-logits">
+<h2>sigmoid_cross_entropy_with_logits<a class="headerlink" href="#sigmoid-cross-entropy-with-logits" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="cast">
+<h2>cast<a class="headerlink" href="#cast" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">cast</code><span class="sig-paren">(</span><em>x</em>, <em>dtype</em>, <em>main_program=None</em><span class="sig-paren">)</span></dt>
+<dd><p>This function takes in the input with input_dtype
+and casts it to the output_dtype as the output.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="concat">
+<h2>concat<a class="headerlink" href="#concat" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">concat</code><span class="sig-paren">(</span><em>input</em>, <em>axis</em>, <em>main_program=None</em>, <em>startup_program=None</em><span class="sig-paren">)</span></dt>
+<dd><p>This function concats the input along the axis mentioned
+and returns that as the output.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="sums">
+<h2>sums<a class="headerlink" href="#sums" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">sums</code><span class="sig-paren">(</span><em>input</em>, <em>out=None</em>, <em>main_program=None</em>, <em>startup_program=None</em><span class="sig-paren">)</span></dt>
+<dd><p>This function takes in the input and performs the sum operation on it
+and returns that as the output.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="linear-chain-crf">
+<h2>linear_chain_crf<a class="headerlink" href="#linear-chain-crf" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">linear_chain_crf</code><span class="sig-paren">(</span><em>input</em>, <em>label</em>, <em>param_attr=None</em>, <em>main_program=None</em>, <em>startup_program=None</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="assign">
+<h2>assign<a class="headerlink" href="#assign" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">embedding</code><span class="sig-paren">(</span><em>input</em>, <em>size</em>, <em>is_sparse=False</em>, <em>param_attr=None</em>, <em>dtype='float32'</em>, <em>main_program=None</em>, <em>startup_program=None</em><span class="sig-paren">)</span></dt>
+<dd><p>Embedding Layer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first last simple">
+<li><strong>param_initializer</strong> &#8211; </li>
+<li><strong>input</strong> &#8211; The input to the function</li>
+<li><strong>size</strong> &#8211; The size of the layer</li>
+<li><strong>is_sparse</strong> &#8211; A flag that decleares whether the input is sparse</li>
+<li><strong>param_attr</strong> &#8211; Parameters for this layer</li>
+<li><strong>dtype</strong> &#8211; The type of data : float32, float_16, int etc</li>
+<li><strong>main_program</strong> &#8211; Name of the main program that calls this</li>
+<li><strong>startup_program</strong> &#8211; Name of the startup program</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This function can take in the input (which is a vector of IDs) and
+performs a lookup in the lookup_table using these IDs, to result into
+the embedding of each ID in the input.</p>
+<p>All the input variables of this function are passed in as local variables
+to the LayerHelper constructor.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="split-lod-tensor">
+<h2>split_lod_tensor<a class="headerlink" href="#split-lod-tensor" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">split_lod_tensor</code><span class="sig-paren">(</span><em>input</em>, <em>mask</em>, <em>level=0</em>, <em>main_program=None</em>, <em>startup_program=None</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="merge-lod-tensor">
+<h2>merge_lod_tensor<a class="headerlink" href="#merge-lod-tensor" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">merge_lod_tensor</code><span class="sig-paren">(</span><em>in_true</em>, <em>in_false</em>, <em>x</em>, <em>mask</em>, <em>level=0</em>, <em>main_program=None</em>, <em>startup_program=None</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="cos-sim">
+<h2>cos_sim<a class="headerlink" href="#cos-sim" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">cos_sim</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
+<dd><p>This function performs the cosine similarity between two tensors
+X and Y and returns that as the output.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="cross-entropy">
+<h2>cross_entropy<a class="headerlink" href="#cross-entropy" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">cross_entropy</code><span class="sig-paren">(</span><em>input</em>, <em>label</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
+<dd><p>This function computes cross_entropy using the input and label.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="square-error-cost">
+<h2>square_error_cost<a class="headerlink" href="#square-error-cost" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">square_error_cost</code><span class="sig-paren">(</span><em>input</em>, <em>label</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
+<dd><p>This functions returns the squared error cost using the input and label.
+The output is appending the op to do the above.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="accuracy">
+<h2>accuracy<a class="headerlink" href="#accuracy" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">accuracy</code><span class="sig-paren">(</span><em>input</em>, <em>label</em>, <em>k=1</em>, <em>correct=None</em>, <em>total=None</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
+<dd><p>This function computes the accuracy using the input and label.
+The output is the top_k inputs and their indices.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="sequence-conv">
+<h2>sequence_conv<a class="headerlink" href="#sequence-conv" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">sequence_conv</code><span class="sig-paren">(</span><em>input</em>, <em>num_filters</em>, <em>filter_size=3</em>, <em>filter_stride=1</em>, <em>padding=None</em>, <em>bias_attr=None</em>, <em>param_attr=None</em>, <em>act=None</em>, <em>main_program=None</em>, <em>startup_program=None</em><span class="sig-paren">)</span></dt>
+<dd><p>This function creates the op for sequence_conv, using the inputs and
+other convolutional configurations for the filters and stride as given
+in the input parameters to the function.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="conv2d">
+<h2>conv2d<a class="headerlink" href="#conv2d" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">conv2d</code><span class="sig-paren">(</span><em>input, num_filters, filter_size, stride=[1, 1], padding=None, groups=None, param_attr=None, bias_attr=None, act=None, name=None, main_program=None, startup_program=None</em><span class="sig-paren">)</span></dt>
+<dd><p>This function creates the op for a 2-dimensional Convolution.
+This is performed using the parameters of filters(size, dimensionality etc)
+, stride and other configurations for a Convolution operation.
+This funciton can also append an activation on top of the
+conv-2d output, if mentioned in the input parameters.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="sequence-pool">
+<h2>sequence_pool<a class="headerlink" href="#sequence-pool" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">sequence_pool</code><span class="sig-paren">(</span><em>input</em>, <em>pool_type</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
+<dd><p>This function add the operator for sequence pooling.
+This is applied on top of the input using pool_type mentioned
+in the parameters.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="pool2d">
+<h2>pool2d<a class="headerlink" href="#pool2d" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">pool2d</code><span class="sig-paren">(</span><em>input, pool_size, pool_type, pool_stride=[1, 1], pool_padding=[0, 0], global_pooling=False, main_program=None, startup_program=None</em><span class="sig-paren">)</span></dt>
+<dd><p>This function adds the operator for pooling in 2 dimensions, using the
+pooling configurations mentioned in input parameters.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="batch-norm">
+<h2>batch_norm<a class="headerlink" href="#batch-norm" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">batch_norm</code><span class="sig-paren">(</span><em>input</em>, <em>act=None</em>, <em>is_test=False</em>, <em>momentum=0.9</em>, <em>epsilon=1e-05</em>, <em>param_attr=None</em>, <em>bias_attr=None</em>, <em>data_layout='NCHW'</em>, <em>main_program=None</em>, <em>startup_program=None</em><span class="sig-paren">)</span></dt>
+<dd><p>This function helps create an operator to implement
+the BatchNorm layer using the configurations from the input parameters.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="beam-search-decode">
+<h2>beam_search_decode<a class="headerlink" href="#beam-search-decode" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">beam_search_decode</code><span class="sig-paren">(</span><em>ids</em>, <em>scores</em>, <em>main_program=None</em>, <em>startup_program=None</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="lstm">
+<h2>lstm<a class="headerlink" href="#lstm" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">lstm</code><span class="sig-paren">(</span><em>x</em>, <em>c_pre_init</em>, <em>hidden_dim</em>, <em>forget_bias=None</em>, <em>main_program=None</em>, <em>startup_program=None</em><span class="sig-paren">)</span></dt>
+<dd><p>This function helps create an operator for the LSTM (Long Short Term
+Memory) cell that can be used inside an RNN.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="lod-rank-table">
+<h2>lod_rank_table<a class="headerlink" href="#lod-rank-table" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">lod_rank_table</code><span class="sig-paren">(</span><em>x</em>, <em>level=0</em>, <em>main_program=None</em><span class="sig-paren">)</span></dt>
+<dd><p>This function creates an operator for creating a LOD_RANK_TABLE
+using the input x.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="max-sequence-len">
+<h2>max_sequence_len<a class="headerlink" href="#max-sequence-len" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">max_sequence_len</code><span class="sig-paren">(</span><em>rank_table</em>, <em>main_program=None</em><span class="sig-paren">)</span></dt>
+<dd><p>This function creates an operator to calculate the length of
+max seqence through input rank_table(should be a lod_rank_table)</p>
+</dd></dl>
+
+</div>
+<div class="section" id="topk">
+<h2>topk<a class="headerlink" href="#topk" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">topk</code><span class="sig-paren">(</span><em>input</em>, <em>k</em>, <em>main_program=None</em>, <em>startup_program=None</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="lod-tensor-to-array">
+<h2>lod_tensor_to_array<a class="headerlink" href="#lod-tensor-to-array" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">lod_tensor_to_array</code><span class="sig-paren">(</span><em>x</em>, <em>table</em>, <em>main_program=None</em><span class="sig-paren">)</span></dt>
+<dd><p>This function creates an operator to convert an LOD_Tensor to
+an array.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="array-to-lod-tensor">
+<h2>array_to_lod_tensor<a class="headerlink" href="#array-to-lod-tensor" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">array_to_lod_tensor</code><span class="sig-paren">(</span><em>x</em>, <em>table</em>, <em>main_program=None</em>, <em>startup_program=None</em><span class="sig-paren">)</span></dt>
+<dd><p>This function creates an operator to convert an array to a
+LOD_Tensor.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="fill-constant">
+<h2>fill_constant<a class="headerlink" href="#fill-constant" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">fill_constant</code><span class="sig-paren">(</span><em>shape</em>, <em>dtype</em>, <em>value</em>, <em>out=None</em>, <em>main_program=None</em>, <em>startup_program=None</em><span class="sig-paren">)</span></dt>
+<dd><p>This function creates a tensor , with shape as mentioned in the input and
+specified dtype and fills this up with a constant value that
+comes in the input. It also sets the stop_gradient to be True.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="fill-constant-batch-size-like">
+<h2>fill_constant_batch_size_like<a class="headerlink" href="#fill-constant-batch-size-like" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">fill_constant_batch_size_like</code><span class="sig-paren">(</span><em>input</em>, <em>shape</em>, <em>dtype</em>, <em>value</em>, <em>input_dim_idx=0</em>, <em>output_dim_idx=0</em>, <em>main_program=None</em>, <em>startup_program=None</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="ones">
+<h2>ones<a class="headerlink" href="#ones" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">ones</code><span class="sig-paren">(</span><em>shape</em>, <em>dtype</em>, <em>main_program=None</em><span class="sig-paren">)</span></dt>
+<dd><p>This function performs the same function as fill_constant() declared above
+with the constant value being 1.0.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="zeros">
+<h2>zeros<a class="headerlink" href="#zeros" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">zeros</code><span class="sig-paren">(</span><em>shape</em>, <em>dtype</em>, <em>main_program=None</em><span class="sig-paren">)</span></dt>
+<dd><p>This function performs the same function as fill_constant() declared above
+with the constant value being 0.0.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="increment">
+<h2>increment<a class="headerlink" href="#increment" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">increment</code><span class="sig-paren">(</span><em>x</em>, <em>value=1.0</em>, <em>in_place=True</em>, <em>main_program=None</em>, <em>startup_program=None</em><span class="sig-paren">)</span></dt>
+<dd><p>This function creates an operator to increment each value in the input
+<cite>x</cite> by an amount: <cite>value</cite> as mentioned in the input parameter. This
+operation is performed in-place by default.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="array-write">
+<h2>array_write<a class="headerlink" href="#array-write" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">array_write</code><span class="sig-paren">(</span><em>x</em>, <em>i</em>, <em>array=None</em>, <em>main_program=None</em>, <em>startup_program=None</em><span class="sig-paren">)</span></dt>
+<dd><p>This function creates an operator to write the data out as a
+LOD_TENSOR_ARRAY.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="create-array">
+<h2>create_array<a class="headerlink" href="#create-array" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">create_array</code><span class="sig-paren">(</span><em>dtype</em>, <em>main_program=None</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="less-than">
+<h2>less_than<a class="headerlink" href="#less-than" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">less_than</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>cond=None</em>, <em>main_program=None</em>, <em>**ignored</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="array-read">
+<h2>array_read<a class="headerlink" href="#array-read" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">array_read</code><span class="sig-paren">(</span><em>array</em>, <em>i</em>, <em>main_program=None</em>, <em>startup_program=None</em><span class="sig-paren">)</span></dt>
+<dd><p>This function creates an operator to read the data in as a
+LOD_TENSOR_ARRAY.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="shrink-memory">
+<h2>shrink_memory<a class="headerlink" href="#shrink-memory" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">shrink_memory</code><span class="sig-paren">(</span><em>x</em>, <em>i</em>, <em>table</em>, <em>main_program=None</em>, <em>startup_program=None</em><span class="sig-paren">)</span></dt>
+<dd><p>This function creates an operator to shrink_rnn_memory using the RankTable
+as mentioned in the input parameter.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="array-length">
+<h2>array_length<a class="headerlink" href="#array-length" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">array_length</code><span class="sig-paren">(</span><em>array</em>, <em>main_program=None</em><span class="sig-paren">)</span></dt>
+<dd><p>This function creates an operator to find the length of the
+LOD_TENSOR_ARRAY.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="conv2d-transpose">
+<h2>conv2d_transpose<a class="headerlink" href="#conv2d-transpose" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt>
+<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">conv2d_transpose</code><span class="sig-paren">(</span><em>input</em>, <em>num_filters</em>, <em>output_size=None</em>, <em>filter_size=None</em>, <em>padding=None</em>, <em>stride=None</em>, <em>param_attr=None</em>, <em>main_program=None</em>, <em>startup_program=None</em><span class="sig-paren">)</span></dt>
+<dd><p>The transpose of conv2d layer.</p>
+<p>This layer is also known as deconvolution layer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
+<li><strong>input</strong> (<em>Variable</em>) &#8211; The input image with [N, C, H, W] format.</li>
+<li><strong>num_filters</strong> (<em>int</em>) &#8211; The number of filter. It is as same as the output
+image channel.</li>
+<li><strong>output_size</strong> (<em>int|tuple|None</em>) &#8211; The output image size. If output size is a
+tuple, it must contain two integers, (image_H, image_W). This
+parameter only works when filter_size is None.</li>
+<li><strong>filter_size</strong> (<em>int|tuple|None</em>) &#8211; The filter size. If filter_size is a tuple,
+it must contain two integers, (filter_size_H, filter_size_W).
+Otherwise, the filter will be a square.  None if use output size to
+calculate filter_size</li>
+<li><strong>padding</strong> (<em>int|tuple</em>) &#8211; The padding size. If padding is a tuple, it must
+contain two integers, (padding_H, padding_W). Otherwise, the
+padding_H = padding_W = padding.</li>
+<li><strong>stride</strong> (<em>int|tuple</em>) &#8211; The stride size. If stride is a tuple, it must
+contain two integers, (stride_H, stride_W). Otherwise, the
+stride_H = stride_W = stride.</li>
+<li><strong>param_attr</strong> &#8211; Parameter Attribute.</li>
+<li><strong>main_program</strong> (<em>Program</em>) &#8211; the main program</li>
+<li><strong>startup_program</strong> (<em>Program</em>) &#8211; the startup program</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">Output image.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">Variable</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, PaddlePaddle developers.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: ".txt",
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../../_static/translations.js"></script>
+      <script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+       
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+  
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/js/perfect-scrollbar.jquery.min.js"></script>
+  <script src="../../../_static/js/paddle_doc_init.js"></script> 
+
+</body>
+</html>

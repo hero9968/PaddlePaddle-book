@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Installing from Sources &mdash; PaddlePaddle  documentation</title>
+  <title>Build from Sources &mdash; PaddlePaddle  documentation</title>
   
 
   
@@ -35,7 +35,7 @@
     <link rel="top" title="PaddlePaddle  documentation" href="../../index.html"/>
         <link rel="up" title="Install and Build" href="index_en.html"/>
         <link rel="next" title="HOW TO" href="../../howto/index_en.html"/>
-        <link rel="prev" title="Debian Package installation guide" href="ubuntu_install_en.html"/> 
+        <link rel="prev" title="Build using Docker" href="../../howto/dev/build_en.html"/> 
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/css/perfect-scrollbar.min.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/css/override.css" type="text/css" />
@@ -65,7 +65,7 @@
     </div>
     <div class="site-nav-links">
       <div class="site-menu">
-        <a class="fork-on-github" href="https://github.com/PaddlePaddle/Paddle" target="_blank"><i class="fa fa-github"></i>Folk me on Github</a>
+        <a class="fork-on-github" href="https://github.com/PaddlePaddle/Paddle" target="_blank"><i class="fa fa-github"></i>Fork me on Github</a>
         <div class="language-switcher dropdown">
           <a type="button" data-toggle="dropdown">
             <span>English</span>
@@ -87,7 +87,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../index_en.html">GET STARTED</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../howto/index_en.html">HOW TO</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/index_en.html">API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../about/index_en.html">ABOUT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mobile/index_en.html">MOBILE</a></li>
 </ul>
 
         
@@ -111,9 +111,10 @@
           <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../index_en.html">GET STARTED</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="index_en.html">Install and Build</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="docker_install_en.html">PaddlePaddle in Docker Containers</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ubuntu_install_en.html">Debian Package installation guide</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Installing from Sources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pip_install_en.html">Install Using pip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="docker_install_en.html">Run in Docker Containers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/dev/build_en.html">Build using Docker</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Build from Sources</a></li>
 </ul>
 </li>
 </ul>
@@ -125,12 +126,16 @@
 <li class="toctree-l3"><a class="reference internal" href="../../howto/usage/cmd_parameter/detail_introduction_en.html">Detail Description</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../howto/usage/cluster/cluster_train_en.html">Run Distributed Training</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/usage/cluster/cluster_train_en.html">PaddlePaddle Distributed Training</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../howto/usage/k8s/k8s_en.html">Paddle On Kubernetes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../howto/usage/k8s/k8s_aws_en.html">Distributed PaddlePaddle Training on AWS with Kubernetes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../howto/dev/new_layer_en.html">Write New Layers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../howto/dev/contribute_to_paddle_en.html">Contribute Code</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../howto/deep_model/rnn/index_en.html">RNN Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/dev/write_docs_en.html">Contribute Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/deep_model/rnn/index_en.html">RNN Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/deep_model/rnn/rnn_config_en.html">RNN Configuration</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../howto/optimization/gpu_profiling_en.html">Tune GPU Performance</a></li>
 </ul>
 </li>
@@ -138,17 +143,40 @@
 <li class="toctree-l2"><a class="reference internal" href="../../api/v2/model_configs.html">Model Configuration</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/activation.html">Activation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/layer.html">Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/evaluators.html">Evaluators</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/optimizer.html">Optimizer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/pooling.html">Pooling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/networks.html">Networks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/attr.html">Parameter Attribute</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/v2/data.html">Data Reader Interface and DataSets</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/v2/run_logic.html">Training and Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/v2/data.html">Data Reader Interface and DataSets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/data/data_reader.html">Data Reader Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/data/image.html">Image Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/data/dataset.html">Dataset</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../about/index_en.html">ABOUT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/v2/run_logic.html">Training and Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/v2/fluid.html">Fluid</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/layers.html">Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/data_feeder.html">DataFeeder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/executor.html">Executor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/initializer.html">Initializer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/evaluator.html">Evaluator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/nets.html">Nets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/optimizer.html">Optimizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/param_attr.html">ParamAttr</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/profiler.html">Profiler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/regularizer.html">Regularizer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../mobile/index_en.html">MOBILE</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../mobile/cross_compiling_for_android_en.html">Build PaddlePaddle for Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mobile/cross_compiling_for_raspberry_en.html">Build PaddlePaddle for Raspberry Pi</a></li>
+</ul>
+</li>
 </ul>
 
         
@@ -173,7 +201,7 @@
       
         <li><a href="index_en.html">Install and Build</a> > </li>
       
-    <li>Installing from Sources</li>
+    <li>Build from Sources</li>
   </ul>
 </div>
       
@@ -182,216 +210,206 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="installing-from-sources">
-<span id="installing-from-sources"></span><h1>Installing from Sources<a class="headerlink" href="#installing-from-sources" title="Permalink to this headline">¶</a></h1>
-<ul class="simple">
-<li><a class="reference external" href="#download">1. Download and Setup</a></li>
-<li><a class="reference external" href="#requirements">2. Requirements</a></li>
-<li><a class="reference external" href="#ubuntu">3. Build on Ubuntu</a></li>
-<li><a class="reference external" href="#centos">4. Build on Centos</a></li>
-</ul>
-<div class="section" id="span-id-download-download-and-setup-span">
-<span id="span-id-download-download-and-setup-span"></span><h2><span id="download">Download and Setup</span><a class="headerlink" href="#span-id-download-download-and-setup-span" title="Permalink to this headline">¶</a></h2>
-<p>You can download PaddlePaddle from the <a class="reference external" href="https://github.com/PaddlePaddle/Paddle">github source</a>.</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>git clone https://github.com/PaddlePaddle/Paddle paddle
-<span class="nb">cd</span> paddle
+  <div class="section" id="build-from-sources">
+<h1>Build from Sources<a class="headerlink" href="#build-from-sources" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="how-to-build">
+<span id="build-step"></span><h2>How To Build<a class="headerlink" href="#how-to-build" title="Permalink to this headline">¶</a></h2>
+<p>PaddlePaddle mainly uses <a class="reference external" href="https://cmake.org">CMake</a> and GCC, G++ as compile
+tools. We recommend you to use our pre-built Docker image to run the build
+to avoid installing dependencies by yourself. We have several build environment
+Docker images <a class="reference external" href="https://hub.docker.com/r/paddlepaddle/paddle_manylinux_devel/tags/">here</a> .</p>
+<p>If you choose not to use Docker image for your build, you need to install the
+below <a class="reference internal" href="#compile-dependencies">Compile Dependencies</a> before run the build.</p>
+<p>Then run:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>git clone https://github.com/PaddlePaddle/Paddle.git
+<span class="nb">cd</span> Paddle
+<span class="c1"># run the following command to build a CPU-Only binaries if you are using docker</span>
+docker run -it -v <span class="nv">$PWD</span>:/paddle -e <span class="s2">&quot;WITH_GPU=OFF&quot;</span> -e <span class="s2">&quot;WITH_TESTING=OFF&quot;</span> paddlepaddle/paddle_manylinux_devel:cuda8.0_cudnn5 bash -x /paddle/paddle/scripts/docker/build.sh
+<span class="c1"># else run these commands</span>
+mkdir build
+<span class="nb">cd</span> build
+cmake -DWITH_GPU<span class="o">=</span>OFF -DWITH_TESTING<span class="o">=</span>OFF ..
+make
+</pre></div>
+</div>
+<p>When the compile finishes, you can get the output whl package under
+build/python/dist, then you can choose to install the whl on local
+machine or copy it to the target machine.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>pip install build/python/dist/*.whl
 </pre></div>
 </div>
 </div>
-<div class="section" id="span-id-requirements-requirements-span">
-<span id="span-id-requirements-requirements-span"></span><h2><span id="requirements">Requirements</span><a class="headerlink" href="#span-id-requirements-requirements-span" title="Permalink to this headline">¶</a></h2>
-<p>To compile the source code, your computer must be equipped with the following dependencies.</p>
-<ul class="simple">
-<li><strong>Compiler</strong>: GCC &gt;= 4.8 or Clang &gt;= 3.3 (AppleClang &gt;= 5.1) and gfortran compiler</li>
-<li><strong>CMake</strong>: CMake &gt;= 3.0 (at least CMake 3.4 on Mac OS X)</li>
-<li><strong>BLAS</strong>: MKL, OpenBlas or ATLAS</li>
-<li><strong>Python</strong>: only support Python 2.7</li>
-</ul>
-<p><strong>Note:</strong> For CUDA 7.0 and CUDA 7.5, GCC 5.0 and up are not supported!
-For CUDA 8.0, GCC versions later than 5.3 are not supported!</p>
-<div class="section" id="options">
-<span id="options"></span><h3>Options<a class="headerlink" href="#options" title="Permalink to this headline">¶</a></h3>
-<p>PaddlePaddle supports some build options.</p>
-<p><html></p>
-<table> 
-<thead>
-<tr>
-<th scope="col" class="left">Optional</th>
-<th scope="col" class="left">Description</th>
+<div class="section" id="run-tests">
+<span id="run-test"></span><h2>Run Tests<a class="headerlink" href="#run-tests" title="Permalink to this headline">¶</a></h2>
+<p>If you wish to run the tests, you may follow the below steps:</p>
+<p>When using Docker, set <code class="code docutils literal"><span class="pre">RUN_TEST=ON</span></code> and <code class="code docutils literal"><span class="pre">WITH_TESTING=ON</span></code> will run test immediately after the build.
+Set <code class="code docutils literal"><span class="pre">WITH_GPU=ON</span></code> Can also run tests on GPU.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>docker run -it -v <span class="nv">$PWD</span>:/paddle -e <span class="s2">&quot;WITH_GPU=OFF&quot;</span> -e <span class="s2">&quot;WITH_TESTING=ON&quot;</span> -e <span class="s2">&quot;RUN_TEST=ON&quot;</span> paddlepaddle/paddle_manylinux_devel:cuda8.0_cudnn5 bash -x paddle/paddle/scripts/docker/build.sh
+</pre></div>
+</div>
+<p>If you don&#8217;t use Docker, just run ctest will start the tests:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>mkdir build
+<span class="nb">cd</span> build
+cmake -DWITH_GPU<span class="o">=</span>OFF -DWITH_TESTING<span class="o">=</span>ON ..
+make
+ctest
+<span class="c1"># run a single test like test_mul_op</span>
+ctest -R test_mul_op
+</pre></div>
+</div>
+</div>
+<div class="section" id="compile-dependencies">
+<span id="compile-deps"></span><h2>Compile Dependencies<a class="headerlink" href="#compile-dependencies" title="Permalink to this headline">¶</a></h2>
+<p>PaddlePaddle need the following dependencies when compiling, other dependencies
+will be downloaded automatically.</p>
+<table border="1" class="colwidths-given docutils" id="id3">
+<caption><span class="caption-text">PaddlePaddle Compile Dependencies</span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="18%" />
+<col width="27%" />
+<col width="55%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Dependency</th>
+<th class="head">Version</th>
+<th class="head">Description</th>
 </tr>
 </thead>
-<tbody>
-<tr><td class="left">WITH_GPU</td><td class="left">Compile PaddlePaddle with NVIDIA GPU</td></tr>
-<tr><td class="left">WITH_AVX</td><td class="left">Compile PaddlePaddle with AVX intrinsics</td></tr>
-<tr><td class="left">WITH_DSO</td><td class="left">Compile PaddlePaddle with dynamic linked CUDA</td></tr>
-<tr><td class="left">WITH_TESTING</td><td class="left">Compile PaddlePaddle with unit testing</td></tr>
-<tr><td class="left">WITH_SWIG_PY</td><td class="left">Compile PaddlePaddle with inference api</td></tr>
-<tr><td class="left">WITH_STYLE_CHECK</td><td class="left">Compile PaddlePaddle with style check</td></tr>
-<tr><td class="left">WITH_PYTHON</td><td class="left">Compile PaddlePaddle with python interpreter</td></tr>
-<tr><td class="left">WITH_DOUBLE</td><td class="left">Compile PaddlePaddle with double precision</td></tr>
-<tr><td class="left">WITH_RDMA</td><td class="left">Compile PaddlePaddle with RDMA support</td></tr>
-<tr><td class="left">WITH_TIMER</td><td class="left">Compile PaddlePaddle with stats timer</td></tr>
-<tr><td class="left">WITH_PROFILER</td><td class="left">Compile PaddlePaddle with GPU profiler</td></tr>
-<tr><td class="left">WITH_DOC</td><td class="left">Compile PaddlePaddle with documentation</td></tr>
-<tr><td class="left">WITH_COVERAGE</td><td class="left">Compile PaddlePaddle with code coverage</td></tr>
-<tr><td class="left">COVERALLS_UPLOAD</td><td class="left">Package code coverage data to coveralls</td></tr>
-<tr><td class="left">ON_TRAVIS</td><td class="left">Exclude special unit test on Travis CI</td></tr>
+<tbody valign="top">
+<tr class="row-even"><td>CMake</td>
+<td>&gt;=3.5</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>GCC</td>
+<td>4.8.2</td>
+<td>Recommend devtools2 for CentOS</td>
+</tr>
+<tr class="row-even"><td>Python</td>
+<td>2.7.x</td>
+<td>Need libpython2.7.so</td>
+</tr>
+<tr class="row-odd"><td>pip</td>
+<td>&gt;=9.0</td>
+<td></td>
+</tr>
+<tr class="row-even"><td>numpy</td>
+<td>&#160;</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td>SWIG</td>
+<td>&gt;=2.0</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>Go</td>
+<td>&gt;=1.8</td>
+<td>Optional</td>
+</tr>
 </tbody>
 </table>
-</html><p><strong>Note:</strong></p>
-<ul class="simple">
-<li>The GPU version works best with Cuda Toolkit 8.0 and cuDNN v5.</li>
-<li>Other versions like Cuda Toolkit 7.0, 7.5 and cuDNN v3, v4 are also supported.</li>
-<li><strong>To utilize cuDNN v5, Cuda Toolkit 7.5 is prerequisite and vice versa.</strong></li>
-</ul>
-<p>As a simple example, consider the following:</p>
-<ol>
-<li><p class="first"><strong>BLAS Dependencies(optional)</strong></p>
-<p>CMake will search BLAS libraries from system. If not found, OpenBLAS will be downloaded, built and installed automatically.
-To utilize preinstalled BLAS， you can simply specify MKL, OpenBLAS or ATLAS via <code class="docutils literal"><span class="pre">MKL_ROOT</span></code>, <code class="docutils literal"><span class="pre">OPENBLAS_ROOT</span></code> or <code class="docutils literal"><span class="pre">ATLAS_ROOT</span></code>.</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># specify MKL</span>
-cmake .. -DMKL_ROOT<span class="o">=</span>&lt;mkl_path&gt;
-<span class="c1"># or specify OpenBLAS</span>
-cmake .. -DOPENBLAS_ROOT<span class="o">=</span>&lt;openblas_path&gt;
+</div>
+<div class="section" id="build-options">
+<span id="id1"></span><h2>Build Options<a class="headerlink" href="#build-options" title="Permalink to this headline">¶</a></h2>
+<p>Build options include whether build binaries for CPU or GPU, which BLAS
+library to use etc. You may pass these settings when running cmake.
+For detailed cmake tutorial please refer to <a class="reference external" href="https://cmake.org/cmake-tutorial">here</a> 。</p>
+</div>
+<div class="section" id="bool-type-options">
+<span id="build-options-bool"></span><h2>Bool Type Options<a class="headerlink" href="#bool-type-options" title="Permalink to this headline">¶</a></h2>
+<p>You can add <code class="code docutils literal"><span class="pre">-D</span></code> argument to pass such options, like:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>cmake .. -DWITH_GPU<span class="o">=</span>OFF
 </pre></div>
 </div>
-</li>
-<li><p class="first"><strong>Doc Dependencies(optional)</strong></p>
-<p>To generate PaddlePaddle&#8217;s documentation, install dependencies and set <code class="docutils literal"><span class="pre">-DWITH_DOC=ON</span></code> as follows:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>pip install <span class="s1">&#39;sphinx&gt;=1.4.0&#39;</span>
-pip install sphinx_rtd_theme recommonmark
-
-<span class="c1"># install doxygen on Ubuntu</span>
-sudo apt-get install doxygen 
-<span class="c1"># install doxygen on Mac OS X</span>
-brew install doxygen
-
-<span class="c1"># active docs in cmake</span>
-cmake .. -DWITH_DOC<span class="o">=</span>ON<span class="sb">`</span>
+<table border="1" class="colwidths-given docutils" id="id4">
+<caption><span class="caption-text">Bool Type Options</span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="10%" />
+<col width="70%" />
+<col width="20%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Option</th>
+<th class="head">Description</th>
+<th class="head">Default</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>WITH_GPU</td>
+<td>Build with GPU support</td>
+<td>ON</td>
+</tr>
+<tr class="row-odd"><td>WITH_C_API</td>
+<td>Build only CAPI</td>
+<td>OFF</td>
+</tr>
+<tr class="row-even"><td>WITH_DOUBLE</td>
+<td>Build with double precision</td>
+<td>OFF</td>
+</tr>
+<tr class="row-odd"><td>WITH_DSO</td>
+<td>Dynamically load CUDA libraries</td>
+<td>ON</td>
+</tr>
+<tr class="row-even"><td>WITH_AVX</td>
+<td>Build with AVX support</td>
+<td>ON</td>
+</tr>
+<tr class="row-odd"><td>WITH_PYTHON</td>
+<td>Build with integrated Python interpreter</td>
+<td>ON</td>
+</tr>
+<tr class="row-even"><td>WITH_STYLE_CHECK</td>
+<td>Check code style when building</td>
+<td>ON</td>
+</tr>
+<tr class="row-odd"><td>WITH_TESTING</td>
+<td>Build unit tests</td>
+<td>ON</td>
+</tr>
+<tr class="row-even"><td>WITH_DOC</td>
+<td>Build documentations</td>
+<td>OFF</td>
+</tr>
+<tr class="row-odd"><td>WITH_SWIG_PY</td>
+<td>Build Python SWIG interface for V2 API</td>
+<td>Auto</td>
+</tr>
+<tr class="row-even"><td>WITH_GOLANG</td>
+<td>Build fault-tolerant parameter server written in go</td>
+<td>ON</td>
+</tr>
+<tr class="row-odd"><td>WITH_MKL</td>
+<td>Use MKL as BLAS library, else use OpenBLAS</td>
+<td>ON</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="blas">
+<h3>BLAS<a class="headerlink" href="#blas" title="Permalink to this headline">¶</a></h3>
+<p>PaddlePaddle supports <a class="reference external" href="https://software.intel.com/en-us/intel-mkl">MKL</a> and
+<a class="reference external" href="http://www.openblas.net/">OpenBlAS</a> as BLAS library。By default it uses MKL.
+If you are using MKL and your machine supports AVX2, MKL-DNN will also be downloaded
+and used, for more <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/tree/develop/doc/design/mkldnn#cmake">details</a> .</p>
+<p>If you choose not to use MKL, then OpenBlAS will be used.</p>
+</div>
+<div class="section" id="cuda-cudnn">
+<h3>CUDA/cuDNN<a class="headerlink" href="#cuda-cudnn" title="Permalink to this headline">¶</a></h3>
+<p>PaddlePaddle will automatically find CUDA and cuDNN when compiling and running.
+parameter <code class="code docutils literal"><span class="pre">-DCUDA_ARCH_NAME=Auto</span></code> can be used to detect SM architecture
+automatically in order to speed up the build.</p>
+<p>PaddlePaddle can build with any version later than cuDNN v5.1, and we intend to
+keep on with latest cuDNN versions. Be sure to run with the same version of cuDNN
+you built.</p>
+</div>
+<div class="section" id="pass-compile-options">
+<h3>Pass Compile Options<a class="headerlink" href="#pass-compile-options" title="Permalink to this headline">¶</a></h3>
+<p>You can pass compile options to use intended BLAS/CUDA/Cudnn libraries.
+When running cmake command, it will search system paths like
+<code class="code docutils literal"><span class="pre">/usr/lib:/usr/local/lib</span></code> and then search paths that you
+passed to cmake, i.e.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>cmake .. -DWITH_GPU<span class="o">=</span>ON -DWITH_TESTING<span class="o">=</span>OFF -DCUDNN_ROOT<span class="o">=</span>/opt/cudnnv5
 </pre></div>
 </div>
-</li>
-</ol>
-</div>
-</div>
-<div class="section" id="span-id-ubuntu-build-on-ubuntu-14-04-span">
-<span id="span-id-ubuntu-build-on-ubuntu-14-04-span"></span><h2><span id="ubuntu">Build on Ubuntu 14.04</span><a class="headerlink" href="#span-id-ubuntu-build-on-ubuntu-14-04-span" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="install-dependencies">
-<span id="install-dependencies"></span><h3>Install Dependencies<a class="headerlink" href="#install-dependencies" title="Permalink to this headline">¶</a></h3>
-<ul>
-<li><p class="first"><strong>Paddle Dependencies</strong></p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># necessary</span>
-sudo apt-get update
-sudo apt-get install -y git curl gcc g++ gfortran make build-essential automake
-sudo apt-get install -y python python-pip python-numpy libpython-dev bison
-sudo pip install <span class="s1">&#39;protobuf==3.1.0.post1&#39;</span>
-
-<span class="c1"># install cmake 3.4</span>
-curl -sSL https://cmake.org/files/v3.4/cmake-3.4.1.tar.gz <span class="p">|</span> tar -xz <span class="o">&amp;&amp;</span> <span class="se">\</span>
-    <span class="nb">cd</span> cmake-3.4.1 <span class="o">&amp;&amp;</span> ./bootstrap <span class="o">&amp;&amp;</span> make -j4 <span class="o">&amp;&amp;</span> sudo make install <span class="o">&amp;&amp;</span> <span class="se">\</span>
-    <span class="nb">cd</span> .. <span class="o">&amp;&amp;</span> rm -rf cmake-3.4.1
-</pre></div>
-</div>
-</li>
-<li><p class="first"><strong>GPU Dependencies (optional)</strong></p>
-<p>To build GPU version, you will need the following installed:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>  <span class="mf">1.</span> <span class="n">a</span> <span class="n">CUDA</span><span class="o">-</span><span class="n">capable</span> <span class="n">GPU</span>
-  <span class="mf">2.</span> <span class="n">A</span> <span class="n">supported</span> <span class="n">version</span> <span class="n">of</span> <span class="n">Linux</span> <span class="k">with</span> <span class="n">a</span> <span class="n">gcc</span> <span class="n">compiler</span> <span class="ow">and</span> <span class="n">toolchain</span>
-  <span class="mf">3.</span> <span class="n">NVIDIA</span> <span class="n">CUDA</span> <span class="n">Toolkit</span> <span class="p">(</span><span class="n">available</span> <span class="n">at</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">developer</span><span class="o">.</span><span class="n">nvidia</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">cuda</span><span class="o">-</span><span class="n">downloads</span><span class="p">)</span>
-  <span class="mf">4.</span> <span class="n">NVIDIA</span> <span class="n">cuDNN</span> <span class="n">Library</span> <span class="p">(</span><span class="n">availabel</span> <span class="n">at</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">developer</span><span class="o">.</span><span class="n">nvidia</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">cudnn</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>The CUDA development environment relies on tight integration with the host development environment,
-including the host compiler and C runtime libraries, and is therefore only supported on
-distribution versions that have been qualified for this CUDA Toolkit release.</p>
-<p>After downloading cuDNN library, issue the following commands:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>sudo tar -xzf cudnn-7.5-linux-x64-v5.1.tgz -C /usr/local
-sudo chmod a+r /usr/local/cuda/include/cudnn.h /usr/local/cuda/lib64/libcudnn*
-</pre></div>
-</div>
-<p>Then you need to set LD_LIBRARY_PATH, PATH environment variables in ~/.bashrc.</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span>/usr/local/cuda/lib64:<span class="nv">$LD_LIBRARY_PATH</span>
-<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span>/usr/local/cuda/bin:<span class="nv">$PATH</span>
-</pre></div>
-</div>
-</li>
-</ul>
-</div>
-<div class="section" id="build-and-install">
-<span id="build-and-install"></span><h3>Build and Install<a class="headerlink" href="#build-and-install" title="Permalink to this headline">¶</a></h3>
-<p>As usual, the best option is to create build folder under paddle project directory.</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>mkdir build <span class="o">&amp;&amp;</span> <span class="nb">cd</span> build
-</pre></div>
-</div>
-<p>Finally, you can build and install PaddlePaddle:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># you can add build option here, such as:    </span>
-cmake .. -DCMAKE_INSTALL_PREFIX<span class="o">=</span>&lt;path to install&gt;
-<span class="c1"># please use sudo make install, if you want to install PaddlePaddle into the system</span>
-make -j <span class="sb">`</span>nproc<span class="sb">`</span> <span class="o">&amp;&amp;</span> make install
-<span class="c1"># set PaddlePaddle installation path in ~/.bashrc</span>
-<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span>&lt;path to install&gt;/bin:<span class="nv">$PATH</span>
-<span class="c1"># install PaddlePaddle Python modules.</span>
-sudo pip install &lt;path to install&gt;/opt/paddle/share/wheels/*.whl
-</pre></div>
-</div>
-</div>
-</div>
-<div class="section" id="span-id-centos-build-on-centos-7-span">
-<span id="span-id-centos-build-on-centos-7-span"></span><h2><span id="centos">Build on Centos 7</span><a class="headerlink" href="#span-id-centos-build-on-centos-7-span" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="install-dependencies">
-<span id="id1"></span><h3>Install Dependencies<a class="headerlink" href="#install-dependencies" title="Permalink to this headline">¶</a></h3>
-<ul>
-<li><p class="first"><strong>CPU Dependencies</strong></p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># necessary</span>
-sudo yum update
-sudo yum install -y epel-release
-sudo yum install -y make cmake3 python-devel python-pip gcc-gfortran swig git
-sudo pip install wheel numpy
-sudo pip install <span class="s1">&#39;protobuf&gt;=3.0.0&#39;</span>
-</pre></div>
-</div>
-</li>
-<li><p class="first"><strong>GPU Dependencies (optional)</strong></p>
-<p>To build GPU version, you will need the following installed:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>  <span class="mf">1.</span> <span class="n">a</span> <span class="n">CUDA</span><span class="o">-</span><span class="n">capable</span> <span class="n">GPU</span>
-  <span class="mf">2.</span> <span class="n">A</span> <span class="n">supported</span> <span class="n">version</span> <span class="n">of</span> <span class="n">Linux</span> <span class="k">with</span> <span class="n">a</span> <span class="n">gcc</span> <span class="n">compiler</span> <span class="ow">and</span> <span class="n">toolchain</span>
-  <span class="mf">3.</span> <span class="n">NVIDIA</span> <span class="n">CUDA</span> <span class="n">Toolkit</span> <span class="p">(</span><span class="n">available</span> <span class="n">at</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">developer</span><span class="o">.</span><span class="n">nvidia</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">cuda</span><span class="o">-</span><span class="n">downloads</span><span class="p">)</span>
-  <span class="mf">4.</span> <span class="n">NVIDIA</span> <span class="n">cuDNN</span> <span class="n">Library</span> <span class="p">(</span><span class="n">availabel</span> <span class="n">at</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">developer</span><span class="o">.</span><span class="n">nvidia</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">cudnn</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>The CUDA development environment relies on tight integration with the host development environment,
-including the host compiler and C runtime libraries, and is therefore only supported on
-distribution versions that have been qualified for this CUDA Toolkit release.</p>
-<p>After downloading cuDNN library, issue the following commands:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>sudo tar -xzf cudnn-7.5-linux-x64-v5.1.tgz -C /usr/local
-sudo chmod a+r /usr/local/cuda/include/cudnn.h /usr/local/cuda/lib64/libcudnn*
-</pre></div>
-</div>
-<p>Then you need to set LD_LIBRARY_PATH, PATH environment variables in ~/.bashrc.</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span>/usr/local/cuda/lib64:<span class="nv">$LD_LIBRARY_PATH</span>
-<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span>/usr/local/cuda/bin:<span class="nv">$PATH</span>
-</pre></div>
-</div>
-</li>
-</ul>
-</div>
-<div class="section" id="build-and-install">
-<span id="id2"></span><h3>Build and Install<a class="headerlink" href="#build-and-install" title="Permalink to this headline">¶</a></h3>
-<p>As usual, the best option is to create build folder under paddle project directory.</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>mkdir build <span class="o">&amp;&amp;</span> <span class="nb">cd</span> build
-</pre></div>
-</div>
-<p>Finally, you can build and install PaddlePaddle:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># you can add build option here, such as:    </span>
-cmake3 .. -DCMAKE_INSTALL_PREFIX<span class="o">=</span>&lt;path to install&gt;
-<span class="c1"># please use sudo make install, if you want to install PaddlePaddle into the system</span>
-make -j <span class="sb">`</span>nproc<span class="sb">`</span> <span class="o">&amp;&amp;</span> make install
-<span class="c1"># set PaddlePaddle installation path in ~/.bashrc</span>
-<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span>&lt;path to install&gt;/bin:<span class="nv">$PATH</span>
-<span class="c1"># install PaddlePaddle Python modules.</span>
-sudo pip install &lt;path to install&gt;/opt/paddle/share/wheels/*.whl
-</pre></div>
-</div>
+<p><strong>NOTE: These options only take effect when running cmake for the first time, you need to clean the cmake cache or clean the build directory (</strong> <code class="code docutils literal"><span class="pre">rm</span> <span class="pre">-rf</span></code> <strong>) if you want to change it.</strong></p>
 </div>
 </div>
 </div>
@@ -406,7 +424,7 @@ sudo pip install &lt;path to install&gt;/opt/paddle/share/wheels/*.whl
         <a href="../../howto/index_en.html" class="btn btn-neutral float-right" title="HOW TO" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="ubuntu_install_en.html" class="btn btn-neutral" title="Debian Package installation guide" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../../howto/dev/build_en.html" class="btn btn-neutral" title="Build using Docker" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

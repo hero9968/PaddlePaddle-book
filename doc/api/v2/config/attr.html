@@ -65,7 +65,7 @@
     </div>
     <div class="site-nav-links">
       <div class="site-menu">
-        <a class="fork-on-github" href="https://github.com/PaddlePaddle/Paddle" target="_blank"><i class="fa fa-github"></i>Folk me on Github</a>
+        <a class="fork-on-github" href="https://github.com/PaddlePaddle/Paddle" target="_blank"><i class="fa fa-github"></i>Fork me on Github</a>
         <div class="language-switcher dropdown">
           <a type="button" data-toggle="dropdown">
             <span>English</span>
@@ -87,7 +87,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../getstarted/index_en.html">GET STARTED</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../howto/index_en.html">HOW TO</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../index_en.html">API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../about/index_en.html">ABOUT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mobile/index_en.html">MOBILE</a></li>
 </ul>
 
         
@@ -111,9 +111,10 @@
           <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../getstarted/index_en.html">GET STARTED</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../getstarted/build_and_install/index_en.html">Install and Build</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../getstarted/build_and_install/docker_install_en.html">PaddlePaddle in Docker Containers</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../getstarted/build_and_install/ubuntu_install_en.html">Debian Package installation guide</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../getstarted/build_and_install/build_from_source_en.html">Installing from Sources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../getstarted/build_and_install/pip_install_en.html">Install Using pip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../getstarted/build_and_install/docker_install_en.html">Run in Docker Containers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../howto/dev/build_en.html">Build using Docker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../getstarted/build_and_install/build_from_source_en.html">Build from Sources</a></li>
 </ul>
 </li>
 </ul>
@@ -125,12 +126,16 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../howto/usage/cmd_parameter/detail_introduction_en.html">Detail Description</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../../howto/usage/cluster/cluster_train_en.html">Run Distributed Training</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../howto/usage/cluster/cluster_train_en.html">PaddlePaddle Distributed Training</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../howto/usage/k8s/k8s_en.html">Paddle On Kubernetes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../howto/usage/k8s/k8s_aws_en.html">Distributed PaddlePaddle Training on AWS with Kubernetes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../howto/dev/new_layer_en.html">Write New Layers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../howto/dev/contribute_to_paddle_en.html">Contribute Code</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../howto/deep_model/rnn/index_en.html">RNN Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../howto/dev/write_docs_en.html">Contribute Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../howto/deep_model/rnn/index_en.html">RNN Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../howto/deep_model/rnn/rnn_config_en.html">RNN Configuration</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../../howto/optimization/gpu_profiling_en.html">Tune GPU Performance</a></li>
 </ul>
 </li>
@@ -138,17 +143,40 @@
 <li class="toctree-l2 current"><a class="reference internal" href="../model_configs.html">Model Configuration</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="activation.html">Activation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="layer.html">Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="evaluators.html">Evaluators</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optimizer.html">Optimizer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pooling.html">Pooling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="networks.html">Networks</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Parameter Attribute</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../data.html">Data Reader Interface and DataSets</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../run_logic.html">Training and Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data.html">Data Reader Interface and DataSets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../data/data_reader.html">Data Reader Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../data/image.html">Image Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../data/dataset.html">Dataset</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../about/index_en.html">ABOUT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../run_logic.html">Training and Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fluid.html">Fluid</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../fluid/layers.html">Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fluid/data_feeder.html">DataFeeder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fluid/executor.html">Executor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fluid/initializer.html">Initializer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fluid/evaluator.html">Evaluator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fluid/nets.html">Nets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fluid/optimizer.html">Optimizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fluid/param_attr.html">ParamAttr</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fluid/profiler.html">Profiler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fluid/regularizer.html">Regularizer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mobile/index_en.html">MOBILE</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../mobile/cross_compiling_for_android_en.html">Build PaddlePaddle for Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../mobile/cross_compiling_for_raspberry_en.html">Build PaddlePaddle for Raspberry Pi</a></li>
+</ul>
+</li>
 </ul>
 
         
@@ -198,6 +226,18 @@
 
 <dl class="attribute">
 <dt>
+<code class="descclassname">paddle.v2.attr.</code><code class="descname">Hook</code></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">HookAttribute</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descclassname">paddle.v2.attr.</code><code class="descname">HookAttr</code></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">HookAttribute</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
 <code class="descclassname">paddle.v2.attr.</code><code class="descname">ParamAttr</code></dt>
 <dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">ParameterAttribute</span></code></p>
 </dd></dl>
@@ -210,7 +250,7 @@
 
 <dl class="class">
 <dt>
-<em class="property">class </em><code class="descclassname">paddle.v2.attr.</code><code class="descname">ParameterAttribute</code><span class="sig-paren">(</span><em>name=None</em>, <em>is_static=False</em>, <em>initial_std=None</em>, <em>initial_mean=None</em>, <em>initial_max=None</em>, <em>initial_min=None</em>, <em>l1_rate=None</em>, <em>l2_rate=None</em>, <em>learning_rate=None</em>, <em>momentum=None</em>, <em>gradient_clipping_threshold=None</em>, <em>sparse_update=False</em><span class="sig-paren">)</span></dt>
+<em class="property">class </em><code class="descclassname">paddle.v2.attr.</code><code class="descname">ParameterAttribute</code><span class="sig-paren">(</span><em>name=None</em>, <em>is_static=False</em>, <em>initial_std=None</em>, <em>initial_mean=None</em>, <em>initial_max=None</em>, <em>initial_min=None</em>, <em>l1_rate=None</em>, <em>l2_rate=None</em>, <em>learning_rate=None</em>, <em>momentum=None</em>, <em>gradient_clipping_threshold=None</em>, <em>sparse_update=False</em>, <em>update_hooks=None</em>, <em>initializer=None</em><span class="sig-paren">)</span></dt>
 <dd><p>Parameter Attributes object. To fine-tuning network training process, user
 can set attribute to control training details, such as l1,l2 rate / learning
 rate / how to init param.</p>
@@ -239,6 +279,10 @@ value larger than some value, will be
 clipped.</li>
 <li><strong>sparse_update</strong> (<em>bool</em>) &#8211; Enable sparse update for this parameter. It will
 enable both local and remote sparse update.</li>
+<li><strong>initializer</strong> &#8211; If not None, it should be a callable object which accepts
+a parameter name and returns numpy array for the initial
+value of the parameter</li>
+<li><strong>initializer</strong> &#8211; callable object</li>
 </ul>
 </td>
 </tr>
@@ -276,7 +320,7 @@ layer that not support this attribute, paddle will print an error and core.</p>
 <li><strong>drop_rate</strong> (<em>float</em>) &#8211; Dropout rate. Dropout will create a mask on layer output.
 The dropout rate is the zero rate of this mask. The
 details of what dropout is please refer to <a class="reference external" href="https://www.cs.toronto.edu/~hinton/absps/JMLRdropout.pdf">here</a>.</li>
-<li><strong>device</strong> (<em>int</em>) &#8211; <p>device ID of layer. device=-1, use CPU. device&gt;0, use GPU.
+<li><strong>device</strong> (<em>int</em>) &#8211; <p>device ID of layer. device=-1, use CPU. device&gt;=0, use GPU.
 The details allocation in parallel_nn please refer to <a class="reference external" href="http://www.paddlepaddle.org/doc/ui/cmd_argument/use_case.html#case-2-specify-layers-in-different-devices">here</a>.</p>
 </li>
 </ul>

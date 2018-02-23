@@ -1,0 +1,399 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>RNNOp design &mdash; PaddlePaddle  文档</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+  
+        <link rel="index" title="索引"
+              href="../../genindex.html"/>
+        <link rel="search" title="搜索" href="../../search.html"/>
+    <link rel="top" title="PaddlePaddle  文档" href="../../index.html"/> 
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/css/perfect-scrollbar.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/override.css" type="text/css" />
+  <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?b9a314ab40d04d805655aab1deee08ba";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
+
+  
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  
+  <header class="site-header">
+    <div class="site-logo">
+      <a href="/"><img src="../../_static/images/PP_w.png"></a>
+    </div>
+    <div class="site-nav-links">
+      <div class="site-menu">
+        <a class="fork-on-github" href="https://github.com/PaddlePaddle/Paddle" target="_blank"><i class="fa fa-github"></i>Fork me on Github</a>
+        <div class="language-switcher dropdown">
+          <a type="button" data-toggle="dropdown">
+            <span>English</span>
+            <i class="fa fa-angle-up"></i>
+            <i class="fa fa-angle-down"></i>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="/doc_cn">中文</a></li>
+            <li><a href="/doc">English</a></li>
+          </ul>
+        </div>
+        <ul class="site-page-links">
+          <li><a href="/">Home</a></li>
+        </ul>
+      </div>
+      <div class="doc-module">
+        
+        <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getstarted/index_cn.html">新手入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howto/index_cn.html">进阶指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index_cn.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index_cn.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mobile/index_cn.html">MOBILE</a></li>
+</ul>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>        
+      </div>
+    </div>
+  </header>
+  
+  <div class="main-content-wrap">
+
+    
+    <nav class="doc-menu-vertical" role="navigation">
+        
+          
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getstarted/index_cn.html">新手入门</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getstarted/build_and_install/index_cn.html">安装与编译</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../getstarted/build_and_install/pip_install_cn.html">使用pip安装</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../getstarted/build_and_install/docker_install_cn.html">使用Docker安装运行</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/dev/build_cn.html">用Docker编译和测试PaddlePaddle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../getstarted/build_and_install/build_from_source_cn.html">从源码编译</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../getstarted/concepts/use_concepts_cn.html">基本使用概念</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../howto/index_cn.html">进阶指南</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/usage/cmd_parameter/index_cn.html">设置命令行参数</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/usage/cmd_parameter/use_case_cn.html">使用案例</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/usage/cmd_parameter/arguments_cn.html">参数概述</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/usage/cmd_parameter/detail_introduction_cn.html">细节描述</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/usage/cluster/cluster_train_cn.html">PaddlePaddle分布式训练</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/usage/k8s/k8s_basis_cn.html">Kubernetes 简介</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/usage/k8s/k8s_cn.html">Kubernetes单机训练</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/usage/k8s/k8s_distributed_cn.html">Kubernetes分布式训练</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/dev/contribute_to_paddle_cn.html">如何贡献代码</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/dev/write_docs_cn.html">如何贡献/修改文档</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/deep_model/rnn/index_cn.html">RNN相关模型</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/deep_model/rnn/rnn_config_cn.html">RNN配置</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/deep_model/rnn/recurrent_group_cn.html">Recurrent Group教程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/deep_model/rnn/hierarchical_layer_cn.html">支持双层序列作为输入的Layer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/deep_model/rnn/hrnn_rnn_api_compare_cn.html">单双层RNN API对比介绍</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/optimization/gpu_profiling_cn.html">GPU性能分析与调优</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index_cn.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/v2/model_configs.html">模型配置</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/activation.html">Activation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/layer.html">Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/evaluators.html">Evaluators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/optimizer.html">Optimizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/pooling.html">Pooling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/networks.html">Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/attr.html">Parameter Attribute</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/v2/data.html">数据访问</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/data/data_reader.html">Data Reader Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/data/image.html">Image Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/data/dataset.html">Dataset</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/v2/run_logic.html">训练与应用</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index_cn.html">FAQ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../faq/build_and_install/index_cn.html">编译安装与单元测试</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../faq/model/index_cn.html">模型配置</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../faq/parameter/index_cn.html">参数设置</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../faq/local/index_cn.html">本地训练与预测</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../faq/cluster/index_cn.html">集群训练与预测</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../mobile/index_cn.html">MOBILE</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../mobile/cross_compiling_for_android_cn.html">Android平台编译指南</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mobile/cross_compiling_for_ios_cn.html">iOS平台编译指南</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mobile/cross_compiling_for_raspberry_cn.html">Raspberry Pi平台编译指南</a></li>
+</ul>
+</li>
+</ul>
+
+        
+    </nav>
+    
+    <section class="doc-content-wrap">
+
+      
+
+ 
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+      
+    <li>RNNOp design</li>
+  </ul>
+</div>
+      
+      <div class="wy-nav-content" id="doc-content">
+        <div class="rst-content">
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="rnnop-design">
+<span id="rnnop-design"></span><h1>RNNOp design<a class="headerlink" href="#rnnop-design" title="永久链接至标题">¶</a></h1>
+<p>This document describes the RNN (Recurrent Neural Network) operator and how it is implemented in PaddlePaddle. The RNN op requires that all instances in a mini-batch have the same length. We will have a more flexible dynamic RNN operator in the future.</p>
+<div class="section" id="rnn-algorithm-implementation">
+<span id="rnn-algorithm-implementation"></span><h2>RNN Algorithm Implementation<a class="headerlink" href="#rnn-algorithm-implementation" title="永久链接至标题">¶</a></h2>
+<p align="center">
+<img src="./images/rnn.jpg"/>
+</p><p>The above diagram shows an RNN unrolled into a full network.</p>
+<p>There are several important concepts here:</p>
+<ul class="simple">
+<li><em>step-net</em>: the sub-graph that runs at each step.</li>
+<li><em>memory</em>, $h_t$, the state of the current step.</li>
+<li><em>ex-memory</em>, $h_{t-1}$, the state of the previous step.</li>
+<li><em>initial memory value</em>, the memory of the first (initial) step.</li>
+</ul>
+<div class="section" id="step-scope">
+<span id="step-scope"></span><h3>Step-scope<a class="headerlink" href="#step-scope" title="永久链接至标题">¶</a></h3>
+<p>There could be local variables defined in each step-net.  PaddlePaddle runtime realizes these variables in <em>step-scopes</em> which are created for each step.</p>
+<p align="center">
+<img src="./images/rnn.png"/><br/>
+Figure 2 illustrates the RNN's data flow
+</p><p>Please be aware that every step runs the same step-net.  Each step does the following:</p>
+<ol class="simple">
+<li>Creates the step-scope.</li>
+<li>Initializes the local variables including step-outputs, in the step-scope.</li>
+<li>Runs the step-net, which uses the above mentioned variables.</li>
+</ol>
+<p>The RNN operator will compose its output from step outputs in each of the step scopes.</p>
+</div>
+<div class="section" id="memory-and-ex-memory">
+<span id="memory-and-ex-memory"></span><h3>Memory and Ex-memory<a class="headerlink" href="#memory-and-ex-memory" title="永久链接至标题">¶</a></h3>
+<p>Let&#8217;s give more details about memory and ex-memory using a simple example:</p>
+<p>$$
+h_t = U h_{t-1} + W x_t
+$$,</p>
+<p>where $h_t$ and $h_{t-1}$ are the memory and ex-memory (previous memory) of step $t$ respectively.</p>
+<p>In the implementation, we can make an ex-memory variable either &#8220;refer to&#8221; the memory variable of the previous step,
+or copy the memory value of the previous step to the current ex-memory variable.</p>
+</div>
+<div class="section" id="usage-in-python">
+<span id="usage-in-python"></span><h3>Usage in Python<a class="headerlink" href="#usage-in-python" title="永久链接至标题">¶</a></h3>
+<p>For more information on Block, please refer to the <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/doc/design/block.md">design doc</a>.</p>
+<p>We can define an RNN&#8217;s step-net using a Block:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">paddle</span> <span class="kn">as</span> <span class="nn">pd</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">some_op</span><span class="p">()</span> <span class="c1"># x is some operator&#39;s output and is a LoDTensor</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">some_op</span><span class="p">()</span>
+
+<span class="c1"># declare parameters</span>
+<span class="n">W</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">])</span>
+<span class="n">U</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">])</span>
+
+<span class="n">rnn</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">create_rnn_op</span><span class="p">(</span><span class="n">output_num</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">rnn</span><span class="o">.</span><span class="n">stepnet</span><span class="p">():</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">rnn</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="c1"># declare a memory (rnn&#39;s step)</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">rnn</span><span class="o">.</span><span class="n">add_memory</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="n">a</span><span class="p">)</span>
+    <span class="c1"># h.pre_state(), the previous memory of rnn</span>
+    <span class="n">new_state</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">add_two</span><span class="p">(</span> <span class="n">pd</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">pd</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">h</span><span class="o">.</span><span class="n">pre_state</span><span class="p">()))</span>
+    <span class="c1"># update current memory</span>
+    <span class="n">h</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">new_state</span><span class="p">)</span>
+    <span class="c1"># indicate that h variables in all step scopes should be merged</span>
+    <span class="n">rnn</span><span class="o">.</span><span class="n">add_outputs</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+
+<span class="n">out</span> <span class="o">=</span> <span class="n">rnn</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Python API functions in above example:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">rnn.add_input</span></code>: indicates that the parameter is a variable that will be segmented into step-inputs.</li>
+<li><code class="docutils literal"><span class="pre">rnn.add_memory</span></code>: creates a variable used as the memory.</li>
+<li><code class="docutils literal"><span class="pre">rnn.add_outputs</span></code>: marks the variables that will be concatenated across steps into the RNN output.</li>
+</ul>
+</div>
+<div class="section" id="nested-rnn-and-lodtensor">
+<span id="nested-rnn-and-lodtensor"></span><h3>Nested RNN and LoDTensor<a class="headerlink" href="#nested-rnn-and-lodtensor" title="永久链接至标题">¶</a></h3>
+<p>An RNN whose step-net includes other RNN operators is known as an <em>nested RNN</em>.</p>
+<p>For example, we could have a 2-level RNN, where the top level corresponds to paragraphs, and the lower level corresponds to sentences. Each step of the higher level RNN also receives an input from the corresponding step of the lower level, and additionally the output from the previous time step at the same level.</p>
+<p>The following figure illustrates feeding in text into the lower level, one sentence at a step, and the feeding in step outputs to the top level. The final top level output is about the whole text.</p>
+<p align="center">
+<img src="./images/2_level_rnn.png"/>
+</p><div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">paddle</span> <span class="kn">as</span> <span class="nn">pd</span>
+
+<span class="n">W</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">])</span>
+<span class="n">U</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">])</span>
+
+<span class="n">W0</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">])</span>
+<span class="n">U0</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">])</span>
+
+<span class="c1"># a is output of some op</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">some_op</span><span class="p">()</span>
+
+<span class="c1"># chapter_data is a set of 128-dim word vectors</span>
+<span class="c1"># the first level of LoD is sentence</span>
+<span class="c1"># the second level of LoD is a chapter</span>
+<span class="n">chapter_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="bp">None</span><span class="p">,</span> <span class="mi">128</span><span class="p">],</span> <span class="nb">type</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">lod_tensor</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">lower_level_rnn</span><span class="p">(</span><span class="n">paragraph</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    x: the input</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">rnn</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">create_rnn_op</span><span class="p">(</span><span class="n">output_num</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">rnn</span><span class="o">.</span><span class="n">stepnet</span><span class="p">():</span>
+        <span class="n">sentence</span> <span class="o">=</span> <span class="n">rnn</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="n">paragraph</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">rnn</span><span class="o">.</span><span class="n">add_memory</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">])</span>
+        <span class="n">h</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+            <span class="n">pd</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">sentence</span><span class="p">)</span> <span class="o">+</span> <span class="n">pd</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">h</span><span class="o">.</span><span class="n">pre_state</span><span class="p">()))</span>
+        <span class="c1"># get the last state as sentence&#39;s info</span>
+        <span class="n">rnn</span><span class="o">.</span><span class="n">add_outputs</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">rnn</span>
+
+<span class="n">top_level_rnn</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">create_rnn_op</span><span class="p">(</span><span class="n">output_num</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">top_level_rnn</span><span class="o">.</span><span class="n">stepnet</span><span class="p">():</span>
+    <span class="n">paragraph_data</span> <span class="o">=</span> <span class="n">rnn</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="n">chapter_data</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">low_rnn</span> <span class="o">=</span> <span class="n">lower_level_rnn</span><span class="p">(</span><span class="n">paragraph_data</span><span class="p">)</span>
+    <span class="n">paragraph_out</span> <span class="o">=</span> <span class="n">low_rnn</span><span class="p">()</span>
+
+    <span class="n">h</span> <span class="o">=</span> <span class="n">rnn</span><span class="o">.</span><span class="n">add_memory</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="n">a</span><span class="p">)</span>
+    <span class="n">h</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+        <span class="n">pd</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">W0</span><span class="p">,</span> <span class="n">paragraph_data</span><span class="p">)</span> <span class="o">+</span> <span class="n">pd</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">U0</span><span class="p">,</span> <span class="n">h</span><span class="o">.</span><span class="n">pre_state</span><span class="p">()))</span>
+    <span class="n">top_level_rnn</span><span class="o">.</span><span class="n">add_outputs</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+
+<span class="c1"># output the last step</span>
+<span class="n">chapter_out</span> <span class="o">=</span> <span class="n">top_level_rnn</span><span class="p">(</span><span class="n">output_all_steps</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In the above example, the construction of the <code class="docutils literal"><span class="pre">top_level_rnn</span></code> calls  <code class="docutils literal"><span class="pre">lower_level_rnn</span></code>.  The input is an LoD Tensor. The top level RNN segments input text data into paragraphs, and the lower level RNN segments each paragraph into sentences.</p>
+<p>By default, the <code class="docutils literal"><span class="pre">RNNOp</span></code> will concatenate the outputs from all the time steps.
+If the <code class="docutils literal"><span class="pre">output_all_steps</span></code> is set to False, it will only output the final time step.</p>
+<p align="center">
+<img src="images/rnn_2level_data.png"/>
+</p></div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, PaddlePaddle developers.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: ".txt",
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../_static/translations.js"></script>
+      <script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+       
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+  
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/js/perfect-scrollbar.jquery.min.js"></script>
+  <script src="../../_static/js/paddle_doc_init.js"></script> 
+
+</body>
+</html>

@@ -1,0 +1,456 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Survey on Graph &mdash; PaddlePaddle  documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="PaddlePaddle  documentation" href="../index.html"/> 
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/css/perfect-scrollbar.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/override.css" type="text/css" />
+  <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?b9a314ab40d04d805655aab1deee08ba";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
+
+  
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  
+  <header class="site-header">
+    <div class="site-logo">
+      <a href="/"><img src="../_static/images/PP_w.png"></a>
+    </div>
+    <div class="site-nav-links">
+      <div class="site-menu">
+        <a class="fork-on-github" href="https://github.com/PaddlePaddle/Paddle" target="_blank"><i class="fa fa-github"></i>Fork me on Github</a>
+        <div class="language-switcher dropdown">
+          <a type="button" data-toggle="dropdown">
+            <span>English</span>
+            <i class="fa fa-angle-up"></i>
+            <i class="fa fa-angle-down"></i>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="/doc_cn">中文</a></li>
+            <li><a href="/doc">English</a></li>
+          </ul>
+        </div>
+        <ul class="site-page-links">
+          <li><a href="/">Home</a></li>
+        </ul>
+      </div>
+      <div class="doc-module">
+        
+        <ul>
+<li class="toctree-l1"><a class="reference internal" href="../getstarted/index_en.html">GET STARTED</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howto/index_en.html">HOW TO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index_en.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mobile/index_en.html">MOBILE</a></li>
+</ul>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>        
+      </div>
+    </div>
+  </header>
+  
+  <div class="main-content-wrap">
+
+    
+    <nav class="doc-menu-vertical" role="navigation">
+        
+          
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../getstarted/index_en.html">GET STARTED</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getstarted/build_and_install/index_en.html">Install and Build</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../getstarted/build_and_install/pip_install_en.html">Install Using pip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../getstarted/build_and_install/docker_install_en.html">Run in Docker Containers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/dev/build_en.html">Build using Docker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../getstarted/build_and_install/build_from_source_en.html">Build from Sources</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../howto/index_en.html">HOW TO</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../howto/usage/cmd_parameter/index_en.html">Set Command-line Parameters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cmd_parameter/use_case_en.html">Use Case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cmd_parameter/arguments_en.html">Argument Outline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cmd_parameter/detail_introduction_en.html">Detail Description</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/usage/cluster/cluster_train_en.html">PaddlePaddle Distributed Training</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/usage/k8s/k8s_en.html">Paddle On Kubernetes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/usage/k8s/k8s_aws_en.html">Distributed PaddlePaddle Training on AWS with Kubernetes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/dev/new_layer_en.html">Write New Layers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/dev/contribute_to_paddle_en.html">Contribute Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/dev/write_docs_en.html">Contribute Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/deep_model/rnn/index_en.html">RNN Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../howto/deep_model/rnn/rnn_config_en.html">RNN Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/optimization/gpu_profiling_en.html">Tune GPU Performance</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index_en.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/v2/model_configs.html">Model Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/activation.html">Activation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/layer.html">Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/evaluators.html">Evaluators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/optimizer.html">Optimizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/pooling.html">Pooling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/networks.html">Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/attr.html">Parameter Attribute</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/v2/data.html">Data Reader Interface and DataSets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/data/data_reader.html">Data Reader Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/data/image.html">Image Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/data/dataset.html">Dataset</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/v2/run_logic.html">Training and Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/v2/fluid.html">Fluid</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/layers.html">Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/data_feeder.html">DataFeeder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/executor.html">Executor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/initializer.html">Initializer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/evaluator.html">Evaluator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/nets.html">Nets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/optimizer.html">Optimizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/param_attr.html">ParamAttr</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/profiler.html">Profiler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/regularizer.html">Regularizer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../mobile/index_en.html">MOBILE</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../mobile/cross_compiling_for_android_en.html">Build PaddlePaddle for Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mobile/cross_compiling_for_raspberry_en.html">Build PaddlePaddle for Raspberry Pi</a></li>
+</ul>
+</li>
+</ul>
+
+        
+    </nav>
+    
+    <section class="doc-content-wrap">
+
+      
+
+ 
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+      
+    <li>Survey on Graph</li>
+  </ul>
+</div>
+      
+      <div class="wy-nav-content" id="doc-content">
+        <div class="rst-content">
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="survey-on-graph">
+<span id="survey-on-graph"></span><h1>Survey on Graph<a class="headerlink" href="#survey-on-graph" title="Permalink to this headline">¶</a></h1>
+<p>Neural network framework often provides symbolic API for users to write network topology conveniently. This doc manily focus on symbolic API in most popular neural network frameworks, and try to find out how to parse symbolic configuration to a portable file, such as protobuf or json.</p>
+<div class="section" id="mxnet">
+<span id="mxnet"></span><h2>Mxnet<a class="headerlink" href="#mxnet" title="Permalink to this headline">¶</a></h2>
+<p>The core concept of symbolic API is <code class="docutils literal"><span class="pre">Symbol</span></code>. Mxnet implements <code class="docutils literal"><span class="pre">Symbol</span></code> class in C++, and export to Python using C-API. Please refer to the comments in Mxnet:</p>
+<p><code class="docutils literal"><span class="pre">Symbol</span></code> is help class used to represent the operator node in Graph.
+<code class="docutils literal"><span class="pre">Symbol</span></code> acts as an interface for building graphs from different components like Variable, Functor and Group. <code class="docutils literal"><span class="pre">Symbol</span></code> is also exported to python front-end (while Graph is not) to enable quick test and deployment. Conceptually, symbol is the final operation of a graph and thus including all the information required (the graph) to evaluate its output value.</p>
+<p>A simple network topology wrote by Symbol is as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_symbol</span><span class="p">(</span><span class="n">num_classes</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">mx</span><span class="o">.</span><span class="n">symbol</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">mx</span><span class="o">.</span><span class="n">symbol</span><span class="o">.</span><span class="n">Flatten</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">fc1</span>  <span class="o">=</span> <span class="n">mx</span><span class="o">.</span><span class="n">symbol</span><span class="o">.</span><span class="n">FullyConnected</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;fc1&#39;</span><span class="p">,</span> <span class="n">num_hidden</span><span class="o">=</span><span class="mi">128</span><span class="p">)</span>
+    <span class="n">act1</span> <span class="o">=</span> <span class="n">mx</span><span class="o">.</span><span class="n">symbol</span><span class="o">.</span><span class="n">Activation</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">fc1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;relu1&#39;</span><span class="p">,</span> <span class="n">act_type</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">)</span>
+    <span class="n">fc2</span>  <span class="o">=</span> <span class="n">mx</span><span class="o">.</span><span class="n">symbol</span><span class="o">.</span><span class="n">FullyConnected</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">act1</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;fc2&#39;</span><span class="p">,</span> <span class="n">num_hidden</span> <span class="o">=</span> <span class="mi">64</span><span class="p">)</span>
+    <span class="n">act2</span> <span class="o">=</span> <span class="n">mx</span><span class="o">.</span><span class="n">symbol</span><span class="o">.</span><span class="n">Activation</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">fc2</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;relu2&#39;</span><span class="p">,</span> <span class="n">act_type</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">)</span>
+    <span class="n">fc3</span>  <span class="o">=</span> <span class="n">mx</span><span class="o">.</span><span class="n">symbol</span><span class="o">.</span><span class="n">FullyConnected</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">act2</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;fc3&#39;</span><span class="p">,</span> <span class="n">num_hidden</span><span class="o">=</span><span class="n">num_classes</span><span class="p">)</span>
+    <span class="n">mlp</span>  <span class="o">=</span> <span class="n">mx</span><span class="o">.</span><span class="n">symbol</span><span class="o">.</span><span class="n">SoftmaxOutput</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">fc3</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;softmax&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">mlp</span>
+</pre></div>
+</div>
+<p>Varible here is actually a Symbol. Every basic Symbol will correspond to one Node, and every Node has its own NodeAttr. There is a op field in NodeAttr class, when a Symbol represents Variable(often input data), the op field is null.</p>
+<p>Symbol contains a data member, std::vector<NodeEntry> outputs, and NodeEntry cantains a poniter to Node. We can follow the Node pointer to get all the Graph.</p>
+<p>And Symbol can be saved to a Json file.</p>
+<p>Here is a detailed example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">mxnet</span> <span class="k">as</span> <span class="nn">mx</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">mx</span><span class="o">.</span><span class="n">symbol</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">data</span><span class="o">.</span><span class="n">debug_str</span><span class="p">()</span>
+<span class="go">Variable:data</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">mx</span><span class="o">.</span><span class="n">symbol</span><span class="o">.</span><span class="n">Flatten</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">data</span><span class="o">.</span><span class="n">debug_str</span><span class="p">()</span>
+<span class="go">Symbol Outputs:</span>
+<span class="go">    output[0]=flatten0(0)</span>
+<span class="go">Variable:data</span>
+<span class="go">--------------------</span>
+<span class="go">Op:Flatten, Name=flatten0</span>
+<span class="go">Inputs:</span>
+<span class="go">    arg[0]=data(0) version=0</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fc1</span>  <span class="o">=</span> <span class="n">mx</span><span class="o">.</span><span class="n">symbol</span><span class="o">.</span><span class="n">FullyConnected</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;fc1&#39;</span><span class="p">,</span> <span class="n">num_hidden</span><span class="o">=</span><span class="mi">128</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">fc1</span><span class="o">.</span><span class="n">debug_str</span><span class="p">()</span>
+<span class="go">Symbol Outputs:</span>
+<span class="go">    output[0]=fc1(0)</span>
+<span class="go">Variable:data</span>
+<span class="go">--------------------</span>
+<span class="go">Op:Flatten, Name=flatten0</span>
+<span class="go">Inputs:</span>
+<span class="go">    arg[0]=data(0) version=0</span>
+<span class="go">Variable:fc1_weight</span>
+<span class="go">Variable:fc1_bias</span>
+<span class="go">--------------------</span>
+<span class="go">Op:FullyConnected, Name=fc1</span>
+<span class="go">Inputs:</span>
+<span class="go">    arg[0]=flatten0(0)</span>
+<span class="go">    arg[1]=fc1_weight(0) version=0</span>
+<span class="go">    arg[2]=fc1_bias(0) version=0</span>
+<span class="go">Attrs:</span>
+<span class="go">    num_hidden=128</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="tensorflow">
+<span id="tensorflow"></span><h2>TensorFlow<a class="headerlink" href="#tensorflow" title="Permalink to this headline">¶</a></h2>
+<p>The core concept of symbolic API is <code class="docutils literal"><span class="pre">Tensor</span></code>. Tensorflow defines <code class="docutils literal"><span class="pre">Tensor</span></code> in Python. Please refer to the comments in TensorFlow:</p>
+<p>A <code class="docutils literal"><span class="pre">Tensor</span></code> is a symbolic handle to one of the outputs of an <code class="docutils literal"><span class="pre">Operation</span></code>. It does not hold the values of that operation&#8217;s output, but instead provides a means of computing those values in a TensorFlow <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/Session">Session</a>.</p>
+<p>A simple example is as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>  <span class="c1"># Build a dataflow graph.</span>
+  <span class="n">c</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">]])</span>
+  <span class="n">d</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]])</span>
+  <span class="n">e</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+
+  <span class="c1"># Construct a `Session` to execute the graph.</span>
+  <span class="n">sess</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span>
+
+  <span class="c1"># Execute the graph and store the value that `e` represents in `result`.</span>
+  <span class="n">result</span> <span class="o">=</span> <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The main method of <code class="docutils literal"><span class="pre">Tensor</span></code> is as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="nd">@property</span>
+<span class="k">def</span> <span class="nf">op</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;The `Operation` that produces this tensor as an output.&quot;&quot;&quot;</span>
+  <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_op</span>
+
+<span class="nd">@property</span>
+<span class="k">def</span> <span class="nf">dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+   <span class="sd">&quot;&quot;&quot;The `DType` of elements in this tensor.&quot;&quot;&quot;</span>
+  <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span>
+
+<span class="nd">@property</span>
+<span class="k">def</span> <span class="nf">graph</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;The `Graph` that contains this tensor.&quot;&quot;&quot;</span>
+  <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_op</span><span class="o">.</span><span class="n">graph</span>
+
+<span class="nd">@property</span>
+<span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;The string name of this tensor.&quot;&quot;&quot;</span>
+  <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_op</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Operation was not named: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_op</span><span class="p">)</span>
+  <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">:</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_op</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value_index</span><span class="p">)</span>
+
+<span class="nd">@property</span>
+<span class="k">def</span> <span class="nf">device</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;The name of the device on which this tensor will be produced, or None.&quot;&quot;&quot;</span>
+  <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_op</span><span class="o">.</span><span class="n">device</span>
+</pre></div>
+</div>
+<p>Tensor can be taken as target to run by session. Tensor contains all the information of Graph, and tracks data dependency.</p>
+<p>Here is a detailed example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">c</span><span class="o">.</span><span class="n">graph</span>
+<span class="go">&lt;tensorflow.python.framework.ops.Graph object at 0x10f256d50&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">d</span><span class="o">.</span><span class="n">graph</span>
+<span class="go">&lt;tensorflow.python.framework.ops.Graph object at 0x10f256d50&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">e</span><span class="o">.</span><span class="n">graph</span>
+<span class="go">&lt;tensorflow.python.framework.ops.Graph object at 0x10f256d50&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="dynet">
+<span id="dynet"></span><h2>Dynet<a class="headerlink" href="#dynet" title="Permalink to this headline">¶</a></h2>
+<p>The core concept of symbolic API is <code class="docutils literal"><span class="pre">Expression</span></code>, and Dynet defines <code class="docutils literal"><span class="pre">Expression</span></code> class in C++.</p>
+<p>A simple example is as follows:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="n">ComputationGraph</span> <span class="n">cg</span><span class="p">;</span>
+<span class="n">Expression</span> <span class="n">W</span> <span class="o">=</span> <span class="n">parameter</span><span class="p">(</span><span class="n">cg</span><span class="p">,</span> <span class="n">pW</span><span class="p">);</span>
+
+<span class="n">Expression</span> <span class="n">in</span> <span class="o">=</span> <span class="n">input</span><span class="p">(</span><span class="n">cg</span><span class="p">,</span> <span class="n">xs</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="n">Expression</span> <span class="n">label</span> <span class="o">=</span> <span class="n">input</span><span class="p">(</span><span class="n">cg</span><span class="p">,</span> <span class="n">ys</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="n">Expression</span> <span class="n">pred</span> <span class="o">=</span> <span class="n">W</span> <span class="o">*</span> <span class="n">in</span><span class="p">;</span>
+<span class="n">Expression</span> <span class="n">loss</span> <span class="o">=</span> <span class="n">square</span><span class="p">(</span><span class="n">pred</span> <span class="o">-</span> <span class="n">label</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The input data and parameter are also represented by Expression. Every basci Expression corresponds to a Node. And input data is also a Node.</p>
+<p>Expression has a data member ComputationGraph, and ComputationGraph will be modified in users&#8217; configuring process. Expression can be a running target, beacuse Expression contains all dependency.</p>
+<p>Here is a detailed example:</p>
+<p>write topology in C++</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ComputationGraph</span> <span class="n">cg</span><span class="p">;</span>
+<span class="n">Expression</span> <span class="n">W</span> <span class="o">=</span> <span class="n">parameter</span><span class="p">(</span><span class="n">cg</span><span class="p">,</span> <span class="n">pW</span><span class="p">);</span>
+<span class="n">cg</span><span class="o">.</span><span class="n">print_graphviz</span><span class="p">();</span>
+
+<span class="n">Expression</span> <span class="n">pred</span> <span class="o">=</span> <span class="n">W</span> <span class="o">*</span> <span class="n">xs</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="n">cg</span><span class="o">.</span><span class="n">print_graphviz</span><span class="p">();</span>
+
+<span class="n">Expression</span> <span class="n">loss</span> <span class="o">=</span> <span class="n">square</span><span class="p">(</span><span class="n">pred</span> <span class="o">-</span> <span class="n">ys</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="n">cg</span><span class="o">.</span><span class="n">print_graphviz</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>compile and print</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># first print</span>
+<span class="n">digraph</span> <span class="n">G</span> <span class="p">{</span>
+  <span class="n">rankdir</span><span class="o">=</span><span class="n">LR</span><span class="p">;</span>
+  <span class="n">nodesep</span><span class="o">=.</span><span class="mi">05</span><span class="p">;</span>
+  <span class="n">N0</span> <span class="p">[</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;v0 = parameters(</span><span class="si">{1}</span><span class="s2">) @ 0x7ffe4de00110&quot;</span><span class="p">];</span>
+<span class="p">}</span>
+<span class="c1"># second print</span>
+<span class="n">digraph</span> <span class="n">G</span> <span class="p">{</span>
+  <span class="n">rankdir</span><span class="o">=</span><span class="n">LR</span><span class="p">;</span>
+  <span class="n">nodesep</span><span class="o">=.</span><span class="mi">05</span><span class="p">;</span>
+  <span class="n">N0</span> <span class="p">[</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;v0 = parameters(</span><span class="si">{1}</span><span class="s2">) @ 0x7ffe4de00110&quot;</span><span class="p">];</span>
+  <span class="n">N1</span> <span class="p">[</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;v1 = v0 * -0.98&quot;</span><span class="p">];</span>
+  <span class="n">N0</span> <span class="o">-&gt;</span> <span class="n">N1</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="c1"># third print</span>
+<span class="n">digraph</span> <span class="n">G</span> <span class="p">{</span>
+  <span class="n">rankdir</span><span class="o">=</span><span class="n">LR</span><span class="p">;</span>
+  <span class="n">nodesep</span><span class="o">=.</span><span class="mi">05</span><span class="p">;</span>
+  <span class="n">N0</span> <span class="p">[</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;v0 = parameters(</span><span class="si">{1}</span><span class="s2">) @ 0x7ffe4de00110&quot;</span><span class="p">];</span>
+  <span class="n">N1</span> <span class="p">[</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;v1 = v0 * -0.98&quot;</span><span class="p">];</span>
+  <span class="n">N0</span> <span class="o">-&gt;</span> <span class="n">N1</span><span class="p">;</span>
+  <span class="n">N2</span> <span class="p">[</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;v2 = -1.88387 - v1&quot;</span><span class="p">];</span>
+  <span class="n">N1</span> <span class="o">-&gt;</span> <span class="n">N2</span><span class="p">;</span>
+  <span class="n">N3</span> <span class="p">[</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;v3 = -v2&quot;</span><span class="p">];</span>
+  <span class="n">N2</span> <span class="o">-&gt;</span> <span class="n">N3</span><span class="p">;</span>
+  <span class="n">N4</span> <span class="p">[</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;v4 = square(v3)&quot;</span><span class="p">];</span>
+  <span class="n">N3</span> <span class="o">-&gt;</span> <span class="n">N4</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="conclusion">
+<span id="conclusion"></span><h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline">¶</a></h2>
+<p>Actually, Symbol/Tensor/Expression in Mxnet/TensorFlow/Dynet are the same level concepts. We use a unified name Expression here, this level concept has following features:</p>
+<ul class="simple">
+<li>Users wirte topoloy with symbolic API, and all return value is Expression, including input data and parameter.</li>
+<li>Expression corresponds with a global Graph, and Expression can also be composed.</li>
+<li>Expression tracks all dependency and can be taken as a run target</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, PaddlePaddle developers.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: ".txt",
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+       
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+  
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/js/perfect-scrollbar.jquery.min.js"></script>
+  <script src="../_static/js/paddle_doc_init.js"></script> 
+
+</body>
+</html>

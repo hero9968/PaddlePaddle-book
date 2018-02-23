@@ -1,0 +1,342 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Averaging Parameter in PaddlePaddle &mdash; PaddlePaddle  documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="PaddlePaddle  documentation" href="../index.html"/> 
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/css/perfect-scrollbar.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/override.css" type="text/css" />
+  <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?b9a314ab40d04d805655aab1deee08ba";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
+
+  
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  
+  <header class="site-header">
+    <div class="site-logo">
+      <a href="/"><img src="../_static/images/PP_w.png"></a>
+    </div>
+    <div class="site-nav-links">
+      <div class="site-menu">
+        <a class="fork-on-github" href="https://github.com/PaddlePaddle/Paddle" target="_blank"><i class="fa fa-github"></i>Fork me on Github</a>
+        <div class="language-switcher dropdown">
+          <a type="button" data-toggle="dropdown">
+            <span>English</span>
+            <i class="fa fa-angle-up"></i>
+            <i class="fa fa-angle-down"></i>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="/doc_cn">中文</a></li>
+            <li><a href="/doc">English</a></li>
+          </ul>
+        </div>
+        <ul class="site-page-links">
+          <li><a href="/">Home</a></li>
+        </ul>
+      </div>
+      <div class="doc-module">
+        
+        <ul>
+<li class="toctree-l1"><a class="reference internal" href="../getstarted/index_en.html">GET STARTED</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howto/index_en.html">HOW TO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index_en.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mobile/index_en.html">MOBILE</a></li>
+</ul>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>        
+      </div>
+    </div>
+  </header>
+  
+  <div class="main-content-wrap">
+
+    
+    <nav class="doc-menu-vertical" role="navigation">
+        
+          
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../getstarted/index_en.html">GET STARTED</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getstarted/build_and_install/index_en.html">Install and Build</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../getstarted/build_and_install/pip_install_en.html">Install Using pip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../getstarted/build_and_install/docker_install_en.html">Run in Docker Containers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/dev/build_en.html">Build using Docker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../getstarted/build_and_install/build_from_source_en.html">Build from Sources</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../howto/index_en.html">HOW TO</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../howto/usage/cmd_parameter/index_en.html">Set Command-line Parameters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cmd_parameter/use_case_en.html">Use Case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cmd_parameter/arguments_en.html">Argument Outline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cmd_parameter/detail_introduction_en.html">Detail Description</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/usage/cluster/cluster_train_en.html">PaddlePaddle Distributed Training</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/usage/k8s/k8s_en.html">Paddle On Kubernetes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/usage/k8s/k8s_aws_en.html">Distributed PaddlePaddle Training on AWS with Kubernetes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/dev/new_layer_en.html">Write New Layers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/dev/contribute_to_paddle_en.html">Contribute Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/dev/write_docs_en.html">Contribute Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/deep_model/rnn/index_en.html">RNN Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../howto/deep_model/rnn/rnn_config_en.html">RNN Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/optimization/gpu_profiling_en.html">Tune GPU Performance</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index_en.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/v2/model_configs.html">Model Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/activation.html">Activation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/layer.html">Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/evaluators.html">Evaluators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/optimizer.html">Optimizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/pooling.html">Pooling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/networks.html">Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/attr.html">Parameter Attribute</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/v2/data.html">Data Reader Interface and DataSets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/data/data_reader.html">Data Reader Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/data/image.html">Image Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/data/dataset.html">Dataset</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/v2/run_logic.html">Training and Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/v2/fluid.html">Fluid</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/layers.html">Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/data_feeder.html">DataFeeder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/executor.html">Executor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/initializer.html">Initializer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/evaluator.html">Evaluator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/nets.html">Nets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/optimizer.html">Optimizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/param_attr.html">ParamAttr</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/profiler.html">Profiler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/regularizer.html">Regularizer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../mobile/index_en.html">MOBILE</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../mobile/cross_compiling_for_android_en.html">Build PaddlePaddle for Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mobile/cross_compiling_for_raspberry_en.html">Build PaddlePaddle for Raspberry Pi</a></li>
+</ul>
+</li>
+</ul>
+
+        
+    </nav>
+    
+    <section class="doc-content-wrap">
+
+      
+
+ 
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+      
+    <li>Averaging Parameter in PaddlePaddle</li>
+  </ul>
+</div>
+      
+      <div class="wy-nav-content" id="doc-content">
+        <div class="rst-content">
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="averaging-parameter-in-paddlepaddle">
+<span id="averaging-parameter-in-paddlepaddle"></span><h1>Averaging Parameter in PaddlePaddle<a class="headerlink" href="#averaging-parameter-in-paddlepaddle" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="why-averaging">
+<span id="why-averaging"></span><h2>Why Averaging<a class="headerlink" href="#why-averaging" title="Permalink to this headline">¶</a></h2>
+<p>In a large scale machine learning setup where the size of the training data is huge, it could take us a large number of iterations over the training data before we can achieve the optimal values of parameters of our model. Looking at the problem setup, it is desirable if we can obtain the optimal values of parameters by going through the data in as few passes as we can.</p>
+<p>Polyak and Juditsky (1992) showed that the test performance of simple average of parameters obtained by Stochastic Gradient Descent (SGD) is as good as that of parameter values that are obtained by training the model over and over again, over the training dataset.</p>
+<p>Hence, to accelerate the speed of Stochastic Gradient Descent, Averaged Stochastic Gradient Descent (ASGD) was proposed in Polyak and Juditsky (1992). For ASGD, the running average of parameters obtained by SGD, is used as the estimator for <img src="./images/theta_star.gif"/><br/> . The averaging is done as follows:</p>
+<p><img src="./images/asgd.gif" align="center"/><br/></p>
+<p>We propose averaging for any optimizer similar to how ASGD performs it, as mentioned above.</p>
+<div class="section" id="how-to-perform-parameter-averaging-in-paddlepaddle">
+<span id="how-to-perform-parameter-averaging-in-paddlepaddle"></span><h3>How to perform Parameter Averaging in PaddlePaddle<a class="headerlink" href="#how-to-perform-parameter-averaging-in-paddlepaddle" title="Permalink to this headline">¶</a></h3>
+<p>Parameter Averaging in PaddlePaddle works in the following way during training :</p>
+<ol class="simple">
+<li>It will take in an instance of a normal optimizer as an input, e.g. RMSPropOptimizer</li>
+<li>The optimizer itself is responsible for updating the parameters.</li>
+<li>The ParameterAverageOptimizer maintains a separate copy of the parameters for itself:<ol>
+<li>In concept, the values of this copy are the average of the values of the parameters in the most recent N batches.</li>
+<li>However, saving all the N instances of the parameters in memory is not feasible.</li>
+<li>Therefore, an approximation algorithm is used.</li>
+</ol>
+</li>
+</ol>
+<p>Hence, overall we have have two copies of the parameters: one for the optimizer itself, and one for the ParameterAverageOptimizer. The former should be used in back propagation, while the latter should be used during testing and should be saved.</p>
+<p>During the testing/ saving the model phase, we perform the following steps:</p>
+<ol class="simple">
+<li>Perform the delayed operations.</li>
+<li>Save current values of the parameters to a temporary variable.</li>
+<li>Replace the values of the parameters with the averaged values.</li>
+<li>Perform testing and/or save the parameters.</li>
+<li>Restore the values of the parameters once done.</li>
+</ol>
+</div>
+<div class="section" id="how-to-implement-averaging-of-parameter-in-paddlepaddle">
+<span id="how-to-implement-averaging-of-parameter-in-paddlepaddle"></span><h3>How to implement Averaging of Parameter in PaddlePaddle<a class="headerlink" href="#how-to-implement-averaging-of-parameter-in-paddlepaddle" title="Permalink to this headline">¶</a></h3>
+<p>We can add the ParameterAverageOptimizer op to the graph through Python API. Using this approach, we manually add this op to the graph and direct the output of the optimizer op to this op during training.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">**</span><span class="n">Advantages</span><span class="o">**</span><span class="p">:</span>
+<span class="o">-</span> <span class="n">Allows</span> <span class="k">for</span> <span class="n">greater</span> <span class="n">flexibility</span> <span class="n">to</span> <span class="n">the</span> <span class="n">users</span> <span class="n">of</span> <span class="n">PaddlePaddle</span><span class="o">.</span> <span class="n">Using</span> <span class="n">this</span> <span class="n">approach</span><span class="p">,</span> <span class="n">the</span> <span class="n">users</span> <span class="n">can</span> <span class="n">plug</span> <span class="n">different</span> <span class="n">optimizers</span> <span class="n">into</span> <span class="n">ParameterAverageOptimizer</span> <span class="n">by</span> <span class="n">passing</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">optimizer</span> <span class="n">to</span> <span class="n">the</span> <span class="n">op</span><span class="o">.</span>
+<span class="o">-</span> <span class="n">Makes</span> <span class="n">it</span> <span class="n">easy</span> <span class="k">for</span> <span class="n">the</span> <span class="n">users</span> <span class="n">to</span> <span class="n">customize</span> <span class="ow">and</span> <span class="n">extend</span> <span class="n">the</span> <span class="n">framework</span><span class="o">.</span>
+
+<span class="o">**</span><span class="n">Disadvantages</span><span class="o">**</span><span class="p">:</span>
+<span class="o">-</span> <span class="n">Implementation</span> <span class="n">requires</span> <span class="n">re</span><span class="o">-</span><span class="n">writing</span> <span class="n">the</span> <span class="n">averaging</span> <span class="n">methodology</span> <span class="ow">in</span> <span class="n">Python</span><span class="o">.</span>  
+</pre></div>
+</div>
+</div>
+<div class="section" id="low-level-implementation">
+<span id="low-level-implementation"></span><h3>Low-Level implementation<a class="headerlink" href="#low-level-implementation" title="Permalink to this headline">¶</a></h3>
+<p>In the new design, we propose to create a new operation for averaging parameter updates (ParameterAverageOptimizer). For now, we can add an op that takes in the following as input:</p>
+<ul class="simple">
+<li>the optimizer</li>
+<li>the window_size to keep the updates</li>
+</ul>
+<p>The ParameterAverageOptimizer op can be like any other operator with its own CPU/GPU implementation either using Eigen or separate CPU and GPU kernels. As the initial implementation, we can implement the kernel using Eigen following the abstraction pattern implemented for <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/operators/rmsprop_op.h">Operators</a>. We also want to support the case when the Trainer/Optimizer runs on the GPU while ParameterAverageOptimizer runs on a CPU.</p>
+<p>The idea of building an op for averaging is in sync with the refactored PaddlePaddle philosophy of using operators to represent any computation unit. The way the op will be added to the computation graph will be decided by the <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/doc/design/python_api.md#layer-function">layer functions</a> in Python API.</p>
+</div>
+<div class="section" id="python-api-implementation-for-parameteraverageoptimizer">
+<span id="python-api-implementation-for-parameteraverageoptimizer"></span><h3>Python API implementation for ParameterAverageOptimizer<a class="headerlink" href="#python-api-implementation-for-parameteraverageoptimizer" title="Permalink to this headline">¶</a></h3>
+<p>Based on Polyak and Juditsky (1992), we can generalize the averaging of updates to any optimizer. The input to the op would be the following:</p>
+<ul class="simple">
+<li>Any optimizer (RMSProp , AdaGrad etc.)</li>
+<li>A window size. The op keeps accumulating updated parameter values over a window of N batches and takes an average. Move the averaged value to a buffer when window is full to avoid loss of precision.</li>
+</ul>
+<p>Using the ParameterAverageOptimizer op, any user can add the operation to their computation graphs. However, this will require a lot of lines of code and we should design Python APIs that support averaging. As per the PaddlePaddle <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/doc/design/python_api.md">Python API design</a>, the layer functions are responsible for creating operators, operator parameters and variables. Since ParameterAverageOptimizer will be an operator, it makes sense to create it in the layer functions.
+We will have a wrapper written in Python that will support the functionality and implement the actual core computation in C++ core as we have done for other <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/operators/rmsprop_op.cc">Optimizers</a></p>
+<div class="section" id="creation-of-the-parameteraverageoptimizer-operator">
+<span id="creation-of-the-parameteraverageoptimizer-operator"></span><h4>Creation of the ParameterAverageOptimizer operator<a class="headerlink" href="#creation-of-the-parameteraverageoptimizer-operator" title="Permalink to this headline">¶</a></h4>
+<p>There are two ways for creating the ParameterAverageOptimizer op:</p>
+<ol class="simple">
+<li>We create the op immediately while building the computation graph.</li>
+<li>We add the op in a lazy manner, just before the backward pass, similar to the way the optimization ops are added.</li>
+</ol>
+<p>The proposal is to add the op immediately while building the computation graph.</p>
+</div>
+<div class="section" id="high-level-api">
+<span id="high-level-api"></span><h4>High-level API<a class="headerlink" href="#high-level-api" title="Permalink to this headline">¶</a></h4>
+<p>In PaddlePaddle Python API, users will primarily rely on <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/doc/design/python_api.md#layer-function">layer functions</a> to create neural network layers. Hence, we also need to provide parameter average functionality in layer functions.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, PaddlePaddle developers.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: ".txt",
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+       
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+  
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/js/perfect-scrollbar.jquery.min.js"></script>
+  <script src="../_static/js/paddle_doc_init.js"></script> 
+
+</body>
+</html>

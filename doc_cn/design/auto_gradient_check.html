@@ -1,0 +1,432 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Auto Gradient Checker Design &mdash; PaddlePaddle  文档</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+  
+        <link rel="index" title="索引"
+              href="../genindex.html"/>
+        <link rel="search" title="搜索" href="../search.html"/>
+    <link rel="top" title="PaddlePaddle  文档" href="../index.html"/> 
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/css/perfect-scrollbar.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/override.css" type="text/css" />
+  <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?b9a314ab40d04d805655aab1deee08ba";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
+
+  
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  
+  <header class="site-header">
+    <div class="site-logo">
+      <a href="/"><img src="../_static/images/PP_w.png"></a>
+    </div>
+    <div class="site-nav-links">
+      <div class="site-menu">
+        <a class="fork-on-github" href="https://github.com/PaddlePaddle/Paddle" target="_blank"><i class="fa fa-github"></i>Fork me on Github</a>
+        <div class="language-switcher dropdown">
+          <a type="button" data-toggle="dropdown">
+            <span>English</span>
+            <i class="fa fa-angle-up"></i>
+            <i class="fa fa-angle-down"></i>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="/doc_cn">中文</a></li>
+            <li><a href="/doc">English</a></li>
+          </ul>
+        </div>
+        <ul class="site-page-links">
+          <li><a href="/">Home</a></li>
+        </ul>
+      </div>
+      <div class="doc-module">
+        
+        <ul>
+<li class="toctree-l1"><a class="reference internal" href="../getstarted/index_cn.html">新手入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howto/index_cn.html">进阶指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index_cn.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq/index_cn.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mobile/index_cn.html">MOBILE</a></li>
+</ul>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>        
+      </div>
+    </div>
+  </header>
+  
+  <div class="main-content-wrap">
+
+    
+    <nav class="doc-menu-vertical" role="navigation">
+        
+          
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../getstarted/index_cn.html">新手入门</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getstarted/build_and_install/index_cn.html">安装与编译</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../getstarted/build_and_install/pip_install_cn.html">使用pip安装</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../getstarted/build_and_install/docker_install_cn.html">使用Docker安装运行</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/dev/build_cn.html">用Docker编译和测试PaddlePaddle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../getstarted/build_and_install/build_from_source_cn.html">从源码编译</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../getstarted/concepts/use_concepts_cn.html">基本使用概念</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../howto/index_cn.html">进阶指南</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../howto/usage/cmd_parameter/index_cn.html">设置命令行参数</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cmd_parameter/use_case_cn.html">使用案例</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cmd_parameter/arguments_cn.html">参数概述</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cmd_parameter/detail_introduction_cn.html">细节描述</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/usage/cluster/cluster_train_cn.html">PaddlePaddle分布式训练</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/usage/k8s/k8s_basis_cn.html">Kubernetes 简介</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/usage/k8s/k8s_cn.html">Kubernetes单机训练</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/usage/k8s/k8s_distributed_cn.html">Kubernetes分布式训练</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/dev/contribute_to_paddle_cn.html">如何贡献代码</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/dev/write_docs_cn.html">如何贡献/修改文档</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/deep_model/rnn/index_cn.html">RNN相关模型</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../howto/deep_model/rnn/rnn_config_cn.html">RNN配置</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/deep_model/rnn/recurrent_group_cn.html">Recurrent Group教程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/deep_model/rnn/hierarchical_layer_cn.html">支持双层序列作为输入的Layer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/deep_model/rnn/hrnn_rnn_api_compare_cn.html">单双层RNN API对比介绍</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/optimization/gpu_profiling_cn.html">GPU性能分析与调优</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index_cn.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/v2/model_configs.html">模型配置</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/activation.html">Activation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/layer.html">Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/evaluators.html">Evaluators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/optimizer.html">Optimizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/pooling.html">Pooling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/networks.html">Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/attr.html">Parameter Attribute</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/v2/data.html">数据访问</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/data/data_reader.html">Data Reader Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/data/image.html">Image Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/data/dataset.html">Dataset</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/v2/run_logic.html">训练与应用</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../faq/index_cn.html">FAQ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../faq/build_and_install/index_cn.html">编译安装与单元测试</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faq/model/index_cn.html">模型配置</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faq/parameter/index_cn.html">参数设置</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faq/local/index_cn.html">本地训练与预测</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faq/cluster/index_cn.html">集群训练与预测</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../mobile/index_cn.html">MOBILE</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../mobile/cross_compiling_for_android_cn.html">Android平台编译指南</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mobile/cross_compiling_for_ios_cn.html">iOS平台编译指南</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mobile/cross_compiling_for_raspberry_cn.html">Raspberry Pi平台编译指南</a></li>
+</ul>
+</li>
+</ul>
+
+        
+    </nav>
+    
+    <section class="doc-content-wrap">
+
+      
+
+ 
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+      
+    <li>Auto Gradient Checker Design</li>
+  </ul>
+</div>
+      
+      <div class="wy-nav-content" id="doc-content">
+        <div class="rst-content">
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="auto-gradient-checker-design">
+<span id="auto-gradient-checker-design"></span><h1>Auto Gradient Checker Design<a class="headerlink" href="#auto-gradient-checker-design" title="永久链接至标题">¶</a></h1>
+</div>
+<div class="section" id="backgraound">
+<span id="backgraound"></span><h1>Backgraound：<a class="headerlink" href="#backgraound" title="永久链接至标题">¶</a></h1>
+<ul class="simple">
+<li>Generally, it is easy to check whether the forward computation of an Operator is correct or not. However, backpropagation is a notoriously difficult algorithm to debug and get right:<ol>
+<li>you should get the right backpropagation formula according to the forward computation.</li>
+<li>you should implement it right in CPP.</li>
+<li>it&#8217;s difficult to prepare test data.</li>
+</ol>
+</li>
+<li>Auto gradient checking gets a numerical gradient by forward Operator and use it as a reference of the backward Operator&#8217;s result. It has several advantages:<ol>
+<li>numerical gradient checker only need forward operator.</li>
+<li>user only need to prepare the input data for forward Operator.</li>
+</ol>
+</li>
+</ul>
+</div>
+<div class="section" id="mathematical-theory">
+<span id="mathematical-theory"></span><h1>Mathematical Theory<a class="headerlink" href="#mathematical-theory" title="永久链接至标题">¶</a></h1>
+<p>The following two document from Stanford has a detailed explanation of how to get numerical gradient and why it&#8217;s useful.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference external" href="http://deeplearning.stanford.edu/wiki/index.php/Gradient_checking_and_advanced_optimization">Gradient checking and advanced optimization(en)</a></li>
+<li class="toctree-l1"><a class="reference external" href="http://ufldl.stanford.edu/wiki/index.php/%E6%A2%AF%E5%BA%A6%E6%A3%80%E9%AA%8C%E4%B8%8E%E9%AB%98%E7%BA%A7%E4%BC%98%E5%8C%96">Gradient checking and advanced optimization(cn)</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="numeric-gradient-implementation">
+<span id="numeric-gradient-implementation"></span><h1>Numeric Gradient Implementation<a class="headerlink" href="#numeric-gradient-implementation" title="永久链接至标题">¶</a></h1>
+<div class="section" id="python-interface">
+<span id="python-interface"></span><h2>Python Interface<a class="headerlink" href="#python-interface" title="永久链接至标题">¶</a></h2>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_numerical_gradient</span><span class="p">(</span><span class="n">op</span><span class="p">,</span>
+                         <span class="n">input_values</span><span class="p">,</span>
+                         <span class="n">output_name</span><span class="p">,</span>
+                         <span class="n">input_to_check</span><span class="p">,</span>
+                         <span class="n">delta</span><span class="o">=</span><span class="mf">0.005</span><span class="p">,</span>
+                         <span class="n">local_scope</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get Numeric Gradient for an operator&#39;s input.</span>
+
+<span class="sd">    :param op: C++ operator instance, could be an network</span>
+<span class="sd">    :param input_values: The input variables. Should be an dictionary, whose key is</span>
+<span class="sd">    variable name, and value is numpy array.</span>
+<span class="sd">    :param output_name: The final output variable name.</span>
+<span class="sd">    :param input_to_check: The input variable with respect to which to compute the gradient.</span>
+<span class="sd">    :param delta: The perturbation value for numeric gradient method. The</span>
+<span class="sd">    smaller delta is, the more accurate result will get. But if that delta is</span>
+<span class="sd">     too small, it will suffer from numerical stability problem.</span>
+<span class="sd">    :param local_scope: The local scope used for get_numeric_gradient.</span>
+<span class="sd">    :return: The gradient array in numpy format.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="explaination">
+<span id="explaination"></span><h2>Explaination:<a class="headerlink" href="#explaination" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li>Why need <code class="docutils literal"><span class="pre">output_name</span></code><ul>
+<li>An Operator may have multiple Output, one can get independent gradient from each Output. So caller should specify the name of the output variable.</li>
+</ul>
+</li>
+<li>Why need <code class="docutils literal"><span class="pre">input_to_check</span></code><ul>
+<li>One operator may have multiple inputs. Gradient Op can calculate the gradient of these inputs at the same time. But Numeric Gradient needs to calculate them one by one. So <code class="docutils literal"><span class="pre">get_numeric_gradient</span></code> is designed to calculate the gradient for one input. If you need to compute multiple inputs, you can call <code class="docutils literal"><span class="pre">get_numeric_gradient</span></code> multiple times.</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="core-algorithm-implementation">
+<span id="core-algorithm-implementation"></span><h2>Core Algorithm Implementation<a class="headerlink" href="#core-algorithm-implementation" title="永久链接至标题">¶</a></h2>
+<div class="highlight-python"><div class="highlight"><pre><span></span>    <span class="c1"># we only compute gradient of one element a time.</span>
+    <span class="c1"># we use a for loop to compute the gradient of each element.</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">tensor_size</span><span class="p">):</span>
+        <span class="c1"># get one input element by its index i.</span>
+        <span class="n">origin</span> <span class="o">=</span> <span class="n">tensor_to_check</span><span class="o">.</span><span class="n">get_float_element</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+        <span class="c1"># add delta to it, run op and then get the new value of the result tensor.</span>
+        <span class="n">x_pos</span> <span class="o">=</span> <span class="n">origin</span> <span class="o">+</span> <span class="n">delta</span>
+        <span class="n">tensor_to_check</span><span class="o">.</span><span class="n">set_float_element</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">x_pos</span><span class="p">)</span>
+        <span class="n">y_pos</span> <span class="o">=</span> <span class="n">get_output</span><span class="p">()</span>
+
+        <span class="c1"># plus delta to this element, run op and get the new value of the result tensor.</span>
+        <span class="n">x_neg</span> <span class="o">=</span> <span class="n">origin</span> <span class="o">-</span> <span class="n">delta</span>
+        <span class="n">tensor_to_check</span><span class="o">.</span><span class="n">set_float_element</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">x_neg</span><span class="p">)</span>
+        <span class="n">y_neg</span> <span class="o">=</span> <span class="n">get_output</span><span class="p">()</span>
+
+        <span class="c1"># restore old value</span>
+        <span class="n">tensor_to_check</span><span class="o">.</span><span class="n">set_float_element</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">origin</span><span class="p">)</span>
+
+        <span class="c1"># compute the gradient of this element and store it into a numpy array.</span>
+        <span class="n">gradient_flat</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">y_pos</span> <span class="o">-</span> <span class="n">y_neg</span><span class="p">)</span> <span class="o">/</span> <span class="n">delta</span> <span class="o">/</span> <span class="mi">2</span>
+
+    <span class="c1"># reshape the gradient result to the shape of the source tensor.</span>
+    <span class="k">return</span> <span class="n">gradient_flat</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">tensor_to_check</span><span class="o">.</span><span class="n">get_dims</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="auto-graident-checker-framework">
+<span id="auto-graident-checker-framework"></span><h1>Auto Graident Checker Framework<a class="headerlink" href="#auto-graident-checker-framework" title="永久链接至标题">¶</a></h1>
+<p>Each Operator Kernel has three kinds of Gradient:</p>
+<ol class="simple">
+<li>Numerical gradient</li>
+<li>CPU kernel gradient</li>
+<li>GPU kernel gradient (if supported)</li>
+</ol>
+<p>The numerical gradient only relies on forward Operator. So we use the numerical gradient as the reference value. And the gradient checking is performed in the following three steps:</p>
+<ol class="simple">
+<li>calculate the numerical gradient</li>
+<li>calculate CPU kernel gradient with the backward Operator and compare it with the numerical gradient</li>
+<li>calculate GPU kernel gradient with the backward Operator and compare it with the numeric gradient (if supported)</li>
+</ol>
+<div class="section" id="python-interface">
+<span id="id1"></span><h2>Python Interface<a class="headerlink" href="#python-interface" title="永久链接至标题">¶</a></h2>
+<div class="highlight-python"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">check_grad</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                   <span class="n">forward_op</span><span class="p">,</span>
+                   <span class="n">input_vars</span><span class="p">,</span>
+                   <span class="n">inputs_to_check</span><span class="p">,</span>
+                   <span class="n">output_name</span><span class="p">,</span>
+                   <span class="n">no_grad_set</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                   <span class="n">only_cpu</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                   <span class="n">max_relative_error</span><span class="o">=</span><span class="mf">0.005</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param forward_op: used to create backward_op</span>
+<span class="sd">        :param input_vars: numpy value of input variable. The following</span>
+<span class="sd">            computation will use these variables.</span>
+<span class="sd">        :param inputs_to_check: the input variable with respect to which to compute the gradient.</span>
+<span class="sd">        :param output_name: The final output variable name.</span>
+<span class="sd">        :param max_relative_error: The relative tolerance parameter.</span>
+<span class="sd">        :param no_grad_set: used when create backward ops</span>
+<span class="sd">        :param only_cpu: only compute and check gradient on cpu kernel.</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="how-to-check-if-two-numpy-array-is-close-enough">
+<span id="how-to-check-if-two-numpy-array-is-close-enough"></span><h2>How to check if two numpy array is close enough?<a class="headerlink" href="#how-to-check-if-two-numpy-array-is-close-enough" title="永久链接至标题">¶</a></h2>
+<p>if <code class="docutils literal"><span class="pre">abs_numerical_grad</span></code> is nearly zero, then use abs error for numerical_grad</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">numerical_grad</span> <span class="o">=</span> <span class="o">...</span>
+<span class="n">operator_grad</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">scope</span><span class="o">.</span><span class="n">find_var</span><span class="p">(</span><span class="n">grad_var_name</span><span class="p">(</span><span class="n">name</span><span class="p">))</span><span class="o">.</span><span class="n">get_tensor</span><span class="p">())</span>
+
+<span class="n">abs_numerical_grad</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">numerical_grad</span><span class="p">)</span>
+<span class="c1"># if abs_numerical_grad is nearly zero, then use abs error for numeric_grad, not relative</span>
+<span class="c1"># error.</span>
+<span class="n">abs_numerical_grad</span><span class="p">[</span><span class="n">abs_numerical_grad</span> <span class="o">&lt;</span> <span class="mf">1e-3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">diff_mat</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">abs_numerical_grad</span> <span class="o">-</span> <span class="n">operator_grad</span><span class="p">)</span> <span class="o">/</span> <span class="n">abs_numerical_grad</span>
+<span class="n">max_diff</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">diff_mat</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="notes">
+<span id="notes"></span><h3>Notes：<a class="headerlink" href="#notes" title="永久链接至标题">¶</a></h3>
+<p>The Input data for auto gradient checker should be reasonable to avoid numerical  stability problem.</p>
+</div>
+<div class="section" id="refs">
+<span id="refs"></span><h3>Refs:<a class="headerlink" href="#refs" title="永久链接至标题">¶</a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference external" href="http://deeplearning.stanford.edu/wiki/index.php/Gradient_checking_and_advanced_optimization">Gradient checking and advanced optimization(en)</a></li>
+<li class="toctree-l1"><a class="reference external" href="http://ufldl.stanford.edu/wiki/index.php/%E6%A2%AF%E5%BA%A6%E6%A3%80%E9%AA%8C%E4%B8%8E%E9%AB%98%E7%BA%A7%E4%BC%98%E5%8C%96">Gradient checking and advanced optimization(cn)</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, PaddlePaddle developers.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: ".txt",
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+      <script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+       
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+  
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/js/perfect-scrollbar.jquery.min.js"></script>
+  <script src="../_static/js/paddle_doc_init.js"></script> 
+
+</body>
+</html>

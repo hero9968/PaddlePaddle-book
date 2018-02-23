@@ -65,7 +65,7 @@
     </div>
     <div class="site-nav-links">
       <div class="site-menu">
-        <a class="fork-on-github" href="https://github.com/PaddlePaddle/Paddle" target="_blank"><i class="fa fa-github"></i>Folk me on Github</a>
+        <a class="fork-on-github" href="https://github.com/PaddlePaddle/Paddle" target="_blank"><i class="fa fa-github"></i>Fork me on Github</a>
         <div class="language-switcher dropdown">
           <a type="button" data-toggle="dropdown">
             <span>English</span>
@@ -87,7 +87,7 @@
 <li class="toctree-l1"><a class="reference internal" href="getstarted/index_en.html">GET STARTED</a></li>
 <li class="toctree-l1"><a class="reference internal" href="howto/index_en.html">HOW TO</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/index_en.html">API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="about/index_en.html">ABOUT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mobile/index_en.html">MOBILE</a></li>
 </ul>
 
         
@@ -111,9 +111,10 @@
           <ul>
 <li class="toctree-l1"><a class="reference internal" href="getstarted/index_en.html">GET STARTED</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="getstarted/build_and_install/index_en.html">Install and Build</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="getstarted/build_and_install/docker_install_en.html">PaddlePaddle in Docker Containers</a></li>
-<li class="toctree-l3"><a class="reference internal" href="getstarted/build_and_install/ubuntu_install_en.html">Debian Package installation guide</a></li>
-<li class="toctree-l3"><a class="reference internal" href="getstarted/build_and_install/build_from_source_en.html">Installing from Sources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getstarted/build_and_install/pip_install_en.html">Install Using pip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getstarted/build_and_install/docker_install_en.html">Run in Docker Containers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="howto/dev/build_en.html">Build using Docker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getstarted/build_and_install/build_from_source_en.html">Build from Sources</a></li>
 </ul>
 </li>
 </ul>
@@ -125,12 +126,16 @@
 <li class="toctree-l3"><a class="reference internal" href="howto/usage/cmd_parameter/detail_introduction_en.html">Detail Description</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="howto/usage/cluster/cluster_train_en.html">Run Distributed Training</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/usage/cluster/cluster_train_en.html">PaddlePaddle Distributed Training</a></li>
 <li class="toctree-l2"><a class="reference internal" href="howto/usage/k8s/k8s_en.html">Paddle On Kubernetes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="howto/usage/k8s/k8s_aws_en.html">Distributed PaddlePaddle Training on AWS with Kubernetes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="howto/dev/new_layer_en.html">Write New Layers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="howto/dev/contribute_to_paddle_en.html">Contribute Code</a></li>
-<li class="toctree-l2"><a class="reference internal" href="howto/deep_model/rnn/index_en.html">RNN Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/dev/write_docs_en.html">Contribute Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/deep_model/rnn/index_en.html">RNN Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="howto/deep_model/rnn/rnn_config_en.html">RNN Configuration</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="howto/optimization/gpu_profiling_en.html">Tune GPU Performance</a></li>
 </ul>
 </li>
@@ -138,17 +143,40 @@
 <li class="toctree-l2"><a class="reference internal" href="api/v2/model_configs.html">Model Configuration</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/v2/config/activation.html">Activation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/v2/config/layer.html">Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/v2/config/evaluators.html">Evaluators</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/v2/config/optimizer.html">Optimizer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/v2/config/pooling.html">Pooling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/v2/config/networks.html">Networks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/v2/config/attr.html">Parameter Attribute</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="api/v2/data.html">Data Reader Interface and DataSets</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/v2/run_logic.html">Training and Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/v2/data.html">Data Reader Interface and DataSets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/v2/data/data_reader.html">Data Reader Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/v2/data/image.html">Image Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/v2/data/dataset.html">Dataset</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="about/index_en.html">ABOUT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/v2/run_logic.html">Training and Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/v2/fluid.html">Fluid</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/v2/fluid/layers.html">Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/v2/fluid/data_feeder.html">DataFeeder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/v2/fluid/executor.html">Executor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/v2/fluid/initializer.html">Initializer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/v2/fluid/evaluator.html">Evaluator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/v2/fluid/nets.html">Nets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/v2/fluid/optimizer.html">Optimizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/v2/fluid/param_attr.html">ParamAttr</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/v2/fluid/profiler.html">Profiler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/v2/fluid/regularizer.html">Regularizer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mobile/index_en.html">MOBILE</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mobile/cross_compiling_for_android_en.html">Build PaddlePaddle for Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mobile/cross_compiling_for_raspberry_en.html">Build PaddlePaddle for Raspberry Pi</a></li>
+</ul>
+</li>
 </ul>
 
         
@@ -198,12 +226,12 @@
      <tr class="cg-1">
        <td></td>
        <td>&#160;&#160;&#160;
-       <a href="api/v1/trainer_config_helpers/attrs.html#module-paddle.trainer_config_helpers.attrs"><code class="xref">paddle.trainer_config_helpers.attrs</code></a></td><td>
+       <a href="api/v2/fluid/regularizer.html#module-paddle.v2.fluid.regularizer"><code class="xref">paddle.v2.fluid.regularizer</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-1">
        <td></td>
        <td>&#160;&#160;&#160;
-       <a href="api/v1/trainer_config_helpers/data_sources.html#module-paddle.trainer_config_helpers.data_sources"><code class="xref">paddle.trainer_config_helpers.data_sources</code></a></td><td>
+       <a href="api/v2/data/image.html#module-paddle.v2.image"><code class="xref">paddle.v2.image</code></a></td><td>
        <em></em></td></tr>
    </table>
 

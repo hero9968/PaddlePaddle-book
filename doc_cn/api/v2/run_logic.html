@@ -35,7 +35,7 @@
     <link rel="top" title="PaddlePaddle  文档" href="../../index.html"/>
         <link rel="up" title="API" href="../index_cn.html"/>
         <link rel="next" title="FAQ" href="../../faq/index_cn.html"/>
-        <link rel="prev" title="Data Reader Interface and DataSets" href="data.html"/> 
+        <link rel="prev" title="Dataset" href="data/dataset.html"/> 
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/css/perfect-scrollbar.min.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/css/override.css" type="text/css" />
@@ -65,7 +65,7 @@
     </div>
     <div class="site-nav-links">
       <div class="site-menu">
-        <a class="fork-on-github" href="https://github.com/PaddlePaddle/Paddle" target="_blank"><i class="fa fa-github"></i>Folk me on Github</a>
+        <a class="fork-on-github" href="https://github.com/PaddlePaddle/Paddle" target="_blank"><i class="fa fa-github"></i>Fork me on Github</a>
         <div class="language-switcher dropdown">
           <a type="button" data-toggle="dropdown">
             <span>English</span>
@@ -88,6 +88,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../howto/index_cn.html">进阶指南</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index_cn.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../faq/index_cn.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mobile/index_cn.html">MOBILE</a></li>
 </ul>
 
         
@@ -111,9 +112,10 @@
           <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../getstarted/index_cn.html">新手入门</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../getstarted/build_and_install/index_cn.html">安装与编译</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../getstarted/build_and_install/docker_install_cn.html">PaddlePaddle的Docker容器使用方式</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../getstarted/build_and_install/ubuntu_install_cn.html">Ubuntu部署PaddlePaddle</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../getstarted/build_and_install/cmake/build_from_source_cn.html">PaddlePaddle的编译选项</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../getstarted/build_and_install/pip_install_cn.html">使用pip安装</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../getstarted/build_and_install/docker_install_cn.html">使用Docker安装运行</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/dev/build_cn.html">用Docker编译和测试PaddlePaddle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../getstarted/build_and_install/build_from_source_cn.html">从源码编译</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../getstarted/concepts/use_concepts_cn.html">基本使用概念</a></li>
@@ -126,13 +128,14 @@
 <li class="toctree-l3"><a class="reference internal" href="../../howto/usage/cmd_parameter/detail_introduction_cn.html">细节描述</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../howto/usage/cluster/cluster_train_cn.html">运行分布式训练</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/usage/cluster/cluster_train_cn.html">PaddlePaddle分布式训练</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../howto/usage/k8s/k8s_basis_cn.html">Kubernetes 简介</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../howto/usage/k8s/k8s_cn.html">Kubernetes单机训练</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../howto/usage/k8s/k8s_distributed_cn.html">Kubernetes分布式训练</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../howto/dev/write_docs_cn.html">如何贡献/修改文档</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../howto/dev/contribute_to_paddle_cn.html">如何贡献代码</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/dev/write_docs_cn.html">如何贡献/修改文档</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../howto/deep_model/rnn/index_cn.html">RNN相关模型</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/deep_model/rnn/rnn_config_cn.html">RNN配置</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../howto/deep_model/rnn/recurrent_group_cn.html">Recurrent Group教程</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../howto/deep_model/rnn/hierarchical_layer_cn.html">支持双层序列作为输入的Layer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../howto/deep_model/rnn/hrnn_rnn_api_compare_cn.html">单双层RNN API对比介绍</a></li>
@@ -145,17 +148,36 @@
 <li class="toctree-l2"><a class="reference internal" href="model_configs.html">模型配置</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="config/activation.html">Activation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="config/layer.html">Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="config/evaluators.html">Evaluators</a></li>
 <li class="toctree-l3"><a class="reference internal" href="config/optimizer.html">Optimizer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="config/pooling.html">Pooling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="config/networks.html">Networks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="config/attr.html">Parameter Attribute</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="data.html">数据访问</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data.html">数据访问</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="data/data_reader.html">Data Reader Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data/image.html">Image Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data/dataset.html">Dataset</a></li>
+</ul>
+</li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">训练与应用</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../faq/index_cn.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index_cn.html">FAQ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../faq/build_and_install/index_cn.html">编译安装与单元测试</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../faq/model/index_cn.html">模型配置</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../faq/parameter/index_cn.html">参数设置</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../faq/local/index_cn.html">本地训练与预测</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../faq/cluster/index_cn.html">集群训练与预测</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../mobile/index_cn.html">MOBILE</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../mobile/cross_compiling_for_android_cn.html">Android平台编译指南</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mobile/cross_compiling_for_ios_cn.html">iOS平台编译指南</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mobile/cross_compiling_for_raspberry_cn.html">Raspberry Pi平台编译指南</a></li>
+</ul>
+</li>
 </ul>
 
         
@@ -194,9 +216,31 @@
 <dl class="class">
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.parameters.</code><code class="descname">Parameters</code></dt>
-<dd><p>Parameters is a dictionary contains Paddle&#8217;s parameter. The key of
-Parameters is the name of parameter. The value of Parameters is a plain
-<code class="code docutils literal"><span class="pre">numpy.ndarry</span></code> .</p>
+<dd><p><cite>Parameters</cite> manages all the learnable parameters in a neural network.
+It stores parameters&#8217; information in an OrderedDict. The key is
+the name of a parameter, and value is a parameter&#8217;s configuration(in
+protobuf format), such as initialization mean and std, its size, whether it
+is a static parameter, and so on.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first last simple">
+<li><strong>__param_conf__</strong> (<em>OrderedDict</em>) &#8211; store the configurations of learnable parameters in
+the network in an OrderedDict. Parameter is added one by one into the
+dict by following their created order in the network: parameters of
+the previous layers in a network are careted first. You can visit the
+parameters from bottom to top by iterating over this dict.</li>
+<li><strong>__gradient_machines__</strong> (<em>list</em>) &#8211; all of the parameters in a neural network are
+appended to a PaddlePaddle gradient machine, which is used internally to
+copy parameter values between C++ and Python end.</li>
+<li><strong>__tmp_params__</strong> (<em>dict</em>) &#8211; a dict to store dummy parameters if no
+__gradient_machines__ is appended to <cite>Parameters</cite>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 <p>Basically usage is</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 <span class="o">...</span>
@@ -297,6 +341,26 @@ Parameters is the name of parameter. The value of Parameters is a plain
 
 <dl class="method">
 <dt>
+<code class="descname">get_grad</code><span class="sig-paren">(</span><em>key</em><span class="sig-paren">)</span></dt>
+<dd><p>Get grandient by parameter name.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Note:</th><td class="field-body">It will always copy the parameter from C++ side.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">参数:</th><td class="field-body"><strong>key</strong> (<em>basestring</em>) &#8211; parameter name</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">返回:</th><td class="field-body">The grandient matrix.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回类型:</th><td class="field-body">np.ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
 <code class="descname">set</code><span class="sig-paren">(</span><em>parameter_name</em>, <em>value</em><span class="sig-paren">)</span></dt>
 <dd><p>Set parameter by parameter name &amp; matrix.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -325,7 +389,7 @@ Trainer.train.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><strong>gradient_machine</strong> (<em>api.GradientMachine</em>) &#8211; Paddle C++ GradientMachine object.</td>
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><strong>gradient_machine</strong> (<em>api.GradientMachine</em>) &#8211; PaddlePaddle C++ GradientMachine object.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"></td>
 </tr>
@@ -373,6 +437,66 @@ Trainer.train.</p>
 </table>
 </dd></dl>
 
+<dl class="method">
+<dt>
+<code class="descname">to_tar</code><span class="sig-paren">(</span><em>f</em><span class="sig-paren">)</span></dt>
+<dd><p>Save parameters to a tar file.</p>
+<dl class="docutils">
+<dt>WARNING: You should use <cite>paddle.v2.trainer.SGD.save_parameter_to_tar(f)</cite></dt>
+<dd>to save parameters most of the time. Otherwise, some settings such
+as model average will not take effect.</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><strong>f</strong> (<em>file</em>) &#8211; </td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt>
+<em class="property">static </em><code class="descname">from_tar</code><span class="sig-paren">(</span><em>f</em><span class="sig-paren">)</span></dt>
+<dd><p>Create a <cite>Parameters</cite> object from the given file. And
+the <cite>Parameters</cite> only contains the parameters in this
+file. It is adapted the parameters are same in the
+defined network and the given file. For example, it
+can be used in the inference.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><strong>f</strong> (<em>tar file</em>) &#8211; the initialized model file.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body">A Parameters object.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body">Parameters.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">init_from_tar</code><span class="sig-paren">(</span><em>f</em><span class="sig-paren">)</span></dt>
+<dd><p>Different from <cite>from_tar</cite>, this interface can be used to
+init partial network parameters from another saved model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><strong>f</strong> (<em>tar file</em>) &#8211; the initialized model file.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body">Nothing.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </dd></dl>
 
 </div>
@@ -381,7 +505,7 @@ Trainer.train.</p>
 <p>Module Trainer</p>
 <dl class="class">
 <dt>
-<em class="property">class </em><code class="descclassname">paddle.v2.trainer.</code><code class="descname">SGD</code><span class="sig-paren">(</span><em>cost</em>, <em>parameters</em>, <em>update_equation</em>, <em>extra_layers=None</em><span class="sig-paren">)</span></dt>
+<em class="property">class </em><code class="descclassname">paddle.v2.trainer.</code><code class="descname">SGD</code><span class="sig-paren">(</span><em>cost</em>, <em>parameters</em>, <em>update_equation</em>, <em>extra_layers=None</em>, <em>is_local=True</em>, <em>pserver_spec=None</em>, <em>use_etcd=True</em><span class="sig-paren">)</span></dt>
 <dd><p>Simple SGD Trainer.
 SGD Trainer combines data reader, network topolopy and update_equation together
 to train/test a neural network.</p>
@@ -390,11 +514,18 @@ to train/test a neural network.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first last simple">
-<li><strong>update_equation</strong> (<em>paddle.v2.optimizer.Optimizer</em>) &#8211; The optimizer object.</li>
 <li><strong>cost</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Target cost that neural network should be optimized.</li>
 <li><strong>parameters</strong> (<em>paddle.v2.parameters.Parameters</em>) &#8211; The parameters dictionary.</li>
+<li><strong>update_equation</strong> (<em>paddle.v2.optimizer.Optimizer</em>) &#8211; The optimizer object.</li>
 <li><strong>extra_layers</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; Some layers in the neural network graph are not
 in the path of cost layer.</li>
+<li><strong>is_local</strong> (<em>bool</em>) &#8211; Whether trainning locally</li>
+<li><strong>pserver_spec</strong> (<em>string</em>) &#8211; comma string for pserver location,
+eg:127.10.0.10:3000,127.10.0.11:3000,
+and this parameter is only used for fault
+tolerant mode cluster training.</li>
+<li><strong>use_etcd</strong> &#8211; Whether using etcd pserver.</li>
+<li><strong>use_etcd</strong> &#8211; bool</li>
 </ul>
 </td>
 </tr>
@@ -412,7 +543,7 @@ in the path of cost layer.</li>
 <li><strong>reader</strong> (<em>collections.Iterable</em>) &#8211; A reader that reads and yeilds data items. Usually we use a
 batched reader to do mini-batch training.</li>
 <li><strong>num_passes</strong> &#8211; The total train passes.</li>
-<li><strong>event_handler</strong> (<em></em><em>(</em><em>BaseEvent</em><em>) </em><em>=&gt; None</em>) &#8211; Event handler. A method will be invoked when event
+<li><strong>event_handler</strong> (<em>(</em><em>BaseEvent</em><em>) </em><em>=&gt; None</em>) &#8211; Event handler. A method will be invoked when event
 occurred.</li>
 <li><strong>feeding</strong> (<em>dict|list</em>) &#8211; Feeding is a map of neural network input name and array
 index that reader returns.</li>
@@ -435,7 +566,8 @@ index that reader returns.</li>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>reader</strong> (<em>collections.Iterable</em>) &#8211; A reader that reads and yeilds data items.</li>
+<li><strong>reader</strong> (<em>collections.Iterable</em>) &#8211; A batch reader that reads and yeilds data items,
+it should be a paddle.v2.batch.</li>
 <li><strong>feeding</strong> (<em>dict</em>) &#8211; Feeding is a map of neural network input name and array
 index that reader returns.</li>
 </ul>
@@ -476,8 +608,10 @@ index that reader returns.</li>
 
 <dl class="class">
 <dt>
-<em class="property">class </em><code class="descclassname">paddle.v2.event.</code><code class="descname">EndPass</code><span class="sig-paren">(</span><em>pass_id</em>, <em>evaluator</em><span class="sig-paren">)</span></dt>
-<dd><p>Event On One Pass Training Complete.</p>
+<em class="property">class </em><code class="descclassname">paddle.v2.event.</code><code class="descname">EndPass</code><span class="sig-paren">(</span><em>pass_id</em>, <em>evaluator</em>, <em>gm</em><span class="sig-paren">)</span></dt>
+<dd><p>Event On One Pass Training Complete.
+To get the output of a specific layer, add &#8220;event.gm.getLayerOutputs(&#8216;predict_layer&#8217;)&#8221;
+in your event_handler call back</p>
 </dd></dl>
 
 <dl class="class">
@@ -488,8 +622,16 @@ index that reader returns.</li>
 
 <dl class="class">
 <dt>
-<em class="property">class </em><code class="descclassname">paddle.v2.event.</code><code class="descname">EndIteration</code><span class="sig-paren">(</span><em>pass_id</em>, <em>batch_id</em>, <em>cost</em>, <em>evaluator</em><span class="sig-paren">)</span></dt>
-<dd><p>Event On One Batch Training Complete.</p>
+<em class="property">class </em><code class="descclassname">paddle.v2.event.</code><code class="descname">EndForwardBackward</code><span class="sig-paren">(</span><em>pass_id</em>, <em>batch_id</em>, <em>gm</em><span class="sig-paren">)</span></dt>
+<dd><p>Event On One Batch ForwardBackward Complete.</p>
+</dd></dl>
+
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">paddle.v2.event.</code><code class="descname">EndIteration</code><span class="sig-paren">(</span><em>pass_id</em>, <em>batch_id</em>, <em>cost</em>, <em>evaluator</em>, <em>gm</em><span class="sig-paren">)</span></dt>
+<dd><p>Event On One Batch Training Complete.
+To get the output of a specific layer, add &#8220;event.gm.getLayerOutputs(&#8216;predict_layer&#8217;)&#8221;
+in your event_handler call back</p>
 </dd></dl>
 
 </div>
@@ -500,9 +642,18 @@ index that reader returns.</li>
 <code class="descclassname">paddle.v2.</code><code class="descname">infer</code><span class="sig-paren">(</span><em>output_layer</em>, <em>parameters</em>, <em>input</em>, <em>feeding=None</em>, <em>field='value'</em><span class="sig-paren">)</span></dt>
 <dd><p>Infer a neural network by given neural network output and parameters.  The
 user should pass either a batch of input data or reader method.</p>
-<p>Example usages:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">infer</span><span class="p">(</span><span class="n">prediction</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="nb">input</span><span class="o">=</span><span class="n">SomeData</span><span class="p">,</span>
-                      <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+<p>Example usage for sinlge output_layer:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">infer</span><span class="p">(</span><span class="n">output_layer</span><span class="o">=</span><span class="n">prediction</span><span class="p">,</span>
+                      <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span>
+                      <span class="nb">input</span><span class="o">=</span><span class="n">SomeData</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">result</span>
+</pre></div>
+</div>
+<p>Example usage for multiple outout_layers and fields:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">infer</span><span class="p">(</span><span class="n">output_layer</span><span class="o">=</span><span class="p">[</span><span class="n">prediction1</span><span class="p">,</span> <span class="n">prediction2</span><span class="p">],</span>
+                      <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span>
+                      <span class="nb">input</span><span class="o">=</span><span class="n">SomeData</span><span class="p">,</span>
+                      <span class="n">field</span><span class="o">=</span><span class="p">[</span><span class="nb">id</span><span class="p">,</span> <span class="n">value</span><span class="p">]])</span>
 <span class="k">print</span> <span class="n">result</span>
 </pre></div>
 </div>
@@ -511,7 +662,8 @@ user should pass either a batch of input data or reader method.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first simple">
-<li><strong>output_layer</strong> (<em>paddle.v2.config_base.Layer</em>) &#8211; output of the neural network that would be inferred</li>
+<li><strong>output_layer</strong> (<em>paddle.v2.config_base.Layer</em><em> or </em><em>a list of
+paddle.v2.config_base.Layer</em>) &#8211; output of the neural network that would be inferred</li>
 <li><strong>parameters</strong> (<em>paddle.v2.parameters.Parameters</em>) &#8211; parameters of the neural network.</li>
 <li><strong>input</strong> (<em>collections.Iterable</em>) &#8211; input data batch. Should be a python iterable object, and each
 element is the data batch.</li>
@@ -525,7 +677,9 @@ or max_id.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">a numpy array</p>
+<tr class="field-even field"><th class="field-name">返回:</th><td class="field-body"><p class="first">The prediction result. If there are multiple outout_layers and fields,
+the return order is outout_layer1.field1, outout_layer2.field1, ...,
+outout_layer1.field2, outout_layer2.field2 ...</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">返回类型:</th><td class="field-body"><p class="first last">numpy.ndarray</p>
@@ -548,7 +702,7 @@ or max_id.</li>
         <a href="../../faq/index_cn.html" class="btn btn-neutral float-right" title="FAQ" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="data.html" class="btn btn-neutral" title="Data Reader Interface and DataSets" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="data/dataset.html" class="btn btn-neutral" title="Dataset" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

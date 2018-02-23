@@ -1,0 +1,325 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Build PaddlePaddle for Raspberry Pi &mdash; PaddlePaddle  documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="PaddlePaddle  documentation" href="../index.html"/>
+        <link rel="up" title="MOBILE" href="index_en.html"/>
+        <link rel="prev" title="Build PaddlePaddle for Android" href="cross_compiling_for_android_en.html"/> 
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/css/perfect-scrollbar.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/override.css" type="text/css" />
+  <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?b9a314ab40d04d805655aab1deee08ba";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
+
+  
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  
+  <header class="site-header">
+    <div class="site-logo">
+      <a href="/"><img src="../_static/images/PP_w.png"></a>
+    </div>
+    <div class="site-nav-links">
+      <div class="site-menu">
+        <a class="fork-on-github" href="https://github.com/PaddlePaddle/Paddle" target="_blank"><i class="fa fa-github"></i>Fork me on Github</a>
+        <div class="language-switcher dropdown">
+          <a type="button" data-toggle="dropdown">
+            <span>English</span>
+            <i class="fa fa-angle-up"></i>
+            <i class="fa fa-angle-down"></i>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="/doc_cn">中文</a></li>
+            <li><a href="/doc">English</a></li>
+          </ul>
+        </div>
+        <ul class="site-page-links">
+          <li><a href="/">Home</a></li>
+        </ul>
+      </div>
+      <div class="doc-module">
+        
+        <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getstarted/index_en.html">GET STARTED</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howto/index_en.html">HOW TO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index_en.html">API</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index_en.html">MOBILE</a></li>
+</ul>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>        
+      </div>
+    </div>
+  </header>
+  
+  <div class="main-content-wrap">
+
+    
+    <nav class="doc-menu-vertical" role="navigation">
+        
+          
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getstarted/index_en.html">GET STARTED</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getstarted/build_and_install/index_en.html">Install and Build</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../getstarted/build_and_install/pip_install_en.html">Install Using pip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../getstarted/build_and_install/docker_install_en.html">Run in Docker Containers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/dev/build_en.html">Build using Docker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../getstarted/build_and_install/build_from_source_en.html">Build from Sources</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../howto/index_en.html">HOW TO</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../howto/usage/cmd_parameter/index_en.html">Set Command-line Parameters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cmd_parameter/use_case_en.html">Use Case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cmd_parameter/arguments_en.html">Argument Outline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../howto/usage/cmd_parameter/detail_introduction_en.html">Detail Description</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/usage/cluster/cluster_train_en.html">PaddlePaddle Distributed Training</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/usage/k8s/k8s_en.html">Paddle On Kubernetes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/usage/k8s/k8s_aws_en.html">Distributed PaddlePaddle Training on AWS with Kubernetes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/dev/new_layer_en.html">Write New Layers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/dev/contribute_to_paddle_en.html">Contribute Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/dev/write_docs_en.html">Contribute Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/deep_model/rnn/index_en.html">RNN Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../howto/deep_model/rnn/rnn_config_en.html">RNN Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../howto/optimization/gpu_profiling_en.html">Tune GPU Performance</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index_en.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/v2/model_configs.html">Model Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/activation.html">Activation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/layer.html">Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/evaluators.html">Evaluators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/optimizer.html">Optimizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/pooling.html">Pooling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/networks.html">Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/config/attr.html">Parameter Attribute</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/v2/data.html">Data Reader Interface and DataSets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/data/data_reader.html">Data Reader Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/data/image.html">Image Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/data/dataset.html">Dataset</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/v2/run_logic.html">Training and Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/v2/fluid.html">Fluid</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/layers.html">Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/data_feeder.html">DataFeeder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/executor.html">Executor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/initializer.html">Initializer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/evaluator.html">Evaluator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/nets.html">Nets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/optimizer.html">Optimizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/param_attr.html">ParamAttr</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/profiler.html">Profiler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/v2/fluid/regularizer.html">Regularizer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index_en.html">MOBILE</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="cross_compiling_for_android_en.html">Build PaddlePaddle for Android</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Build PaddlePaddle for Raspberry Pi</a></li>
+</ul>
+</li>
+</ul>
+
+        
+    </nav>
+    
+    <section class="doc-content-wrap">
+
+      
+
+ 
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+      
+        <li><a href="index_en.html">MOBILE</a> > </li>
+      
+    <li>Build PaddlePaddle for Raspberry Pi</li>
+  </ul>
+</div>
+      
+      <div class="wy-nav-content" id="doc-content">
+        <div class="rst-content">
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="build-paddlepaddle-for-raspberry-pi">
+<span id="build-paddlepaddle-for-raspberry-pi"></span><h1>Build PaddlePaddle for Raspberry Pi<a class="headerlink" href="#build-paddlepaddle-for-raspberry-pi" title="Permalink to this headline">¶</a></h1>
+<p>You may use any of the following two approaches to build the inference library of PaddlePaddle for Raspberry Pi:</p>
+<ol class="simple">
+<li>Build using SSH: Log in to a Raspberry Pi using SSH and build the library. The required development tools and third-party dependencies are listed in here: <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/Dockerfile"><code class="docutils literal"><span class="pre">/Dockerfile</span></code></a>.</li>
+<li>Cross-compile: We talk about how to cross-compile PaddlePaddle for Raspberry Pi on a Linux/x64 machine, in more detail in this article.</li>
+</ol>
+<div class="section" id="the-cross-compiling-toolchain">
+<span id="the-cross-compiling-toolchain"></span><h2>The Cross-Compiling Toolchain<a class="headerlink" href="#the-cross-compiling-toolchain" title="Permalink to this headline">¶</a></h2>
+<p>Step 1. Clone the Github repo by running the following command.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>git clone https://github.com/raspberrypi/tools.git
+</pre></div>
+</div>
+<p>Step 2. Use the pre-built cross-compiler found in <code class="docutils literal"><span class="pre">./tools/tree/master/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64</span></code>.  To run it on a Linux computer, glibc version &gt;= 2.14 is needed.</p>
+</div>
+<div class="section" id="cmake-arguments">
+<span id="cmake-arguments"></span><h2>CMake Arguments<a class="headerlink" href="#cmake-arguments" title="Permalink to this headline">¶</a></h2>
+<p>CMake supports <a class="reference external" href="https://cmake.org/cmake/help/v3.0/manual/cmake-toolchains.7.html#cross-compiling">cross-compiling</a>.  All CMake configuration arguments required for the cross-compilation for Raspberry Pi can be found in <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/cmake/cross_compiling/raspberry_pi.cmake"><code class="docutils literal"><span class="pre">cmake/cross_compiling/raspberry_pi.cmake</span></code></a>.</p>
+<p>Some important arguments that need to be set:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">CMAKE_SYSTEM_NAME</span></code>: The target platform.  Must be <code class="docutils literal"><span class="pre">RPi</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">RPI_TOOLCHAIN</span></code>: The absolute path of the cross-compiling toolchain.</li>
+<li><code class="docutils literal"><span class="pre">RPI_ARM_NEON</span></code>: Use ARM NEON Intrinsics. This is a required argument and set default to <code class="docutils literal"><span class="pre">ON</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">HOST_C/CXX_COMPILER</span></code>: The C/C++ compiler for the host.  It is used to build building tools running on the host, for example, protoc.</li>
+</ul>
+<p>A commonly-used CMake configuration is as follows:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cmake</span> <span class="o">-</span><span class="n">DCMAKE_SYSTEM_NAME</span><span class="o">=</span><span class="n">RPi</span> \
+      <span class="o">-</span><span class="n">DRPI_TOOLCHAIN</span><span class="o">=</span><span class="n">your</span><span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">arm</span><span class="o">-</span><span class="n">bcm2708</span><span class="o">/</span><span class="n">gcc</span><span class="o">-</span><span class="n">linaro</span><span class="o">-</span><span class="n">arm</span><span class="o">-</span><span class="n">linux</span><span class="o">-</span><span class="n">gnueabihf</span><span class="o">-</span><span class="n">raspbian</span><span class="o">-</span><span class="n">x64</span> \
+      <span class="o">-</span><span class="n">DRPI_ARM_NEON</span><span class="o">=</span><span class="n">ON</span> \
+      <span class="o">-</span><span class="n">DCMAKE_INSTALL_PREFIX</span><span class="o">=</span><span class="n">your</span><span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">install</span> \
+      <span class="o">-</span><span class="n">DWITH_GPU</span><span class="o">=</span><span class="n">OFF</span> \
+      <span class="o">-</span><span class="n">DWITH_C_API</span><span class="o">=</span><span class="n">ON</span> \
+      <span class="o">-</span><span class="n">DWITH_PYTHON</span><span class="o">=</span><span class="n">OFF</span> \
+      <span class="o">-</span><span class="n">DWITH_SWIG_PY</span><span class="o">=</span><span class="n">OFF</span> \
+      <span class="o">..</span>
+</pre></div>
+</div>
+<p>To build the inference library, please set the argument WITH_C_API to ON: <code class="docutils literal"><span class="pre">WITH_C_API=ON</span></code>.</p>
+<p>You can add more arguments. For example, to minimize the size of the generated inference library, you may use <code class="docutils literal"><span class="pre">CMAKE_BUILD_TYPE=MinSizeRel</span></code>. For performance optimization, you may use <code class="docutils literal"><span class="pre">CMAKE_BUILD_TYPE=Release</span></code>.</p>
+</div>
+<div class="section" id="build-and-install">
+<span id="build-and-install"></span><h2>Build and Install<a class="headerlink" href="#build-and-install" title="Permalink to this headline">¶</a></h2>
+<p>The following commands build the inference library of PaddlePaddle for Raspberry Pi and third-party dependencies.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>make
+make install
+</pre></div>
+</div>
+<p>The intermediate files will be stored in <code class="docutils literal"><span class="pre">build</span></code>. Third-party libraries will be located in <code class="docutils literal"><span class="pre">build/third_party</span></code>. If you have already built it for other platforms like Android or iOS, you may want to clear these directories by running the command: <code class="docutils literal"><span class="pre">rm</span> <span class="pre">-rf</span> <span class="pre">build</span></code>.</p>
+<p>The infernece library will be in <code class="docutils literal"><span class="pre">your/path/to/install/lib</span></code>, with related header files in <code class="docutils literal"><span class="pre">your/path/to/install/include</span></code>.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="cross_compiling_for_android_en.html" class="btn btn-neutral" title="Build PaddlePaddle for Android" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, PaddlePaddle developers.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: ".txt",
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+       
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+  
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/js/perfect-scrollbar.jquery.min.js"></script>
+  <script src="../_static/js/paddle_doc_init.js"></script> 
+
+</body>
+</html>

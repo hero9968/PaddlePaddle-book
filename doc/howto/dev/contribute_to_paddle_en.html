@@ -34,7 +34,7 @@
         <link rel="search" title="Search" href="../../search.html"/>
     <link rel="top" title="PaddlePaddle  documentation" href="../../index.html"/>
         <link rel="up" title="HOW TO" href="../index_en.html"/>
-        <link rel="next" title="RNN Models" href="../deep_model/rnn/index_en.html"/>
+        <link rel="next" title="Contribute Documentation" href="write_docs_en.html"/>
         <link rel="prev" title="Write New Layers" href="new_layer_en.html"/> 
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/css/perfect-scrollbar.min.css" type="text/css" />
@@ -65,7 +65,7 @@
     </div>
     <div class="site-nav-links">
       <div class="site-menu">
-        <a class="fork-on-github" href="https://github.com/PaddlePaddle/Paddle" target="_blank"><i class="fa fa-github"></i>Folk me on Github</a>
+        <a class="fork-on-github" href="https://github.com/PaddlePaddle/Paddle" target="_blank"><i class="fa fa-github"></i>Fork me on Github</a>
         <div class="language-switcher dropdown">
           <a type="button" data-toggle="dropdown">
             <span>English</span>
@@ -87,7 +87,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../getstarted/index_en.html">GET STARTED</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index_en.html">HOW TO</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/index_en.html">API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../about/index_en.html">ABOUT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mobile/index_en.html">MOBILE</a></li>
 </ul>
 
         
@@ -111,9 +111,10 @@
           <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../getstarted/index_en.html">GET STARTED</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../getstarted/build_and_install/index_en.html">Install and Build</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../getstarted/build_and_install/docker_install_en.html">PaddlePaddle in Docker Containers</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../getstarted/build_and_install/ubuntu_install_en.html">Debian Package installation guide</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../getstarted/build_and_install/build_from_source_en.html">Installing from Sources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../getstarted/build_and_install/pip_install_en.html">Install Using pip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../getstarted/build_and_install/docker_install_en.html">Run in Docker Containers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="build_en.html">Build using Docker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../getstarted/build_and_install/build_from_source_en.html">Build from Sources</a></li>
 </ul>
 </li>
 </ul>
@@ -125,12 +126,16 @@
 <li class="toctree-l3"><a class="reference internal" href="../usage/cmd_parameter/detail_introduction_en.html">Detail Description</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../usage/cluster/cluster_train_en.html">Run Distributed Training</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/cluster/cluster_train_en.html">PaddlePaddle Distributed Training</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../usage/k8s/k8s_en.html">Paddle On Kubernetes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../usage/k8s/k8s_aws_en.html">Distributed PaddlePaddle Training on AWS with Kubernetes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="new_layer_en.html">Write New Layers</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Contribute Code</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../deep_model/rnn/index_en.html">RNN Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="write_docs_en.html">Contribute Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deep_model/rnn/index_en.html">RNN Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../deep_model/rnn/rnn_config_en.html">RNN Configuration</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../optimization/gpu_profiling_en.html">Tune GPU Performance</a></li>
 </ul>
 </li>
@@ -138,17 +143,40 @@
 <li class="toctree-l2"><a class="reference internal" href="../../api/v2/model_configs.html">Model Configuration</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/activation.html">Activation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/layer.html">Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/evaluators.html">Evaluators</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/optimizer.html">Optimizer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/pooling.html">Pooling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/networks.html">Networks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/attr.html">Parameter Attribute</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/v2/data.html">Data Reader Interface and DataSets</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/v2/run_logic.html">Training and Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/v2/data.html">Data Reader Interface and DataSets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/data/data_reader.html">Data Reader Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/data/image.html">Image Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/data/dataset.html">Dataset</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../about/index_en.html">ABOUT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/v2/run_logic.html">Training and Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/v2/fluid.html">Fluid</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/layers.html">Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/data_feeder.html">DataFeeder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/executor.html">Executor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/initializer.html">Initializer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/evaluator.html">Evaluator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/nets.html">Nets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/optimizer.html">Optimizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/param_attr.html">ParamAttr</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/profiler.html">Profiler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/regularizer.html">Regularizer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../mobile/index_en.html">MOBILE</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../mobile/cross_compiling_for_android_en.html">Build PaddlePaddle for Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mobile/cross_compiling_for_raspberry_en.html">Build PaddlePaddle for Raspberry Pi</a></li>
+</ul>
+</li>
 </ul>
 
         
@@ -182,135 +210,131 @@
             
   <div class="section" id="contribute-code">
 <span id="contribute-code"></span><h1>Contribute Code<a class="headerlink" href="#contribute-code" title="Permalink to this headline">¶</a></h1>
-<p>We sincerely appreciate your contributions. You can use fork and pull request
-workflow to merge your code.</p>
-<div class="section" id="code-requirements">
-<span id="code-requirements"></span><h2>Code Requirements<a class="headerlink" href="#code-requirements" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>Your code must be fully documented by
-<a class="reference external" href="http://www.stack.nl/~dimitri/doxygen/">doxygen</a> style.</li>
-<li>Make sure the compiler option WITH_STYLE_CHECK is on and the compiler
-passes the code style check.</li>
-<li>All code must have unit test.</li>
-<li>Pass all unit tests.</li>
-</ul>
-<p>The following tutorial guides you into submitting your contibution.</p>
-</div>
-<div class="section" id="creating-a-fork">
-<span id="creating-a-fork"></span><h2><a class="reference external" href="https://help.github.com/articles/fork-a-repo/">Creating a Fork</a><a class="headerlink" href="#creating-a-fork" title="Permalink to this headline">¶</a></h2>
-<p>Just head over to the GitHub page and click the &#8220;Fork&#8221; button.
-It&#8217;s just that simple.</p>
-</div>
-<div class="section" id="clone">
-<span id="clone"></span><h2>Clone<a class="headerlink" href="#clone" title="Permalink to this headline">¶</a></h2>
-<p>Paddle is currently using <a class="reference external" href="http://nvie.com/posts/a-successful-git-branching-model/">git-flow branching model</a>.
-The <strong>develop</strong> is the main branch, and other user&#8217;s branches are feature branches.</p>
-<p>Once you&#8217;ve created a fork, you can use your favorite git client to clone your
-repo or just head straight to the command line:</p>
-<div class="highlight-shell"><div class="highlight"><pre><span></span><span class="c1"># Clone your fork to your local machine</span>
-git clone --branch develop https://github.com/USERNAME/Paddle.git
+<p>We sincerely appreciate your contribution.  This document explains our workflow and work style.</p>
+<div class="section" id="workflow">
+<span id="workflow"></span><h2>Workflow<a class="headerlink" href="#workflow" title="Permalink to this headline">¶</a></h2>
+<p>PaddlePaddle uses this <a class="reference external" href="http://nvie.com/posts/a-successful-git-branching-model/">Git branching model</a>.  The following steps guide usual contributions.</p>
+<ol>
+<li><p class="first">Fork</p>
+<p>Our development community has been growing fastly; it doesn&#8217;t make sense for everyone to write into the official repo.  So, please file Pull Requests from your fork.  To make a fork,  just head over to the GitHub page and click the <a class="reference external" href="https://help.github.com/articles/fork-a-repo/">&#8220;Fork&#8221; button</a>.</p>
+</li>
+<li><p class="first">Clone</p>
+<p>To make a copy of your fork to your local computers, please run</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>git clone https://github.com/your-github-account/paddle
+<span class="nb">cd</span> paddle
 </pre></div>
 </div>
-<p>If your repository doesn&#8217;t contain <strong>develop</strong> branch, just create it by your own.</p>
-<div class="highlight-shell"><div class="highlight"><pre><span></span>git clone https://github.com/USERNAME/Paddle.git Paddle
-<span class="nb">cd</span> Paddle
-git checkout -b develop  <span class="c1"># create develop branch.</span>
-git remote add upstream https://github.com/PaddlePaddle/Paddle.git  <span class="c1"># add upstream to baidu/Paddle</span>
-git pull upstream develop  <span class="c1"># update to upstream</span>
+</li>
+<li><p class="first">Create the local feature branch</p>
+<p>For daily works like adding a new feature or fixing a bug, please open your feature branch before coding:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>git checkout -b my-cool-stuff
 </pre></div>
 </div>
-<p>Then you can start to develop by making a local developement branch</p>
-<div class="highlight-shell"><div class="highlight"><pre><span></span>git checkout -b MY_COOL_STUFF_BRANCH
+</li>
+<li><p class="first">Commit</p>
+<p>Before issuing your first <code class="docutils literal"><span class="pre">git</span> <span class="pre">commit</span></code> command, please install <a class="reference external" href="http://pre-commit.com/"><code class="docutils literal"><span class="pre">pre-commit</span></code></a> by running the following commands:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>pip install pre-commit
+pre-commit install
 </pre></div>
 </div>
-</div>
-<div class="section" id="using-pre-commit-hook">
-<span id="using-pre-commit-hook"></span><h2>Using <code class="docutils literal"><span class="pre">pre-commit</span></code> hook<a class="headerlink" href="#using-pre-commit-hook" title="Permalink to this headline">¶</a></h2>
-<p>Paddle developers use <a class="reference external" href="http://pre-commit.com/">pre-commit</a> tool to manage git
-pre-commit hooks. It can help us format source codes (cpp, python), check some
-basic thing before commit (only one EOL for each file, do not add a huge file
-in git). <code class="docutils literal"><span class="pre">pre-commit</span></code> tests is a part of unit tests in Travis-CI now, every
-PR doesn&#8217;t fit hook can not be merged into Paddle.</p>
-<p>To use <a class="reference external" href="http://pre-commit.com/">pre-commit</a>, you should install it by
-<code class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pre-commit</span></code>, and currently, Paddle uses <code class="docutils literal"><span class="pre">clang-format</span></code> to format
-c/cpp sources. Please make sure clang-format 3.8+ installed.</p>
-<p>Then just run <code class="docutils literal"><span class="pre">pre-commit</span> <span class="pre">install</span></code> in your Paddle clone directory. When you
-commit your code, the pre-commit hook will check the local code if there is
-anything not suitable to commit, and so on.</p>
-</div>
-<div class="section" id="commit">
-<span id="commit"></span><h2>Commit<a class="headerlink" href="#commit" title="Permalink to this headline">¶</a></h2>
-<p>Commit your changes by following command lines:</p>
-<div class="highlight-shell"><div class="highlight"><pre><span></span><span class="c1"># show the working tree status</span>
-git status
-<span class="c1"># add modified files</span>
-git add xx
-env <span class="nv">EDITOR</span><span class="o">=</span>vim git commit  <span class="c1"># You can write your comments by vim/nano/emacs.</span>
+<p>Our pre-commit configuration requires clang-format 3.8 for auto-formating C/C++ code and yapf for Python.</p>
+<p>Once installed, <code class="docutils literal"><span class="pre">pre-commit</span></code> checks the style of code and documentation in every commit.  We will see something like the following when you run <code class="docutils literal"><span class="pre">git</span> <span class="pre">commit</span></code>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>➜  git commit
+CRLF end-lines remover...............................(no files to check)Skipped
+yapf.................................................(no files to check)Skipped
+Check for added large files..............................................Passed
+Check for merge conflicts................................................Passed
+Check for broken symlinks................................................Passed
+Detect Private Key...................................(no files to check)Skipped
+Fix End of Files.....................................(no files to check)Skipped
+clang-formater.......................................(no files to check)Skipped
+[my-cool-stuff c703c041] add test file
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 233
 </pre></div>
 </div>
-<p>The first line of commit infomation is the title. The second and later lines
-are the details if any.</p>
-</div>
-<div class="section" id="keeping-fork-up-to-date">
-<span id="keeping-fork-up-to-date"></span><h2>Keeping Fork Up to Date<a class="headerlink" href="#keeping-fork-up-to-date" title="Permalink to this headline">¶</a></h2>
-<p>Before pull your request, you should sync your code from the latest PaddlePaddle.
-To do this, you&#8217;ll need to add a remote at first:</p>
-<div class="highlight-shell"><div class="highlight"><pre><span></span><span class="c1"># see the current configured remote repository</span>
-git remote -v
-<span class="c1"># add upstream repository</span>
-git remote add upstream https://github.com/PaddlePaddle/Paddle.git
-<span class="c1"># verify the new upstream</span>
-git remote -v
-</pre></div>
-</div>
-<p>Update your fork with the latest upstream changes:</p>
-<div class="highlight-shell"><div class="highlight"><pre><span></span>git pull --rebase upstream develop
-</pre></div>
-</div>
-<p>If there are no unique commits locally, git will simply perform a fast-forward.
-However, if you have been making changes (in the vast majority of cases you
-probably shouldn&#8217;t be), you may have to deal with conflicts.</p>
-<p>Now, your local master branch is up-to-date with everything modified upstream.</p>
-</div>
-<div class="section" id="push-to-github">
-<span id="push-to-github"></span><h2>Push to GitHub<a class="headerlink" href="#push-to-github" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-shell"><div class="highlight"><pre><span></span><span class="c1"># push to your repository in Github</span>
-git push -u origin MY_COOL_STUFF_BRANCH  <span class="c1"># create remote branch MY_COOL_STUFF_BRANCH to origin.</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="pull-request">
-<span id="pull-request"></span><h2>Pull Request<a class="headerlink" href="#pull-request" title="Permalink to this headline">¶</a></h2>
-<p>Go to the page for your fork on GitHub, select your development branch,
-and click the <strong>pull request button</strong>.</p>
-</div>
-<div class="section" id="update-your-pull-request-with-the-lastest-version">
-<span id="update-your-pull-request-with-the-lastest-version"></span><h2>Update your pull request with the lastest version<a class="headerlink" href="#update-your-pull-request-with-the-lastest-version" title="Permalink to this headline">¶</a></h2>
-<p>During the code review, your pull request may become stale because new commits in
-baidu/Paddle. GitHub allows autmotic update if there is no conflict. You can do this
-by clicking the &#8220;Update Branch&#8221; button in your pull request page. However, in the case
-of conflict, you need to do the update manually. You need to do the following on
-your local repository:</p>
-<div class="highlight-shell"><div class="highlight"><pre><span></span>git checkout MY_COOL_STUFF_BRANCH
+</li>
+<li><p class="first">Build and test</p>
+<p>Users can build PaddlePaddle natively on Linux and Mac OS X.  But to unify the building environment and to make it easy for debugging, the recommended way is <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/doc/howto/dev/build_en.md">using Docker</a>.</p>
+</li>
+<li><p class="first">Keep pulling</p>
+<p>An experienced Git user pulls from the official repo often &#8211; daily or even hourly, so they notice conflicts with others work early, and it&#8217;s easier to resolve smaller conflicts.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>git remote add upstream https://github.com/PaddlePaddle/Paddle
 git pull upstream develop
-<span class="c1"># You may need to resolve the conflict according to the git prompt.</span>
-<span class="c1"># Make and test your code.</span>
-git push origin MY_COOL_STUFF_BRANCH
 </pre></div>
 </div>
-<p>Now your Pull Request is updated with the latest version.</p>
-</div>
-<div class="section" id="revise-your-pull-request">
-<span id="revise-your-pull-request"></span><h2>Revise your pull request<a class="headerlink" href="#revise-your-pull-request" title="Permalink to this headline">¶</a></h2>
-<p>When you revise your pull request according to reviewer&#8217;s comments, please use &#8216;git commit&#8217; instead of &#8216;git commit &#8211;amend&#8217; to commit your changes so that the reviewers can see the difference between the new pull requrest and the old pull request.</p>
-<p>The possible commands are</p>
-<div class="highlight-shell"><div class="highlight"><pre><span></span>git checkout MY_COOL_STUFF_BRANCH
-git pull upstream develop   <span class="c1"># update local to newest code base.</span>
-<span class="c1"># May be some conflicts will occured.</span>
-<span class="c1"># And develop your cool stuff</span>
-env <span class="nv">EDITOR</span><span class="o">=</span>vim git commit  <span class="c1"># add your revise log</span>
-git push origin MY_COOL_STUFF_BRANCH
+</li>
+<li><p class="first">Push and file a pull request</p>
+<p>You can &#8220;push&#8221; your local work into your forked repo:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>git push origin my-cool-stuff
 </pre></div>
+</div>
+<p>The push allows you to create a pull request, requesting owners of this <a class="reference external" href="https://github.com/PaddlePaddle/Paddle">official repo</a> to pull your change into the official one.</p>
+<p>To create a pull request, please follow <a class="reference external" href="https://help.github.com/articles/creating-a-pull-request/">these steps</a>.</p>
+<p>If your change is for fixing an issue, please write <a class="reference external" href="https://help.github.com/articles/closing-issues-using-keywords/">&#8220;Fixes &lt;issue-URL&gt;&#8221;</a> in the description section of your pull request.  Github would close the issue when the owners merge your pull request.</p>
+<p>Please remember to specify some reviewers for your pull request.  If you don&#8217;t know who are the right ones, please follow Github&#8217;s recommendation.</p>
+</li>
+</ol>
+<ol>
+<li><p class="first">Delete local and remote branches</p>
+<p>To keep your local workspace and your fork clean, you might want to remove merged branches:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>git push origin :my-cool-stuff
+git checkout develop
+git pull upstream develop
+git branch -d my-cool-stuff
+</pre></div>
+</div>
+</li>
+</ol>
+<div class="section" id="code-review">
+<span id="code-review"></span><h3>Code Review<a class="headerlink" href="#code-review" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Please feel free to ping your reviewers by sending them the URL of your pull request via IM or email.  Please do this after your pull request passes the CI.</li>
+<li>Please answer reviewers&#8217; every comment.  If you are to follow the comment, please write &#8220;Done&#8221;; please give a reason otherwise.</li>
+<li>If you don&#8217;t want your reviewers to get overwhelmed by email notifications, you might reply their comments by <a class="reference external" href="https://help.github.com/articles/reviewing-proposed-changes-in-a-pull-request/">in a batch</a>.</li>
+<li>Reduce the unnecessary commits.  Some developers commit often.  It is recommended to append a sequence of small changes into one commit by running <code class="docutils literal"><span class="pre">git</span> <span class="pre">commit</span> <span class="pre">--amend</span></code> instead of <code class="docutils literal"><span class="pre">git</span> <span class="pre">commit</span></code>.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="coding-standard">
+<span id="coding-standard"></span><h2>Coding Standard<a class="headerlink" href="#coding-standard" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="code-style">
+<span id="code-style"></span><h3>Code Style<a class="headerlink" href="#code-style" title="Permalink to this headline">¶</a></h3>
+<p>Our C/C++ code follows the <a class="reference external" href="http://google.github.io/styleguide/cppguide.html">Google style guide</a>.</p>
+<p>Our Python code follows the <a class="reference external" href="https://www.python.org/dev/peps/pep-0008/">PEP8 style guide</a>.</p>
+<p>Our build process helps to check the code style.  In <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/b84e8226514b8bb4405c3c28e54aa5077193d179/paddle/scripts/docker/build.sh#L42"><code class="docutils literal"><span class="pre">build.sh</span></code></a>, the entry point of our <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/b84e8226514b8bb4405c3c28e54aa5077193d179/Dockerfile#L88">builder Docker image</a>, the CMake argument <code class="docutils literal"><span class="pre">WITH_STYLE_CHECK</span></code> is set to <code class="docutils literal"><span class="pre">ON</span></code> by default.  This flag is on</p>
+<p>Please install pre-commit, which automatically reformat the changes to C/C++ and Python code whenever we run <code class="docutils literal"><span class="pre">git</span> <span class="pre">commit</span></code>.  To check the whole codebase, we can run the command <code class="docutils literal"><span class="pre">pre-commit</span> <span class="pre">run</span> <span class="pre">-a</span></code>, as in the <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/b84e8226514b8bb4405c3c28e54aa5077193d179/paddle/scripts/travis/check_style.sh#L30"><code class="docutils literal"><span class="pre">check_style.sh</span></code> file</a>, which is invoked by <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/b84e8226514b8bb4405c3c28e54aa5077193d179/.travis.yml#L43">our Travis CI configuration</a>.</p>
+</div>
+<div class="section" id="unit-tests">
+<span id="unit-tests"></span><h3>Unit Tests<a class="headerlink" href="#unit-tests" title="Permalink to this headline">¶</a></h3>
+<p>Please remember to add related unit tests.</p>
+<ul class="simple">
+<li>For C/C++ code, please follow <a class="reference external" href="https://github.com/google/googletest/blob/master/googletest/docs/Primer.md"><code class="docutils literal"><span class="pre">google-test</span></code> Primer</a>.</li>
+<li>For Python code, please use <a class="reference external" href="http://pythontesting.net/framework/unittest/unittest-introduction/">Python&#8217;s standard <code class="docutils literal"><span class="pre">unittest</span></code> package</a>.</li>
+</ul>
+</div>
+<div class="section" id="writing-logs">
+<span id="writing-logs"></span><h3>Writing Logs<a class="headerlink" href="#writing-logs" title="Permalink to this headline">¶</a></h3>
+<p>We use <a class="reference external" href="https://github.com/google/glog">glog</a> for logging in our C/C++ code.</p>
+<p>For general information, please use <code class="docutils literal"><span class="pre">LOG</span></code>.  For debug information, please use <a class="reference external" href="http://htmlpreview.github.io/?https://github.com/google/glog/blob/master/doc/glog.html#verbose"><code class="docutils literal"><span class="pre">VLOG</span></code></a>.  The reason is at <a class="reference external" href="https://groups.google.com/a/chromium.org/d/msg/chromium-dev/3NDNd1KzXeY/AZKMMx37fdQJ">here</a>.</p>
+<p><code class="docutils literal"><span class="pre">VLOG</span></code> requires a <em>verbose level</em> parameter.  For example:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span></span><span class="n">VLOG</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Operator FC is taking &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">num_inputs</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;inputs.&quot;</span>
+</pre></div>
+</div>
+<p>When we run a PaddlePaddle application or test, we can specify a verbose threshold.  For example:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nv">GLOG_vmodule</span><span class="o">=</span><span class="nv">buddy_allocator</span><span class="o">=</span><span class="m">2</span> <span class="se">\</span>
+<span class="nv">GLOG_v</span><span class="o">=</span><span class="m">10</span> <span class="se">\</span>
+python <span class="se">\</span>
+../python/paddle/v2/framework/tests/test_recurrent_op.py
+</pre></div>
+</div>
+<p>This will enable VLOG messages generated by <code class="docutils literal"><span class="pre">buddy_allocator.{h,cc}</span></code> and in the verbose range of 0 to 3, so you will see above example VLOG message, which is in level 3.  This suggests that we output overall messages in lower verbose levels, so they display with higher probability.  When coding C++, please follow the verbose level convention as follows:</p>
+<ul class="simple">
+<li>verbose level 1: <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/tree/develop/paddle/framework">framework</a></li>
+<li>verbose level 3: <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/tree/develop/paddle/operators">operators</a></li>
+<li>verbose level 5: <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/tree/develop/paddle/memory">memory</a>, <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/tree/develop/paddle/platform">platform</a></li>
+<li>verbose level 7: <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/tree/develop/paddle/math">math</a></li>
+</ul>
 </div>
 </div>
 </div>
@@ -322,7 +346,7 @@ git push origin MY_COOL_STUFF_BRANCH
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../deep_model/rnn/index_en.html" class="btn btn-neutral float-right" title="RNN Models" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="write_docs_en.html" class="btn btn-neutral float-right" title="Contribute Documentation" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="new_layer_en.html" class="btn btn-neutral" title="Write New Layers" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>

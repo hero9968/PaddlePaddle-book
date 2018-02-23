@@ -1,0 +1,385 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Build using Docker &mdash; PaddlePaddle  documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="PaddlePaddle  documentation" href="../../index.html"/>
+        <link rel="up" title="Install and Build" href="../../getstarted/build_and_install/index_en.html"/>
+        <link rel="next" title="Build from Sources" href="../../getstarted/build_and_install/build_from_source_en.html"/>
+        <link rel="prev" title="Run in Docker Containers" href="../../getstarted/build_and_install/docker_install_en.html"/> 
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/css/perfect-scrollbar.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/override.css" type="text/css" />
+  <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?b9a314ab40d04d805655aab1deee08ba";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
+
+  
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  
+  <header class="site-header">
+    <div class="site-logo">
+      <a href="/"><img src="../../_static/images/PP_w.png"></a>
+    </div>
+    <div class="site-nav-links">
+      <div class="site-menu">
+        <a class="fork-on-github" href="https://github.com/PaddlePaddle/Paddle" target="_blank"><i class="fa fa-github"></i>Fork me on Github</a>
+        <div class="language-switcher dropdown">
+          <a type="button" data-toggle="dropdown">
+            <span>English</span>
+            <i class="fa fa-angle-up"></i>
+            <i class="fa fa-angle-down"></i>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="/doc_cn">中文</a></li>
+            <li><a href="/doc">English</a></li>
+          </ul>
+        </div>
+        <ul class="site-page-links">
+          <li><a href="/">Home</a></li>
+        </ul>
+      </div>
+      <div class="doc-module">
+        
+        <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../getstarted/index_en.html">GET STARTED</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index_en.html">HOW TO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index_en.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mobile/index_en.html">MOBILE</a></li>
+</ul>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>        
+      </div>
+    </div>
+  </header>
+  
+  <div class="main-content-wrap">
+
+    
+    <nav class="doc-menu-vertical" role="navigation">
+        
+          
+          <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../getstarted/index_en.html">GET STARTED</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../../getstarted/build_and_install/index_en.html">Install and Build</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../getstarted/build_and_install/pip_install_en.html">Install Using pip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../getstarted/build_and_install/docker_install_en.html">Run in Docker Containers</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Build using Docker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../getstarted/build_and_install/build_from_source_en.html">Build from Sources</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../index_en.html">HOW TO</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../usage/cmd_parameter/index_en.html">Set Command-line Parameters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../usage/cmd_parameter/use_case_en.html">Use Case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../usage/cmd_parameter/arguments_en.html">Argument Outline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../usage/cmd_parameter/detail_introduction_en.html">Detail Description</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/cluster/cluster_train_en.html">PaddlePaddle Distributed Training</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/k8s/k8s_en.html">Paddle On Kubernetes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/k8s/k8s_aws_en.html">Distributed PaddlePaddle Training on AWS with Kubernetes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="new_layer_en.html">Write New Layers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contribute_to_paddle_en.html">Contribute Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="write_docs_en.html">Contribute Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deep_model/rnn/index_en.html">RNN Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../deep_model/rnn/rnn_config_en.html">RNN Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../optimization/gpu_profiling_en.html">Tune GPU Performance</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index_en.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/v2/model_configs.html">Model Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/activation.html">Activation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/layer.html">Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/evaluators.html">Evaluators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/optimizer.html">Optimizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/pooling.html">Pooling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/networks.html">Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/attr.html">Parameter Attribute</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/v2/data.html">Data Reader Interface and DataSets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/data/data_reader.html">Data Reader Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/data/image.html">Image Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/data/dataset.html">Dataset</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/v2/run_logic.html">Training and Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/v2/fluid.html">Fluid</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/layers.html">Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/data_feeder.html">DataFeeder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/executor.html">Executor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/initializer.html">Initializer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/evaluator.html">Evaluator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/nets.html">Nets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/optimizer.html">Optimizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/param_attr.html">ParamAttr</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/profiler.html">Profiler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/regularizer.html">Regularizer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../mobile/index_en.html">MOBILE</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../mobile/cross_compiling_for_android_en.html">Build PaddlePaddle for Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mobile/cross_compiling_for_raspberry_en.html">Build PaddlePaddle for Raspberry Pi</a></li>
+</ul>
+</li>
+</ul>
+
+        
+    </nav>
+    
+    <section class="doc-content-wrap">
+
+      
+
+ 
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+      
+        <li><a href="../../getstarted/index_en.html">GET STARTED</a> > </li>
+      
+        <li><a href="../../getstarted/build_and_install/index_en.html">Install and Build</a> > </li>
+      
+    <li>Build using Docker</li>
+  </ul>
+</div>
+      
+      <div class="wy-nav-content" id="doc-content">
+        <div class="rst-content">
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="build-using-docker">
+<span id="build-using-docker"></span><h1>Build using Docker<a class="headerlink" href="#build-using-docker" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="what-developers-need">
+<span id="what-developers-need"></span><h2>What Developers Need<a class="headerlink" href="#what-developers-need" title="Permalink to this headline">¶</a></h2>
+<p>To contribute to PaddlePaddle, you need</p>
+<ol class="simple">
+<li>A computer &#8211; Linux, BSD, Windows, MacOS, and</li>
+<li>Docker.</li>
+</ol>
+<p>Nothing else.  Not even Python and GCC, because you can install all build tools into a Docker image.  We run all the tools by running this image.</p>
+</div>
+<div class="section" id="general-process">
+<span id="general-process"></span><h2>General Process<a class="headerlink" href="#general-process" title="Permalink to this headline">¶</a></h2>
+<ol>
+<li><p class="first">Retrieve source code.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>git clone https://github.com/paddlepaddle/paddle
+</pre></div>
+</div>
+</li>
+<li><p class="first">Install build tools into a Docker image.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">cd</span> paddle<span class="p">;</span> docker build -t paddle:dev .
+</pre></div>
+</div>
+<p>Please be aware of the <code class="docutils literal"><span class="pre">.</span></code> at the end of the command, which refers to the <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/Dockerfile"><code class="docutils literal"><span class="pre">./Dockerfile</span></code> file</a>.  <code class="docutils literal"><span class="pre">docker</span> <span class="pre">build</span></code> follows instructions in this file to create a Docker image named <code class="docutils literal"><span class="pre">paddle:dev</span></code>, and installs building tools into it.</p>
+</li>
+<li><p class="first">Build from source.</p>
+<p>This following command starts a Docker container that executes the Docker image <code class="docutils literal"><span class="pre">paddle:dev</span></code>, mapping the current directory to <code class="docutils literal"><span class="pre">/paddle/</span></code> in the container, and runs the default entry-point <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/scripts/docker/build.sh"><code class="docutils literal"><span class="pre">build.sh</span></code></a> as specified in the Dockefile.  <code class="docutils literal"><span class="pre">build.sh</span></code> invokes <code class="docutils literal"><span class="pre">cmake</span></code> and <code class="docutils literal"><span class="pre">make</span></code> to build PaddlePaddle source code, which had been mapped to <code class="docutils literal"><span class="pre">/paddle</span></code>, and writes outputs to <code class="docutils literal"><span class="pre">/paddle/build</span></code>, which maps to <code class="docutils literal"><span class="pre">build</span></code> in the current source directory on the computer.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>docker run -v <span class="nv">$PWD</span>:/paddle paddle:dev
+</pre></div>
+</div>
+<p>Above command builds a CUDA-enabled version.  If we want to build a CPU-only version, we can type</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>docker run -e <span class="nv">WITH_GPU</span><span class="o">=</span>OFF -v <span class="nv">$PWD</span>:/paddle paddle:dev
+</pre></div>
+</div>
+</li>
+<li><p class="first">Run unit tests.</p>
+<p>To run all unit tests using the first GPU of a node:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nv">NV_GPU</span><span class="o">=</span><span class="m">0</span> nvidia-docker run -v <span class="nv">$PWD</span>:/paddle paddle:dev bash -c <span class="s2">&quot;cd /paddle/build; ctest&quot;</span>
+</pre></div>
+</div>
+<p>If we used <code class="docutils literal"><span class="pre">WITH_GPU=OFF</span></code> at build time, it generates only CPU-based unit tests, and we don&#8217;t need nvidia-docker to run them.  We can just run</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>docker run -v <span class="nv">$PWD</span>:/paddle paddle:dev bash -c <span class="s2">&quot;cd /paddle/build; ctest&quot;</span>
+</pre></div>
+</div>
+<p>Sometimes we want to run a specific unit test, say <code class="docutils literal"><span class="pre">memory_test</span></code>, we can run</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>nvidia-docker run -v <span class="nv">$PWD</span>:/paddle paddle:dev bash -c <span class="s2">&quot;cd /paddle/build; ctest -V -R memory_test&quot;</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Clean Build.</p>
+<p>Sometimes, we might want to clean all thirt-party dependents and built binaries.  To do so, just</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>rm -rf build
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="docker-or-not">
+<span id="docker-or-not"></span><h2>Docker, Or Not?<a class="headerlink" href="#docker-or-not" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first">What is Docker?</p>
+<p>If you haven&#8217;t heard of it, consider it something like Python&#8217;s virtualenv.</p>
+</li>
+<li><p class="first">Docker or virtual machine?</p>
+<p>Some people compare Docker with VMs, but Docker doesn&#8217;t virtualize any hardware nor running a guest OS, which means there is no compromise on the performance.</p>
+</li>
+<li><p class="first">Why Docker?</p>
+<p>Using a Docker image of build tools standardizes the building environment, which makes it easier for others to reproduce your problems and to help.</p>
+<p>Also, some build tools don&#8217;t run on Windows or Mac or BSD, but Docker runs almost everywhere, so developers can use whatever computer they want.</p>
+</li>
+<li><p class="first">Can I choose not to use Docker?</p>
+<p>Sure, you don&#8217;t have to install build tools into a Docker image; instead, you can install them in your local computer.  This document exists because Docker would make the development way easier.</p>
+</li>
+<li><p class="first">How difficult is it to learn Docker?</p>
+<p>It takes you ten minutes to read <a class="reference external" href="https://docs.docker.com/get-started">an introductory article</a> and saves you more than one hour to install all required build tools, configure them, especially when new versions of PaddlePaddle require some new tools.  Not even to mention the time saved when other people trying to reproduce the issue you have.</p>
+</li>
+<li><p class="first">Can I use my favorite IDE?</p>
+<p>Yes, of course.  The source code resides on your local computer, and you can edit it using whatever editor you like.</p>
+<p>Many PaddlePaddle developers are using Emacs.  They add the following few lines into their <code class="docutils literal"><span class="pre">~/.emacs</span></code> configure file:</p>
+<div class="highlight-emacs"><div class="highlight"><pre><span></span><span class="p">(</span><span class="nv">global-set-key</span> <span class="s">&quot;\C-cc&quot;</span> <span class="ss">&#39;compile</span><span class="p">)</span>
+<span class="p">(</span><span class="k">setq</span> <span class="nv">compile-command</span>
+ <span class="s">&quot;docker run --rm -it -v $(git rev-parse --show-toplevel):/paddle paddle:dev&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>so they could type <code class="docutils literal"><span class="pre">Ctrl-C</span></code> and <code class="docutils literal"><span class="pre">c</span></code> to build PaddlePaddle from source.</p>
+</li>
+<li><p class="first">Does Docker do parallel building?</p>
+<p>Our building Docker image runs a <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/scripts/docker/build.sh">Bash script</a>, which calls <code class="docutils literal"><span class="pre">make</span> <span class="pre">-j$(nproc)</span></code> to starts as many processes as the number of your CPU cores.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="some-gotchas">
+<span id="some-gotchas"></span><h2>Some Gotchas<a class="headerlink" href="#some-gotchas" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first">Docker requires sudo</p>
+<p>An owner of a computer has the administrative privilege, a.k.a., sudo, and Docker requires this privilege to work properly.  If you use a shared computer for development, please ask the administrator to install and configure Docker.  We will do our best to support rkt, another container technology that doesn&#8217;t require sudo.</p>
+</li>
+<li><p class="first">Docker on Windows/MacOS builds slowly</p>
+<p>On Windows and MacOS, Docker containers run in a Linux VM.  You might want to give this VM some more memory and CPUs so to make the building efficient.  Please refer to <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/issues/627">this issue</a> for details.</p>
+</li>
+<li><p class="first">Not enough disk space</p>
+<p>Examples in this article uses option <code class="docutils literal"><span class="pre">--rm</span></code> with the <code class="docutils literal"><span class="pre">docker</span> <span class="pre">run</span></code> command.  This option ensures that stopped containers do not exist on hard disks.  We can use <code class="docutils literal"><span class="pre">docker</span> <span class="pre">ps</span> <span class="pre">-a</span></code> to list all containers, including stopped.  Sometimes <code class="docutils literal"><span class="pre">docker</span> <span class="pre">build</span></code> generates some intermediate dangling images, which also take disk space.  To clean them, please refer to <a class="reference external" href="https://zaiste.net/posts/removing_docker_containers/">this article</a>.</p>
+</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../../getstarted/build_and_install/build_from_source_en.html" class="btn btn-neutral float-right" title="Build from Sources" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../../getstarted/build_and_install/docker_install_en.html" class="btn btn-neutral" title="Run in Docker Containers" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, PaddlePaddle developers.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: ".txt",
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+       
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+  
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/js/perfect-scrollbar.jquery.min.js"></script>
+  <script src="../../_static/js/paddle_doc_init.js"></script> 
+
+</body>
+</html>

@@ -1,0 +1,379 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Design Doc: Distributed Training Architecture &mdash; PaddlePaddle  documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="PaddlePaddle  documentation" href="../../index.html"/> 
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/css/perfect-scrollbar.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/override.css" type="text/css" />
+  <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?b9a314ab40d04d805655aab1deee08ba";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
+
+  
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  
+  <header class="site-header">
+    <div class="site-logo">
+      <a href="/"><img src="../../_static/images/PP_w.png"></a>
+    </div>
+    <div class="site-nav-links">
+      <div class="site-menu">
+        <a class="fork-on-github" href="https://github.com/PaddlePaddle/Paddle" target="_blank"><i class="fa fa-github"></i>Fork me on Github</a>
+        <div class="language-switcher dropdown">
+          <a type="button" data-toggle="dropdown">
+            <span>English</span>
+            <i class="fa fa-angle-up"></i>
+            <i class="fa fa-angle-down"></i>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="/doc_cn">中文</a></li>
+            <li><a href="/doc">English</a></li>
+          </ul>
+        </div>
+        <ul class="site-page-links">
+          <li><a href="/">Home</a></li>
+        </ul>
+      </div>
+      <div class="doc-module">
+        
+        <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getstarted/index_en.html">GET STARTED</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howto/index_en.html">HOW TO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index_en.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mobile/index_en.html">MOBILE</a></li>
+</ul>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>        
+      </div>
+    </div>
+  </header>
+  
+  <div class="main-content-wrap">
+
+    
+    <nav class="doc-menu-vertical" role="navigation">
+        
+          
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getstarted/index_en.html">GET STARTED</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getstarted/build_and_install/index_en.html">Install and Build</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../getstarted/build_and_install/pip_install_en.html">Install Using pip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../getstarted/build_and_install/docker_install_en.html">Run in Docker Containers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/dev/build_en.html">Build using Docker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../getstarted/build_and_install/build_from_source_en.html">Build from Sources</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../howto/index_en.html">HOW TO</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/usage/cmd_parameter/index_en.html">Set Command-line Parameters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/usage/cmd_parameter/use_case_en.html">Use Case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/usage/cmd_parameter/arguments_en.html">Argument Outline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/usage/cmd_parameter/detail_introduction_en.html">Detail Description</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/usage/cluster/cluster_train_en.html">PaddlePaddle Distributed Training</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/usage/k8s/k8s_en.html">Paddle On Kubernetes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/usage/k8s/k8s_aws_en.html">Distributed PaddlePaddle Training on AWS with Kubernetes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/dev/new_layer_en.html">Write New Layers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/dev/contribute_to_paddle_en.html">Contribute Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/dev/write_docs_en.html">Contribute Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/deep_model/rnn/index_en.html">RNN Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/deep_model/rnn/rnn_config_en.html">RNN Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/optimization/gpu_profiling_en.html">Tune GPU Performance</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index_en.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/v2/model_configs.html">Model Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/activation.html">Activation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/layer.html">Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/evaluators.html">Evaluators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/optimizer.html">Optimizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/pooling.html">Pooling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/networks.html">Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/attr.html">Parameter Attribute</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/v2/data.html">Data Reader Interface and DataSets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/data/data_reader.html">Data Reader Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/data/image.html">Image Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/data/dataset.html">Dataset</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/v2/run_logic.html">Training and Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/v2/fluid.html">Fluid</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/layers.html">Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/data_feeder.html">DataFeeder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/executor.html">Executor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/initializer.html">Initializer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/evaluator.html">Evaluator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/nets.html">Nets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/optimizer.html">Optimizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/param_attr.html">ParamAttr</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/profiler.html">Profiler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/regularizer.html">Regularizer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../mobile/index_en.html">MOBILE</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../mobile/cross_compiling_for_android_en.html">Build PaddlePaddle for Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mobile/cross_compiling_for_raspberry_en.html">Build PaddlePaddle for Raspberry Pi</a></li>
+</ul>
+</li>
+</ul>
+
+        
+    </nav>
+    
+    <section class="doc-content-wrap">
+
+      
+
+ 
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+      
+    <li>Design Doc: Distributed Training Architecture</li>
+  </ul>
+</div>
+      
+      <div class="wy-nav-content" id="doc-content">
+        <div class="rst-content">
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="design-doc-distributed-training-architecture">
+<span id="design-doc-distributed-training-architecture"></span><h1>Design Doc: Distributed Training Architecture<a class="headerlink" href="#design-doc-distributed-training-architecture" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="abstract">
+<span id="abstract"></span><h2>Abstract<a class="headerlink" href="#abstract" title="Permalink to this headline">¶</a></h2>
+<p>PaddlePaddle version 0.10.0 uses the &#8220;trainer-parameter server&#8221; architecture. We run multiple instances of trainers (where each trainer runs the same model) and parameter servers for distributed training. This architecture serves well, but has few limitations:</p>
+<ol class="simple">
+<li>There is a need to write special code that handles tasks which should only be run on a single trainer. E.g., initializing the model, saving the model etc.</li>
+<li>Model parallelism is hard: It would need all the if-else branches conditioned on the trainer ID to partition the model onto the trainers, and eventually manually writing out the inter-model-shard communication code to communicate between different trainers.</li>
+<li>The user can not directly specify the parameter update rule: This would need to modify the parameter server code and compile a new binary. This makes things more complicated for researchers: A lot of extra effort is required to make this work. Besides, the training job submission program may not allow running arbitrary binaries.</li>
+</ol>
+<p>This design doc discusses PaddlePaddle&#8217;s new distributed training architecture that addresses the above mentioned limitations.</p>
+</div>
+<div class="section" id="analysis">
+<span id="analysis"></span><h2>Analysis<a class="headerlink" href="#analysis" title="Permalink to this headline">¶</a></h2>
+<p>The assumption is that the user writes the trainer program in either Python or C++.</p>
+<div class="section" id="limitation-1">
+<span id="limitation-1"></span><h3>Limitation 1<a class="headerlink" href="#limitation-1" title="Permalink to this headline">¶</a></h3>
+<p>There are two basic functionalities in the trainer program:</p>
+<ol class="simple">
+<li>The training logic such as loading / saving the model and printing out the logs.</li>
+<li>The neural network definition such as the definition of the data layer, the fully connected layer, the cost function and the
+optimizer.</li>
+</ol>
+<p>When we train using PaddlePaddle v0.10.0 in a distributed fashion, multiple instances of the same Python code are run on different nodes, hence both: the
+training logic as well as the neural network computation logic, is replicated.</p>
+<p>The tasks that only need to be run once belong to the training logic. Hence if we only replicate the neural network computation part, and do <strong>not</strong>
+replicate the training logic, the limitation mentioned above can be avoided.</p>
+</div>
+<div class="section" id="limitation-2">
+<span id="limitation-2"></span><h3>Limitation 2<a class="headerlink" href="#limitation-2" title="Permalink to this headline">¶</a></h3>
+<p>Model parallelism means that a single model is partitioned into different components and each node runs one of the component separately. This comes at the extra cost of managing the
+inter-model-shard communication between nodes.</p>
+<p>PaddlePaddle should ideally be able to modify the neural network computation and figure out the support for model parallelism automatically. However, the
+computation is only specified in Python code which sits outside of PaddlePaddle, hence PaddlePaddle can not support the feature in this setup.</p>
+<p>Similar to how a compiler uses an intermediate representation (IR) so that the programmer does not need to manually optimize their code for most of the cases, we can have an intermediate representation in PaddlePaddle as well. The compiler optimizes the IR as follows:</p>
+<p><img src="src/compiler.png"/></p>
+<p>PaddlePaddle can support model parallelism by converting the IR so that the user no longer needs to manually perform the computation and operations in the Python component:</p>
+<p><img src="src/paddle-compile.png"/></p>
+<p>The IR for PaddlePaddle after refactoring is called a <code class="docutils literal"><span class="pre">Block</span></code>, it specifies the computation dependency graph and the variables used in the computation.</p>
+</div>
+<div class="section" id="limitation-3">
+<span id="limitation-3"></span><h3>Limitation 3<a class="headerlink" href="#limitation-3" title="Permalink to this headline">¶</a></h3>
+<p>The user can not directly specify the parameter update rule for the parameter server in the Python module, since the parameter server does not use the same computation definition as the trainer. Instead, the update rule is baked inside the parameter server. The user can not specify the update rule explicitly.</p>
+<p>This could be fixed by making the parameter server run the same computation definition as the trainer (the user&#8217;s Python module). For a detailed explanation, refer to this document -
+<a class="reference internal" href="parameter_server.html"><span class="doc">Design Doc: Operation Graph Based Parameter Server</span></a></p>
+</div>
+</div>
+<div class="section" id="distributed-training-architecture">
+<span id="distributed-training-architecture"></span><h2>Distributed Training Architecture<a class="headerlink" href="#distributed-training-architecture" title="Permalink to this headline">¶</a></h2>
+<p>The revamped distributed training architecture can address the above discussed limitations. Below is the illustration of how it does so:</p>
+<p><img src="src/distributed_architecture.png"/></p>
+<p>The major components in the architecture are: <em>PaddlePaddle Python</em>, <em>PaddlePaddle converter</em> and <em>PaddlePaddle runtime</em>.</p>
+<div class="section" id="paddlepaddle-python">
+<span id="paddlepaddle-python"></span><h3>PaddlePaddle Python<a class="headerlink" href="#paddlepaddle-python" title="Permalink to this headline">¶</a></h3>
+<p>PaddlePaddle Python is the Python library that user&#8217;s Python code invokes, to read the data. build the neural network topology, start training, etc.</p>
+<div class="highlight-Python"><div class="highlight"><pre><span></span><span class="n">paddle</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+<span class="nb">input</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">op</span><span class="o">.</span><span class="n">recordIO</span><span class="p">(</span><span class="s2">&quot;/home/data/mnist.recordio&quot;</span><span class="p">)</span> <span class="c1"># file stored on the cluster</span>
+<span class="n">img</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="nb">input</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">input</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">hidden</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">img</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">act</span><span class="o">=</span><span class="n">paddle</span><span class="o">.</span><span class="n">activation</span><span class="o">.</span><span class="n">Tanh</span><span class="p">())</span>
+<span class="n">prediction</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">img</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">act</span><span class="o">=</span><span class="n">paddle</span><span class="o">.</span><span class="n">activation</span><span class="o">.</span><span class="n">Softmax</span><span class="p">())</span>
+<span class="n">cost</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">classification_cost</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">prediction</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">cost</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+<span class="n">session</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">NewRemote</span><span class="p">(</span><span class="n">num_trainer</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">num_ps</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">GPU_per_trainer</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">cost_val</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">targets</span><span class="o">=</span><span class="p">[</span><span class="n">cost</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">])</span>
+    <span class="k">print</span> <span class="n">cost_val</span>
+</pre></div>
+</div>
+<p>The above code is what a typical Python trainer code is, the neural network topology is built using the helper functions such as <code class="docutils literal"><span class="pre">paddle.layer.fc</span></code>. Training is done by calling <code class="docutils literal"><span class="pre">session.eval</span></code> iteratively.</p>
+<div class="section" id="session-eval">
+<span id="session-eval"></span><h4>session.eval<a class="headerlink" href="#session-eval" title="Permalink to this headline">¶</a></h4>
+<p>As shown in the graph, <code class="docutils literal"><span class="pre">session.eval</span></code> sends the IR and the evaluation inputs or targets to the PaddlePaddle cluster for evaluation.
+The targets can be any variable in the computation graph. When the target is say, the <code class="docutils literal"><span class="pre">optimizer</span></code> variable, the neural network will be optimized once. When the target is the <code class="docutils literal"><span class="pre">cost</span></code> variable, <code class="docutils literal"><span class="pre">session.eval</span></code> returns the cost value. Based on what the target is, an appropriate action is taken.</p>
+<p>The Python <code class="docutils literal"><span class="pre">session</span></code> is a wrapper of the C++ <code class="docutils literal"><span class="pre">Session</span></code> class. For more information about <code class="docutils literal"><span class="pre">Session</span></code>, refer to this document - <a class="reference internal" href="session.html"><span class="doc">Design Doc: Session</span></a>.</p>
+</div>
+</div>
+<div class="section" id="paddlepaddle-converter">
+<span id="paddlepaddle-converter"></span><h3>PaddlePaddle Converter<a class="headerlink" href="#paddlepaddle-converter" title="Permalink to this headline">¶</a></h3>
+<p>The PaddlePaddle converter automatically converts the IR in the request (IR and evaluation inputs/targets) from PaddlePaddle Python to partitioned IRs and dispatches the new IRs and evaluation inputs/targets to different PaddlePaddle runtimes. Below are the steps that are followed :</p>
+<ol class="simple">
+<li>Add a <code class="docutils literal"><span class="pre">feed</span></code> OP that feeds the eval inputs, and a <code class="docutils literal"><span class="pre">fetch</span></code> OP that fetches the eval targets to the IR.</li>
+<li>Extract a new computation (sub)graph with the <code class="docutils literal"><span class="pre">feed</span></code> and <code class="docutils literal"><span class="pre">fetch</span></code> OPs as the boundary. The runtime does not need to run the OP that is not dependent on the <code class="docutils literal"><span class="pre">fetch</span></code> OP.</li>
+<li>Optimize the computation graph.</li>
+<li>Place the OPs in the graph onto different devices on different PaddlePaddle runtime according to a placement algorithm and the device constraints specified by the user.</li>
+<li>Partition the graph according to runtime boundaries and add <code class="docutils literal"><span class="pre">send</span></code> / <code class="docutils literal"><span class="pre">recv</span></code> OP pair on the runtime boundaries.</li>
+<li>Dispatch the partitioned graph to different PaddlePaddle runtimes.</li>
+<li>PaddlePaddle runtimes with the <code class="docutils literal"><span class="pre">fetch</span></code> OP reports evaluation results back to the converter, the converter reports the evaluation results back to the PaddlePaddle Python.</li>
+</ol>
+<p>The output IRs will be cached to optimize the conversion latency.</p>
+<div class="section" id="placement-algorithm">
+<span id="placement-algorithm"></span><h4>Placement Algorithm<a class="headerlink" href="#placement-algorithm" title="Permalink to this headline">¶</a></h4>
+<p>Our first implementation will only support &#8220;trainer-parameter server&#8221; placement: the parameters, initializers, and optimizers are all placed on the PaddlePaddle runtimes with the parameter server role. Everything else will be placed on the PaddlePaddle runtimes with the trainer role. This has the same functionality as the &#8220;trainer-parameter server&#8221; architecture of PaddlePaddle v0.10.0, but is more generic and flexible.</p>
+<p>In the future, a more general placement algorithm should be implemented, which makes placements according to the input IR, and a model of device computation time and device communication time. Model parallelism requires the generic placement algorithm.</p>
+</div>
+</div>
+<div class="section" id="paddlepaddle-runtime">
+<span id="paddlepaddle-runtime"></span><h3>PaddlePaddle Runtime<a class="headerlink" href="#paddlepaddle-runtime" title="Permalink to this headline">¶</a></h3>
+<p>The PaddlePaddle runtime owns multiple devices (e.g., CPUs, GPUs) and runs the IR. The runtime does not need to do OP placement since it is already done by the converter.</p>
+</div>
+<div class="section" id="local-training-architecture">
+<span id="local-training-architecture"></span><h3>Local Training Architecture<a class="headerlink" href="#local-training-architecture" title="Permalink to this headline">¶</a></h3>
+<p>The local training architecture will be the same as the distributed training architecture, the difference is that everything runs locally, and there is just one PaddlePaddle runtime:</p>
+<p><img src="src/local_architecture.png"/></p>
+</div>
+<div class="section" id="training-data">
+<span id="training-data"></span><h3>Training Data<a class="headerlink" href="#training-data" title="Permalink to this headline">¶</a></h3>
+<p>In PaddlePaddle v0.10.0, training data is typically read with a <a class="reference internal" href="../reader/README.html"><span class="doc">data reader</span></a> from Python. This approach is no longer efficient when training in a distributed fashion since the Python process no longer runs on the same node with the trainer processes. The Python reader will need to read from the distributed filesystem (assuming it has the required access) and send to the trainers, doubling the network traffic.</p>
+<p>When doing distributed training, the user can still use Python data reader: the training data are sent with <code class="docutils literal"><span class="pre">session.eval</span></code>. However this should be used for debugging purpose only. The users are encouraged to use the read data OPs.</p>
+</div>
+</div>
+<div class="section" id="references">
+<span id="references"></span><h2>References:<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<p>[1] <a class="reference external" href="https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/45166.pdf">TensorFlow: Large-Scale Machine Learning on Heterogeneous Distributed Systems</a></p>
+<p>[2] <a class="reference external" href="https://www.usenix.org/system/files/conference/osdi16/osdi16-abadi.pdf">TensorFlow: A System for Large-Scale Machine Learning</a></p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, PaddlePaddle developers.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: ".txt",
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+       
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+  
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/js/perfect-scrollbar.jquery.min.js"></script>
+  <script src="../../_static/js/paddle_doc_init.js"></script> 
+
+</body>
+</html>

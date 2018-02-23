@@ -1,0 +1,391 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>How to use Eigen in Paddle &mdash; PaddlePaddle  documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="PaddlePaddle  documentation" href="../../index.html"/> 
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/css/perfect-scrollbar.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/override.css" type="text/css" />
+  <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?b9a314ab40d04d805655aab1deee08ba";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
+
+  
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  
+  <header class="site-header">
+    <div class="site-logo">
+      <a href="/"><img src="../../_static/images/PP_w.png"></a>
+    </div>
+    <div class="site-nav-links">
+      <div class="site-menu">
+        <a class="fork-on-github" href="https://github.com/PaddlePaddle/Paddle" target="_blank"><i class="fa fa-github"></i>Fork me on Github</a>
+        <div class="language-switcher dropdown">
+          <a type="button" data-toggle="dropdown">
+            <span>English</span>
+            <i class="fa fa-angle-up"></i>
+            <i class="fa fa-angle-down"></i>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="/doc_cn">中文</a></li>
+            <li><a href="/doc">English</a></li>
+          </ul>
+        </div>
+        <ul class="site-page-links">
+          <li><a href="/">Home</a></li>
+        </ul>
+      </div>
+      <div class="doc-module">
+        
+        <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getstarted/index_en.html">GET STARTED</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index_en.html">HOW TO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index_en.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mobile/index_en.html">MOBILE</a></li>
+</ul>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>        
+      </div>
+    </div>
+  </header>
+  
+  <div class="main-content-wrap">
+
+    
+    <nav class="doc-menu-vertical" role="navigation">
+        
+          
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getstarted/index_en.html">GET STARTED</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getstarted/build_and_install/index_en.html">Install and Build</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../getstarted/build_and_install/pip_install_en.html">Install Using pip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../getstarted/build_and_install/docker_install_en.html">Run in Docker Containers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="build_en.html">Build using Docker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../getstarted/build_and_install/build_from_source_en.html">Build from Sources</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../index_en.html">HOW TO</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../usage/cmd_parameter/index_en.html">Set Command-line Parameters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../usage/cmd_parameter/use_case_en.html">Use Case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../usage/cmd_parameter/arguments_en.html">Argument Outline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../usage/cmd_parameter/detail_introduction_en.html">Detail Description</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/cluster/cluster_train_en.html">PaddlePaddle Distributed Training</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/k8s/k8s_en.html">Paddle On Kubernetes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/k8s/k8s_aws_en.html">Distributed PaddlePaddle Training on AWS with Kubernetes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="new_layer_en.html">Write New Layers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contribute_to_paddle_en.html">Contribute Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="write_docs_en.html">Contribute Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deep_model/rnn/index_en.html">RNN Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../deep_model/rnn/rnn_config_en.html">RNN Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../optimization/gpu_profiling_en.html">Tune GPU Performance</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index_en.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/v2/model_configs.html">Model Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/activation.html">Activation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/layer.html">Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/evaluators.html">Evaluators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/optimizer.html">Optimizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/pooling.html">Pooling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/networks.html">Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/config/attr.html">Parameter Attribute</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/v2/data.html">Data Reader Interface and DataSets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/data/data_reader.html">Data Reader Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/data/image.html">Image Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/data/dataset.html">Dataset</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/v2/run_logic.html">Training and Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/v2/fluid.html">Fluid</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/layers.html">Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/data_feeder.html">DataFeeder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/executor.html">Executor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/initializer.html">Initializer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/evaluator.html">Evaluator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/nets.html">Nets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/optimizer.html">Optimizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/param_attr.html">ParamAttr</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/profiler.html">Profiler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/v2/fluid/regularizer.html">Regularizer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../mobile/index_en.html">MOBILE</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../mobile/cross_compiling_for_android_en.html">Build PaddlePaddle for Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mobile/cross_compiling_for_raspberry_en.html">Build PaddlePaddle for Raspberry Pi</a></li>
+</ul>
+</li>
+</ul>
+
+        
+    </nav>
+    
+    <section class="doc-content-wrap">
+
+      
+
+ 
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+      
+    <li>How to use Eigen in Paddle</li>
+  </ul>
+</div>
+      
+      <div class="wy-nav-content" id="doc-content">
+        <div class="rst-content">
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="how-to-use-eigen-in-paddle">
+<span id="how-to-use-eigen-in-paddle"></span><h1>How to use Eigen in Paddle<a class="headerlink" href="#how-to-use-eigen-in-paddle" title="Permalink to this headline">¶</a></h1>
+<p>Essentially, a neural network is a compute graph. T data needed for the computation is stored in <code class="docutils literal"><span class="pre">Tensor</span></code>s and its computation procedure is described by <code class="docutils literal"><span class="pre">Operator</span></code>s. An <code class="docutils literal"><span class="pre">Operator</span></code> calls the <code class="docutils literal"><span class="pre">Compute</span></code> interface in its corresponding <code class="docutils literal"><span class="pre">OpKernel</span></code> and operates on the <code class="docutils literal"><span class="pre">Tensor</span></code>.</p>
+<div class="section" id="eigen-tensor-module">
+<span id="eigen-tensor-module"></span><h2>Eigen Tensor Module<a class="headerlink" href="#eigen-tensor-module" title="Permalink to this headline">¶</a></h2>
+<p>The Eigen Tensor module supports powerful element-wise computation. In addition, a piece of code written using it can be run on both the CPU and the GPU.</p>
+<p>Note that Eigen Tensor is still being actively developed, so its tests are not completely covered and its documentation may be sparse.</p>
+<p>For details on Eigen Tensor module, please see <a class="reference external" href="https://github.com/RLovelett/eigen/blob/master/unsupported/Eigen/CXX11/src/Tensor/README.md">doc 1</a> and <a class="reference external" href="https://bitbucket.org/eigen/eigen/src/default/unsupported/Eigen/CXX11/src/Tensor/README.md">doc 2</a>.</p>
+</div>
+<div class="section" id="paddle-framework-tensor">
+<span id="paddle-framework-tensor"></span><h2>paddle::framework::Tensor<a class="headerlink" href="#paddle-framework-tensor" title="Permalink to this headline">¶</a></h2>
+<p>Paddle Tensor&#8217;s is defined in the framework directory with the following interface:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Tensor</span> <span class="p">{</span>
+ <span class="k">public</span><span class="o">:</span>
+  <span class="cm">/*! Return a pointer to mutable memory block. */</span>
+  <span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+  <span class="kr">inline</span> <span class="n">T</span><span class="o">*</span> <span class="n">data</span><span class="p">();</span>
+
+  <span class="cm">/**</span>
+<span class="cm">   * @brief   Return a pointer to mutable memory block.</span>
+<span class="cm">   * @note    If not exist, then allocation.</span>
+<span class="cm">   */</span>
+  <span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+  <span class="kr">inline</span> <span class="n">T</span><span class="o">*</span> <span class="n">mutable_data</span><span class="p">(</span><span class="n">platform</span><span class="o">::</span><span class="n">Place</span> <span class="n">place</span><span class="p">);</span>
+
+  <span class="cm">/**</span>
+<span class="cm">   * @brief     Return a pointer to mutable memory block.</span>
+<span class="cm">   *</span>
+<span class="cm">   * @param[in] dims    The dimensions of the memory block.</span>
+<span class="cm">   * @param[in] place   The place of the memory block.</span>
+<span class="cm">   *</span>
+<span class="cm">   * @note      If not exist, then allocation.</span>
+<span class="cm">   */</span>
+  <span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+  <span class="kr">inline</span> <span class="n">T</span><span class="o">*</span> <span class="n">mutable_data</span><span class="p">(</span><span class="n">DDim</span> <span class="n">dims</span><span class="p">,</span> <span class="n">platform</span><span class="o">::</span><span class="n">Place</span> <span class="n">place</span><span class="p">);</span>
+
+  <span class="cm">/*! Resize the dimensions of the memory block. */</span>
+  <span class="kr">inline</span> <span class="n">Tensor</span><span class="o">&amp;</span> <span class="n">Resize</span><span class="p">(</span><span class="k">const</span> <span class="n">DDim</span><span class="o">&amp;</span> <span class="n">dims</span><span class="p">);</span>
+
+  <span class="cm">/*! Return the dimensions of the memory block. */</span>
+  <span class="kr">inline</span> <span class="k">const</span> <span class="n">DDim</span><span class="o">&amp;</span> <span class="n">dims</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+ <span class="k">private</span><span class="o">:</span>
+  <span class="cm">/*! holds the memory block if allocated. */</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">Placeholder</span><span class="o">&gt;</span> <span class="n">holder_</span><span class="p">;</span>
+
+  <span class="cm">/*! points to dimensions of memory block. */</span>
+  <span class="n">DDim</span> <span class="n">dim_</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">Placeholder</span></code> is used to delay memory allocation; that is, we can first define a tensor, using <code class="docutils literal"><span class="pre">Resize</span></code> to configure its shape, and then call <code class="docutils literal"><span class="pre">mutuable_data</span></code> to allocate the actual memory.</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="n">paddle</span><span class="o">::</span><span class="n">framework</span><span class="o">::</span><span class="n">Tensor</span> <span class="n">t</span><span class="p">;</span>
+<span class="n">paddle</span><span class="o">::</span><span class="n">platform</span><span class="o">::</span><span class="n">CPUPlace</span> <span class="n">place</span><span class="p">;</span>
+<span class="c1">// set size first</span>
+<span class="n">t</span><span class="p">.</span><span class="n">Resize</span><span class="p">({</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">});</span>
+<span class="c1">// allocate memory on CPU later</span>
+<span class="n">t</span><span class="p">.</span><span class="n">mutable_data</span><span class="p">(</span><span class="n">place</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="paddle-framework-tensor-usage">
+<span id="paddle-framework-tensor-usage"></span><h2>paddle::framework::Tensor Usage<a class="headerlink" href="#paddle-framework-tensor-usage" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">AddOp</span></code> demonstrates Tensor&#8217;s usage.</p>
+<ul class="simple">
+<li>InferShape</li>
+</ul>
+<p>When computing a neural network&#8217;s compute graph, first call every <code class="docutils literal"><span class="pre">Operator</span></code>&#8216;s <code class="docutils literal"><span class="pre">InferShape</span></code> method, and use <code class="docutils literal"><span class="pre">Resize</span></code> to configure the size of the output tensor.</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">InferShape</span><span class="p">(</span><span class="k">const</span> <span class="n">framework</span><span class="o">::</span><span class="n">InferShapeContext</span> <span class="o">&amp;</span><span class="n">ctx</span><span class="p">)</span> <span class="k">const</span> <span class="k">override</span> <span class="p">{</span>
+  <span class="n">PADDLE_ENFORCE_EQ</span><span class="p">(</span><span class="n">ctx</span><span class="p">.</span><span class="n">Input</span><span class="o">&lt;</span><span class="n">Tensor</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;X&quot;</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">dims</span><span class="p">(),</span>
+                    <span class="n">ctx</span><span class="p">.</span><span class="n">Input</span><span class="o">&lt;</span><span class="n">Tensor</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;Y&quot;</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">dims</span><span class="p">(),</span>
+                    <span class="s">&quot;Two input of Add Op&#39;s dimension must be same.&quot;</span><span class="p">);</span>
+  <span class="n">ctx</span><span class="p">.</span><span class="n">Output</span><span class="o">&lt;</span><span class="n">Tensor</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;Out&quot;</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">Resize</span><span class="p">(</span><span class="n">ctx</span><span class="p">.</span><span class="n">Input</span><span class="o">&lt;</span><span class="n">Tensor</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;X&quot;</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">dims</span><span class="p">());</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>Run</li>
+</ul>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">Compute</span><span class="p">(</span><span class="k">const</span> <span class="n">framework</span><span class="o">::</span><span class="n">ExecutionContext</span><span class="o">&amp;</span> <span class="n">context</span><span class="p">)</span> <span class="k">const</span> <span class="k">override</span> <span class="p">{</span>
+  <span class="k">auto</span><span class="o">*</span> <span class="n">input0</span> <span class="o">=</span> <span class="n">context</span><span class="p">.</span><span class="n">Input</span><span class="o">&lt;</span><span class="n">Tensor</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;X&quot;</span><span class="p">);</span>
+  <span class="k">auto</span><span class="o">*</span> <span class="n">input1</span> <span class="o">=</span> <span class="n">context</span><span class="p">.</span><span class="n">Input</span><span class="o">&lt;</span><span class="n">Tensor</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;Y&quot;</span><span class="p">);</span>
+  <span class="k">auto</span><span class="o">*</span> <span class="n">output</span> <span class="o">=</span> <span class="n">context</span><span class="p">.</span><span class="n">Output</span><span class="o">&lt;</span><span class="n">Tensor</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;Out&quot;</span><span class="p">);</span>
+
+  <span class="n">output</span><span class="o">-&gt;</span><span class="n">mutable_data</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">context</span><span class="p">.</span><span class="n">GetPlace</span><span class="p">());</span>
+
+  <span class="k">auto</span> <span class="n">x</span> <span class="o">=</span> <span class="n">EigenVector</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">Flatten</span><span class="p">(</span><span class="o">*</span><span class="n">input0</span><span class="p">);</span>
+  <span class="k">auto</span> <span class="n">y</span> <span class="o">=</span> <span class="n">EigenVector</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">Flatten</span><span class="p">(</span><span class="o">*</span><span class="n">input1</span><span class="p">);</span>
+  <span class="k">auto</span> <span class="n">z</span> <span class="o">=</span> <span class="n">EigenVector</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">Flatten</span><span class="p">(</span><span class="o">*</span><span class="n">output</span><span class="p">);</span>
+
+  <span class="k">auto</span> <span class="n">place</span> <span class="o">=</span> <span class="n">context</span><span class="p">.</span><span class="n">GetEigenDevice</span><span class="o">&lt;</span><span class="n">Place</span><span class="o">&gt;</span><span class="p">();</span>
+
+  <span class="n">z</span><span class="p">.</span><span class="n">device</span><span class="p">(</span><span class="n">place</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="paddle-framework-tensoreigentensor">
+<span id="paddle-framework-tensoreigentensor"></span><h2>paddle::framework::Tensor到EigenTensor的转换<a class="headerlink" href="#paddle-framework-tensoreigentensor" title="Permalink to this headline">¶</a></h2>
+<p>As shown above, in actual computation, we need to transform the input and output <code class="docutils literal"><span class="pre">Tensor</span></code>s into formats Eigen supports. We show some functions in <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/framework/eigen.h">eigen.h</a> to implement the transformation from <code class="docutils literal"><span class="pre">paddle::framework::Tensor</span></code>to <code class="docutils literal"><span class="pre">EigenTensor/EigenMatrix/EigenVector/EigenScalar</span></code>.</p>
+<p>Using EigenTensor as an example:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="n">Tensor</span> <span class="n">t</span><span class="p">;</span>
+<span class="kt">float</span><span class="o">*</span> <span class="n">p</span> <span class="o">=</span> <span class="n">t</span><span class="p">.</span><span class="n">mutable_data</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">make_ddim</span><span class="p">({</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">}),</span> <span class="n">platform</span><span class="o">::</span><span class="n">CPUPlace</span><span class="p">());</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">3</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">EigenTensor</span><span class="o">&lt;</span><span class="kt">float</span><span class="p">,</span> <span class="mi">3</span><span class="o">&gt;::</span><span class="n">Type</span> <span class="n">et</span> <span class="o">=</span> <span class="n">EigenTensor</span><span class="o">&lt;</span><span class="kt">float</span><span class="p">,</span> <span class="mi">3</span><span class="o">&gt;::</span><span class="n">From</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">From</span></code> is an interfacing method provided by the EigenTensor template, which implements the transformation from a <code class="docutils literal"><span class="pre">paddle::framework::Tensor</span></code> object to an EigenTensor. Since <code class="docutils literal"><span class="pre">rank</span></code> is a template parameter, it needs to be explicitly specified at the time of the transformation.</p>
+<p>In Eigen, tensors with different ranks are different types, with <code class="docutils literal"><span class="pre">Vector</span></code> bring a rank-1 instance. Note that <code class="docutils literal"><span class="pre">EigenVector&lt;T&gt;::From</span></code> uses a transformation from an 1-dimensional Paddle tensor to a 1-dimensional Eigen tensor while <code class="docutils literal"><span class="pre">EigenVector&lt;T&gt;::Flatten</span></code> reshapes a paddle tensor and flattens it into a 1-dimensional Eigen tensor. Both resulting tensors are still typed EigenVector.</p>
+<p>For more transformations, see the <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/framework/eigen_test.cc">unit tests</a> in the <code class="docutils literal"><span class="pre">eigen_test.cc</span></code> file.</p>
+</div>
+<div class="section" id="implementing-computation">
+<span id="implementing-computation"></span><h2>Implementing Computation<a class="headerlink" href="#implementing-computation" title="Permalink to this headline">¶</a></h2>
+<p>While computing, the device interface is needed from the EigenTensors on the left hand side of the assignments. Note that the computation between EigenTensors only changes the data originally inthe Tensor and does not change all the shape information associated with the Tensor.</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="k">auto</span> <span class="n">x</span> <span class="o">=</span> <span class="n">EigenVector</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">Flatten</span><span class="p">(</span><span class="o">*</span><span class="n">input0</span><span class="p">);</span>
+<span class="k">auto</span> <span class="n">y</span> <span class="o">=</span> <span class="n">EigenVector</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">Flatten</span><span class="p">(</span><span class="o">*</span><span class="n">input1</span><span class="p">);</span>
+<span class="k">auto</span> <span class="n">z</span> <span class="o">=</span> <span class="n">EigenVector</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">Flatten</span><span class="p">(</span><span class="o">*</span><span class="n">output</span><span class="p">);</span>
+<span class="k">auto</span> <span class="n">place</span> <span class="o">=</span> <span class="n">context</span><span class="p">.</span><span class="n">GetEigenDevice</span><span class="o">&lt;</span><span class="n">Place</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="n">z</span><span class="p">.</span><span class="n">device</span><span class="p">(</span><span class="n">place</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>In this code segment, input0/input1/output can be Tensors of arbitrary dimension. We are calling Flatten from EigenVector, transforming a tensor of any dimension into a 1-dimensional EigenVector. After completing computation, input0/input1/output will retain the same shape information, and they can be resized using the <code class="docutils literal"><span class="pre">Resize</span></code> interface.</p>
+<p>Because the Eigen Tensor module is under-documented, please refer to <code class="docutils literal"><span class="pre">OpKernel</span></code>&#8216;s computation code in TensorFlow&#8217;s <a class="reference external" href="https://github.com/tensorflow/tensorflow/tree/master/tensorflow/core/kernels">kernel module documentation</a>.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, PaddlePaddle developers.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: ".txt",
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+       
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+  
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/js/perfect-scrollbar.jquery.min.js"></script>
+  <script src="../../_static/js/paddle_doc_init.js"></script> 
+
+</body>
+</html>

@@ -35,7 +35,7 @@
     <link rel="top" title="PaddlePaddle  documentation" href="../../../index.html"/>
         <link rel="up" title="Model Configuration" href="../model_configs.html"/>
         <link rel="next" title="Pooling" href="pooling.html"/>
-        <link rel="prev" title="Layers" href="layer.html"/> 
+        <link rel="prev" title="Evaluators" href="evaluators.html"/> 
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/css/perfect-scrollbar.min.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/css/override.css" type="text/css" />
@@ -65,7 +65,7 @@
     </div>
     <div class="site-nav-links">
       <div class="site-menu">
-        <a class="fork-on-github" href="https://github.com/PaddlePaddle/Paddle" target="_blank"><i class="fa fa-github"></i>Folk me on Github</a>
+        <a class="fork-on-github" href="https://github.com/PaddlePaddle/Paddle" target="_blank"><i class="fa fa-github"></i>Fork me on Github</a>
         <div class="language-switcher dropdown">
           <a type="button" data-toggle="dropdown">
             <span>English</span>
@@ -87,7 +87,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../getstarted/index_en.html">GET STARTED</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../howto/index_en.html">HOW TO</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../index_en.html">API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../about/index_en.html">ABOUT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mobile/index_en.html">MOBILE</a></li>
 </ul>
 
         
@@ -111,9 +111,10 @@
           <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../getstarted/index_en.html">GET STARTED</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../getstarted/build_and_install/index_en.html">Install and Build</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../getstarted/build_and_install/docker_install_en.html">PaddlePaddle in Docker Containers</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../getstarted/build_and_install/ubuntu_install_en.html">Debian Package installation guide</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../getstarted/build_and_install/build_from_source_en.html">Installing from Sources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../getstarted/build_and_install/pip_install_en.html">Install Using pip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../getstarted/build_and_install/docker_install_en.html">Run in Docker Containers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../howto/dev/build_en.html">Build using Docker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../getstarted/build_and_install/build_from_source_en.html">Build from Sources</a></li>
 </ul>
 </li>
 </ul>
@@ -125,12 +126,16 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../howto/usage/cmd_parameter/detail_introduction_en.html">Detail Description</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../../howto/usage/cluster/cluster_train_en.html">Run Distributed Training</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../howto/usage/cluster/cluster_train_en.html">PaddlePaddle Distributed Training</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../howto/usage/k8s/k8s_en.html">Paddle On Kubernetes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../howto/usage/k8s/k8s_aws_en.html">Distributed PaddlePaddle Training on AWS with Kubernetes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../howto/dev/new_layer_en.html">Write New Layers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../howto/dev/contribute_to_paddle_en.html">Contribute Code</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../howto/deep_model/rnn/index_en.html">RNN Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../howto/dev/write_docs_en.html">Contribute Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../howto/deep_model/rnn/index_en.html">RNN Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../howto/deep_model/rnn/rnn_config_en.html">RNN Configuration</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../../howto/optimization/gpu_profiling_en.html">Tune GPU Performance</a></li>
 </ul>
 </li>
@@ -138,17 +143,40 @@
 <li class="toctree-l2 current"><a class="reference internal" href="../model_configs.html">Model Configuration</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="activation.html">Activation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="layer.html">Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="evaluators.html">Evaluators</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Optimizer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pooling.html">Pooling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="networks.html">Networks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="attr.html">Parameter Attribute</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../data.html">Data Reader Interface and DataSets</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../run_logic.html">Training and Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data.html">Data Reader Interface and DataSets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../data/data_reader.html">Data Reader Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../data/image.html">Image Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../data/dataset.html">Dataset</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../about/index_en.html">ABOUT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../run_logic.html">Training and Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fluid.html">Fluid</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../fluid/layers.html">Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fluid/data_feeder.html">DataFeeder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fluid/executor.html">Executor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fluid/initializer.html">Initializer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fluid/evaluator.html">Evaluator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fluid/nets.html">Nets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fluid/optimizer.html">Optimizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fluid/param_attr.html">ParamAttr</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fluid/profiler.html">Profiler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fluid/regularizer.html">Regularizer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mobile/index_en.html">MOBILE</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../mobile/cross_compiling_for_android_en.html">Build PaddlePaddle for Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../mobile/cross_compiling_for_raspberry_en.html">Build PaddlePaddle for Raspberry Pi</a></li>
+</ul>
+</li>
 </ul>
 
         
@@ -189,23 +217,36 @@
 <dl class="class">
 <dt>
 <em class="property">class </em><code class="descclassname">paddle.v2.optimizer.</code><code class="descname">Momentum</code><span class="sig-paren">(</span><em>momentum=None</em>, <em>sparse=False</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
-<dd><p>SGD Optimizer.</p>
-<p>SGD is an optimization method, trying to find a neural network that
-minimize the &#8220;cost/error&#8221; of it by iteration. In paddle&#8217;s implementation
-SGD Optimizer is synchronized, which means all gradients will be wait to
-calculate and reduced into one gradient, then do optimize operation.</p>
-<p>The neural network consider the learning problem of minimizing an objective
-function, that has the form of a sum</p>
+<dd><p>Momentum Optimizer.</p>
+<p>When sparse=False, the momentum update formula is as follows:</p>
 <div class="math">
-\[Q(w) = \sum_{i}^{n} Q_i(w)\]</div>
-<p>The value of function Q sometimes is the cost of neural network (Mean
-Square Error between prediction and label for example). The function Q is
-parametrised by w, the weight/bias of neural network. And weights is what to
-be learned. The i is the i-th observation in (trainning) data.</p>
-<p>So, the SGD method will optimize the weight by</p>
+\[\begin{split}v_{t} &amp;= k * v_{t-1} - \gamma_t (g_{t} + \lambda w_{t-1}) \\
+w_{t} &amp;= w_{t-1} + v_{t} \\\end{split}\]</div>
+<p>where, <span class="math">\(k\)</span> is momentum, <span class="math">\(\lambda\)</span> is decay rate,
+<span class="math">\(\gamma_t\)</span> is learning rate at the t&#8217;th iteration.
+<span class="math">\(w_{t}\)</span> is the weight as the t&#8217;th iteration.
+And the <span class="math">\(v_{t}\)</span> is the history momentum variable.</p>
+<p>When sparse=True, the update scheme:</p>
 <div class="math">
-\[w = w - \eta \nabla Q(w) = w - \eta \sum_{i}^{n} \nabla Q_i(w)\]</div>
-<p>where <span class="math">\(\eta\)</span> is learning rate. And <span class="math">\(n\)</span> is batch size.</p>
+\[\begin{split}\alpha_t &amp;= \alpha_{t-1} / k \\
+\beta_t &amp;= \beta_{t-1} / (1 + \lambda \gamma_t) \\
+u_t &amp;= u_{t-1} - \alpha_t \gamma_t g_t \\
+v_t &amp;= v_{t-1} + \tau_{t-1} \alpha_t \gamma_t g_t \\
+\tau_t &amp;= \tau_{t-1} + \beta_t / \alpha_t\end{split}\]</div>
+<p>where <span class="math">\(k\)</span> is momentum, <span class="math">\(\lambda\)</span> is decay rate,
+<span class="math">\(\gamma_t\)</span> is learning rate at the t&#8217;th iteration.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>momentum</strong> (<em>float</em>) &#8211; the momentum factor.</li>
+<li><strong>sparse</strong> (<em>bool</em>) &#8211; with sparse support or not, False by default.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>
@@ -219,7 +260,7 @@ The details of please refer <a class="reference external" href="https://arxiv.or
 <div class="math">
 \[\begin{split}m(w, t) &amp; = \beta_1 m(w, t-1) + (1 - \beta_1) \nabla Q_i(w) \\
 v(w, t) &amp; = \beta_2 v(w, t-1) + (1 - \beta_2)(\nabla Q_i(w)) ^2 \\
-w &amp; = w - \frac{\eta}{\sqrt{v(w,t) + \epsilon}}\end{split}\]</div>
+w &amp; = w - \frac{\eta m(w, t)}{\sqrt{v(w,t) + \epsilon}}\end{split}\]</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -367,7 +408,7 @@ w &amp; = w - \frac{\eta} {\sqrt{v(w,t) + \epsilon}} \nabla Q_{i}(w)\end{split}\
         <a href="pooling.html" class="btn btn-neutral float-right" title="Pooling" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="layer.html" class="btn btn-neutral" title="Layers" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="evaluators.html" class="btn btn-neutral" title="Evaluators" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

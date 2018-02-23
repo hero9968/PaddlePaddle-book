@@ -1,146 +1,157 @@
 # Contribute Code
 
-We sincerely appreciate your contributions. You can use fork and pull request
-workflow to merge your code.
+We sincerely appreciate your contribution.  This document explains our workflow and work style.
 
-## Code Requirements
-- Your code must be fully documented by
-  [doxygen](http://www.stack.nl/~dimitri/doxygen/) style.
-- Make sure the compiler option WITH\_STYLE\_CHECK is on and the compiler
-  passes the code style check.
-- All code must have unit test.
-- Pass all unit tests.
+## Workflow
 
-The following tutorial guides you into submitting your contibution.
+PaddlePaddle uses this [Git branching model](http://nvie.com/posts/a-successful-git-branching-model/).  The following steps guide usual contributions.
 
-## [Creating a Fork](https://help.github.com/articles/fork-a-repo/)
+1. Fork
 
-Just head over to the GitHub page and click the "Fork" button.
-It's just that simple.
+   Our development community has been growing fastly; it doesn't make sense for everyone to write into the official repo.  So, please file Pull Requests from your fork.  To make a fork,  just head over to the GitHub page and click the ["Fork" button](https://help.github.com/articles/fork-a-repo/).
 
-## Clone
+1. Clone
 
-Paddle is currently using [git-flow branching model](http://nvie.com/posts/a-successful-git-branching-model/).
-The **develop** is the main branch, and other user's branches are feature branches.
+   To make a copy of your fork to your local computers, please run
 
-Once you've created a fork, you can use your favorite git client to clone your
-repo or just head straight to the command line:
+   ```bash
+   git clone https://github.com/your-github-account/paddle
+   cd paddle
+   ```
 
-```shell
-# Clone your fork to your local machine
-git clone --branch develop https://github.com/USERNAME/Paddle.git
+1. Create the local feature branch
+
+   For daily works like adding a new feature or fixing a bug, please open your feature branch before coding:
+
+   ```bash
+   git checkout -b my-cool-stuff
+   ```
+
+1. Commit
+
+   Before issuing your first `git commit` command, please install [`pre-commit`](http://pre-commit.com/) by running the following commands:
+
+   ```bash
+   pip install pre-commit
+   pre-commit install
+   ```
+
+   Our pre-commit configuration requires clang-format 3.8 for auto-formating C/C++ code and yapf for Python.
+
+   Once installed, `pre-commit` checks the style of code and documentation in every commit.  We will see something like the following when you run `git commit`:
+
+   ```
+   ➜  git commit
+   CRLF end-lines remover...............................(no files to check)Skipped
+   yapf.................................................(no files to check)Skipped
+   Check for added large files..............................................Passed
+   Check for merge conflicts................................................Passed
+   Check for broken symlinks................................................Passed
+   Detect Private Key...................................(no files to check)Skipped
+   Fix End of Files.....................................(no files to check)Skipped
+   clang-formater.......................................(no files to check)Skipped
+   [my-cool-stuff c703c041] add test file
+    1 file changed, 0 insertions(+), 0 deletions(-)
+    create mode 100644 233
+   ```
+
+1. Build and test
+
+   Users can build PaddlePaddle natively on Linux and Mac OS X.  But to unify the building environment and to make it easy for debugging, the recommended way is [using Docker](https://github.com/PaddlePaddle/Paddle/blob/develop/doc/howto/dev/build_en.md).
+
+1. Keep pulling
+
+   An experienced Git user pulls from the official repo often -- daily or even hourly, so they notice conflicts with others work early, and it's easier to resolve smaller conflicts.
+
+   ```bash
+   git remote add upstream https://github.com/PaddlePaddle/Paddle
+   git pull upstream develop
+   ```
+
+1. Push and file a pull request
+
+   You can "push" your local work into your forked repo:
+
+   ```bash
+   git push origin my-cool-stuff
+   ```
+
+   The push allows you to create a pull request, requesting owners of this [official repo](https://github.com/PaddlePaddle/Paddle) to pull your change into the official one.
+
+   To create a pull request, please follow [these steps](https://help.github.com/articles/creating-a-pull-request/).
+
+   If your change is for fixing an issue, please write ["Fixes <issue-URL>"](https://help.github.com/articles/closing-issues-using-keywords/) in the description section of your pull request.  Github would close the issue when the owners merge your pull request.
+
+   Please remember to specify some reviewers for your pull request.  If you don't know who are the right ones, please follow Github's recommendation.
+
+
+1. Delete local and remote branches
+
+   To keep your local workspace and your fork clean, you might want to remove merged branches:
+
+   ```bash
+   git push origin :my-cool-stuff
+   git checkout develop
+   git pull upstream develop
+   git branch -d my-cool-stuff
+   ```
+
+### Code Review
+
+-  Please feel free to ping your reviewers by sending them the URL of your pull request via IM or email.  Please do this after your pull request passes the CI.
+
+- Please answer reviewers' every comment.  If you are to follow the comment, please write "Done"; please give a reason otherwise.
+
+- If you don't want your reviewers to get overwhelmed by email notifications, you might reply their comments by [in a batch](https://help.github.com/articles/reviewing-proposed-changes-in-a-pull-request/).
+
+- Reduce the unnecessary commits.  Some developers commit often.  It is recommended to append a sequence of small changes into one commit by running `git commit --amend` instead of `git commit`.
+
+
+## Coding Standard
+
+### Code Style
+
+Our C/C++ code follows the [Google style guide](http://google.github.io/styleguide/cppguide.html).
+
+Our Python code follows the [PEP8 style guide](https://www.python.org/dev/peps/pep-0008/).
+
+Our build process helps to check the code style.  In [`build.sh`](https://github.com/PaddlePaddle/Paddle/blob/b84e8226514b8bb4405c3c28e54aa5077193d179/paddle/scripts/docker/build.sh#L42), the entry point of our [builder Docker image](https://github.com/PaddlePaddle/Paddle/blob/b84e8226514b8bb4405c3c28e54aa5077193d179/Dockerfile#L88), the CMake argument `WITH_STYLE_CHECK` is set to `ON` by default.  This flag is on
+
+Please install pre-commit, which automatically reformat the changes to C/C++ and Python code whenever we run `git commit`.  To check the whole codebase, we can run the command `pre-commit run -a`, as in the [`check_style.sh` file](https://github.com/PaddlePaddle/Paddle/blob/b84e8226514b8bb4405c3c28e54aa5077193d179/paddle/scripts/travis/check_style.sh#L30), which is invoked by [our Travis CI configuration](https://github.com/PaddlePaddle/Paddle/blob/b84e8226514b8bb4405c3c28e54aa5077193d179/.travis.yml#L43).
+
+### Unit Tests
+
+Please remember to add related unit tests.
+
+- For C/C++ code, please follow [`google-test` Primer](https://github.com/google/googletest/blob/master/googletest/docs/Primer.md).
+
+- For Python code, please use [Python's standard `unittest` package](http://pythontesting.net/framework/unittest/unittest-introduction/).
+
+
+### Writing Logs
+
+We use [glog](https://github.com/google/glog) for logging in our C/C++ code.
+
+For general information, please use `LOG`.  For debug information, please use [`VLOG`](http://htmlpreview.github.io/?https://github.com/google/glog/blob/master/doc/glog.html#verbose).  The reason is at [here](https://groups.google.com/a/chromium.org/d/msg/chromium-dev/3NDNd1KzXeY/AZKMMx37fdQJ).
+
+`VLOG` requires a *verbose level* parameter.  For example:
+
+```c++
+VLOG(3) << "Operator FC is taking " << num_inputs << "inputs."
 ```
-If your repository doesn't contain **develop** branch, just create it by your own.
 
-```shell
-git clone https://github.com/USERNAME/Paddle.git Paddle
-cd Paddle
-git checkout -b develop  # create develop branch.
-git remote add upstream https://github.com/PaddlePaddle/Paddle.git  # add upstream to baidu/Paddle
-git pull upstream develop  # update to upstream
+When we run a PaddlePaddle application or test, we can specify a verbose threshold.  For example:
+
+```bash
+GLOG_vmodule=buddy_allocator=2 \
+GLOG_v=10 \
+python \
+../python/paddle/v2/framework/tests/test_recurrent_op.py
 ```
 
-Then you can start to develop by making a local developement branch
+This will enable VLOG messages generated by `buddy_allocator.{h,cc}` and in the verbose range of 0 to 3, so you will see above example VLOG message, which is in level 3.  This suggests that we output overall messages in lower verbose levels, so they display with higher probability.  When coding C++, please follow the verbose level convention as follows:
 
-```shell
-git checkout -b MY_COOL_STUFF_BRANCH
-```
-
-## Using `pre-commit` hook
-
-Paddle developers use [pre-commit](http://pre-commit.com/) tool to manage git
-pre-commit hooks. It can help us format source codes (cpp, python), check some
-basic thing before commit (only one EOL for each file, do not add a huge file
-in git). `pre-commit` tests is a part of unit tests in Travis-CI now, every
-PR doesn't fit hook can not be merged into Paddle.
-
-To use [pre-commit](http://pre-commit.com/), you should install it by
-`pip install pre-commit`, and currently, Paddle uses `clang-format` to format
-c/cpp sources. Please make sure clang-format 3.8+ installed.
-
-Then just run `pre-commit install` in your Paddle clone directory. When you
-commit your code, the pre-commit hook will check the local code if there is
-anything not suitable to commit, and so on.
-
-## Commit
-
-Commit your changes by following command lines:
-
-```shell
-# show the working tree status
-git status
-# add modified files
-git add xx
-env EDITOR=vim git commit  # You can write your comments by vim/nano/emacs.
-```
-The first line of commit infomation is the title. The second and later lines
-are the details if any.
-
-## Keeping Fork Up to Date
-
-Before pull your request, you should sync your code from the latest PaddlePaddle.
-To do this, you'll need to add a remote at first:
-
-```shell
-# see the current configured remote repository
-git remote -v
-# add upstream repository
-git remote add upstream https://github.com/PaddlePaddle/Paddle.git
-# verify the new upstream
-git remote -v
-```
-
-Update your fork with the latest upstream changes:
-
-```shell
-git pull --rebase upstream develop
-```
-
-If there are no unique commits locally, git will simply perform a fast-forward.
-However, if you have been making changes (in the vast majority of cases you
-probably shouldn't be), you may have to deal with conflicts.
-
-Now, your local master branch is up-to-date with everything modified upstream.
-
-## Push to GitHub
-
-```shell
-# push to your repository in Github
-git push -u origin MY_COOL_STUFF_BRANCH  # create remote branch MY_COOL_STUFF_BRANCH to origin.
-```
-
-## Pull Request
-
-Go to the page for your fork on GitHub, select your development branch,
-and click the **pull request button**.
-
-## Update your pull request with the lastest version
-
-During the code review, your pull request may become stale because new commits in
-baidu/Paddle. GitHub allows autmotic update if there is no conflict. You can do this
-by clicking the "Update Branch" button in your pull request page. However, in the case
-of conflict, you need to do the update manually. You need to do the following on
-your local repository:
-```shell
-git checkout MY_COOL_STUFF_BRANCH
-git pull upstream develop
-# You may need to resolve the conflict according to the git prompt.
-# Make and test your code.
-git push origin MY_COOL_STUFF_BRANCH
-```
-Now your Pull Request is updated with the latest version.
-
-## Revise your pull request
-
-When you revise your pull request according to reviewer's comments, please use 'git commit' instead of 'git commit --amend' to commit your changes so that the reviewers can see the difference between the new pull requrest and the old pull request.
-
-The possible commands are
-
-```shell
-git checkout MY_COOL_STUFF_BRANCH
-git pull upstream develop   # update local to newest code base.
-# May be some conflicts will occured.
-# And develop your cool stuff
-env EDITOR=vim git commit  # add your revise log
-git push origin MY_COOL_STUFF_BRANCH
-```
+- verbose level 1: [framework](https://github.com/PaddlePaddle/Paddle/tree/develop/paddle/framework)
+- verbose level 3: [operators](https://github.com/PaddlePaddle/Paddle/tree/develop/paddle/operators)
+- verbose level 5: [memory](https://github.com/PaddlePaddle/Paddle/tree/develop/paddle/memory), [platform](https://github.com/PaddlePaddle/Paddle/tree/develop/paddle/platform)
+- verbose level 7: [math](https://github.com/PaddlePaddle/Paddle/tree/develop/paddle/math)
