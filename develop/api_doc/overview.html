@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>API Overview &mdash; PaddlePaddle  documentation</title>
+  <title>V2 API Overview &mdash; PaddlePaddle  documentation</title>
   
 
   
@@ -83,7 +83,7 @@
       <div class="doc-module">
         
         <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">API Overview</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">V2 API Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="v2/model_configs.html">Model Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="v2/data.html">Data Reader Interface and DataSets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="v2/run_logic.html">Training and Inference</a></li>
@@ -109,7 +109,7 @@
         
           
           <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">API Overview</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">V2 API Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="v2/model_configs.html">Model Configuration</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="v2/config/activation.html">Activation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="v2/config/layer.html">Layers</a></li>
@@ -161,7 +161,7 @@
 <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
       
-    <li>API Overview</li>
+    <li>V2 API Overview</li>
   </ul>
 </div>
       
@@ -170,9 +170,19 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="api-overview">
-<h1>API Overview<a class="headerlink" href="#api-overview" title="Permalink to this headline">¶</a></h1>
-<p>TBD</p>
+  <div class="section" id="v2-api-overview">
+<h1>V2 API Overview<a class="headerlink" href="#v2-api-overview" title="Permalink to this headline">¶</a></h1>
+<p>The PaddlePaddle V2 API is designed to provide a modern user interface for PaddlePaddle V1(the original layer-based platform of PaddlePaddle),
+it proposes some high-level concepts such as <a class="reference external" href="http://www.paddlepaddle.org/docs/develop/api/en/v2/config/layer.html">Layers</a> , <a class="reference external" href="http://www.paddlepaddle.org/docs/develop/api/en/v2/config/optimizer.html">Optimizer</a> , <a class="reference external" href="http://www.paddlepaddle.org/docs/develop/api/en/v2/config/evaluators.html">Evaluator</a>  and <a class="reference external" href="http://www.paddlepaddle.org/docs/develop/api/en/v2/data/data_reader.html">Data Reader</a> to make the model configuration more familiar to users.</p>
+<p>A model is composed of the computation described by a group of <cite>Layers</cite>, with <cite>Evaluator</cite> to define the error, <cite>Optimizer</cite> to update the parameters and <cite>Data Reader</cite> to feed in the data.</p>
+<p>We also provide the <a class="reference external" href="http://www.paddlepaddle.org/docs/develop/api/en/v2/run_logic.html">interface for Training and Inference</a> to help control the training and inference phrase,
+it has several easy to use methods</p>
+<ul class="simple">
+<li><cite>paddle.train</cite></li>
+<li><cite>paddle.test</cite></li>
+<li><cite>paddle.infer</cite></li>
+</ul>
+<p>to better expose the internal running details, different <a class="reference external" href="http://www.paddlepaddle.org/docs/develop/api/en/v2/run_logic.html#event">events</a> are available to users by writing some callbacks.</p>
 </div>
 
 
