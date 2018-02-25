@@ -178,7 +178,7 @@
 <h2>save_vars<a class="headerlink" href="#save-vars" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.io.</code><code class="descname">save_vars</code><span class="sig-paren">(</span><em>executor</em>, <em>dirname</em>, <em>main_program=None</em>, <em>vars=None</em>, <em>predicate=None</em>, <em>save_file_name=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.io.</code><code class="descname">save_vars</code><span class="sig-paren">(</span><em>executor</em>, <em>dirname</em>, <em>main_program=None</em>, <em>vars=None</em>, <em>predicate=None</em>, <em>save_file_name=None</em><span class="sig-paren">)</span></dt>
 <dd><p>Save variables to directory by executor.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -215,7 +215,7 @@ If it is None, save variables to separate files.</p>
 <h2>save_params<a class="headerlink" href="#save-params" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.io.</code><code class="descname">save_params</code><span class="sig-paren">(</span><em>executor</em>, <em>dirname</em>, <em>main_program=None</em>, <em>save_file_name=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.io.</code><code class="descname">save_params</code><span class="sig-paren">(</span><em>executor</em>, <em>dirname</em>, <em>main_program=None</em>, <em>save_file_name=None</em><span class="sig-paren">)</span></dt>
 <dd><p>Save all parameters to directory with executor.</p>
 </dd></dl>
 
@@ -224,7 +224,7 @@ If it is None, save variables to separate files.</p>
 <h2>save_persistables<a class="headerlink" href="#save-persistables" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.io.</code><code class="descname">save_persistables</code><span class="sig-paren">(</span><em>executor</em>, <em>dirname</em>, <em>main_program=None</em>, <em>save_file_name=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.io.</code><code class="descname">save_persistables</code><span class="sig-paren">(</span><em>executor</em>, <em>dirname</em>, <em>main_program=None</em>, <em>save_file_name=None</em><span class="sig-paren">)</span></dt>
 <dd><p>Save all persistables to directory with executor.</p>
 </dd></dl>
 
@@ -233,7 +233,7 @@ If it is None, save variables to separate files.</p>
 <h2>load_vars<a class="headerlink" href="#load-vars" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.io.</code><code class="descname">load_vars</code><span class="sig-paren">(</span><em>executor</em>, <em>dirname</em>, <em>main_program=None</em>, <em>vars=None</em>, <em>predicate=None</em>, <em>load_file_name=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.io.</code><code class="descname">load_vars</code><span class="sig-paren">(</span><em>executor</em>, <em>dirname</em>, <em>main_program=None</em>, <em>vars=None</em>, <em>predicate=None</em>, <em>load_file_name=None</em><span class="sig-paren">)</span></dt>
 <dd><p>Load variables from directory by executor.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -270,7 +270,7 @@ If it is None, load variables from separate files.</p>
 <h2>load_params<a class="headerlink" href="#load-params" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.io.</code><code class="descname">load_params</code><span class="sig-paren">(</span><em>executor</em>, <em>dirname</em>, <em>main_program=None</em>, <em>load_file_name=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.io.</code><code class="descname">load_params</code><span class="sig-paren">(</span><em>executor</em>, <em>dirname</em>, <em>main_program=None</em>, <em>load_file_name=None</em><span class="sig-paren">)</span></dt>
 <dd><p>load all parameters from directory by executor.</p>
 </dd></dl>
 
@@ -279,7 +279,7 @@ If it is None, load variables from separate files.</p>
 <h2>load_persistables<a class="headerlink" href="#load-persistables" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.io.</code><code class="descname">load_persistables</code><span class="sig-paren">(</span><em>executor</em>, <em>dirname</em>, <em>main_program=None</em>, <em>load_file_name=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.io.</code><code class="descname">load_persistables</code><span class="sig-paren">(</span><em>executor</em>, <em>dirname</em>, <em>main_program=None</em>, <em>load_file_name=None</em><span class="sig-paren">)</span></dt>
 <dd><p>load all persistables from directory by executor.</p>
 </dd></dl>
 
@@ -288,7 +288,7 @@ If it is None, load variables from separate files.</p>
 <h2>save_inference_model<a class="headerlink" href="#save-inference-model" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.io.</code><code class="descname">save_inference_model</code><span class="sig-paren">(</span><em>dirname</em>, <em>feeded_var_names</em>, <em>target_vars</em>, <em>executor</em>, <em>main_program=None</em>, <em>save_file_name=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.io.</code><code class="descname">save_inference_model</code><span class="sig-paren">(</span><em>dirname</em>, <em>feeded_var_names</em>, <em>target_vars</em>, <em>executor</em>, <em>main_program=None</em>, <em>save_file_name=None</em><span class="sig-paren">)</span></dt>
 <dd><p>Build a model especially for inference,
 and save it to directory by the executor.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -324,7 +324,7 @@ Default default_main_program().</li>
 <h2>load_inference_model<a class="headerlink" href="#load-inference-model" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.io.</code><code class="descname">load_inference_model</code><span class="sig-paren">(</span><em>dirname</em>, <em>executor</em>, <em>load_file_name=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.io.</code><code class="descname">load_inference_model</code><span class="sig-paren">(</span><em>dirname</em>, <em>executor</em>, <em>load_file_name=None</em><span class="sig-paren">)</span></dt>
 <dd><p>Load inference model from a directory</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -358,7 +358,7 @@ fetch_targets: Variables from which we can get inference results.</td>
 <h2>get_inference_program<a class="headerlink" href="#get-inference-program" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.io.</code><code class="descname">get_inference_program</code><span class="sig-paren">(</span><em>target_vars</em>, <em>main_program=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.io.</code><code class="descname">get_inference_program</code><span class="sig-paren">(</span><em>target_vars</em>, <em>main_program=None</em><span class="sig-paren">)</span></dt>
 <dd></dd></dl>
 
 </div>

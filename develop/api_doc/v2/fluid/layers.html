@@ -181,7 +181,7 @@
 <h3>split_lod_tensor<a class="headerlink" href="#split-lod-tensor" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">split_lod_tensor</code><span class="sig-paren">(</span><em>input</em>, <em>mask</em>, <em>level=0</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">split_lod_tensor</code><span class="sig-paren">(</span><em>input</em>, <em>mask</em>, <em>level=0</em><span class="sig-paren">)</span></dt>
 <dd><p><strong>split_lod_tensor</strong></p>
 <p>This function takes in an input that contains the complete lod information,
 and takes in a mask which is used to mask certain parts of the input.
@@ -226,7 +226,7 @@ Variable: The false branch of tensor as per the mask applied to input.</p>
 <h3>merge_lod_tensor<a class="headerlink" href="#merge-lod-tensor" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">merge_lod_tensor</code><span class="sig-paren">(</span><em>in_true</em>, <em>in_false</em>, <em>x</em>, <em>mask</em>, <em>level=0</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">merge_lod_tensor</code><span class="sig-paren">(</span><em>in_true</em>, <em>in_false</em>, <em>x</em>, <em>mask</em>, <em>level=0</em><span class="sig-paren">)</span></dt>
 <dd><p><strong>merge_lod_tensor</strong></p>
 <p>This function takes in an input <span class="math">\(x\)</span>, the True branch, the False
 branch and a binary <span class="math">\(mask\)</span>. Using this information, this function
@@ -275,7 +275,7 @@ lod information needed to construct the output.</li>
 <h3>BlockGuard<a class="headerlink" href="#blockguard" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
 <dt>
-<em class="property">class </em><code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">BlockGuard</code><span class="sig-paren">(</span><em>main_program</em><span class="sig-paren">)</span></dt>
+<em class="property">class </em><code class="descclassname">paddle.fluid.layers.</code><code class="descname">BlockGuard</code><span class="sig-paren">(</span><em>main_program</em><span class="sig-paren">)</span></dt>
 <dd><p>BlockGuard class.</p>
 <p>BlockGuard class is used to create a sub-block in a program by
 using the Python <cite>with</cite> keyword.</p>
@@ -286,7 +286,7 @@ using the Python <cite>with</cite> keyword.</p>
 <h3>BlockGuardWithCompletion<a class="headerlink" href="#blockguardwithcompletion" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
 <dt>
-<em class="property">class </em><code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">BlockGuardWithCompletion</code><span class="sig-paren">(</span><em>rnn</em><span class="sig-paren">)</span></dt>
+<em class="property">class </em><code class="descclassname">paddle.fluid.layers.</code><code class="descname">BlockGuardWithCompletion</code><span class="sig-paren">(</span><em>rnn</em><span class="sig-paren">)</span></dt>
 <dd><p>BlockGuardWithCompletion class.</p>
 <p>BlockGuardWithCompletion class is used to create an op with a block in a program.</p>
 </dd></dl>
@@ -296,7 +296,7 @@ using the Python <cite>with</cite> keyword.</p>
 <h3>StaticRNNMemoryLink<a class="headerlink" href="#staticrnnmemorylink" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
 <dt>
-<em class="property">class </em><code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">StaticRNNMemoryLink</code><span class="sig-paren">(</span><em>init</em>, <em>pre_mem</em>, <em>mem=None</em><span class="sig-paren">)</span></dt>
+<em class="property">class </em><code class="descclassname">paddle.fluid.layers.</code><code class="descname">StaticRNNMemoryLink</code><span class="sig-paren">(</span><em>init</em>, <em>pre_mem</em>, <em>mem=None</em><span class="sig-paren">)</span></dt>
 <dd><p>StaticRNNMemoryLink class.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -323,7 +323,7 @@ memory cells of a StaticRNN.</p>
 <h3>WhileGuard<a class="headerlink" href="#whileguard" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
 <dt>
-<em class="property">class </em><code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">WhileGuard</code><span class="sig-paren">(</span><em>while_op</em><span class="sig-paren">)</span></dt>
+<em class="property">class </em><code class="descclassname">paddle.fluid.layers.</code><code class="descname">WhileGuard</code><span class="sig-paren">(</span><em>while_op</em><span class="sig-paren">)</span></dt>
 <dd></dd></dl>
 
 </div>
@@ -331,7 +331,7 @@ memory cells of a StaticRNN.</p>
 <h3>While<a class="headerlink" href="#while" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
 <dt>
-<em class="property">class </em><code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">While</code><span class="sig-paren">(</span><em>cond</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
+<em class="property">class </em><code class="descclassname">paddle.fluid.layers.</code><code class="descname">While</code><span class="sig-paren">(</span><em>cond</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
 <dd></dd></dl>
 
 </div>
@@ -339,7 +339,7 @@ memory cells of a StaticRNN.</p>
 <h3>lod_rank_table<a class="headerlink" href="#lod-rank-table" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">lod_rank_table</code><span class="sig-paren">(</span><em>x</em>, <em>level=0</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">lod_rank_table</code><span class="sig-paren">(</span><em>x</em>, <em>level=0</em><span class="sig-paren">)</span></dt>
 <dd><p>LoD Rank Table Operator. Given an input variable <strong>x</strong> and a level number
 of LoD, this layer creates a LodRankTable object. A LoDRankTable object
 contains a list of bi-element tuples. Each tuple consists of an index and
@@ -402,7 +402,7 @@ table.</li>
 <h3>max_sequence_len<a class="headerlink" href="#max-sequence-len" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">max_sequence_len</code><span class="sig-paren">(</span><em>rank_table</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">max_sequence_len</code><span class="sig-paren">(</span><em>rank_table</em><span class="sig-paren">)</span></dt>
 <dd><p>Max Sequence Len Operator. Given a LoDRankTable object, this layer
 returns the max length of a batch of sequences. In fact, a LoDRankTable
 object contains a list of tuples(&lt;sequence index, sequence length&gt;) and
@@ -434,7 +434,7 @@ operator just returns the sequence length of the first tuple element.</p>
 <h3>topk<a class="headerlink" href="#topk" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">topk</code><span class="sig-paren">(</span><em>input</em>, <em>k</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">topk</code><span class="sig-paren">(</span><em>input</em>, <em>k</em><span class="sig-paren">)</span></dt>
 <dd><p><strong>topk</strong></p>
 <p>This function performs the operation that selects the k entries in the input
 vector and outputs their values and indices as vectors. Thus topk_out[j] is
@@ -478,7 +478,7 @@ the j-th largest entry in input, and its index is topk_indices[j]</p>
 <h3>lod_tensor_to_array<a class="headerlink" href="#lod-tensor-to-array" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">lod_tensor_to_array</code><span class="sig-paren">(</span><em>x</em>, <em>table</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">lod_tensor_to_array</code><span class="sig-paren">(</span><em>x</em>, <em>table</em><span class="sig-paren">)</span></dt>
 <dd><p>Convert a LOD_TENSOR to an LOD_TENSOR_ARRAY.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -518,7 +518,7 @@ descending order.</li>
 <h3>array_to_lod_tensor<a class="headerlink" href="#array-to-lod-tensor" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">array_to_lod_tensor</code><span class="sig-paren">(</span><em>x</em>, <em>table</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">array_to_lod_tensor</code><span class="sig-paren">(</span><em>x</em>, <em>table</em><span class="sig-paren">)</span></dt>
 <dd><p>Convert a LoD_Tensor_Aarry to an LoDTensor.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -559,7 +559,7 @@ descending order.</li>
 <h3>increment<a class="headerlink" href="#increment" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">increment</code><span class="sig-paren">(</span><em>x</em>, <em>value=1.0</em>, <em>in_place=True</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">increment</code><span class="sig-paren">(</span><em>x</em>, <em>value=1.0</em>, <em>in_place=True</em><span class="sig-paren">)</span></dt>
 <dd><p>This function performs an operation that increments each value in the
 input <span class="math">\(x\)</span> by an amount: <span class="math">\(value\)</span> as mentioned in the input
 parameter. This operation is performed in-place by default.</p>
@@ -599,7 +599,7 @@ parameter. This operation is performed in-place by default.</p>
 <h3>array_write<a class="headerlink" href="#array-write" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">array_write</code><span class="sig-paren">(</span><em>x</em>, <em>i</em>, <em>array=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">array_write</code><span class="sig-paren">(</span><em>x</em>, <em>i</em>, <em>array=None</em><span class="sig-paren">)</span></dt>
 <dd><p>This function writes the given input variable to the specified position
 indicating by the arrary index to an output LOD_TENSOR_ARRAY. If the
 output LOD_TENSOR_ARRAY is not given(None), a new one will be created and
@@ -636,7 +636,7 @@ returned.</li>
 <h3>create_array<a class="headerlink" href="#create-array" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">create_array</code><span class="sig-paren">(</span><em>dtype</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">create_array</code><span class="sig-paren">(</span><em>dtype</em><span class="sig-paren">)</span></dt>
 <dd><p>This function creates an array of type <span class="math">\(LOD_TENSOR_ARRAY\)</span> using the
 LayerHelper.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -662,7 +662,7 @@ LayerHelper.</p>
 <h3>less_than<a class="headerlink" href="#less-than" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">less_than</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>cond=None</em>, <em>**ignored</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">less_than</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>cond=None</em>, <em>**ignored</em><span class="sig-paren">)</span></dt>
 <dd><p><strong>Less than</strong></p>
 <p>This layer returns the truth value of <span class="math">\(x &lt; y\)</span> elementwise.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -695,7 +695,7 @@ LayerHelper.</p>
 <h3>array_read<a class="headerlink" href="#array-read" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">array_read</code><span class="sig-paren">(</span><em>array</em>, <em>i</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">array_read</code><span class="sig-paren">(</span><em>array</em>, <em>i</em><span class="sig-paren">)</span></dt>
 <dd><p>This function performs the operation to read the data in as an
 LOD_TENSOR_ARRAY.
 :param array: The input tensor that will be written to an array.
@@ -721,7 +721,7 @@ LOD_TENSOR_ARRAY.
 <h3>shrink_memory<a class="headerlink" href="#shrink-memory" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">shrink_memory</code><span class="sig-paren">(</span><em>x</em>, <em>i</em>, <em>table</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">shrink_memory</code><span class="sig-paren">(</span><em>x</em>, <em>i</em>, <em>table</em><span class="sig-paren">)</span></dt>
 <dd><p>This function creates an operator to shrink_rnn_memory using the RankTable
 as mentioned in the input parameter.</p>
 </dd></dl>
@@ -731,7 +731,7 @@ as mentioned in the input parameter.</p>
 <h3>array_length<a class="headerlink" href="#array-length" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">array_length</code><span class="sig-paren">(</span><em>array</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">array_length</code><span class="sig-paren">(</span><em>array</em><span class="sig-paren">)</span></dt>
 <dd><p>This function performs the operation to find the length of the input
 LOD_TENSOR_ARRAY.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -755,7 +755,7 @@ to compute the length.</td>
 <h3>IfElse<a class="headerlink" href="#ifelse" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
 <dt>
-<em class="property">class </em><code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">IfElse</code><span class="sig-paren">(</span><em>cond</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
+<em class="property">class </em><code class="descclassname">paddle.fluid.layers.</code><code class="descname">IfElse</code><span class="sig-paren">(</span><em>cond</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
 <dd></dd></dl>
 
 </div>
@@ -763,7 +763,7 @@ to compute the length.</td>
 <h3>DynamicRNN<a class="headerlink" href="#dynamicrnn" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
 <dt>
-<em class="property">class </em><code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">DynamicRNN</code><span class="sig-paren">(</span><em>name=None</em><span class="sig-paren">)</span></dt>
+<em class="property">class </em><code class="descclassname">paddle.fluid.layers.</code><code class="descname">DynamicRNN</code><span class="sig-paren">(</span><em>name=None</em><span class="sig-paren">)</span></dt>
 <dd></dd></dl>
 
 </div>
@@ -771,7 +771,7 @@ to compute the length.</td>
 <h3>ConditionalBlock<a class="headerlink" href="#conditionalblock" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
 <dt>
-<em class="property">class </em><code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">ConditionalBlock</code><span class="sig-paren">(</span><em>inputs</em>, <em>is_scalar_condition=False</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
+<em class="property">class </em><code class="descclassname">paddle.fluid.layers.</code><code class="descname">ConditionalBlock</code><span class="sig-paren">(</span><em>inputs</em>, <em>is_scalar_condition=False</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
 <dd></dd></dl>
 
 </div>
@@ -779,7 +779,7 @@ to compute the length.</td>
 <h3>StaticRNN<a class="headerlink" href="#staticrnn" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
 <dt>
-<em class="property">class </em><code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">StaticRNN</code><span class="sig-paren">(</span><em>name=None</em><span class="sig-paren">)</span></dt>
+<em class="property">class </em><code class="descclassname">paddle.fluid.layers.</code><code class="descname">StaticRNN</code><span class="sig-paren">(</span><em>name=None</em><span class="sig-paren">)</span></dt>
 <dd><p>StaticRNN class.</p>
 <p>StaticRNN class is used to create a StaticRNN. The RNN will have its
 own parameters like inputs, outputs, memories, status and length.</p>
@@ -811,7 +811,7 @@ own parameters like inputs, outputs, memories, status and length.</p>
 <h3>reorder_lod_tensor_by_rank<a class="headerlink" href="#reorder-lod-tensor-by-rank" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">reorder_lod_tensor_by_rank</code><span class="sig-paren">(</span><em>x</em>, <em>rank_table</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">reorder_lod_tensor_by_rank</code><span class="sig-paren">(</span><em>x</em>, <em>rank_table</em><span class="sig-paren">)</span></dt>
 <dd><p>ReorderLoDTensorByRankTable operator.</p>
 <p>Input(X) is a batch of sequences. Input(RankTable) stores new orders of the
 input sequence batch. The reorder_lod_tensor_by_rank operator reorders the
@@ -859,7 +859,7 @@ Duplicable: False  Optional: False</li>
 <h3>ParallelDo<a class="headerlink" href="#paralleldo" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
 <dt>
-<em class="property">class </em><code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">ParallelDo</code><span class="sig-paren">(</span><em>places</em>, <em>use_nccl=False</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
+<em class="property">class </em><code class="descclassname">paddle.fluid.layers.</code><code class="descname">ParallelDo</code><span class="sig-paren">(</span><em>places</em>, <em>use_nccl=False</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
 <dd><p>ParallelDo class.</p>
 <p>ParallelDo class is used to create a ParallelDo.</p>
 </dd></dl>
@@ -869,7 +869,7 @@ Duplicable: False  Optional: False</li>
 <h3>Print<a class="headerlink" href="#print" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">Print</code><span class="sig-paren">(</span><em>input</em>, <em>first_n=-1</em>, <em>message=None</em>, <em>summarize=-1</em>, <em>print_tensor_name=True</em>, <em>print_tensor_type=True</em>, <em>print_tensor_shape=True</em>, <em>print_tensor_lod=True</em>, <em>print_phase='both'</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">Print</code><span class="sig-paren">(</span><em>input</em>, <em>first_n=-1</em>, <em>message=None</em>, <em>summarize=-1</em>, <em>print_tensor_name=True</em>, <em>print_tensor_type=True</em>, <em>print_tensor_shape=True</em>, <em>print_tensor_lod=True</em>, <em>print_phase='both'</em><span class="sig-paren">)</span></dt>
 <dd><p><strong>Print operator</strong></p>
 <p>This creates a print op that will print when a tensor is accessed.</p>
 <p>Wraps the tensor passed in so that whenever that a tensor is accessed,
@@ -921,7 +921,7 @@ Print(value, summarize=10,</p>
 <h3>get_places<a class="headerlink" href="#get-places" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">get_places</code><span class="sig-paren">(</span><em>device_count=None</em>, <em>device_type=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">get_places</code><span class="sig-paren">(</span><em>device_count=None</em>, <em>device_type=None</em><span class="sig-paren">)</span></dt>
 <dd><p>Returns a list of places based on flags. The list will be used for parallel
 execution.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -949,7 +949,7 @@ execution.</p>
 <h3>data<a class="headerlink" href="#data" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">data</code><span class="sig-paren">(</span><em>name</em>, <em>shape</em>, <em>append_batch_size=True</em>, <em>dtype='float32'</em>, <em>lod_level=0</em>, <em>type=VarType.LOD_TENSOR</em>, <em>stop_gradient=True</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">data</code><span class="sig-paren">(</span><em>name</em>, <em>shape</em>, <em>append_batch_size=True</em>, <em>dtype='float32'</em>, <em>lod_level=0</em>, <em>type=VarType.LOD_TENSOR</em>, <em>stop_gradient=True</em><span class="sig-paren">)</span></dt>
 <dd><p><strong>Data Layer</strong></p>
 <p>This function takes in the input and based on whether data has
 to be returned back as a minibatch, it creates the global variable by using
@@ -993,7 +993,7 @@ to the LayerHelper constructor.</p>
 <h3>BlockGuardServ<a class="headerlink" href="#blockguardserv" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
 <dt>
-<em class="property">class </em><code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">BlockGuardServ</code><span class="sig-paren">(</span><em>server</em><span class="sig-paren">)</span></dt>
+<em class="property">class </em><code class="descclassname">paddle.fluid.layers.</code><code class="descname">BlockGuardServ</code><span class="sig-paren">(</span><em>server</em><span class="sig-paren">)</span></dt>
 <dd><p>BlockGuardServ class.</p>
 <p>BlockGuardServ class is used to create an op with a block in a program.</p>
 </dd></dl>
@@ -1003,7 +1003,7 @@ to the LayerHelper constructor.</p>
 <h3>ListenAndServ<a class="headerlink" href="#listenandserv" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
 <dt>
-<em class="property">class </em><code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">ListenAndServ</code><span class="sig-paren">(</span><em>endpoint</em>, <em>fan_in=1</em>, <em>optimizer_mode=True</em><span class="sig-paren">)</span></dt>
+<em class="property">class </em><code class="descclassname">paddle.fluid.layers.</code><code class="descname">ListenAndServ</code><span class="sig-paren">(</span><em>endpoint</em>, <em>fan_in=1</em>, <em>optimizer_mode=True</em><span class="sig-paren">)</span></dt>
 <dd><p>ListenAndServ class.</p>
 <p>ListenAndServ class is used to wrap listen_and_serv op to create a server
 which can receive variables from clients and run a block.</p>
@@ -1014,7 +1014,7 @@ which can receive variables from clients and run a block.</p>
 <h3>Send<a class="headerlink" href="#send" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">Send</code><span class="sig-paren">(</span><em>endpoints</em>, <em>send_vars</em>, <em>get_vars</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">Send</code><span class="sig-paren">(</span><em>endpoints</em>, <em>send_vars</em>, <em>get_vars</em><span class="sig-paren">)</span></dt>
 <dd><p>Send layer</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1042,7 +1042,7 @@ side when server have finished running server side program.</p>
 <h3>fc<a class="headerlink" href="#fc" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">fc</code><span class="sig-paren">(</span><em>input</em>, <em>size</em>, <em>num_flatten_dims=1</em>, <em>param_attr=None</em>, <em>bias_attr=None</em>, <em>act=None</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">fc</code><span class="sig-paren">(</span><em>input</em>, <em>size</em>, <em>num_flatten_dims=1</em>, <em>param_attr=None</em>, <em>bias_attr=None</em>, <em>act=None</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
 <dd><p><strong>Fully Connected Layer</strong></p>
 <p>The fully connected layer can take multiple tensors as its inputs. It
 creates a variable (one for each input tensor) called weights for each
@@ -1130,7 +1130,7 @@ layer.</li>
 <h3>embedding<a class="headerlink" href="#embedding" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">embedding</code><span class="sig-paren">(</span><em>input</em>, <em>size</em>, <em>is_sparse=False</em>, <em>padding_idx=None</em>, <em>param_attr=None</em>, <em>dtype='float32'</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">embedding</code><span class="sig-paren">(</span><em>input</em>, <em>size</em>, <em>is_sparse=False</em>, <em>padding_idx=None</em>, <em>param_attr=None</em>, <em>dtype='float32'</em><span class="sig-paren">)</span></dt>
 <dd><p><strong>Embedding Layer</strong></p>
 <p>This layer is used to lookup embeddings of IDs, provided by <code class="xref py py-attr docutils literal"><span class="pre">input</span></code>, in
 a lookup table. The result of this lookup is the embedding of each ID in the
@@ -1178,7 +1178,7 @@ with zeros whenever lookup encounters it in <code class="xref py py-attr docutil
 <h3>dynamic_lstm<a class="headerlink" href="#dynamic-lstm" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">dynamic_lstm</code><span class="sig-paren">(</span><em>input</em>, <em>size</em>, <em>param_attr=None</em>, <em>bias_attr=None</em>, <em>use_peepholes=True</em>, <em>is_reverse=False</em>, <em>gate_activation='sigmoid'</em>, <em>cell_activation='tanh'</em>, <em>candidate_activation='tanh'</em>, <em>dtype='float32'</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">dynamic_lstm</code><span class="sig-paren">(</span><em>input</em>, <em>size</em>, <em>param_attr=None</em>, <em>bias_attr=None</em>, <em>use_peepholes=True</em>, <em>is_reverse=False</em>, <em>gate_activation='sigmoid'</em>, <em>cell_activation='tanh'</em>, <em>candidate_activation='tanh'</em>, <em>dtype='float32'</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
 <dd><p><strong>Dynamic LSTM Layer</strong></p>
 <p>The defalut implementation is diagonal/peephole connection
 (<a class="reference external" href="https://arxiv.org/pdf/1402.1128.pdf">https://arxiv.org/pdf/1402.1128.pdf</a>), the formula is as follows:</p>
@@ -1285,7 +1285,7 @@ will be named automatically.</li>
 <h3>dynamic_lstmp<a class="headerlink" href="#dynamic-lstmp" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">dynamic_lstmp</code><span class="sig-paren">(</span><em>input</em>, <em>size</em>, <em>proj_size</em>, <em>param_attr=None</em>, <em>bias_attr=None</em>, <em>use_peepholes=True</em>, <em>is_reverse=False</em>, <em>gate_activation='sigmoid'</em>, <em>cell_activation='tanh'</em>, <em>candidate_activation='tanh'</em>, <em>proj_activation='tanh'</em>, <em>dtype='float32'</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">dynamic_lstmp</code><span class="sig-paren">(</span><em>input</em>, <em>size</em>, <em>proj_size</em>, <em>param_attr=None</em>, <em>bias_attr=None</em>, <em>use_peepholes=True</em>, <em>is_reverse=False</em>, <em>gate_activation='sigmoid'</em>, <em>cell_activation='tanh'</em>, <em>candidate_activation='tanh'</em>, <em>proj_activation='tanh'</em>, <em>dtype='float32'</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
 <dd><p><strong>Dynamic LSTMP Layer</strong></p>
 <p>LSTMP (LSTM with recurrent projection) layer has a separate projection
 layer after the LSTM layer, projecting the original hidden state to a
@@ -1410,7 +1410,7 @@ will be named automatically.</li>
 <h3>dynamic_gru<a class="headerlink" href="#dynamic-gru" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">dynamic_gru</code><span class="sig-paren">(</span><em>input</em>, <em>size</em>, <em>param_attr=None</em>, <em>bias_attr=None</em>, <em>is_reverse=False</em>, <em>gate_activation='sigmoid'</em>, <em>candidate_activation='tanh'</em>, <em>h_0=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">dynamic_gru</code><span class="sig-paren">(</span><em>input</em>, <em>size</em>, <em>param_attr=None</em>, <em>bias_attr=None</em>, <em>is_reverse=False</em>, <em>gate_activation='sigmoid'</em>, <em>candidate_activation='tanh'</em>, <em>h_0=None</em><span class="sig-paren">)</span></dt>
 <dd><p><strong>Dynamic GRU Layer</strong></p>
 <p>Refer to <a class="reference external" href="https://arxiv.org/abs/1412.3555">Empirical Evaluation of Gated Recurrent Neural Networks on
 Sequence Modeling</a></p>
@@ -1478,7 +1478,7 @@ Choices = [&#8220;sigmoid&#8221;, &#8220;tanh&#8221;, &#8220;relu&#8221;, &#8220
 <h3>gru_unit<a class="headerlink" href="#gru-unit" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">gru_unit</code><span class="sig-paren">(</span><em>input</em>, <em>hidden</em>, <em>size</em>, <em>weight=None</em>, <em>bias=None</em>, <em>activation='tanh'</em>, <em>gate_activation='sigmoid'</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">gru_unit</code><span class="sig-paren">(</span><em>input</em>, <em>hidden</em>, <em>size</em>, <em>weight=None</em>, <em>bias=None</em>, <em>activation='tanh'</em>, <em>gate_activation='sigmoid'</em><span class="sig-paren">)</span></dt>
 <dd><p>GRU unit layer. The equation of a gru step is:</p>
 <blockquote>
 <div><div class="math">
@@ -1533,7 +1533,7 @@ Default: &#8216;sigmoid&#8217;</li>
 <h3>linear_chain_crf<a class="headerlink" href="#linear-chain-crf" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">linear_chain_crf</code><span class="sig-paren">(</span><em>input</em>, <em>label</em>, <em>param_attr=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">linear_chain_crf</code><span class="sig-paren">(</span><em>input</em>, <em>label</em>, <em>param_attr=None</em><span class="sig-paren">)</span></dt>
 <dd></dd></dl>
 
 </div>
@@ -1541,7 +1541,7 @@ Default: &#8216;sigmoid&#8217;</li>
 <h3>crf_decoding<a class="headerlink" href="#crf-decoding" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">crf_decoding</code><span class="sig-paren">(</span><em>input</em>, <em>param_attr</em>, <em>label=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">crf_decoding</code><span class="sig-paren">(</span><em>input</em>, <em>param_attr</em>, <em>label=None</em><span class="sig-paren">)</span></dt>
 <dd></dd></dl>
 
 </div>
@@ -1549,7 +1549,7 @@ Default: &#8216;sigmoid&#8217;</li>
 <h3>cos_sim<a class="headerlink" href="#cos-sim" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">cos_sim</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">cos_sim</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em><span class="sig-paren">)</span></dt>
 <dd><p>This function performs the cosine similarity between two tensors
 X and Y and returns that as the output.</p>
 </dd></dl>
@@ -1559,7 +1559,7 @@ X and Y and returns that as the output.</p>
 <h3>cross_entropy<a class="headerlink" href="#cross-entropy" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">cross_entropy</code><span class="sig-paren">(</span><em>input</em>, <em>label</em>, <em>soft_label=False</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">cross_entropy</code><span class="sig-paren">(</span><em>input</em>, <em>label</em>, <em>soft_label=False</em><span class="sig-paren">)</span></dt>
 <dd><p><strong>Cross Entropy Layer</strong></p>
 <p>This layer computes the cross entropy between <cite>input</cite> and <cite>label</cite>. It
 supports both standard cross-entropy and soft-label cross-entropy loss
@@ -1642,7 +1642,7 @@ labels, default <cite>False</cite>.</li>
 <h3>square_error_cost<a class="headerlink" href="#square-error-cost" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">square_error_cost</code><span class="sig-paren">(</span><em>input</em>, <em>label</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">square_error_cost</code><span class="sig-paren">(</span><em>input</em>, <em>label</em><span class="sig-paren">)</span></dt>
 <dd><p><strong>Square error cost layer</strong></p>
 <p>This layer accepts input predictions and target label and returns the
 squared error cost.</p>
@@ -1688,7 +1688,7 @@ squared error cost.</p>
 <h3>accuracy<a class="headerlink" href="#accuracy" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">accuracy</code><span class="sig-paren">(</span><em>input</em>, <em>label</em>, <em>k=1</em>, <em>correct=None</em>, <em>total=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">accuracy</code><span class="sig-paren">(</span><em>input</em>, <em>label</em>, <em>k=1</em>, <em>correct=None</em>, <em>total=None</em><span class="sig-paren">)</span></dt>
 <dd><p>This function computes the accuracy using the input and label.
 The output is the top_k inputs and their indices.</p>
 </dd></dl>
@@ -1698,7 +1698,7 @@ The output is the top_k inputs and their indices.</p>
 <h3>chunk_eval<a class="headerlink" href="#chunk-eval" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">chunk_eval</code><span class="sig-paren">(</span><em>input</em>, <em>label</em>, <em>chunk_scheme</em>, <em>num_chunk_types</em>, <em>excluded_chunk_types=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">chunk_eval</code><span class="sig-paren">(</span><em>input</em>, <em>label</em>, <em>chunk_scheme</em>, <em>num_chunk_types</em>, <em>excluded_chunk_types=None</em><span class="sig-paren">)</span></dt>
 <dd><p>This function computes and outputs the precision, recall and
 F1-score of chunk detection.</p>
 </dd></dl>
@@ -1708,7 +1708,7 @@ F1-score of chunk detection.</p>
 <h3>sequence_conv<a class="headerlink" href="#sequence-conv" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">sequence_conv</code><span class="sig-paren">(</span><em>input</em>, <em>num_filters</em>, <em>filter_size=3</em>, <em>filter_stride=1</em>, <em>padding=None</em>, <em>bias_attr=None</em>, <em>param_attr=None</em>, <em>act=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">sequence_conv</code><span class="sig-paren">(</span><em>input</em>, <em>num_filters</em>, <em>filter_size=3</em>, <em>filter_stride=1</em>, <em>padding=None</em>, <em>bias_attr=None</em>, <em>param_attr=None</em>, <em>act=None</em><span class="sig-paren">)</span></dt>
 <dd><p>This function creates the op for sequence_conv, using the inputs and
 other convolutional configurations for the filters and stride as given
 in the input parameters to the function.</p>
@@ -1719,7 +1719,7 @@ in the input parameters to the function.</p>
 <h3>conv2d<a class="headerlink" href="#conv2d" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">conv2d</code><span class="sig-paren">(</span><em>input</em>, <em>num_filters</em>, <em>filter_size</em>, <em>stride=None</em>, <em>padding=None</em>, <em>groups=None</em>, <em>param_attr=None</em>, <em>bias_attr=None</em>, <em>use_cudnn=True</em>, <em>act=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">conv2d</code><span class="sig-paren">(</span><em>input</em>, <em>num_filters</em>, <em>filter_size</em>, <em>stride=None</em>, <em>padding=None</em>, <em>groups=None</em>, <em>param_attr=None</em>, <em>bias_attr=None</em>, <em>use_cudnn=True</em>, <em>act=None</em><span class="sig-paren">)</span></dt>
 <dd><p><strong>Convlution2D Layer</strong></p>
 <p>The convolution2D layer calculates the output based on the input, filter
 and strides, paddings, dilations, groups parameters. Input(Input) and
@@ -1816,7 +1816,7 @@ groups mismatch.</p>
 <h3>sequence_pool<a class="headerlink" href="#sequence-pool" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">sequence_pool</code><span class="sig-paren">(</span><em>input</em>, <em>pool_type</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">sequence_pool</code><span class="sig-paren">(</span><em>input</em>, <em>pool_type</em><span class="sig-paren">)</span></dt>
 <dd><p>This function add the operator for sequence pooling.
 It pools features of all time-steps of each instance, and is applied
 on top of the input using pool_type mentioned in the parameters.</p>
@@ -1876,7 +1876,7 @@ It supports average, sum, sqrt and max.</li>
 <h3>pool2d<a class="headerlink" href="#pool2d" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">pool2d</code><span class="sig-paren">(</span><em>input</em>, <em>pool_size</em>, <em>pool_type</em>, <em>pool_stride=None</em>, <em>pool_padding=None</em>, <em>global_pooling=False</em>, <em>use_cudnn=True</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">pool2d</code><span class="sig-paren">(</span><em>input</em>, <em>pool_size</em>, <em>pool_type</em>, <em>pool_stride=None</em>, <em>pool_padding=None</em>, <em>global_pooling=False</em>, <em>use_cudnn=True</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
 <dd><p>This function adds the operator for pooling in 2 dimensions, using the
 pooling configurations mentioned in input parameters.</p>
 </dd></dl>
@@ -1886,7 +1886,7 @@ pooling configurations mentioned in input parameters.</p>
 <h3>batch_norm<a class="headerlink" href="#batch-norm" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">batch_norm</code><span class="sig-paren">(</span><em>input</em>, <em>act=None</em>, <em>is_test=False</em>, <em>momentum=0.9</em>, <em>epsilon=1e-05</em>, <em>param_attr=None</em>, <em>bias_attr=None</em>, <em>data_layout='NCHW'</em>, <em>name=None</em>, <em>moving_mean_name=None</em>, <em>moving_variance_name=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">batch_norm</code><span class="sig-paren">(</span><em>input</em>, <em>act=None</em>, <em>is_test=False</em>, <em>momentum=0.9</em>, <em>epsilon=1e-05</em>, <em>param_attr=None</em>, <em>bias_attr=None</em>, <em>data_layout='NCHW'</em>, <em>name=None</em>, <em>moving_mean_name=None</em>, <em>moving_variance_name=None</em><span class="sig-paren">)</span></dt>
 <dd><p>This function helps create an operator to implement
 the BatchNorm layer using the configurations from the input parameters.</p>
 </dd></dl>
@@ -1896,7 +1896,7 @@ the BatchNorm layer using the configurations from the input parameters.</p>
 <h3>layer_norm<a class="headerlink" href="#layer-norm" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">layer_norm</code><span class="sig-paren">(</span><em>input</em>, <em>scale=True</em>, <em>shift=True</em>, <em>begin_norm_axis=1</em>, <em>epsilon=1e-05</em>, <em>param_attr=None</em>, <em>bias_attr=None</em>, <em>act=None</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">layer_norm</code><span class="sig-paren">(</span><em>input</em>, <em>scale=True</em>, <em>shift=True</em>, <em>begin_norm_axis=1</em>, <em>epsilon=1e-05</em>, <em>param_attr=None</em>, <em>bias_attr=None</em>, <em>act=None</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
 <dd><p><strong>Layer Normalization</strong></p>
 <p>Assume feature vectors exist on dimensions
 <code class="xref py py-attr docutils literal"><span class="pre">begin_norm_axis</span> <span class="pre">...</span> <span class="pre">rank(input)</span></code> and calculate the moment statistics
@@ -1951,7 +1951,7 @@ bias <span class="math">\(b\)</span>.</li>
 <h3>beam_search_decode<a class="headerlink" href="#beam-search-decode" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">beam_search_decode</code><span class="sig-paren">(</span><em>ids</em>, <em>scores</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">beam_search_decode</code><span class="sig-paren">(</span><em>ids</em>, <em>scores</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
 <dd></dd></dl>
 
 </div>
@@ -1959,7 +1959,7 @@ bias <span class="math">\(b\)</span>.</li>
 <h3>conv2d_transpose<a class="headerlink" href="#conv2d-transpose" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">conv2d_transpose</code><span class="sig-paren">(</span><em>input</em>, <em>num_filters</em>, <em>output_size=None</em>, <em>filter_size=None</em>, <em>padding=None</em>, <em>stride=None</em>, <em>dilation=None</em>, <em>param_attr=None</em>, <em>use_cudnn=True</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">conv2d_transpose</code><span class="sig-paren">(</span><em>input</em>, <em>num_filters</em>, <em>output_size=None</em>, <em>filter_size=None</em>, <em>padding=None</em>, <em>stride=None</em>, <em>dilation=None</em>, <em>param_attr=None</em>, <em>use_cudnn=True</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
 <dd><p><strong>Convlution2D transpose layer</strong></p>
 <p>The convolution2D transpose layer calculates the output based on the input,
 filter, and dilations, strides, paddings. Input(Input) and output(Output)
@@ -2056,7 +2056,7 @@ groups mismatch.</p>
 <h3>sequence_expand<a class="headerlink" href="#sequence-expand" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">sequence_expand</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">sequence_expand</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
 <dd><p>Sequence Expand Layer. This layer will expand the input variable <strong>x</strong>
 according to LoD information of <strong>y</strong>. And the following examples will
 explain how sequence_expand works:</p>
@@ -2129,7 +2129,7 @@ will be named automatically.</li>
 <h3>lstm_unit<a class="headerlink" href="#lstm-unit" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">lstm_unit</code><span class="sig-paren">(</span><em>x_t</em>, <em>hidden_t_prev</em>, <em>cell_t_prev</em>, <em>forget_bias=0.0</em>, <em>param_attr=None</em>, <em>bias_attr=None</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">lstm_unit</code><span class="sig-paren">(</span><em>x_t</em>, <em>hidden_t_prev</em>, <em>cell_t_prev</em>, <em>forget_bias=0.0</em>, <em>param_attr=None</em>, <em>bias_attr=None</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
 <dd><p>Lstm unit layer. The equation of a lstm step is:</p>
 <blockquote>
 <div><div class="math">
@@ -2203,7 +2203,7 @@ and <strong>cell_t_prev</strong> not be the same or the 2nd dimensions of
 <h3>reduce_sum<a class="headerlink" href="#reduce-sum" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">reduce_sum</code><span class="sig-paren">(</span><em>input</em>, <em>dim=None</em>, <em>keep_dim=False</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">reduce_sum</code><span class="sig-paren">(</span><em>input</em>, <em>dim=None</em>, <em>keep_dim=False</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
 <dd><p>Computes the sum of tensor elements over the given dimension.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -2250,7 +2250,7 @@ will be named automatically.</li>
 <h3>reduce_mean<a class="headerlink" href="#reduce-mean" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">reduce_mean</code><span class="sig-paren">(</span><em>input</em>, <em>dim=None</em>, <em>keep_dim=False</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">reduce_mean</code><span class="sig-paren">(</span><em>input</em>, <em>dim=None</em>, <em>keep_dim=False</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
 <dd><p>Computes the mean of tensor elements over the given dimension.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -2297,7 +2297,7 @@ will be named automatically.</li>
 <h3>reduce_max<a class="headerlink" href="#reduce-max" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">reduce_max</code><span class="sig-paren">(</span><em>input</em>, <em>dim=None</em>, <em>keep_dim=False</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">reduce_max</code><span class="sig-paren">(</span><em>input</em>, <em>dim=None</em>, <em>keep_dim=False</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
 <dd><p>Computes the maximum of tensor elements over the given dimension.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -2344,7 +2344,7 @@ will be named automatically.</li>
 <h3>reduce_min<a class="headerlink" href="#reduce-min" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">reduce_min</code><span class="sig-paren">(</span><em>input</em>, <em>dim=None</em>, <em>keep_dim=False</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">reduce_min</code><span class="sig-paren">(</span><em>input</em>, <em>dim=None</em>, <em>keep_dim=False</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
 <dd><p>Computes the minimum of tensor elements over the given dimension.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -2391,7 +2391,7 @@ will be named automatically.</li>
 <h3>sequence_first_step<a class="headerlink" href="#sequence-first-step" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">sequence_first_step</code><span class="sig-paren">(</span><em>input</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">sequence_first_step</code><span class="sig-paren">(</span><em>input</em><span class="sig-paren">)</span></dt>
 <dd><p>This funciton get the first step of sequence.</p>
 <div class="highlight-text"><div class="highlight"><pre><span></span>x is a 1-level LoDTensor:
   x.lod = [[0, 2, 5, 7]]
@@ -2427,7 +2427,7 @@ then output is a Tensor:
 <h3>sequence_last_step<a class="headerlink" href="#sequence-last-step" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">sequence_last_step</code><span class="sig-paren">(</span><em>input</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">sequence_last_step</code><span class="sig-paren">(</span><em>input</em><span class="sig-paren">)</span></dt>
 <dd><p>This funciton get the last step of sequence.</p>
 <div class="highlight-text"><div class="highlight"><pre><span></span>x is a 1-level LoDTensor:
   x.lod = [[0, 2, 5, 7]]
@@ -2463,7 +2463,7 @@ then output is a Tensor:
 <h3>dropout<a class="headerlink" href="#dropout" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">dropout</code><span class="sig-paren">(</span><em>x</em>, <em>dropout_prob</em>, <em>is_test=False</em>, <em>seed=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">dropout</code><span class="sig-paren">(</span><em>x</em>, <em>dropout_prob</em>, <em>is_test=False</em>, <em>seed=None</em><span class="sig-paren">)</span></dt>
 <dd><p>Computes dropout.</p>
 <p>Drop or keep each element of <cite>x</cite> independently. Dropout is a regularization
 technique for reducing overfitting by preventing neuron co-adaption during
@@ -2505,7 +2505,7 @@ units will be dropped. DO NOT use a fixed seed in training.</li>
 <h3>split<a class="headerlink" href="#split" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">split</code><span class="sig-paren">(</span><em>input</em>, <em>num_or_sections</em>, <em>dim=-1</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">split</code><span class="sig-paren">(</span><em>input</em>, <em>num_or_sections</em>, <em>dim=-1</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
 <dd><p>Split the input tensor into multiple sub-tensors.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -2553,7 +2553,7 @@ will be named automatically.</li>
 <h3>ctc_greedy_decoder<a class="headerlink" href="#ctc-greedy-decoder" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">ctc_greedy_decoder</code><span class="sig-paren">(</span><em>input</em>, <em>blank</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">ctc_greedy_decoder</code><span class="sig-paren">(</span><em>input</em>, <em>blank</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
 <dd><p>This op is used to decode sequences by greedy policy by below steps:
 1. Get the indexes of max value for each row in input. a.k.a.</p>
 <blockquote>
@@ -2625,7 +2625,7 @@ empty, the result LoDTensor will be [-1] with LoD [[0]] and dims [1, 1].</p>
 <h3>edit_distance<a class="headerlink" href="#edit-distance" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">edit_distance</code><span class="sig-paren">(</span><em>input</em>, <em>label</em>, <em>normalized=False</em>, <em>ignored_tokens=None</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">edit_distance</code><span class="sig-paren">(</span><em>input</em>, <em>label</em>, <em>normalized=False</em>, <em>ignored_tokens=None</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
 <dd><p>EditDistance operator computes the edit distances between a batch of
 hypothesis strings and their references. Edit distance, also called
 Levenshtein distance, measures how dissimilar two strings are by counting
@@ -2678,7 +2678,7 @@ calculating edit distance.</li>
 <h3>l2_normalize<a class="headerlink" href="#l2-normalize" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">l2_normalize</code><span class="sig-paren">(</span><em>x</em>, <em>axis</em>, <em>epsilon=1e-12</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">l2_normalize</code><span class="sig-paren">(</span><em>x</em>, <em>axis</em>, <em>epsilon=1e-12</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
 <dd><p><strong>L2 normalize Layer</strong></p>
 <p>The l2 normalize layer normalizes <cite>x</cite> along dimension <cite>axis</cite> using an L2
 norm. For a 1-D tensor (<cite>dim</cite> is fixed to 0), this layer computes</p>
@@ -2722,7 +2722,7 @@ will be named automatically.</li>
 <h3>matmul<a class="headerlink" href="#matmul" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">matmul</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>transpose_x=False</em>, <em>transpose_y=False</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">matmul</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>transpose_x=False</em>, <em>transpose_y=False</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
 <dd><p>Applies matrix multiplication to two tensors.</p>
 <p>Currently, the input tensors&#8217; rank can be any, but when the rank of any
 inputs is bigger than 3, this two inputs&#8217; rank should be equal.</p>
@@ -2800,7 +2800,7 @@ will be named automatically.</li>
 <h3>warpctc<a class="headerlink" href="#warpctc" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">warpctc</code><span class="sig-paren">(</span><em>input</em>, <em>label</em>, <em>blank=0</em>, <em>norm_by_times=False</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">warpctc</code><span class="sig-paren">(</span><em>input</em>, <em>label</em>, <em>blank=0</em>, <em>norm_by_times=False</em><span class="sig-paren">)</span></dt>
 <dd><p>An operator integrating the open source Warp-CTC library
 (<a class="reference external" href="https://github.com/baidu-research/warp-ctc">https://github.com/baidu-research/warp-ctc</a>)
 to compute Connectionist Temporal Classification (CTC) loss.
@@ -2849,7 +2849,7 @@ which is a 2-D Tensor of the shape [batch_size, 1].</p>
 <h3>sequence_reshape<a class="headerlink" href="#sequence-reshape" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">sequence_reshape</code><span class="sig-paren">(</span><em>input</em>, <em>new_dim</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">sequence_reshape</code><span class="sig-paren">(</span><em>input</em>, <em>new_dim</em><span class="sig-paren">)</span></dt>
 <dd><p><strong>Sequence Reshape Layer</strong></p>
 <p>This layer will rearrange the input sequences. The new dimension is set by
 user. Length of each sequence is computed according to original length,
@@ -2905,7 +2905,7 @@ with shape being [N, M] where M for dimension.</li>
 <h3>transpose<a class="headerlink" href="#transpose" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">transpose</code><span class="sig-paren">(</span><em>x</em>, <em>perm</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">transpose</code><span class="sig-paren">(</span><em>x</em>, <em>perm</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
 <dd><p><strong>transpose Layer</strong></p>
 <p>Permute the dimensions of <cite>input</cite> according to <cite>perm</cite>.</p>
 <p>The <cite>i</cite>-th dimension  of the returned tensor will correspond to the
@@ -2940,7 +2940,7 @@ perm[i]-th dimension of <cite>input</cite>.</p>
 <h3>im2sequence<a class="headerlink" href="#im2sequence" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">im2sequence</code><span class="sig-paren">(</span><em>input</em>, <em>filter_size=1</em>, <em>stride=1</em>, <em>padding=0</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">im2sequence</code><span class="sig-paren">(</span><em>input</em>, <em>filter_size=1</em>, <em>stride=1</em>, <em>padding=0</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
 <dd><p>Extracts image patches from the input tensor to form a tensor of shape
 {input.batch_size * output_height * output_width, filter_size_H *
 filter_size_W * input.channels} which is similar with im2col.
@@ -3045,7 +3045,7 @@ output.lod = [[0, 4, 8]]
 <h3>nce<a class="headerlink" href="#nce" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">nce</code><span class="sig-paren">(</span><em>input</em>, <em>label</em>, <em>num_total_classes</em>, <em>sample_weight=None</em>, <em>param_attr=None</em>, <em>bias_attr=None</em>, <em>num_neg_samples=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">nce</code><span class="sig-paren">(</span><em>input</em>, <em>label</em>, <em>num_total_classes</em>, <em>sample_weight=None</em>, <em>param_attr=None</em>, <em>bias_attr=None</em>, <em>num_neg_samples=None</em><span class="sig-paren">)</span></dt>
 <dd><p>Compute and return the noise-contrastive estimation training loss.
 See [Noise-contrastive estimation: A new estimation principle for unnormalized statistical models](<a class="reference external" href="http://www.jmlr.org/proceedings/papers/v9/gutmann10a/gutmann10a.pdf">http://www.jmlr.org/proceedings/papers/v9/gutmann10a/gutmann10a.pdf</a>).
 By default this operator uses a uniform distribution for sampling.</p>
@@ -3082,7 +3082,7 @@ Duplicable: False  Optional: True</li>
 <h3>beam_search<a class="headerlink" href="#beam-search" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">beam_search</code><span class="sig-paren">(</span><em>pre_ids</em>, <em>ids</em>, <em>scores</em>, <em>beam_size</em>, <em>end_id</em>, <em>level=0</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">beam_search</code><span class="sig-paren">(</span><em>pre_ids</em>, <em>ids</em>, <em>scores</em>, <em>beam_size</em>, <em>end_id</em>, <em>level=0</em><span class="sig-paren">)</span></dt>
 <dd><p>This function implements the beam search algorithm.</p>
 </dd></dl>
 
@@ -3091,7 +3091,7 @@ Duplicable: False  Optional: True</li>
 <h3>row_conv<a class="headerlink" href="#row-conv" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">row_conv</code><span class="sig-paren">(</span><em>input</em>, <em>future_context_size</em>, <em>param_attr=None</em>, <em>act=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">row_conv</code><span class="sig-paren">(</span><em>input</em>, <em>future_context_size</em>, <em>param_attr=None</em>, <em>act=None</em><span class="sig-paren">)</span></dt>
 <dd><p>Row Conv Operator. This layer will apply lookahead convolution to
 <strong>input</strong>. The input variable should be a 2D LoDTensor with shape [T, D].
 Parameters with shape [future_context_size + 1, D] will be created. The math
@@ -3142,7 +3142,7 @@ name, initializer etc.</li>
 <h3>multiplex<a class="headerlink" href="#multiplex" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">multiplex</code><span class="sig-paren">(</span><em>inputs</em>, <em>index</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">multiplex</code><span class="sig-paren">(</span><em>inputs</em>, <em>index</em><span class="sig-paren">)</span></dt>
 <dd><p><strong>Multiplex Layer</strong></p>
 <p>Referring to the given index variable, this layer selects rows from the
 input variables to construct a multiplex variable. Assuming that there are
@@ -3196,7 +3196,7 @@ with shape [M, 1] where M is the batch size.</li>
 <h3>mean<a class="headerlink" href="#mean" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">mean</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">mean</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Mean Operator.</p>
 <p>Out is a scalar which is the mean of all elements in X.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -3217,7 +3217,7 @@ Duplicable: False  Optional: False</td>
 <h3>mul<a class="headerlink" href="#mul" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">mul</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">mul</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Mul Operator.</p>
 <p>This operator is used to perform matrix multiplication for input $X$ and $Y$.</p>
 <p>The equation is:</p>
@@ -3268,7 +3268,7 @@ flattened. See comments of <cite>x_num_col_dims</cite> for more details.</li>
 <h3>reshape<a class="headerlink" href="#reshape" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">reshape</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">reshape</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Reshape Operator.</p>
 <p>Reshape Input(X) into the shape specified by Attr(shape).</p>
 <p>An example:
@@ -3301,7 +3301,7 @@ Duplicable: False  Optional: False</li>
 <h3>scale<a class="headerlink" href="#scale" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">scale</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">scale</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Scale operator</p>
 <p>$$Out = scale*X$$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -3327,7 +3327,7 @@ Duplicable: False  Optional: False</li>
 <h3>sigmoid_cross_entropy_with_logits<a class="headerlink" href="#sigmoid-cross-entropy-with-logits" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">sigmoid_cross_entropy_with_logits</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">sigmoid_cross_entropy_with_logits</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>SigmoidCrossEntropyWithLogits Operator.</p>
 <p>This measures the element-wise probability error in classification tasks
 in which each class is independent. This can be thought of as predicting labels
@@ -3370,7 +3370,7 @@ Duplicable: False  Optional: False</li>
 <h3>elementwise_add<a class="headerlink" href="#elementwise-add" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">elementwise_add</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">elementwise_add</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Limited Elementwise Add Operator.</p>
 <p>The equation is:</p>
 <p>$$Out = X + Y$$</p>
@@ -3420,7 +3420,7 @@ Duplicable: False  Optional: False</li>
 <h3>elementwise_div<a class="headerlink" href="#elementwise-div" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">elementwise_div</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">elementwise_div</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Limited Elementwise Div Operator.</p>
 <p>The equation is:</p>
 <p>$$Out = X / Y$$</p>
@@ -3470,7 +3470,7 @@ Duplicable: False  Optional: False</li>
 <h3>elementwise_sub<a class="headerlink" href="#elementwise-sub" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">elementwise_sub</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">elementwise_sub</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Limited Elementwise Sub Operator.</p>
 <p>The equation is:</p>
 <p>$$Out = X - Y$$</p>
@@ -3520,7 +3520,7 @@ Duplicable: False  Optional: False</li>
 <h3>elementwise_mul<a class="headerlink" href="#elementwise-mul" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">elementwise_mul</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">elementwise_mul</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Limited Elementwise Mul Operator.</p>
 <p>The equation is:</p>
 <p>$$Out = X odotY$$</p>
@@ -3570,7 +3570,7 @@ Duplicable: False  Optional: False</li>
 <h3>elementwise_max<a class="headerlink" href="#elementwise-max" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">elementwise_max</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">elementwise_max</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Limited Elementwise Max Operator.</p>
 <p>The equation is:</p>
 <p>$$Out = max(X, Y)$$</p>
@@ -3620,7 +3620,7 @@ Duplicable: False  Optional: False</li>
 <h3>elementwise_min<a class="headerlink" href="#elementwise-min" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">elementwise_min</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">elementwise_min</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Limited Elementwise Max Operator.</p>
 <p>The equation is:</p>
 <p>$$Out = min(X, Y)$$</p>
@@ -3670,7 +3670,7 @@ Duplicable: False  Optional: False</li>
 <h3>elementwise_pow<a class="headerlink" href="#elementwise-pow" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">elementwise_pow</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">elementwise_pow</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Limited Elementwise Pow Operator.</p>
 <p>The equation is:</p>
 <p>$$Out = X ^ Y$$</p>
@@ -3720,7 +3720,7 @@ Duplicable: False  Optional: False</li>
 <h3>clip<a class="headerlink" href="#clip" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">clip</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">clip</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Clip Operator.</p>
 <p>The clip operator limits the value of given input within an interval. The
 interval is specified with arguments &#8216;min&#8217; and &#8216;max&#8217;:</p>
@@ -3751,7 +3751,7 @@ Duplicable: False  Optional: False</li>
 <h3>clip_by_norm<a class="headerlink" href="#clip-by-norm" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">clip_by_norm</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">clip_by_norm</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>ClipByNorm Operator.</p>
 <p>This operator limits the L2 norm of the input $X$ within $max_norm$.
 If the L2 norm of $X$ is less than or equal to $max_norm$, $Out$ will be
@@ -3785,7 +3785,7 @@ Duplicable: False  Optional: False</li>
 <h3>sequence_softmax<a class="headerlink" href="#sequence-softmax" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">sequence_softmax</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">sequence_softmax</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Sequence Softmax Operator.</p>
 <p>SequenceSoftmaxOp computes the softmax activation among all time-steps for each
 sequence. The dimension of each time-step should be 1. Thus, the shape of
@@ -3819,7 +3819,7 @@ Duplicable: False  Optional: False</td>
 <h3>sigmoid<a class="headerlink" href="#sigmoid" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">sigmoid</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">sigmoid</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Sigmoid Activation Operator</p>
 <p>$$out = frac{1}{1 + e^{-x}}$$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -3840,7 +3840,7 @@ Duplicable: False  Optional: False</td>
 <h3>logsigmoid<a class="headerlink" href="#logsigmoid" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">logsigmoid</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">logsigmoid</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Logsigmoid Activation Operator</p>
 <p>$$out = log frac{1}{1 + e^{-x}}$$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -3861,7 +3861,7 @@ Duplicable: False  Optional: False</td>
 <h3>exp<a class="headerlink" href="#exp" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">exp</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">exp</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Exp Activation Operator.</p>
 <p>$out = e^x$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -3882,7 +3882,7 @@ Duplicable: False  Optional: False</td>
 <h3>relu<a class="headerlink" href="#relu" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">relu</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">relu</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Relu Activation Operator.</p>
 <p>$out = max(x, 0)$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -3903,7 +3903,7 @@ Duplicable: False  Optional: False</td>
 <h3>tanh<a class="headerlink" href="#tanh" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">tanh</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">tanh</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Tanh Activation Operator.</p>
 <p>$$out = frac{e^{x} - e^{-x}}{e^{x} + e^{-x}}$$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -3924,7 +3924,7 @@ Duplicable: False  Optional: False</td>
 <h3>tanh_shrink<a class="headerlink" href="#tanh-shrink" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">tanh_shrink</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">tanh_shrink</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>TanhShrink Activation Operator.</p>
 <p>$$out = x - frac{e^{x} - e^{-x}}{e^{x} + e^{-x}}$$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -3945,7 +3945,7 @@ Duplicable: False  Optional: False</td>
 <h3>softshrink<a class="headerlink" href="#softshrink" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">softshrink</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">softshrink</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Softshrink Activation Operator.</p>
 <p>$$
 out = begin{cases}</p>
@@ -3978,7 +3978,7 @@ Duplicable: False  Optional: False</li>
 <h3>sqrt<a class="headerlink" href="#sqrt" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">sqrt</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">sqrt</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Sqrt Activation Operator.</p>
 <p>$out = sqrt{x}$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -3999,7 +3999,7 @@ Duplicable: False  Optional: False</td>
 <h3>abs<a class="headerlink" href="#abs" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">abs</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">abs</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Abs Activation Operator.</p>
 <p>$out = <a href="#id1"><span class="problematic" id="id2">|</span></a>x|$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -4020,7 +4020,7 @@ Duplicable: False  Optional: False</td>
 <h3>ceil<a class="headerlink" href="#ceil" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">ceil</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">ceil</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Ceil Activation Operator.</p>
 <p>$out = ceil(x)$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -4041,7 +4041,7 @@ Duplicable: False  Optional: False</td>
 <h3>floor<a class="headerlink" href="#floor" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">floor</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">floor</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Floor Activation Operator.</p>
 <p>$out = floor(x)$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -4062,7 +4062,7 @@ Duplicable: False  Optional: False</td>
 <h3>round<a class="headerlink" href="#round" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">round</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">round</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Round Activation Operator.</p>
 <p>$out = [x]$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -4083,7 +4083,7 @@ Duplicable: False  Optional: False</td>
 <h3>reciprocal<a class="headerlink" href="#reciprocal" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">reciprocal</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">reciprocal</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Reciprocal Activation Operator.</p>
 <p>$$out = frac{1}{x}$$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -4104,7 +4104,7 @@ Duplicable: False  Optional: False</td>
 <h3>log<a class="headerlink" href="#log" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">log</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">log</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Log Activation Operator.</p>
 <p>$out = ln(x)$</p>
 <p>Natural logarithm of x.</p>
@@ -4126,7 +4126,7 @@ Duplicable: False  Optional: False</td>
 <h3>square<a class="headerlink" href="#square" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">square</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">square</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Square Activation Operator.</p>
 <p>$out = x^2$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -4147,7 +4147,7 @@ Duplicable: False  Optional: False</td>
 <h3>softplus<a class="headerlink" href="#softplus" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">softplus</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">softplus</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Softplus Activation Operator.</p>
 <p>$out = ln(1 + e^{x})$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -4168,7 +4168,7 @@ Duplicable: False  Optional: False</td>
 <h3>softsign<a class="headerlink" href="#softsign" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">softsign</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">softsign</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Softsign Activation Operator.</p>
 <p>$$out = frac{x}{1 + <a href="#id5"><span class="problematic" id="id6">|x|</span></a>}$$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -4189,7 +4189,7 @@ Duplicable: False  Optional: False</td>
 <h3>brelu<a class="headerlink" href="#brelu" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">brelu</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">brelu</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>BRelu Activation Operator.</p>
 <p>$out = max(min(x, t_{min}), t_{max})$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -4216,7 +4216,7 @@ Duplicable: False  Optional: False</li>
 <h3>leaky_relu<a class="headerlink" href="#leaky-relu" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">leaky_relu</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">leaky_relu</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>LeakyRelu Activation Operator.</p>
 <p>$out = max(x, alpha * x)$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -4242,7 +4242,7 @@ Duplicable: False  Optional: False</li>
 <h3>soft_relu<a class="headerlink" href="#soft-relu" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">soft_relu</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">soft_relu</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>SoftRelu Activation Operator.</p>
 <p>$out = ln(1 + exp(max(min(x, threshold), threshold))$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -4268,7 +4268,7 @@ Duplicable: False  Optional: False</li>
 <h3>elu<a class="headerlink" href="#elu" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">elu</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">elu</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>ELU Activation Operator.</p>
 <p>Applies the following element-wise computation on the input according to
 <a class="reference external" href="https://arxiv.org/abs/1511.07289">https://arxiv.org/abs/1511.07289</a>.</p>
@@ -4296,7 +4296,7 @@ Duplicable: False  Optional: False</li>
 <h3>relu6<a class="headerlink" href="#relu6" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">relu6</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">relu6</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Relu6 Activation Operator.</p>
 <p>$out = min(max(0, x), 6)$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -4322,7 +4322,7 @@ Duplicable: False  Optional: False</li>
 <h3>pow<a class="headerlink" href="#pow" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">pow</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">pow</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Pow Activation Operator.</p>
 <p>$out = x^{factor}$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -4348,7 +4348,7 @@ Duplicable: False  Optional: False</li>
 <h3>stanh<a class="headerlink" href="#stanh" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">stanh</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">stanh</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>STanh Activation Operator.</p>
 <p>$$out = b * frac{e^{a * x} - e^{-a * x}}{e^{a * x} + e^{-a * x}}$$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -4375,7 +4375,7 @@ Duplicable: False  Optional: False</li>
 <h3>hard_shrink<a class="headerlink" href="#hard-shrink" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">hard_shrink</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">hard_shrink</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>HardShrink Activation Operator.</p>
 <p>$$
 out = begin{cases}</p>
@@ -4408,7 +4408,7 @@ Duplicable: False  Optional: False</li>
 <h3>thresholded_relu<a class="headerlink" href="#thresholded-relu" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">thresholded_relu</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">thresholded_relu</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>ThresholdedRelu Activation Operator.</p>
 <p>$$
 out = begin{cases}</p>
@@ -4440,7 +4440,7 @@ Duplicable: False  Optional: False</li>
 <h3>hard_sigmoid<a class="headerlink" href="#hard-sigmoid" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">hard_sigmoid</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">hard_sigmoid</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>HardSigmoid Activation Operator.</p>
 <p>Segment-wise linear approximation of sigmoid(<a class="reference external" href="https://arxiv.org/abs/1603.00391">https://arxiv.org/abs/1603.00391</a>),
 which is much faster than sigmoid.</p>
@@ -4472,7 +4472,7 @@ Duplicable: False  Optional: False</li>
 <h3>swish<a class="headerlink" href="#swish" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">swish</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">swish</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Swish Activation Operator.</p>
 <p>$$out = frac{x}{1 + e^{- beta x}}$$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -4501,7 +4501,7 @@ Duplicable: False  Optional: False</li>
 <h3>create_tensor<a class="headerlink" href="#create-tensor" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">create_tensor</code><span class="sig-paren">(</span><em>dtype</em>, <em>name=None</em>, <em>persistable=False</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">create_tensor</code><span class="sig-paren">(</span><em>dtype</em>, <em>name=None</em>, <em>persistable=False</em><span class="sig-paren">)</span></dt>
 <dd></dd></dl>
 
 </div>
@@ -4509,7 +4509,7 @@ Duplicable: False  Optional: False</li>
 <h3>create_parameter<a class="headerlink" href="#create-parameter" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">create_parameter</code><span class="sig-paren">(</span><em>shape</em>, <em>dtype</em>, <em>name=None</em>, <em>attr=None</em>, <em>is_bias=False</em>, <em>default_initializer=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">create_parameter</code><span class="sig-paren">(</span><em>shape</em>, <em>dtype</em>, <em>name=None</em>, <em>attr=None</em>, <em>is_bias=False</em>, <em>default_initializer=None</em><span class="sig-paren">)</span></dt>
 <dd><p>Create a parameter
 :param shape: shape of the parameter
 :type shape: list[int]
@@ -4541,7 +4541,7 @@ Xavier() will be used.</div></blockquote>
 <h3>create_global_var<a class="headerlink" href="#create-global-var" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">create_global_var</code><span class="sig-paren">(</span><em>shape</em>, <em>value</em>, <em>dtype</em>, <em>persistable=False</em>, <em>force_cpu=False</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">create_global_var</code><span class="sig-paren">(</span><em>shape</em>, <em>value</em>, <em>dtype</em>, <em>persistable=False</em>, <em>force_cpu=False</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
 <dd><p>Create a global variable. such as global_step
 :param shape: shape of the variable
 :type shape: list[int]
@@ -4570,7 +4570,7 @@ Xavier() will be used.</div></blockquote>
 <h3>cast<a class="headerlink" href="#cast" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">cast</code><span class="sig-paren">(</span><em>x</em>, <em>dtype</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">cast</code><span class="sig-paren">(</span><em>x</em>, <em>dtype</em><span class="sig-paren">)</span></dt>
 <dd><p>This function takes in the input with input_dtype
 and casts it to the output_dtype as the output.</p>
 </dd></dl>
@@ -4580,7 +4580,7 @@ and casts it to the output_dtype as the output.</p>
 <h3>concat<a class="headerlink" href="#concat" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">concat</code><span class="sig-paren">(</span><em>input</em>, <em>axis=0</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">concat</code><span class="sig-paren">(</span><em>input</em>, <em>axis=0</em><span class="sig-paren">)</span></dt>
 <dd><p><strong>Concat</strong></p>
 <p>This function concatenates the input along the axis mentioned
 and returns that as the output.</p>
@@ -4610,7 +4610,7 @@ and returns that as the output.</p>
 <h3>sums<a class="headerlink" href="#sums" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">sums</code><span class="sig-paren">(</span><em>input</em>, <em>out=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">sums</code><span class="sig-paren">(</span><em>input</em>, <em>out=None</em><span class="sig-paren">)</span></dt>
 <dd><p>This function performs the sum operation on the input and returns the
 result as the output.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -4638,7 +4638,7 @@ that need to be summed up.</td>
 <h3>assign<a class="headerlink" href="#assign" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">assign</code><span class="sig-paren">(</span><em>input</em>, <em>output</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">assign</code><span class="sig-paren">(</span><em>input</em>, <em>output</em><span class="sig-paren">)</span></dt>
 <dd><p><strong>Assign</strong></p>
 <p>This function copies the <em>input</em> Variable to the <em>output</em> Variable.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -4667,7 +4667,7 @@ that need to be summed up.</td>
 <h3>fill_constant_batch_size_like<a class="headerlink" href="#fill-constant-batch-size-like" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">fill_constant_batch_size_like</code><span class="sig-paren">(</span><em>input</em>, <em>shape</em>, <em>dtype</em>, <em>value</em>, <em>input_dim_idx=0</em>, <em>output_dim_idx=0</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">fill_constant_batch_size_like</code><span class="sig-paren">(</span><em>input</em>, <em>shape</em>, <em>dtype</em>, <em>value</em>, <em>input_dim_idx=0</em>, <em>output_dim_idx=0</em><span class="sig-paren">)</span></dt>
 <dd><p><strong>fill_constant_batch_size_like</strong></p>
 <p>This function creates a tensor of specified <em>shape</em>, <em>dtype</em> and batch size,
 and initializes this with a constant supplied in <em>value</em>. The batch size is
@@ -4707,7 +4707,7 @@ obtained from the <cite>input</cite> tensor.</p>
 <h3>fill_constant<a class="headerlink" href="#fill-constant" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">fill_constant</code><span class="sig-paren">(</span><em>shape</em>, <em>dtype</em>, <em>value</em>, <em>force_cpu=False</em>, <em>out=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">fill_constant</code><span class="sig-paren">(</span><em>shape</em>, <em>dtype</em>, <em>value</em>, <em>force_cpu=False</em>, <em>out=None</em><span class="sig-paren">)</span></dt>
 <dd><p><strong>fill_constant</strong></p>
 <p>This function creates a tensor with specified <cite>shape</cite> and <cite>dtype</cite>, and
 initializes it with a constant specifed by <cite>value</cite>.</p>
@@ -4744,7 +4744,7 @@ initializes it with a constant specifed by <cite>value</cite>.</p>
 <h3>ones<a class="headerlink" href="#ones" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">ones</code><span class="sig-paren">(</span><em>shape</em>, <em>dtype</em>, <em>force_cpu=False</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">ones</code><span class="sig-paren">(</span><em>shape</em>, <em>dtype</em>, <em>force_cpu=False</em><span class="sig-paren">)</span></dt>
 <dd><p><strong>ones</strong></p>
 <p>This function creates a tensor of specified <em>shape</em> and
 <em>dtype</em>, and initializes this with 1.</p>
@@ -4778,7 +4778,7 @@ initializes it with a constant specifed by <cite>value</cite>.</p>
 <h3>zeros<a class="headerlink" href="#zeros" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.layers.</code><code class="descname">zeros</code><span class="sig-paren">(</span><em>shape</em>, <em>dtype</em>, <em>force_cpu=False</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">zeros</code><span class="sig-paren">(</span><em>shape</em>, <em>dtype</em>, <em>force_cpu=False</em><span class="sig-paren">)</span></dt>
 <dd><p><strong>zeros</strong></p>
 <p>This function creates a tensor of specified <em>shape</em> and
 <em>dtype</em>, and initializes this with 0.</p>

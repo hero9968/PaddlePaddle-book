@@ -179,7 +179,7 @@
 <h2>simple_img_conv_pool<a class="headerlink" href="#simple-img-conv-pool" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.nets.</code><code class="descname">simple_img_conv_pool</code><span class="sig-paren">(</span><em>input</em>, <em>num_filters</em>, <em>filter_size</em>, <em>pool_size</em>, <em>pool_stride</em>, <em>act</em>, <em>param_attr=None</em>, <em>pool_type='max'</em>, <em>use_cudnn=True</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.nets.</code><code class="descname">simple_img_conv_pool</code><span class="sig-paren">(</span><em>input</em>, <em>num_filters</em>, <em>filter_size</em>, <em>pool_size</em>, <em>pool_stride</em>, <em>act</em>, <em>param_attr=None</em>, <em>pool_type='max'</em>, <em>use_cudnn=True</em><span class="sig-paren">)</span></dt>
 <dd></dd></dl>
 
 </div>
@@ -187,7 +187,7 @@
 <h2>sequence_conv_pool<a class="headerlink" href="#sequence-conv-pool" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.nets.</code><code class="descname">sequence_conv_pool</code><span class="sig-paren">(</span><em>input</em>, <em>num_filters</em>, <em>filter_size</em>, <em>param_attr=None</em>, <em>act='sigmoid'</em>, <em>pool_type='max'</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.nets.</code><code class="descname">sequence_conv_pool</code><span class="sig-paren">(</span><em>input</em>, <em>num_filters</em>, <em>filter_size</em>, <em>param_attr=None</em>, <em>act='sigmoid'</em>, <em>pool_type='max'</em><span class="sig-paren">)</span></dt>
 <dd></dd></dl>
 
 </div>
@@ -195,7 +195,7 @@
 <h2>glu<a class="headerlink" href="#glu" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.nets.</code><code class="descname">glu</code><span class="sig-paren">(</span><em>input</em>, <em>dim=-1</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.nets.</code><code class="descname">glu</code><span class="sig-paren">(</span><em>input</em>, <em>dim=-1</em><span class="sig-paren">)</span></dt>
 <dd><p>The gated linear unit composed by split, sigmoid activation and elementwise
 multiplication. Specifically, Split the input into two equal sized parts
 <span class="math">\(a\)</span> and <span class="math">\(b\)</span> along the given dimension and then compute as
@@ -236,7 +236,7 @@ dimension to split along is <span class="math">\(rank(input) + dim\)</span>.</li
 <h2>scaled_dot_product_attention<a class="headerlink" href="#scaled-dot-product-attention" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.nets.</code><code class="descname">scaled_dot_product_attention</code><span class="sig-paren">(</span><em>queries</em>, <em>keys</em>, <em>values</em>, <em>num_heads=1</em>, <em>dropout_rate=0.0</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.nets.</code><code class="descname">scaled_dot_product_attention</code><span class="sig-paren">(</span><em>queries</em>, <em>keys</em>, <em>values</em>, <em>num_heads=1</em>, <em>dropout_rate=0.0</em><span class="sig-paren">)</span></dt>
 <dd><p>The dot-product attention.</p>
 <p>Attention mechanism can be seen as mapping a query and a set of key-value
 pairs to an output. The output is computed as a weighted sum of the values,

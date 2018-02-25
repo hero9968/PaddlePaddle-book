@@ -179,7 +179,7 @@
 <h2>cuda_profiler<a class="headerlink" href="#cuda-profiler" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.profiler.</code><code class="descname">cuda_profiler</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwds</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.profiler.</code><code class="descname">cuda_profiler</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwds</em><span class="sig-paren">)</span></dt>
 <dd><p>The CUDA profiler.
 This fuctions is used to profile CUDA program by CUDA runtime application
 programming interface. The profiling result will be written into
@@ -211,7 +211,7 @@ to &#8220;Compute Command Line Profiler User Guide&#8221;.</li>
 <h2>reset_profiler<a class="headerlink" href="#reset-profiler" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.profiler.</code><code class="descname">reset_profiler</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.profiler.</code><code class="descname">reset_profiler</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
 <dd><p>The profiler clear interface.
 reset_profiler will clear the previous time record.</p>
 </dd></dl>
@@ -221,7 +221,7 @@ reset_profiler will clear the previous time record.</p>
 <h2>profiler<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.v2.fluid.profiler.</code><code class="descname">profiler</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwds</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.profiler.</code><code class="descname">profiler</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwds</em><span class="sig-paren">)</span></dt>
 <dd><p>The profiler interface.
 Different from cuda_profiler, this profiler can be used to profile both CPU
 and GPU program. By defalut, it records the CPU and GPU operator kernels,
