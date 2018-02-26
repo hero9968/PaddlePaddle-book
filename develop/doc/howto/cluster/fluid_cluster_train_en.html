@@ -205,7 +205,7 @@
 <p>Let&#8217;s take <a class="reference external" href="http://www.paddlepaddle.org/docs/develop/book/01.fit_a_line/index.html">Deep Learning 101</a>&#8216;s first chapter: &#8220;fit a line&#8221; as an example.</p>
 <p>The non-cluster version of this demo with fluid API is as follows:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">paddle.v2</span> <span class="kn">as</span> <span class="nn">paddle</span>
-<span class="kn">import</span> <span class="nn">paddle.v2.fluid</span> <span class="kn">as</span> <span class="nn">fluid</span>
+<span class="kn">import</span> <span class="nn">paddle.fluid</span> <span class="kn">as</span> <span class="nn">fluid</span>
 
 <span class="n">x</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">13</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
 <span class="n">y_predict</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">act</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
@@ -291,9 +291,9 @@
 </div>
 <div class="section" id="e2e-demo">
 <span id="e2e-demo"></span><h3>E2E demo<a class="headerlink" href="#e2e-demo" title="Permalink to this headline">¶</a></h3>
-<p>Please find the complete demo from <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/python/paddle/v2/fluid/tests/book_distribute/notest_dist_fit_a_line.py">here</a>.
+<p>Please find the complete demo from <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/python/paddle/fluid/tests/book_distribute/notest_dist_fit_a_line.py">here</a>.
 First <code class="docutils literal"><span class="pre">cd</span></code> into the folder that contains the <code class="docutils literal"><span class="pre">python</span></code> files. In this case:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">cd</span> /paddle/python/paddle/v2/fluid/tests/book_distribute
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">cd</span> /paddle/python/paddle/fluid/tests/book_distribute
 </pre></div>
 </div>
 <p>In parameter server node run the following in the command line:</p>

@@ -179,7 +179,7 @@
             
   <div class="section" id="paddlepaddle-fluid-source-code-overview">
 <span id="paddlepaddle-fluid-source-code-overview"></span><h1>PaddlePaddle Fluid Source Code Overview<a class="headerlink" href="#paddlepaddle-fluid-source-code-overview" title="Permalink to this headline">¶</a></h1>
-<p>Examples: https://github.com/PaddlePaddle/Paddle/tree/develop/python/paddle/v2/fluid/tests/book</p>
+<p>Examples: https://github.com/PaddlePaddle/Paddle/tree/develop/python/paddle/fluid/tests/book</p>
 <p>Core: https://github.com/PaddlePaddle/Paddle/tree/develop/paddle/framework</p>
 <p>Operator: https://github.com/PaddlePaddle/Paddle/tree/develop/paddle/operators</p>
 <p>Memory: https://github.com/PaddlePaddle/Paddle/tree/develop/paddle/memory</p>
@@ -200,8 +200,8 @@
 </pre></div>
 </div>
 <ul class="simple">
-<li>Variables: <code class="docutils literal"><span class="pre">x</span></code>,  <code class="docutils literal"><span class="pre">y</span></code>, <code class="docutils literal"><span class="pre">y_predict</span></code>, <code class="docutils literal"><span class="pre">cost</span></code> and <code class="docutils literal"><span class="pre">avg_cost</span></code>. <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/python/paddle/v2/fluid/framework.py#">Python</a></li>
-<li>Layers: <code class="docutils literal"><span class="pre">fluid.layers.data</span></code>, <code class="docutils literal"><span class="pre">fluid.layers.fc</span></code> and <code class="docutils literal"><span class="pre">fluid.layers.mean</span></code> are layers. <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/tree/develop/python/paddle/v2/fluid/layers">Python</a><ul>
+<li>Variables: <code class="docutils literal"><span class="pre">x</span></code>,  <code class="docutils literal"><span class="pre">y</span></code>, <code class="docutils literal"><span class="pre">y_predict</span></code>, <code class="docutils literal"><span class="pre">cost</span></code> and <code class="docutils literal"><span class="pre">avg_cost</span></code>. <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/python/paddle/fluid/framework.py#">Python</a></li>
+<li>Layers: <code class="docutils literal"><span class="pre">fluid.layers.data</span></code>, <code class="docutils literal"><span class="pre">fluid.layers.fc</span></code> and <code class="docutils literal"><span class="pre">fluid.layers.mean</span></code> are layers. <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/tree/develop/python/paddle/fluid/layers">Python</a><ul>
 <li>Every Layer has one or more operators and variables/parameters<ul>
 <li>All the operators are defined at <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/tree/develop/paddle/operators"><code class="docutils literal"><span class="pre">paddle/operators/</span></code></a>. Other worth-looking files:<ul>
 <li>Base class: <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/framework/operator.h"><code class="docutils literal"><span class="pre">paddle/framework/operator.h</span></code></a></li>
@@ -214,8 +214,8 @@
 </ul>
 </li>
 <li>Optimizer: <code class="docutils literal"><span class="pre">fluid.optimizer.SGD</span></code>. It does the following<ul>
-<li>Add backward operators. [<a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/python/paddle/v2/fluid/backward.py">Python</a>]</li>
-<li>Add optimizer operators. [<a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/python/paddle/v2/fluid/optimizer.py">Python</a>]</li>
+<li>Add backward operators. [<a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/python/paddle/fluid/backward.py">Python</a>]</li>
+<li>Add optimizer operators. [<a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/python/paddle/fluid/optimizer.py">Python</a>]</li>
 </ul>
 </li>
 </ul>
@@ -241,7 +241,7 @@
 <li>The device handle are at <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/platform/device_context.h">paddle/platform/device_context.h</a></li>
 </ul>
 </li>
-<li>Executor: <code class="docutils literal"><span class="pre">fluid.Executor(place)</span></code>. [<a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/python/paddle/v2/fluid/executor.py">Python</a>, <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/framework/executor.cc">C++</a>]<ul>
+<li>Executor: <code class="docutils literal"><span class="pre">fluid.Executor(place)</span></code>. [<a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/python/paddle/fluid/executor.py">Python</a>, <a class="reference external" href="https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/framework/executor.cc">C++</a>]<ul>
 <li>Feeds the data: <code class="docutils literal"><span class="pre">feed=feeder.feed(data)</span></code></li>
 <li>Evaluates all the operators</li>
 <li>Fetches the result: <code class="docutils literal"><span class="pre">fetch_list=[avg_cost]</span></code></li>
