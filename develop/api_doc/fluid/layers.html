@@ -3196,7 +3196,7 @@ with shape [M, 1] where M is the batch size.</li>
 <h3>mean<a class="headerlink" href="#mean" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.fluid.layers.</code><code class="descname">mean</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">mean</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Mean Operator.</p>
 <p>Out is a scalar which is the mean of all elements in X.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -3217,7 +3217,7 @@ Duplicable: False  Optional: False</td>
 <h3>mul<a class="headerlink" href="#mul" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.fluid.layers.</code><code class="descname">mul</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">mul</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Mul Operator.</p>
 <p>This operator is used to perform matrix multiplication for input $X$ and $Y$.</p>
 <p>The equation is:</p>
@@ -3268,7 +3268,7 @@ flattened. See comments of <cite>x_num_col_dims</cite> for more details.</li>
 <h3>reshape<a class="headerlink" href="#reshape" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.fluid.layers.</code><code class="descname">reshape</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">reshape</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Reshape Operator.</p>
 <p>Reshape Input(X) into the shape specified by Attr(shape).</p>
 <p>An example:
@@ -3301,7 +3301,7 @@ Duplicable: False  Optional: False</li>
 <h3>scale<a class="headerlink" href="#scale" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.fluid.layers.</code><code class="descname">scale</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">scale</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Scale operator</p>
 <p>$$Out = scale*X$$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -3327,7 +3327,7 @@ Duplicable: False  Optional: False</li>
 <h3>sigmoid_cross_entropy_with_logits<a class="headerlink" href="#sigmoid-cross-entropy-with-logits" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.fluid.layers.</code><code class="descname">sigmoid_cross_entropy_with_logits</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">sigmoid_cross_entropy_with_logits</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>SigmoidCrossEntropyWithLogits Operator.</p>
 <p>This measures the element-wise probability error in classification tasks
 in which each class is independent. This can be thought of as predicting labels
@@ -3370,7 +3370,7 @@ Duplicable: False  Optional: False</li>
 <h3>elementwise_add<a class="headerlink" href="#elementwise-add" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.fluid.layers.</code><code class="descname">elementwise_add</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">elementwise_add</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Limited Elementwise Add Operator.</p>
 <p>The equation is:</p>
 <p>$$Out = X + Y$$</p>
@@ -3420,7 +3420,7 @@ Duplicable: False  Optional: False</li>
 <h3>elementwise_div<a class="headerlink" href="#elementwise-div" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.fluid.layers.</code><code class="descname">elementwise_div</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">elementwise_div</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Limited Elementwise Div Operator.</p>
 <p>The equation is:</p>
 <p>$$Out = X / Y$$</p>
@@ -3470,7 +3470,7 @@ Duplicable: False  Optional: False</li>
 <h3>elementwise_sub<a class="headerlink" href="#elementwise-sub" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.fluid.layers.</code><code class="descname">elementwise_sub</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">elementwise_sub</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Limited Elementwise Sub Operator.</p>
 <p>The equation is:</p>
 <p>$$Out = X - Y$$</p>
@@ -3520,7 +3520,7 @@ Duplicable: False  Optional: False</li>
 <h3>elementwise_mul<a class="headerlink" href="#elementwise-mul" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.fluid.layers.</code><code class="descname">elementwise_mul</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">elementwise_mul</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Limited Elementwise Mul Operator.</p>
 <p>The equation is:</p>
 <p>$$Out = X odotY$$</p>
@@ -3570,7 +3570,7 @@ Duplicable: False  Optional: False</li>
 <h3>elementwise_max<a class="headerlink" href="#elementwise-max" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.fluid.layers.</code><code class="descname">elementwise_max</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">elementwise_max</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Limited Elementwise Max Operator.</p>
 <p>The equation is:</p>
 <p>$$Out = max(X, Y)$$</p>
@@ -3620,7 +3620,7 @@ Duplicable: False  Optional: False</li>
 <h3>elementwise_min<a class="headerlink" href="#elementwise-min" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.fluid.layers.</code><code class="descname">elementwise_min</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">elementwise_min</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Limited Elementwise Max Operator.</p>
 <p>The equation is:</p>
 <p>$$Out = min(X, Y)$$</p>
@@ -3670,7 +3670,7 @@ Duplicable: False  Optional: False</li>
 <h3>elementwise_pow<a class="headerlink" href="#elementwise-pow" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.fluid.layers.</code><code class="descname">elementwise_pow</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">elementwise_pow</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Limited Elementwise Pow Operator.</p>
 <p>The equation is:</p>
 <p>$$Out = X ^ Y$$</p>
@@ -3720,7 +3720,7 @@ Duplicable: False  Optional: False</li>
 <h3>clip<a class="headerlink" href="#clip" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.fluid.layers.</code><code class="descname">clip</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">clip</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Clip Operator.</p>
 <p>The clip operator limits the value of given input within an interval. The
 interval is specified with arguments &#8216;min&#8217; and &#8216;max&#8217;:</p>
@@ -3751,7 +3751,7 @@ Duplicable: False  Optional: False</li>
 <h3>clip_by_norm<a class="headerlink" href="#clip-by-norm" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.fluid.layers.</code><code class="descname">clip_by_norm</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">clip_by_norm</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>ClipByNorm Operator.</p>
 <p>This operator limits the L2 norm of the input $X$ within $max_norm$.
 If the L2 norm of $X$ is less than or equal to $max_norm$, $Out$ will be
@@ -3785,7 +3785,7 @@ Duplicable: False  Optional: False</li>
 <h3>sequence_softmax<a class="headerlink" href="#sequence-softmax" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.fluid.layers.</code><code class="descname">sequence_softmax</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">sequence_softmax</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Sequence Softmax Operator.</p>
 <p>SequenceSoftmaxOp computes the softmax activation among all time-steps for each
 sequence. The dimension of each time-step should be 1. Thus, the shape of
@@ -3819,7 +3819,7 @@ Duplicable: False  Optional: False</td>
 <h3>sigmoid<a class="headerlink" href="#sigmoid" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.fluid.layers.</code><code class="descname">sigmoid</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">sigmoid</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Sigmoid Activation Operator</p>
 <p>$$out = frac{1}{1 + e^{-x}}$$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -3840,7 +3840,7 @@ Duplicable: False  Optional: False</td>
 <h3>logsigmoid<a class="headerlink" href="#logsigmoid" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.fluid.layers.</code><code class="descname">logsigmoid</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">logsigmoid</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Logsigmoid Activation Operator</p>
 <p>$$out = log frac{1}{1 + e^{-x}}$$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -3861,7 +3861,7 @@ Duplicable: False  Optional: False</td>
 <h3>exp<a class="headerlink" href="#exp" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.fluid.layers.</code><code class="descname">exp</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">exp</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Exp Activation Operator.</p>
 <p>$out = e^x$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -3882,7 +3882,7 @@ Duplicable: False  Optional: False</td>
 <h3>relu<a class="headerlink" href="#relu" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.fluid.layers.</code><code class="descname">relu</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">relu</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Relu Activation Operator.</p>
 <p>$out = max(x, 0)$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -3903,7 +3903,7 @@ Duplicable: False  Optional: False</td>
 <h3>tanh<a class="headerlink" href="#tanh" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.fluid.layers.</code><code class="descname">tanh</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">tanh</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Tanh Activation Operator.</p>
 <p>$$out = frac{e^{x} - e^{-x}}{e^{x} + e^{-x}}$$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -3924,7 +3924,7 @@ Duplicable: False  Optional: False</td>
 <h3>tanh_shrink<a class="headerlink" href="#tanh-shrink" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.fluid.layers.</code><code class="descname">tanh_shrink</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">tanh_shrink</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>TanhShrink Activation Operator.</p>
 <p>$$out = x - frac{e^{x} - e^{-x}}{e^{x} + e^{-x}}$$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -3945,7 +3945,7 @@ Duplicable: False  Optional: False</td>
 <h3>softshrink<a class="headerlink" href="#softshrink" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.fluid.layers.</code><code class="descname">softshrink</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">softshrink</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Softshrink Activation Operator.</p>
 <p>$$
 out = begin{cases}</p>
@@ -3978,7 +3978,7 @@ Duplicable: False  Optional: False</li>
 <h3>sqrt<a class="headerlink" href="#sqrt" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.fluid.layers.</code><code class="descname">sqrt</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">sqrt</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Sqrt Activation Operator.</p>
 <p>$out = sqrt{x}$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -3999,7 +3999,7 @@ Duplicable: False  Optional: False</td>
 <h3>abs<a class="headerlink" href="#abs" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.fluid.layers.</code><code class="descname">abs</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">abs</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Abs Activation Operator.</p>
 <p>$out = <a href="#id1"><span class="problematic" id="id2">|</span></a>x|$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -4020,7 +4020,7 @@ Duplicable: False  Optional: False</td>
 <h3>ceil<a class="headerlink" href="#ceil" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.fluid.layers.</code><code class="descname">ceil</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">ceil</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Ceil Activation Operator.</p>
 <p>$out = ceil(x)$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -4041,7 +4041,7 @@ Duplicable: False  Optional: False</td>
 <h3>floor<a class="headerlink" href="#floor" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.fluid.layers.</code><code class="descname">floor</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">floor</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Floor Activation Operator.</p>
 <p>$out = floor(x)$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -4062,7 +4062,7 @@ Duplicable: False  Optional: False</td>
 <h3>round<a class="headerlink" href="#round" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.fluid.layers.</code><code class="descname">round</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">round</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Round Activation Operator.</p>
 <p>$out = [x]$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -4083,7 +4083,7 @@ Duplicable: False  Optional: False</td>
 <h3>reciprocal<a class="headerlink" href="#reciprocal" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.fluid.layers.</code><code class="descname">reciprocal</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">reciprocal</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Reciprocal Activation Operator.</p>
 <p>$$out = frac{1}{x}$$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -4104,7 +4104,7 @@ Duplicable: False  Optional: False</td>
 <h3>log<a class="headerlink" href="#log" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.fluid.layers.</code><code class="descname">log</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">log</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Log Activation Operator.</p>
 <p>$out = ln(x)$</p>
 <p>Natural logarithm of x.</p>
@@ -4126,7 +4126,7 @@ Duplicable: False  Optional: False</td>
 <h3>square<a class="headerlink" href="#square" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.fluid.layers.</code><code class="descname">square</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">square</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Square Activation Operator.</p>
 <p>$out = x^2$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -4147,7 +4147,7 @@ Duplicable: False  Optional: False</td>
 <h3>softplus<a class="headerlink" href="#softplus" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.fluid.layers.</code><code class="descname">softplus</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">softplus</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Softplus Activation Operator.</p>
 <p>$out = ln(1 + e^{x})$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -4168,7 +4168,7 @@ Duplicable: False  Optional: False</td>
 <h3>softsign<a class="headerlink" href="#softsign" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.fluid.layers.</code><code class="descname">softsign</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">softsign</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Softsign Activation Operator.</p>
 <p>$$out = frac{x}{1 + <a href="#id5"><span class="problematic" id="id6">|x|</span></a>}$$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -4189,7 +4189,7 @@ Duplicable: False  Optional: False</td>
 <h3>brelu<a class="headerlink" href="#brelu" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.fluid.layers.</code><code class="descname">brelu</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">brelu</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>BRelu Activation Operator.</p>
 <p>$out = max(min(x, t_{min}), t_{max})$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -4216,7 +4216,7 @@ Duplicable: False  Optional: False</li>
 <h3>leaky_relu<a class="headerlink" href="#leaky-relu" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.fluid.layers.</code><code class="descname">leaky_relu</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">leaky_relu</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>LeakyRelu Activation Operator.</p>
 <p>$out = max(x, alpha * x)$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -4242,7 +4242,7 @@ Duplicable: False  Optional: False</li>
 <h3>soft_relu<a class="headerlink" href="#soft-relu" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.fluid.layers.</code><code class="descname">soft_relu</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">soft_relu</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>SoftRelu Activation Operator.</p>
 <p>$out = ln(1 + exp(max(min(x, threshold), threshold))$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -4268,7 +4268,7 @@ Duplicable: False  Optional: False</li>
 <h3>elu<a class="headerlink" href="#elu" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.fluid.layers.</code><code class="descname">elu</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">elu</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>ELU Activation Operator.</p>
 <p>Applies the following element-wise computation on the input according to
 <a class="reference external" href="https://arxiv.org/abs/1511.07289">https://arxiv.org/abs/1511.07289</a>.</p>
@@ -4296,7 +4296,7 @@ Duplicable: False  Optional: False</li>
 <h3>relu6<a class="headerlink" href="#relu6" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.fluid.layers.</code><code class="descname">relu6</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">relu6</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Relu6 Activation Operator.</p>
 <p>$out = min(max(0, x), 6)$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -4322,7 +4322,7 @@ Duplicable: False  Optional: False</li>
 <h3>pow<a class="headerlink" href="#pow" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.fluid.layers.</code><code class="descname">pow</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">pow</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Pow Activation Operator.</p>
 <p>$out = x^{factor}$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -4348,7 +4348,7 @@ Duplicable: False  Optional: False</li>
 <h3>stanh<a class="headerlink" href="#stanh" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.fluid.layers.</code><code class="descname">stanh</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">stanh</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>STanh Activation Operator.</p>
 <p>$$out = b * frac{e^{a * x} - e^{-a * x}}{e^{a * x} + e^{-a * x}}$$</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -4375,7 +4375,7 @@ Duplicable: False  Optional: False</li>
 <h3>hard_shrink<a class="headerlink" href="#hard-shrink" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.fluid.layers.</code><code class="descname">hard_shrink</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">hard_shrink</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>HardShrink Activation Operator.</p>
 <p>$$
 out = begin{cases}</p>
@@ -4408,7 +4408,7 @@ Duplicable: False  Optional: False</li>
 <h3>thresholded_relu<a class="headerlink" href="#thresholded-relu" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.fluid.layers.</code><code class="descname">thresholded_relu</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">thresholded_relu</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>ThresholdedRelu Activation Operator.</p>
 <p>$$
 out = begin{cases}</p>
@@ -4440,7 +4440,7 @@ Duplicable: False  Optional: False</li>
 <h3>hard_sigmoid<a class="headerlink" href="#hard-sigmoid" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.fluid.layers.</code><code class="descname">hard_sigmoid</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">hard_sigmoid</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>HardSigmoid Activation Operator.</p>
 <p>Segment-wise linear approximation of sigmoid(<a class="reference external" href="https://arxiv.org/abs/1603.00391">https://arxiv.org/abs/1603.00391</a>),
 which is much faster than sigmoid.</p>
@@ -4472,7 +4472,7 @@ Duplicable: False  Optional: False</li>
 <h3>swish<a class="headerlink" href="#swish" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.fluid.layers.</code><code class="descname">swish</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">swish</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span></dt>
 <dd><p>Swish Activation Operator.</p>
 <p>$$out = frac{x}{1 + e^{- beta x}}$$</p>
 <table class="docutils field-list" frame="void" rules="none">
