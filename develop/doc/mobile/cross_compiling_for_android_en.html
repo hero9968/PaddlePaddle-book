@@ -199,6 +199,10 @@ $ docker build -t paddle:dev-android . -f Dockerfile.android
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ docker pull paddlepaddle/paddle:latest-dev-android
 </pre></div>
 </div>
+<p>For users in China, we provide a faster mirror.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ docker pull docker.paddlepaddlehub.com/paddle:latest-dev-android
+</pre></div>
+</div>
 </div>
 <div class="section" id="build-the-inference-library">
 <span id="build-the-inference-library"></span><h3>Build the Inference Library<a class="headerlink" href="#build-the-inference-library" title="Permalink to this headline">¶</a></h3>
@@ -248,22 +252,22 @@ unzip -q android-ndk-r14b-linux-x86_64.zip
 </pre></div>
 </div>
 <p>Android NDK includes everything we need to build the <a class="reference external" href="https://developer.android.com/ndk/guides/standalone_toolchain.html"><em>standalone toolchain</em></a>, which in then used to build PaddlePaddle for Android.  (We plan to remove the intermediate stage of building the standalone toolchain in the near future.)</p>
-<ul>
-<li><p class="first">To build the standalone toolchain for <code class="docutils literal"><span class="pre">armeabi-v7a</span></code> and Android API level 21:</p>
+<ul class="simple">
+<li>To build the standalone toolchain for <code class="docutils literal"><span class="pre">armeabi-v7a</span></code> and Android API level 21:</li>
+</ul>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>your/path/to/android-ndk-r14b-linux-x86_64/build/tools/make-standalone-toolchain.sh <span class="se">\</span>
         --arch<span class="o">=</span>arm --platform<span class="o">=</span>android-21 --install-dir<span class="o">=</span>your/path/to/arm_standalone_toolchain
 </pre></div>
 </div>
 <p>The generated standalone toolchain will be in <code class="docutils literal"><span class="pre">your/path/to/arm_standalone_toolchain</span></code>.</p>
-</li>
-<li><p class="first">To build the standalone toolchain for <code class="docutils literal"><span class="pre">arm64-v8a</span></code> and Android API level 21:</p>
+<ul class="simple">
+<li>To build the standalone toolchain for <code class="docutils literal"><span class="pre">arm64-v8a</span></code> and Android API level 21:</li>
+</ul>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>your/path/to/android-ndk-r14b-linux-x86_64/build/tools/make-standalone-toolchain.sh <span class="se">\</span>
         --arch<span class="o">=</span>arm64 --platform<span class="o">=</span>android-21 --install-dir<span class="o">=</span>your/path/to/arm64_standalone_toolchain
 </pre></div>
 </div>
 <p>The generated standalone toolchain will be in <code class="docutils literal"><span class="pre">your/path/to/arm64_standalone_toolchain</span></code>.</p>
-</li>
-</ul>
 </div>
 <div class="section" id="cross-compiling-arguments">
 <span id="cross-compiling-arguments"></span><h3>Cross-Compiling Arguments<a class="headerlink" href="#cross-compiling-arguments" title="Permalink to this headline">¶</a></h3>
