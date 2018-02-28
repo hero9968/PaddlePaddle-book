@@ -442,33 +442,25 @@ PaddlePaddle的内存占用主要分为如下几个方面:</p>
 <ol class="arabic simple">
 <li>设置 <code class="code docutils literal"><span class="pre">gradient_clipping_threshold</span></code> 参数，示例代码如下：</li>
 </ol>
-<div class="highlight-python"><div class="highlight"><pre><span></span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">optimizer</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">RMSProp</span><span class="p">(</span>
+    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span>
+    <span class="n">gradient_clipping_threshold</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span>
+    <span class="n">regularization</span><span class="o">=</span><span class="n">paddle</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">L2Regularization</span><span class="p">(</span><span class="n">rate</span><span class="o">=</span><span class="mf">8e-4</span><span class="p">))</span>
 </pre></div>
 </div>
-<dl class="docutils">
-<dt>optimizer = paddle.optimizer.RMSProp(</dt>
-<dd>learning_rate=1e-3,
-gradient_clipping_threshold=10.0,
-regularization=paddle.optimizer.L2Regularization(rate=8e-4))</dd>
-</dl>
 <p>具体可以参考  <a class="reference external" href="https://github.com/PaddlePaddle/models/blob/develop/nmt_without_attention/train.py#L35">nmt_without_attention</a> 示例。</p>
 <ol class="arabic simple" start="2">
 <li>设置 <code class="code docutils literal"><span class="pre">error_clipping_threshold</span></code> 参数，示例代码如下：</li>
 </ol>
-<div class="highlight-python"><div class="highlight"><pre><span></span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">decoder_inputs</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span>
+    <span class="n">act</span><span class="o">=</span><span class="n">paddle</span><span class="o">.</span><span class="n">activation</span><span class="o">.</span><span class="n">Linear</span><span class="p">(),</span>
+    <span class="n">size</span><span class="o">=</span><span class="n">decoder_size</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="n">bias_attr</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="nb">input</span><span class="o">=</span><span class="p">[</span><span class="n">context</span><span class="p">,</span> <span class="n">current_word</span><span class="p">],</span>
+    <span class="n">layer_attr</span><span class="o">=</span><span class="n">paddle</span><span class="o">.</span><span class="n">attr</span><span class="o">.</span><span class="n">ExtraLayerAttribute</span><span class="p">(</span>
+        <span class="n">error_clipping_threshold</span><span class="o">=</span><span class="mf">100.0</span><span class="p">))</span>
 </pre></div>
 </div>
-<dl class="docutils">
-<dt>decoder_inputs = paddle.layer.fc(</dt>
-<dd><p class="first">act=paddle.activation.Linear(),
-size=decoder_size * 3,
-bias_attr=False,
-input=[context, current_word],
-layer_attr=paddle.attr.ExtraLayerAttribute(</p>
-<blockquote class="last">
-<div>error_clipping_threshold=100.0))</div></blockquote>
-</dd>
-</dl>
 <p>完整代码可以参考示例 <a class="reference external" href="https://github.com/PaddlePaddle/book/blob/develop/08.machine_translation/train.py#L66">machine translation</a> 。</p>
 <p>两种方法的区别：</p>
 <ol class="arabic simple">
