@@ -280,14 +280,14 @@
 </pre></div>
 </div>
 <p>示例程序<code class="docutils literal"><span class="pre">prepare.py</span></code>会把训练集和测试集分别分割成多个文件（例子中为3个，后缀为<code class="docutils literal"><span class="pre">-00000</span></code>、<code class="docutils literal"><span class="pre">-00001</span></code>和<code class="docutils literal"><span class="pre">-00002</span></code>）:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">train</span><span class="o">.</span><span class="n">txt</span>
-<span class="n">train</span><span class="o">.</span><span class="n">txt</span><span class="o">-</span><span class="mi">00000</span>
-<span class="n">train</span><span class="o">.</span><span class="n">txt</span><span class="o">-</span><span class="mi">00001</span>
-<span class="n">train</span><span class="o">.</span><span class="n">txt</span><span class="o">-</span><span class="mi">00002</span>
-<span class="n">test</span><span class="o">.</span><span class="n">txt</span>
-<span class="n">test</span><span class="o">.</span><span class="n">txt</span><span class="o">-</span><span class="mi">00000</span>
-<span class="n">test</span><span class="o">.</span><span class="n">txt</span><span class="o">-</span><span class="mi">00001</span>
-<span class="n">test</span><span class="o">.</span><span class="n">txt</span><span class="o">-</span><span class="mi">00002</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>train.txt
+train.txt-00000
+train.txt-00001
+train.txt-00002
+test.txt
+test.txt-00000
+test.txt-00001
+test.txt-00002
 </pre></div>
 </div>
 <p>在进行分布式训练时，每个trainer进程需要能够读取属于自己的一份数据。在一些分布式系统中，系统会提供一个分布式存储服务，这样保存在分布式存储中的数据可以被集群中的每个节点读取到。如果不使用分布式存储，则需要手动拷贝属于每个trainer节点的训练数据到对应的节点上。</p>
@@ -297,18 +297,18 @@
 <span id="id5"></span><h2>准备训练程序<a class="headerlink" href="#" title="永久链接至标题">¶</a></h2>
 <p>我们会对每个训练任务都会在每个节点上创建一个工作空间（workspace），其中包含了用户的训练程序、程序依赖、挂载或下载的训练数据分片。</p>
 <p>最后，工作空间应如下所示：</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>.
-|-- my_lib.py
-|-- word_dict.pickle
-|-- train.py
-|-- train_data_dir/
-|   |-- train.txt-00000
-|   |-- train.txt-00001
-|   |-- train.txt-00002
-`-- test_data_dir/
-    |-- test.txt-00000
-    |-- test.txt-00001
-    `-- test.txt-00002
+<div class="highlight-bash"><div class="highlight"><pre><span></span>.
+<span class="p">|</span>-- my_lib.py
+<span class="p">|</span>-- word_dict.pickle
+<span class="p">|</span>-- train.py
+<span class="p">|</span>-- train_data_dir/
+<span class="p">|</span>   <span class="p">|</span>-- train.txt-00000
+<span class="p">|</span>   <span class="p">|</span>-- train.txt-00001
+<span class="p">|</span>   <span class="p">|</span>-- train.txt-00002
+<span class="sb">`</span>-- test_data_dir/
+    <span class="p">|</span>-- test.txt-00000
+    <span class="p">|</span>-- test.txt-00001
+    <span class="sb">`</span>-- test.txt-00002
 </pre></div>
 </div>
 <ul>
@@ -329,6 +329,24 @@
 </li>
 <li><p class="first"><code class="docutils literal"><span class="pre">test_data_dir</span></code>：包含测试数据集的目录。</p>
 </li>
+</ul>
+</div>
+<div class="section" id="sgd">
+<span id="sgd"></span><h2>异步 SGD 更新<a class="headerlink" href="#sgd" title="永久链接至标题">¶</a></h2>
+<p>我们可以通过设置 <code class="docutils literal"><span class="pre">optimize</span></code> 的参数使之支持异步SGD更新。
+例如，设置 <code class="docutils literal"><span class="pre">AdaGrad</span></code> optimize 的 <code class="docutils literal"><span class="pre">is_async</span></code> 和 <code class="docutils literal"><span class="pre">async_lagged_grad_discard_ratio</span></code> 参数：</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">adagrad</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">AdaGrad</span><span class="p">(</span>
+    <span class="n">is_async</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">async_lagged_grad_discard_ratio</span><span class="o">=</span><span class="mf">1.6</span><span class="p">,</span>
+    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">3e-3</span><span class="p">,</span>
+    <span class="n">regularization</span><span class="o">=</span><span class="n">paddle</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">L2Regularization</span><span class="p">(</span><span class="mf">8e-4</span><span class="p">))</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">is_async</span></code>: 是否为异步SGD更新模式。</li>
+<li><code class="docutils literal"><span class="pre">async_lagged_grad_discard_ratio</span></code>: 异步SGD更新的步长控制，接收到足够的gradient(
+<code class="docutils literal"><span class="pre">async_lagged_grad_discard_ratio</span> <span class="pre">*</span> <span class="pre">num_gradient_servers</span></code>)之后，后面的gradient
+将会被抛弃。</li>
 </ul>
 </div>
 </div>

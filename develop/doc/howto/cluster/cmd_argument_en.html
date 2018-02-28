@@ -202,11 +202,11 @@
 <div class="section" id="starting-parameter-server">
 <span id="starting-parameter-server"></span><h2>Starting parameter server<a class="headerlink" href="#starting-parameter-server" title="Permalink to this headline">¶</a></h2>
 <p>Type the below command to start a parameter server which will wait for trainers to connect:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ paddle pserver --port<span class="o">=</span><span class="m">7164</span> --ports_num<span class="o">=</span><span class="m">1</span> --ports_num_for_sparse<span class="o">=</span><span class="m">1</span> --num_gradient_servers<span class="o">=</span><span class="m">1</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ paddle pserver --port<span class="o">=</span><span class="m">7164</span> --ports_num<span class="o">=</span><span class="m">1</span> --ports_num_for_sparse<span class="o">=</span><span class="m">1</span> --num_gradient_servers<span class="o">=</span><span class="m">1</span> --nics<span class="o">=</span>eth0
 </pre></div>
 </div>
 <p>If you wish to run parameter servers in background, and save a log file, you can type:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ stdbuf -oL /usr/bin/nohup paddle pserver --port<span class="o">=</span><span class="m">7164</span> --ports_num<span class="o">=</span><span class="m">1</span> --ports_num_for_sparse<span class="o">=</span><span class="m">1</span> --num_gradient_servers<span class="o">=</span><span class="m">1</span> <span class="p">&amp;</span>&gt; pserver.log
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ stdbuf -oL /usr/bin/nohup paddle pserver --port<span class="o">=</span><span class="m">7164</span> --ports_num<span class="o">=</span><span class="m">1</span> --ports_num_for_sparse<span class="o">=</span><span class="m">1</span> --num_gradient_servers<span class="o">=</span><span class="m">1</span> --nics<span class="o">=</span>eth0 <span class="p">&amp;</span>&gt; pserver.log <span class="p">&amp;</span>
 </pre></div>
 </div>
 <p>Parameter Description</p>
@@ -215,6 +215,7 @@
 <li>ports_num: <strong>required, default 1</strong>, total number of ports will listen on.</li>
 <li>ports_num_for_sparse: <strong>required, default 0</strong>, number of ports which serves sparse parameter update.</li>
 <li>num_gradient_servers: <strong>required, default 1</strong>, total number of gradient servers.</li>
+<li>nics: <strong>optional, default xgbe0,xgbe1</strong>, network device name which paramter server will listen on.</li>
 </ul>
 </div>
 <div class="section" id="starting-trainer">
@@ -274,14 +275,14 @@ python train.py
 </pre></div>
 </div>
 <p>Example code <code class="docutils literal"><span class="pre">prepare.py</span></code> will split training data and testing data into 3 files with digital suffix like <code class="docutils literal"><span class="pre">-00000</span></code>, <code class="docutils literal"><span class="pre">-00001</span></code> and<code class="docutils literal"><span class="pre">-00002</span></code>:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">train</span><span class="o">.</span><span class="n">txt</span>
-<span class="n">train</span><span class="o">.</span><span class="n">txt</span><span class="o">-</span><span class="mi">00000</span>
-<span class="n">train</span><span class="o">.</span><span class="n">txt</span><span class="o">-</span><span class="mi">00001</span>
-<span class="n">train</span><span class="o">.</span><span class="n">txt</span><span class="o">-</span><span class="mi">00002</span>
-<span class="n">test</span><span class="o">.</span><span class="n">txt</span>
-<span class="n">test</span><span class="o">.</span><span class="n">txt</span><span class="o">-</span><span class="mi">00000</span>
-<span class="n">test</span><span class="o">.</span><span class="n">txt</span><span class="o">-</span><span class="mi">00001</span>
-<span class="n">test</span><span class="o">.</span><span class="n">txt</span><span class="o">-</span><span class="mi">00002</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>train.txt
+train.txt-00000
+train.txt-00001
+train.txt-00002
+test.txt
+test.txt-00000
+test.txt-00001
+test.txt-00002
 </pre></div>
 </div>
 <p>When job started, every trainer needs to get it&#8217;s own part of data. In some distributed systems a storage service will be provided, so the date under that path can be accessed by all the trainer nodes. Without the storage service, you must copy the training data to each trainer node.</p>
@@ -291,18 +292,18 @@ python train.py
 <span id="prepare-training-program"></span><h2>Prepare Training program<a class="headerlink" href="#prepare-training-program" title="Permalink to this headline">¶</a></h2>
 <p>We&#8217;ll create a <em>workspace</em> directory on each node, storing your training program, dependencies, mounted or downloaded dataset directory.</p>
 <p>Your workspace may looks like:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>.
-|-- my_lib.py
-|-- word_dict.pickle
-|-- train.py
-|-- train_data_dir/
-|   |-- train.txt-00000
-|   |-- train.txt-00001
-|   |-- train.txt-00002
-`-- test_data_dir/
-    |-- test.txt-00000
-    |-- test.txt-00001
-    `-- test.txt-00002
+<div class="highlight-bash"><div class="highlight"><pre><span></span>.
+<span class="p">|</span>-- my_lib.py
+<span class="p">|</span>-- word_dict.pickle
+<span class="p">|</span>-- train.py
+<span class="p">|</span>-- train_data_dir/
+<span class="p">|</span>   <span class="p">|</span>-- train.txt-00000
+<span class="p">|</span>   <span class="p">|</span>-- train.txt-00001
+<span class="p">|</span>   <span class="p">|</span>-- train.txt-00002
+<span class="sb">`</span>-- test_data_dir/
+    <span class="p">|</span>-- test.txt-00000
+    <span class="p">|</span>-- test.txt-00001
+    <span class="sb">`</span>-- test.txt-00002
 </pre></div>
 </div>
 <ul>
@@ -323,6 +324,24 @@ python train.py
 </li>
 <li><p class="first"><code class="docutils literal"><span class="pre">test_data_dir</span></code>: containing testing data.</p>
 </li>
+</ul>
+</div>
+<div class="section" id="async-sgd-update">
+<span id="async-sgd-update"></span><h2>Async SGD Update<a class="headerlink" href="#async-sgd-update" title="Permalink to this headline">¶</a></h2>
+<p>We can set some parameters of the optimizer to make it support async SGD update.
+For example, we can set the <code class="docutils literal"><span class="pre">is_async</span></code> and <code class="docutils literal"><span class="pre">async_lagged_grad_discard_ratio</span></code> of the <code class="docutils literal"><span class="pre">AdaGrad</span></code> optimizer:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">adagrad</span> <span class="o">=</span> <span class="n">paddle</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">AdaGrad</span><span class="p">(</span>
+    <span class="n">is_async</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">async_lagged_grad_discard_ratio</span><span class="o">=</span><span class="mf">1.6</span><span class="p">,</span>
+    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">3e-3</span><span class="p">,</span>
+    <span class="n">regularization</span><span class="o">=</span><span class="n">paddle</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">L2Regularization</span><span class="p">(</span><span class="mf">8e-4</span><span class="p">))</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">is_async</span></code>: Is Async-SGD or not.</li>
+<li><code class="docutils literal"><span class="pre">async_lagged_grad_discard_ratio</span></code>: For async SGD gradient commit control.
+when <code class="docutils literal"><span class="pre">async_lagged_grad_discard_ratio</span> <span class="pre">*</span> <span class="pre">num_gradient_servers</span></code> commit passed,
+current async gradient will be discard silently.</li>
 </ul>
 </div>
 </div>
