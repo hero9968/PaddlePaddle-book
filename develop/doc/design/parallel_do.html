@@ -223,15 +223,16 @@
 </pre></div>
 </div>
 <p>This implementation allows to write mixed device program like this</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># get embedding feature on CPU</span>
-<span class="n">feature</span> <span class="o">=</span> <span class="n">some_cpu_only_op</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">W1</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">,</span><span class="mi">20</span><span class="p">],</span> <span class="n">parameter</span><span class="o">=</span><span class="n">true</span><span class="p">)</span>
+<span class="n">W2</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">[</span><span class="mi">20</span><span class="p">,</span><span class="mi">15</span><span class="p">],</span> <span class="n">parameter</span><span class="o">=</span><span class="n">true</span><span class="p">)</span>
 
-<span class="n">gpu_places</span> <span class="o">=</span> <span class="n">get_place</span><span class="p">(</span><span class="n">use_gpu</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">data</span><span class="p">()</span>
+
+<span class="n">gpu_places</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">get_place</span><span class="p">(</span><span class="n">use_gpu</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="c1"># parallel processing on multiple GPUs</span>
 <span class="n">pd</span> <span class="o">=</span> <span class="n">ParallelDo</span><span class="p">(</span><span class="n">gpu_places</span><span class="p">)</span>
-<span class="k">with</span> <span class="n">pd</span><span class="o">.</span><span class="n">do</span><span class="p">():</span>
-    <span class="n">read_input</span><span class="p">(</span><span class="n">feature</span><span class="p">)</span>
-    <span class="n">prediction</span> <span class="o">=</span> <span class="n">my_net</span><span class="p">(</span><span class="n">feature</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">pd</span><span class="o">.</span><span class="n">do</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">data</span><span class="p">):</span>
+    <span class="n">prediction</span> <span class="o">=</span> <span class="n">softmax</span><span class="p">(</span><span class="n">fc</span><span class="p">(</span><span class="n">fc</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">W1</span><span class="p">),</span> <span class="n">W2</span><span class="p">))</span>
     <span class="n">write_output</span><span class="p">(</span><span class="n">prediction</span><span class="p">)</span>
 <span class="n">prediction</span> <span class="o">=</span> <span class="n">pd</span><span class="p">()</span>
 <span class="n">loss</span> <span class="o">=</span> <span class="n">cross_entropy</span><span class="p">(</span><span class="n">prediction</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
@@ -248,20 +249,20 @@
 <span class="n">main_program</span>
 <span class="p">{</span>
 <span class="n">block0</span> <span class="p">{</span>
-  <span class="nb">vars</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="n">places</span><span class="p">,</span> <span class="n">w1</span><span class="p">,</span> <span class="n">w2</span>
+  <span class="nb">vars</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="n">places</span><span class="p">,</span> <span class="n">w1</span><span class="p">,</span> <span class="n">w2</span><span class="p">,</span> <span class="n">w1_grad</span><span class="p">,</span> <span class="n">w2_grad</span><span class="p">,</span>
   <span class="n">ops</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="n">get_place</span><span class="p">,</span> <span class="n">parallel_do</span><span class="p">(</span><span class="n">block1</span><span class="p">),</span>
        <span class="n">parallel_do_grad</span><span class="p">(</span><span class="n">block2</span><span class="p">),</span>
        <span class="n">sgd</span><span class="p">(</span><span class="n">w2</span><span class="p">,</span> <span class="n">w2_grad</span><span class="p">),</span>
        <span class="n">sgd</span><span class="p">(</span><span class="n">w1</span><span class="p">,</span> <span class="n">w1_grad</span><span class="p">)</span>
 <span class="p">}</span>
-<span class="n">block1</span> <span class="p">{</span>
+<span class="n">block1</span> <span class="p">{</span> <span class="c1"># the forward pass</span>
   <span class="n">parent_block</span><span class="p">:</span> <span class="mi">0</span>
   <span class="nb">vars</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="n">h1</span><span class="p">,</span> <span class="n">h2</span><span class="p">,</span> <span class="n">loss</span>
   <span class="n">ops</span><span class="p">:</span> <span class="n">fc</span><span class="p">,</span> <span class="n">fc</span><span class="p">,</span> <span class="n">softmax</span>
 <span class="p">}</span>
-<span class="n">block2</span> <span class="p">{</span>
+<span class="n">block2</span> <span class="p">{</span> <span class="c1"># the backward pass</span>
   <span class="n">parent_block</span><span class="p">:</span> <span class="mi">1</span>
-  <span class="nb">vars</span><span class="p">:</span> <span class="n">data_grad</span><span class="p">,</span> <span class="n">h1_grad</span><span class="p">,</span> <span class="n">h2_grad</span><span class="p">,</span> <span class="n">loss_gard</span><span class="p">,</span> <span class="n">w1_grad</span><span class="p">,</span> <span class="n">w2_grad</span>
+  <span class="nb">vars</span><span class="p">:</span> <span class="n">data_grad</span><span class="p">,</span> <span class="n">h1_grad</span><span class="p">,</span> <span class="n">h2_grad</span><span class="p">,</span> <span class="n">loss_gard</span><span class="p">,</span> <span class="n">local_w1_grad</span><span class="p">,</span> <span class="n">local_w2_grad</span>
   <span class="n">ops</span><span class="p">:</span> <span class="n">softmax_grad</span><span class="p">,</span>
        <span class="n">fc_grad</span>
        <span class="n">fc_grad</span>
