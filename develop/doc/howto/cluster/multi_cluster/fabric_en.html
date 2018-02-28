@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Cluster Training Using Fabric &mdash; PaddlePaddle  documentation</title>
+  <title>Fabric &mdash; PaddlePaddle  documentation</title>
   
 
   
@@ -34,7 +34,7 @@
         <link rel="search" title="Search" href="../../../search.html"/>
     <link rel="top" title="PaddlePaddle  documentation" href="../../../index.html"/>
         <link rel="up" title="Use different clusters" href="index_en.html"/>
-        <link rel="next" title="Cluster Training Using OpenMPI" href="openmpi_en.html"/>
+        <link rel="next" title="OpenMPI" href="openmpi_en.html"/>
         <link rel="prev" title="Use different clusters" href="index_en.html"/> 
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/css/perfect-scrollbar.min.css" type="text/css" />
@@ -88,6 +88,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../build_and_install/index_en.html">Install and Build</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../index_en.html">HOW TO</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../dev/index_en.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq/index_en.html">FAQ</a></li>
 </ul>
 
         
@@ -111,10 +112,11 @@
           <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../getstarted/index_en.html">GET STARTED</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../getstarted/quickstart_en.html">Quick Start</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../getstarted/concepts/use_concepts_en.html">Basic Concept</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../build_and_install/index_en.html">Install and Build</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../build_and_install/pip_install_en.html">Install Using pip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../build_and_install/pip_install_en.html">Install using pip</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../build_and_install/docker_install_en.html">Run in Docker Containers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../build_and_install/build_from_source_en.html">Build from Sources</a></li>
 </ul>
@@ -130,25 +132,35 @@
 <li class="toctree-l3"><a class="reference internal" href="../preparations_en.html">Preparations</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../cmd_argument_en.html">Command-line arguments</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="index_en.html">Use different clusters</a><ul class="current">
-<li class="toctree-l4 current"><a class="current reference internal" href="#">Cluster Training Using Fabric</a></li>
-<li class="toctree-l4"><a class="reference internal" href="openmpi_en.html">Cluster Training Using OpenMPI</a></li>
-<li class="toctree-l4"><a class="reference internal" href="k8s_en.html">PaddlePaddle On Kubernetes</a></li>
-<li class="toctree-l4"><a class="reference internal" href="k8s_aws_en.html">Distributed PaddlePaddle Training on AWS with Kubernetes</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Fabric</a></li>
+<li class="toctree-l4"><a class="reference internal" href="openmpi_en.html">OpenMPI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="k8s_en.html">Kubernetes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="k8s_aws_en.html">Kubernetes on AWS</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../rnn/index_en.html">RNN Models</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../rnn/rnn_config_en.html">RNN Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../rnn/recurrent_group_en.html">Recurrent Group Tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../rnn/hierarchical_layer_en.html">Layers supporting hierarchical sequence as input</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../rnn/hrnn_rnn_api_compare_en.html">API comparision between RNN and hierarchical RNN</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../optimization/gpu_profiling_en.html">Tune GPU Performance</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../dev/index_en.html">Development</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../dev/new_layer_en.html">Write New Layers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../dev/contribute_to_paddle_en.html">Contribute Code</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../dev/write_docs_en.html">Contribute Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq/index_en.html">FAQ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../faq/build_and_install/index_en.html">Install, Build and Unit test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../faq/model/index_en.html">Model Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../faq/parameter/index_en.html">Parameter Setting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../faq/local/index_en.html">Local Training and Prediction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../faq/cluster/index_en.html">Cluster Training and Prediction</a></li>
 </ul>
 </li>
 </ul>
@@ -177,7 +189,7 @@
       
         <li><a href="index_en.html">Use different clusters</a> > </li>
       
-    <li>Cluster Training Using Fabric</li>
+    <li>Fabric</li>
   </ul>
 </div>
       
@@ -186,8 +198,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="cluster-training-using-fabric">
-<span id="cluster-training-using-fabric"></span><h1>Cluster Training Using Fabric<a class="headerlink" href="#cluster-training-using-fabric" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="fabric">
+<span id="fabric"></span><h1>Fabric<a class="headerlink" href="#fabric" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="prepare-a-linux-cluster">
 <span id="prepare-a-linux-cluster"></span><h2>Prepare a Linux cluster<a class="headerlink" href="#prepare-a-linux-cluster" title="Permalink to this headline">¶</a></h2>
 <p>Run <code class="docutils literal"><span class="pre">kubectl</span> <span class="pre">-f</span> <span class="pre">ssh_servers.yaml</span></code> under the directory:  <code class="docutils literal"><span class="pre">paddle/scripts/cluster_train_v2/fabric/docker_cluster</span></code> will launch a demo cluster. Run <code class="docutils literal"><span class="pre">kubectl</span> <span class="pre">get</span> <span class="pre">po</span> <span class="pre">-o</span> <span class="pre">wide</span></code> to get IP addresses of these nodes.</p>
@@ -237,7 +249,7 @@ It provides stderr and stdout of trainer process. Check error log if training cr
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="openmpi_en.html" class="btn btn-neutral float-right" title="Cluster Training Using OpenMPI" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="openmpi_en.html" class="btn btn-neutral float-right" title="OpenMPI" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="index_en.html" class="btn btn-neutral" title="Use different clusters" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
