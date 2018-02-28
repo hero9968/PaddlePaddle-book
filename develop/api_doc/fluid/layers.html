@@ -3378,10 +3378,13 @@ Duplicable: False  Optional: False</li>
 smaller than or equal to the dimensions of $X$.</p>
 <p>There are two cases for this operator:
 1. The shape of $Y$ is same with $X$;
-2. The shape of $Y$ is a subset of $X$.</p>
-<p>For case 2:
-$Y$ will be broadcasted to match the shape of $X$ and axis should be
+2. The shape of $Y$ is a congiguous subsequencet of $X$. The trailing dimensions</p>
+<blockquote>
+<div>of size 1 for $Y$ will be ignored for the consideration of subsequence.</div></blockquote>
+<p>For case 2:</p>
+<p>$Y$ will be broadcasted to match the shape of $X$ and axis should be
 set to index of the start dimension to broadcast $Y$ onto $X$.</p>
+<p>If axis is -1, it is treated as axis=rank(X)-rank(Y).</p>
 <dl class="docutils">
 <dt>For example</dt>
 <dd><div class="first last highlight-python"><div class="highlight"><pre><span></span><span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(,)</span>
@@ -3389,6 +3392,7 @@ set to index of the start dimension to broadcast $Y$ onto $X$.</p>
 <span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
 <span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="k">with</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
 <span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="k">with</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span>
+<span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="k">with</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span>
 </pre></div>
 </div>
 </dd>
@@ -3428,10 +3432,13 @@ Duplicable: False  Optional: False</li>
 smaller than or equal to the dimensions of $X$.</p>
 <p>There are two cases for this operator:
 1. The shape of $Y$ is same with $X$;
-2. The shape of $Y$ is a subset of $X$.</p>
-<p>For case 2:
-$Y$ will be broadcasted to match the shape of $X$ and axis should be
+2. The shape of $Y$ is a congiguous subsequencet of $X$. The trailing dimensions</p>
+<blockquote>
+<div>of size 1 for $Y$ will be ignored for the consideration of subsequence.</div></blockquote>
+<p>For case 2:</p>
+<p>$Y$ will be broadcasted to match the shape of $X$ and axis should be
 set to index of the start dimension to broadcast $Y$ onto $X$.</p>
+<p>If axis is -1, it is treated as axis=rank(X)-rank(Y).</p>
 <dl class="docutils">
 <dt>For example</dt>
 <dd><div class="first last highlight-python"><div class="highlight"><pre><span></span><span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(,)</span>
@@ -3439,6 +3446,7 @@ set to index of the start dimension to broadcast $Y$ onto $X$.</p>
 <span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
 <span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="k">with</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
 <span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="k">with</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span>
+<span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="k">with</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span>
 </pre></div>
 </div>
 </dd>
@@ -3478,10 +3486,13 @@ Duplicable: False  Optional: False</li>
 smaller than or equal to the dimensions of $X$.</p>
 <p>There are two cases for this operator:
 1. The shape of $Y$ is same with $X$;
-2. The shape of $Y$ is a subset of $X$.</p>
-<p>For case 2:
-$Y$ will be broadcasted to match the shape of $X$ and axis should be
+2. The shape of $Y$ is a congiguous subsequencet of $X$. The trailing dimensions</p>
+<blockquote>
+<div>of size 1 for $Y$ will be ignored for the consideration of subsequence.</div></blockquote>
+<p>For case 2:</p>
+<p>$Y$ will be broadcasted to match the shape of $X$ and axis should be
 set to index of the start dimension to broadcast $Y$ onto $X$.</p>
+<p>If axis is -1, it is treated as axis=rank(X)-rank(Y).</p>
 <dl class="docutils">
 <dt>For example</dt>
 <dd><div class="first last highlight-python"><div class="highlight"><pre><span></span><span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(,)</span>
@@ -3489,6 +3500,7 @@ set to index of the start dimension to broadcast $Y$ onto $X$.</p>
 <span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
 <span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="k">with</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
 <span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="k">with</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span>
+<span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="k">with</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span>
 </pre></div>
 </div>
 </dd>
@@ -3528,10 +3540,13 @@ Duplicable: False  Optional: False</li>
 smaller than or equal to the dimensions of $X$.</p>
 <p>There are two cases for this operator:
 1. The shape of $Y$ is same with $X$;
-2. The shape of $Y$ is a subset of $X$.</p>
-<p>For case 2:
-$Y$ will be broadcasted to match the shape of $X$ and axis should be
+2. The shape of $Y$ is a congiguous subsequencet of $X$. The trailing dimensions</p>
+<blockquote>
+<div>of size 1 for $Y$ will be ignored for the consideration of subsequence.</div></blockquote>
+<p>For case 2:</p>
+<p>$Y$ will be broadcasted to match the shape of $X$ and axis should be
 set to index of the start dimension to broadcast $Y$ onto $X$.</p>
+<p>If axis is -1, it is treated as axis=rank(X)-rank(Y).</p>
 <dl class="docutils">
 <dt>For example</dt>
 <dd><div class="first last highlight-python"><div class="highlight"><pre><span></span><span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(,)</span>
@@ -3539,6 +3554,7 @@ set to index of the start dimension to broadcast $Y$ onto $X$.</p>
 <span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
 <span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="k">with</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
 <span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="k">with</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span>
+<span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="k">with</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span>
 </pre></div>
 </div>
 </dd>
@@ -3578,10 +3594,13 @@ Duplicable: False  Optional: False</li>
 smaller than or equal to the dimensions of $X$.</p>
 <p>There are two cases for this operator:
 1. The shape of $Y$ is same with $X$;
-2. The shape of $Y$ is a subset of $X$.</p>
-<p>For case 2:
-$Y$ will be broadcasted to match the shape of $X$ and axis should be
+2. The shape of $Y$ is a congiguous subsequencet of $X$. The trailing dimensions</p>
+<blockquote>
+<div>of size 1 for $Y$ will be ignored for the consideration of subsequence.</div></blockquote>
+<p>For case 2:</p>
+<p>$Y$ will be broadcasted to match the shape of $X$ and axis should be
 set to index of the start dimension to broadcast $Y$ onto $X$.</p>
+<p>If axis is -1, it is treated as axis=rank(X)-rank(Y).</p>
 <dl class="docutils">
 <dt>For example</dt>
 <dd><div class="first last highlight-python"><div class="highlight"><pre><span></span><span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(,)</span>
@@ -3589,6 +3608,7 @@ set to index of the start dimension to broadcast $Y$ onto $X$.</p>
 <span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
 <span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="k">with</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
 <span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="k">with</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span>
+<span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="k">with</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span>
 </pre></div>
 </div>
 </dd>
@@ -3628,10 +3648,13 @@ Duplicable: False  Optional: False</li>
 smaller than or equal to the dimensions of $X$.</p>
 <p>There are two cases for this operator:
 1. The shape of $Y$ is same with $X$;
-2. The shape of $Y$ is a subset of $X$.</p>
-<p>For case 2:
-$Y$ will be broadcasted to match the shape of $X$ and axis should be
+2. The shape of $Y$ is a congiguous subsequencet of $X$. The trailing dimensions</p>
+<blockquote>
+<div>of size 1 for $Y$ will be ignored for the consideration of subsequence.</div></blockquote>
+<p>For case 2:</p>
+<p>$Y$ will be broadcasted to match the shape of $X$ and axis should be
 set to index of the start dimension to broadcast $Y$ onto $X$.</p>
+<p>If axis is -1, it is treated as axis=rank(X)-rank(Y).</p>
 <dl class="docutils">
 <dt>For example</dt>
 <dd><div class="first last highlight-python"><div class="highlight"><pre><span></span><span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(,)</span>
@@ -3639,6 +3662,7 @@ set to index of the start dimension to broadcast $Y$ onto $X$.</p>
 <span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
 <span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="k">with</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
 <span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="k">with</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span>
+<span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="k">with</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span>
 </pre></div>
 </div>
 </dd>
@@ -3678,10 +3702,13 @@ Duplicable: False  Optional: False</li>
 smaller than or equal to the dimensions of $X$.</p>
 <p>There are two cases for this operator:
 1. The shape of $Y$ is same with $X$;
-2. The shape of $Y$ is a subset of $X$.</p>
-<p>For case 2:
-$Y$ will be broadcasted to match the shape of $X$ and axis should be
+2. The shape of $Y$ is a congiguous subsequencet of $X$. The trailing dimensions</p>
+<blockquote>
+<div>of size 1 for $Y$ will be ignored for the consideration of subsequence.</div></blockquote>
+<p>For case 2:</p>
+<p>$Y$ will be broadcasted to match the shape of $X$ and axis should be
 set to index of the start dimension to broadcast $Y$ onto $X$.</p>
+<p>If axis is -1, it is treated as axis=rank(X)-rank(Y).</p>
 <dl class="docutils">
 <dt>For example</dt>
 <dd><div class="first last highlight-python"><div class="highlight"><pre><span></span><span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(,)</span>
@@ -3689,6 +3716,7 @@ set to index of the start dimension to broadcast $Y$ onto $X$.</p>
 <span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
 <span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="k">with</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
 <span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="k">with</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span>
+<span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shape</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="k">with</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span>
 </pre></div>
 </div>
 </dd>
