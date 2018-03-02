@@ -2625,7 +2625,7 @@ empty, the result LoDTensor will be [-1] with LoD [[0]] and dims [1, 1].</p>
 <h3>edit_distance<a class="headerlink" href="#edit-distance" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt>
-<code class="descclassname">paddle.fluid.layers.</code><code class="descname">edit_distance</code><span class="sig-paren">(</span><em>input</em>, <em>label</em>, <em>normalized=False</em>, <em>ignored_tokens=None</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
+<code class="descclassname">paddle.fluid.layers.</code><code class="descname">edit_distance</code><span class="sig-paren">(</span><em>input</em>, <em>label</em>, <em>normalized=True</em>, <em>ignored_tokens=None</em>, <em>name=None</em><span class="sig-paren">)</span></dt>
 <dd><p>EditDistance operator computes the edit distances between a batch of
 hypothesis strings and their references. Edit distance, also called
 Levenshtein distance, measures how dissimilar two strings are by counting
