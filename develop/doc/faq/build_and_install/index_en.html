@@ -1,5 +1,7 @@
 
 
+
+
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
@@ -37,6 +39,16 @@
         <link rel="up" title="FAQ" href="../index_en.html"/>
         <link rel="next" title="Model Configuration" href="../model/index_en.html"/>
         <link rel="prev" title="FAQ" href="../index_en.html"/> 
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?b9a314ab40d04d805655aab1deee08ba";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
 
   
   <script src="../../_static/js/modernizr.min.js"></script>
@@ -79,13 +91,54 @@
 
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
-            
-            
-                <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../getstarted/index_en.html">GET STARTED</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../build_and_install/index_en.html">Install and Build</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../howto/index_en.html">HOW TO</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../dev/index_en.html">Development</a></li>
+<nav class="doc-menu-vertical" role="navigation">
+
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../getstarted/index_en.html">GET STARTED</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getstarted/quickstart_en.html">Quick Start</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getstarted/concepts/use_concepts_en.html">Basic Concept</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../build_and_install/index_en.html">Install and Build</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../build_and_install/pip_install_en.html">Install using pip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../build_and_install/docker_install_en.html">Run in Docker Containers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../build_and_install/build_from_source_en.html">Build from Sources</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../howto/index_en.html">HOW TO</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/cmd_parameter/index_en.html">Set Command-line Parameters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/cmd_parameter/use_case_en.html">Use Case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/cmd_parameter/arguments_en.html">Argument Outline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/cmd_parameter/detail_introduction_en.html">Detail Description</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/cluster/index_en.html">Distributed Training</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/cluster/preparations_en.html">Preparations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/cluster/cmd_argument_en.html">Command-line arguments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/cluster/multi_cluster/index_en.html">Use different clusters</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../howto/cluster/multi_cluster/fabric_en.html">Fabric</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../howto/cluster/multi_cluster/openmpi_en.html">OpenMPI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../howto/cluster/multi_cluster/k8s_en.html">Kubernetes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../howto/cluster/multi_cluster/k8s_aws_en.html">Kubernetes on AWS</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/rnn/index_en.html">RNN Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/rnn/rnn_config_en.html">RNN Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/rnn/recurrent_group_en.html">Recurrent Group Tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/rnn/hierarchical_layer_en.html">Layers supporting hierarchical sequence as input</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../howto/rnn/hrnn_rnn_api_compare_en.html">API comparision between RNN and hierarchical RNN</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../howto/optimization/gpu_profiling_en.html">Tune GPU Performance</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/index_en.html">Development</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../dev/contribute_to_paddle_en.html">Contribute Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../dev/write_docs_en.html">Contribute Documentation</a></li>
+</ul>
+</li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index_en.html">FAQ</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Install, Build and Unit test</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../model/index_en.html">Model Configuration</a></li>
@@ -96,8 +149,8 @@
 </li>
 </ul>
 
-            
-          
+</nav>
+
         </div>
       </div>
     </nav>

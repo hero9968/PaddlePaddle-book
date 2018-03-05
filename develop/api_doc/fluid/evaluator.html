@@ -1,5 +1,7 @@
 
 
+
+
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
@@ -37,6 +39,16 @@
         <link rel="up" title="Fluid" href="index.html"/>
         <link rel="next" title="nets" href="nets.html"/>
         <link rel="prev" title="initializer" href="initializer.html"/> 
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?b9a314ab40d04d805655aab1deee08ba";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -79,23 +91,33 @@
 
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
-            
-            
-                <ul class="current">
+<nav class="doc-menu-vertical" role="navigation">
+
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../overview.html">V2 API Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../v2/model_configs.html">Model Configuration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../v2/data.html">Data Reader Interface and DataSets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../v2/model_configs.html">Model Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../v2/config/activation.html">Activation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../v2/config/layer.html">Layers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../v2/config/evaluators.html">Evaluators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../v2/config/optimizer.html">Optimizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../v2/config/pooling.html">Pooling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../v2/config/networks.html">Networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../v2/config/attr.html">Parameter Attribute</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../v2/data.html">Data Reader Interface and DataSets</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../v2/data/data_reader.html">Data Reader Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../v2/data/image.html">Image Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../v2/data/dataset.html">Dataset</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../v2/run_logic.html">Training and Inference</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Fluid</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="layers.html">layers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="data_feeder.html">data_feeder</a></li>
 <li class="toctree-l2"><a class="reference internal" href="executor.html">executor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="initializer.html">initializer</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">evaluator</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#accuracy">Accuracy</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#chunkevaluator">ChunkEvaluator</a></li>
-</ul>
-</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">evaluator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="nets.html">nets</a></li>
 <li class="toctree-l2"><a class="reference internal" href="optimizer.html">optimizer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="param_attr.html">param_attr</a></li>
@@ -106,8 +128,8 @@
 </li>
 </ul>
 
-            
-          
+</nav>
+
         </div>
       </div>
     </nav>
