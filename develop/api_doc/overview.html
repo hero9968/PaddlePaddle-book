@@ -176,13 +176,8 @@
 it proposes some high-level concepts such as <a class="reference external" href="http://www.paddlepaddle.org/docs/develop/api/en/v2/config/layer.html">Layers</a> , <a class="reference external" href="http://www.paddlepaddle.org/docs/develop/api/en/v2/config/optimizer.html">Optimizer</a> , <a class="reference external" href="http://www.paddlepaddle.org/docs/develop/api/en/v2/config/evaluators.html">Evaluator</a>  and <a class="reference external" href="http://www.paddlepaddle.org/docs/develop/api/en/v2/data/data_reader.html">Data Reader</a> to make the model configuration more familiar to users.</p>
 <p>A model is composed of the computation described by a group of <cite>Layers</cite>, with <cite>Evaluator</cite> to define the error, <cite>Optimizer</cite> to update the parameters and <cite>Data Reader</cite> to feed in the data.</p>
 <p>We also provide the <a class="reference external" href="http://www.paddlepaddle.org/docs/develop/api/en/v2/run_logic.html">interface for Training and Inference</a> to help control the training and inference phrase,
-it has several easy to use methods</p>
-<ul class="simple">
-<li><cite>paddle.train</cite></li>
-<li><cite>paddle.test</cite></li>
-<li><cite>paddle.infer</cite></li>
-</ul>
-<p>to better expose the internal running details, different <a class="reference external" href="http://www.paddlepaddle.org/docs/develop/api/en/v2/run_logic.html#event">events</a> are available to users by writing some callbacks.</p>
+it has several easy to use methods to better expose the internal running details, different <a class="reference external" href="http://www.paddlepaddle.org/docs/develop/api/en/v2/run_logic.html#event">events</a> are available to users by writing some callbacks.</p>
+<p>All in all, the V2 API gives a higher abstraction and make PaddlePaddle programs require fiew lines of code.</p>
 </div>
 
 
