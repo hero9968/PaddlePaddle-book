@@ -28,6 +28,7 @@
   
 
   
+
   
         <link rel="index" title="Index"
               href="../genindex.html"/>
@@ -37,20 +38,6 @@
         <link rel="next" title="Contribute Documentation" href="write_docs_en.html"/>
         <link rel="prev" title="Development" href="index_en.html"/> 
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/css/perfect-scrollbar.min.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/css/override.css" type="text/css" />
-  <script>
-  var _hmt = _hmt || [];
-  (function() {
-    var hm = document.createElement("script");
-    hm.src = "//hm.baidu.com/hm.js?b9a314ab40d04d805655aab1deee08ba";
-    var s = document.getElementsByTagName("script")[0]; 
-    s.parentNode.insertBefore(hm, s);
-  })();
-  </script>
-
-  
-
   
   <script src="../_static/js/modernizr.min.js"></script>
 
@@ -58,139 +45,107 @@
 
 <body class="wy-body-for-nav" role="document">
 
-  
-  <header class="site-header">
-    <div class="site-logo">
-      <a href="/"><img src="../_static/images/PP_w.png"></a>
-    </div>
-    <div class="site-nav-links">
-      <div class="site-menu">
-        <a class="fork-on-github" href="https://github.com/PaddlePaddle/Paddle" target="_blank"><i class="fa fa-github"></i>Fork me on Github</a>
-        <div class="language-switcher dropdown">
-          <a type="button" data-toggle="dropdown">
-            <span>English</span>
-            <i class="fa fa-angle-up"></i>
-            <i class="fa fa-angle-down"></i>
-          </a>
-          <ul class="dropdown-menu">
-            <li><a href="/doc_cn">中文</a></li>
-            <li><a href="/doc">English</a></li>
-          </ul>
-        </div>
-        <ul class="site-page-links">
-          <li><a href="/">Home</a></li>
-        </ul>
-      </div>
-      <div class="doc-module">
-        
-        <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../getstarted/index_en.html">GET STARTED</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../build_and_install/index_en.html">Install and Build</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../howto/index_en.html">HOW TO</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="index_en.html">Development</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../faq/index_en.html">FAQ</a></li>
-</ul>
+  <div class="wy-grid-for-nav">
 
-        
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index_en.html" class="icon icon-home"> PaddlePaddle
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
-</div>        
-      </div>
-    </div>
-  </header>
-  
-  <div class="main-content-wrap">
+</div>
 
-    
-    <nav class="doc-menu-vertical" role="navigation">
-        
           
-          <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../getstarted/index_en.html">GET STARTED</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../getstarted/quickstart_en.html">Quick Start</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../getstarted/concepts/use_concepts_en.html">Basic Concept</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../build_and_install/index_en.html">Install and Build</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../build_and_install/pip_install_en.html">Install using pip</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../build_and_install/docker_install_en.html">Run in Docker Containers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../build_and_install/build_from_source_en.html">Build from Sources</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../howto/index_en.html">HOW TO</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../howto/cmd_parameter/index_en.html">Set Command-line Parameters</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../howto/cmd_parameter/use_case_en.html">Use Case</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../howto/cmd_parameter/arguments_en.html">Argument Outline</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../howto/cmd_parameter/detail_introduction_en.html">Detail Description</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../howto/cluster/index_en.html">Distributed Training</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../howto/cluster/preparations_en.html">Preparations</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../howto/cluster/cmd_argument_en.html">Command-line arguments</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../howto/cluster/multi_cluster/index_en.html">Use different clusters</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../howto/cluster/multi_cluster/fabric_en.html">Fabric</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../howto/cluster/multi_cluster/openmpi_en.html">OpenMPI</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../howto/cluster/multi_cluster/k8s_en.html">Kubernetes</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../howto/cluster/multi_cluster/k8s_aws_en.html">Kubernetes on AWS</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../howto/rnn/index_en.html">RNN Models</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../howto/rnn/rnn_config_en.html">RNN Configuration</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../howto/rnn/recurrent_group_en.html">Recurrent Group Tutorial</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../howto/rnn/hierarchical_layer_en.html">Layers supporting hierarchical sequence as input</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../howto/rnn/hrnn_rnn_api_compare_en.html">API comparision between RNN and hierarchical RNN</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../howto/optimization/gpu_profiling_en.html">Tune GPU Performance</a></li>
-</ul>
-</li>
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getstarted/index_en.html">GET STARTED</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../build_and_install/index_en.html">Install and Build</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howto/index_en.html">HOW TO</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index_en.html">Development</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Contribute Code</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Contribute Code</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#workflow">Workflow</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#code-review">Code Review</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#coding-standard">Coding Standard</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#code-style">Code Style</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unit-tests">Unit Tests</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#writing-logs">Writing Logs</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="write_docs_en.html">Contribute Documentation</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../faq/index_en.html">FAQ</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../faq/build_and_install/index_en.html">Install, Build and Unit test</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../faq/model/index_en.html">Model Configuration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../faq/parameter/index_en.html">Parameter Setting</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../faq/local/index_en.html">Local Training and Prediction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../faq/cluster/index_en.html">Cluster Training and Prediction</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../faq/index_en.html">FAQ</a></li>
 </ul>
 
-        
+            
+          
+        </div>
+      </div>
     </nav>
-    
-    <section class="doc-content-wrap">
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index_en.html">PaddlePaddle</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
 
  
 
 
 
-
-
-
-
 <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
+    <li><a href="../index_en.html">Docs</a> &raquo;</li>
       
-        <li><a href="index_en.html">Development</a> > </li>
+          <li><a href="index_en.html">Development</a> &raquo;</li>
       
     <li>Contribute Code</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/dev/contribute_to_paddle_en.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
   </ul>
+  <hr/>
 </div>
-      
-      <div class="wy-nav-content" id="doc-content">
-        <div class="rst-content">
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
@@ -371,25 +326,29 @@ python <span class="se">\</span>
             VERSION:'',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ".txt",
+            HAS_SOURCE:  true
         };
     </script>
       <script type="text/javascript" src="../_static/jquery.js"></script>
       <script type="text/javascript" src="../_static/underscore.js"></script>
       <script type="text/javascript" src="../_static/doctools.js"></script>
       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-       
+
   
 
   
   
     <script type="text/javascript" src="../_static/js/theme.js"></script>
   
+
   
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/js/perfect-scrollbar.jquery.min.js"></script>
-  <script src="../_static/js/paddle_doc_init.js"></script> 
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
 
 </body>
 </html>

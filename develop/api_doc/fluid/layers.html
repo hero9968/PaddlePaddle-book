@@ -28,6 +28,7 @@
   
 
   
+
   
         <link rel="index" title="Index"
               href="../genindex.html"/>
@@ -37,20 +38,6 @@
         <link rel="next" title="data_feeder" href="data_feeder.html"/>
         <link rel="prev" title="Fluid" href="index.html"/> 
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/css/perfect-scrollbar.min.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/css/override.css" type="text/css" />
-  <script>
-  var _hmt = _hmt || [];
-  (function() {
-    var hm = document.createElement("script");
-    hm.src = "//hm.baidu.com/hm.js?b9a314ab40d04d805655aab1deee08ba";
-    var s = document.getElementsByTagName("script")[0]; 
-    s.parentNode.insertBefore(hm, s);
-  })();
-  </script>
-
-  
-
   
   <script src="../_static/js/modernizr.min.js"></script>
 
@@ -58,78 +45,197 @@
 
 <body class="wy-body-for-nav" role="document">
 
-  
-  <header class="site-header">
-    <div class="site-logo">
-      <a href="/"><img src="../_static/images/PP_w.png"></a>
-    </div>
-    <div class="site-nav-links">
-      <div class="site-menu">
-        <a class="fork-on-github" href="https://github.com/PaddlePaddle/Paddle" target="_blank"><i class="fa fa-github"></i>Fork me on Github</a>
-        <div class="language-switcher dropdown">
-          <a type="button" data-toggle="dropdown">
-            <span>English</span>
-            <i class="fa fa-angle-up"></i>
-            <i class="fa fa-angle-down"></i>
-          </a>
-          <ul class="dropdown-menu">
-            <li><a href="/doc_cn">中文</a></li>
-            <li><a href="/doc">English</a></li>
-          </ul>
-        </div>
-        <ul class="site-page-links">
-          <li><a href="/">Home</a></li>
-        </ul>
-      </div>
-      <div class="doc-module">
-        
-        <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../overview.html">V2 API Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../v2/model_configs.html">Model Configuration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../v2/data.html">Data Reader Interface and DataSets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../v2/run_logic.html">Training and Inference</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="index.html">Fluid</a></li>
-</ul>
+  <div class="wy-grid-for-nav">
 
-        
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index_en.html" class="icon icon-home"> PaddlePaddle
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
-</div>        
-      </div>
-    </div>
-  </header>
-  
-  <div class="main-content-wrap">
+</div>
 
-    
-    <nav class="doc-menu-vertical" role="navigation">
-        
           
-          <ul class="current">
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../overview.html">V2 API Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../v2/model_configs.html">Model Configuration</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../v2/config/activation.html">Activation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../v2/config/layer.html">Layers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../v2/config/evaluators.html">Evaluators</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../v2/config/optimizer.html">Optimizer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../v2/config/pooling.html">Pooling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../v2/config/networks.html">Networks</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../v2/config/attr.html">Parameter Attribute</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../v2/data.html">Data Reader Interface and DataSets</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../v2/data/data_reader.html">Data Reader Interface</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../v2/data/image.html">Image Interface</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../v2/data/dataset.html">Dataset</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../v2/model_configs.html">Model Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../v2/data.html">Data Reader Interface and DataSets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../v2/run_logic.html">Training and Inference</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Fluid</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">layers</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">layers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#control-flow">control_flow</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#split-lod-tensor">split_lod_tensor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#merge-lod-tensor">merge_lod_tensor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#blockguard">BlockGuard</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#blockguardwithcompletion">BlockGuardWithCompletion</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#staticrnnmemorylink">StaticRNNMemoryLink</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#whileguard">WhileGuard</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#while">While</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lod-rank-table">lod_rank_table</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#max-sequence-len">max_sequence_len</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#topk">topk</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lod-tensor-to-array">lod_tensor_to_array</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#array-to-lod-tensor">array_to_lod_tensor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#increment">increment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#array-write">array_write</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#create-array">create_array</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#less-than">less_than</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#array-read">array_read</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#shrink-memory">shrink_memory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#array-length">array_length</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ifelse">IfElse</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dynamicrnn">DynamicRNN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#conditionalblock">ConditionalBlock</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#staticrnn">StaticRNN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#reorder-lod-tensor-by-rank">reorder_lod_tensor_by_rank</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#paralleldo">ParallelDo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#print">Print</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#device">device</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#get-places">get_places</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#io">io</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#data">data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#blockguardserv">BlockGuardServ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#listenandserv">ListenAndServ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#send">Send</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nn">nn</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#fc">fc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#embedding">embedding</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dynamic-lstm">dynamic_lstm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dynamic-lstmp">dynamic_lstmp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dynamic-gru">dynamic_gru</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gru-unit">gru_unit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#linear-chain-crf">linear_chain_crf</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#crf-decoding">crf_decoding</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cos-sim">cos_sim</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cross-entropy">cross_entropy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#square-error-cost">square_error_cost</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#accuracy">accuracy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#chunk-eval">chunk_eval</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sequence-conv">sequence_conv</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#conv2d">conv2d</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sequence-pool">sequence_pool</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pool2d">pool2d</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#batch-norm">batch_norm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#layer-norm">layer_norm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#beam-search-decode">beam_search_decode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#conv2d-transpose">conv2d_transpose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sequence-expand">sequence_expand</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lstm-unit">lstm_unit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#reduce-sum">reduce_sum</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#reduce-mean">reduce_mean</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#reduce-max">reduce_max</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#reduce-min">reduce_min</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sequence-first-step">sequence_first_step</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sequence-last-step">sequence_last_step</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dropout">dropout</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#split">split</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ctc-greedy-decoder">ctc_greedy_decoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#edit-distance">edit_distance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#l2-normalize">l2_normalize</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#matmul">matmul</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#warpctc">warpctc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sequence-reshape">sequence_reshape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transpose">transpose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#im2sequence">im2sequence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nce">nce</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#beam-search">beam_search</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#row-conv">row_conv</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#multiplex">multiplex</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#ops">ops</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mean">mean</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mul">mul</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#reshape">reshape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scale">scale</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sigmoid-cross-entropy-with-logits">sigmoid_cross_entropy_with_logits</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#elementwise-add">elementwise_add</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#elementwise-div">elementwise_div</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#elementwise-sub">elementwise_sub</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#elementwise-mul">elementwise_mul</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#elementwise-max">elementwise_max</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#elementwise-min">elementwise_min</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#elementwise-pow">elementwise_pow</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#clip">clip</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#clip-by-norm">clip_by_norm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sequence-softmax">sequence_softmax</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sigmoid">sigmoid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#logsigmoid">logsigmoid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#exp">exp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#relu">relu</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tanh">tanh</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tanh-shrink">tanh_shrink</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#softshrink">softshrink</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sqrt">sqrt</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#abs">abs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ceil">ceil</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#floor">floor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#round">round</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#reciprocal">reciprocal</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#log">log</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#square">square</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#softplus">softplus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#softsign">softsign</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#brelu">brelu</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#leaky-relu">leaky_relu</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#soft-relu">soft_relu</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#elu">elu</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#relu6">relu6</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pow">pow</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stanh">stanh</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#hard-shrink">hard_shrink</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#thresholded-relu">thresholded_relu</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#hard-sigmoid">hard_sigmoid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#swish">swish</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#tensor">tensor</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#create-tensor">create_tensor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#create-parameter">create_parameter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#create-global-var">create_global_var</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cast">cast</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#concat">concat</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sums">sums</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#assign">assign</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fill-constant-batch-size-like">fill_constant_batch_size_like</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fill-constant">fill_constant</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ones">ones</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#zeros">zeros</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="data_feeder.html">data_feeder</a></li>
 <li class="toctree-l2"><a class="reference internal" href="executor.html">executor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="initializer.html">initializer</a></li>
@@ -144,32 +250,47 @@
 </li>
 </ul>
 
-        
+            
+          
+        </div>
+      </div>
     </nav>
-    
-    <section class="doc-content-wrap">
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index_en.html">PaddlePaddle</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
 
  
 
 
 
-
-
-
-
 <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
+    <li><a href="../index_en.html">Docs</a> &raquo;</li>
       
-        <li><a href="index.html">Fluid</a> > </li>
+          <li><a href="index.html">Fluid</a> &raquo;</li>
       
     <li>layers</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/fluid/layers.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
   </ul>
+  <hr/>
 </div>
-      
-      <div class="wy-nav-content" id="doc-content">
-        <div class="rst-content">
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
@@ -4883,25 +5004,29 @@ initializes it with a constant specifed by <cite>value</cite>.</p>
             VERSION:'',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ".txt",
+            HAS_SOURCE:  true
         };
     </script>
       <script type="text/javascript" src="../_static/jquery.js"></script>
       <script type="text/javascript" src="../_static/underscore.js"></script>
       <script type="text/javascript" src="../_static/doctools.js"></script>
       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-       
+
   
 
   
   
     <script type="text/javascript" src="../_static/js/theme.js"></script>
   
+
   
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/perfect-scrollbar/0.6.14/js/perfect-scrollbar.jquery.min.js"></script>
-  <script src="../_static/js/paddle_doc_init.js"></script> 
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
 
 </body>
 </html>
