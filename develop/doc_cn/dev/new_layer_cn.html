@@ -10,7 +10,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>实现新的网络层 &mdash; PaddlePaddle  文档</title>
+  <title>如何实现新的网络层 &mdash; PaddlePaddle  文档</title>
   
 
   
@@ -35,7 +35,10 @@
         <link rel="index" title="索引"
               href="../genindex.html"/>
         <link rel="search" title="搜索" href="../search.html"/>
-    <link rel="top" title="PaddlePaddle  文档" href="../index.html"/> 
+    <link rel="top" title="PaddlePaddle  文档" href="../index.html"/>
+        <link rel="up" title="开发标准" href="index_cn.html"/>
+        <link rel="next" title="FAQ" href="../faq/index_cn.html"/>
+        <link rel="prev" title="如何贡献文档" href="write_docs_cn.html"/> 
 <script>
 var _hmt = _hmt || [];
 (function() {
@@ -90,7 +93,7 @@ var _hmt = _hmt || [];
           
 <nav class="doc-menu-vertical" role="navigation">
 
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../getstarted/index_cn.html">新手入门</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../getstarted/quickstart_cn.html">快速开始</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../getstarted/concepts/use_concepts_cn.html">基本使用概念</a></li>
@@ -138,9 +141,10 @@ var _hmt = _hmt || [];
 <li class="toctree-l2"><a class="reference internal" href="../howto/optimization/gpu_profiling_cn.html">GPU性能调优</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="index_cn.html">开发标准</a><ul>
+<li class="toctree-l1 current"><a class="reference internal" href="index_cn.html">开发标准</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="contribute_to_paddle_cn.html">如何贡献代码</a></li>
 <li class="toctree-l2"><a class="reference internal" href="write_docs_cn.html">如何贡献文档</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">如何实现新的网络层</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../faq/index_cn.html">FAQ</a><ul>
@@ -181,7 +185,9 @@ var _hmt = _hmt || [];
   <ul class="wy-breadcrumbs">
     <li><a href="../index_cn.html">Docs</a> &raquo;</li>
       
-    <li>实现新的网络层</li>
+          <li><a href="index_cn.html">开发标准</a> &raquo;</li>
+      
+    <li>如何实现新的网络层</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -196,7 +202,7 @@ var _hmt = _hmt || [];
            <div itemprop="articleBody">
             
   <div class="section" id="id1">
-<h1>实现新的网络层<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<h1>如何实现新的网络层<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
 <p>这份教程展示了如何在PaddlePaddle中实现一个自定义的网络层。在这里我们使用全连接层作为例子来展示实现新网络层所需要的四个步骤。</p>
 <ol class="arabic simple">
 <li>推导该层前向和后向传递的方程。</li>
@@ -572,6 +578,15 @@ add_test<span class="o">(</span>NAME test_FCGrad
            </div>
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../faq/index_cn.html" class="btn btn-neutral float-right" title="FAQ" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="write_docs_cn.html" class="btn btn-neutral" title="如何贡献文档" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>
